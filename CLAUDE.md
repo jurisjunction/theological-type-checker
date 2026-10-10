@@ -36,8 +36,12 @@ Tests run with it disabled.
 2. **Never compute anyone's imputability, intention or interior state.**
    These are inputs from the internal forum (the rule of non-diagnosis).
 3. **Cite primary sources.** Every canon-law rule sits under a
-   `% @norm <id> | <citation> | <URL>` tag. Use vatican.va for the Code and
-   iuscangreg (https://www.iuscangreg.it) for other legislative documents.
+   `% @norm <id> | <citation> | <URL>` tag. Primary texts come from
+   iuscangreg (https://www.iuscangreg.it/, the Gregorian's Faculty of Canon
+   Law): `cic1983.php` for the Code, `diritto_tutto.php` for extra-codal
+   legislation, `risposte.php` for authentic interpretations, and
+   `cic1917.php` for earlier versions. vatican.va also has the current
+   English text of the Code.
    Declare new fact slots with `% @input`.
 4. **Every new rule needs a test that fails without it.** Delete the rule,
    rerun, and confirm something turns red. Keep `norm_check` clean (test

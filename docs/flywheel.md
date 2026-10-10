@@ -45,8 +45,9 @@ Each turn of the wheel follows the same five steps.
    encoded and stating every interpretive choice as a fact you can check.
 3. **Find the gap.** If a canon the question needs is missing, `norm_check`
    shows it in the frontier, or the result is simply silent. The model
-   fetches the **primary text** (iuscangreg for legislative documents,
-   vatican.va for the Code), encodes it under a `% @norm` tag with the
+   fetches the **primary text** from
+   [iuscangreg](https://www.iuscangreg.it/) or vatican.va (which section to
+   use for what is in [the canon-law layer](canon-law-layer.md#where-to-find-the-texts-iuscangreg)), encodes it under a `% @norm` tag with the
    citation, and proposes it with `save_rules`. The rules are saved **only if
    the whole suite stays green.** If something turns red, that is a finding:
    either the new rule is wrong, or an old test encoded a mistake. You decide
@@ -86,8 +87,9 @@ canon-law layer:
 | Commentators | tier-5 sources in the authority layer | name readings; never decide them |
 
 A sensible order: first the canons your recurring cases touch, then the
-authentic interpretations of those canons, then jurisprudence for the gaps
-you actually meet.
+authentic interpretations of those canons (iuscangreg's *Responses of the
+Apostolic See*), then jurisprudence for the gaps you actually meet
+(Signatura decisions on iuscangreg; the Rota through its own site).
 
 ## Keeping it honest
 

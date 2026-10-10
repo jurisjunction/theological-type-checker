@@ -71,12 +71,29 @@ The conventions are:
   an event, a decree, a grant.
 - **`% @temporal <id>`** marks a norm whose effects fall only on later acts.
   A loop through it is recursion over time, not circularity.
-- **Cite the primary text.** For legislative documents,
-  [iuscangreg](https://www.iuscangreg.it) collects them conveniently; for
-  the Code, vatican.va. Paraphrase the canon's conditions and effects
-  closely in the citation field.
+- **Cite the primary text** (see below), and paraphrase the canon's
+  conditions and effects closely in the citation field.
 - **Facts about a real case go in a case file,** never in the norms.
   Hypothetical facts go only in switch programs, marked `HYPOTHETICAL`.
+
+### Where to find the texts: iuscangreg
+
+[iuscangreg](https://www.iuscangreg.it/) ("Risorse canonistiche") is
+maintained by the Faculty of Canon Law of the Pontifical Gregorian
+University. Its sections map onto the layer's slots:
+
+| iuscangreg section | Use it for |
+| --- | --- |
+| [CIC 1983](https://www.iuscangreg.it/cic1983.php) ([index](https://www.iuscangreg.it/cic_indice.php)) and [CCEO](https://www.iuscangreg.it/cceo.php) | `@norm` rules |
+| [Extra-codal norms](https://www.iuscangreg.it/diritto_tutto.php) | papal and curial legislation: `@norm` rules, and grants or decrees as case facts |
+| [Responses of the Apostolic See](https://www.iuscangreg.it/risposte.php) | authentic interpretations: `authentic_reading/3` facts (c. 16) |
+| [Particular law](https://www.iuscangreg.it/diritto_particolare.php) | conference and diocesan norms, which rank below universal law (c. 135 §2) |
+| [Historical sources](https://www.iuscangreg.it/diritto_anteriore.php): [CIC 1917](https://www.iuscangreg.it/cic1917.php), Gasparri's *Fontes* | earlier versions of a canon, with their dates |
+| [Apostolic Signatura jurisprudence](https://www.iuscangreg.it/stsa_contadmin.php) | filling a gap under c. 19, never in penal cases |
+| [Bibliography](https://www.iuscangreg.it/biblio_ricerca.php) and [*Periodica*](https://periodica.iuscangreg.it/) | commentators: tier-5 sources that name readings |
+
+For the current English text of the Code, vatican.va remains convenient
+(the Book VI pages carry the 2021 revision).
 
 ## The norm graph
 
