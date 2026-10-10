@@ -211,25 +211,49 @@ not a magisterial act: it weighs nothing and cannot cleave.
 
 ## 10. Schism, the SSPX and the 2026 decree
 
-*Tests SX1–SX19. See [cases/sspx-2026.md](cases/sspx-2026.md).*
+*Tests SX1–SX23. See [cases/sspx-2026.md](cases/sspx-2026.md).*
 
-"Is the SSPX in schism?" splits into questions of different types. The
-findings are:
+"Is the SSPX in schism?" splits into questions of different types:
 
+- The 2026 classification rests on an act of refusal of subjection, a
+  schism-type basis. Rejecting *Dignitatis humanae* would have been a
+  category error (c. 752 / c. 1365, not c. 751 / c. 1364).
 - *Incurred*, *presumed incurred*, *declared* and *suspended* are different
   states. A recourse suspends the declaration, not the penalty.
-- **Notoriety proves the act; the hearing exists for the agent.**
-- The 2026 classification rests on an act of refusal of subjection, a
-  schism-type basis. Rejecting *Dignitatis humanae* would have been a category
-  error (c. 752, not c. 751).
-- The note's "confessions are invalid" goes through only if the 2016–17
-  grants are read as conditioned on the Society's standing. A class
-  statement is not a declaration about persons.
+- **Notoriety proves the act; the hearing exists for the agent.** "The
+  process was superfluous" is c. 1717 §1. It dispenses the investigation,
+  never the hearing.
+- On the facts of record, the 2016 papal grant stands until a competent
+  revocation, so absolutions are valid. The note's "invalid" holds for later
+  absolutions only if the pope revokes the grant. It holds for marriages
+  without delegation, and fails for marriages with it.
 - The non-diagnosis rule, derived earlier from the remarriage case, matches
   the Dicastery's own instruction that lay imputability "must be assessed
   case by case".
 
-## 11. Findings about the method
+## 11. Canon law is binary: a correction
+
+The first encoding of the SSPX case put juridical questions into the
+theological authority graph: faculties, hearings, declarations. Tier-5
+canonists weighed against dicastery notes, and a preference picked a
+reading of a papal grant. A practising canonist objected at once, and the
+objection was right. Canon law has its own rules of reading. The legislator
+interprets authentically (c. 16). Penal laws are read strictly (c. 18).
+Canonists' opinion fills a *gap*, and never in a penal case (c. 19). A
+lower act cannot defeat a higher one (c. 135 §2). Given the facts and the
+norm in force, an effect follows or it does not.
+
+The correction was structural: a separate [canon-law layer](canon-law-layer.md)
+of dated yes/no rules, which branches only on disputed facts, disputed
+readings without an authentic interpretation, and the internal forum. The
+canons form a graph that the checker tests for loops and gaps. Several
+results sharpened, and one reversed. The faculty question had been "open,
+turning on a reading". Once the rule on who may revoke a papal grant is
+applied, it follows. This is the fix method working on the checker itself.
+The type system misplaced a whole domain, and a reader who knew the domain
+caught it.
+
+## 12. Findings about the method
 
 - **A fixed relation inventory is what makes the grain falsifiable** (S8, S9).
   If new relation types may be added freely, a solver can always reclassify a
@@ -243,9 +267,9 @@ findings are:
 - **Mutation testing keeps the suite honest.** Every rule is deleted in turn,
   and at least one test must turn red. This caught a vacuous test (T2 passed
   when contraction was deleted, because the child then had no origin at all)
-  and several blind spots in the authority layer. Two facts in the SSPX case
-  (the note's and the critics' interpretations of the grants) currently change
-  no verdict. They are kept as recorded data and listed as such.
+  and several blind spots in the authority layer. In the canon-law layer it
+  found four untested rules (c. 1387 for the one consecrated, c. 1335 §2,
+  c. 976, c. 144), and each now has a test.
 - **Non-diagnosis is a type rule.** Imputability is an input slot filled only
   by the internal forum. Any rule that fills it is flagged (DR6, SX9).
 

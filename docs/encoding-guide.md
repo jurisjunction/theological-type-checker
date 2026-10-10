@@ -81,6 +81,31 @@ Do not write a rule that mixes divine- and creature-sorted predicates
 without going through `licensed/2`, `mode/3` or `bridge/3`; `lint` will flag
 it. That is the analogia entis enforced as a type discipline.
 
+## Inputs: the canon-law layer
+
+Juridical questions do **not** go in the authority graph. Canon law is
+computed as dated yes/no rules (`canon_law.lp`), and a case supplies facts
+(`canon_cases.lp`, or your own case file). Dates are integers `YYYYMMDD`, and
+each act is judged on its own date.
+
+| Fact | Meaning |
+| --- | --- |
+| `consecration(E,P,R,D)`, `co_consecrator(E,B)`, `pontifical_mandate(E)` | Episcopal consecrations |
+| `decree(D,Issuer,Date)`, `declares(D,Person,Norm)`, `issuer(Act,A)`, `authority(A,Rank)` | Penal decrees. Rank 4 is the pope (or papal approval), 3 a dicastery, 1 an ordinary. |
+| `heard(D,P)`, `summoned_absent(D,P)`, `recourse(D,P,Date)`, `recourse_decided(D,Date)`, `recourse_upheld(D)` | Procedure (cc. 1720, 1353) |
+| `grant(G,Issuer,Faculty,Class,Date)`, `permission(P,Issuer,Class,Date)`, `revocation(Act,G,Date)` | Faculties and their revocation (c. 135 §2) |
+| `absolution(A,Priest,Penitent,Date)`, `marriage(M,Priest,Date)`, `delegation(Del,Ordinary,Priest,M,Date)` | Acts whose validity is computed |
+| `danger_of_death/2`, `just_cause_request/3`, `common_error/1` | cc. 976, 1335 §2, 144 |
+| `asserts(Text,Claim,Date)` | A text's claim, checked against what the norms derive for each act |
+| `disputed(F)` | A fact computed both ways (supported: `heard/2`, `common_error/1`, `appears_otherwise/2`) |
+| `authentic_reading(Canon,Reading,Act)` | The legislator's own reading (c. 16 §1) |
+
+A new canon goes under a tag:
+`% @norm <id> | <citation> | <primary source URL>`. New fact slots are
+declared with `% @input <name>/<arity> | <meaning>`. `norm_check` must stay
+clean: no vicious cycles, and no undefined predicates. Never encode
+imputability: c. 1321 §4's external presumption is all the layer uses.
+
 ## Outputs
 
 | Atom | Meaning |
@@ -94,6 +119,10 @@ it. That is the analogia entis enforced as a type discipline.
 | `violation(X)` | The facts break a rule. Each one is a question for you. |
 | `info(X)` | Noted, not an error. |
 | `theorem(X)`, `verdict(X,V)` | Results of the core grammar. |
+| `info(presumed_incurred(P,N))`, `info(declared(P,N))`, `info(declaration_suspended(D,P))` | Penal status, canon-law layer |
+| `info(absolution(A,valid,licit))` and similar, `info(marriage(M,valid_form))` | Validity and liceity of acts |
+| `info(claim_confirmed(T,C,A))`, `info(claim_contradicted(T,C,A))` | A text's claim, act by act |
+| `assumed_fact(F)` | The disputed facts this branch assumes |
 
 **How to read a result.** A value is *settled* if every main branch has it,
 *open* if some do, a *shadow* if only shadows do, *excluded* if no branch

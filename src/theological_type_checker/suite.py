@@ -624,20 +624,21 @@ def assumed_with(qv, atom):
 SX = ["sspx", "lattice"]
 SXE = SX + ["ecumenism", "orders_fixed", "no_oum", "lg14_binary", "lg8_identity", "florence_no_bond"]
 SC = "schism"
+# authority side: how the acts are classified
 scen("SX1", SC, "1988: the consecrations", SX,
      [cls("q(act1988_schismatic)=yes", "settled"), reint_includes("q(act1988_schismatic)=no", "ed1988"),
       cls("q(excomm_1988)=incurred", "settled"), info_all("external_forum_only(q(excomm_1988))")],
      "schismatic act and excommunication settled in the external forum; necessity a tier-5 school", mode=B)
 scen("SX2", SC, "The 1988 excommunication over time", SX + ["asof_1990"],
      [cls("q(excomm_in_force)=in_force", "settled")], "in force in 1990", mode=B)
-scen("SX3", SC, "The 1988 excommunication after 2009", SX + ["asof_2010"],
-     [cls("q(excomm_in_force)=remitted", "settled"), cls("q(faculty_confession)=none", "settled"),
-      cls("q(faculty_marriage)=none", "settled")],
+scen("SX3", SC, "After the 2009 remission", SX + ["asof_2010"],
+     [cls("q(excomm_in_force)=remitted", "settled"), info_none("class_faculty(", "presumed_incurred(fellay", "presumed_incurred(galarreta")],
      "remitted; no faculties yet", mode=B)
 scen("SX4", SC, "The juridical situation in 2018", SX + ["asof_2018"],
-     [cls("q(faculty_confession)=granted", "settled"), cls("q(faculty_marriage)=delegable", "settled"),
-      cls("q(other_ministry)=not_legitimate", "settled"), cls("q(canonical_status)=none", "settled")],
-     "faculties by papal grant; no canonical status; other ministry not legitimate", mode=B)
+     [info_all("class_faculty(sspx_clergy,confession)", "class_may_receive_delegation(sspx_clergy,marriage)",
+               "absolution(abs_2018,valid,licit)"),
+      cls("q(canonical_status)=none", "settled")],
+     "faculty to absolve by papal grant; ordinaries may delegate for marriages; no canonical status", mode=B)
 scen("SX5", SC, "The lattice in 2018", SXE + ["asof_2018"],
      [info_all("degree(sspx,above,orthodox)", "imperfect_communion(sspx)"),
       info_none("church_proper(sspx)", "full_communion(sspx)")],
@@ -651,7 +652,7 @@ scen("SX7", SC, "Salience in 2018", SX + ["asof_2018", "sspx_salience"],
      "warned; verdicts unchanged", mode=B)
 scen("SX8", SC, "Schism classified on the basis of doctrinal dissent", SX + ["cand_dissent_as_schism"],
      [any_branch_violation("category_error(sspx,dissent_from(dignitatis_humanae))")],
-     "category error: dissent from tier-3 teaching is c. 752, not c. 751", mode=B)
+     "category error: dissent from tier-3 teaching is c. 752 / c. 1365, not c. 751 / c. 1364", mode=B)
 scen("SX9", SC, "Adherence inferred from attendance", SX + ["cand_infer_adherence"],
      [any_branch_violation("diagnosis_of_adherence(fidelis1,system)"),
       info_all("rule_endorsed(non_diagnosis,ddf_return_2026)")],
@@ -659,58 +660,107 @@ scen("SX9", SC, "Adherence inferred from attendance", SX + ["cand_infer_adherenc
 scen("SX10", SC, "2026: the consecrations", SX,
      [cls("q(act2026_schismatic)=yes", "settled"),
       reint_includes("q(act2026_schismatic)=no", "ed1988"), reint_includes("q(act2026_schismatic)=no", "ddf_decree_2026"),
-      reint_includes("q(act2026_schismatic)=no", "ddf_note_2026"),
       cls("q(society_schism_now)=yes", "settled"), info_none("category_error")],
      "schismatic act settled; the Society's schism settled; the basis is the act, so no category error", mode=B)
+# canon-law side: binary, from the facts and the norms in force
 scen("SX11", SC, "Incurred and declared, recourse pending", SX,
-     [info_all("presumed_incurred(fellay)", "declaration_suspended(fellay)"), info_none("declared_effects(")],
-     "presumed incurred (c. 1321 §4); the declaration suspended (c. 1353)", mode=B)
-scen("SX12", SC, "Incurred and declared, recourse decided", SX + ["recourse_decided"],
-     [main_with("q(decree2026_hearing)=monitions_sufficed", "declared_effects(fellay)"),
-      reint_includes("q(decree2026_hearing)=hearing_missing", "ddf_decree_2026"),
-      downstream("q(decree2026_hearing)=hearing_missing", "declared_effects(fellay)", present=False)],
-     "declared effects follow the hearing; the procedural objection lives as a shadow", mode=B)
-scen("SX13", SC, "Decree approved in forma specifica", SX + ["decree_papal_approval"],
-     [info_none("declaration_suspended("), main_with("q(decree2026_hearing)=monitions_sufficed", "declared_effects(fellay)")],
+     [info_all("presumed_incurred(fellay,n1387)", "presumed_incurred(fellay,n1364)", "presumed_incurred(schreiber,n1387)",
+               "declaration_suspended(ddf_decree_2026,fellay)", "investigation_dispensable(ddf_decree_2026,fellay)"),
+      info_none("declared(")],
+     "presumed incurred (c. 1321 §4) under c. 1387 even as co-consecrator; declaration suspended (c. 1353)", mode=B)
+scen("SX12", SC, "Recourse decided", SX + ["recourse_decided_2026"],
+     [info_all("declared(fellay,n1364)", "declared(galarreta,n1387)"),
+      lambda r: (0 < sum(any("ground_for_recourse(ddf_decree_2026,fellay" in f for f in b["facts"]) for b in r["branches"]) < len(r["branches"]),
+                 "missing hearing is a ground for recourse only in the branches where it is assumed missing")],
+     "the declaration takes effect; whether the hearing was given is a disputed fact, a ground for recourse, not a void", mode=B)
+scen("SX13", SC, "Decree approved in forma specifica (hypothetical)", SX + ["decree_papally_approved"],
+     [info_none("declaration_suspended("), info_all("declared(fellay,n1364)")],
      "no recourse against the pope's own act (c. 333 §3)", mode=B)
 scen("SX14", SC, "The 2009 remission does not reach 2026", SX + ["asof_2018"],
-     [info_none("presumed_incurred("), cls("q(act2026_schismatic)=yes", "excluded")],
+     [info_none("presumed_incurred(fellay", "presumed_incurred(galarreta"), cls("q(act2026_schismatic)=yes", "excluded")],
      "nothing incurred, and no 2026 question, before the act", mode=B)
-scen("SX15", SC, "Faculties after 2026", SX,
-     [cls("q(faculty_confession)=granted", "open"), cls("q(faculty_confession)=none", "open"),
-      assumed_with("q(faculty_confession)=granted", "read_as(mm2016,unconditional)"),
-      assumed_with("q(faculty_confession)=none", "read_as(mm2016,conditioned_on_communion)"),
-      main_with("q(faculty_confession)=granted", "invalid_lower_act(ddf_note_2026,mm2016)"),
-      main_with("q(faculty_confession)=none", "invalid_lower_act(ddf_note_2026,mm2016)", present=False),
-      prefers_atom("read_as(mm2016,conditioned_on_communion)")],
-     "turns on how MM 12 is read; only the conditioned reading makes the note well-typed", mode=B)
-scen("SX16", SC, "Two routes to 'confessions invalid'", SX,
-     [main_with("q(faculty_confession)=none", "confession_invalid_route(no_faculty)"),
-      info_none("confession_invalid_route(censure"),
-      info_all("class_statement_not_declaration(ddf_note_2026,sspx_clergy)", "undeclared(sspx_priest_x)",
-               "c1335_suspension(sspx_priest_x)")],
-     "only the lapse of the grant; no priest's censure is declared", mode=B)
-scen("SX17", SC, "The note read as declaring the clergy excommunicated", SX + ["cand_note_as_declaration"],
+scen("SX15", SC, "Absolution after 2026, on the facts of record", SX,
+     [info_all("class_faculty(sspx_clergy,confession)", "absolution(abs_2026,valid,licit)",
+               "absolution(abs_2026_bishop,valid,illicit)", "absolution(abs_2026_bishop_jc,valid,licit)",
+               "claim_contradicted(ddf_note_2026,invalid_absolution(sspx_clergy),abs_2026)")],
+     "the papal grant stands until a competent revocation; undeclared, the prohibition yields to a just-cause request (c. 1335 §2)", mode=B)
+scen("SX16", SC, "A competent revocation (hypothetical papal approval of the note)", SX + ["note_as_revocation", "note_papally_approved", "edge_acts"],
+     [info_all("absolution(abs_2026,invalid)", "delict(sspx_priest_x,n1379,abs_2026)", "absolution(abs_2018,valid,licit)",
+               "claim_confirmed(ddf_note_2026,invalid_absolution(sspx_clergy),abs_2026)", "absolution(abs_dying,valid,licit)"),
+      info_none("delict(sspx_priest_x,n1379,abs_dying)"),
+      lambda r: (0 < sum(any("absolution(abs_common_error,valid" in f for f in b["facts"]) for b in r["branches"]) < len(r["branches"]),
+                 "common error (c. 144 §2) supplies the faculty only in the branches where it is assumed")],
+     "then the note is right, every later attempt is a c. 1379 delict, nothing earlier is touched, the dying are always absolved (c. 976), and common error supplies (c. 144)", mode=B)
+scen("SX17", SC, "The note read as revoking the grants", SX + ["note_as_revocation"],
+     [any_branch_violation("ineffective_revocation(ddf_note_2026,mm12)"), info_all("absolution(abs_2026,valid,licit)")],
+     "a dicastery cannot revoke a papal grant (c. 135 §2): ineffective", mode=B)
+scen("SX18", SC, "The note read as declaring the clergy excommunicated", SX + ["cand_note_as_declaration"],
      [any_branch_violation("collective_declaration(ddf_note_2026,sspx_clergy)"),
-      info_any("confession_invalid_route(censure(sspx_priest_x))")],
-     "the censure route opens only through a collective declaration: violation", mode=B)
-scen("SX18", SC, "Notoriety in place of a hearing", SX + ["cand_notoriety_dispenses"],
+      info_all("absolution(abs_2026,invalid)", "delict(sspx_priest_x,n1379,abs_2026)")],
+     "the censure route to 'invalid' runs only through a collective declaration: violation", mode=B)
+scen("SX19", SC, "Notoriety in place of a hearing", SX + ["cand_notoriety_dispenses"],
      [any_branch_violation("notoriety_for_hearing(ddf_decree_2026,fellay)")],
-     "violation: the act is public, the defence of necessity is not", mode=B)
-scen("SX19", SC, "The lattice now", SXE + ["grants_conditioned"],
-     [info_all("degree(sspx,above,orthodox)", "missing_bond(sspx,faculties_confession)",
-               "missing_bond(sspx,faculties_marriage)"),
-      info_none("church_proper(sspx)", "missing_bond(sspx,primacy_recognized)")],
-     "the decree removes the 2016-17 bonds, not the Society's sort", mode=B)
+     "violation: c. 1717 §1 may dispense the investigation, never the hearing of c. 1720 n. 1", mode=B)
+scen("SX20", SC, "A declared bishop absolving after the decree takes effect", SX + ["recourse_decided_2026"],
+     [info_all("absolution(abs_2026_bishop,invalid)", "delict(schreiber,n1379,abs_2026_bishop)",
+               "claim_confirmed(ddf_note_2026,invalid_absolution(sspx_clergy),abs_2026_bishop)")],
+     "once declared, his acts of governance are invalid (c. 1331 §2 n. 2), and the attempt is itself a delict", mode=B)
+scen("SX21", SC, "Marriages", SX + ["hyp_delegation"],
+     [info_all("marriage(m_2026,invalid_form)", "claim_confirmed(ddf_note_2026,invalid_marriage(sspx_clergy),m_2026)",
+               "marriage(m_2026_delegated,valid_form)",
+               "claim_contradicted(ddf_note_2026,invalid_marriage(sspx_clergy),m_2026_delegated)")],
+     "invalid without delegation, valid with it: the note is right in the usual case, wrong where an ordinary delegated", mode=B)
+scen("SX22", SC, "c. 751 read as a state, not an act", SX + ["c751_state_reading", "recourse_decided_2026"],
+     [info_none("delict(fellay,n1364"), info_all("presumed_incurred(fellay,n1387)", "title_not_derived(ddf_decree_2026,fellay,n1364)")],
+     "the decree's title for Fellay fails on that reading, but c. 1387 reaches him anyway as co-consecrator", mode=B)
+scen("SX23", SC, "The lattice now", SXE,
+     [info_all("degree(sspx,above,orthodox)"), info_none("church_proper(sspx)", "missing_bond(sspx,faculties_confession)")],
+     "the faculties stand on the record; the Society's sort is unchanged", mode=B)
+
+
+def _norm_check(r):
+    from .norms import check
+    c = check()
+    ok = not c["vicious_cycles"] and not c["undefined_predicates"]
+    return ok, f"{c['norms']} norms, {c['edges']} edges; vicious cycles: {len(c['vicious_cycles'])}; undefined: {', '.join(c['undefined_predicates']) or 'none'}"
+
+scen("CL1", "canon", "The norm graph is well founded", [], [_norm_check],
+     "no vicious cycles; every predicate derived or declared as input")
+
+
+# ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
+def _expect_check(e):
+    kind = e.get("kind")
+    if kind == "status":
+        return cls(e["of"], e["is"])
+    if kind == "preferred":
+        return prefers(e["question"], e["value"])
+    if kind == "present":
+        atom, where = e["atom"], e.get("in", "every")
+
+        def chk(r):
+            bs = r.get("branches") or []
+            hits = [any(atom in f for f in b["facts"]) for b in bs]
+            got = "every" if hits and all(hits) else "some" if any(hits) else "none"
+            return (got == where) if where != "some" else any(hits), f"{atom}: {got}"
+        return chk
+    raise ValueError(f"unknown expectation kind: {kind!r} (use status, preferred or present)")
+
+
+def personal_scenarios():
+    from .engine import personal_scenarios_raw
+    return [dict(id=p["id"], group="personal", name=p["name"], parts=p.get("parts", []), facts=p.get("facts", ""),
+                 checks=[_expect_check(e) for e in p["expect"]], expected=p.get("expected", "as recorded"),
+                 mode="branches") for p in personal_scenarios_raw()]
 
 
 def run(ids=None, extra=()):
     """Run the scenarios (all, or those whose id starts with one of `ids`)."""
     rows = []
-    for s in S:
+    for s in S + personal_scenarios():
         if ids and not any(s["id"] == i or s["id"].startswith(i) for i in ids):
             continue
-        r = solve(s["parts"] + list(extra), s["mode"])
+        r = solve(s["parts"] + list(extra), s["mode"], facts=s.get("facts", ""))
         results = [c(r) for c in s["checks"]]
         rows.append(dict(id=s["id"], group=s["group"], name=s["name"], expected=s["expected"],
                          got=" | ".join(d for _, d in results), ok=all(o for o, _ in results)))

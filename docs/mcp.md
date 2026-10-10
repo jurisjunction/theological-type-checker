@@ -12,7 +12,7 @@ checker computes what follows. The person reads both.
 git clone https://github.com/jurisjunction/theological-type-checker
 cd theological-type-checker
 pip install -e ".[mcp]"
-ttc-suite            # optional: run the 139-test regression suite
+ttc-suite            # optional: run the 144-test regression suite
 ```
 
 ## Register the server
@@ -22,8 +22,13 @@ opening the repo in Claude Code offers the server automatically. To add it
 for all your projects instead:
 
 ```bash
-claude mcp add --transport stdio --scope user theological-type-checker -- ttc-mcp
+claude mcp add --env TTC_HOME="$HOME/.ttc" --transport stdio --scope user \
+  theological-type-checker -- "$(pwd)/.venv/bin/ttc-mcp"
 ```
+
+`TTC_HOME` is the personal folder where your own canons, cases and tests are
+saved (see [the flywheel](flywheel.md)). Leave it out for a read-only
+checker.
 
 **Other MCP clients** that read an `mcpServers` JSON block:
 
@@ -50,6 +55,12 @@ If `ttc-mcp` is not on the client's `PATH`, use the absolute path that
 | `run_suite` | The regression suite, or a subset. |
 | `fix_method` | Add or remove rules, rerun every test, and report what the change gains and loses. Nothing is written to disk. |
 | `lint` | The static analogy check: rules that cross the Creator–creature line without a bridge. |
+| `norm_graph` | The canon-law layer as a graph of norms (Mermaid or JSON), optionally around one canon. |
+| `norm_check` | Loops and gaps in the norm graph; the undefined predicates are the frontier, i.e. what to encode next. |
+| `flywheel_status` | What the personal folder holds, the frontier, and (optionally) the full suite. |
+| `save_rules` | Save rules (e.g. a newly encoded canon) to the personal folder, only if every test stays green. |
+| `save_case` | Save a case's facts as a new part. |
+| `save_scenario` | Record a confirmed result as a regression test, only if it passes now. |
 
 There are also two prompts. `type_check_text` walks a model through
 checking a text. `review_rule_change` evaluates a proposed change to the
@@ -74,7 +85,8 @@ theory with the fix method.
 
 ## Safety
 
-Snippets are data and rules only. `#script`, `#include`, `#program`,
+Snippets are data and rules only. The server writes only inside the
+personal folder, and only through the three `save_` tools. `#script`, `#include`, `#program`,
 `#end` and `@`-terms are rejected, so a snippet cannot run code or read
 files. Runs have a model cap and a time limit. The server never writes to
 the rule base: `fix_method` works on an in-memory copy.

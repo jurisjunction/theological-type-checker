@@ -14,19 +14,25 @@ import re
 from mcp.server.mcpserver import MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
 
+import hashlib
+import json
+
 from . import __version__
-from . import engine, suite
+from . import engine, norms, suite
 
 HERE = pathlib.Path(__file__).resolve().parent
 GUIDE = (HERE / "guide.md").read_text()
 
 INSTRUCTIONS = """\
 A deterministic type checker for theological and canonical claims. It has
-two layers. A core grammar types relations (being, origination, action,
+three layers. A core grammar types relations (being, origination, action,
 nuptial gift, side-by-side), with the analogia entis enforced as a sort
 discipline. An authority graph tiers sources (c. 750 §1, §2, c. 752,
 Doctors, theologians), dates them, and splits every disputed question into
-branches.
+branches. A canon-law layer computes juridical effects as yes/no rules
+from facts and the norms in force; it branches only on disputed facts,
+disputed readings of a canon, and the internal forum, which it never
+computes.
 
 Your job is the interpretation: turning a text into facts. The checker's
 job is the consequences. Before encoding anything, call `guide`. Start from
@@ -34,6 +40,11 @@ the nearest existing case (`list_parts`, `read_part`). Run `check` and read
 the result as branches, not verdicts. When the checker disagrees with an
 author, treat that as a question (is the checker wrong, or the
 literature?) and test the checker's side with `fix_method`.
+
+The checker grows with use. When a needed canon is missing, fetch its primary
+text, encode it as tagged rules and propose saving it (`save_rules`); when the
+person confirms a result, record it as a test (`save_scenario`). See
+`flywheel_status`.
 
 Never compute anyone's imputability or interior state: that is an input
 from the internal forum (the rule of non-diagnosis). The checker can show
@@ -203,8 +214,14 @@ def run_suite(ids: list[str] | None = None) -> dict:
 _BASELINE = {}
 
 
+def _state_key():
+    texts = engine.base_texts()
+    blob = json.dumps([sorted(texts.items()), engine.personal_scenarios_raw()], sort_keys=True)
+    return hashlib.sha256(blob.encode()).hexdigest()
+
+
 def _baseline():
-    key = tuple((f, (engine.LP_DIR / f).stat().st_mtime) for f in engine.FILES)
+    key = _state_key()
     if key not in _BASELINE:
         _BASELINE.clear()
         _BASELINE[key] = {r["id"]: r for r in suite.run()}
@@ -245,6 +262,141 @@ def lint(rules: str = "") -> dict:
     discipline: nothing crosses the Creator-creature line unannounced."""
     findings = engine.lint(rules)
     return {"clean": not findings, "unbridged_rules": findings}
+
+
+# ---------- the norm graph -----------------------------------------------------
+@server.tool()
+@_friendly
+def norm_graph(focus: str | None = None, format: str = "mermaid") -> str | dict:
+    """The canon-law layer as a graph: which norms feed which. Each norm is a
+    tagged block of rules (`% @norm cic2021:1387 | ... | source`). Use
+    format="mermaid" for a diagram, "json" for the nodes, edges and inputs.
+    focus: one norm id, to show only it and its neighbours."""
+    if format == "json":
+        g = norms.graph()
+        return {"norms": g["norms"], "edges": g["edges"], "inputs": g["inputs"], "temporal": g["temporal"]}
+    return norms.mermaid(focus=focus)
+
+
+@server.tool()
+@_friendly
+def norm_check() -> dict:
+    """Check the canon-law layer: vicious cycles (norms that depend on each
+    other in a loop), temporal loops (recursion over later acts, allowed),
+    undefined predicates (used but neither derived nor declared as input:
+    usually a canon not yet encoded, i.e. the frontier) and unused inputs."""
+    return norms.check()
+
+
+# ---------- the flywheel: a personal layer that grows with use ---------------
+_NAME = re.compile(r"^[a-z][a-z0-9_]{0,47}$")
+
+
+def _home():
+    home = engine.ttc_home()
+    if not home:
+        raise ValueError("No personal folder is configured. Set TTC_HOME to a folder (for example ~/.ttc) "
+                         "in the MCP server's environment, or create ~/.ttc. See docs/flywheel.md.")
+    (home / "rules").mkdir(parents=True, exist_ok=True)
+    return home
+
+
+@server.tool()
+@_friendly
+def flywheel_status(run_tests: bool = False) -> dict:
+    """What the personal layer holds and what to do next: personal rule and
+    case files, personal regression scenarios, the canon-law frontier
+    (predicates used but not yet encoded), and optionally the full suite."""
+    home = engine.ttc_home()
+    out = {"personal_folder": str(home) if home else None,
+           "rule_files": [f.name for f in engine.personal_rule_files()],
+           "scenarios": len(engine.personal_scenarios_raw()),
+           "norms_encoded": len(norms.graph()["norms"]),
+           "frontier": norms.check()["undefined_predicates"]}
+    if run_tests:
+        rows = suite.run()
+        out["suite"] = {"passed": sum(r["ok"] for r in rows), "total": len(rows),
+                        "failures": [r["id"] for r in rows if not r["ok"]]}
+    if not home:
+        out["next"] = "Configure a personal folder (TTC_HOME) to start saving rules, cases and tests."
+    return out
+
+
+@server.tool()
+@_friendly
+def save_rules(name: str, rules: str, force: bool = False) -> dict:
+    """Save rules to the personal layer ($TTC_HOME/rules/<name>.lp), after
+    running the whole suite with them. If any test that passed now fails, the
+    rules are NOT saved (unless force=True, which you should use only when
+    the person has agreed that each loss is right). Tag canon-law rules with
+    `% @norm <id> | <citation> | <source URL>` and declare new fact slots
+    with `% @input <name>/<arity> | <meaning>`."""
+    if not _NAME.match(name):
+        raise ValueError("name must be lowercase letters, digits and underscores")
+    home = _home()
+    report = fix_method(add_rules=rules)
+    if report["newly_failing"] and not force:
+        return {"saved": False, "reason": "the change turns tests red", **report}
+    (home / "rules" / f"{name}.lp").write_text(rules.rstrip() + "\n")
+    _BASELINE.clear()
+    return {"saved": True, "file": str(home / "rules" / f"{name}.lp"), **report}
+
+
+@server.tool()
+@_friendly
+def save_case(part: str, facts: str, note: str = "") -> dict:
+    """Save a case to the personal layer as a new part: facts (and any rules
+    specific to the case) under `#program <part>.`, in
+    $TTC_HOME/rules/case_<part>.lp. The part can then be named in `check`
+    and in scenarios. Write facts only from sources you can cite, and say in
+    the note where they come from."""
+    if not _NAME.match(part):
+        raise ValueError("part must be lowercase letters, digits and underscores")
+    if part in engine.known_parts() and not (engine.ttc_home() and (engine.ttc_home() / "rules" / f"case_{part}.lp").exists()):
+        raise ValueError(f"part {part!r} already exists in the base; choose another name")
+    engine.check_snippet(facts)
+    home = _home()
+    header = "".join(f"% {line}\n" for line in note.splitlines()) if note else ""
+    path = home / "rules" / f"case_{part}.lp"
+    path.write_text(f"{header}#program {part}.\n{facts.rstrip()}\n")
+    try:
+        r = engine.run_checked([part])
+    except engine.SnippetError:
+        path.unlink()
+        raise
+    _BASELINE.clear()
+    return {"saved": str(path), "check": engine.summary(r, 5)}
+
+
+@server.tool()
+@_friendly
+def save_scenario(id: str, name: str, parts: list[str], expect: list[dict], facts: str = "",
+                  expected: str = "") -> dict:
+    """Record a verified result as a regression test in
+    $TTC_HOME/scenarios.json. It is saved only if it passes now, so the
+    suite remembers what the person has checked and confirmed.
+
+    expect: a list of checks, each one of
+      {"kind": "status", "of": "q(x)=v", "is": "settled|open|shadow|excluded"}
+      {"kind": "present", "atom": "info(...)" or "violation(...)", "in": "every|some|none"}
+      {"kind": "preferred", "question": "q(x)", "value": "v"}
+    """
+    if not re.match(r"^P[A-Za-z0-9_-]{1,30}$", id):
+        raise ValueError("personal scenario ids start with P (e.g. P12)")
+    home = _home()
+    existing = engine.personal_scenarios_raw()
+    if any(s["id"] == id for s in existing):
+        raise ValueError(f"scenario {id} already exists")
+    entry = {"id": id, "name": name, "parts": parts, "facts": facts, "expect": expect,
+             "expected": expected or name}
+    checks = [suite._expect_check(e) for e in expect]
+    r = engine.solve(parts, "branches", facts=facts)
+    results = [c(r) for c in checks]
+    if not all(ok for ok, _ in results):
+        return {"saved": False, "reason": "the scenario does not pass now", "got": [d for _, d in results]}
+    (home / "scenarios.json").write_text(json.dumps(existing + [entry], indent=2, ensure_ascii=False) + "\n")
+    _BASELINE.clear()
+    return {"saved": True, "id": id, "got": [d for _, d in results]}
 
 
 # ---------- resources and prompts --------------------------------------------

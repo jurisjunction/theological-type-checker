@@ -346,12 +346,17 @@ source(interview_s,3,truth,2015). character(interview_s,interview). supports(int
 #program salience_marks.  salience(interview_s,high). relies_on(arg1,interview_s).
 
 % ---------- Schism and the SSPX -----------------------------------------
+% The authority side of the case: how the acts are classified, and where
+% the Society stands in the communion lattice. The juridical side (who has
+% incurred what, what is declared, what faculties exist, which sacraments
+% are valid) is computed by the binary canon-law layer (canon_law.lp), from
+% the facts in canon_cases.lp, which are part of this same program.
 #program sspx.
 community(catholic). has(catholic,B) :- bond_kind(B).
 community(sspx). internal_society(sspx).
 has(sspx,(baptism;scripture;nicene_creed;chalcedon;orders;eucharist;later_dogmas;primacy_recognized)).
-has(sspx,faculties_confession) :- holds(q(faculty_confession),granted).
-has(sspx,faculties_marriage)   :- holds(q(faculty_marriage),delegable).
+has(sspx,faculties_confession) :- class_faculty(sspx_clergy,confession).
+has(sspx,faculties_marriage)   :- class_permission(sspx_clergy,marriage).
 has(sspx,canonical_mission)    :- holds(q(canonical_status),recognized).
 % the 1988 consecrations
 question(q(act1988_schismatic)). question_kind(q(act1988_schismatic),juridical).
@@ -371,30 +376,12 @@ value(q(excomm_in_force),in_force). value(q(excomm_in_force),remitted).
 supports(cb_1988,q(excomm_in_force),in_force).
 source(cb_2009,3,juridical,2009). dicastery(cb_2009). by_papal_mandate(cb_2009).
 supports(cb_2009,q(excomm_in_force),remitted).
-% the Society's juridical situation; nothing is granted without a grant
+% canonical status: nothing is granted without a grant
 question(q(canonical_status)). question_kind(q(canonical_status),juridical).
 value(q(canonical_status),none). value(q(canonical_status),recognized). default(q(canonical_status),none).
-question(q(faculty_confession)). question_kind(q(faculty_confession),governance).
-value(q(faculty_confession),none). value(q(faculty_confession),granted). default(q(faculty_confession),none).
-question(q(faculty_marriage)). question_kind(q(faculty_marriage),governance).
-value(q(faculty_marriage),none). value(q(faculty_marriage),delegable). default(q(faculty_marriage),none).
-question(q(other_ministry)). question_kind(q(other_ministry),governance).
-value(q(other_ministry),not_legitimate). value(q(other_ministry),legitimate). default(q(other_ministry),not_legitimate).
 source(bxvi_2009,3,truth,2009). papal_form(bxvi_2009,ordinary). character(bxvi_2009,letter).
-supports(bxvi_2009,q(canonical_status),none). supports(bxvi_2009,q(faculty_confession),none).
-supports(bxvi_2009,q(faculty_marriage),none). supports(bxvi_2009,q(other_ministry),not_legitimate).
+supports(bxvi_2009,q(canonical_status),none).
 source(secst_2009,3,juridical,2009). dicastery(secst_2009). supports(secst_2009,q(canonical_status),none).
-source(mm2016,3,juridical,2016). papal_form(mm2016,legislative). character(mm2016,apostolic_letter).   % Misericordia et misera 12
-source(cdf_ed_2017,3,juridical,2017). dicastery(cdf_ed_2017). by_papal_mandate(cdf_ed_2017).           % marriage letter, approved by the Pope
-% Do the grants presuppose the Society's standing as it was in 2016-17, or
-% are they unconditional? Neither text says. Each reading is a branch.
-grant(mm2016,q(faculty_confession),granted).
-grant(cdf_ed_2017,q(faculty_marriage),delegable).
-ambiguous(S) :- grant(S,_,_).
-reading(S,unconditional) :- grant(S,_,_).
-reading(S,conditioned_on_communion) :- grant(S,_,_).
-reads(S,unconditional,Q,V) :- grant(S,Q,V).
-reads(S,conditioned_on_communion,Q,V) :- grant(S,Q,V), not after_2026_act.
 after_2026_act :- asof(A), A >= 2026.
 
 % is the Society, as such, in schism now?
@@ -405,7 +392,8 @@ source(francis_2016,3,truth,2016). character(francis_2016,interview).           
 supports(francis_2016,q(society_schism_now),no).
 source(schism_thesis,5,truth,2010). supports(schism_thesis,q(society_schism_now),yes).
 
-% schism and dissent are different offences: c. 751 against c. 752 / c. 1371.
+% schism and dissent are different offences: c. 751 / c. 1364 against
+% c. 752 / c. 1365 (obstinate rejection of teaching after a warning).
 % A classification as schism must rest on a schism-type basis.
 refuses(sspx,dignitatis_humanae). teaching_tier(dignitatis_humanae,3).
 info(offense(X,dissent_c752,T)) :- refuses(X,T), teaching_tier(T,3).
@@ -420,14 +408,11 @@ violation(diagnosis_of_adherence(P,A)) :- formal_adherence(P,A), not internal_fo
 % Decree, 2 July 2026 (DDF, Prot. 99/2009; no papal approval formula): the five
 % have incurred the excommunication of c. 1387, Fellay that of c. 1364 §1; clerics
 % and faithful are warned not to adhere to "the schism of the Fraternity".
-% Explanatory note, same day: the act is the crime of schism (ED 3; c. 751); the
-% Society's clergy "are in schism"; formal adherents (PCLT 1996) "are to be
-% considered schismatic and excommunicated"; confessions and marriages are invalid.
+% Explanatory note, same day: the act is the crime of schism (ED 3; c. 751).
 source(ddf_decree_2026,3,juridical,2026). dicastery(ddf_decree_2026).
 source(ddf_note_2026,3,truth,2026).       dicastery(ddf_note_2026). character(ddf_note_2026,commentary).
 source(sspx_2026,5,truth,2026).           % "Neither schismatic nor disobedient"; state of necessity
 source(canonist_2026,5,truth,2026).       % published canonical critiques of the decree
-
 question(q(act2026_schismatic)) :- after_2026_act. question_kind(q(act2026_schismatic),juridical).
 value(q(act2026_schismatic),yes). value(q(act2026_schismatic),no).
 supports(ed1988,q(act2026_schismatic),yes).            % ED 3 types the act, not only the 1988 token
@@ -436,55 +421,6 @@ supports(sspx_2026,q(act2026_schismatic),no).
 supports(canonist_2026,q(act2026_schismatic),no).      % c. 751 read as a state of total repudiation, not an act
 classified_on(sspx,schism_c751,refusal_of_subjection) :- holds(q(act2026_schismatic),yes).
 supports(ddf_decree_2026,q(society_schism_now),yes). supports(ddf_note_2026,q(society_schism_now),yes).
-
-% faculties after 2026: the note says invalid; it does not say how
-supports(ddf_note_2026,q(faculty_confession),none). supports(ddf_note_2026,q(faculty_marriage),none).
-interprets(ddf_note_2026,S,conditioned_on_communion) :- grant(S,_,_).
-interprets(canonist_2026,S,unconditional)            :- grant(S,_,_).   % c. 21: revocation is not presumed
-
-% Incurred and declared are different things. A latae sententiae penalty
-% is incurred by the act (c. 1314); whether the person is bound depends on
-% imputability (cc. 1321-1324), which the checker never computes. A
-% declaration is a singular act about a named person, after a hearing
-% (cc. 1342, 1720); it adds legal certainty and the c. 1331 §2 effects.
-penal_decree(ddf_decree_2026).
-declares_penalty(ddf_decree_2026,(de_galarreta;schreiber;goldade;poinsinet;hanappier),c1387).
-declares_penalty(ddf_decree_2026,fellay,c1364).
-public_act(P) :- declares_penalty(ddf_decree_2026,P,_).          % the consecration is public and undisputed
-claims_necessity(P) :- public_act(P).                             % the Society's stated defence (c. 1323 n. 4; c. 1324 §1 n. 8, §3)
-info(presumed_incurred(P)) :- public_act(P), after_2026_act.      % c. 1321 §4: external forum only, rebuttable
-% did the decree's recital of warnings give the hearing c. 1720 requires?
-% A juridic act is presumed valid (c. 124 §2) until a recourse overturns it.
-question(q(decree2026_hearing)) :- after_2026_act. question_kind(q(decree2026_hearing),juridical).
-value(q(decree2026_hearing),monitions_sufficed). value(q(decree2026_hearing),hearing_missing).
-supports(ddf_decree_2026,q(decree2026_hearing),monitions_sufficed).
-supports(canonist_2026,q(decree2026_hearing),hearing_missing).
-hearing_offered(ddf_decree_2026,P) :- declares_penalty(ddf_decree_2026,P,_), holds(q(decree2026_hearing),monitions_sufficed).
-% recourse: filed 11 July 2026 (cc. 1734 ff.); against a decree declaring a
-% penalty it suspends the decree (c. 1353), not the penalty incurred by law.
-% There is no recourse against the pope's own act (c. 333 §3).
-recourse_filed(ddf_decree_2026).
-recourse_admissible(D) :- recourse_filed(D), not erank(D,4).
-suspended_now(D) :- penal_decree(D), recourse_admissible(D), not recourse_decided(D).
-declared_effective(P) :- declares_penalty(D,P,_), in_force(D), hearing_offered(D,P), not suspended_now(D).
-info(declared_effects(P)) :- declared_effective(P).                                   % c. 1331 §2
-info(declaration_suspended(P)) :- declares_penalty(D,P,_), in_force(D), suspended_now(D).
-% notoriety proves the act; it does not hear the person. The defence the
-% hearing exists for (necessity, cc. 1323-1324) is about the agent, not the act.
-violation(notoriety_for_hearing(D,P)) :- notoriety_substitutes(D,P), claims_necessity(P).
-
-% statements about classes are not declarations about persons
-class_of(sspx_priest_x,sspx_clergy). class_of(fidelis2,formal_adherents).
-asserts_of_class(ddf_note_2026,sspx_clergy,in_schism).
-asserts_of_class(ddf_note_2026,formal_adherents,excommunicated).
-info(class_statement_not_declaration(S,C)) :- asserts_of_class(S,C,_), in_force(S), not penal_decree(S).
-info(undeclared(P)) :- class_of(P,C), asserts_of_class(S,C,_), in_force(S), not declared_effective(P).
-info(c1335_suspension(P)) :- class_of(P,sspx_clergy), after_2026_act, not declared_effective(P).   % c. 1335 §2
-violation(collective_declaration(S,C)) :- treated_as_declaring(S), asserts_of_class(S,C,_).
-% two routes to "the Society's confessions are invalid"
-confession_invalid_route(no_faculty) :- holds(q(faculty_confession),none), after_2026_act.
-confession_invalid_route(censure(P)) :- class_of(P,sspx_clergy), declared_effective(P).
-info(confession_invalid_route(R)) :- confession_invalid_route(R).
 % the Dicastery's return procedure (via the nunciatures): lay imputability
 % "cannot be presumed automatically, but must be assessed case by case"
 source(ddf_return_2026,3,juridical,2026). dicastery(ddf_return_2026).
@@ -495,17 +431,6 @@ info(missing_bond(sspx,B)) :- bond_kind(B), not has(sspx,B).
 #program sspx_salience. salience(francis_2016,high). relies_on(arg_not_schismatic,francis_2016).
 #program cand_dissent_as_schism. classified_on(sspx,schism_c751,dissent_from(dignitatis_humanae)).
 #program cand_infer_adherence.   formal_adherence(P,system) :- attends(P,sspx_mass).
-#program recourse_decided.       recourse_decided(ddf_decree_2026).
-#program recourse_upheld.        relaxed(ddf_decree_2026).
-#program decree_papal_approval.  in_forma_specifica(ddf_decree_2026).     % "un-appealable" if the pope makes it his own
-#program grants_conditioned.     :- read_as(S,unconditional), grant(S,_,_).
-#program grants_unconditional.   :- read_as(S,conditioned_on_communion), grant(S,_,_).
-#program cand_note_as_declaration.
-treated_as_declaring(ddf_note_2026).
-declared_effective(P) :- class_of(P,C), asserts_of_class(ddf_note_2026,C,_).
-#program cand_notoriety_dispenses.   % "the act was public, so no hearing was needed"
-notoriety_substitutes(D,P) :- declares_penalty(D,P,_), public_act(P).
-hearing_offered(D,P) :- notoriety_substitutes(D,P).
 
 #program a9_universal.            % the old reading of A9, for comparison
 a9_universal.

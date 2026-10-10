@@ -12,6 +12,8 @@ from __future__ import annotations
 
 import contextlib
 import contextvars
+import json
+import os
 import pathlib
 import re
 from typing import Iterable
@@ -20,7 +22,7 @@ import clingo
 
 LP_DIR = pathlib.Path(__file__).resolve().parent / "lp"
 FILES = ["icon_core.lp", "icon_analogy.lp", "icon_models.lp", "icon_tests.lp",
-         "icon_authority.lp", "icon_history.lp"]
+         "icon_authority.lp", "icon_history.lp", "canon_law.lp", "canon_cases.lp"]
 
 # Rule-base overrides for the "fix method": text added to the base, and
 # lines (exact substrings) commented out. Scoped with rule_change().
@@ -48,9 +50,39 @@ def check_snippet(text: str) -> str:
     return text
 
 
+def ttc_home() -> pathlib.Path | None:
+    """The personal layer: rules, cases and tests that grow with use.
+
+    TTC_HOME set to a path uses that folder; set but empty disables the
+    layer; unset uses ~/.ttc if that folder exists.
+    """
+    v = os.environ.get("TTC_HOME")
+    if v is not None:
+        return pathlib.Path(v).expanduser() if v.strip() else None
+    d = pathlib.Path("~/.ttc").expanduser()
+    return d if d.is_dir() else None
+
+
+def personal_rule_files() -> list[pathlib.Path]:
+    home = ttc_home()
+    if not home or not (home / "rules").is_dir():
+        return []
+    return sorted((home / "rules").glob("*.lp"))
+
+
+def personal_scenarios_raw() -> list[dict]:
+    home = ttc_home()
+    f = home / "scenarios.json" if home else None
+    if not f or not f.is_file():
+        return []
+    return json.loads(f.read_text())
+
+
 def base_texts() -> dict[str, str]:
     """The rule files as they will be grounded, with any removals applied."""
     texts = {f: (LP_DIR / f).read_text() for f in FILES}
+    for f in personal_rule_files():
+        texts[f"personal/{f.name}"] = f.read_text()
     for needle in _REMOVE.get():
         hits = [(f, i) for f, t in texts.items() for i, line in enumerate(t.splitlines()) if needle in line]
         if len(hits) != 1:
@@ -173,7 +205,7 @@ def summarize_branches(models):
              "t2": False, "facts": [], "assume": []}
         for a in atoms:
             name, args = split_args(a)
-            if name in ("read_as", "oum_holds"):
+            if name in ("read_as", "oum_holds", "assumed_fact"):
                 b["assume"].append(a)
             if name == "holds":
                 b["values"].append(f"{args[0]}={args[1]}")

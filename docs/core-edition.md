@@ -112,7 +112,7 @@ Grades: A, derived before the target was consulted; B, valid derivation, but the
 
 ## 7. Stress test
 
-All 139 tests pass (36 on the core, 17 on the authority layer, 15 on analogy, 15 on tier-3 structure, 56 on the cases in sections 10, 11, 13 and 15), and deleting any single rule turns at least one test red, so the suite is not passing vacuously. Five findings came out of the run; two of them change the theory.
+All 144 tests pass (36 on the core, 17 on the authority layer, 15 on analogy, 15 on tier-3 structure, 60 on the cases in sections 10, 11, 13 and 15, and 1 on the canon-law graph), and deleting any single rule turns at least one test red, so the suite is not passing vacuously. Five findings came out of the run; two of them change the theory.
 
 1. **The Donum Vitae result rests entirely on A4a.** On identical facts, closure-in-the-act yields a grain violation and closure-in-the-bond yields a consistent model (S1, S2). Any disagreement about that result lives in one axiom. Follow-up research found that axiom a pre-1987 warrant (Pius XII, 1951 and 1956; HV 14), so the derivation is not circular.
 2. **Two contraction licenses are forced.** With only the circuit license, the Trinity model breaks: the Spirit has two principles (S3). The only rescue puts a nuptial circuit between Father and Son (S4), which is the trinitarian over-sexualization the long version names as a failure mode. A4's two-license structure is not optional.
@@ -437,31 +437,33 @@ Tier 3 now has internal structure: a legislator ranking for governance, document
 
 ## 15. Case: schism and the SSPX
 
-"Is the SSPX in schism?" is several questions of different types, and the checker separates them. The full write-up, with sources, is in [cases/sspx-2026.md](cases/sspx-2026.md).
+"Is the SSPX in schism?" is several questions of two types. *How the acts are classified* is a question for the authority graph. *Who has incurred what, what is declared, and which sacraments are valid* is a question for canon law, which this edition now computes in a separate binary layer: given the facts and the norm in force, an effect follows or it does not. The first version ran the juridical questions through the authority graph, with weights and shadows. That was a type error, since canonists' opinion fills only a gap in the law, never in a penal case (c. 19). The full write-up is in [cases/sspx-2026.md](cases/sspx-2026.md), and the layer is described in [canon-law-layer.md](canon-law-layer.md).
 
 | ID | Run | Result |
 | --- | --- | --- |
-| SX1–SX3 | 1988 to 2010 | The 1988 act schismatic (ED 3); excommunication incurred in the external forum, remitted in 2009 |
-| SX4, SX5 | As of 2018 | Faculties for confession and marriage by papal grant; no canonical status; above the Orthodox in the lattice, but a different sort |
-| SX6, SX7 | "Is the Society in schism?", 2018 | Open; every "no" is an interview, so a lone tier-5 thesis tips the preference |
-| SX8 | Schism classified on the basis of rejecting *Dignitatis humanae* | Category error: c. 752, not c. 751 |
-| SX9 | Adherence inferred from attendance | Non-diagnosis violation; the Dicastery's return procedure states the same rule |
-| SX10 | 2026 | The act and the Society's schism settled; the basis is the act, so no category error |
-| SX11–SX14 | Incurred, declared, suspended | Presumed incurred (c. 1321 §4); the declaration suspended by the recourse (c. 1353); effective once decided; no recourse if papally approved (c. 333 §3); nothing reaches back before the act |
-| SX15, SX16 | Confessions and marriages | Open; "invalid" goes through only if the 2016–17 grants are read as conditioned; no priest is declared |
-| SX17, SX18 | The note read as a collective declaration; notoriety in place of a hearing | Violations |
-| SX19 | The lattice now | 2026 removed exactly the 2016–17 bonds; the Society's sort is unchanged |
+| SX1–SX3 | 1988 to 2010 | The 1988 act schismatic (ED 3); excommunication in force, remitted in 2009 |
+| SX4, SX5 | As of 2018 | Faculty to absolve by papal grant; ordinaries may delegate for marriages; above the Orthodox in the lattice, a different sort |
+| SX6, SX7 | "Is the Society in schism?", 2018 | Open; every "no" is an interview |
+| SX8, SX9 | Dissent as schism; adherence from attendance | Category error (c. 752 / c. 1365, not c. 751 / c. 1364); non-diagnosis violation |
+| SX10 | 2026, authority side | The act and the Society's schism settled, on an act-based (schism-type) basis |
+| SX11–SX14 | Incurred, declared, suspended | All six presumed incurred under c. 1387 (a co-consecrator consecrates), declaration suspended by the recourse (c. 1353), effective once decided, no recourse if papally approved; 2009 does not reach 2026 |
+| SX15–SX18 | Confessions | Valid on the record: the papal grant stands until a competent revocation, and a dicastery cannot revoke it; licit on a just-cause request while undeclared (c. 1335 §2). Invalid only after a papal revocation (then each attempt is a c. 1379 delict, except for the dying and in common error) or under a collective-declaration reading (a violation) |
+| SX19 | Notoriety in place of a hearing | Violation: c. 1717 §1 dispenses the investigation, never c. 1720 n. 1 |
+| SX20 | A declared bishop absolving after the decree takes effect | Invalid (c. 1331 §2 n. 2), and itself a delict |
+| SX21 | Marriages | Invalid without delegation, valid with it |
+| SX22 | c. 751 read as a state | Fellay's c. 1364 title fails; c. 1387 reaches him anyway |
+| SX23 | The lattice now | The faculties stand; the Society's sort is unchanged |
 
 **Findings**
 
-1. **Incurred, presumed, declared and suspended are four states, not one.** A recourse suspends the declaration, not the penalty incurred by law.
-2. **Notoriety proves the act; the hearing exists for the agent.** The defence a hearing would test (necessity, cc. 1323–1324) is about the person, not the public fact.
-3. **The 2026 classification is well-typed.** It rests on an act of refusal of subjection, not on dissent from conciliar teaching.
-4. **"Confessions are invalid" has a hidden premise.** No priest is declared, so the censure route is closed. The claim goes through only if the papal grants are read as conditioned on the Society's earlier standing, and only a papal act can fix that reading.
+1. **Canon law is binary, and putting it on the authority graph was a type error.** Corrected, several results sharpened, and one reversed: whether the Society's confessions are valid follows from who may revoke a papal grant, not from a preferred reading.
+2. **Incurred, presumed, declared and suspended are four states.** A recourse suspends the declaration, not the penalty incurred by law. A missing hearing is a ground for recourse, not a void (c. 124 §2).
+3. **Notoriety proves the act; the hearing exists for the agent.**
+4. **A text's claims can be checked act by act.** The note's "invalid" is right for undelegated marriages, wrong for absolutions on the present record, and would become right for later absolutions after a papal revocation.
 
 ## 16. Running it, and status
 
-The rule base is six answer-set programs in `src/theological_type_checker/lp/`: `icon_core.lp` (the axioms), `icon_analogy.lp` (the bridges), `icon_models.lp` (the domain models), `icon_tests.lp` (candidate rules and policy switches), `icon_authority.lp` (the branch layer) and `icon_history.lp` (the cases). Install with `pip install -e .`, then run `ttc-suite`. The same files always give the same report. To check a new proposal, use `ttc-check` with a file of facts, or drive the checker from a language model through the MCP server (`ttc-mcp`); to test a change to the theory against every case at once, use the server's `fix_method` tool.
+The rule base is eight answer-set programs in `src/theological_type_checker/lp/`: `icon_core.lp` (the axioms), `icon_analogy.lp` (the bridges), `icon_models.lp` (the domain models), `icon_tests.lp` (candidate rules and policy switches), `icon_authority.lp` (the branch layer), `icon_history.lp` (the cases), `canon_law.lp` (canon law as dated binary rules) and `canon_cases.lp` (their facts). Install with `pip install -e .`, then run `ttc-suite`. The same files always give the same report. To check a new proposal, use `ttc-check` with a file of facts, or drive the checker from a language model through the MCP server (`ttc-mcp`); to test a change to the theory against every case at once, use the server's `fix_method` tool.
 
 The engine is fully deterministic; the encoding is not. Deciding that marriage is a nuptial circuit, or that a given act closes one, is interpretation done by a person, just as encoding a statute is. What the checker adds is that every such decision becomes a visible fact someone can dispute. The branch layer, the rescue search and the Augustine map use answer-set search rather than plain Datalog; the rest is stratified Datalog and could be ported to another engine such as Soufflé with modest changes.
 

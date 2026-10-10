@@ -18,10 +18,21 @@ would test.
 - **Not yet encoded:** consent by fraud (c. 1098; VS 78); P8's banded sexual
   differentiation; P11 on the liturgy; PC 5.
 
+## The canon-law layer
+
+- **The frontier** (`norm_check`): the effects of interdict (c. 1332), c. 1352
+  (when an undeclared penalty need not be observed), c. 1313 (the more
+  favourable law after a change), the DDF's special norms (*Sacramentorum
+  sanctitatis tutela*), and the PCLT note of 24 August 1996 on formal
+  adherence.
+- **Marriage law (Book IV),** the home of the original grammar's
+  retrodictions (cc. 1057, 1084, 1091, 1134–1135), as binary rules.
+- **Authentic interpretations** from the Dicastery for Legislative Texts, as
+  `authentic_reading/3` facts.
+- **The outcome of the SSPX recourse** (filed 11 July 2026), when known.
+
 ## The authority layer
 
-- **Supplied jurisdiction (c. 144)** for the SSPX faculty question.
-- **The outcome of the SSPX recourse** (filed 11 July 2026), when known.
 - **Bridges between tiers** for theologians who are later declared Doctors,
   and for texts later received as definitive.
 

@@ -19,7 +19,7 @@ analogia entis, the grades of assent in cc. 750–752, and the distinction of
 forums. The result is a checker you can run against a text, a case or a
 proposed change to the theory.
 
-It has two layers:
+It has three layers:
 
 - **A core grammar.** *The Grammar of the Icon* is a small typed theory of five
   relations: giving being, originating, acting on, nuptial self-gift, and being
@@ -34,6 +34,12 @@ It has two layers:
   tier-1 act deletes a branch. Lower acts cleave a branch into a *shadow* that
   names exactly what would bring it back. Teaching and governance are
   different types: lex posterior applies to law, never to doctrine.
+- **A canon-law layer.** Canons are encoded as dated yes/no rules: given the
+  facts and the norm in force, an effect follows or it does not. The canons
+  form a graph, from definitions to delicts to penalties to effects and
+  their exceptions, and the checker tests it for loops and gaps. It branches
+  only on disputed facts, disputed readings of a canon, and the internal
+  forum, which it never computes.
 
 > The checker can show that a claim is ill-formed in this grammar. It cannot
 > show that a well-formed claim is true. That judgment belongs to Scripture,
@@ -63,11 +69,14 @@ Running the theory on cases it was never built for has mostly found errors
   whether one norm is teaching or governance, and recency favours opposite
   sides under the two typings. The death penalty turns on the modal type of one
   text and the tier of another.
-- **Schism and the SSPX (1988–2026).** "Incurred", "presumed incurred",
-  "declared" and "suspended" are four states, not one. A class statement is
-  not a declaration about persons. The claim that the Society's confessions are
-  invalid rests on a premise the 2026 texts do not state. See
-  [docs/cases/sspx-2026.md](docs/cases/sspx-2026.md).
+- **Canon law is not weighed.** The first encoding of the SSPX case ran
+  juridical questions through the theological authority graph. That was a
+  type error, and the binary canon-law layer replaced it. On the facts of
+  record, the 2016 papal grant stands until a competent revocation, so the
+  DDF note's "confessions are invalid" holds for some acts and not others.
+  The checker shows exactly which fact would change that. "The process was
+  superfluous" is c. 1717 §1: notoriety can dispense the investigation,
+  never the hearing. See [docs/cases/sspx-2026.md](docs/cases/sspx-2026.md).
 
 ## Quick start
 
@@ -76,7 +85,7 @@ git clone https://github.com/jurisjunction/theological-type-checker
 cd theological-type-checker
 pip install -e ".[mcp]"
 
-ttc-suite                                   # 139 tests, deterministic
+ttc-suite                                   # 144 tests, deterministic
 ttc-check sspx lattice                      # one case, as JSON
 ttc-check --facts examples/new_question.lp  # your own facts
 ttc-mcp                                     # the MCP server (stdio)
@@ -99,7 +108,12 @@ these tools:
   loses across every case
 - `lint`, the static analogy check
 
-Setup and an example session are in [docs/mcp.md](docs/mcp.md).
+It also has `norm_graph` and `norm_check` for the canon-law graph, plus
+tools that let the checker **grow with use**. Your own canons, cases and
+confirmed results are saved to a personal folder and run with every test
+from then on. Setup and an example session are in [docs/mcp.md](docs/mcp.md).
+How to make your checker better every time you use it is in
+[docs/flywheel.md](docs/flywheel.md).
 
 ## Documentation
 
@@ -108,6 +122,8 @@ Setup and an example session are in [docs/mcp.md](docs/mcp.md).
 | [Guide for theologians and canonists](docs/guide-for-theologians-and-canonists.md) | What the checker is, how it reasons, how to read a result |
 | [Findings](docs/findings.md) | What running it has turned up, with test references |
 | [Core Edition](docs/core-edition.md) | The formal statement: axioms, warrants, theorems, every test table |
+| [Canon-law layer](docs/canon-law-layer.md) | Why canon law is binary here, how a canon is encoded, the norm graph |
+| [The flywheel](docs/flywheel.md) | Set up a personal checker in Claude Code that grows with use |
 | [Cases](docs/cases/) | Worked cases with sources |
 | [Research report](docs/research/warrants-and-prior-art.md) | The A4a warrant, prior art in the Navarra school, and the grounds of the reservation of orders |
 | [Encoding guide](docs/encoding-guide.md) | The fact vocabulary, for writing new cases |
@@ -115,7 +131,7 @@ Setup and an example session are in [docs/mcp.md](docs/mcp.md).
 
 ## Status: an evolving research programme
 
-This is version 0.1. The theory has changed every time it met a new case, and
+This is version 0.2. The theory has changed every time it met a new case, and
 that is how it is meant to work. It is judged as a research programme is
 judged (Lakatos): a change must explain more without explaining less, and a
 change made only to rescue a case is not adopted. See [ROADMAP.md](ROADMAP.md)

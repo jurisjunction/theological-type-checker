@@ -29,7 +29,7 @@ are old and well known. Some examples:
 The checker makes such distinctions explicit and mechanical. Each claim is
 entered as typed facts, and the rules report whether the claims fit together.
 
-It does three things:
+It does four things:
 
 1. **It types relations.** A small theory, the *Grammar of the Icon*, says
    what kinds of relation there are (giving being, originating, acting on,
@@ -42,7 +42,11 @@ It does three things:
    protective), a form, a character and a date. Disputed questions split into
    **branches**. A branch is deleted only by a tier-1 act. Lower acts can
    only cleave a branch into a recoverable **shadow**.
-3. **It keeps score honestly.** Every rule is tested on dated historical
+3. **It computes canon law as law.** Canons are dated yes/no rules. Given
+   the facts and the norm in force, an effect follows or it does not, and
+   canonists' opinion fills a gap without ever weighing against the law
+   (c. 19). See [the canon-law layer](canon-law-layer.md).
+4. **It keeps score honestly.** Every rule is tested on dated historical
    cases and on positions the theory claims to forbid. Every rule is also
    deleted in turn to show that some test depends on it.
 
@@ -315,7 +319,7 @@ are in the Core Edition.
 | Degrees of communion; *extra ecclesiam* | A partial order, not a scale; membership binary, communion graded | Core §13 |
 | The 1962 Missal | Governance almost all the way down; what survives *Traditionis custodes* | Core §13 |
 | Translation, custom, salience | Tier 3's internal structure | Core §14 |
-| Schism and the SSPX, 1988–2026 | Incurred, declared and suspended kept apart; a hidden premise in "confessions invalid" | [cases/sspx-2026.md](cases/sspx-2026.md) |
+| Schism and the SSPX, 1988–2026 | Classification on the authority side; incurring, declaration and validity of sacraments computed as canon law | [cases/sspx-2026.md](cases/sspx-2026.md) |
 
 ## 9. Limits
 
@@ -326,7 +330,8 @@ are in the Core Edition.
   document can flip a preference. That is why preference is never resolution.
 - **Some things are kept as prose and not encoded,** such as the banded
   differentiation of the sexes and the liturgy as nuptial. Others are not
-  yet encoded: consent by fraud (c. 1098); supplied jurisdiction (c. 144).
+  yet encoded: consent by fraud (c. 1098), and most of the Code. The
+  canon-law layer grows canon by canon (see [the flywheel](flywheel.md)).
 - **The reservation of orders** enters as a given (OS 4), with its nuptial
   meaning as fittingness (*Inter insigniores* 5). Deriving it from the axioms
   would put a fittingness argument in place of the ground the magisterium
