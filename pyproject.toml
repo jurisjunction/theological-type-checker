@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "theological-type-checker"
+version = "0.1.0"
+description = "A deterministic type checker for theological and canonical claims, with an MCP server for LLM-driven use."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE", "LICENSE-docs"]
+dependencies = ["clingo>=5.6,<6"]
+keywords = ["theology", "canon law", "answer set programming", "datalog", "mcp", "type system"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: Religion",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.optional-dependencies]
+mcp = ["mcp>=2.2,<3"]
+dev = ["pytest>=8", "mcp>=2.2,<3"]
+
+[project.scripts]
+ttc-suite = "theological_type_checker.suite:main"
+ttc-mcp = "theological_type_checker.server:main"
+ttc-check = "theological_type_checker.cli:main"
+
+[project.urls]
+Documentation = "https://github.com/jurisjunction/theological-type-checker/tree/main/docs"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+theological_type_checker = ["lp/*.lp", "guide.md"]

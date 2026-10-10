@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "theological-type-checker": {
+      "type": "stdio",
+      "command": "ttc-mcp",
+      "args": []
+    }
+  }
+}
