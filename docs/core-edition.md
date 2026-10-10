@@ -87,7 +87,7 @@ Each is written as a candidate rule; each produces a violation.
 | Receiver-as-lesser (God; marriage) | A10 | X1, X2 |
 | Functionalist personhood | A10 | X3 |
 | Couple-completion imago | A10 | X4 |
-| States of life ranked by magnitude | A10 | X5 |
+| The gift of self measured by state of life (not the excellence of virginity, DH 1810) | A10 | X5, X5b |
 | Male-as-God / female-as-creature | A2, A9 | X6 |
 | The weld (intensity read as eros) | A7 | X7 |
 | God as apex of the fractal | A11 | X8 |
@@ -249,11 +249,13 @@ fittingness (*Inter insigniores* 5).
 
 ## SEE ALSO
 
+[Being, Relation, and Gift](theology-of-the-core.md) (the same theory in the language of the discipline),
 [ttc(7)](guide-for-theologians-and-canonists.md), [ttc-findings(7)](findings.md),
 [ttc-canon(5)](canon-law-layer.md), [research report](research/warrants-and-prior-art.md)
 
 ## BUGS
 
 P3 said "cannot" and meant "ought not". A9 said "is" and meant "is called
-to be". Both were found by running the checker on cases the paper never
+to be". X5 forbade ranking states of life, which Trent does (DH 1810); it
+now forbids measuring the gift of self by state, which Trent does not. Both were found by running the checker on cases the paper never
 considered. There are probably more.

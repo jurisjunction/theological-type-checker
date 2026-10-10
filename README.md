@@ -31,7 +31,7 @@ does not check them for truth. It has three layers, used as an ordered pair
 
 Encoding is interpretation. Checking is mechanical. Do not confuse them.
 
-**ttc-suite** runs 148 scenarios. **ttc-check** runs one case.
+**ttc-suite** runs 149 scenarios. **ttc-check** runs one case.
 **ttc-library** prints a fetch list of physical copies, with the nearest
 library first. **ttc-mcp** serves all of it to a language model. The model
 reads the texts; **ttc** computes what follows.
@@ -77,6 +77,7 @@ finding, not an inconvenience.
 
 ## SEE ALSO
 
+[Being, Relation, and Gift](docs/theology-of-the-core.md) (the theology, in the discipline's language),
 [ttc(7)](docs/guide-for-theologians-and-canonists.md),
 [ttc-findings(7)](docs/findings.md), [ttc-core(5)](docs/core-edition.md),
 [ttc-canon(5)](docs/canon-law-layer.md), [ttc-encoding(5)](docs/encoding-guide.md),

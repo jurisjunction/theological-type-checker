@@ -49,6 +49,19 @@ as a shadow after 1661 (B4).
 
 Every axiom now needs a modal type.
 
+### 3a. A prohibition stated too broadly (X5, X5b)
+
+X5 forbade ranking states of life "by magnitude". Trent teaches that it is
+"better and more blessed" to remain in virginity (Sess. XXIV can. 10, DH
+1810); FC 16 calls the charism superior "by reason of the wholly singular
+link which it has with the Kingdom". As worded, the prohibition contradicted
+a tier-1 canon: refutation condition 1, narrowly avoided. The tradition
+supplies the distinction. The gift of self is total in each state (FC 16).
+The excellence of virginity is its link with the Kingdom, not a larger gift.
+X5 now forbids only the measuring. X5b holds Trent's canon beside it,
+settled, and nothing is violated. This was found while writing the
+exposition in the discipline's own terms, not by the checker.
+
 ### 4. The trinitarian images fail in opposite ways (AN9–AN11, T6)
 
 - **The family** keeps the persons and loses the processions.

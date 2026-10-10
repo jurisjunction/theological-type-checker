@@ -182,8 +182,12 @@ scen("X3", "prohibition", "Functionalist personhood", ["souls", "cand_functional
      [has("image_denied(christ,no_exercised_reason(embryo))")], "violation at the embryonic Christ")
 scen("X4", "prohibition", "Couple-completion imago", ["souls", "cand_couple_completion"],
      [has("image_denied(christ,unmarried)")], "violation at the unmarried Christ")
-scen("X5", "prohibition", "Magnitude-ranking of states of life", ["family", "cand_magnitude"],
-     [has("states_ranked_by_magnitude")], "violation")
+scen("X5", "prohibition", "The gift of self measured by state of life", ["family", "cand_magnitude"],
+     [has("self_gift_ranked_by_state")], "violation")
+scen("X5b", "prohibition", "Trent on virginity (DH 1810) beside the prohibition", ["family", "virginity"],
+     [cls("q(state_excellence)=virginity_more_excellent", "settled"), cls("q(state_excellence)=equal", "excluded"),
+      lambda r: (not any(f.startswith("violation(") for b in r["branches"] for f in b["facts"]), "no violations")],
+     "the excellence of the state is settled at tier 1 and violates nothing: it is not a measure of anyone's gift", mode="branches")
 scen("X6", "prohibition", "Male-as-God / female-as-creature", ["family", "cand_diagram"],
      [has("fails_to_distinguish")], "violation")
 scen("X7", "prohibition", "The weld (intensity read as eros)", ["friendship", "cand_weld"],

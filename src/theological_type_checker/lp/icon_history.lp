@@ -432,6 +432,14 @@ info(missing_bond(sspx,B)) :- bond_kind(B), not has(sspx,B).
 #program cand_dissent_as_schism. classified_on(sspx,schism_c751,dissent_from(dignitatis_humanae)).
 #program cand_infer_adherence.   formal_adherence(P,system) :- attends(P,sspx_mass).
 
+% ---------- Virginity and marriage ------------------------------------
+#program virginity.            % Trent, Sess. XXIV can. 10 (DH 1810); FC 16
+question(q(state_excellence)). question_kind(q(state_excellence),doctrinal).
+value(q(state_excellence),virginity_more_excellent). value(q(state_excellence),equal).
+source(trent_1563_c10,1,truth,1563). supports(trent_1563_c10,q(state_excellence),virginity_more_excellent).
+source(fc16,3,truth,1981). papal_form(fc16,ordinary). character(fc16,exhortation).
+supports(fc16,q(state_excellence),virginity_more_excellent).
+
 #program a9_universal.            % the old reading of A9, for comparison
 a9_universal.
 

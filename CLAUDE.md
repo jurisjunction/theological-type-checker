@@ -58,7 +58,11 @@ with it disabled.
    time.
 9. **Keep `docs/encoding-guide.md` identical to `guide.md`.**
 10. **Write docs in the house style:** a BSD man page, terse, sections in
-    capitals, opinions confined to BUGS and CAVEATS.
+    capitals, opinions confined to BUGS and CAVEATS. Two exceptions stay
+    prose. `docs/theology-of-the-core.md` is a theological treatise in the
+    manner of Clarke's *The One and the Many*: the discipline's vocabulary
+    only, no notation in the body (the concordance maps it). The research
+    report is an evidence record.
 11. **Run `pytest -q` before every commit.**
 
 While the person is growing their own checker, write to their layer with

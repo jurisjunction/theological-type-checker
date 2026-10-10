@@ -17,8 +17,8 @@ denies_image(X,no_exercised_reason(S)) :- stage(X,S), not exercises_reason(X,S).
 #program cand_couple_completion.        % the unmarried as half an icon
 denies_image(X,unmarried) :- human_nature(X), not married(X).
 
-#program cand_magnitude.                % states of life ranked by magnitude
-magnitude(consecrated,2). magnitude(married,1).
+#program cand_magnitude.                % the gift of self measured by state of life
+self_gift_measure(consecrated,2). self_gift_measure(married,1).
 
 #program cand_diagram.                  % male-as-God / female-as-creature
 says_unary(d1,receptive,woman).

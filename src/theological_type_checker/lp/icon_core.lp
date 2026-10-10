@@ -167,7 +167,12 @@ consubstantial(X,Y) :- divine(X), divine(Y), X != Y.
 equal_dignity(X,Y)  :- created_person(X), created_person(Y), X != Y.
 violation(receiver_ranked_lower(X,Y)) :- less(X,Y), consubstantial(X,Y).
 violation(receiver_ranked_lower(X,Y)) :- less(X,Y), equal_dignity(X,Y).
-violation(states_ranked_by_magnitude(V1,V2)) :- magnitude(V1,M1), magnitude(V2,M2), M1 < M2.
+% States of life: the gift of self is total in each (FC 16: two ways of living the
+% one mystery of the covenant), so no state may be credited with a greater gift of
+% self, and no person ranked by state. The objective excellence of virginity for the
+% Kingdom (Trent, Sess. XXIV can. 10, DH 1810; FC 16) is another relation: the
+% state's singular link with the Kingdom, not the measure of a person's gift.
+violation(self_gift_ranked_by_state(V1,V2)) :- self_gift_measure(V1,M1), self_gift_measure(V2,M2), M1 < M2.
 
 % ---------- A11  God outside the order; sorted predicates ------------
 violation(god_inside_level_order(G)) :- level(G,_), god(G).

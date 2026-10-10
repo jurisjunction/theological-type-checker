@@ -132,7 +132,7 @@ ttc-check sspx lattice
 
 ## SEE ALSO
 
-[ttc(1)](../README.md), [ttc-findings(7)](findings.md), [ttc-core(5)](core-edition.md),
+[Being, Relation, and Gift](theology-of-the-core.md) (this page's matter, written as theology), [ttc(1)](../README.md), [ttc-findings(7)](findings.md), [ttc-core(5)](core-edition.md),
 [ttc-encoding(5)](encoding-guide.md), [ttc-flywheel(7)](flywheel.md)
 
 ## STANDARDS

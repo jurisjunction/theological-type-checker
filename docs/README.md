@@ -9,7 +9,8 @@
 | Page | Contents |
 | --- | --- |
 | [ttc(1)](../README.md) | commands, environment |
-| [ttc(7)](guide-for-theologians-and-canonists.md) | concepts; start here |
+| [Being, Relation, and Gift](theology-of-the-core.md) | the theology of the core, in the discipline's own language; start here if you are a theologian |
+| [ttc(7)](guide-for-theologians-and-canonists.md) | concepts; start here if you are not |
 | [ttc-findings(7)](findings.md) | what it found |
 | [ttc-core(5)](core-edition.md) | axioms, theorems, tests |
 | [ttc-canon(5)](canon-law-layer.md) | canon law as rules; the norm graph |
@@ -22,4 +23,5 @@
 
 ## BUGS
 
-The research report is prose and stays prose. Evidence does not compress.
+The research report and the theological exposition are prose and stay prose.
+Evidence does not compress, and neither does theology.
