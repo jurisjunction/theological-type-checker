@@ -1,58 +1,66 @@
-# Working in this repository
+# CLAUDE(5)
 
-This is a deterministic checker for theological and canonical claims, built
-on answer-set programming (clingo). Three layers live in
-`src/theological_type_checker/lp/`:
+## NAME
 
-- **Core grammar** (`icon_core.lp`, `icon_analogy.lp`, `icon_models.lp`,
-  `icon_tests.lp`): typed relations, with the analogia entis enforced as a
-  sort discipline.
-- **Authority graph** (`icon_authority.lp`, `icon_history.lp`): tiers,
-  forms, dates, and branches and shadows for *teaching*.
-- **Canon-law layer** (`canon_law.lp`, `canon_cases.lp`): yes/no rules for
-  *law*, dated and tagged as a norm graph.
+**CLAUDE.md** — rules for working in this repository
 
-The suite is `src/theological_type_checker/suite.py`. The MCP server is
-`server.py`.
+## DESCRIPTION
 
-## Commands
+This is a deterministic checker for theological and canonical claims
+(clingo). The rule base is in `src/theological_type_checker/lp/`:
 
-```bash
+| Layer | Files |
+| --- | --- |
+| grammar | `icon_core.lp`, `icon_analogy.lp`, `icon_models.lp`, `icon_tests.lp` |
+| authority (teaching) | `icon_authority.lp`, `icon_history.lp` |
+| canon (law) | `canon_law.lp`, `canon_cases.lp` |
+| pair, frontier | `pair.lp` |
+| library | `library.lp` |
+
+The suite is `suite.py`, the server is `server.py`, the fetch lists are
+`library.py`, the norm graph is `norms.py`.
+
+## COMMANDS
+
+```
 pip install -e ".[dev]"
-pytest -q                      # the suite plus engine guards
-ttc-suite                      # the suite, readable
-ttc-check sspx lattice         # one case, as JSON
+pytest -q
+ttc-suite
+ttc-check sspx lattice
+ttc-library ic --near 41.90,12.45
 ```
 
-The personal layer loads from `$TTC_HOME` (default `~/.ttc` if it exists).
-Tests run with it disabled.
+The personal layer is `$TTC_HOME` (default `~/.ttc` if present). Tests run
+with it disabled.
 
-## House rules
+## RULES
 
-1. **Theology branches; canon law is binary.** Do not put juridical
-   questions into the authority graph or give canonists' opinions weight
-   against the law. In canon law, branch only on a disputed fact, a disputed
+1. **The ordered pair.** Teaching first, law ordered to it. Theology facts
+   go on the authority graph; juridical facts go in the canon layer. Link
+   them only with `classification/3` and `premise/3`. Law never answers a
+   doctrinal question.
+2. **Canon law is binary.** It branches only on a disputed fact, a disputed
    reading with no authentic interpretation, or the internal forum.
-2. **Never compute anyone's imputability, intention or interior state.**
-   These are inputs from the internal forum (the rule of non-diagnosis).
-3. **Cite primary sources.** Every canon-law rule sits under a
-   `% @norm <id> | <citation> | <URL>` tag. Primary texts come from
-   iuscangreg (https://www.iuscangreg.it/, the Gregorian's Faculty of Canon
-   Law): `cic1983.php` for the Code, `diritto_tutto.php` for extra-codal
-   legislation, `risposte.php` for authentic interpretations, and
-   `cic1917.php` for earlier versions. vatican.va also has the current
-   English text of the Code.
-   Declare new fact slots with `% @input`.
-4. **Every new rule needs a test that fails without it.** Delete the rule,
-   rerun, and confirm something turns red. Keep `norm_check` clean (test
-   CL1).
-5. **Hypothetical facts only in switch programs,** marked `HYPOTHETICAL`.
-6. **A red test is a finding.** Never change an existing expectation to make
-   a change pass without saying so plainly and giving the reason.
-7. **Keep the encoding guide in sync.** `docs/encoding-guide.md` is a copy of
-   `src/theological_type_checker/guide.md`, and a test checks they match.
-8. **Run `pytest -q` before every commit.**
+   Canonists never weigh against the law.
+3. **Non-diagnosis.** Never compute imputability, intention or interior
+   state.
+4. **Primary sources.** Every canon-law rule sits under
+   `% @norm id | citation | URL`. Texts come from iuscangreg
+   (https://www.iuscangreg.it/: `cic1983.php`, `diritto_tutto.php`,
+   `risposte.php`, `cic1917.php`) or vatican.va. Declare new slots with
+   `% @input`.
+5. **A test per rule.** Each rule needs a test that fails without it. Keep
+   CL1 and PR4 clean.
+6. **Hypothetical facts go in switch programs only,** marked `HYPOTHETICAL`.
+7. **A red test is a finding.** Never change an expectation without
+   stating the change and the reason.
+8. **No hand-entered ISBNs or OCLC numbers.** They are resolved at fetch
+   time.
+9. **Keep `docs/encoding-guide.md` identical to `guide.md`.**
+10. **Write docs in the house style:** a BSD man page, terse, sections in
+    capitals, opinions confined to BUGS and CAVEATS.
+11. **Run `pytest -q` before every commit.**
 
-When the person is growing their own checker, save to their personal layer
-with the MCP tools (`save_rules`, `save_case`, `save_scenario`). Change the
-public rule base only when they ask for it.
+While the person is growing their own checker, write to their layer with
+`save_rules`, `save_case`, `save_scenario` and `mark_consulted`. Change the
+public base only when asked.

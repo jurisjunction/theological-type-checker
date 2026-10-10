@@ -1,11 +1,16 @@
-# Examples
+# EXAMPLES(7)
 
-- `new_question.lp`: the minimal case from the encoding guide. Run
-  `ttc-check --facts examples/new_question.lp`; "yes" is settled and "no" is a
-  live shadow of the encyclical. Change the encyclical's character to
-  `interview` and both become open.
-- `hypothetical_papal_act.lp`: a *hypothetical* papal act, not a real one, on
-  the SSPX faculty question. Run `ttc-check sspx lattice --facts
-  examples/hypothetical_papal_act.lp`. The question, open on the real sources,
-  closes: "none" is settled and "granted" becomes a shadow. This is what "only a
-  papal act settles it" means.
+## NAME
+
+**examples** — two files to run
+
+## DESCRIPTION
+
+| File | Run | Shows |
+| --- | --- | --- |
+| `new_question.lp` | `ttc-check --facts examples/new_question.lp` | `yes` settled, `no` a shadow. Make the encyclical an `interview` and both open. |
+| `hypothetical_papal_act.lp` | `ttc-check sspx lattice --facts examples/hypothetical_papal_act.lp` | A HYPOTHETICAL papal revocation of the 2016 grant. `abs_after` comes out invalid and a c. 1379 delict; `abs_2026` (before it) stays valid. Only a papal act does this. |
+
+## BUGS
+
+Two examples. The suite has 148 more.

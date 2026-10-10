@@ -664,10 +664,14 @@ scen("SX10", SC, "2026: the consecrations", SX,
      "schismatic act settled; the Society's schism settled; the basis is the act, so no category error", mode=B)
 # canon-law side: binary, from the facts and the norms in force
 scen("SX11", SC, "Incurred and declared, recourse pending", SX,
-     [info_all("presumed_incurred(fellay,n1387)", "presumed_incurred(fellay,n1364)", "presumed_incurred(schreiber,n1387)",
-               "declaration_suspended(ddf_decree_2026,fellay)", "investigation_dispensable(ddf_decree_2026,fellay)"),
+     [info_all("presumed_incurred(fellay,n1387)", "presumed_incurred(schreiber,n1387)",
+               "declaration_suspended(ddf_decree_2026,fellay)", "investigation_dispensable(ddf_decree_2026,galarreta)"),
+      # changed with the ordered pair (and the investigation check moved from
+      # Fellay, whose declared title is c. 1364, to de Galarreta, c. 1387): c. 1364 now applies only in the branches
+      # that classify the act as schismatic (all main branches), not in the shadow
+      main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1364)"),
       info_none("declared(")],
-     "presumed incurred (c. 1321 §4) under c. 1387 even as co-consecrator; declaration suspended (c. 1353)", mode=B)
+     "presumed incurred (c. 1321 §4) under c. 1387 even as co-consecrator, and under c. 1364 where the act is classified as schismatic; declaration suspended (c. 1353)", mode=B)
 scen("SX12", SC, "Recourse decided", SX + ["recourse_decided_2026"],
      [info_all("declared(fellay,n1364)", "declared(galarreta,n1387)"),
       lambda r: (0 < sum(any("ground_for_recourse(ddf_decree_2026,fellay" in f for f in b["facts"]) for b in r["branches"]) < len(r["branches"]),
@@ -716,6 +720,44 @@ scen("SX22", SC, "c. 751 read as a state, not an act", SX + ["c751_state_reading
 scen("SX23", SC, "The lattice now", SXE,
      [info_all("degree(sspx,above,orthodox)"), info_none("church_proper(sspx)", "missing_bond(sspx,faculties_confession)")],
      "the faculties stand on the record; the Society's sort is unchanged", mode=B)
+
+
+# the ordered pair: teaching first, law ordered to it
+def _by_value(qv, sub, present):
+    def chk(r):
+        bs = [b for b in r["branches"] if qv in b["values"]]
+        hits = [any(sub in f for f in b["facts"]) for b in bs]
+        ok = bool(bs) and (all(hits) if present else not any(hits))
+        return ok, f"{qv}: {sub} {'in every such branch' if bs and all(hits) else 'in none' if not any(hits) else 'in some'}"
+    return chk
+
+PR = "pair"
+scen("PR1", PR, "The law follows the theological branch", SX,
+     [_by_value("q(act2026_schismatic)=yes", "delict(fellay,n1364,", True),
+      _by_value("q(act2026_schismatic)=no", "delict(fellay,n1364,", False),
+      _by_value("q(act2026_schismatic)=no", "presumed_incurred(fellay,n1387)", True),
+      info_none("law_without_premise")],
+     "where the act is classified as schismatic, c. 1364 applies; where not, only c. 1387; no mismatch", mode=B)
+scen("PR2", PR, "The law applied without regard to the theological branch", SX + ["cand_uncoupled"],
+     [_by_value("q(act2026_schismatic)=no", "law_without_premise(n1364,", True)],
+     "violation: a canon applied where its theological premise fails", mode=B)
+scen("PR3", PR, "A canon-law result used to settle a doctrinal question", ["ecumenism", "lattice", "cand_law_answers_teaching"],
+     [any_branch_violation("teaching_from_law(q(church_identity))")],
+     "violation: law never answers a doctrinal question", mode=B)
+
+
+def _theology_frontier(r):
+    found = set()
+    from .engine import known_parts
+    for p, f in known_parts().items():
+        if f in ("icon_history.lp",):
+            for a in solve([p], "one")["atoms"]:
+                if a.startswith("frontier(theology,"):
+                    found.add(a)
+    return not found, "; ".join(sorted(found)) or "nothing cited and unencoded, no question without sources"
+
+scen("PR4", PR, "The theological frontier of the public base is empty", [], [_theology_frontier],
+     "every cited source encoded; every question sourced; every teaching source has a character")
 
 
 def _norm_check(r):

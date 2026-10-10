@@ -71,3 +71,67 @@ def test_flywheel_saves_only_what_passes(tmp_path, monkeypatch):
     breaking = server.save_rules("breaker", "a9_universal.")
     assert breaking["saved"] is False and breaking["newly_failing"]
     assert not (tmp_path / "rules" / "breaker.lp").exists()
+
+
+def _fake_http(method, url, headers=None, data=None, timeout=20):
+    if url.startswith("https://oauth.oclc.org/token"):
+        return 200, json.dumps({"access_token": "T"}).encode()
+    if url.startswith("https://openlibrary.org/search.json"):
+        oclc = ["123"] if "Scotus" in url else []
+        return 200, json.dumps({"docs": [{"key": "/works/OL1W", "oclc": oclc, "isbn": []}]}).encode()
+    if "/bibs-holdings" in url:
+        return 200, json.dumps({"briefRecords": [{"institutionHolding": {"briefHoldings": [
+            {"institutionName": "Far Library", "oclcSymbol": "FAR", "address": {"city": "Florence", "lat": 43.77, "lon": 11.25}},
+            {"institutionName": "Near Library", "oclcSymbol": "NEA", "address": {"city": "Rome", "lat": 41.904, "lon": 12.454}}]}}]}).encode()
+    return 200, json.dumps({"bibRecords": []}).encode()
+
+
+def test_fetch_list_without_credentials(monkeypatch):
+    from theological_type_checker import library
+    monkeypatch.delenv("OCLC_CLIENT_ID", raising=False)
+    rep = library.build(["ic"], near="41.90,12.45", include_reading=False, get=lambda *a, **k: (0, b"offline"))
+    md = library.to_markdown(rep)
+    assert "Not yet placed" in md and "search.worldcat.org" in md and "verify scotus" in md
+    assert "Comentario" not in md
+    full = library.to_markdown(library.build(["ic"], include_reading=True, get=lambda *a, **k: (0, b"offline")))
+    assert "Comentario exegético" in full and "read: Bañares" in full
+
+
+def test_fetch_list_nearest_first(monkeypatch):
+    from theological_type_checker import library
+    monkeypatch.setenv("OCLC_CLIENT_ID", "id")
+    monkeypatch.setenv("OCLC_CLIENT_SECRET", "secret")
+    rep = library.build(["ic"], near="41.9029,12.4534", include_reading=False, get=_fake_http)
+    scotus = next(w for w in rep["works"] if w.id == "scotus_vat")
+    assert [h["name"] for h in scotus.holdings] == ["Near Library", "Far Library"]
+    assert scotus.holdings[0]["km"] < 1 < scotus.holdings[1]["km"]
+    assert library.to_markdown(rep).index("Near Library") < library.to_markdown(rep).index("Not yet placed")
+
+
+def test_consulted_sources_leave_the_list(tmp_path, monkeypatch):
+    pytest.importorskip("mcp")
+    monkeypatch.setenv("TTC_HOME", str(tmp_path))
+    from theological_type_checker import library, server
+    assert any(w.id == "scotus_vat" for w in library.wanted(["ic"], include_reading=False))
+    server.mark_consulted("scotus", "Vatican ed. vol. IX, checked")
+    assert not any(w.id == "scotus_vat" for w in library.wanted(["ic"], include_reading=False))
+
+
+def test_case_sides_are_kept_apart(tmp_path, monkeypatch):
+    pytest.importorskip("mcp")
+    monkeypatch.setenv("TTC_HOME", str(tmp_path))
+    from theological_type_checker import server
+    with pytest.raises(Exception):
+        server.save_case("mixed", theology="decree(d,ddf,20260101).")
+    with pytest.raises(Exception):
+        server.save_case("mixed", canon="source(s,3,truth,2000).")
+
+
+def test_theology_frontier_reports_what_is_missing():
+    facts = ("source(x,3,truth,2000). character(x,letter). cites(x,y). question(q(z)). value(q(z),a). value(q(z),b). "
+             "source(w,3,truth,2001). ambiguous(w).")
+    atoms = set(engine.solve([], "one", facts=facts)["atoms"])
+    assert "frontier(theology,cited_not_encoded(y,x))" in atoms
+    assert "frontier(theology,question_without_sources(q(z)))" in atoms
+    assert "frontier(theology,ambiguous_without_readings(w))" in atoms
+    assert "frontier(theology,teaching_without_character(w))" in atoms

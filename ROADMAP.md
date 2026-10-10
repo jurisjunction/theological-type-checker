@@ -1,64 +1,45 @@
-# Roadmap
+# TODO(7)
 
-The theory is evolving, and so is this list. Items are grouped by what they
-would test.
+## NAME
 
-## The theory
+**todo** — what is open
 
-- **Modal types on every axiom.** Two axioms overstated their modality: P3
-  ("cannot" for "ought not") and A9 ("is" for "is called to be"). Every axiom
-  should carry a modal type (*is*, *ought*, *called*, *held in trust*), and
-  the checker should flag one used outside its type.
-- **Sources for the bridges.** Give each analogy bridge and each kind bridge a
-  source in the authority graph, so that a tier-1 text could overrule a mode.
-  The analogia entis would then sit inside the analogia fidei by rule, not
-  only by design.
-- **A dated retrodiction.** No retrodiction is yet graded A: none was
-  derived before its target was consulted. Derive first, date it, then look.
-- **Not yet encoded:** consent by fraud (c. 1098; VS 78); P8's banded sexual
-  differentiation; P11 on the liturgy; PC 5.
+## THEORY
 
-## The canon-law layer
+- A modal type on every axiom: *is*, *ought*, *called*, *held in trust*.
+- Sources for the bridges, so that tier 1 can overrule a mode.
+- A grade-A retrodiction: derive first, date it, then look.
+- Not encoded: c. 1098 (fraud; VS 78), P8 (banded differentiation), P11
+  (liturgy), PC 5.
 
-- **The frontier** (`norm_check`): the effects of interdict (c. 1332), c. 1352
-  (when an undeclared penalty need not be observed), c. 1313 (the more
-  favourable law after a change), the DDF's special norms (*Sacramentorum
-  sanctitatis tutela*), and the PCLT note of 24 August 1996 on formal
-  adherence.
-- **Marriage law (Book IV),** the home of the original grammar's
-  retrodictions (cc. 1057, 1084, 1091, 1134–1135), as binary rules.
-- **Authentic interpretations** from the Dicastery for Legislative Texts, as
-  `authentic_reading/3` facts.
-- **The outcome of the SSPX recourse** (filed 11 July 2026), when known.
+## CANON
 
-## The authority layer
+- Frontier: c. 1332, c. 1352, c. 1313, *Sacramentorum sanctitatis tutela*,
+  and the PCLT note of 24 August 1996.
+- Book IV marriage law as rules: cc. 1057, 1084, 1091, 1134–1135.
+- Authentic interpretations from iuscangreg `risposte.php`.
+- The outcome of the SSPX recourse.
 
-- **Bridges between tiers** for theologians who are later declared Doctors,
-  and for texts later received as definitive.
+## LIBRARY
 
-## Cases wanted
+- Run the WorldCat client against the live service and fix what breaks.
+- Call numbers from local catalogues.
+- `cites_work` for every source in the base, not only those encoded so far.
 
-Questions with a documented history are the best tests. Some candidates:
+## CASES
 
-- the Filioque in ecumenical dialogue (Lyons II, Florence, the 1995 PCPCU
-  clarification)
-- religious liberty from the nineteenth-century condemnations to *Dignitatis
-  humanae*
-- usury, as a case of development
-- the validity and liceity of sacraments in separated communities beyond the
-  Anglican case
-- the 2023 declaration *Fiducia supplicans*: teaching or governance?
+- The Filioque (Lyons II, Florence, PCPCU 1995).
+- Religious liberty, nineteenth century to *Dignitatis humanae*.
+- Usury.
+- Orders in separated communities beyond the Anglican case.
+- *Fiducia supplicans* (2023): teaching or governance?
 
-## Engineering
+## RESEARCH
 
-- A port of the stratified Datalog part to Soufflé.
-- A web front end that shows branches and shadows graphically.
-- Larger-scale encodings assisted by a model, with a person reviewing each
-  encoding choice.
+Bañares on cc. 1057, 1084 and 1091, and Fornés on cc. 1134–1135, are
+unread. They may already contain what the theory claims is new. See
+`ttc-library`.
 
-## Open research checks
+## BUGS
 
-From the [research report](docs/research/warrants-and-prior-art.md):
-unread Navarra commentaries (Bañares on cc. 1057, 1084 and 1091; Fornés on
-cc. 1134–1135) could still contain the systematic reading the theory claims
-is absent.
+This list grows faster than it shrinks.

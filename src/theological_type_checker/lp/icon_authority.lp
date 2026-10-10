@@ -34,7 +34,9 @@ withdrawn_now(S) :- withdrawn(S,Y), asof(A), Y <= A.        % a later act replac
 in_force(S)     :- source(S,_,_,Y), asof(A), Y <= A, not relaxed(S), not withdrawn_now(S).
 
 % ---------- Ambiguous texts: one branch per reading -------------------
-1 { read_as(S,R) : reading(S,R) } 1 :- ambiguous(S), in_force(S).
+% a source marked ambiguous but given no readings is a frontier item, not a contradiction
+readable(S) :- reading(S,_).
+1 { read_as(S,R) : reading(S,R) } 1 :- ambiguous(S), in_force(S), readable(S).
 supports(S,Q,V) :- read_as(S,R), reads(S,R,Q,V).
 
 % ---------- "Taught by the ordinary and universal magisterium" ---------

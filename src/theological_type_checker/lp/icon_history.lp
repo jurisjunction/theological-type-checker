@@ -436,7 +436,7 @@ info(missing_bond(sspx,B)) :- bond_kind(B), not has(sspx,B).
 a9_universal.
 
 #program cand_tier3_contrary.     % a tier-3 teaching against the tier-2 one
-source(t3_against,3,truth,2010). supports(t3_against,q(d1),no).
+source(t3_against,3,truth,2010). supports(t3_against,q(d1),no). character(t3_against,letter).
 #program assume_t2. :- not t2_truth.
 
 #program readings_tie.            % synthetic: two readings that fit equally well
@@ -445,6 +445,7 @@ question(q(y)). question_kind(q(y),doctrinal). value(q(y),c). value(q(y),d).
 source(s_amb,3,truth,2000). ambiguous(s_amb). reading(s_amb,r1). reading(s_amb,r2).
 reads(s_amb,r1,q(x),a). reads(s_amb,r2,q(y),c).
 source(s_int,3,truth,2001). interprets(s_int,s_amb,r1).
+character(s_amb,letter). character(s_int,letter).
 
 #program hypothetical_definition. % what a tier-1 act would settle
 source(def_t2,1,truth,2030). meta_supports(def_t2,t2_truth).

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "theological-type-checker"
-version = "0.2.0"
+version = "0.3.0"
 description = "A deterministic type checker for theological and canonical claims, with an MCP server for LLM-driven use."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -26,6 +26,7 @@ dev = ["pytest>=8", "mcp>=2.2,<3"]
 ttc-suite = "theological_type_checker.suite:main"
 ttc-mcp = "theological_type_checker.server:main"
 ttc-check = "theological_type_checker.cli:main"
+ttc-library = "theological_type_checker.library:main"
 
 [project.urls]
 Documentation = "https://github.com/jurisjunction/theological-type-checker/tree/main/docs"

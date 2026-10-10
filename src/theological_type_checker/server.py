@@ -18,38 +18,31 @@ import hashlib
 import json
 
 from . import __version__
-from . import engine, norms, suite
+from . import engine, library, norms, suite
 
 HERE = pathlib.Path(__file__).resolve().parent
 GUIDE = (HERE / "guide.md").read_text()
 
 INSTRUCTIONS = """\
-A deterministic type checker for theological and canonical claims. It has
-three layers. A core grammar types relations (being, origination, action,
-nuptial gift, side-by-side), with the analogia entis enforced as a sort
-discipline. An authority graph tiers sources (c. 750 §1, §2, c. 752,
-Doctors, theologians), dates them, and splits every disputed question into
-branches. A canon-law layer computes juridical effects as yes/no rules
-from facts and the norms in force; it branches only on disputed facts,
-disputed readings of a canon, and the internal forum, which it never
-computes.
+Deterministic type checker for theological and canonical claims. Three
+layers, used as an ordered pair (teaching first, law ordered to it):
+grammar (typed relations; analogy as a sort discipline), authority (tiers,
+forms, dates; questions branch; only tier 1 deletes), canon (canons as
+dated yes/no rules; branches only on disputed facts, disputed readings, or
+the internal forum, which is never computed).
 
-Your job is the interpretation: turning a text into facts. The checker's
-job is the consequences. Before encoding anything, call `guide`. Start from
-the nearest existing case (`list_parts`, `read_part`). Run `check` and read
-the result as branches, not verdicts. When the checker disagrees with an
-author, treat that as a question (is the checker wrong, or the
-literature?) and test the checker's side with `fix_method`.
+You interpret; the checker computes. Call `guide` before encoding. Start
+from the nearest case (`list_parts`, `read_part`). Read results as branches,
+not verdicts. When the checker and a text disagree, ask which is wrong, and
+test the checker's side with `fix_method`.
 
-The checker grows with use. When a needed canon is missing, fetch its primary
-text, encode it as tagged rules and propose saving it (`save_rules`); when the
-person confirms a result, record it as a test (`save_scenario`). See
-`flywheel_status`.
+It grows with use: `flywheel_status` shows the frontier (theology, canon,
+library); `save_rules`, `save_case` (theology, then canon), `save_scenario`
+and `mark_consulted` record what the person has confirmed;
+`library_fetch_list` gives the books still owed, nearest library first.
 
-Never compute anyone's imputability or interior state: that is an input
-from the internal forum (the rule of non-diagnosis). The checker can show
-that a claim is ill-formed in this grammar. It cannot show that a
-well-formed claim is true.
+Never compute anyone's interior. The checker shows that a claim is
+ill-formed. It does not show that a well-formed claim is true.
 """
 
 server = MCPServer(name="theological-type-checker", title="Theological Type Checker",
@@ -289,6 +282,17 @@ def norm_check() -> dict:
 
 
 # ---------- the flywheel: a personal layer that grows with use ---------------
+def theology_frontier() -> list[str]:
+    """Frontier items of the theological side, across every case part."""
+    found = set()
+    for name, (f, _, block) in _part_blocks().items():
+        if _kind(name, f, block) != "case":
+            continue
+        for a in engine.solve([name], "one")["atoms"]:
+            if a.startswith("frontier(theology,"):
+                found.add(a[len("frontier(theology,"):-1])
+    return sorted(found)
+
 _NAME = re.compile(r"^[a-z][a-z0-9_]{0,47}$")
 
 
@@ -311,8 +315,10 @@ def flywheel_status(run_tests: bool = False) -> dict:
     out = {"personal_folder": str(home) if home else None,
            "rule_files": [f.name for f in engine.personal_rule_files()],
            "scenarios": len(engine.personal_scenarios_raw()),
-           "norms_encoded": len(norms.graph()["norms"]),
-           "frontier": norms.check()["undefined_predicates"]}
+           "frontier": {"theology": theology_frontier(),
+                        "canon": norms.check()["undefined_predicates"],
+                        "library": [w.id for w in library.wanted()]},
+           "norms_encoded": len(norms.graph()["norms"])}
     if run_tests:
         rows = suite.run()
         out["suite"] = {"passed": sum(r["ok"] for r in rows), "total": len(rows),
@@ -342,23 +348,48 @@ def save_rules(name: str, rules: str, force: bool = False) -> dict:
     return {"saved": True, "file": str(home / "rules" / f"{name}.lp"), **report}
 
 
+THEOLOGY_ONLY = ("source(", "supports(", "question(", "value(", "question_kind(", "character(", "papal_form(",
+                 "cites(", "reaffirms(", "interprets(", "ambiguous(", "reading(", "reads(", "oum_claim(", "protects(")
+CANON_ONLY = ("consecration(", "co_consecrator(", "decree(", "declares(", "heard(", "recourse(", "grant(",
+              "permission(", "revocation(", "absolution(", "marriage(", "delegation(", "remission(", "asserts(")
+
+
+def _layer_lint(text, forbidden, layer):
+    code = re.sub(r"%.*", "", text)
+    hits = sorted({f.rstrip("(") for f in forbidden if re.search(r"(?<![\w])" + re.escape(f), code)})
+    if hits:
+        raise ValueError(f"the {layer} side may not contain {', '.join(hits)}: "
+                         "theology goes in `theology`, canon law in `canon` (house rule 1)")
+
+
 @server.tool()
 @_friendly
-def save_case(part: str, facts: str, note: str = "") -> dict:
-    """Save a case to the personal layer as a new part: facts (and any rules
-    specific to the case) under `#program <part>.`, in
-    $TTC_HOME/rules/case_<part>.lp. The part can then be named in `check`
-    and in scenarios. Write facts only from sources you can cite, and say in
-    the note where they come from."""
+def save_case(part: str, theology: str = "", canon: str = "", note: str = "") -> dict:
+    """Save a case to the personal layer as an ordered pair, theology first and
+    canon law second, both under `#program <part>.` in
+    $TTC_HOME/rules/case_<part>.lp.
+
+    theology: questions, sources, readings (the authority graph).
+    canon: events, decrees, grants, acts (the canon-law layer). Link the two
+    with classification(Q,Event,Kind) and premise(Norm,Q,V), which go on the
+    canon side: the law follows the teaching, never the reverse.
+    Write facts only from sources you can cite; say where in `note`.
+    """
     if not _NAME.match(part):
         raise ValueError("part must be lowercase letters, digits and underscores")
     if part in engine.known_parts() and not (engine.ttc_home() and (engine.ttc_home() / "rules" / f"case_{part}.lp").exists()):
         raise ValueError(f"part {part!r} already exists in the base; choose another name")
-    engine.check_snippet(facts)
+    if not (theology.strip() or canon.strip()):
+        raise ValueError("give the theology side, the canon side, or both")
+    engine.check_snippet(theology)
+    engine.check_snippet(canon)
+    _layer_lint(theology, CANON_ONLY, "theology")
+    _layer_lint(canon, THEOLOGY_ONLY, "canon")
     home = _home()
     header = "".join(f"% {line}\n" for line in note.splitlines()) if note else ""
     path = home / "rules" / f"case_{part}.lp"
-    path.write_text(f"{header}#program {part}.\n{facts.rstrip()}\n")
+    path.write_text(f"{header}#program {part}.\n% --- theology (first) ---\n{theology.rstrip()}\n"
+                    f"% --- canon law (ordered to it) ---\n{canon.rstrip()}\n")
     try:
         r = engine.run_checked([part])
     except engine.SnippetError:
@@ -399,6 +430,42 @@ def save_scenario(id: str, name: str, parts: list[str], expect: list[dict], fact
     return {"saved": True, "id": id, "got": [d for _, d in results]}
 
 
+# ---------- the library: physical copies -------------------------------------
+@server.tool()
+@_friendly
+def library_fetch_list(parts: list[str] | None = None, near: str | None = None, per_item: int = 3,
+                       include_reading: bool = True, format: str = "markdown") -> str | dict:
+    """A fetch list of physical copies: works the encoded sources are read in
+    (not yet consulted, not reliably online) and research the theory still
+    owes, grouped by the nearest library holding each.
+
+    near: "lat,lon" or a place name (default $TTC_LOCATION). Holdings come
+    from the WorldCat Search API when OCLC_CLIENT_ID/OCLC_CLIENT_SECRET are
+    set; otherwise WorldCat links are given. format: markdown, csv or json."""
+    rep = library.build(parts, near, per_item, include_reading)
+    if format == "csv":
+        return library.to_csv(rep)
+    if format == "json":
+        return library.to_json(rep)
+    return library.to_markdown(rep)
+
+
+@server.tool()
+@_friendly
+def mark_consulted(source: str, note: str) -> dict:
+    """Record that a source has been checked against the original (edition,
+    page, date) in the personal layer. It then drops off the fetch list. The
+    note is kept as the record of what was checked."""
+    if not _NAME.match(source):
+        raise ValueError("source must be an encoded source id")
+    home = _home()
+    f = home / "rules" / "consulted.lp"
+    line = f"consulted({source}).   % {' '.join(note.split())}\n"
+    f.write_text((f.read_text() if f.exists() else "% sources checked against the original\n") + line)
+    _BASELINE.clear()
+    return {"recorded": line.strip(), "file": str(f)}
+
+
 # ---------- resources and prompts --------------------------------------------
 @server.resource("ttc://guide", name="guide", mime_type="text/markdown",
                  description="The encoding manual.")
@@ -423,6 +490,8 @@ def type_check_text(text: str, context: str = "") -> str:
 1. Call `guide`, then `list_parts`, and read the nearest existing case with `read_part`.
 2. Identify each claim the text makes. For each, decide the question it answers,
    the question's kind (doctrinal / governance / juridical), and the value it holds.
+   Teaching goes on the theology side; juridical facts on the canon side (the
+   ordered pair: teaching first, law ordered to it).
    Where the text can be read more than one way, encode it as `ambiguous` with
    one `reading` per interpretation rather than choosing.
 3. Enter the text and any sources it relies on or contradicts, each with tier,

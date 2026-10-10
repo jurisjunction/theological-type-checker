@@ -22,7 +22,7 @@ import clingo
 
 LP_DIR = pathlib.Path(__file__).resolve().parent / "lp"
 FILES = ["icon_core.lp", "icon_analogy.lp", "icon_models.lp", "icon_tests.lp",
-         "icon_authority.lp", "icon_history.lp", "canon_law.lp", "canon_cases.lp"]
+         "icon_authority.lp", "icon_history.lp", "canon_law.lp", "canon_cases.lp", "pair.lp", "library.lp"]
 
 # Rule-base overrides for the "fix method": text added to the base, and
 # lines (exact substrings) commented out. Scoped with rule_change().
@@ -185,15 +185,20 @@ def split_args(atom):
     if "(" not in atom:
         return atom, []
     name, body = atom.split("(", 1)
-    body, args, depth, cur = body[:-1], [], 0, ""
+    body, args, depth, cur, in_str, prev = body[:-1], [], 0, "", False, ""
     for ch in body:
-        if ch == "," and depth == 0:
+        if ch == '"' and prev != "\\":
+            in_str = not in_str
+        if ch == "," and depth == 0 and not in_str:
             args.append(cur)
             cur = ""
+            prev = ch
             continue
-        depth += ch == "("
-        depth -= ch == ")"
+        if not in_str:
+            depth += ch == "("
+            depth -= ch == ")"
         cur += ch
+        prev = ch
     args.append(cur)
     return name, args
 

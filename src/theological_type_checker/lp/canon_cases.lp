@@ -45,6 +45,13 @@ co_consecrator((e2026_schreiber;e2026_goldade;e2026_poinsinet;e2026_hanappier),f
 against_explicit_papal_will((e2026_schreiber;e2026_goldade;e2026_poinsinet;e2026_hanappier)).
 claims_necessity(P,E) :- delict(P,_,E), consecration(E,_,_,T), T >= 20260101.
 
+% The ordered pair: the theological classification of each act comes first,
+% and the law follows it branch by branch.
+classification(q(act1988_schismatic),(e1988_fellay;e1988_galarreta),schism).
+classification(q(act2026_schismatic),(e2026_schreiber;e2026_goldade;e2026_poinsinet;e2026_hanappier),schism).
+premise(n1364_1983,q(act1988_schismatic),yes).
+premise(n1364,q(act2026_schismatic),yes).
+
 % 2 July 2026: the DDF decree names six and declares the penalties.
 decree(ddf_decree_2026,ddf,20260702). issuer(ddf_decree_2026,ddf).
 declares(ddf_decree_2026,(galarreta;schreiber;goldade;poinsinet;hanappier),n1387).
@@ -86,5 +93,9 @@ absolution(abs_common_error,sspx_priest_x,penitent_f,20260804). disputed(common_
 #program cand_note_as_declaration.   % the note's class statement read as declaring every priest excommunicated
 treated_as_declaring(ddf_note_2026,sspx_clergy).
 declared_at(P,n1364,T) :- in_class(P,sspx_clergy), instant(T), T >= 20260702.
+#program cand_uncoupled.             % the law applied without regard to the theological branch
+uncoupled.
+#program cand_law_answers_teaching.  % a canon-law result used to settle a doctrinal question
+law_answers(q(church_identity)).
 #program cand_notoriety_dispenses.   % "the act was public, so no hearing was needed"
 notoriety_substitutes(D,P) :- declares(D,P,N), delict(P,N,E), public_act(P,E).

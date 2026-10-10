@@ -1,291 +1,147 @@
-# Things we found along the way
+# TTC-FINDINGS(7)
 
-The checker was built to test one paper, *The Grammar of the Icon*. Running
-it on cases the paper never considered turned up things nobody set out to
-find, most of them about the paper's own axioms. They are collected here
-because they are the best evidence for the method. Each one is
-machine-checked, and the test IDs point into the suite.
+## NAME
 
-Some of these findings correct the theory, some confirm a magisterial text
-the checker was not built to fit, and some are about the method itself. None
-is a verdict on a disputed question. Where a finding touches a contested
-matter, what is reported is the *structure* of the dispute, not who is right.
+**ttc-findings** — what running the checker found, mostly wrong with itself
 
----
+## DESCRIPTION
 
-## 1. Univocity of mode, and what it costs
+Each entry is machine-checked; test IDs are in parentheses. None is a
+verdict on a disputed question. Each reports the structure of a dispute,
+not its winner.
 
-*Tests S3, S4, AN2, AN3, UN1–UN3.*
+### 1. Univocity of mode costs something (S3, S4, UN1–UN3)
 
-The analogy layer (A11) lets a form be shared by God and creatures only
-through a declared **bridge**. A bridge takes God as the primary analogate
-(*per prius et posterius*, ST I q.13 a.6) and states a **mode** on each side.
-The grain of origination (A3: a term has at most one principle) is one such
-form. Its mode is *necessity* in God and *norm* in creatures.
+Give the grain of origination one mode on both sides of the analogy, and one
+of two things happens:
 
-Collapse the two modes into one, which is *univocity of mode*, and the checker
-shows the price at once:
+- **Necessity everywhere.** An existing child of an impeded union is
+  reported as impossible (UN1).
+- **Norm everywhere.** God is put under a norm (UN2).
 
-- **Univocal necessity (UN1).** An existing child conceived outside a valid
-  marriage is reported as *incoherent*, a metaphysical impossibility. The
-  theory now contradicts a plain fact.
-- **Univocal norm (UN2).** Where the Trinity's grain is tested, the unity of
-  the Spirit's principle becomes something God *ought* to keep. The checker
-  flags a deontic mode landing on God (`deontic_in_god`).
-- **Univocal principle-licensing (S3, S4).** If "two as one principle" must
-  mean the same thing in God and creatures (a closed circuit), the Spirit has
-  two principles. The only rescue puts a nuptial circuit between Father and
-  Son. This is the over-sexualized Trinity that the original paper itself
-  names as a failure mode, and it can no longer be reached silently.
+A single license for "two as one principle" either breaks the Filioque or
+puts a nuptial circuit inside the Trinity (S3, S4). The analogical modes give
+a norm breach in creatures and nothing impossible (UN3).
 
-Under analogy (UN3) the same facts give a *norm breach* in creatures and
-nothing impossible anywhere.
+The checker's bridge (one form, two modes, God first) is compatible with
+Scotus's univocity of *concept* with intrinsic modes (*Ordinatio* I d.3 p.1
+qq.1–3; I d.8 p.1 q.3). What fails is univocity of *mode*. The polemic that
+runs the two together (Milbank, Pickstock) is answered on this point by
+Cross (2001) and Horan (2014). **ttc** cannot distinguish analogy from
+Scotus. It can distinguish both from univocity of mode.
 
-**What this does and does not say about Scotus.** Two theses should be kept
-apart:
+### 2. Weight is not prediction (B1–B5)
 
-- *Univocity of concept.* One concept of being is said of God and creatures
-  in the same sense, and is contracted by intrinsic modes, infinite and
-  finite. This is Scotus's thesis (*Ordinatio* I d.3 p.1 qq.1–3; on intrinsic
-  modes, I d.8 p.1 q.3).
-- *Univocity of mode.* A shared form applies on both sides *in the same mode*.
+In the Immaculate Conception backtest, the weight of Bernard, Bonaventure
+and Aquinas ran against Scotus from 1400 to 1661. *Grave nimis* (1483) and
+Trent (1546, DH 1516) protected the question, so the minority school stayed
+open. Alexander VII tipped the preference in 1661. *Ineffabilis Deus* (1854)
+deleted "no". Without the protective acts, "yes" would have survived only
+as a shadow after 1661 (B4).
 
-The switches above implement the second, and the costs fall on it. The
-checker's own bridge, one shared form with a mode on each side and God
-primary, is formally compatible with the first. A Scotist can read it as a
-common concept with intrinsic modes; a Thomist, as an analogical name. So
-these results cannot be cited against Scotus himself. They count against the
-step, often attributed to him in the Radical Orthodoxy literature (Milbank,
-Pickstock), from univocity of *concept* to univocity of *mode*, a step Scotist
-scholars (Cross 2001; Horan 2014) deny he took. The checker cannot tell
-analogy and Scotist univocity apart. It *can* tell both apart from univocity
-of mode, and that is exactly the distinction the polemic tends to blur.
+### 3. Two axioms overstated their modality (B7, L1–L4)
 
-**The original error, found the other way round.** The paper's P3 said that
-filiation "cannot have two" principles. Run on the disparity-of-cult case
-(B7), the main branch showed a grain violation at a real child. Read
-descriptively, P3 is falsified by every child conceived outside a valid
-marriage. It holds as a norm on acts and as a necessity only in God. The
-univocity switches restore exactly that error, which is how we know the
-modes are doing real work.
+- **P3** said "cannot" for "ought not". Read descriptively, it is falsified
+  by every child conceived outside a valid marriage.
+- **A9** said "is" for "is called to be". It silently excluded limbo, a
+  school *Auctorem fidei* protects (DH 2626). Reading A9 as MD 25 words it
+  fixed this and changed nothing else.
 
-## 2. Scotus and the Immaculate Conception: weight is not prediction
+Every axiom now needs a modal type.
 
-*Tests B1–B5.*
+### 4. The trinitarian images fail in opposite ways (AN9–AN11, T6)
 
-The Immaculate Conception backtest enters Bernard, Bonaventure and Aquinas
-(each later a Doctor) against, and Scotus (never a Doctor) in favour. It adds
-Sixtus IV's *Grave nimis* (1483) and Trent's decree on original sin (1546,
-DH 1516) as protective acts, Alexander VII's *Sollicitudo* (1661), and
-*Ineffabilis Deus* (1854, tier 1).
+- **The family** keeps the persons and loses the processions.
+- **The mind** keeps the processions and loses the persons.
+- **A complete map** violates Lateran IV.
 
-- Weight, which counts disagreeing sources by tier, favoured "no" from 1400
-  until 1661, Doctors included (B1, B2).
-- Nothing below tier 1 could cleave the question once it was protected, so
-  Scotus's school survived as an open branch for three and a half centuries
-  (B2, B3). Without the protective acts, Alexander VII would have turned "no"
-  into a shadow in 1661 (B4).
-- In 1854 a tier-1 act deleted "no" (B5).
+The two images are complementary, not rival (*De Trinitate* XII; MD 7).
 
-The design therefore *would have kept the defined doctrine alive* through
-centuries in which the weight of authority ran against it. Weight states a
-preference; it never deletes a branch. This is the empirical case for the
-paper's "Joachim clause" (the framework must not be used to schedule
-history), and the reason weight is reported but never used to settle an open
-question.
+### 5. Tier 2's force is an assumption (B9–B14)
 
-## 3. Two axioms overstated their modality
+LG 25 is interpretive on the point (Gasser's relatio). The CDF's 1998
+commentary is tier 3, and *Ad tuendam fidem* is legislation. Either one,
+read as fixing tier 2, is self-elevation.
 
-*Tests L1–L4, B7.*
+### 6. Form, not author; governance is not teaching (B12–B15, LT5, LT8)
 
-- **P3: "cannot" for "ought not".** See §1.
-- **A9: "is" for "is called to be".** The paper's A9 said every human person
-  stands in the receptive position toward Christ. On the question of infants
-  who die without baptism, this made any person without a welcome to Christ
-  an error state. It silently ruled out limbo, a school *Auctorem fidei*
-  (1794, DH 2626) protects (L1). The fix came from the axiom's own warrant.
-  *Mulieris dignitatem* 25 says each person is the Bride "in that he or she
-  accepts" the gift, and that all are *called* to be. Read as MD 25 words it,
-  A9 is neutral on the infants question. Every earlier test was unchanged, so
-  the fix cost nothing (L2). It also made refusal representable (Jn 1:11;
-  CCC 1864), which the universal reading had made ill-formed (L3, L4).
+A papal act's tier follows its form. The Code binds to teaching by
+reference and teaches nothing itself.
 
-Lesson: every axiom should carry a modal type (*is*, *ought*, *called*,
-*held in trust*), and the checker should flag one used outside its type.
+### 7. Recency points opposite ways (DR2, DR3, DR3b)
 
-## 4. The two trinitarian images fail in opposite ways
+Remarriage turns on one typing. Read as governance, the later act governs.
+Read as teaching, repetition across popes counts and recency does not.
 
-*Tests AN9–AN11, T6a–c.*
+### 8. Communion is a partial order (EC1–EC10)
 
-Lateran IV (DH 806) is encoded as a two-sided test. Any image of the Trinity
-must show *licensed* similarity, meaning some specific relation carried over
-by a kind bridge. It must also show a *remainder*, meaning something never
-carried over.
+*Dominus Iesus* 17 ranks communities that the bond list (UR 3) leaves
+incomparable. Membership is binary and communion is graded; *extra
+ecclesiam* is consistent on that typing and Feeneyite on the other.
 
-- **The family** (man, woman, child) keeps the persons and loses both
-  processions. It resembles the Trinity only at the supertype "two as one
-  principle of a third" (AN9). No bijection preserves origination (T6a,
-  Augustine's objection in *De Trinitate* XII, as a theorem).
-- **The mind** (*mens, verbum, amor*) keeps both processions under Thomas's
-  bridges (ST I q.27 aa.2, 4) and loses all three persons, since word and
-  love in us are acts, not subsistents (AN10).
-- **The mind's acts treated as persons** give a complete map, which is a
-  Lateran IV violation (AN11).
+### 9. Tier 3 is not flat (G1–G4, CU, SA, DR3b)
 
-So the images are complementary, not rival. Augustine's psychological image
-carries the processions; the *communio personarum* image of *Mulieris
-dignitatem* 7 carries persons in communion. Neither is complete, as Lateran IV
-requires.
+The four kinds of internal structure are legislator rank, document
+character, custom and salience. Adding them changed one earlier result.
 
-## 5. The force of tier 2 is an assumption, and who may fix it
+### 10. SSPX, 1988–2026 (SX1–SX23)
 
-*Tests B9–B14.*
+[cases/sspx-2026.md](cases/sspx-2026.md) has the detail. In brief:
 
-What kind of force does "definitive" teaching (c. 750 §2) have: truth-force,
-like tier 1, or something closer to juridical? The checker refuses to treat
-any answer as a premise unless a *strictly higher* tier states it
-non-interpretively. LG 25 is tier 1 but is entered as interpretive here,
-because Gasser's *relatio* says Vatican I left the extent open. The CDF's 1998
-doctrinal commentary is tier 3. Ad Tuendam Fidem is legislation. Treating
-either as fixing tier 2's force is a **self-elevation** violation: a source
-settling the authority of the tier above it. The checker therefore computes
-both readings. A tier-2 cleave produces a *counterfactual shadow* if tier 2
-has truth-force and a *live shadow* if it does not.
+- **Incurred, presumed, declared and suspended** are four states.
+- **"Process superfluous" is c. 1717 §1.** It dispenses the investigation,
+  never the hearing of c. 1720 n. 1.
+- **On the record, the 2016 grant stands** until a competent revocation.
+- **The note's "invalid"** holds for some acts and not others.
 
-## 6. Papal acts are tiered by form, and governance is not teaching
+### 11. Canon law is binary (correction)
 
-*Tests B12–B15, LT5, LT8.*
+The first SSPX encoding put juridical questions on the authority graph,
+where canonists weighed against dicastery notes. A canonist objected. The
+objection was correct (cc. 16, 18, 19, 135 §2), and the canon layer
+replaced that encoding. One result reversed.
 
-An act's tier follows its form, not its author: ex cathedra with every
-formality is tier 1, a formal definitive declaration tier 2, and every other
-papal act tier 3. The Code is governance: the pope as ruler, not as teacher.
-It binds to teaching only *by reference*. Cc. 750 and 752 attach divine and
-Catholic faith, firm assent or religious submission to whatever is taught at
-each tier, without teaching anything themselves (B15). Reading a governance
-act as a truth source on a doctrinal question is a type error (B12, LT5). In
-the liturgy case the typing of a question even *follows from* the type of its
-sources. Only legislation speaks to the lex orandi status of the 1962
-Missal, so typing that question as teaching makes both motu proprios
-ill-typed (LT5).
+### 12. The ordered pair (PR1–PR4)
 
-## 7. The teaching/governance hinge reverses which way recency points
+The pair is (teaching, law). Coupling the layers made it explicit that the
+school denying the 2026 act was schismatic needs c. 751 read as a state.
+Uncoupled, the law applies c. 1364 where its premise fails (PR2).
 
-*Tests DR2, DR3, DR3b, G1–G4.*
+### 13. Method
 
-On Communion after remarriage, the whole public dispute reduces to one typing:
-is the internal-forum norm teaching or governance? As governance, the later act
-governs (c. 20), and *Amoris laetitia* prevails (DR2). As teaching, there is
-no lex posterior. Repetition across popes counts under LG 25, and
-*Sacramentum caritatis* 29's re-teaching of *Familiaris consortio* 84 tips the
-preference the other way (DR3b). The tension stays open either way. The
-structural fact: **in governance recency wins; in teaching it does not.** The
-latest pope does not prevail by being latest; character and repetition do.
+- **A fixed relation inventory** makes the grain falsifiable (S8, S9).
+- **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius
+  XII, 1951, 1956; HV 14).
+- **Mutation testing**: every rule, deleted, turns a test red. This caught
+  a vacuous test (T2), four untested canon-law rules, and one bug: an
+  ambiguous source with no readings made the whole run unsatisfiable.
+- **Non-diagnosis is a type rule.** The Dicastery's own return procedure
+  (2026) states it.
 
-## 8. Degree of communion is a partial order, not a scale
+## SEE ALSO
 
-*Tests EC1–EC10.*
+[ttc(7)](guide-for-theologians-and-canonists.md), [ttc-core(5)](core-edition.md),
+[research/warrants-and-prior-art.md](research/warrants-and-prior-art.md)
 
-Entered as sets of bonds (LG 14; UR 3), communities form a lattice. The
-Oriental Orthodox (orders and Eucharist, without Chalcedon) and the Lutherans
-(Chalcedon, without orders) are incomparable. *Dominus Iesus* 17 nevertheless
-ranks the first above the second. Its Church/ecclesial-community line is a
-threshold on two bonds, not a measure of overall communion. "Degree of
-*membership*" is the type error: membership is binary (*Mystici corporis*),
-and communion is graded. Read that way, every text from Florence to the 2007
-*Responses* is consistent, including *extra ecclesiam nulla salus* (EC10).
-Read Florence's "outside" as non-membership instead, and Vatican II, Pius XII
-and the 1949 Holy Office letter all stand against a tier-1 text: the Feeney
-position, mechanically (EC7).
+## STANDARDS
 
-## 9. Tier 3 is not flat, and only one result moved
+- Aquinas, ST I q.13 aa.5–6, q.27 aa.2, 4, q.36 a.4; III q.16
+- Augustine, *De Trinitate* IX–X, XII
+- Scotus, *Ordinatio* I d.3 p.1 qq.1–3; I d.8 p.1 q.3; III d.3 q.1
+- Lateran IV, DH 800, 806
+- *Mystici corporis* (1943); Holy Office to Cushing (1949)
+- MD 7, 25; FC 84; SC 29; AL 305 n. 351
+- LG 8, 14–16, 25; UR 3; DI 17
+- CDF, *Responses* (2007); doctrinal commentary on the *Professio fidei* (1998)
+- R. Cross, *Antonianum* 76 (2001) 7–41
+- D. P. Horan, *Postmodernity and Univocity* (Fortress, 2014)
+- J. Milbank, *Theology and Social Theory* (1990)
+- C. Pickstock, *After Writing* (1998)
+- E. Przywara, *Analogia Entis* (1932; Eerdmans, 2014)
+- I. Lakatos, "Falsification and the Methodology of Scientific Research
+  Programmes" (1970)
 
-*Tests G1–G4, CU1–CU8, SA1–SA2, DR3b.*
+## BUGS
 
-Giving tier 3 internal structure, with legislator rank for governance
-(c. 135 §2), document character for teaching (LG 25), custom (cc. 23–28) and
-salience (warnings only), changed exactly one earlier result (DR3b). In
-governance a papal act outranks every non-papal tier-3 act. A curial act
-approved *in forma specifica* or issued by papal mandate is the pope's own,
-which is why the 1984 indult held against *Quo primum* (LT1). An interview is
-not a magisterial act: it weighs nothing and cannot cleave.
-
-## 10. Schism, the SSPX and the 2026 decree
-
-*Tests SX1–SX23. See [cases/sspx-2026.md](cases/sspx-2026.md).*
-
-"Is the SSPX in schism?" splits into questions of different types:
-
-- The 2026 classification rests on an act of refusal of subjection, a
-  schism-type basis. Rejecting *Dignitatis humanae* would have been a
-  category error (c. 752 / c. 1365, not c. 751 / c. 1364).
-- *Incurred*, *presumed incurred*, *declared* and *suspended* are different
-  states. A recourse suspends the declaration, not the penalty.
-- **Notoriety proves the act; the hearing exists for the agent.** "The
-  process was superfluous" is c. 1717 §1. It dispenses the investigation,
-  never the hearing.
-- On the facts of record, the 2016 papal grant stands until a competent
-  revocation, so absolutions are valid. The note's "invalid" holds for later
-  absolutions only if the pope revokes the grant. It holds for marriages
-  without delegation, and fails for marriages with it.
-- The non-diagnosis rule, derived earlier from the remarriage case, matches
-  the Dicastery's own instruction that lay imputability "must be assessed
-  case by case".
-
-## 11. Canon law is binary: a correction
-
-The first encoding of the SSPX case put juridical questions into the
-theological authority graph: faculties, hearings, declarations. Tier-5
-canonists weighed against dicastery notes, and a preference picked a
-reading of a papal grant. A practising canonist objected at once, and the
-objection was right. Canon law has its own rules of reading. The legislator
-interprets authentically (c. 16). Penal laws are read strictly (c. 18).
-Canonists' opinion fills a *gap*, and never in a penal case (c. 19). A
-lower act cannot defeat a higher one (c. 135 §2). Given the facts and the
-norm in force, an effect follows or it does not.
-
-The correction was structural: a separate [canon-law layer](canon-law-layer.md)
-of dated yes/no rules, which branches only on disputed facts, disputed
-readings without an authentic interpretation, and the internal forum. The
-canons form a graph that the checker tests for loops and gaps. Several
-results sharpened, and one reversed. The faculty question had been "open,
-turning on a reading". Once the rule on who may revoke a papal grant is
-applied, it follows. This is the fix method working on the checker itself.
-The type system misplaced a whole domain, and a reader who knew the domain
-caught it.
-
-## 12. Findings about the method
-
-- **A fixed relation inventory is what makes the grain falsifiable** (S8, S9).
-  If new relation types may be added freely, a solver can always reclassify a
-  second source, and the minimum number of violations falls to zero. This is
-  the reason for axiom A0.
-- **The Donum Vitae retrodiction rests on one axiom,** A4a. Closure belongs to
-  the conjugal act, not merely to the standing bond (S1, S2). Research found
-  it a warrant from before 1987: Pius XII, 29 October 1951 and 19 May 1956;
-  HV 14. The derivation is therefore not circular. See
-  [research/warrants-and-prior-art.md](research/warrants-and-prior-art.md).
-- **Mutation testing keeps the suite honest.** Every rule is deleted in turn,
-  and at least one test must turn red. This caught a vacuous test (T2 passed
-  when contraction was deleted, because the child then had no origin at all)
-  and several blind spots in the authority layer. In the canon-law layer it
-  found four untested rules (c. 1387 for the one consecrated, c. 1335 §2,
-  c. 976, c. 144), and each now has a test.
-- **Non-diagnosis is a type rule.** Imputability is an input slot filled only
-  by the internal forum. Any rule that fills it is flagged (DR6, SX9).
-
-## References
-
-- Aquinas, *Summa theologiae* I q.13 aa.5–6; I q.27 aa.2, 4; I q.36 a.4; III q.16.
-- Augustine, *De Trinitate* IX–X, XII.
-- Duns Scotus, *Ordinatio* I d.3 p.1 qq.1–3; I d.8 p.1 q.3; III d.3 q.1.
-- Lateran IV, *Firmiter* and *Damnamus ergo*, DH 800, 806.
-- Pius XII, *Mystici corporis* (1943); Holy Office, letter to Abp Cushing (1949).
-- John Paul II, *Mulieris dignitatem* (1988) 7, 25; *Familiaris consortio* (1981) 84.
-- Benedict XVI, *Sacramentum caritatis* (2007) 29. Francis, *Amoris laetitia* (2016) 305 and n. 351.
-- Vatican II, *Lumen gentium* 8, 14–16, 25; *Unitatis redintegratio* 3.
-- CDF, *Dominus Iesus* (2000) 17; *Responses to some questions* (2007); doctrinal commentary on the *Professio fidei* (1998).
-- R. Cross, "Where Angels Fear to Tread: Duns Scotus and Radical Orthodoxy," *Antonianum* 76 (2001): 7–41.
-- D. P. Horan, *Postmodernity and Univocity: A Critical Account of Radical Orthodoxy and John Duns Scotus* (Minneapolis: Fortress, 2014).
-- J. Milbank, *Theology and Social Theory* (Oxford: Blackwell, 1990); C. Pickstock, *After Writing* (Oxford: Blackwell, 1998).
-- E. Przywara, *Analogia Entis* (1932), tr. J. R. Betz and D. B. Hart (Grand Rapids: Eerdmans, 2014).
-- I. Lakatos, "Falsification and the Methodology of Scientific Research Programmes," in *Criticism and the Growth of Knowledge* (Cambridge, 1970).
+The theory changed every time it met a new case. This is the intended
+behaviour.

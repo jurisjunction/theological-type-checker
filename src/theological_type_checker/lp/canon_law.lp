@@ -54,6 +54,7 @@
 % @input disputed/1 | a fact whose truth is disputed
 % @input today/1 | the evaluation date when no asof is given
 % @input authentic_reading/3 | authentic_reading(Canon, Reading, Act): the legislator's own reading (c. 16 §1)
+% @input not_of_kind/2 | from the theological side (pair.lp): in this branch the event is classified as not of this kind
 % @input notoriety_substitutes/2 | candidate only: notoriety treated as the hearing
 % @input treated_as_declaring/2 | candidate only: a text's class statement treated as a declaration
 
@@ -118,8 +119,8 @@ penalty(n1387,excommunication).
 % @norm cic:751 | c. 751: schism is the refusal of submission to the Supreme Pontiff | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib3-cann747-755_en.html
 % Whether one act can constitute schism, or only a lasting state, is a
 % reading of c. 751. Ecclesia Dei adflicta 3 (papal) applies it to the act.
-schismatic_act(P,E) :- consecrates(E,P), against_explicit_papal_will(E), canon_reading(c751,act_suffices).
-schismatic_act(P,E) :- consecration(E,_,P,_), against_explicit_papal_will(E), canon_reading(c751,act_suffices).
+schismatic_act(P,E) :- consecrates(E,P), against_explicit_papal_will(E), canon_reading(c751,act_suffices), not not_of_kind(E,schism).
+schismatic_act(P,E) :- consecration(E,_,P,_), against_explicit_papal_will(E), canon_reading(c751,act_suffices), not not_of_kind(E,schism).
 
 % @norm cic2021:1364 | c. 1364 §1: the schismatic incurs latae sententiae excommunication | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
 delict(P,n1364,E) :- schismatic_act(P,E), event_date(E,T), norm_in_force(n1364,T).

@@ -1,66 +1,48 @@
-# Contributing
+# CONTRIBUTING(7)
 
-Thank you for considering it. This project improves by being argued with,
-and it needs people who know the sources better than its authors do.
+## NAME
 
-## Ways to contribute
+**contributing** — how to argue with the checker usefully
 
-**1. Challenge an encoding.** This is the most valuable contribution and needs
-no code. Open an issue saying which source is mis-tiered, mis-dated, mis-read
-or mis-typed. Give the correct reference (DH number, AAS volume and page,
-canon, or edition and page) and say why. If the reading is genuinely
-disputed, say that too. The checker can carry both readings as branches.
+## DESCRIPTION
 
-**2. Propose a case.** Pick a question with a documented history: a dispute
-the magisterium settled, one it protected, one still open, or a juridical
-question with dated acts. List the sources with dates and what each holds.
-Say what you expect the checker to show and why. An issue is enough; a pull
-request with the encoding is better. The SSPX and remarriage cases are good
-models.
+Contributions, most useful first:
 
-**3. Propose a rule change.** If you think the checker is wrong rather than
-the text, write the change as rules to add or lines to remove and run it
-with the `fix_method` tool (or edit the rule file and run `ttc-suite`). Report
-what it newly explains and what it turns red. A change that buys one case at
-the price of others needs an argument for each loss. A change with no
-warrant independent of the case it rescues will not be adopted.
+1. **A challenge to an encoding.** A source is mis-tiered, mis-dated,
+   mis-read or mis-typed. Open an issue with the correct reference (DH, AAS,
+   canon, or edition and page) and the reason. If the reading is genuinely
+   disputed, say so; it can be a branch.
+2. **A case.** A question with dated acts, given as an ordered pair:
+   theology first, canon law after. Say what you expect, and why.
+3. **A rule change.** Run `fix_method` and report the gains and the
+   losses. A change with no independent warrant will not be merged.
+4. **Engine work.** A Soufflé port, reports, clients.
 
-**4. Improve the engine or the server.** Performance, a port to another
-Datalog engine (Soufflé is the obvious one), better reports, client
-integrations.
+## REQUIREMENTS
 
-## Standards
+- **Every source cited precisely**: DH, AAS, canon and paragraph, or
+  edition and page.
+- **Every rule has a warrant** (in a comment) **and a test that fails
+  without it.**
+- **Readings, not choices**: an ambiguous text gets `ambiguous` and its
+  readings.
+- **Canon law is binary.** It goes in the canon layer, never on the
+  authority graph.
+- **No interior states are computed.** Imputability is an input.
+- **No verdicts on persons.** Public acts only.
+- **Charity.** Schools the Church tolerates are not to be treated as
+  illegitimate.
 
-- **Every source cited precisely.** Use DH numbers for conciliar and papal
-  texts, the AAS where it exists, canon and paragraph for the Code, and
-  edition and page for theologians. A source no one can check will not be
-  merged.
-- **Every rule has a warrant and a test.** Name the warrant in a comment.
-  Add a scenario to `suite.py` that fails without the rule (delete the rule
-  and confirm the test turns red).
-- **Every interpretive choice is a fact.** If a text can be read two ways,
-  encode it as `ambiguous` with both readings rather than choosing silently.
-- **Non-diagnosis.** No rule may compute a person's culpability, intention
-  or interior state. These are internal-forum inputs only.
-- **No verdicts on persons.** Cases concern texts, acts and questions. Where
-  a case concerns living people (as the SSPX case does), it encodes only what
-  public acts say and keeps every personal question in the internal forum.
-- **Charity in argument.** People on every side of these questions are
-  represented in the sources. Contributions that mock a position, or treat a
-  school the Church tolerates as illegitimate, will be asked to revise.
+## FILES
 
-## Running the tests
+`pytest -q` must pass. `ttc-suite` must be deterministic.
 
-```bash
-pip install -e ".[dev]"
-pytest -q          # the suite plus engine guards
-ttc-suite --md report.md
-```
+## LICENSE
 
-The suite must pass, and must stay deterministic.
+Code: MIT. Documentation: CC BY 4.0. Contributions are licensed the same
+way.
 
-## Licensing of contributions
+## BUGS
 
-By contributing, you agree that code contributions are licensed under the
-MIT License and documentation contributions under CC BY 4.0, as described in
-`LICENSE` and `LICENSE-docs`.
+Disagreement is the material the method runs on. Agreement is merely
+pleasant.

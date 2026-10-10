@@ -1,100 +1,106 @@
-# Using the checker from a language model (MCP)
+# TTC-MCP(8)
 
-The checker is deterministic. Turning a text into facts is not: it takes
-reading, judgment and a knowledge of the sources. That division of labour is
-why the checker ships as an [MCP](https://modelcontextprotocol.io) server. A
-capable model does the interpretation and records every choice as a fact. The
-checker computes what follows. The person reads both.
+## NAME
 
-## Install
+**ttc-mcp** — the checker as an MCP server
 
-```bash
-git clone https://github.com/jurisjunction/theological-type-checker
-cd theological-type-checker
-pip install -e ".[mcp]"
-ttc-suite            # optional: run the 144-test regression suite
+## SYNOPSIS
+
+```
+ttc-mcp
 ```
 
-## Register the server
+## DESCRIPTION
 
-**Claude Code.** The repository includes a project-scoped `.mcp.json`, so
-opening the repo in Claude Code offers the server automatically. To add it
-for all your projects instead:
+**ttc-mcp** serves the checker over stdio. The model reads the texts and
+records every interpretive choice as a fact. The server computes the
+consequences. The person reads both.
 
-```bash
+## INSTALLATION
+
+**Claude Code**, for all projects:
+
+```
 claude mcp add --env TTC_HOME="$HOME/.ttc" --transport stdio --scope user \
-  theological-type-checker -- "$(pwd)/.venv/bin/ttc-mcp"
+    theological-type-checker -- "$(pwd)/.venv/bin/ttc-mcp"
 ```
 
-`TTC_HOME` is the personal folder where your own canons, cases and tests are
-saved (see [the flywheel](flywheel.md)). Leave it out for a read-only
-checker.
+Inside the repository, `.mcp.json` registers it for the project.
 
-**Other MCP clients** that read an `mcpServers` JSON block:
+**Any client** that reads an `mcpServers` block:
 
 ```json
-{
-  "mcpServers": {
-    "theological-type-checker": { "command": "ttc-mcp", "args": [] }
-  }
-}
+{ "mcpServers": { "theological-type-checker": { "command": "ttc-mcp", "args": [] } } }
 ```
 
-If `ttc-mcp` is not on the client's `PATH`, use the absolute path that
-`which ttc-mcp` prints, or `"command": "python", "args": ["-m", "theological_type_checker.server"]`.
+## TOOLS
 
-## Tools
+### Reading
 
-| Tool | What it does |
+| Tool | Does |
 | --- | --- |
-| `guide` | The encoding manual. A model should read it before writing facts. |
-| `list_parts` | The models, cases, switches, dates and candidate rules available. |
-| `read_part` | The source of one part or rule file, to model a new case on an old one. |
-| `check` | Run parts plus new facts. Returns each question's status, violations and notes, and the branches. |
-| `compare` | Two configurations side by side: what one reading, date, typing or source changes. |
-| `run_suite` | The regression suite, or a subset. |
-| `fix_method` | Add or remove rules, rerun every test, and report what the change gains and loses. Nothing is written to disk. |
-| `lint` | The static analogy check: rules that cross the Creator–creature line without a bridge. |
-| `norm_graph` | The canon-law layer as a graph of norms (Mermaid or JSON), optionally around one canon. |
-| `norm_check` | Loops and gaps in the norm graph; the undefined predicates are the frontier, i.e. what to encode next. |
-| `flywheel_status` | What the personal folder holds, the frontier, and (optionally) the full suite. |
-| `save_rules` | Save rules (e.g. a newly encoded canon) to the personal folder, only if every test stays green. |
-| `save_case` | Save a case's facts as a new part. |
-| `save_scenario` | Record a confirmed result as a regression test, only if it passes now. |
+| `guide` | The encoding manual, [ttc-encoding(5)](encoding-guide.md). Read it first. |
+| `list_parts`, `read_part` | Models, cases, switches, candidates; the source of one. |
 
-There are also two prompts. `type_check_text` walks a model through
-checking a text. `review_rule_change` evaluates a proposed change to the
-theory with the fix method.
+### Checking
 
-## A session, in outline
+| Tool | Does |
+| --- | --- |
+| `check` | Run parts plus new facts: statuses, violations, branches. |
+| `compare` | Two configurations, and only what differs between them. |
+| `run_suite` | The regression suite. |
+| `lint` | Rules that cross the Creator–creature line without a bridge. |
+| `norm_graph`, `norm_check` | The canon graph; its loops and gaps. |
 
-> **You:** Here is a paragraph from a recent article arguing that the 2026
-> decree excommunicated every SSPX priest. Type-check it.
->
-> **Model:** reads `guide`, then `read_part("sspx")`. It encodes the article as
-> a tier-5 source supporting a new juridical question about whether the priests
-> are declared. Then it calls `check(["sspx","lattice"], facts=…)`.
->
-> **Checker:** no declaration names a priest. Reading the note as declaring
-> the clergy excommunicated is a `collective_declaration` violation. The
-> note's "invalid confessions" goes through only on the conditioned reading of
-> *Misericordia et misera* 12.
->
-> **Model:** reports this, states each encoding choice it made, and notes
-> that the question would close if a papal act fixed the reading.
+### Changing
 
-## Safety
+| Tool | Does |
+| --- | --- |
+| `fix_method` | Add or remove rules, rerun everything, report gains and losses. Writes nothing. |
+| `save_rules`, `save_case`, `save_scenario` | Write to `$TTC_HOME`, and only if the suite stays green. |
+| `mark_consulted` | Record a source as checked against print. |
 
-Snippets are data and rules only. The server writes only inside the
-personal folder, and only through the three `save_` tools. `#script`, `#include`, `#program`,
-`#end` and `@`-terms are rejected, so a snippet cannot run code or read
-files. Runs have a model cap and a time limit. The server never writes to
-the rule base: `fix_method` works on an in-memory copy.
+### Library and status
 
-## Command line, without a model
+| Tool | Does |
+| --- | --- |
+| `library_fetch_list` | Physical copies, nearest library first. |
+| `flywheel_status` | The theology, canon and library frontiers. |
 
-```bash
-ttc-check --list                         # every part
-ttc-check sspx lattice                   # a case, as JSON
-ttc-check --facts my_case.lp             # your own facts
-```
+### Prompts
+
+| Prompt | Does |
+| --- | --- |
+| `type_check_text` | Check a text. |
+| `review_rule_change` | Judge a change by the fix method. |
+
+## ENVIRONMENT
+
+See [ttc(1)](../README.md).
+
+## SECURITY
+
+Snippets are data and rules. `#script`, `#include`, `#program`, `#end` and
+`@`-terms are refused. Runs are capped by model count and time.
+
+The server writes only inside `$TTC_HOME`, and only through `save_*` and
+`mark_consulted`. Network access is limited to the library lookups, and to
+those services only.
+
+## EXAMPLES
+
+> Here is a paragraph claiming the 2026 decree excommunicated every SSPX
+> priest. Type-check it.
+
+The model reads `guide` and `read_part("sspx")`, encodes the paragraph as a
+tier-5 claim, and runs `check`. The answer: no declaration names a priest,
+and reading the note as one is `collective_declaration`.
+
+## SEE ALSO
+
+[ttc(1)](../README.md), [ttc-flywheel(7)](flywheel.md), [ttc-library(1)](library.md)
+
+## BUGS
+
+The server trusts the model to encode honestly. The model trusts the person
+to check the encoding. Nobody trusts the weights.
