@@ -39,6 +39,7 @@ papal_form(paul_v_1607,ordinary).
 
 % ---------- Disparity of cult: a juridical cleave and its dispensation -
 #program disparity.
+uses(icon).                             % the Grammar of the Icon
 god(god).
 created_person(m). created_person(w). created_person(c).
 question(q(disparity(m,w))). question_kind(q(disparity(m,w)),juridical).
@@ -76,6 +77,7 @@ source(atf_misread,1,juridical,1998). papal_form(atf_misread,legislative).
 
 % ---------- Infants who die without baptism ---------------------------
 #program limbo.
+uses(icon).                             % the Grammar of the Icon
 god(god). bridegroom(christ). incarnate(christ). created_person(infant).
 question(q(infant_state)).  question_kind(q(infant_state),doctrinal).
 value(q(infant_state),original_sin_alone). value(q(infant_state),held_in_trust).
@@ -98,6 +100,7 @@ character(ccc_1261,catechism).
 source(itc_2007,4,truth,2007). supports(itc_2007,q(infant_fate),beatific). supports(itc_2007,q(infant_state),held_in_trust).
 
 #program refusal.                 % "his own received him not" (Jn 1:11)
+uses(icon).                             % the Grammar of the Icon
 god(god). bridegroom(christ). incarnate(christ).
 created_person(receiver). created_person(refuser).
 consent(receiver,christ).
@@ -475,6 +478,7 @@ reads(theses_1914,premotion,q(efficacious_grace),physical_premotion).     % read
 theses_directive.
 
 #program a9_universal.            % the old reading of A9, for comparison
+uses(icon).                             % the Grammar of the Icon
 a9_universal.
 
 #program cand_tier3_contrary.     % a tier-3 teaching against the tier-2 one

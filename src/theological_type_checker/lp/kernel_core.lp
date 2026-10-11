@@ -1,20 +1,16 @@
 % ===================================================================
-%  The Grammar of the Icon: core theory
-%  Datalog with stratified negation; runs on clingo 5.x.
+%  The kernel: what every school needs to state its disagreements, and
+%  the deposit's own rules. Datalog with stratified negation; clingo 5.x.
+%  The Grammar of the Icon, one theory among others, is in icon_theory.lp;
+%  nothing here names its predicates (tests/test_suite.py checks this).
 %
 %  Facts in, verdicts out. Every check emits one of:
 %    violation/1  the facts break an axiom
 %    theorem/1    a result the axioms force
 %    verdict/2    a classification (bond validity, predication typing)
 %    info/1       noted, not an error
-%  Axiom labels (A0-A11) match the Core Edition doc.
+%  Axiom labels (A0-A11) match the Core Edition doc. See docs/layers.md.
 % ===================================================================
-
-% ---------- Policy switches (scenarios may override) --------------
-closure_mode(act)   :- not closure_mode(bond).            % A4a
-license_policy(two) :- not license_policy(circuit_only).  % A4
-gen_policy(none)    :- not gen_policy(unbanded), not gen_policy(by_level),
-                       not gen_policy(by_kind).           % dropped clause, for testing
 
 % ---------- Sorts --------------------------------------------------
 person(X)       :- divine(X).
@@ -30,15 +26,15 @@ human_nature(X) :- incarnate(X).
 
 % ---------- A0  Fixed relation inventory ---------------------------
 % Base relations: being/2 (E), orig_cr/2 (O), orig_div/2 (O in God, the
-% primary analogate), acton/2 (D), nupt/2 (N), side_by_side/3 (S).
-% rel/3 is their typed union. orig/2 is the shared FORM of origination,
-% fed by each sort only through an analogy bridge (icon_analogy.lp).
-reltype(e). reltype(o). reltype(o_div). reltype(d). reltype(n).
+% primary analogate), acton/2 (D). A theory may declare more, with a warrant
+% (the Icon declares N). rel/3 is their typed union. orig/2 is the
+% shared FORM of origination, fed by each sort only through an analogy
+% bridge (kernel_analogy.lp).
+reltype(e). reltype(o). reltype(o_div). reltype(d).
 rel(e,X,Y)     :- being(X,Y).
 rel(o,X,Y)     :- orig_cr(X,Y), licensed(origination,cr).
 rel(o_div,X,Y) :- orig_div(X,Y), licensed(origination,div).
 rel(d,X,Y)     :- acton(X,Y).
-rel(n,X,Y)     :- nupt(X,Y).
 rel(fresh,X,Y) :- retype(X,Y).                % only used by the rescue stress test
 violation(unknown_reltype(R)) :- rel(R,_,_), not reltype(R).
 
@@ -55,9 +51,7 @@ don(R,X,Y) :- rel(R,X,Y).
 unary(receptive,X) :- rec(_,X,_).
 unary(donative,X)  :- don(_,X,_).
 unary(donative,X)  :- acts(X).
-unary(bridal,X)    :- nupt(_,X).
-unary(called_bridal,X) :- called_bridal(X).
-unary_name(receptive;donative;bridal;called_bridal).
+unary_name(receptive;donative).
 persons_n(N) :- N = #count{ X : created_person(X) }.
 holds_n(P,N) :- unary_name(P), N = #count{ X : unary(P,X), created_person(X) }.
 theorem(vacuous_over_persons(P)) :- holds_n(P,N), persons_n(N), N > 0.
@@ -67,57 +61,19 @@ true_claim(C) :- claims(C,receptive,X,Y,R), rec(R,X,Y).
 true_claim(C) :- claims(C,donative,X,Y,R),  don(R,X,Y).
 violation(false_claim(C)) :- claims(C,_,_,_,_), not true_claim(C).
 
-% ---------- A9  Bridal floor (MD 25) --------------------------------
-% Default (conditional) reading: every human person is CALLED to be the
-% Bride, and is the Bride "in that he or she accepts" (MD 25), or while that
-% acceptance is held in trust. MD 25 speaks of "every human being", so the
-% call ranges over human persons, not angels (K1c). The old universal reading
-% ("every person IS bridal") is kept behind the switch a9_universal.
-called_bridal(X) :- bridegroom(C), human(X).
-nupt(C,X) :- bridegroom(C), human(X), a9_universal.
-nupt(C,X) :- bridegroom(C), human(X), not a9_universal, welcomed(X,C).
-
-% ---------- A5  Personal reception is act ----------------------------
-needs_welcome(X,Y) :- created_person(X), nupt(Y,X).
-vicarious_ok(C)    :- bridegroom(C).          % origin case: held in trust (baptism)
-welcomed(X,Y) :- consent(X,Y).
-welcomed(X,Y) :- held_for(_,X,Y), vicarious_ok(Y).
-violation(reception_without_act(X,Y)) :- needs_welcome(X,Y), not welcomed(X,Y).
-violation(consent_supplied(P,X,Y))    :- held_for(P,X,Y), not vicarious_ok(Y).
-info(awaiting_ratification(X,Y))      :- held_for(_,X,Y), vicarious_ok(Y), not consent(X,Y).
-violation(reception_typed_as_non_act(X,Y)) :- nonact_reception(X,Y), consent(X,Y).
-
-% ---------- A6  A bond: two consents + capacity for its closing act --
-valid_bond(X,Y) :- proposed_bond(X,Y), consent(X,Y), consent(Y,X),
-                   capable_closing(X,Y), not impeded(X,Y).
-nupt(X,Y) :- valid_bond(X,Y).
-nupt(Y,X) :- valid_bond(X,Y).
-verdict(bond(X,Y),valid)   :- valid_bond(X,Y).
-verdict(bond(X,Y),invalid) :- proposed_bond(X,Y), not valid_bond(X,Y).
-% Note: fertility appears in no rule above.
-
-% ---------- A7  Motifs ----------------------------------------------
-bond(X,Y) :- nupt(X,Y), nupt(Y,X).
-counter_phase(X,Y) :- bond(X,Y), created_person(X), created_person(Y).
-violation(motif_mismatch(A,X,Y)) :- performs(A,X,Y,close_circuit), not counter_phase(X,Y).
-violation(ungrounded_counter_phase(X,Y)) :- claimed_counter_phase(X,Y), not bond(X,Y).
-
 % ---------- A4 / A4a / A3  Origination, contraction, the grain -------
 % gen(Act, Source, Term): Source contributes to the origin of Term in Act.
 act(A) :- gen(A,_,_).
 contributors(A,N) :- act(A), N = #count{ X : gen(A,X,_) }.
-closed(A,X,Y) :- closed_in_act(A,X,Y).
-closed(A,Y,X) :- closed_in_act(A,X,Y).
 one_power(Y,X) :- one_power(X,Y).
 
-circuit(A,X,Y) :- closure_mode(act),  gen(A,X,_), gen(A,Y,_), X != Y, closed(A,X,Y), bond(X,Y).
-circuit(A,X,Y) :- closure_mode(bond), gen(A,X,_), gen(A,Y,_), X != Y, bond(X,Y).
-
-% the contraction license is fixed per sort by the mode of the 'principle' bridge
-contractible(A,X,Y) :- mode(principle,div,identity_of_power), gen(A,X,_), gen(A,Y,_), X != Y,
+% Two sources are one principle only by a license. In God the license is one
+% power of Father and Son (the Latin account of Lyons II's "one principle":
+% ST I q.36 a.4); the switch no_divine_contraction withholds it (Photius).
+% A theory may add licenses of its own for creatures.
+divine_contraction(identity_of_power) :- not no_divine_contraction.
+contractible(A,X,Y) :- divine_contraction(identity_of_power), gen(A,X,_), gen(A,Y,_), X != Y,
                        one_power(X,Y).
-contractible(A,X,Y) :- mode(principle,cr,closed_circuit), circuit(A,X,Y), creature(X).
-contractible(A,X,Y) :- mode(principle,div,closed_circuit), circuit(A,X,Y), divine(X).
 
 o_edge(X,Z,A)         :- gen(A,X,Z), contributors(A,1).
 o_edge(pair(X,Y),Z,A) :- gen(A,X,Z), gen(A,Y,Z), X < Y, contractible(A,X,Y).
@@ -130,18 +86,13 @@ orig(P,Z) :- orig_div(P,Z), licensed(origination,div).
 orig(P,Z) :- orig_cr(P,Z),  licensed(origination,cr).
 info(principle_of(Z,P)) :- orig(P,Z).
 
-% A3  the grain, typed by mode. Being has one giver on both sides: only God
-% creates (ST I q.45 a.5; Th. 24), so two givers are impossible, not wrong.
-% Origin: a necessity in God, a norm for creatures.
+% A3  the grain. Being has one giver on both sides: only God creates (ST I
+% q.45 a.5; Th. 24), so two givers are impossible, not wrong. A divine person
+% has one principle of origin: Lyons II, the Spirit proceeds "not from two
+% principles" (DH 850). Both are the deposit's, checked directly, through no
+% analogy. What unity of principle means among creatures is a theory's claim.
 violation(incoherent(grain(e,Z,P,Q)))  :- being(P,Z), being(Q,Z), P < Q.
-violation(incoherent(grain(o,Z,P,Q)))  :- orig(P,Z), orig(Q,Z), P < Q, ind_sort(Z,S),
-                                          licensed(grain,S), mode(grain,S,necessity).
-% A norm binds rational agents, persons: the acts of the parents (DV II.B.5),
-% not the breeding of lions (K1b). Under univocity of mode it would bind the
-% divine persons too (UN2): that is the error the stress test shows.
-violation(norm_breach(grain(o,Z,P,Q))) :- orig(P,Z), orig(Q,Z), P < Q, ind_sort(Z,S),
-                                          licensed(grain,S), mode(grain,S,norm),
-                                          person(P), person(Q).
+violation(incoherent(grain(o,Z,P,Q)))  :- orig(P,Z), orig(Q,Z), P < Q, divine(Z).
 
 % origin is acyclic; principles have members
 principle(P) :- orig(P,_).
@@ -172,19 +123,8 @@ violation(persons_not_distinguished(X,Y)) :- distinction(opposition), divine(X),
 violation(persons_not_distinguished(X,Y)) :- distinction(mode), divine(X), divine(Y), X < Y,
                                              not opposed(X,Y), not opposed(Y,X), not distinct_by_mode(X,Y).
 
-% licenses never cross the Creator-creature line (A4, A11)
-violation(nuptial_within_god(X,Y)) :- nupt(X,Y), divine(X), divine(Y).
-violation(power_license_in_creatures(X,Y)) :- one_power(X,Y), creature(X), X < Y.
-
-% the dropped clause "finite natures cannot generate alone", three readings
-lone(A,X) :- gen(A,X,_), contributors(A,1), creature(X).
-violation(lone_generation(A,X)) :- gen_policy(unbanded), lone(A,X).
-violation(lone_generation(A,X)) :- gen_policy(by_level), lone(A,X), level(X,L), band(L).
-violation(lone_generation(A,X)) :- gen_policy(by_kind),  lone(A,X), of_kind(X,K), obligate_sexual(K).
-
-% ---------- A8  Finite totality is rivalrous ------------------------
+% ---------- Finitude -------------------------------------------------
 finite(X) :- creature(X).
-violation(rivalrous_total(X,Y1,Y2)) :- total(X,Y1), total(X,Y2), Y1 < Y2, finite(X).
 
 % ---------- A10  Image and dignity are not graded --------------------
 image(X) :- human(X).                   % GS 12; the deposit is silent on angels (cf. ST I q.93 a.3)
@@ -194,16 +134,8 @@ consubstantial(X,Y) :- divine(X), divine(Y), X != Y.
 equal_dignity(X,Y)  :- human(X), human(Y), X != Y.          % GS 29: human persons
 violation(receiver_ranked_lower(X,Y)) :- less(X,Y), consubstantial(X,Y).
 violation(receiver_ranked_lower(X,Y)) :- less(X,Y), equal_dignity(X,Y).
-% States of life: the gift of self is total in each (FC 16: two ways of living the
-% one mystery of the covenant), so no state may be credited with a greater gift of
-% self, and no person ranked by state. The objective excellence of virginity for the
-% Kingdom (Trent, Sess. XXIV can. 10, DH 1810; FC 16) is another relation: the
-% state's singular link with the Kingdom, not the measure of a person's gift.
-violation(self_gift_ranked_by_state(V1,V2)) :- self_gift_measure(V1,M1), self_gift_measure(V2,M2), M1 < M2.
 
-% ---------- A11  God outside the order; sorted predicates ------------
-violation(god_inside_level_order(G)) :- level(G,_), god(G).
-sort(grace,participation).                    % context (CCC 1997), not derived
+% ---------- A11  Sorted predicates ------------------------------------
 violation(sort_clash(X,S1,S2)) :- sort(X,S1), sort(X,S2), S1 < S2.
 
 % communicatio idiomatum as typing (T5; ST III q.16)

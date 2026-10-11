@@ -247,8 +247,9 @@ classified as schismatic, c. 1364 does not apply. See
 
 | File | Contents |
 | --- | --- |
-| `icon_core.lp` | axioms |
-| `icon_analogy.lp` | bridges |
+| `kernel_core.lp` | the kernel and the deposit's rules: sorts, relations, origin, creation, image and dignity, predication |
+| `kernel_analogy.lp` | bridges, modes, crossing guards, the kernel's sorts |
+| `icon_theory.lp` | the Grammar of the Icon: N, A4a–A10 as the theory states them, its bridges and sorts |
 | `icon_models.lp` | models |
 | `icon_tests.lp` | candidates, switches |
 | `icon_metaphysics.lp` | the attributes, the 24 Theses, Thomas's readings, rival readings (switches) |

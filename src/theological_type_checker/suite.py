@@ -450,8 +450,8 @@ scen("UN1", AN, "Univocity of mode (necessity): a child of an impeded union", ["
       downstream("q(disparity(m,w))=impeded", "norm_breach(grain(o,c", present=False)],
      "an existing child reported as impossible: the P3 error, restored by univocity", mode=B)
 scen("UN2", AN, "Univocity of mode (norm): the Trinity under one license", ["trinity", "circuit_only", "univocal_norm"],
-     [has("norm_breach(grain(o,spirit", "deontic_in_god(grain)"), none_of("incoherent")],
-     "the unity of the Spirit's principle becomes something God ought to keep: flagged")
+     [has("norm_breach(grain(o,spirit", "deontic_in_god(grain)", "incoherent(grain(o,spirit")],
+     "the unity of the Spirit's principle becomes something God ought to keep: flagged; the deposit's necessity (DH 850) stands")
 scen("UN3", AN, "Analogical modes (the default) on the same two settings", ["disparity"],
      [downstream("q(disparity(m,w))=impeded", "norm_breach(grain(o,c,m,w))"),
       downstream("q(disparity(m,w))=impeded", "incoherent", present=False)],
@@ -780,12 +780,12 @@ scen("CL1", "canon", "The norm graph is well founded", [], [_norm_check],
 FQ = "filioque"
 
 def filioque_table(r):
-    """license (two | circuit_only) x distinction (mode | opposition) x model (filioque | monopatrism)"""
-    want = {("two", "mode"): (True, True), ("two", "opposition"): (True, False),
-            ("circuit_only", "mode"): (False, True), ("circuit_only", "opposition"): (False, False)}
+    """divine license (one power | none) x distinction (mode | opposition) x model (filioque | monopatrism)"""
+    want = {("one_power", "mode"): (True, True), ("one_power", "opposition"): (True, False),
+            ("none", "mode"): (False, True), ("none", "opposition"): (False, False)}
     got, cells = {}, []
     for (lic, dist), _ in want.items():
-        base = ["trinity", f"distinction_{dist}"] + (["circuit_only"] if lic == "circuit_only" else [])
+        base = ["trinity", f"distinction_{dist}"] + (["no_divine_contraction"] if lic == "none" else [])
         got[(lic, dist)] = tuple(not solve(base + m, "one")["violations"] for m in ([], ["monopatrism"]))
         f, m = got[(lic, dist)]
         cells.append(f"{lic}/{dist}: F {'ok' if f else 'X'}, M {'ok' if m else 'X'}")
@@ -798,7 +798,7 @@ scen("FQ1", FQ, "The Trinity, the Spirit from the Father alone", ["trinity", "mo
 scen("FQ2", FQ, "The monarchy in the Filioque model", ["trinity"],
      [only_theorem("principle_without_principle", "principle_without_principle(father)")],
      "the Father alone is principle without principle in both models (DH 1331; PCPCU 1995)")
-scen("FQ3", FQ, "Monopatrism with the circuit license only", ["trinity", "monopatrism", "circuit_only"],
+scen("FQ3", FQ, "Monopatrism without a divine license", ["trinity", "monopatrism", "no_divine_contraction"],
      [clean], "consistent: nothing in God is from two, so the divine license is idle (compare S3)")
 scen("FQ4", FQ, "Which premises decide it", [], [filioque_table],
      "license and mode: both; license and opposition: Filioque; no license and mode: monopatrism; neither: neither")
@@ -983,16 +983,23 @@ def only_violations(*allowed):
         return not extra, "; ".join(extra) or f"nothing beyond {', '.join(allowed) or 'none'}"
     return chk
 
-LINT_BATCH = "\n".join(
-    [f"x_{p}(X) :- {p}(X{',Y' if p in ('one_power', 'orig_div', 'consubstantial') else ''}), created_person({'Y' if p in ('one_power', 'orig_div', 'consubstantial') else 'X'})."
-     for p in ("god", "divine", "one_power", "orig_div", "consubstantial")] +
-    [f"y_{p}(X) :- {p}(X{',Y' if p in ('orig_cr', 'needs_welcome', 'equal_dignity', 'level') else ''}), divine(X)."
-     for p in ("creature", "organism", "orig_cr", "acts", "finite", "needs_welcome", "equal_dignity", "level",
-               "lone", "inanimate", "angel", "human")])
+def _crossing_rules(div, cr):
+    two = ("one_power", "orig_div", "consubstantial", "orig_cr", "needs_welcome", "equal_dignity", "level")
+    return ([f"x_{p}(X) :- {p}(X{',Y' if p in two else ''}), created_person({'Y' if p in two else 'X'})." for p in div] +
+            [f"y_{p}(X) :- {p}(X{',Y' if p in two else ''}), divine(X)." for p in cr])
+
+LINT_BATCH = "\n".join(_crossing_rules(("god", "divine", "one_power", "orig_div", "consubstantial"),
+                                       ("creature", "organism", "orig_cr", "acts", "finite", "equal_dignity",
+                                        "inanimate", "angel", "human")))
+LINT_BATCH_ICON = "\n".join(_crossing_rules((), ("needs_welcome", "level", "lone")))
 
 def lint_batch(_r):
     n = len(lint(LINT_BATCH))
-    return n == 17, f"{n} of 17 crossing rules flagged"
+    return n == 14, f"{n} of 14 crossing rules flagged"
+
+def lint_batch_icon(_r):
+    n = len(lint(LINT_BATCH_ICON))
+    return n == 3, f"{n} of 3 crossing rules flagged"
 
 scen("K1", KG, "The world: things, plants, animals, humans at every stage, angels", ["world"],
      [theorems("vacuous_over_persons(receptive)", "vacuous_over_persons(donative)"), clean],
@@ -1028,7 +1035,9 @@ scen("K12", KG, "The image denied to angels", ["world", "cand_image_of_angels"],
 scen("K13", KG, "A nature term with its own nature's predicate", ["communicatio", "communicatio_nature"],
      [verdicts({"humanity_is_created": "well_typed"})], "well typed")
 scen("K14", KG, "The static crossing check, one rule per sorted predicate", [],
-     [lint_batch], "every sorted predicate, paired across the line, is flagged")
+     [lint_batch], "every sorted predicate of the kernel, paired across the line, is flagged")
+scen("AN13", AN, "The static crossing check on the theory's own sorts", [],
+     [lint_batch_icon], "the theory registers its sorts in its own file; each is flagged across the line")
 
 
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------

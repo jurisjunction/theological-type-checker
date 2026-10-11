@@ -9,45 +9,56 @@
 less(X,Y) :- from(X,Y).
 
 #program cand_receiver_lesser_nuptial.  % "receptivity ranks the receiver lower"
+uses(icon).                             % the Grammar of the Icon
 less(X,Y) :- rec(n,X,Y), created_person(X), created_person(Y).
 
 #program cand_functionalism.            % image indexed to exercised reason
+uses(icon).                             % the Grammar of the Icon
 denies_image(X,no_exercised_reason(S)) :- stage(X,S), not exercises_reason(X,S).
 
 #program cand_couple_completion.        % the unmarried as half an icon
+uses(icon).                             % the Grammar of the Icon
 denies_image(X,unmarried) :- human_nature(X), not married(X).
 
 #program cand_magnitude.                % the gift of self measured by state of life
+uses(icon).                             % the Grammar of the Icon
 self_gift_measure(consecrated,2). self_gift_measure(married,1).
 
 #program cand_diagram.                  % male-as-God / female-as-creature
+uses(icon).                             % the Grammar of the Icon
 says_unary(d1,receptive,woman).
 distinguishes(d1,receptive,woman,man).
 distinguishes(d2,donative,man,woman).
 
 #program cand_weld.                     % intensity read as eros
+uses(icon).                             % the Grammar of the Icon
 claimed_counter_phase(X,Y) :- intense(X,Y).
 
 #program cand_apex.                     % God as the top of the fractal
+uses(icon).                             % the Grammar of the Icon
 level(god,top).
 
 #program cand_grace_stuff.              % grace typed as a quantity
+uses(icon).                             % the Grammar of the Icon
 sort(grace,quantity).
 
 #program cand_passivity.                % personal reception typed as non-act
+uses(icon).                             % the Grammar of the Icon
 nonact_reception(X,Y) :- rec(n,X,Y), created_person(X).
 
 #program soul_two_spouses.              % a finite soul given totally twice
+uses(icon).                             % the Grammar of the Icon
 total(soul1,rival).
 
 % ---------- Policy switches -----------------------------------------
-#program mode_bond.        closure_mode(bond).
-#program circuit_only.     license_policy(circuit_only).
+#program mode_bond.        closure_mode(bond). uses(icon).
+#program circuit_only.     license_policy(circuit_only). uses(icon).
 #program trinity_as_couple.             % rescue the Trinity with a nuptial circuit
+uses(icon).                             % the Grammar of the Icon
 nupt(father,son). nupt(son,father). closed_in_act(spiration,father,son).
-#program gen_unbanded.     gen_policy(unbanded).
-#program gen_by_level.     gen_policy(by_level).
-#program gen_by_kind.      gen_policy(by_kind).
+#program gen_unbanded.     gen_policy(unbanded). uses(icon).
+#program gen_by_level.     gen_policy(by_level). uses(icon).
+#program gen_by_kind.      gen_policy(by_kind). uses(icon).
 
 % ---------- Rescue device: can type-splitting always save the grain? -
 % Answer-set (not pure Datalog): the solver may move any O-edge to a new
@@ -174,6 +185,9 @@ info(manifested_through(spirit,son)) :- rel(m,son,spirit), reltype(m).
 #program cand_energies_unwarranted. % the same relation without a declared type
 rel(m,son,spirit).
 
+#program no_divine_contraction.     % no power common to Father and Son by which the Spirit
+no_divine_contraction.              % proceeds as from one principle (Photius, Mystagogia)
+
 #program distinction_opposition.    % persons are distinct only by opposed relations of origin:
 distinction(opposition).            % Anselm, De processione 1; Florence, DH 1330; ST I q.36 a.2
 
@@ -185,4 +199,5 @@ divine(begetter). divine(a_son). divine(b_son).   % names sort the sons before t
 gen(begetting2,begetter,a_son). gen(begetting2,begetter,b_son).
 
 #program angel_called_bridal.     % does "called to be bridal" (A9) tell an angel from a man?
+uses(icon).                             % the Grammar of the Icon
 distinguishes(d_angel, called_bridal, gabriel, peter).

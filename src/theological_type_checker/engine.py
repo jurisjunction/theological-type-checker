@@ -21,7 +21,7 @@ from typing import Iterable
 import clingo
 
 LP_DIR = pathlib.Path(__file__).resolve().parent / "lp"
-FILES = ["icon_core.lp", "icon_analogy.lp", "icon_models.lp", "icon_tests.lp", "icon_metaphysics.lp", "kernel_world.lp",
+FILES = ["kernel_core.lp", "kernel_analogy.lp", "icon_theory.lp", "icon_models.lp", "icon_tests.lp", "icon_metaphysics.lp", "kernel_world.lp",
          "icon_authority.lp", "icon_history.lp", "canon_law.lp", "canon_cases.lp", "pair.lp", "library.lp"]
 
 # Rule-base overrides for the "fix method": text added to the base, and
@@ -258,14 +258,14 @@ def preferred_value(r, question):
 # ---------- static crossing check (A11) ---------------------------------
 CHECK_HEADS = ("violation", "crosses", "info", "theorem", "verdict")
 ROUTES = ("licensed", "mode", "bridge")
-LINT_FILES = ["icon_core.lp", "icon_analogy.lp", "icon_authority.lp"]
+LINT_FILES = ["kernel_core.lp", "kernel_analogy.lp", "icon_theory.lp", "icon_authority.lp"]
 
 
 def lint(extra=""):
     """Flag rules whose positive body mixes divine- and creature-sorted
     predicates without routing through licensed/mode/bridge."""
     texts = base_texts()
-    sorts = dict(re.findall(r"sort_of\((\w+),(\w+)\)", texts["icon_analogy.lp"]))
+    sorts = {p: s for f in LINT_FILES for p, s in re.findall(r"sort_of\((\w+),(\w+)\)", texts[f])}   # each layer registers its own
     text = "\n".join(texts[f] for f in LINT_FILES) + "\n" + _ADD.get() + "\n" + check_snippet(extra)
     text = re.sub(r"%.*", "", text)
     findings = []

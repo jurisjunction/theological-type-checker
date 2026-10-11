@@ -12,6 +12,7 @@ gen(spiration,father,spirit).
 gen(spiration,son,spirit) :- not monopatrism.   % Lyons II, DH 850; Florence, DH 1300-1302
 
 #program family.                        % M2: marriage, conception, baptism
+uses(icon).                             % the Grammar of the Icon
 god(god). bridegroom(christ). incarnate(christ).
 created_person(man). created_person(woman). created_person(child).
 proposed_bond(man,woman).
@@ -22,6 +23,7 @@ consent(man,christ). consent(woman,christ).
 held_for(church,child,christ).          % infant baptism: held in trust
 
 #program souls.                         % M3: Christ and many souls
+uses(icon).                             % the Grammar of the Icon
 god(god). bridegroom(christ). incarnate(christ).
 created_person(soul1). created_person(soul2). created_person(soul3).
 consent(soul1,christ). consent(soul2,christ). consent(soul3,christ).
@@ -30,6 +32,7 @@ total(soul1,christ). total(soul2,christ). total(soul3,christ).
 stage(christ,embryo).
 
 #program friendship.                    % M4: co-phase love
+uses(icon).                             % the Grammar of the Icon
 god(god). bridegroom(christ). incarnate(christ).
 created_person(david). created_person(jonathan).
 consent(david,christ). consent(jonathan,christ).
@@ -52,6 +55,7 @@ sentence(christ_as_man_is_a_creature,christ,is_a_creature).
 qualified(christ_as_man_is_a_creature).
 
 #program bonds.                         % c. 1084 / c. 1057 shapes
+uses(icon).                             % the Grammar of the Icon
 god(god).
 created_person(a1). created_person(b1).                  % sterile, capable
 proposed_bond(a1,b1). consent(a1,b1). consent(b1,a1). capable_closing(a1,b1). sterile(a1).
@@ -61,10 +65,12 @@ created_person(a3). created_person(b3).                  % one consent supplied 
 proposed_bond(a3,b3). consent(a3,b3). held_for(parent,b3,a3). capable_closing(a3,b3).
 
 #program polygamy.
+uses(icon).                             % the Grammar of the Icon
 created_person(h). created_person(w1). created_person(w2).
 total(h,w1). total(h,w2).
 
 #program separate_act.                  % married couple; generation without the closing act
+uses(icon).                             % the Grammar of the Icon
 god(god). bridegroom(christ). incarnate(christ).
 created_person(man2). created_person(woman2). created_person(child2).
 proposed_bond(man2,woman2).
@@ -73,6 +79,7 @@ consent(man2,christ). consent(woman2,christ). held_for(church,child2,christ).
 gen(separate,man2,child2). gen(separate,woman2,child2).   % no closed_in_act
 
 #program asexual.                       % fission and parthenogenesis
+uses(icon).                             % the Grammar of the Icon
 god(god).
 organism(bact). organism(bact_a). organism(bact_b).
 level(bact,organism). of_kind(bact,bacterium).

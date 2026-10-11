@@ -142,16 +142,19 @@ breach) and two overreaches of the theory (its norm of origin reached
 lions; its call to be bridal reached angels), all four since fixed. See
 [ttc-findings(7)](findings.md) §15.
 
-**The theory's bridges load in every run.** The principle and grain
+**The theory's bridges loaded in every run.** The principle and grain
 bridges exist for the theory's analogy of contraction (one principle of the
-Spirit, one principle of the child). Their modes are always on, so deleting
-one reddens every scenario, authority and canon included. They should load
-with the theory, not with the kernel.
+Spirit, one principle of the child). They were always on, so deleting one
+reddened every scenario, authority and canon included. They now load only
+when a part declares `uses(icon)`. The Spirit's one principle (DH 850) is
+checked by the deposit directly, through no analogy.
 
-**Two findings run through the theory's machinery.** The univocity
-stress tests (UN1, UN2, S3, AN3: finding §1, Scotus) and the Photius row of
-the Filioque table (FQ4) use the theory's circuit-only license to mean "no
-license". The kernel needs its own switch: no divine contraction.
+**Two findings ran through the theory's machinery.** The Photius row of
+the Filioque table (FQ4) and FQ3 used the theory's circuit-only license to
+mean "no license". They now use the kernel's own switch,
+`no_divine_contraction`. The univocity stress tests (UN1, UN2, S3, AN3:
+finding §1) still use the theory: they test its analogy under univocity, and
+K9 shows the kernel's half without it.
 
 **One power is the Latin account, not the dogma.** Lyons II teaches one
 principle (DH 850). That the one principle is one *power* is Thomas's
@@ -169,11 +172,19 @@ denied by occasionalism, defined nowhere. The theory uses it once (T1).
 God really and essentially distinct from the world (DH 3001), not in a
 genus (ST I q.3 a.5).
 
-**The kernel names the theory.** The vacuity list names the theory's
+**The kernel named the theory.** The vacuity list named the theory's
 poles (`bridal`, `called_bridal`); two crossing guards and four entries of
-the sort table name its predicates (`needs_welcome`, `level`, `lone`,
-`bridegroom`). Dependencies must point downward. Each layer should
-register its own sorts.
+the sort table named its predicates (`needs_welcome`, `level`, `lone`,
+`bridegroom`). They now live in the theory's file, and each layer registers
+its own sorts (AN13, K14).
+
+## ENFORCEMENT
+
+The theory now has a file of its own, `icon_theory.lp`. The kernel files
+(`kernel_core.lp`, `kernel_analogy.lp`, `kernel_world.lp`) may not name a
+predicate of the theory; a test fails if one does
+(`test_kernel_names_nothing_of_the_theory`). Dependencies point downward:
+the theory uses the kernel, never the reverse.
 
 ## DIAGNOSTICS
 

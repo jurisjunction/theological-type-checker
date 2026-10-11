@@ -474,7 +474,7 @@ def guide_resource() -> str:
 
 
 @server.resource("ttc://rules/{file}", name="rules", mime_type="text/plain",
-                 description="One rule file of the base, e.g. icon_core.lp.")
+                 description="One rule file of the base, e.g. kernel_core.lp.")
 def rules_resource(file: str) -> str:
     texts = engine.base_texts()
     if file not in texts:

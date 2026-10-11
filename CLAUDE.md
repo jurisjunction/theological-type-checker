@@ -11,7 +11,9 @@ This is a deterministic checker for theological and canonical claims
 
 | Layer | Files |
 | --- | --- |
-| grammar | `icon_core.lp`, `icon_analogy.lp`, `icon_models.lp`, `icon_tests.lp`, `icon_metaphysics.lp`, `kernel_world.lp` |
+| kernel (and the deposit's rules) | `kernel_core.lp`, `kernel_analogy.lp`, `kernel_world.lp` |
+| the Grammar of the Icon (one theory) | `icon_theory.lp`, `icon_models.lp`, `icon_tests.lp` |
+| schools (readings, switches) | `icon_metaphysics.lp` |
 | authority (teaching) | `icon_authority.lp`, `icon_history.lp` |
 | canon (law) | `canon_law.lp`, `canon_cases.lp` |
 | pair, frontier | `pair.lp` |

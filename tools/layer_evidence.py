@@ -2,7 +2,7 @@
 cites, which sorts it touches, and its blast radius (the scenarios that turn red
 when it alone is deleted).
 
-    python tools/layer_evidence.py OUT.json icon_core.lp,icon_analogy.lp
+    python tools/layer_evidence.py OUT.json kernel_core.lp,kernel_analogy.lp,icon_theory.lp
 
 Takes about half an hour on two cores. The layer labels are a judgment and live
 in docs/layers.csv; this script only gathers the evidence they are checked against.
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     from theological_type_checker import suite
     app_ids = {s["id"] for s in suite.S if APP_MODELS & set(s["parts"])}
     groups = {s["id"]: s["group"] for s in suite.S}
-    sorts = dict(re.findall(r"sort_of\((\w+),(\w+)\)", (E.LP_DIR / "icon_analogy.lp").read_text()))
+    sorts = {p: s for f in ("kernel_analogy.lp", "icon_theory.lp") for p, s in re.findall(r"sort_of\((\w+),(\w+)\)", (E.LP_DIR / f).read_text())}
     sts = [s for f in FILES for s in statements(f)]
     print(len(sts), "statements", flush=True)
     with Pool(2) as pool:

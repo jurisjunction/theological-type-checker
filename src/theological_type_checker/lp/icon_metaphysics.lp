@@ -11,7 +11,7 @@
 % ---------- Simplicity: which distinctions in God a reading allows ----
 % god_distinction(X,Y,Kind): the data assert a distinction in God of this
 % kind, other than between the persons. The persons are distinct by
-% relations of origin; a reading of simplicity fixes which (icon_core.lp).
+% relations of origin; a reading of simplicity fixes which (kernel_core.lp).
 % allowed(Reading,Kind): the kinds a reading admits besides those relations.
 % The synonym reading (the objectors in ST I q.13 a.4) admits none.
 allowed(defined,(rational;formal;energetic)).   % "simplex omnino": no composition of parts

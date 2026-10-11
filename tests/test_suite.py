@@ -173,3 +173,23 @@ THOMIST_STACK_CHANGES = {
 def test_thomist_stack_changes_exactly_these():
     changed = {s["id"] for s in suite.S if s["group"] not in (suite.TH, suite.KG) and _outcome(s) != _outcome(s, suite.THOMIST)}
     assert changed == THOMIST_STACK_CHANGES
+
+
+# Layering: the kernel names nothing of the Grammar of the Icon. Dependencies
+# point downward: the theory may use the kernel, never the reverse (docs/layers.md).
+THEORY_PREDICATES = {
+    "nupt", "called_bridal", "needs_welcome", "vicarious_ok", "welcomed", "valid_bond", "bond",
+    "counter_phase", "closed", "circuit", "closure_mode", "license_policy", "gen_policy", "lone",
+    "consent", "held_for", "proposed_bond", "capable_closing", "closed_in_act", "total",
+    "side_by_side", "intense", "bridegroom", "performs", "claimed_counter_phase", "self_gift_measure",
+    "level", "band", "obligate_sexual", "of_kind", "impeded", "uses", "nonact_reception", "a9_universal",
+}
+KERNEL_FILES = ("kernel_core.lp", "kernel_analogy.lp", "kernel_world.lp")
+
+
+@pytest.mark.parametrize("name", KERNEL_FILES)
+def test_kernel_names_nothing_of_the_theory(name):
+    import re
+    code = re.sub(r"%.*", "", (engine.LP_DIR / name).read_text())
+    used = {w for w in re.findall(r"\b([a-z]\w*)\b", code)} & THEORY_PREDICATES
+    assert not used, f"{name} names the theory's predicates: {sorted(used)}"
