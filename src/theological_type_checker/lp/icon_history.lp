@@ -440,6 +440,27 @@ source(trent_1563_c10,1,truth,1563). supports(trent_1563_c10,q(state_excellence)
 source(fc16,3,truth,1981). papal_form(fc16,ordinary). character(fc16,exhortation).
 supports(fc16,q(state_excellence),virginity_more_excellent).
 
+#program filioque.               % the origin of the Spirit
+question(q(spirit_origin)). question_kind(q(spirit_origin),doctrinal).
+value(q(spirit_origin),father_and_son). value(q(spirit_origin),father_alone).
+source(lyons_ii_1274,1,truth,1274). supports(lyons_ii_1274,q(spirit_origin),father_and_son).   % DH 850
+source(florence_1439,1,truth,1439). supports(florence_1439,q(spirit_origin),father_and_son).   % DH 1300-1302
+source(anselm,5,truth,1102).  promoted(anselm,4,1720).  supports(anselm,q(spirit_origin),father_and_son).   % De processione
+source(aquinas_q36,5,truth,1268). promoted(aquinas_q36,4,1567). supports(aquinas_q36,q(spirit_origin),father_and_son).  % ST I q.36 a.2
+source(photius,5,truth,886).  supports(photius,q(spirit_origin),father_alone).          % Mystagogia
+source(gregory_cyprus,5,truth,1285). supports(gregory_cyprus,q(spirit_origin),father_alone).   % Tomus
+source(palamas,5,truth,1350). supports(palamas,q(spirit_origin),father_alone).          % Capita 150, 36
+% The monarchy is a separate question; both sides affirm it.
+question(q(monarchy)). question_kind(q(monarchy),doctrinal).
+value(q(monarchy),father_principle_without_principle). value(q(monarchy),denied).
+source(florence_1442,1,truth,1442). supports(florence_1442,q(monarchy),father_principle_without_principle).  % DH 1331
+source(pcpcu_1995,3,truth,1995). character(pcpcu_1995,commentary).
+supports(pcpcu_1995,q(monarchy),father_principle_without_principle).   % L'Osservatore Romano, 20 Sept 1995
+monopatrism :- holds(q(spirit_origin),father_alone).             % into the core grammar
+
+#program councils_relaxed.        % ablation: the two councils removed from the graph
+relaxed(lyons_ii_1274). relaxed(florence_1439).
+
 #program a9_universal.            % the old reading of A9, for comparison
 a9_universal.
 

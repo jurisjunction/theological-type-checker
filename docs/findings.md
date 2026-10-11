@@ -20,7 +20,8 @@ of two things happens:
 - **Norm everywhere.** God is put under a norm (UN2).
 
 A single license for "two as one principle" either breaks the Filioque or
-puts a nuptial circuit inside the Trinity (S3, S4). The analogical modes give
+puts a nuptial circuit inside the Trinity (S3, S4). Both assume the Filioque;
+without it they vanish, and UN1 stands alone (§13). The analogical modes give
 a norm breach in creatures and nothing impossible (UN3).
 
 The checker's bridge (one form, two modes, God first) is compatible with
@@ -120,7 +121,65 @@ The pair is (teaching, law). Coupling the layers made it explicit that the
 school denying the 2026 act was schismatic needs c. 751 read as a state.
 Uncoupled, the law applies c. 1364 where its premise fails (PR2).
 
-### 13. Method
+### 13. The Filioque is independent of the grammar (FQ1–FQ20)
+
+Formally undecidable, in Gödel's sense: neither it nor its denial follows
+from the axioms.
+
+State M1 with the Spirit from the Father alone (Photius, *Mystagogia*;
+Gregory of Cyprus, *Tomus*, 1285; Palamas, *Capita* 150, 36). No axiom
+fails (FQ1). Of the other 149 scenarios, 13 change; the rest are identical,
+and a test pins the set:
+
+- **The Trinity** (M1, M5, AN1, AN6, S4): the Spirit's principle is the
+  Father. No person is both from another and principle of another.
+- **Receiver-as-lesser** (X1): still a violation, one instance fewer.
+- **One license** (S3, AN3, UN2): the costs shown in God vanish. Nothing in
+  God is from two, so the divine license is idle (FQ3).
+- **The images** (T6c, AN9–AN11): the family loses even its shape;
+  Augustine's mind keeps one procession.
+
+Every creaturely, canonical and authority result is unchanged.
+
+What decides the question is a premise outside the axioms (FQ4):
+
+| License | Distinction of persons | Filioque | Monopatrism |
+| --- | --- | --- | --- |
+| one power (Lyons II) | by mode too (Nazianzen, Damascene) | consistent | consistent |
+| one power | by opposition only (Anselm; DH 1330) | consistent | Son and Spirit indistinct (ST I q.36 a.2) |
+| none (Photius) | by mode too | two principles (S3) | consistent |
+| none | by opposition only | two principles | Son and Spirit indistinct |
+
+Each deciding premise took its classical form inside the controversy:
+Anselm's axiom in *De processione Spiritus Sancti* (after Bari, 1098),
+the two causes in Photius's *Mystagogia*. Whether either has a warrant from
+another case is the next question. The Latin side argues opposition from
+simplicity (ST I q.28 a.3); that argument has not been encoded.
+
+Both doctrines keep the monarchy: the Father alone is principle without
+principle (FQ1, FQ2; DH 1331). PCPCU (1995) says the same, keeps
+*ekporeusis* "from the Father alone", and refers the Filioque to
+*processio*.
+
+Each psychological image fits its author's doctrine and no other (FQ11–FQ15).
+Augustine's mind (love from mind and word) licenses both processions only
+under the Filioque. Palamas's (love from the mind, resting in the word,
+*Capita* 36–37) licenses both only under monopatrism. Images confirm; they
+do not decide. Nazianzen's Adam, Eve and Seth (Or. 31.11) has the
+Filioque's whole shape and licenses nothing (FQ16, FQ17).
+
+Palamas's eternal manifestation through the Son is a sixth relation type.
+A0 admits it with a warrant from another case (the essence–energies
+distinction, argued on the light of Tabor) and refuses it without one (FQ7,
+FQ8). Mediation is not origin: the Son still holds no second position.
+
+In the authority layer, Lyons II (DH 850) and Florence (DH 1300–1302)
+settle the question at tier 1 (FQ18). Remove them and it is open, both
+branches clean (FQ19), unless distinction by opposition is added (FQ20).
+
+The grammar does not decide the Filioque. The councils do.
+
+### 14. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius
@@ -138,10 +197,17 @@ Uncoupled, the law applies c. 1364 where its premise fails (PR2).
 
 ## STANDARDS
 
-- Aquinas, ST I q.13 aa.5–6, q.27 aa.2, 4, q.36 a.4; III q.16
+- Aquinas, ST I q.13 aa.5–6, q.27 aa.2, 4, q.28 a.3, q.36 aa.2, 4; III q.16
+- Anselm, *De processione Spiritus Sancti* 1
 - Augustine, *De Trinitate* IX–X, XII
 - Scotus, *Ordinatio* I d.3 p.1 qq.1–3; I d.8 p.1 q.3; III d.3 q.1
-- Lateran IV, DH 800, 806
+- Gregory Nazianzen, Or. 31.8–9, 11; John of Damascus, *De fide orthodoxa* I.8
+- Photius, *Mystagogia*; Gregory of Cyprus, *Tomus* (1285); Gregory Palamas,
+  *Capita* 150, 36–37
+- Lateran IV, DH 800, 806; Lyons II, DH 850; Florence, DH 1300–1302, 1330–1331
+- PCPCU, "The Greek and Latin Traditions regarding the Procession of the
+  Holy Spirit", *L'Osservatore Romano* (English), 20 September 1995
+- R. Flogaus, "Palamas and Barlaam Revisited", *SVTQ* 42 (1998) 1–32
 - *Mystici corporis* (1943); Holy Office to Cushing (1949)
 - MD 7, 25; FC 84; SC 29; AL 305 n. 351
 - LG 8, 14–16, 25; UR 3; DI 17

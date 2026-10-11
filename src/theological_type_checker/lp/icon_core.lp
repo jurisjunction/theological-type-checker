@@ -144,6 +144,20 @@ anc(Z,X)  :- from(Z,X).
 anc(Z,X)  :- anc(Z,Y), from(Y,X).
 violation(origin_cycle(X)) :- anc(X,X), ind_sort(X,S), licensed(acyclicity,S).
 theorem(both_positions(X)) :- from(X,_), member(X,P), orig(P,_).
+% the monarchy: a divine person who originates and is from no one is the principle
+% without principle (Florence, DH 1331; PCPCU 1995: "arche anarchos")
+theorem(principle_without_principle(X)) :- divine(X), from(_,X), not from(X,_).
+
+% ---------- Distinction of the persons (no default) ------------------
+% The axioms do not say what makes two divine persons distinct. A switch says it:
+% opposed relations of origin only, or also distinct modes of origin.
+opposed(X,Y) :- from(X,Y).
+origin_mode(X,A) :- gen(A,_,X), divine(X).
+distinct_by_mode(X,Y) :- origin_mode(X,A), origin_mode(Y,B), A != B.
+violation(persons_not_distinguished(X,Y)) :- distinction(opposition), divine(X), divine(Y), X < Y,
+                                             not opposed(X,Y), not opposed(Y,X).
+violation(persons_not_distinguished(X,Y)) :- distinction(mode), divine(X), divine(Y), X < Y,
+                                             not opposed(X,Y), not opposed(Y,X), not distinct_by_mode(X,Y).
 
 % licenses never cross the Creator-creature line (A4, A11)
 violation(nuptial_within_god(X,Y)) :- nupt(X,Y), divine(X), divine(Y).

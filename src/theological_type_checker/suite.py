@@ -774,6 +774,84 @@ scen("CL1", "canon", "The norm graph is well founded", [], [_norm_check],
      "no vicious cycles; every predicate derived or declared as input")
 
 
+# ---------- the origin of the Spirit -------------------------------------
+# Is the Filioque decided by the grammar? Run the Trinity both ways, then add
+# each premise that has been offered to decide it.
+FQ = "filioque"
+
+def filioque_table(r):
+    """license (two | circuit_only) x distinction (mode | opposition) x model (filioque | monopatrism)"""
+    want = {("two", "mode"): (True, True), ("two", "opposition"): (True, False),
+            ("circuit_only", "mode"): (False, True), ("circuit_only", "opposition"): (False, False)}
+    got, cells = {}, []
+    for (lic, dist), _ in want.items():
+        base = ["trinity", f"distinction_{dist}"] + (["circuit_only"] if lic == "circuit_only" else [])
+        got[(lic, dist)] = tuple(not solve(base + m, "one")["violations"] for m in ([], ["monopatrism"]))
+        f, m = got[(lic, dist)]
+        cells.append(f"{lic}/{dist}: F {'ok' if f else 'X'}, M {'ok' if m else 'X'}")
+    return got == want, "; ".join(cells)
+
+scen("FQ1", FQ, "The Trinity, the Spirit from the Father alone", ["trinity", "monopatrism"],
+     [clean, principles_of("spirit", "father"), only_theorem("both_positions"),
+      only_theorem("principle_without_principle", "principle_without_principle(father)")],
+     "consistent; the Spirit's principle is the Father; no person holds both positions; the monarchy holds")
+scen("FQ2", FQ, "The monarchy in the Filioque model", ["trinity"],
+     [only_theorem("principle_without_principle", "principle_without_principle(father)")],
+     "the Father alone is principle without principle in both models (DH 1331; PCPCU 1995)")
+scen("FQ3", FQ, "Monopatrism with the circuit license only", ["trinity", "monopatrism", "circuit_only"],
+     [clean], "consistent: nothing in God is from two, so the divine license is idle (compare S3)")
+scen("FQ4", FQ, "Which premises decide it", [], [filioque_table],
+     "license and mode: both; license and opposition: Filioque; no license and mode: monopatrism; neither: neither")
+scen("FQ5", FQ, "Distinction by opposition only (ST I q.36 a.2)", ["trinity", "monopatrism", "distinction_opposition"],
+     [has("persons_not_distinguished(son,spirit)")], "Son and Spirit not distinguished: Thomas's argument")
+scen("FQ6", FQ, "Distinction by mode: a second Son", ["two_sons", "distinction_mode"],
+     [has("persons_not_distinguished(a_son,b_son)"), count("persons_not_distinguished", 1)], "one source, one mode: not distinguished")
+scen("FQ6b", FQ, "Distinction by opposition: a second Son", ["two_sons", "distinction_opposition"],
+     [has("persons_not_distinguished(a_son,b_son)"), count("persons_not_distinguished", 1)],
+     "the sons are not opposed: not distinguished; each is opposed to the begetter")
+scen("FQ7", FQ, "Palamas: manifestation through the Son, typed", ["trinity", "monopatrism", "palamite_energies"],
+     [clean, lambda r: ("manifested_through(spirit,son)" in r["info"], "manifested through the Son"),
+      only_theorem("both_positions")],
+     "consistent; mediation is not origin, so no person holds both positions")
+scen("FQ8", FQ, "The same relation, undeclared", ["trinity", "monopatrism", "cand_energies_unwarranted"],
+     [has("unknown_reltype(m)")], "A0 refuses it")
+scen("FQ9", FQ, "Augustine on the spiration, kinds ignored, monopatrism",
+     ["augustine", "aug_spiration", "aug_ignore_kinds", "monopatrism"],
+     [unsat], "no mapping exists (T6c: 2)", mode="all")
+scen("FQ10", FQ, "Lateran IV: the family, monopatrism", ["lateran", "lateran_family", "monopatrism"],
+     [lateran({"n_super": 0, "n_licensed": 0}), clean], "not even a supertype resemblance (AN9: 1)", mode="opt")
+scen("FQ11", FQ, "Lateran IV: Augustine's mind, monopatrism", ["lateran", "lateran_mind", "monopatrism"],
+     [lateran({"n_licensed": 1, "n_kept": 1})], "only begetting licensed (AN10: 2)", mode="opt")
+scen("FQ12", FQ, "Lateran IV: Palamas's mind, monopatrism", ["lateran", "lateran_mind_palamas", "monopatrism"],
+     [lateran({"n_licensed": 2, "n_kept": 2})], "both processions licensed", mode="opt")
+scen("FQ13", FQ, "Lateran IV: Palamas's mind, Filioque", ["lateran", "lateran_mind_palamas"],
+     [lateran({"n_licensed": 1, "n_kept": 1})], "only begetting licensed", mode="opt")
+scen("FQ14", FQ, "Lateran IV: Augustine's resident trinity, monopatrism",
+     ["lateran", "lateran_mind", "lateran_resident", "monopatrism"],
+     [lateran({"n_kept": 4}), none_of("lateran_iv")], "incomplete, so no violation (AN11: violation)", mode="opt")
+scen("FQ15", FQ, "Lateran IV: Palamas's resident trinity, monopatrism",
+     ["lateran", "lateran_mind_palamas", "lateran_resident", "monopatrism"],
+     [lateran({"n_kept": 5}), has("lateran_iv(no_dissimilarity)")], "complete map: violation", mode="opt")
+scen("FQ16", FQ, "Lateran IV: Adam, Eve, Seth (Or. 31.11), Filioque", ["lateran", "lateran_adam"],
+     [lateran({"n_super": 2, "n_licensed": 0})], "the whole shape, no licensed likeness", mode="opt")
+scen("FQ17", FQ, "Lateran IV: Adam, Eve, Seth, monopatrism", ["lateran", "lateran_adam", "monopatrism"],
+     [lateran({"n_super": 1, "n_licensed": 0})], "half the shape, no licensed likeness", mode="opt")
+scen("FQ18", FQ, "Authority: Lyons II and Florence", ["trinity", "filioque"],
+     [cls("q(spirit_origin)=father_and_son", "settled"), cls("q(spirit_origin)=father_alone", "excluded"),
+      cls("q(monarchy)=father_principle_without_principle", "settled"), cls("q(monarchy)=denied", "excluded"),
+      clean_branches],
+     "settled at tier 1; the monarchy settled with it", mode=B)
+scen("FQ19", FQ, "Authority: the two councils removed", ["trinity", "filioque", "councils_relaxed"],
+     [cls("q(spirit_origin)=father_and_son", "open"), cls("q(spirit_origin)=father_alone", "open"),
+      main_with("q(spirit_origin)=father_alone", "principle_of(spirit,father)"), clean_branches],
+     "open; both branches typecheck", mode=B)
+scen("FQ20", FQ, "Authority: councils removed, distinction by opposition",
+     ["trinity", "filioque", "councils_relaxed", "distinction_opposition"],
+     [main_with("q(spirit_origin)=father_alone", "persons_not_distinguished(son,spirit)"),
+      main_with("q(spirit_origin)=father_and_son", "violation(", present=False)],
+     "the father-alone branch fails to distinguish Son and Spirit", mode=B)
+
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

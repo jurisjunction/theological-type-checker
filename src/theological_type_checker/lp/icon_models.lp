@@ -8,7 +8,8 @@
 divine(father). divine(son). divine(spirit).
 one_power(father,son).                  % ST I q.36 a.4
 gen(begetting,father,son).
-gen(spiration,father,spirit). gen(spiration,son,spirit).
+gen(spiration,father,spirit).
+gen(spiration,son,spirit) :- not monopatrism.   % Lyons II, DH 850; Florence, DH 1300-1302
 
 #program family.                        % M2: marriage, conception, baptism
 god(god). bridegroom(christ). incarnate(christ).

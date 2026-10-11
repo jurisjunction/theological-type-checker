@@ -128,6 +128,7 @@ To decide:
 ttc-check ic asof_1600             # the Immaculate Conception, as of 1600
 ttc-check remarriage typed_doctrinal
 ttc-check sspx lattice
+ttc-check trinity monopatrism distinction_opposition   # ST I q.36 a.2
 ```
 
 ## SEE ALSO

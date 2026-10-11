@@ -64,8 +64,10 @@ unary pole predicate.
 | A10 | Image and dignity are not graded by stage, state, origin or vocation. | Nicaea; Col 1:15; LG ch. 5 |
 | A11 | God is not a level. Nothing crosses the Creator–creature line except through a bridge (God first, a mode on each side). N never holds between divine persons. | Lateran IV, DH 806; ST I q.13 a.6 |
 
-The Trinity enters as model M1, not as an axiom. The clause "finite natures
-cannot generate alone" was dropped (S5–S7).
+The Trinity enters as model M1, not as an axiom. M1 states the Filioque.
+With the Spirit from the Father alone every axiom still holds, and A4's
+divine clause is idle (FQ1, FQ3). The clause "finite natures cannot
+generate alone" was dropped (S5–S7).
 
 ## THEOREMS
 
@@ -195,6 +197,20 @@ The structures are legislator rank (c. 135 §2), document character (LG 25),
 custom (cc. 23–28) and salience (warnings only). Interviews weigh nothing.
 One earlier result moved (DR3b).
 
+### The origin of the Spirit (FQ1–FQ20)
+
+The axioms hold with the Spirit from the Father and the Son, and from the
+Father alone. Under the second, 13 of 149 earlier scenarios change, all on
+the processions or their images. Two further premises decide it:
+distinction of persons by opposition only (Anselm; DH 1330; ST I q.36 a.2)
+excludes monopatrism; the absence of one spirative power (Photius) excludes
+the Filioque (S3). Both doctrines keep the monarchy (DH 1331; PCPCU 1995).
+Each psychological image fits only its author's doctrine: Augustine's the
+Filioque, Palamas's (*Capita* 36–37) monopatrism. Palamas's manifestation
+through the Son is a sixth relation type, admitted by A0 with its warrant.
+In the authority layer the councils settle the question at tier 1 (FQ18);
+without them it is open (FQ19). See [ttc-findings(7)](findings.md) §13.
+
 ### Schism and the SSPX (SX1–SX23, PR1–PR4)
 
 Classification belongs to the authority layer. Incurring, declaration and
@@ -259,3 +275,5 @@ P3 said "cannot" and meant "ought not". A9 said "is" and meant "is called
 to be". X5 forbade ranking states of life, which Trent does (DH 1810); it
 now forbids measuring the gift of self by state, which Trent does not. Both were found by running the checker on cases the paper never
 considered. There are probably more.
+
+M1 is the Latin Trinity. The grammar would accept the Greek one.

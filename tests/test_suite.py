@@ -135,3 +135,24 @@ def test_theology_frontier_reports_what_is_missing():
     assert "frontier(theology,question_without_sources(q(z)))" in atoms
     assert "frontier(theology,ambiguous_without_readings(w))" in atoms
     assert "frontier(theology,teaching_without_character(w))" in atoms
+
+
+# The Filioque against the rest of the theory. Under monopatrism exactly these
+# scenarios change, all of them about the processions or their images; every
+# creaturely, canonical and authority result is identical.
+FILIOQUE_DEPENDENT = {
+    "M1", "M5", "AN1", "AN6", "S4",      # the Spirit's principle; the Son's two positions
+    "X1",                                # one fewer instance of the prohibited ranking
+    "S3", "AN3", "UN2",                  # the costs of one license, shown in God
+    "T6c", "AN9", "AN10", "AN11",        # the images
+}
+
+
+def _outcome(s, extra=()):
+    r = engine.solve(s["parts"] + list(extra), s["mode"])
+    return sorted(tuple(m) for m in r["all_models"]) if s["mode"] in ("all", "branches") else r["atoms"]
+
+
+def test_monopatrism_changes_only_the_processions():
+    changed = {s["id"] for s in suite.S if s["group"] != suite.FQ and _outcome(s) != _outcome(s, ["monopatrism"])}
+    assert changed == FILIOQUE_DEPENDENT

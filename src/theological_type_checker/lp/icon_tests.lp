@@ -66,7 +66,8 @@ reltype(fresh).
 % that carries required O-edges onto O-edges of the family.
 #program augustine.
 god_o(father,son,begetting).
-god_o(pair(father,son),spirit,spiration).
+god_o(pair(father,son),spirit,spiration) :- not monopatrism.
+god_o(father,spirit,spiration)           :- monopatrism.
 fam_o(pair(man,woman),child,begetting).
 src(father;son;spirit). tgt(man;woman;child).
 1 { f(S,T) : tgt(T) } 1 :- src(S).
@@ -88,7 +89,9 @@ preserved(P,Z) :- god_o(P,Z,K1), img(P,P2), f(Z,Z2), fam_o(P2,Z2,K2), kind_ok(K1
 % similarity and (b) a remainder: no map keeps every feature.
 #program lateran.
 d_ind(father;son;spirit). d_person(father;son;spirit).
-d_edge(father,son,begetting). d_edge(pair(father,son),spirit,spiration).
+d_edge(father,son,begetting).
+d_edge(pair(father,son),spirit,spiration) :- not monopatrism.
+d_edge(father,spirit,spiration)           :- monopatrism.
 kind_bridge(begetting,word_conception).   % ST I q.27 a.2: procession after the manner of intellect
 kind_bridge(spiration,love_procession).   % ST I q.27 a.4: after the manner of will
 kind_bridge(begetting,procreation).       % the name "begotten" is taken from generation
@@ -126,6 +129,15 @@ c_edge(mens,verbum,word_conception). c_edge(pair(mens,verbum),amor,love_processi
 #program lateran_resident.        % the mind's acts treated as persons: "a resident trinity"
 c_person(mens;verbum;amor).
 
+#program lateran_mind_palamas.    % Palamas, Capita 150, 36-37: love of the mind for its word,
+c_ind(mens;verbum;amor).          % from the mind, resting in the word (cf. Flogaus, SVTQ 42, 1998)
+c_edge(mens,verbum,word_conception). c_edge(mens,amor,love_procession).
+
+#program lateran_adam.            % Gregory Nazianzen, Or. 31.11: Adam a creature, Eve "a fragment",
+c_ind(adam;eve;seth).             % Seth "the begotten of both"; said of consubstantiality only
+c_person(adam;eve;seth).
+c_edge(adam,eve,formation). c_edge(pair(adam,eve),seth,procreation).
+
 #program flat_weight. flat_weight.        % ablation: one vote per independent source, reaffirmations as citations
 
 % ---------- Analogy stress switches -------------------------------------
@@ -137,5 +149,32 @@ c_person(mens;verbum;amor).
 #program univocal_norm.             univocal_mode(grain,norm).        % one principle: a norm everywhere
 
 #program aug_full.          required(P,Z) :- god_o(P,Z,_).
-#program aug_spiration.     required(pair(father,son),spirit).
+#program aug_spiration.     required(P,spirit) :- god_o(P,spirit,_).
 #program aug_ignore_kinds.  ignore_kinds.
+
+% ---------- The origin of the Spirit ----------------------------------
+% The grammar's axioms do not say whether the Son is of the Spirit's principle.
+% These switches state each answer, and the further premise that decides it.
+#program monopatrism.               % the Spirit from the Father alone, as to existence:
+monopatrism.                        % Photius, Mystagogia; Gregory of Cyprus, Tomus (1285);
+                                    % Palamas, Capita 150, 36 (kath' hyparxin)
+
+#program palamite_energies.         % and eternally manifested through the Son
+reltype(m).                         % A0: a sixth type. Warrant argued on another case: the
+rel(m,son,spirit).                  % essence-energies distinction (Basil, Ep. 234; Palamas,
+                                    % Triads III, on the Taboric light). Gregory of Cyprus,
+                                    % Tomus (1285): ekphansis through the Son.
+info(manifested_through(spirit,son)) :- rel(m,son,spirit), reltype(m).
+
+#program cand_energies_unwarranted. % the same relation without a declared type
+rel(m,son,spirit).
+
+#program distinction_opposition.    % persons are distinct only by opposed relations of origin:
+distinction(opposition).            % Anselm, De processione 1; Florence, DH 1330; ST I q.36 a.2
+
+#program distinction_mode.          % or also by distinct modes of origin from one source:
+distinction(mode).                  % Gregory Nazianzen, Or. 31.8-9; John of Damascus, De fide orth. I.8
+
+#program two_sons.                  % a second Son: one source, one mode, no opposition
+divine(begetter). divine(a_son). divine(b_son).   % names sort the sons before their source
+gen(begetting2,begetter,a_son). gen(begetting2,begetter,b_son).
