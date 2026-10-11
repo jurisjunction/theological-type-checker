@@ -13,6 +13,7 @@
 | [ttc(7)](guide-for-theologians-and-canonists.md) | concepts; start here if you are not |
 | [ttc-findings(7)](findings.md) | what it found |
 | [ttc-core(5)](core-edition.md) | axioms, theorems, tests |
+| [ttc-layers(7)](layers.md) | what each rule is: deposit, kernel, school, or the theory |
 | [ttc-canon(5)](canon-law-layer.md) | canon law as rules; the norm graph |
 | [ttc-encoding(5)](encoding-guide.md) | the fact vocabulary |
 | [ttc-flywheel(7)](flywheel.md) | a personal checker that grows |

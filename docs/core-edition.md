@@ -260,8 +260,9 @@ classified as schismatic, c. 1364 does not apply. See
 
 ## DIAGNOSTICS
 
-Every rule, when deleted, turns some test red. If one does not, the test is
-missing, not the rule.
+Every rule, when deleted, should turn some test red. If one does not, the
+test is missing, not the rule. In the grammar core, 46 statements do not yet;
+see [ttc-layers(7)](layers.md).
 
 ## REFUTATION
 

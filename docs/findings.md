@@ -246,9 +246,11 @@ above.
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius
   XII, 1951, 1956; HV 14).
-- **Mutation testing**: every rule, deleted, turns a test red. This caught
-  a vacuous test (T2), four untested canon-law rules, and one bug: an
-  ambiguous source with no readings made the whole run unsatisfiable.
+- **Mutation testing**: every rule, deleted, should turn a test red. This
+  caught a vacuous test (T2), four untested canon-law rules, and one bug: an
+  ambiguous source with no readings made the whole run unsatisfiable. It
+  holds for the canon layer and newer files; 46 statements of the grammar
+  core still fail it ([ttc-layers(7)](layers.md)).
 - **Non-diagnosis is a type rule.** The Dicastery's own return procedure
   (2026) states it.
 
