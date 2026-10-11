@@ -47,12 +47,13 @@ Fixed here.
   without confusion, change, division or separation; consubstantial with
   the Father in his divinity and with us in his humanity; of a rational
   soul and a body; like us in all things but sin (Chalcedon, DH 301–302).
-  Mary is Mother of God (Ephesus, DH 250–251). One of the Trinity suffered
-  in the flesh (Constantinople II, can. 10, DH 432). Two natural wills and
-  two natural operations, the human following the divine and subject to it
-  (Constantinople III, DH 556–557). God is "incommutabilis" (Lateran IV,
-  DH 800). In God there is a Trinity, not a quaternity (DH 804); the Son,
-  not the Father or the Spirit, became flesh (DH 801).
+  Mary is Mother of God (Ephesus, DH 250–251). He who was crucified in the
+  flesh is true God and one of the Holy Trinity (Constantinople II,
+  can. 10, DH 432). Two natural wills and two natural operations, the human
+  following the divine and subject to it (Constantinople III, DH 556–557).
+  God is "incommutabilis" (Lateran IV, DH 800). In God there is a Trinity,
+  not a quaternity (DH 804); the only-begotten Son was made incarnate by
+  the whole Trinity in common (DH 801), so the incarnate is the Son.
 - **The union is in the person** (III q. 2 aa. 2–3, 6). The incarnate is a
   divine person, given as input: which person assumed the nature.
 - **Acts belong to the person, by a nature.** The person acts; each
@@ -72,21 +73,23 @@ Fixed here.
   conjoined instrument, the sacrament and its minister separated
   instruments (III q. 62 a. 5; q. 64 a. 1). The sacrament acts *ex opere
   operato* (can. 8, DH 1608); the minister's sin does not hinder it
-  (can. 12, DH 1612; Augustine, *In Ioh.* 6.7: "it is Christ who
-  baptizes").
-- **Validity.** Matter, form, and a minister with the power and "the
-  intention at least of doing what the Church does" (Florence, DH 1312;
-  can. 11, DH 1611); for all but baptism, a baptized subject (c. 842 §1).
+  (can. 12, DH 1612; Augustine, *In Ioh.* 6.7: "Peter may baptize, but
+  this is He that baptizes").
+- **Validity.** Matter, form, and a minister with the power and the
+  intention of doing what the Church does (Florence, DH 1312), "at least"
+  (Trent, can. 11, DH 1611); for all but baptism, a baptized subject
+  (c. 842 §1).
 - **Two laws in one sacrament.** The Church has power over the sacraments
   "saving their substance" (Trent, sess. XXI, ch. 2, DH 1728). What belongs
-  to the substance is divine law; the supreme authority alone defines
-  further requirements for validity, and other competent authority those
-  for liceity (c. 841). Each condition is typed by its law: the power of
-  orders to absolve is divine (Trent, sess. XIV, can. 10, DH 1710), the
-  faculty is ecclesiastical (c. 966 §1); consent makes marriage and no
-  human power supplies it (c. 1057 §1), the canonical form is
-  ecclesiastical (c. 1108). Which conditions belong to the substance is
-  teaching, given by the theological side (`classification/3`; rule 1).
+  to the substance is divine law. The supreme authority alone approves or
+  defines the requirements for validity; it, or another competent
+  authority (c. 838 §§3–4), what pertains to liceity (c. 841). Each
+  condition is typed by its law: the power of orders to absolve is divine
+  (Trent, sess. XIV, can. 10, DH 1710), the faculty is ecclesiastical
+  (c. 966 §1); consent makes marriage and no human power supplies it
+  (c. 1057 §1), the canonical form is ecclesiastical (c. 1108). Which
+  conditions belong to the substance is teaching, given by the
+  theological side (`classification/3`; rule 1).
 - **Intention is interior**, so input. The Church "does not judge about
   the mind and intention, in so far as it is something by its nature
   internal", but one who has correctly and seriously used the due matter
@@ -153,7 +156,8 @@ and each refusal below. Run the whole suite and the runtimes' boots.
   operation) candidates are refused, each with its council. The kernel's
   typing of predication (T5) covers the predications of Ephesus and
   Constantinople II without change: "God was born", "one of the Trinity
-  suffered in the flesh" are well typed; "the divinity suffered" is not. A
+  was crucified in the flesh" are well typed; "the divinity suffered" is
+  not. A
   case that supplies claims composing a sin of the incarnate is refused
   (DH 301): he is the one person of whom the deposit states the interior,
   and the checker reads it there, never computes it.
@@ -197,12 +201,12 @@ and each refusal below. Run the whole suite and the runtimes' boots.
   - The ground is checked, not cited. "Of divine law, from the nature of
     the sacrament" is a classification on the theological side. It rests
     on tier-3 teaching (the Penitentiary's note, approved by the Pope) and
-    the common teaching of the theologians, not on a definition. The branch in which
-    the seal is of ecclesiastical law only is therefore a shadow, cleaved
-    and not deleted, and it shows what the ground protects: in it the
-    supreme authority could dispense.
+    the common teaching of the theologians, not on a definition. The
+    branch in which the seal is of ecclesiastical law only is therefore a
+    shadow, cleaved and not deleted, and it shows what the ground
+    protects: in it the supreme authority could dispense.
   - In the main branch no one dispenses; a civil law that requires
-    disclosure does not bind (q. 96 a. 4); the penitent cannot release
+    disclosure does not bind (I-II q. 96 a. 4); the penitent cannot release
     the confessor.
   - A confessor who discloses under grave fear is not exempt (c. 1323
     n. 4: the act tends to the harm of souls), his penalty is mitigated
@@ -234,20 +238,19 @@ here asks which.
 
 ## STANDARDS
 
-- Aquinas, ST III q. 1 a. 3; q. 2 aa. 2–3, 6; q. 16; q. 17 a. 2; q. 18;
-  q. 19 a. 1; q. 60; q. 62 a. 5; q. 63; q. 64 aa. 1, 5, 8; *De unione
-  Verbi incarnati* a. 4; Scotus, *Ord.* III d. 7 q. 3; Dionysius, *Ep.* 4;
-  Augustine, *In Iohannis evangelium tractatus* 6.7
+- Aquinas, ST I-II q. 96 a. 4; III q. 1 a. 3; q. 2 aa. 2–3, 6; q. 16;
+  q. 17 a. 2; q. 18; q. 19 a. 1; q. 60; q. 62 a. 5; q. 63; q. 64 aa. 1,
+  5, 8; *De unione Verbi incarnati* a. 4; Scotus, *Ord.* III d. 7 q. 3;
+  Dionysius, *Ep.* 4; Augustine, *In Iohannis evangelium tractatus* 6.7
 - Ephesus (431), DH 250–251; Chalcedon (451), DH 301–302; Constantinople
   II (553), can. 10, DH 432; Constantinople III (681), DH 556–557;
   Lateran IV (1215), DH 800, 801, 804; the 24 Theses (1914), Th. 1
-  (DH 3601); Florence, *Exsultate Deo* (1439),
-  DH 1312; Trent, sess. VII (1547), cann. 1, 8, 9, 11, 12 (DH 1601, 1608,
-  1609, 1611, 1612); sess. XIV (1551), can. 10 (DH 1710); sess. XXI
-  (1562), ch. 2 (DH 1728)
+  (DH 3601); Florence, *Exsultate Deo* (1439), DH 1312; Trent, sess. VII
+  (1547), cann. 1, 8, 9, 11, 12 (DH 1601, 1608, 1609, 1611, 1612); sess.
+  XIV (1551), can. 10 (DH 1710); sess. XXI (1562), ch. 2 (DH 1728)
 - Leo XIII, *Apostolicae curae* (1896) 33; CCC 1467; Lk 2:52
-- CIC cc. 841, 842 §1, 845, 966 §1, 983 §1, 1057 §1, 1108, 1127 §2,
-  1321 §4, 1323 n. 4, 1324 §1 n. 5 and §3, 1386 §1
+- CIC cc. 838 §§3–4, 841, 842 §1, 845, 966 §1, 983 §1, 1057 §1, 1108,
+  1127 §2, 1321 §4, 1323 n. 4, 1324 §1 n. 5 and §3, 1386 §1
 - Congregation for the Doctrine of the Faith, *Responsa ad dubia* on
   the form of baptism (24 June 2020)
   (https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_cdf_doc_20200624_responsum-nota-battesimo_en.html)

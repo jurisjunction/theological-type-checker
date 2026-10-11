@@ -87,7 +87,7 @@ Fixed here.
   q. 111 a. 2); sufficient and efficacious (the later schools).
 - **Cooperation** (Trent, sess. VI, can. 4, DH 1554): free will, moved and
   aroused by God, cooperates by assenting and can dissent if it wishes; it
-  is not "like an inanimate thing" that does nothing and is merely
+  is not "like something inanimate" that does nothing and is merely
   passive. Free will was not lost (can. 5, DH 1555).
 - **Efficacy.** How efficacious grace is efficacious is *de auxiliis*,
   already on the authority graph and protected (Paul V, 1607): physical
