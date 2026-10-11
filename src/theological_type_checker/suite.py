@@ -1038,6 +1038,9 @@ scen("K14", KG, "The static crossing check, one rule per sorted predicate", [],
      [lint_batch], "every sorted predicate of the kernel, paired across the line, is flagged")
 scen("AN13", AN, "The static crossing check on the theory's own sorts", [],
      [lint_batch_icon], "the theory registers its sorts in its own file; each is flagged across the line")
+scen("AN14", AN, "The theory's one principle of the child, without its bridge", ["family", "drop_principle_bridge"],
+     [has("norm_breach(grain(o,child,man,woman))")],
+     "the parents are one principle only through the bridge; without it, two principles and the norm breached")
 
 
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------

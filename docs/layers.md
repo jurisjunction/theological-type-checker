@@ -9,8 +9,9 @@
 
 The rule base grew around one theory, *The Grammar of the Icon*. To state
 that theory exactly, it had to build machinery that every school needs.
-The theory and the machinery now sit in the same files. This page sorts
-them, rule by rule, before anything is moved.
+The theory and the machinery sat in the same files. This page sorted
+them, rule by rule; the sort then moved the theory into a file of its own
+(`icon_theory.lp`), and this page measures the result.
 
 | Layer | Holds | Disputed by |
 | --- | --- | --- |
@@ -42,18 +43,21 @@ with the rule it tests.
 Evidence first, by script; the label is a judgment, recorded with its
 reason.
 
-For every statement of `icon_core.lp` and `icon_analogy.lp`:
+For every statement of `kernel_core.lp`, `kernel_analogy.lp` and
+`icon_theory.lp` (`tools/layer_evidence.py`):
 
 - **cites**: the source in its comment.
 - **sorts**: whether it names divine-sorted or creature-sorted predicates.
 - **icon predicates**: whether it names a predicate only the theory uses
   (`nupt`, `consent`, `bond`, `total`, ...).
-- **blast radius**: delete it, run every scenario (232), and list what turns
-  red, split by whether the red scenario loads any of the theory's parts:
-  its models (`family`, `souls`, `friendship`, `bonds`, `polygamy`,
-  `separate_act`, `asexual`), its candidates and stress switches, and the
-  authority cases written in its vocabulary (`disparity`, `limbo`,
-  `refusal`).
+- **blast radius**: delete it, run every scenario (234), and list what turns
+  red, split by whether the red scenario loads any of the theory's parts.
+  A part is the theory's when it declares `uses(icon)`: its models
+  (`family`, `souls`, `friendship`, `bonds`, `polygamy`, `separate_act`,
+  `asexual`), its candidates and stress switches, the treatise's two
+  sentences, and the authority cases written in its vocabulary
+  (`disparity`, `limbo`, `refusal`, `a9_universal`). AN13, the static
+  check of the theory's sorts, counts as the theory's.
 
 A rule whose deletion reddens a scenario that loads none of the theory's
 parts is needed outside the theory. A rule whose deletion reddens only
@@ -64,21 +68,24 @@ A **borderline** case is one where the evidence and the label disagree.
 
 ## SUMMARY
 
-183 statements in `icon_core.lp` and `icon_analogy.lp`, after the kernel
-was given creatures of its own (`kernel_world.lp`; K1–K14) and the two
-fixes it led to:
+187 statements in `kernel_core.lp`, `kernel_analogy.lp` and
+`icon_theory.lp`, after the split:
 
 | Layer | Statements | Needed outside the theory | Exercised only through the theory | Untested |
 | --- | --- | --- | --- | --- |
-| deposit | 18 | 14 | 4 | 0 |
-| kernel | 112 | 98 | 8 | 6 |
+| deposit | 17 | 13 | 4 | 0 |
+| kernel | 106 | 95 | 8 | 3 |
 | school | 4 | 4 | 0 | 0 |
-| icon | 49 | 4 | 38 | 7 |
+| icon | 60 | 0 | 50 | 10 |
 
-Before the kernel's world: 177 statements; kernel 42 / 28 / 37, deposit
-8 / 7 / 2; 46 untested in all.
+The files now match the layers. The kernel files hold the deposit, the
+kernel and four school statements; the theory's file holds the theory and
+nothing else. No statement of the theory is needed outside it.
 
-The "core" is mostly kernel. The theory proper is 49 statements.
+Before the split (183 statements, in `icon_core.lp` and `icon_analogy.lp`):
+deposit 18 / 14 / 4 / 0, kernel 112 / 98 / 8 / 6, school 4 / 4 / 0 / 0,
+icon 49 / 4 / 38 / 7. Before the kernel's world: 177 statements, 46
+untested.
 
 ## INVENTORY
 
@@ -86,30 +93,37 @@ By section. Per statement, with reasons and the red tests: `docs/layers.csv`.
 
 | File | Section | Statements | Layers | Evidence |
 | --- | --- | --- | --- | --- |
-| `icon_core` | switch defaults | 3 | icon | icon-only 1, untested 2 |
-| `icon_core` | sorts | 10 | deposit 2, kernel 8 | out 6, icon-only 2, untested 2 |
-| `icon_core` | A0 inventory | 12 | kernel 10, icon 2 | out 9, icon-only 3 |
-| `icon_core` | A1 creation | 3 | deposit 2, school 1 | out 3 |
-| `icon_core` | A2 poles | 16 | kernel 14, icon 2 | out 13, icon-only 3 |
-| `icon_core` | A9, A5 | 11 | icon | icon-only 10, untested 1 |
-| `icon_core` | A6, A7 | 9 | icon | icon-only 7, untested 2 |
-| `icon_core` | A3, A4 origin | 28 | kernel 20, school 2, icon 6 | out 22, icon-only 6 |
-| `icon_core` | A3 grain | 3 | deposit 2, icon 1 | out 2, icon-only 1 |
-| `icon_core` | monarchy | 1 | deposit | out 1 |
-| `icon_core` | distinction of persons | 7 | kernel | out 6, icon-only 1 |
-| `icon_core` | A11 guards | 2 | icon | icon-only 1, untested 1 |
-| `icon_core` | dropped clause | 4 | icon | icon-only 3, untested 1 |
-| `icon_core` | A8 | 2 | kernel 1, icon 1 | out 1, icon-only 1 |
-| `icon_core` | A10 | 8 | deposit 7, icon 1 | out 4, icon-only 4 |
-| `icon_core` | A11 | 3 | kernel 1, icon 2 | icon-only 3 |
-| `icon_core` | communicatio | 6 | kernel | out 6 |
-| `icon_analogy` | analogy: sorts | 3 | kernel | out 3 |
-| `icon_analogy` | analogy: bridges | 5 | kernel 3, icon 2 | out 4, icon-only 1 |
-| `icon_analogy` | analogy: modes | 11 | deposit 4, kernel 3, school 1, icon 3 | out 11 |
-| `icon_analogy` | analogy: univocity | 4 | kernel | out 2, icon-only 2 |
-| `icon_analogy` | analogy: licensing | 5 | kernel | out 4, icon-only 1 |
-| `icon_analogy` | analogy: crossing guards | 7 | kernel | out 5, untested 2 |
-| `icon_analogy` | analogy: sort table | 20 | kernel | out 18, untested 2 |
+| `kernel_core` | sorts | 10 | deposit 2, kernel 8 | out 6, icon-only 2, untested 2 |
+| `kernel_core` | A0 inventory | 10 | kernel | out 9, icon-only 1 |
+| `kernel_core` | A1 creation | 3 | deposit 2, school 1 | out 3 |
+| `kernel_core` | A2 poles | 14 | kernel | out 13, icon-only 1 |
+| `kernel_core` | A3, A4 origin and grain | 26 | deposit 3, kernel 20, school 3 | out 26 |
+| `kernel_core` | distinction of persons | 7 | kernel | out 6, icon-only 1 |
+| `kernel_core` | finitude | 1 | kernel | out 1 |
+| `kernel_core` | A10 image and dignity | 7 | deposit | out 4, icon-only 3 |
+| `kernel_core` | A11, communicatio | 7 | kernel | out 6, icon-only 1 |
+| `kernel_analogy` | sorts | 3 | kernel | out 3 |
+| `kernel_analogy` | bridges | 3 | kernel | out 3 |
+| `kernel_analogy` | modes | 6 | deposit 3, kernel 3 | out 6 |
+| `kernel_analogy` | univocity | 4 | kernel | out 2, icon-only 2 |
+| `kernel_analogy` | licensing | 5 | kernel | out 4, icon-only 1 |
+| `kernel_analogy` | crossing guards | 5 | kernel | out 5 |
+| `kernel_analogy` | sort table | 16 | kernel | out 15, untested 1 |
+| `icon_theory` | switches | 4 | icon | icon-only 2, untested 2 |
+| `icon_theory` | A0 relation N | 2 | icon | icon-only 2 |
+| `icon_theory` | A2 poles | 3 | icon | icon-only 3 |
+| `icon_theory` | A9 | 3 | icon | icon-only 3 |
+| `icon_theory` | A5 | 8 | icon | icon-only 7, untested 1 |
+| `icon_theory` | A6 | 5 | icon | icon-only 5 |
+| `icon_theory` | A7 | 4 | icon | icon-only 2, untested 2 |
+| `icon_theory` | A4 circuit | 6 | icon | icon-only 6 |
+| `icon_theory` | bridges, A3 grain | 9 | icon | icon-only 9 |
+| `icon_theory` | A4, A11 guards | 2 | icon | icon-only 1, untested 1 |
+| `icon_theory` | dropped clause | 4 | icon | icon-only 3, untested 1 |
+| `icon_theory` | A8 | 1 | icon | icon-only 1 |
+| `icon_theory` | A10 states of life | 1 | icon | icon-only 1 |
+| `icon_theory` | A11 | 4 | icon | icon-only 2, untested 2 |
+| `icon_theory` | sort table | 4 | icon | icon-only 3, untested 1 |
 
 "out": deleting it reddens a scenario that loads none of the theory's
 parts. "icon-only": only the theory's scenarios. "untested": nothing.
@@ -119,11 +133,12 @@ Other files, by program:
 | File | Deposit | Kernel | School | Icon |
 | --- | --- | --- | --- | --- |
 | `icon_models.lp` | `trinity` (with one school line, below) | `communicatio` (fixture) | — | `family`, `souls`, `friendship`, `bonds`, `polygamy`, `separate_act`, `asexual` |
-| `icon_tests.lp` | `cand_receiver_lesser` | 17 fixtures (rescue, Augustine, Lateran, analogy stress, `two_sons`) | 8 (the minds of Augustine and Palamas, Nazianzen's Adam, monopatrism, energies, the two distinction principles) | 16 candidates and stress switches |
+| `icon_tests.lp` | `cand_receiver_lesser` | 17 fixtures (rescue, Augustine, Lateran, analogy stress, `two_sons`) | 9 (the minds of Augustine and Palamas, Nazianzen's Adam, monopatrism, Photius's denial of one power, energies, the two distinction principles) | 18 candidates and stress switches |
 | `icon_metaphysics.lp` | `defined_attributes` | the simplicity whitelist | the 24 Theses and every reading | the treatise's two sentences |
 | `kernel_world.lp` | — | `world`, its claims, and ten refused positions | — | — |
-| `icon_history.lp` | tier-1 sources | — | tier 4–5 sources | `disparity`, `limbo`, `refusal`, `a9_universal`, `virginity` (written in the theory's vocabulary) |
+| `icon_history.lp` | tier-1 sources | — | tier 4–5 sources | `disparity`, `limbo`, `refusal`, `a9_universal` (written in the theory's vocabulary) |
 
+Every program in the Icon column declares `uses(icon)`.
 `icon_authority.lp`, `canon_law.lp`, `pair.lp` and `library.lp` are
 machinery: none names a predicate of the theory.
 
@@ -136,7 +151,7 @@ layers.
 creature in the suite was one of the theory's: man, woman, child, soul,
 bacterium. 28 kernel statements, and creation itself (A1), were exercised
 only by the theory's models. The kernel now has a world of its own, from
-stones to angels; 7 remain. Giving it one exposed two kernel errors
+stones to angels; 8 remain. Giving it one exposed two kernel errors
 (created person read as human; two givers of being typed as a norm
 breach) and two overreaches of the theory (its norm of origin reached
 lions; its call to be bridal reached angels), all four since fixed. See
@@ -149,6 +164,12 @@ reddened every scenario, authority and canon included. They now load only
 when a part declares `uses(icon)`. The Spirit's one principle (DH 850) is
 checked by the deposit directly, through no analogy.
 
+**The theory's principle bridge did nothing.** Its circuit made two
+parents one principle without passing through it: deleting the bridge
+reddened one scenario, by a count of projections (TH8). The circuit now
+goes through the bridge, and AN14 drops the bridge: the child has two
+principles and the norm is breached. No other output changed.
+
 **Two findings ran through the theory's machinery.** The Photius row of
 the Filioque table (FQ4) and FQ3 used the theory's circuit-only license to
 mean "no license". They now use the kernel's own switch,
@@ -158,7 +179,11 @@ K9 shows the kernel's half without it.
 
 **One power is the Latin account, not the dogma.** Lyons II teaches one
 principle (DH 850). That the one principle is one *power* is Thomas's
-explanation (ST I q.36 a.4). The deposit model M1 carries one school line.
+explanation (ST I q.36 a.4). The deposit model M1 carries one school line,
+and the kernel turns the license on by default
+(`divine_contraction(identity_of_power)`). These, and *agere sequitur
+esse*, are the four school statements in the kernel files; they move when
+the schools get runtimes of their own.
 
 **The deposit's prohibitions on persons are tested only through the
 theory.** Equal dignity (GS 29) and the image not denied are enforced only
@@ -191,15 +216,14 @@ the theory uses the kernel, never the reverse.
 13 statements turn nothing red when deleted (46 before the kernel's
 world):
 
-- **7 of the theory's**: two switch defaults, the motif check, a pending
-  ratification, the licenses interchanged, lone generation by kind. The
+- **10 in the theory's file**: two switch defaults that nothing reads,
+  the motif check (two statements), a pending ratification, the licenses
+  interchanged, lone generation by kind, the crossing guards for `level`
+  and `welcome_owed`, and the `hypostatic` entry for `bridegroom`. The
   theory's to close.
-- **2 that name the theory**: the crossing guards for `level` and
-  `welcome_owed`. They move with the theory.
-- **2 that cannot fail**: the `hypostatic` entries of the sort table.
-  The static check ignores that sort.
-- **2 definitional**: the incarnate Word is a person; human persons have
-  human nature. Nothing yet asks.
+- **3 in the kernel**: two definitional (the incarnate Word is a person;
+  human persons have human nature; nothing yet asks), and the `hypostatic`
+  entry for `incarnate` (the static check ignores that sort).
 
 Earlier pages said every rule, deleted, turns a test red. That held for the
 canon layer and the files added since. It did not hold for the grammar
@@ -216,6 +240,10 @@ The labels are judgments. The evidence checks them; it does not make them.
 
 Blast radius depends on what the suite happens to test. A rule untested
 today may be needed tomorrow.
+
+The full run predates AN14. The three statements changed with it (the
+principle bridge and the two circuit rules) were measured again with it;
+AN14 can only add to the others' theory-only reds.
 
 ## BUGS
 

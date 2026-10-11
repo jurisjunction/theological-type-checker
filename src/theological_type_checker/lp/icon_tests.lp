@@ -158,6 +158,8 @@ c_edge(adam,eve,formation). c_edge(pair(adam,eve),seth,procreation).
 
 % ---------- Analogy stress switches -------------------------------------
 #program unlicense_origination_div. unlicensed(origination,div).
+#program drop_principle_bridge.     % the theory without its analogy of one principle
+uses(icon). drop_bridge(principle).
 #program cand_projection.           bridge(origination,cr,div).
 #program cand_finite_god.           finite(X) :- person(X).
 #program cand_bridge_no_mode.       bridge(beauty,div,cr). mode(beauty,div,uncreated).

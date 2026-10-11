@@ -68,8 +68,9 @@ closed(A,X,Y) :- closed_in_act(A,X,Y).
 closed(A,Y,X) :- closed_in_act(A,X,Y).
 circuit(A,X,Y) :- closure_mode(act),  gen(A,X,_), gen(A,Y,_), X != Y, closed(A,X,Y), bond(X,Y).
 circuit(A,X,Y) :- closure_mode(bond), gen(A,X,_), gen(A,Y,_), X != Y, bond(X,Y).
-contractible(A,X,Y) :- mode(principle,cr,closed_circuit), circuit(A,X,Y), creature(X).
-contractible(A,X,Y) :- mode(principle,div,closed_circuit), circuit(A,X,Y), divine(X).
+% The circuit makes two one principle only through the theory's bridge (AN14).
+contractible(A,X,Y) :- licensed(principle,cr),  mode(principle,cr,closed_circuit),  circuit(A,X,Y), creature(X).
+contractible(A,X,Y) :- licensed(principle,div), mode(principle,div,closed_circuit), circuit(A,X,Y), divine(X).
 
 % ---------- The theory's bridges: one principle, in God and in creatures
 bridge(principle, div, cr) :- uses(icon), not drop_bridge(principle).
@@ -89,11 +90,12 @@ violation(norm_breach(grain(o,Z,P,Q))) :- orig(P,Z), orig(Q,Z), P < Q, ind_sort(
                                           licensed(grain,S), mode(grain,S,norm),
                                           person(P), person(Q).
 
-% licenses never cross the Creator-creature line (A4, A11)
+% ---------- A4, A11  Licenses never cross the Creator-creature line ---
 violation(nuptial_within_god(X,Y)) :- nupt(X,Y), divine(X), divine(Y).
 violation(power_license_in_creatures(X,Y)) :- one_power(X,Y), creature(X), X < Y.
 
-% the dropped clause "finite natures cannot generate alone", three readings
+% ---------- The dropped clause -------------------------------------
+% "finite natures cannot generate alone", three readings
 lone(A,X) :- gen(A,X,_), contributors(A,1), creature(X).
 violation(lone_generation(A,X)) :- gen_policy(unbanded), lone(A,X).
 violation(lone_generation(A,X)) :- gen_policy(by_level), lone(A,X), level(X,L), band(L).
