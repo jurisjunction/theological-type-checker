@@ -68,13 +68,14 @@ true_claim(C) :- claims(C,donative,X,Y,R),  don(R,X,Y).
 violation(false_claim(C)) :- claims(C,_,_,_,_), not true_claim(C).
 
 % ---------- A9  Bridal floor (MD 25) --------------------------------
-% Default (conditional) reading: every person is CALLED to be the Bride,
-% and is the Bride "in that he or she accepts" (MD 25), or while that
-% acceptance is held in trust. The old universal reading ("every person IS
-% bridal") is kept behind the switch a9_universal for comparison.
-called_bridal(X) :- bridegroom(C), created_person(X).
-nupt(C,X) :- bridegroom(C), created_person(X), a9_universal.
-nupt(C,X) :- bridegroom(C), created_person(X), not a9_universal, welcomed(X,C).
+% Default (conditional) reading: every human person is CALLED to be the
+% Bride, and is the Bride "in that he or she accepts" (MD 25), or while that
+% acceptance is held in trust. MD 25 speaks of "every human being", so the
+% call ranges over human persons, not angels (K1c). The old universal reading
+% ("every person IS bridal") is kept behind the switch a9_universal.
+called_bridal(X) :- bridegroom(C), human(X).
+nupt(C,X) :- bridegroom(C), human(X), a9_universal.
+nupt(C,X) :- bridegroom(C), human(X), not a9_universal, welcomed(X,C).
 
 % ---------- A5  Personal reception is act ----------------------------
 needs_welcome(X,Y) :- created_person(X), nupt(Y,X).
@@ -135,8 +136,12 @@ info(principle_of(Z,P)) :- orig(P,Z).
 violation(incoherent(grain(e,Z,P,Q)))  :- being(P,Z), being(Q,Z), P < Q.
 violation(incoherent(grain(o,Z,P,Q)))  :- orig(P,Z), orig(Q,Z), P < Q, ind_sort(Z,S),
                                           licensed(grain,S), mode(grain,S,necessity).
+% A norm binds rational agents, persons: the acts of the parents (DV II.B.5),
+% not the breeding of lions (K1b). Under univocity of mode it would bind the
+% divine persons too (UN2): that is the error the stress test shows.
 violation(norm_breach(grain(o,Z,P,Q))) :- orig(P,Z), orig(Q,Z), P < Q, ind_sort(Z,S),
-                                          licensed(grain,S), mode(grain,S,norm).
+                                          licensed(grain,S), mode(grain,S,norm),
+                                          person(P), person(Q).
 
 % origin is acyclic; principles have members
 principle(P) :- orig(P,_).

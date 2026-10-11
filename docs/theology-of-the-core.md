@@ -280,7 +280,8 @@ when they are, nothing is lacking in the child. The magisterium says
 exactly this. The same instruction that judges a technique illicit insists
 that every child so conceived "must in any case be accepted as a living gift
 of the divine Goodness".[^38] The norm binds the acts of the parents. It
-grades no one's dignity. This distinction between what *cannot* be in God
+grades no one's dignity, and it binds only those who can be bound: animals
+have two parents and are under no norm in having them. This distinction between what *cannot* be in God
 and what *ought not* to be among creatures is the analogy of being applied
 to a particular case, and the next section returns to it.
 
@@ -476,7 +477,7 @@ a rule of reasoning. An argument from the uniqueness of the marriage bond to
 any limitation of God's self-gift, or from God's self-gift to a plurality
 of spouses, fails at the same point.
 
-### 11. The bridal vocation of every person
+### 11. The bridal vocation of every human person
 
 Scripture and the mystical tradition speak of the soul, and of the Church,
 as the Bride of Christ. From Origen's homilies on the Song of Songs to St
@@ -487,7 +488,8 @@ that he or she accepts the gift of the love of Christ the Redeemer, and
 seeks to respond to it with the gift of his or her own person".[^68]
 
 The words "in that he or she accepts" matter. The bridal relation to
-Christ is offered to every person, and every person is called to it. It is
+Christ is offered to every human person, and every human person is called
+to it. It is
 *realized* in acceptance. The formal core once omitted this condition and
 said simply that every person stands in the bridal relation to Christ.
 Stated that way, the axiom made the refusal of the gift unintelligible. It

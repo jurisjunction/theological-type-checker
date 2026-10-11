@@ -976,7 +976,6 @@ scen("TH20c", TH, "Deny by default, Thomist, opposition read off the names",
 # Creatures across the range of created being, so that kernel rules are tested
 # without the theory's models (docs/layers.md; lp/kernel_world.lp).
 KG = "kernel"
-OVERREACH = "norm_breach(grain(o,cub,lion,lioness))"
 
 def only_violations(*allowed):
     def chk(r):
@@ -996,12 +995,12 @@ def lint_batch(_r):
     return n == 17, f"{n} of 17 crossing rules flagged"
 
 scen("K1", KG, "The world: things, plants, animals, humans at every stage, angels", ["world"],
-     [theorems("vacuous_over_persons(receptive)", "vacuous_over_persons(donative)"), only_violations(OVERREACH)],
+     [theorems("vacuous_over_persons(receptive)", "vacuous_over_persons(donative)"), clean],
      "consistent; receiving and giving hold of every created person, angels included")
-scen("K1b", KG, "The theory's norm of origin reaches lions (finding)", ["world"],
-     [has(OVERREACH)], "the creaturely mode of the grain is a norm, and a norm is not for lions")
-scen("K1c", KG, "The theory's call to be bridal reaches angels (finding)", ["world", "family", "angel_called_bridal"],
-     [has("fails_to_distinguish(d_angel,called_bridal,gabriel,peter)")], "A9 ranges over created persons; MD 25 over human beings")
+scen("K1b", KG, "The theory's norm of origin and the lions", ["world"],
+     [none_of("norm_breach(grain(o,cub")], "a norm binds rational agents: none for a cub with two parents")
+scen("K1c", KG, "The theory's call to be bridal and the angels", ["world", "family", "angel_called_bridal"],
+     [none_of("fails_to_distinguish(d_angel")], "the call is to human beings (MD 25): it tells an angel from a man")
 scen("K2", KG, "Claims about action and origin, checked against the relations", ["world", "world_claims"],
      [has("false_claim(c_false)", "fails_to_distinguish(d_god_stone,donative,god,stone)"), count("false_claim", 1)],
      "one false claim; 'giving' as a property does not tell God from a stone")

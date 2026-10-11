@@ -262,13 +262,14 @@ The kernel refuses each (K3–K9). It also had two errors of its own:
   q.45 a.5; Th. 24), so a second giver is impossible, not wrong. A3 now
   types it so (K5).
 
-And two errors of the theory, left for its author:
+And two errors of the theory, fixed by its author's decision:
 
-- **The norm of origin reaches lions** (K1b). A3 makes one principle of
+- **The norm of origin reached lions** (K1b). A3 made one principle of
   origin a norm for creatures. A lion cub has two parents and no bond. A
-  norm binds rational agents.
-- **The call to be bridal reaches angels** (K1c). A9 ranges over created
-  persons; MD 25 speaks of human beings.
+  norm binds rational agents; A3's norm now binds persons only.
+- **The call to be bridal reached angels** (K1c). A9 ranged over created
+  persons; MD 25 speaks of "every human being". A9 now ranges over human
+  persons.
 
 "Giving", taken as a property, does not tell God from a stone (K2): T1's
 vacuity holds across the Creator–creature line, not only among persons.

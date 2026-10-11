@@ -137,8 +137,8 @@ bacterium. 28 kernel statements, and creation itself (A1), were exercised
 only by the theory's models. The kernel now has a world of its own, from
 stones to angels; 7 remain. Giving it one exposed two kernel errors
 (created person read as human; two givers of being typed as a norm
-breach) and two overreaches of the theory (its norm of origin reaches
-lions; its call to be bridal reaches angels). See
+breach) and two overreaches of the theory (its norm of origin reached
+lions; its call to be bridal reached angels), all four since fixed. See
 [ttc-findings(7)](findings.md) §15.
 
 **The theory's bridges load in every run.** The principle and grain
