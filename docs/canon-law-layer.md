@@ -28,7 +28,29 @@ The layer branches in three cases only.
    a switch. `authentic_reading/3` closes it.
 3. **The internal forum**: never computed. In the external forum,
    imputability is presumed once a violation is established (c. 1321 §4),
-   and nothing more is assumed.
+   and nothing more is assumed. What a case claims about the agent's
+   knowledge, will or freedom is input (`interior/3`), read through the
+   library of the human act (`act.lp`); a disputed claim is computed both
+   ways like any disputed fact.
+
+## THE HUMAN ACT
+
+The canons that speak of knowledge, will, fear, ignorance and reason call
+one library, `act.lp` ([ttc-act(7)](research/act-preregistration.md)).
+It types the claims; the canons give the effects.
+
+| Claim (`interior(P, A, …)`) | Library | Read by |
+| --- | --- | --- |
+| `violence`, `reason(lacking)`, `reason(habitually_lacking)` | no human act (ST I-II q. 1 a. 1; q. 6 a. 5) | cc. 125 §1, 1103, 1321–1323 |
+| `ignorance(Of, Kind)`, `error(…)`, `inadvertence(…)` | without fault, with fault, gross | cc. 1323 n. 2, 1324 §1 n. 9, 1325; culpa |
+| `fear(Grade, Origin, How)`, `escape_choice` | a mixed voluntary (q. 6 a. 6) | cc. 125 §2, 1103, 1323 n. 4, 1324 §1 n. 5 |
+| `necessity`, `chance`, `defence(moderate)`, `believed(C, Kind)` | | cc. 1323 nn. 3–5, 7; 1324 §1 n. 8 |
+| `reason(imperfect)`, `passion(grave, unstimulated)` | | c. 1324 §1 nn. 1, 3 |
+| `deliberate`, `negligence` | dolus, culpa (c. 1321 §§2–3) | c. 1321; `punishes_culpa/1` |
+
+No rule derives `interior/3` (`test_interior_is_never_derived`). The
+library presupposes that creatures act: on the bare runtime no human act
+exists, and no penalty is incurred.
 
 ## TIME
 
@@ -51,6 +73,7 @@ penalty(n1387,excommunication).
 | `% @input name/arity \| meaning` | A fact a case supplies. |
 | `% @temporal id` | Effects fall on later acts; a loop through it is recursion, not circularity. |
 | `% @end` | Closes the current norm, for display rules. |
+| `% @library` | A library file (`act.lp`): its predicates count as defined in the norm graph. |
 
 Real facts go in case files. Hypothetical facts go in switch programs,
 marked `HYPOTHETICAL`.
@@ -95,7 +118,8 @@ wrong.
 | --- | --- |
 | general | 16 §1; 135 §2; 333 §3; grants until competently revoked |
 | delicts | 751 with 1364 §1 (and 1983); 1382 (1983); 1387; 1379 §1 n. 2 |
-| imputability | 1321 §4; 1323 n. 4 and 1324 (recorded, never decided); 1355 |
+| imputability | 1321 §§2–4; 1322; 1323; 1324 §1 nn. 1, 3, 4, 5, 8, 9, §3; 1325; 1355 |
+| juridic acts, consent | 125 §§1–2; 1103 |
 | procedure | 1717 §1; 1342 §1 with 1720 n. 1; 124 §2; 1353 |
 | effects | 1331 §1 n. 1, §2 n. 2; 1335 §2 |
 | sacraments | 966, 976, 144 §2; 1108 §1, 1111 |

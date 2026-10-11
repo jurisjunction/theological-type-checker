@@ -246,3 +246,18 @@ def test_default_runtime_is_the_relocated_statements():
     assert engine.RUNTIMES["default"] == ["classical", "one_power"]
     assert engine.expand_runtimes(["trinity"]) == ["classical", "one_power", "trinity"]
     assert engine.expand_runtimes(["trinity", "rt_bare"]) == ["trinity"]
+
+
+# Non-diagnosis (house rule 3; TTC-ACT L2): the agent's interior is input.
+# interior/3 is derived by one rule only, the choice that computes a disputed
+# claim both ways; everywhere else it appears as a case's fact or in a body.
+def test_interior_is_never_derived():
+    import re
+    derived = []
+    for f in sorted(engine.LP_DIR.glob("*.lp")):
+        code = re.sub(r"%.*", "", f.read_text())
+        for st in re.split(r"(?<=\.)\s", code):
+            st = " ".join(st.split())
+            if ":-" in st and re.match(r"\{?\s*interior\s*\(", st.split(":-")[0].strip()):
+                derived.append((f.name, st))
+    assert derived == [("act.lp", "{ interior(P,A,X) } :- disputed(interior(P,A,X)).")], derived

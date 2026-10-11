@@ -49,11 +49,16 @@
 % @input just_cause_request/3 | just_cause_request(Penitent, Priest, Date)
 % @input common_error/1 | c. 144: common error or positive and probable doubt about this act
 % @input appears_otherwise/2 | the external presumption of imputability is rebutted on the facts
+% @input age_at/3 | age_at(Person, Act, Years): the agent's age when the act was placed
+% @input juridic_act/2 | juridic_act(Act, Person): a juridic act placed by the person (c. 124)
+% @input spouse/2 | spouse(Marriage, Person): one who gave consent to the marriage
 % @input claims_necessity/2 | the agent publicly claims a state of necessity for the act
 % @input asserts/3 | asserts(Text, Claim, Date): a text's claim about the juridical situation
 % @input disputed/1 | a fact whose truth is disputed
 % @input today/1 | the evaluation date when no asof is given
 % @input authentic_reading/3 | authentic_reading(Canon, Reading, Act): the legislator's own reading (c. 16 §1)
+% @input of_kind/2 | from the theological side (pair.lp): in this branch the event is classified as of this kind
+% @input punishes_culpa/1 | c. 1321 §3: the law punishes this delict also when committed by culpability
 % @input not_of_kind/2 | from the theological side (pair.lp): in this branch the event is classified as not of this kind
 % @input notoriety_substitutes/2 | candidate only: notoriety treated as the hearing
 % @input treated_as_declaring/2 | candidate only: a text's class statement treated as a declaration
@@ -100,6 +105,12 @@ violation(ineffective_revocation(R,G)) :- revocation(R,G,_), not competent_revoc
 % @norm cic:333 | c. 333 §3: no appeal or recourse against a decision of the Roman Pontiff | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann330-367_en.html
 papal_act(D) :- issuer(D,A), authority(A,4).
 
+% @norm cic:125 | c. 125: an act placed out of force from without which could not be resisted is considered never to have taken place; one placed out of grave fear unjustly inflicted is valid unless the law provides otherwise, but can be rescinded by a judge | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann124-128_en.html
+act_of(P,J) :- juridic_act(J,P).
+never_placed(J) :- juridic_act(J,P), removes_voluntary(P,J,violence).
+info(juridic_act(J,never_placed)) :- never_placed(J).
+info(juridic_act(J,rescindable))  :- juridic_act(J,P), actus_humanus(P,J), grave_fear(P,J), fear_unjust(P,J).
+
 % ---------- Book VI: delicts -----------------------------------------------
 % Co-consecrators truly consecrate (Pius XII, Episcopalis consecrationis, 1944),
 % so "a Bishop who consecrates" includes them on the plain meaning.
@@ -131,18 +142,57 @@ penalty(n1364,excommunication). penalty(n1364_1983,excommunication).
 % @norm cic2021:1379 | c. 1379 §1 n. 2: one who cannot validly absolve and attempts absolution incurs latae sententiae interdict (a cleric also suspension) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
 delict(P,n1379,A) :- absolution(A,P,_,T), not valid_absolution(A), norm_in_force(n1379,T).
 penalty(n1379,interdict).
+element_of(n1379,cannot_absolve).                 % the delict's matter: one who cannot validly absolve
 
-% ---------- Book VI: imputability ------------------------------------------
+% ---------- Book VI: imputability, through the human act (act.lp) ---------
 % Status is computed at each instant: an act is judged by the law and the
-% juridical situation on its own date, not on the evaluation date.
-% @norm cic2021:1321 | c. 1321 §4: once an external violation is established, imputability is presumed unless it appears otherwise | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
-incurred_at(P,N,E,T) :- delict(P,N,E), event_date(E,TE), instant(T), TE <= T,
-                        not appears_otherwise(P,E), not remitted_at(P,N,E,T).
+% juridical situation on its own date, not on the evaluation date. What the
+% agent knew, willed or feared is never computed here: the library reads the
+% claims a case supplies (interior/3), and the canons read the library.
+% @norm cic2021:1321 | c. 1321 §§2-4 and c. 1322: no one is punished unless the external violation is gravely imputable by malice or culpability; culpability is punished only where the law provides; once the violation is established imputability is presumed unless it appears otherwise; the habitually insane are incapable | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
+act_of(P,E) :- delict(P,_,E).
+imputed(P,N,E) :- delict(P,N,E), not appears_otherwise(P,E), actus_humanus(P,E),
+                  not exempt(P,E), not unpunished_culpa(P,N,E).
+unpunished_culpa(P,N,E) :- delict(P,N,E), culpa(P,E), not punishes_culpa(N).
+incurred_at(P,N,E,T) :- imputed(P,N,E), event_date(E,TE), instant(T), TE <= T,
+                        not remitted_at(P,N,E,T), not latae_excused(P,N,E).
 presumed_incurred(P,N,E) :- incurred_at(P,N,E,T), eval_date(T).
+info(not_a_human_act(P,E)) :- delict(P,_,E), not actus_humanus(P,E).
+info(dolus(P,E))           :- delict(P,_,E), dolus(P,E).
+info(culpa_not_punished(P,N,E)) :- unpunished_culpa(P,N,E).
 
-% @norm cic2021:1323 | cc. 1323 n. 4, 1324 §1 n. 8 and §3: necessity, and culpably mistaken necessity | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
-% Whether necessity existed, or was believed in, is about the agent. The
-% checker records the claim and never decides it.
+% @norm cic2021:1323 | c. 1323: not subject to a penalty: one under sixteen; one ignorant without fault of violating the law (inadvertence and error equivalent); physical force or unforeseeable chance; grave fear, necessity or grave inconvenience unless the act is intrinsically evil or tends to the harm of souls; due self-defence; lack of reason; one who thought without fault that the circumstances of nn. 4-5 existed | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
+exempt(P,E) :- delict(P,_,E), age_at(P,E,Y), Y < 16.                                   % n. 1
+exempt(P,E) :- delict(P,_,E), ignorant_without_fault(P,E,law).                          % n. 2
+exempt(P,E) :- delict(P,N,E), ignorant_without_fault(P,E,fact(C)), element_of(N,C).     % n. 2: unaware he violated it
+exempt(P,E) :- delict(P,_,E), chance(P,E).                                               % n. 3 (force: no human act)
+exempt(P,E) :- delict(P,_,E), fear_or_necessity(P,E), not grave_matter(E).               % n. 4
+exempt(P,E) :- delict(P,_,E), due_defence(P,E).                                          % n. 5
+exempt(P,E) :- delict(P,_,E), believed(P,E,C,invincible), excusing(C).                   % n. 7
+fear_or_necessity(P,E) :- grave_fear(P,E).
+fear_or_necessity(P,E) :- necessity(P,E).
+excusing(fear). excusing(necessity). excusing(defence).
+grave_matter(E) :- of_kind(E,intrinsically_evil).
+grave_matter(E) :- of_kind(E,harm_of_souls).
+info(exempt(P,E)) :- exempt(P,E).
+
+% @norm cic2021:1324 | c. 1324 §1 nn. 1, 3, 4, 5, 8, 9 and §3: imperfect use of reason; undeliberate grave passion; a minor over sixteen; grave fear or necessity where the act is intrinsically evil or harmful to souls; culpably mistaken circumstances of c. 1323 nn. 4-5; ignorance without fault of the penalty: the penalty is tempered, and no latae sententiae penalty binds | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
+mitigated(P,E,imperfect_reason) :- delict(P,_,E), imperfect_reason(P,E).                % n. 1
+mitigated(P,E,passion)          :- delict(P,_,E), undeliberate_passion(P,E).            % n. 3
+mitigated(P,E,minor)            :- delict(P,_,E), age_at(P,E,Y), 16 <= Y, Y < 18.       % n. 4
+mitigated(P,E,fear)             :- delict(P,_,E), fear_or_necessity(P,E), grave_matter(E). % n. 5
+mitigated(P,E,mistaken)         :- delict(P,_,E), believed(P,E,C,vincible), excusing(C). % n. 8
+mitigated(P,E,penalty_unknown)  :- delict(P,_,E), ignorant_without_fault(P,E,penalty).  % n. 9
+latae_excused(P,N,E) :- delict(P,N,E), mitigated(P,E,_), latae_sententiae(N).           % §3
+% each of these canons says "latae sententiae": 1983 cc. 1382, 1364 §1; 2021 cc. 1387, 1364 §1, 1379 §1
+latae_sententiae(n1382_1983;n1364_1983;n1387;n1364;n1379).
+
+% @norm cic2021:1325 | c. 1325: crass, supine or affected ignorance is never taken into account in applying cc. 1323 and 1324 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
+info(ignorance_disregarded(P,E,Of)) :- delict(P,_,E), gross_ignorance(P,E,Of).
+% @end
+info(mitigated(P,E,W)) :- mitigated(P,E,W), imputed(P,_,E).
+% Whether necessity existed, or was believed in, is about the agent. A public
+% claim of necessity is recorded; the checker never decides it.
 info(defence_claimed(P)) :- claims_necessity(P,E), presumed_incurred(P,_,E).
 
 % @norm cic:1355 | remission of a censure | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
@@ -220,6 +270,12 @@ valid_form(M) :- marriage(M,_,_), common_error(M).
 % @end
 info(marriage(M,valid_form))   :- marriage(M,_,_), past(M), valid_form(M).
 info(marriage(M,invalid_form)) :- marriage(M,_,_), past(M), not valid_form(M).
+
+% @norm cic:1103 | c. 1103: a marriage is invalid if entered into because of force or grave fear from without, even when inflicted unintentionally, so that a person is compelled to choose marriage in order to be freed from it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1095-1107_en.html
+act_of(P,M) :- spouse(M,P).
+consent_vitiated(M) :- spouse(M,P), removes_voluntary(P,M,violence).
+consent_vitiated(M) :- spouse(M,P), actus_humanus(P,M), grave_fear(P,M), fear_from_without(P,M), chosen_to_escape(P,M).
+info(marriage(M,invalid_consent)) :- consent_vitiated(M).
 
 % ---------- Texts checked against the derivation ------------------------------
 % @norm checking | a text's claims compared with what the norms derive | -

@@ -76,7 +76,7 @@ def parse(texts: dict[str, str] | None = None):
     texts = texts if texts is not None else engine.base_texts()
     norms, inputs, rules, temporal = {}, {}, [], set()
     for f, text in texts.items():
-        if "@norm" not in text:
+        if "@norm" not in text and "@library" not in text:
             continue
         current = None
         stmt = ""

@@ -24,6 +24,7 @@ violation(law_without_premise(N,E,Q)) :- delict(_,N,E), premise(N,Q,V), holds(Q,
 % A theological question may classify a canonical event; in each branch the
 % law follows that branch's classification (unless deliberately uncoupled).
 not_of_kind(E,K) :- classification(Q,E,K), holds(Q,no), not uncoupled.
+of_kind(E,K)     :- classification(Q,E,K), holds(Q,yes), not uncoupled.
 violation(teaching_from_law(Q)) :- law_answers(Q), question_kind(Q,doctrinal).
 
 % ---------- The flywheel's frontier, theological side ---------------

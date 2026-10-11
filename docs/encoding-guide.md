@@ -69,7 +69,9 @@ side, juridical facts on the canon side.
 | `absolution/4`, `marriage/3`, `delegation/5` | Acts whose validity is computed. |
 | `danger_of_death/2`, `just_cause_request/3`, `common_error/1` | cc. 976, 1335 §2, 144. |
 | `asserts(T,Claim,Date)` | A text's claim, checked act by act. |
-| `disputed(F)` | Computed both ways: `heard/2`, `common_error/1`, `appears_otherwise/2`. |
+| `juridic_act(J,P)`, `spouse(M,P)`, `age_at(P,A,Years)` | A juridic act (c. 124); a party to a marriage; an agent's age. |
+| `interior(P,A,Claim)` | What a case claims of the agent's knowledge, will or freedom: `ignorance(Of,Kind)`, `error(…)`, `fear(Grade,Origin,How)`, `violence`, `reason(…)`, `passion(…)`, `necessity`, `deliberate`, `negligence`, … Never derived; read by the human-act library (`act.lp`). |
+| `disputed(F)` | Computed both ways: `heard/2`, `common_error/1`, `appears_otherwise/2`, `interior/3`. |
 | `authentic_reading(C,R,Act)` | The legislator's reading (c. 16 §1). |
 
 A new canon goes under `% @norm id | citation | source`. New slots go under

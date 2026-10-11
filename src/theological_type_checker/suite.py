@@ -1118,6 +1118,73 @@ scen("RT14", RT, "DH 1330 as deposit: the Filioque table", [],
                           ["dh1330_deposit"])],
      "the mode rows collapse into the opposition rows: the Filioque follows inside the grammar")
 
+# ---------- The human act (TTC-ACT(7)) --------------------------------------
+# act.lp types the agent's knowledge, will and freedom; the canons read it.
+# Every interior claim is a case's input (canon_cases.lp: act_penal, act_fear).
+AC = "act"
+
+def branch_facts(*subs, every=True):
+    def chk(r):
+        hits = [all(any(s in f for f in b["facts"] + b["assume"]) for s in subs) for b in r["branches"]]
+        ok = all(hits) if every else any(hits) and not all(hits)
+        return ok, f"{', '.join(subs)}: {'every' if all(hits) else 'some' if any(hits) else 'no'} branch"
+    return chk
+
+scen("AC1", AC, "c. 1321 §4: the presumption alone", ["act_penal"],
+     [info_all("presumed_incurred(x0,n1379)")], "an external violation, nothing claimed: imputability presumed", mode=B)
+scen("AC2", AC, "c. 1323: not subject to a penalty", ["act_penal"],
+     [info_all(*[f"exempt({p})" for p in ("x1,a_child", "x3,a_law", "x4,a_fact", "x7,a_chance", "x11,a_nec",
+                                         "x12,a_def", "x13,a_bel", "x21,a_inadv", "x24,a_beld")]),
+      info_none(*[f"presumed_incurred({x}," for x in ("x1", "x3", "x4", "x7", "x11", "x12", "x13", "x21", "x24")])],
+     "under sixteen; ignorance, error or inadvertence without fault, of the law or of the delict's matter; chance; "
+     "necessity; due defence; a blameless belief in an excusing circumstance", mode=B)
+scen("AC3", AC, "c. 1324: tempered, and no latae sententiae penalty binds", ["act_penal"],
+     [info_all("mitigated(x2,a_teen,minor)", "mitigated(x14,a_belv,mistaken)", "mitigated(x15,a_imp,imperfect_reason)",
+               "mitigated(x16,a_pas,passion)", "mitigated(x17,a_pen,penalty_unknown)"),
+      info_none(*[f"presumed_incurred({x}," for x in ("x2", "x14", "x15", "x16", "x17")])],
+     "§1 nn. 1, 3, 4, 8, 9; §3", mode=B)
+scen("AC4", AC, "No human act: force, lack of reason, habitual insanity", ["act_penal"],
+     [info_all("not_a_human_act(x8,a_force)", "not_a_human_act(x9,a_insane)", "not_a_human_act(x10,a_noreason)"),
+      info_none("presumed_incurred(x8,", "presumed_incurred(x9,", "presumed_incurred(x10,")],
+     "an actus hominis (ST I-II q. 1 a. 1; q. 6 a. 5); cc. 1322, 1323 nn. 3, 6", mode=B)
+scen("AC5", AC, "c. 1325: crass, supine, affected ignorance", ["act_penal"],
+     [info_all("ignorance_disregarded(x6,a_crass,law)", "ignorance_disregarded(x22,a_supine,law)",
+               "ignorance_disregarded(x23,a_affect,law)", "presumed_incurred(x6,n1379)", "presumed_incurred(x22,n1379)",
+               "presumed_incurred(x23,n1379)")],
+     "never taken into account: the presumption stands", mode=B)
+scen("AC6", AC, "Dolus and culpa (c. 1321 §§2-3)", ["act_penal"],
+     [info_all("dolus(x18,a_dolus)", "presumed_incurred(x18,n1379)", "culpa_not_punished(x5,n1379,a_factv)",
+               "culpa_not_punished(x19,n1379,a_neg)"),
+      info_none("presumed_incurred(x5,", "presumed_incurred(x19,")],
+     "the violation known and willed is punished; culpability only where the law provides", mode=B)
+scen("AC6b", AC, "c. 1321 §3: a law that punishes culpability (HYPOTHETICAL)", ["act_penal", "culpa_punished"],
+     [info_all("presumed_incurred(x5,n1379)", "presumed_incurred(x19,n1379)"), info_none("culpa_not_punished")],
+     "culpa punished", mode=B)
+scen("AC7", AC, "A disputed claim is computed both ways", ["act_penal"],
+     [branch_facts("assumed_fact(interior(x20", every=False),
+      branch_facts("assumed_fact(false(interior(x20", every=False),
+      info_any("exempt(x20,a_disp)", "presumed_incurred(x20,n1379)")],
+     "never decided: one branch each way", mode=B)
+scen("AC8", AC, "One fear, four canons", ["act_fear"],
+     [info_all("juridic_act(j1,rescindable)", "marriage(m1,invalid_consent)", "exempt(p,a1)", "mitigated(p,a2,fear)",
+               "exempt(w,a3)", "mitigated(y,a4,fear)"),
+      info_none("presumed_incurred(p,", "presumed_incurred(w,", "presumed_incurred(y,")],
+     "c. 125 §2 rescindable; c. 1103 invalid; c. 1323 n. 4 no penalty; c. 1324 §1 n. 5 tempered where the act is "
+     "intrinsically evil or harms souls", mode=B)
+scen("AC9", AC, "Force, unintended fear, fear from within", ["act_fear"],
+     [info_all("juridic_act(j2,never_placed)", "marriage(m2,invalid_consent)", "marriage(m4,invalid_consent)"),
+      info_none("marriage(m3,invalid_consent)")],
+     "c. 125 §1; c. 1103 needs fear from without, not unjust or intended", mode=B)
+scen("AC12", AC, "A public claim of necessity: recorded, never decided", ["sspx"],
+     [info_any("defence_claimed(galarreta)"), info_none("exempt(")],
+     "the Society's claim is noted where a penalty is presumed; it exempts no one, since no interior claim is supplied",
+     mode=B)
+scen("AC10", AC, "Bare: no creature acts", ["act_penal", "rt_bare"],
+     [info_all("not_a_human_act(x0,a_plain)"), info_none("presumed_incurred")],
+     "no human act, no penalty: canon law presupposes agere sequitur esse", mode=B)
+scen("AC11", AC, "Bare: the SSPX case", ["sspx", "rt_bare"],
+     [info_none("presumed_incurred")], "the same", mode=B)
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

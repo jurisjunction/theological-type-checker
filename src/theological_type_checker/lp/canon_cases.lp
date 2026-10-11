@@ -99,3 +99,58 @@ uncoupled.
 law_answers(q(church_identity)).
 #program cand_notoriety_dispenses.   % "the act was public, so no hearing was needed"
 notoriety_substitutes(D,P) :- declares(D,P,N), delict(P,N,E), public_act(P,E).
+
+% ---------- The human act (TTC-ACT): constructed cases, all HYPOTHETICAL ----------
+% Persons are placeholders. Each attempts absolution without being able to
+% absolve validly (c. 1379), so that one delict is read under each claim the
+% library types. Every claim is a case's input; none is derived.
+#program act_penal.                 % HYPOTHETICAL
+today(20261010).
+absolution(a_plain,x0,pen,20260901).                                                % the presumption alone
+absolution(a_child,x1,pen,20260901).   age_at(x1,a_child,15).                       % c. 1323 n. 1
+absolution(a_teen,x2,pen,20260901).    age_at(x2,a_teen,17).                        % c. 1324 §1 n. 4
+absolution(a_law,x3,pen,20260901).     interior(x3,a_law,ignorance(law,invincible)). % c. 1323 n. 2
+absolution(a_fact,x4,pen,20260901).    interior(x4,a_fact,error(fact(cannot_absolve),invincible)).  % believed himself a priest
+absolution(a_factv,x5,pen,20260901).   interior(x5,a_factv,error(fact(cannot_absolve),vincible)).   % culpa: c. 1321 §3
+absolution(a_crass,x6,pen,20260901).   interior(x6,a_crass,ignorance(law,crass)).    % c. 1325
+absolution(a_chance,x7,pen,20260901).  interior(x7,a_chance,chance).                 % c. 1323 n. 3
+absolution(a_force,x8,pen,20260901).   interior(x8,a_force,violence).                % no human act
+absolution(a_insane,x9,pen,20260901).  interior(x9,a_insane,reason(habitually_lacking)).  % c. 1322
+absolution(a_nec,x11,pen,20260901).    interior(x11,a_nec,necessity).                % c. 1323 n. 4
+absolution(a_def,x12,pen,20260901).    interior(x12,a_def,defence(moderate)).        % c. 1323 n. 5
+absolution(a_bel,x13,pen,20260901).    interior(x13,a_bel,believed(fear,invincible)).    % c. 1323 n. 7
+absolution(a_belv,x14,pen,20260901).   interior(x14,a_belv,believed(necessity,vincible)). % c. 1324 §1 n. 8
+absolution(a_imp,x15,pen,20260901).    interior(x15,a_imp,reason(imperfect)).        % c. 1324 §1 n. 1
+absolution(a_pas,x16,pen,20260901).    interior(x16,a_pas,passion(grave,unstimulated)).  % c. 1324 §1 n. 3
+absolution(a_pen,x17,pen,20260901).    interior(x17,a_pen,ignorance(penalty,invincible)). % c. 1324 §1 n. 9
+absolution(a_dolus,x18,pen,20260901).  interior(x18,a_dolus,deliberate).             % dolus
+absolution(a_neg,x19,pen,20260901).    interior(x19,a_neg,negligence).               % culpa
+absolution(a_disp,x20,pen,20260901).   disputed(interior(x20,a_disp,ignorance(law,invincible))).  % computed both ways
+absolution(a_noreason,x10,pen,20260901). interior(x10,a_noreason,reason(lacking)).   % c. 1323 n. 6
+absolution(a_inadv,x21,pen,20260901).  interior(x21,a_inadv,inadvertence(law,invincible)).  % c. 1323 n. 2
+absolution(a_supine,x22,pen,20260901). interior(x22,a_supine,ignorance(law,supine)).   % c. 1325
+absolution(a_affect,x23,pen,20260901). interior(x23,a_affect,ignorance(law,affected)). % c. 1325
+absolution(a_beld,x24,pen,20260901).   interior(x24,a_beld,believed(defence,invincible)).  % c. 1323 n. 7
+
+#program culpa_punished.            % HYPOTHETICAL: a law that punishes culpability too (c. 1321 §3)
+punishes_culpa(n1379).
+
+#program act_fear.                  % HYPOTHETICAL: one grave, unjust fear from without, four canons
+today(20261010).
+juridic_act(j1,p).                 interior(p,j1,fear(grave,extrinsic,unjust)).             % c. 125 §2
+spouse(m1,p).                      interior(p,m1,fear(grave,extrinsic,unjust)). interior(p,m1,escape_choice).  % c. 1103
+absolution(a1,p,pen,20260901).     interior(p,a1,fear(grave,extrinsic,unjust)).             % c. 1323 n. 4
+absolution(a2,p,pen,20260902).     interior(p,a2,fear(grave,extrinsic,unjust)).             % c. 1324 §1 n. 5
+% the theological side: the second act is of a kind that tends to the harm of souls
+question(q(harm_a2)). question_kind(q(harm_a2),doctrinal). value(q(harm_a2),yes). value(q(harm_a2),no).
+default(q(harm_a2),yes).
+classification(q(harm_a2),a2,harm_of_souls).
+juridic_act(j2,r).                 interior(r,j2,violence).                                 % c. 125 §1
+spouse(m2,s).                      interior(s,m2,fear(grave,extrinsic,unintended)). interior(s,m2,escape_choice).  % c. 1103: unintended suffices
+spouse(m3,u).                      interior(u,m3,fear(grave,intrinsic,unjust)). interior(u,m3,escape_choice).      % fear from within: not c. 1103
+spouse(m4,v).                      interior(v,m4,violence).                                 % c. 1103: force
+absolution(a3,w,pen,20260903).     interior(w,a3,fear(relatively_grave,extrinsic,unjust)).  % relatively grave suffices (c. 1323 n. 4)
+absolution(a4,y,pen,20260904).     interior(y,a4,fear(grave,extrinsic,unjust)).
+question(q(evil_a4)). question_kind(q(evil_a4),doctrinal). value(q(evil_a4),yes). value(q(evil_a4),no).
+default(q(evil_a4),yes).
+classification(q(evil_a4),a4,intrinsically_evil).

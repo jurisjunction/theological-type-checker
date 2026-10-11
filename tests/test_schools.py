@@ -47,10 +47,16 @@ def test_boot_palamite(x):
     assert set(b["red"]) - trinity_or_fixture == THEORY_RED
 
 
+# Bare, no creature acts, so no human act and no penalty (TTC-ACT L4): the
+# scenarios that expect the SSPX penalties turn red there too.
+NO_HUMAN_ACT = {"PR1", "SX11", "SX15", "SX22"}
+
+
 def test_bare(x):
     b = x.boot("bare")
-    assert {"M1", "M5", "AN1", "FQ18", "FQ19", "T1", "K1", "K2"} <= set(b["red"])
-    assert set(b["red"]) - {"M1", "M5", "AN1", "FQ18", "FQ19", "T1", "K1", "K2"} == THEORY_RED
+    named = {"M1", "M5", "AN1", "FQ18", "FQ19", "T1", "K1", "K2"}
+    assert named <= set(b["red"])
+    assert set(b["red"]) - named == THEORY_RED | NO_HUMAN_ACT
 
 
 @pytest.mark.parametrize("pair", sorted(PAIRS))

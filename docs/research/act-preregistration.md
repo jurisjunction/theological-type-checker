@@ -155,7 +155,7 @@ delict. Each reading becomes a branch, not a verdict.
 
 ## RESULTS
 
-Appended after the runs.
+Appended after the runs: see SCORING, after the amendment.
 
 ## AMENDMENT
 
@@ -174,3 +174,34 @@ stamped on its own. Nothing above is changed.
   switch per norm: whether that norm punishes culpa.
 - **N1–N5** stand as written. They are scored in the canon-law step, which
   encodes art. 6 n. 1 on the library's *dolus* and *culpa*.
+
+## SCORING
+
+Appended after the runs. Predictions committed in 133bfdb and 893dc32,
+stamped in 067186d; the amendment committed in 1c1ac98, stamped in
+82909af. Encoded in `act.lp` (the library), `canon_law.lp` (cc. 125,
+1103, 1321–1325), `pair.lp` (`of_kind/2`); cases `act_penal`, `act_fear`
+and the switch `culpa_punished` (`canon_cases.lp`, all HYPOTHETICAL);
+tests AC1–AC12 and `test_interior_is_never_derived`.
+
+| | Result |
+| --- | --- |
+| L1 | Held. No existing scenario changed (all 252). |
+| L2 | Held for the base, with a qualification. No rule derived an interior state from outward facts; c. 1321 §4 was the one presumption, its rebuttal a disputed fact. The scan also found two of the theory's candidates that do exactly this (`cand_weld`: intensity read as eros; `cand_passivity`), each written to be refused, and a case rule that derives a public claim of necessity, an outward fact, from the delict. Now enforced. |
+| L3 | Held (AC8, AC9). `canon_law.lp` names no interior claim; the four canons read the library's `grave_fear`. |
+| L4 | Held. Bare: no human act, no penalty (AC10, AC11); on bare the stamped boot set gains four reds (PR1, SX11, SX15, SX22). On each of the four runtimes the library's scenarios are unchanged. |
+| L5 | Held (AC6, AC6b). |
+| M1 | Held. The TTC-SCHOOLS tables are unchanged except bare, as L4. |
+| M2 | Held after closing three gaps. c. 125 §2 and c. 1103 read fear only in a human act, so `act_of/2` is read; and the record of a public claim of necessity, untested since it was written, gains AC12. |
+| N1–N5 | Deferred to the canon-law step (amendment). |
+
+### Not predicted
+
+- **The library had to say who acts.** The canons' persons are not the
+  kernel's creatures, so *agere sequitur esse* never reached them. The
+  library now says that whoever places an act the canons judge is a
+  creature; the classical runtime then makes it act.
+- **An old gap.** The canon layer recorded the Society's public claim of
+  necessity but no test read it (AC12). The earlier mutation check of the
+  canon layer missed it.
+

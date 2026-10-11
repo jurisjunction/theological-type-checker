@@ -318,16 +318,46 @@ no scenario changed. Predictions were stamped first
   *agere sequitur esse*. With no runtime, stones do not act, and the claim
   comes true (RT2).
 
-### 17. Method
+### 17. The human act as a library (AC1–AC11)
+
+Canon law presupposes a theory of the human act it never states. Thomas
+treats the act (ST I-II qq. 1, 6–21) before law, "a rule and measure of
+acts" (q. 90 a. 1). The theory is now one library (`act.lp`) that the
+canons call; none keeps an interior slot of its own. Predictions were
+stamped first ([ttc-act(7)](research/act-preregistration.md)).
+
+- **The interior is input.** What a case claims of the agent's knowledge,
+  will or freedom is `interior/3`, supplied or computed both ways when
+  disputed; no rule derives it, and a test says so. Routing c. 1321 §4
+  and c. 1323 through the library changed no existing scenario.
+- **One fear, four canons** (AC8, AC9). A grave fear unjustly inflicted
+  from without, typed once: the juridic act stands but may be rescinded
+  (c. 125 §2); the marriage is invalid (c. 1103, where the fear need not be
+  unjust or intended, but must come from without); no penalty
+  (c. 1323 n. 4); a tempered one where the act is intrinsically evil or
+  harms souls (c. 1324 §1 n. 5), and then no latae sententiae penalty
+  binds (§3).
+- **Dolus and culpa are compositions** (AC6, AC6b): the violation known
+  and willed; the omission of due diligence. c. 1321 §3 is one switch per
+  norm.
+- **Canon law presupposes that creatures act** (AC10, AC11). On the bare
+  runtime no human act exists, and no penalty is incurred, the SSPX case
+  included.
+
+### 18. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius
   XII, 1951, 1956; HV 14).
 - **Mutation testing**: every rule, deleted, should turn a test red. This
   caught a vacuous test (T2), four untested canon-law rules, and one bug: an
-  ambiguous source with no readings made the whole run unsatisfiable. It
-  holds for the canon layer and newer files; 13 statements of the grammar
-  core still fail it, down from 46 ([ttc-layers(7)](layers.md)).
+  ambiguous source with no readings made the whole run unsatisfiable. The
+  canon layer had one more, the record of a public claim of necessity,
+  found when the library was added (AC12). It now holds for the canon
+  layer, the library and the runtimes; 13 statements of the grammar core
+  still fail it, down from 46 ([ttc-layers(7)](layers.md)).
+- **Non-diagnosis is a test.** No rule derives `interior/3`
+  (`test_interior_is_never_derived`).
 - **Non-diagnosis is a type rule.** The Dicastery's own return procedure
   (2026) states it.
 

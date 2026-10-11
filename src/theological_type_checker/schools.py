@@ -28,7 +28,8 @@ def school_parts() -> set[str]:
 
 def boot_set() -> list[dict]:
     sp = school_parts()
-    return [s for s in suite.S if s["group"] != suite.RT and not (sp & set(s["parts"]))]
+    # the stamped boot set (TTC-SCHOOLS): scenarios written later (RT, AC) are not in it
+    return [s for s in suite.S if s["group"] not in (suite.RT, suite.AC) and not (sp & set(s["parts"]))]
 
 
 def encoding(deposit_opposition: bool):
