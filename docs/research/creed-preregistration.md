@@ -22,8 +22,8 @@ as the rules stand, before any run:
   God. Neither knows that the Son is born in time of Mary, or suffers, in
   his humanity.
 - **There is no Scripture, no creed as such, no Mary, no economy.** The
-  authority layer's highest tier is 1; the base cites councils but no
-  creed and no text of Scripture.
+  authority layer's highest tier is 1; it holds councils as sources, but
+  no creed and no text of Scripture.
 
 Write the deposit as the Church professes it: the word of God as tier 0,
 the creeds as tier 1, the Incarnation, Mary, and the economy of salvation
@@ -41,7 +41,7 @@ Fixed here.
 
 ### Tier 0: the word of God
 
-- **One deposit.** "Sacred Tradition and Sacred Scripture form one sacred
+- **One deposit.** "Sacred tradition and Sacred Scripture form one sacred
   deposit of the word of God" (DV 10). The teaching office "is not above
   the word of God, but serves it"; the task of authentically interpreting
   it belongs to that office alone (DV 10). Tier 0 is therefore above
@@ -57,11 +57,13 @@ Fixed here.
   the reading is fixed: Jn 3:5 (Trent, sess. VII, *On baptism*, can. 2,
   DH 1615); Jn 20:22–23 (sess. XIV, *On penance*, can. 3, DH 1703);
   Rom 5:12 (sess. V, DH 1514).
-- **The Fathers.** No one may interpret Scripture against the unanimous
-  consent of the Fathers (Trent, sess. IV, DH 1507; Vatican I, DH 3007).
-  That a consent is unanimous is a claim, computed both ways unless a
-  tier-1 act fixes it, as the claim that a teaching is of the ordinary and
-  universal magisterium is.
+- **The Fathers.** In matters of faith and morals that belong to the
+  building up of Christian doctrine, no one may interpret Scripture
+  against the sense the Church holds or the unanimous consent of the
+  Fathers (Trent, sess. IV, DH 1507; Vatican I, DH 3007). That a consent
+  is unanimous is a claim, computed both ways unless a tier-1 act fixes
+  it, as the claim that a teaching is of the ordinary and universal
+  magisterium is.
 
 ### Tier 1: the creeds
 
@@ -69,7 +71,7 @@ Fixed here.
   (DH 150); the *Quicumque* (DH 75–76), tier 1 by the Church's reception;
   and the councils' definitions: Nicaea (DH 125–126), Ephesus
   (DH 250–251), Chalcedon (DH 301–302), Constantinople II (DH 421–438),
-  Constantinople III (DH 556–557), Lateran IV (DH 800–802).
+  Constantinople III (DH 556–557), Lateran IV (DH 800–804).
 - Paul VI's *Credo of the People of God* (1968) is tier 3: by its own
   words it is "without being strictly speaking a dogmatic definition"
   (n. 3).
@@ -101,7 +103,8 @@ Fixed here.
 - Mother of God (Ephesus, DH 251); ever-virgin (DH 422; the Lateran synod
   of 649, can. 3, DH 503; Paul IV, *Cum quorundam*, 1555, DH 1880);
   preserved from every stain of original sin from the first instant of
-  her conception, "in view of the merits of Christ Jesus" (Pius IX,
+  her conception, "in view of the merits of Jesus Christ, the Savior of
+  the human race" (Pius IX,
   *Ineffabilis Deus*, 1854, DH 2803); taken up body and soul into heavenly
   glory, "having completed the course of her earthly life" (Pius XII,
   *Munificentissimus Deus*, 1950, DH 3903). A creature throughout.
@@ -157,8 +160,9 @@ whole suite and the runtimes' boots.
   existing scenario changes, except the seven that load the Trinity with
   one of the theory's models (M5, AN1, AN4, TH0, TH20, TH20b, TH20c).
   There `christ` is named apart from the Son, and the kernel finds a
-  fourth divine person (DH 804) until the models say that the incarnate is
-  the Son. The fault is the models', and the fix goes there.
+  fourth divine person, against the three persons of the creeds (DH 75,
+  800), until the models say that the incarnate is the Son. The fault is
+  the models', and the fix goes there.
 - **CR3. Mother of God is the test of the union.** "Mary is the Mother of
   God" is well typed when the one born of her is the divine person (T5,
   unchanged). The Nestorian candidate, in which the one born of her is a
@@ -166,9 +170,11 @@ whole suite and the runtimes' boots.
   persons in Christ; it is refused (Ephesus, DH 251).
 - **CR4. Two births, one principle.** Typed by person only, the birth of
   Mary gives the Son a second principle of origin, and the kernel's grain
-  (A3; DH 850) fires on the two births that Constantinople II defines
-  (DH 422). Typed by nature, it does not: the Son has one principle in his
-  divinity, and is born of Mary in his humanity.
+  (A3, which reads Lyons II's "one principle", DH 850, as one principle
+  of origin for each divine person) fires on the two births that
+  Constantinople II defines (DH 422). Typed by nature, it does not: the
+  Son has one principle in his divinity, and is born of Mary in his
+  humanity.
 - **CR5. Change.** Typed by person only, his growth and his passion are
   change in God (DH 800), and on the Thomist runtime potency in pure act
   (Th. 1). Typed by nature, neither fires.
@@ -211,7 +217,8 @@ whole suite and the runtimes' boots.
   readings boot.
 - **EC2. Grace before the cross, from the cross.** A rule that orders the
   effects of the passion after it in time turns DH 2803 red: Mary's
-  preservation, at her conception, is "in view of the merits of Christ".
+  preservation, at her conception, is "in view of the merits of Jesus
+  Christ".
   Typed as merits foreseen, nothing fires.
 
 ### M: meta
@@ -226,10 +233,20 @@ whole suite and the runtimes' boots.
 Tier 0 is not *sola scriptura*. Scripture and Tradition are one deposit,
 and the checker reads both only as the Church's acts and the readings a
 case supplies; it never reads a text itself. The readings in SC3 are the
-encoder's statement of three Fathers' positions.
+encoder's statement of the positions of Helvidius, Epiphanius and Jerome.
 
-The *Quicumque* is not the act of a council. It is typed tier 1 by the
-Church's reception of it as a creed, as the Apostles' Creed is.
+The *Quicumque* was not composed by a council. It is typed tier 1 by the
+Church's reception of it as a creed, as the Apostles' Creed is; the
+Council of Florence, among others, received it (*Exsultate Deo*, 1439).
+
+The unanimous consent of the Fathers binds in matters of faith and
+morals (DH 1507, 3007). SC4's text concerns a question of discipline,
+Communion under both kinds; Trent's record of the Fathers' readings is
+what the claim is refused on, not the scope of the rule.
+
+CR2 reads Lateran IV's "not a quaternity" (DH 804) a fortiori: the
+council excluded a fourth thing beside the three persons; a fourth
+person is excluded by the creeds' three.
 
 EC1 says what is contracted at origin, by definition, of all; it says
 nothing of any person's present state (rule 3; TTC-MORAL GR1).
@@ -246,7 +263,7 @@ the dormition is not encoded.
   DH 250–251; Chalcedon (451), DH 301–302; Constantinople II (553),
   cann. 2, 10, DH 422, 432; Lateran synod (649), can. 3, DH 503;
   Constantinople III (681), DH 556–557; Lateran IV (1215), DH 800–804;
-  Lyons II (1274), DH 850
+  Lyons II (1274), DH 850; Florence, *Exsultate Deo* (1439)
 - Trent, sess. V (1546), DH 1513–1516; sess. VII (1547), *On baptism*,
   can. 2, DH 1615; sess. XIV (1551), *On penance*, can. 3, DH 1703; sess.
   XXI (1562), ch. 1, DH 1727; Vatican I, DH 3002
