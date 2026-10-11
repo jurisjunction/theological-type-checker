@@ -124,6 +124,7 @@ suarez.
 
 #program treatise_dependence_constitutive.   % the treatise, section 2: dependence "not an accident
 constitutive(e).                              % added to a creature already constituted"
+uses(icon).                                   % the Grammar of the Icon
 
 #program transcendental_relation. % later scholastic: the creature's being-from (transcendental relation)
 transcendental_relation.          % is not the predicamental relation that follows on it
@@ -179,6 +180,7 @@ creaturely_only(reception).
 
 #program treatise_receptivity.       % the treatise, section 3: to receive "can be a perfection" (said of the Son)
 said_of_god(reception).
+uses(icon).                          % the Grammar of the Icon
 
 #program cand_child_less_good.       % the child of an illicit act graded a lesser good by its origin
 graded_less_good(Z,origin) :- gen(separate,_,Z).

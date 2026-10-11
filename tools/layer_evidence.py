@@ -14,7 +14,15 @@ import theological_type_checker.engine as E
 
 FILES = sys.argv[2].split(",")
 OUT = sys.argv[1]
-APP_MODELS = {"family", "souls", "friendship", "bonds", "polygamy", "separate_act", "asexual", "disparity"}
+
+def theory_parts():
+    """The theory's parts: every #program that declares uses(icon)."""
+    out = set()
+    for f in E.LP_DIR.glob("*.lp"):
+        body = re.sub(r"%.*", "", f.read_text())
+        chunks = re.split(r"(?m)^#program\s+(\w+)", body)
+        out |= {chunks[i] for i in range(1, len(chunks), 2) if "uses(icon)" in chunks[i + 1]}
+    return out
 APP_PREDS = {"nupt", "consent", "held_for", "proposed_bond", "capable_closing", "closed_in_act", "total",
              "side_by_side", "intense", "bridegroom", "valid_bond", "bond", "counter_phase", "welcomed",
              "needs_welcome", "called_bridal", "circuit", "performs", "claimed_counter_phase", "sterile",
@@ -70,7 +78,7 @@ def work(st):
 
 if __name__ == "__main__":
     from theological_type_checker import suite
-    app_ids = {s["id"] for s in suite.S if APP_MODELS & set(s["parts"])}
+    app_ids = {s["id"] for s in suite.S if theory_parts() & set(s["parts"])}
     groups = {s["id"]: s["group"] for s in suite.S}
     sorts = {p: s for f in ("kernel_analogy.lp", "icon_theory.lp") for p, s in re.findall(r"sort_of\((\w+),(\w+)\)", (E.LP_DIR / f).read_text())}
     sts = [s for f in FILES for s in statements(f)]
