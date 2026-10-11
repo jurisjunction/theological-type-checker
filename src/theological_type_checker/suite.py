@@ -1210,6 +1210,9 @@ scen("LW1", LW, "Ecclesia Dei adflicta given in a particular matter: the 2026 ti
      [main_with("q(act2026_schismatic)=yes", "title_not_derived(ddf_decree_2026,fellay,n1364)", where=ED_PARTICULAR),
       main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1387)", where=ED_PARTICULAR),
       main_with("q(act1988_schismatic)=yes", "delict(lefebvre,n1364_1983", where=ED_PARTICULAR),
+      main_with("q(act2026_schismatic)=yes", "declined_by_strict_interpretation(c751,act_suffices,e2026_schreiber)",
+                where=ED_PARTICULAR),
+      main_with("q(act2026_schismatic)=yes", "declined_by_strict_interpretation", present=False, where=ED_LAW),
       info_none("law_without_premise")],
      "c. 16 §3: the reading reaches 1988 only; for 2026, c. 18 reads c. 751 strictly: no title under c. 1364, "
      "c. 1387 still reaches Bp Fellay as co-consecrator; 1988 untouched", mode=B)
@@ -1225,7 +1228,7 @@ scen("LW3", LW, "The mind of the legislator, by rank (c. 17; q. 96 a. 4)", ["law
      "the supreme legislator's law is read in harmony with the natural law; a bishop's keeps the reading, and on it "
      "does not bind", mode=B)
 scen("LW4", LW, "Doubt of law, doubt of fact (c. 14)", ["law_cases"],
-     [info_none("invalid(contract_c,l_inv)", "obliged(person_q,l_obl)"),
+     [info_none("invalid(contract_c,l_inv)", "obliged(person_q,l_obl)"), info_all("invalid(contract_d,l_inv)"),
       info_all("obliged(person_r,l_obl)", "obliged(person_s,l_fact)", "ordinary_may_dispense(l_fact,person_s)")],
      "in a doubt of law an invalidating or obliging law reaches only what every reading reaches; a doubt of fact "
      "leaves the obligation, and the ordinary may dispense", mode=B)
@@ -1248,6 +1251,12 @@ scen("LW7b", LW, "Dispensations no human authority can give (HYPOTHETICAL)", ["l
      "the natural law, divine positive law, and what constitutes the act", mode=B)
 scen("LW8", LW, "A law's failing to bind used to settle doctrine", ["law_cases", "cand_validity_settles_doctrine"],
      [any_branch_violation("teaching_from_law(q(broad_bish))")], "law answers no doctrinal question (rule 1)", mode=B)
+scen("LW10", LW, "Who falls under which code", SX,
+     [info_all("delict(lefebvre,n1382_1983,e1988_fellay)", "delict(fellay,n1382_1983,e1988_fellay)"),
+      info_none("delict(lefebvre,n1387", "delict(galarreta,n1382_1983,e2026"),
+      main_with("q(act2026_schismatic)=yes", "delict(schreiber,n1364,", where=ED_LAW)],
+     "1988 under the 1983 Code (c. 1382), 2026 under Book VI as revised (c. 1387): the dates come from promulgation "
+     "(cc. 7-8) and the reordering (c. 20); consecrator and consecrated alike under c. 751", mode=B)
 scen("LW9", LW, "Revocation in doubt (c. 21)", ["law_cases"],
      [info_all("revocation_not_presumed(l_new,l_old)")], "not presumed", mode=B)
 

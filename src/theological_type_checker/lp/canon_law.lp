@@ -158,6 +158,8 @@ excluded_reading(L,R) :- reading_contrary(L,R,H), higher(H,L), supreme_law(L).
 % @input penal_use/1 | the law's terms set a penalty (or restrict rights, or make an exception)
 :- read_for(L,R,E), penal_use(L), not authentically_read(L,E), admissible(L,R2), narrower(R2,R).
 penal_use(c751).                                   % c. 1364 punishes the schismatic
+info(declined_by_strict_interpretation(L,R,E)) :- needs_reading(L,E), penal_use(L), not authentically_read(L,E),
+                                                  admissible(L,R), admissible(L,R2), narrower(R2,R).
 
 % @norm cic:14 | c. 14: laws, even invalidating and disqualifying ones, do not oblige when there is a doubt about the law; in a doubt of fact ordinaries can dispense | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 :- read_for(L,R,E), doubt_binds_strictly(L), not authentically_read(L,E), admissible(L,R2), narrower(R2,R).

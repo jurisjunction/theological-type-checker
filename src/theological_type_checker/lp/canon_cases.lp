@@ -182,6 +182,7 @@ classification(q(broad_bish),reading(l_bish,broad),contrary_to(d1)).
 % G4: a doubt of law, in an invalidating law and in an obliging one; a doubt of fact
 law_kind(l_inv,ecclesiastical). legislator(l_inv,bishop_x). invalidating(l_inv).
 reading_option(l_inv,(narrow;broad)). needs_reading(l_inv,all). reaches(l_inv,broad,contract_c).
+reaches(l_inv,(narrow;broad),contract_d).                            % reached on every reading
 law_kind(l_obl,ecclesiastical). legislator(l_obl,bishop_x). obliging(l_obl).
 reading_option(l_obl,(narrow;broad)). needs_reading(l_obl,all).
 reaches(l_obl,broad,(person_q;person_r)). reaches(l_obl,narrow,person_r).

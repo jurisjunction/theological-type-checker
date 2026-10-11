@@ -143,4 +143,37 @@ school.
 
 ## SCORING
 
-Appended after the runs.
+Appended after the runs. Predictions committed in e10d77c, stamped in
+ae305f0. Encoded in `law.lp` (the library) and `canon_law.lp` (cc. 7–8,
+14, 16–21, 85–86, 135 §2; c. 751 through cc. 16–18); the SSPX case gains
+the disputed form of *Ecclesia Dei adflicta* and the 2026 decree's
+reading; constructed laws in `law_cases` and three switches (all
+HYPOTHETICAL); scenarios LW1–LW10; `test_equity_is_never_computed`.
+
+| | Result |
+| --- | --- |
+| G1 | Held. The five dates in force, now derived from the two promulgations, their vacatio and the reordering of Book VI (c. 20), equal the old facts; no scenario changed by it (LW10). |
+| G2 | Partly false. The three branches came out as predicted: as law, nothing changes; as an act in the 1988 matter, the 2026 title of c. 1364 for Bp Fellay is not derived and c. 1387 still reaches him (LW1); with the decree approved by the Pope, the title returns (LW2); the pair raises nothing. But "none turns red" was false: SX11, PR1 and PR2 turned red. And c. 14 was not needed for the penal effect: c. 18 alone takes the strict reading, while c. 14 governs obligation and invalidity (LW4). |
+| G3 | Held (LW3). |
+| G4 | Held (LW4). |
+| G5 | Held (LW6, LW6b); equity is never computed (enforced). |
+| G6 | Held (LW7, LW7b). |
+| G7 | Held (LW8). |
+| M1 | Held. The TTC-SCHOOLS tables pass unchanged; the stamped boot set stays the 173 (the LW group, written later, is left out of it). The TTC-ACT scenarios are unchanged. |
+| M2 | Held after closing four gaps: the 1983 c. 1382 and the consecrated's schismatic act had never been tested (LW10); the act reading of c. 751 and an invalidating law's reach had no positive test (LW1, LW4). CL1 and PR4 clean. |
+
+### Not predicted
+
+- **The suite assumed more than the ordered pair says.** SX11, PR1 and
+  PR2 asserted that c. 1364 applies wherever the 2026 act is classified as
+  schismatic. The pair requires only that the law not apply without its
+  theological premise; penal law read strictly may decline a title the
+  classification would allow. The three now check each form of the letter
+  (rule 7; the reason is in their code).
+- **c. 16 reaches the 2026 decree too.** As a dicastery's act it
+  interprets nothing (c. 16 §1 gives authentic interpretation to the
+  legislator, or to one he entrusts with it); approved by the Pope it is
+  the legislator's act in that particular matter.
+- **Two old gaps.** The 1983 c. 1382 title and the rule that the one
+  consecrated, not only the consecrator, commits the schismatic act were
+  never tested.
