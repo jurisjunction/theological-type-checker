@@ -45,6 +45,11 @@ reads the texts; **ttc** computes what follows.
 pip install -e ".[mcp]"
 ```
 
+The repository is on GitHub
+(<https://github.com/jurisjunction/theological-type-checker>) and on
+Radicle, peer to peer: `rad clone rad:z9REkMbmisawZ51TYM8PxU9FK3jZ`. See
+[ttc-archive(7)](docs/archive.md).
+
 Requires Python 3.10 and clingo, which is installed automatically.
 
 ## ENVIRONMENT

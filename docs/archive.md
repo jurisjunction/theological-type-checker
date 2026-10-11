@@ -16,7 +16,7 @@ Copies are the defence. Each place below is free. None is enough alone.
 | Place | Gives | Account | Decentralized |
 | --- | --- | --- | --- |
 | GitHub | the working copy; issues; discovery | yes, pseudonymous | no |
-| Radicle | peer-to-peer git; the identity is a key | no: a key and an alias | yes |
+| Radicle (`rad:z9REkMbmisawZ51TYM8PxU9FK3jZ`) | peer-to-peer git; the identity is a key | no: a key and an alias | yes |
 | Software Heritage | a permanent archive, with intrinsic identifiers (SWHID) | no | no: a non-profit archive with mirrors |
 | IPFS | a content-addressed copy: one CID names one release | no | yes, while someone pins it |
 | OpenTimestamps | proof in the Bitcoin chain that a commit existed by a date | no | yes |
@@ -31,13 +31,18 @@ reach these networks.
 replicates it to others; it survives the loss of any one host.
 
 ```
-curl -sSLf https://radicle.xyz/install | sh
+curl -sSLf https://radicle.dev/install | sh
 rad auth                       # alias: a pseudonym; keep the passphrase safe
 rad node start
 cd theological-type-checker && rad init      # public; default branch main
 git push rad main              # thereafter: git push rad
 rad sync status                # which nodes hold it
 ```
+
+Published: `rad:z9REkMbmisawZ51TYM8PxU9FK3jZ`, seeded by `iris.radicle.network`,
+`rosa.radicle.network` and `seed.pipapo.org` (11 October 2026). To get
+it: `rad clone rad:z9REkMbmisawZ51TYM8PxU9FK3jZ`. To browse it:
+<https://radicle.network/nodes/iris.radicle.network/rad:z9REkMbmisawZ51TYM8PxU9FK3jZ>.
 
 **Software Heritage.** Ask the archive to take a copy:
 <https://archive.softwareheritage.org/save/>, origin type git, the
