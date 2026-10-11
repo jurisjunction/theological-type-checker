@@ -284,8 +284,8 @@ The whole Thomistic stack fits the world. Only Arius gains a violation
 - **Mutation testing**: every rule, deleted, should turn a test red. This
   caught a vacuous test (T2), four untested canon-law rules, and one bug: an
   ambiguous source with no readings made the whole run unsatisfiable. It
-  holds for the canon layer and newer files; 46 statements of the grammar
-  core still fail it ([ttc-layers(7)](layers.md)).
+  holds for the canon layer and newer files; 14 statements of the grammar
+  core still fail it, down from 46 ([ttc-layers(7)](layers.md)).
 - **Non-diagnosis is a type rule.** The Dicastery's own return procedure
   (2026) states it.
 

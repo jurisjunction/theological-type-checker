@@ -48,7 +48,7 @@ For every statement of `icon_core.lp` and `icon_analogy.lp`:
 - **sorts**: whether it names divine-sorted or creature-sorted predicates.
 - **icon predicates**: whether it names a predicate only the theory uses
   (`nupt`, `consent`, `bond`, `total`, ...).
-- **blast radius**: delete it, run all 216 scenarios, and list what turns
+- **blast radius**: delete it, run every scenario (232), and list what turns
   red, split by whether the red scenario loads any of the theory's parts:
   its models (`family`, `souls`, `friendship`, `bonds`, `polygamy`,
   `separate_act`, `asexual`), its candidates and stress switches, and the
@@ -64,14 +64,18 @@ A **borderline** case is one where the evidence and the label disagree.
 
 ## SUMMARY
 
-177 statements in `icon_core.lp` and `icon_analogy.lp`:
+183 statements in `icon_core.lp` and `icon_analogy.lp`, after the kernel
+was given creatures of its own (`kernel_world.lp`; K1–K14):
 
 | Layer | Statements | Needed outside the theory | Exercised only through the theory | Untested |
 | --- | --- | --- | --- | --- |
-| deposit | 17 | 8 | 7 | 2 |
-| kernel | 107 | 42 | 28 | 37 |
-| school | 4 | 3 | 1 | 0 |
-| icon | 49 | 4 | 38 | 7 |
+| deposit | 18 | 13 | 5 | 0 |
+| kernel | 112 | 98 | 7 | 7 |
+| school | 4 | 4 | 0 | 0 |
+| icon | 49 | 5 | 37 | 7 |
+
+Before the kernel's world: 177 statements; kernel 42 / 28 / 37, deposit
+8 / 7 / 2; 46 untested in all.
 
 The "core" is mostly kernel. The theory proper is 49 statements.
 
@@ -82,29 +86,29 @@ By section. Per statement, with reasons and the red tests: `docs/layers.csv`.
 | File | Section | Statements | Layers | Evidence |
 | --- | --- | --- | --- | --- |
 | `icon_core` | switch defaults | 3 | icon | icon-only 1, untested 2 |
-| `icon_core` | sorts | 7 | deposit 1, kernel 6 | out 1, icon-only 3, untested 3 |
-| `icon_core` | A0 inventory | 12 | kernel 10, icon 2 | out 3, icon-only 6, untested 3 |
-| `icon_core` | A1 creation | 3 | deposit 2, school 1 | icon-only 3 |
-| `icon_core` | A2 poles | 16 | kernel 14, icon 2 | out 1, icon-only 10, untested 5 |
+| `icon_core` | sorts | 10 | deposit 2, kernel 8 | out 5, icon-only 2, untested 3 |
+| `icon_core` | A0 inventory | 12 | kernel 10, icon 2 | out 9, icon-only 3 |
+| `icon_core` | A1 creation | 3 | deposit 2, school 1 | out 3 |
+| `icon_core` | A2 poles | 16 | kernel 14, icon 2 | out 13, icon-only 3 |
 | `icon_core` | A9, A5 | 11 | icon | icon-only 10, untested 1 |
 | `icon_core` | A6, A7 | 9 | icon | icon-only 7, untested 2 |
-| `icon_core` | A3, A4 origin | 28 | kernel 20, school 2, icon 6 | out 17, icon-only 8, untested 3 |
-| `icon_core` | A3 grain | 3 | deposit 2, icon 1 | out 1, icon-only 1, untested 1 |
+| `icon_core` | A3, A4 origin | 28 | kernel 20, school 2, icon 6 | out 22, icon-only 6 |
+| `icon_core` | A3 grain | 3 | deposit 2, icon 1 | out 3 |
 | `icon_core` | monarchy | 1 | deposit | out 1 |
 | `icon_core` | distinction of persons | 7 | kernel | out 6, icon-only 1 |
 | `icon_core` | A11 guards | 2 | icon | icon-only 1, untested 1 |
 | `icon_core` | dropped clause | 4 | icon | icon-only 3, untested 1 |
-| `icon_core` | A8 | 2 | kernel 1, icon 1 | icon-only 2 |
-| `icon_core` | A10 | 8 | deposit 7, icon 1 | out 2, icon-only 5, untested 1 |
+| `icon_core` | A8 | 2 | kernel 1, icon 1 | out 1, icon-only 1 |
+| `icon_core` | A10 | 8 | deposit 7, icon 1 | out 4, icon-only 4 |
 | `icon_core` | A11 | 3 | kernel 1, icon 2 | icon-only 3 |
-| `icon_core` | communicatio | 6 | kernel | out 5, untested 1 |
-| `icon_analogy` | analogy: sorts | 3 | kernel | out 1, icon-only 1, untested 1 |
-| `icon_analogy` | analogy: bridges | 5 | kernel 3, icon 2 | out 2, icon-only 3 |
+| `icon_core` | communicatio | 6 | kernel | out 6 |
+| `icon_analogy` | analogy: sorts | 3 | kernel | out 3 |
+| `icon_analogy` | analogy: bridges | 5 | kernel 3, icon 2 | out 4, icon-only 1 |
 | `icon_analogy` | analogy: modes | 11 | deposit 4, kernel 3, school 1, icon 3 | out 11 |
-| `icon_analogy` | analogy: univocity | 4 | kernel | icon-only 4 |
-| `icon_analogy` | analogy: licensing | 5 | kernel | out 2, icon-only 2, untested 1 |
-| `icon_analogy` | analogy: crossing guards | 7 | kernel | out 2, untested 5 |
-| `icon_analogy` | analogy: sort table | 17 | kernel | out 2, untested 15 |
+| `icon_analogy` | analogy: univocity | 4 | kernel | out 2, icon-only 2 |
+| `icon_analogy` | analogy: licensing | 5 | kernel | out 4, icon-only 1 |
+| `icon_analogy` | analogy: crossing guards | 7 | kernel | out 5, untested 2 |
+| `icon_analogy` | analogy: sort table | 20 | kernel | out 18, untested 2 |
 
 "out": deleting it reddens a scenario that loads none of the theory's
 parts. "icon-only": only the theory's scenarios. "untested": nothing.
@@ -116,6 +120,7 @@ Other files, by program:
 | `icon_models.lp` | `trinity` (with one school line, below) | `communicatio` (fixture) | — | `family`, `souls`, `friendship`, `bonds`, `polygamy`, `separate_act`, `asexual` |
 | `icon_tests.lp` | `cand_receiver_lesser` | 17 fixtures (rescue, Augustine, Lateran, analogy stress, `two_sons`) | 8 (the minds of Augustine and Palamas, Nazianzen's Adam, monopatrism, energies, the two distinction principles) | 16 candidates and stress switches |
 | `icon_metaphysics.lp` | `defined_attributes` | the simplicity whitelist | the 24 Theses and every reading | the treatise's two sentences |
+| `kernel_world.lp` | — | `world`, its claims, and ten refused positions | — | — |
 | `icon_history.lp` | tier-1 sources | — | tier 4–5 sources | `disparity`, `limbo`, `refusal`, `a9_universal`, `virginity` (written in the theory's vocabulary) |
 
 `icon_authority.lp`, `canon_law.lp`, `pair.lp` and `library.lp` are
@@ -126,10 +131,15 @@ machinery: none names a predicate of the theory.
 Where the evidence and the label disagree, or where one rule straddles two
 layers.
 
-**The kernel's creaturely half is tested only through the theory.** Every
-creature in the suite is one of the theory's: man, woman, child, soul,
-bacterium. So 28 kernel statements, and creation itself (A1), are exercised
-only by the theory's models. The kernel needs creatures of its own.
+**The kernel's creaturely half was tested only through the theory.** Every
+creature in the suite was one of the theory's: man, woman, child, soul,
+bacterium. 28 kernel statements, and creation itself (A1), were exercised
+only by the theory's models. The kernel now has a world of its own, from
+stones to angels; 7 remain. Giving it one exposed two kernel errors
+(created person read as human; two givers of being typed as a norm
+breach) and two overreaches of the theory (its norm of origin reaches
+lions; its call to be bridal reaches angels). See
+[ttc-findings(7)](findings.md) §15.
 
 **The theory's bridges load in every run.** The principle and grain
 bridges exist for the theory's analogy of contraction (one principle of the
@@ -166,12 +176,22 @@ register its own sorts.
 
 ## DIAGNOSTICS
 
-46 statements turn nothing red when deleted: 37 kernel, 2 deposit, 7 icon.
-Most are crossing guards and sort-table entries that no test triggers, and
-checks with no candidate (origin cycles, false claims, motif mismatch, the
-licenses interchanged). Earlier pages said every rule, deleted, turns a test
-red. That held for the canon layer and the files added since. It did not
-hold for the grammar core.
+14 statements turn nothing red when deleted (46 before the kernel's
+world):
+
+- **7 of the theory's**: two switch defaults, the motif check, a pending
+  ratification, the licenses interchanged, lone generation by kind. The
+  theory's to close.
+- **2 that name the theory**: the crossing guards for `level` and
+  `welcome_owed`. They move with the theory.
+- **2 that cannot fail**: the `hypostatic` entries of the sort table.
+  The static check ignores that sort.
+- **3 definitional**: created and incarnate persons are persons; human
+  persons have human nature. Nothing yet asks.
+
+Earlier pages said every rule, deleted, turns a test red. That held for the
+canon layer and the files added since. It did not hold for the grammar
+core.
 
 ## SEE ALSO
 
