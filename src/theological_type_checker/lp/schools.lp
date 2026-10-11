@@ -47,3 +47,5 @@ distinction(opposition).          % relationis oppositio", read as deposit (TTC-
 not_by_propagation(X) :- virginally_conceived(X).
 #program os_union.                % by the union itself: the nature assumed is holy
 preserved_from_os(X) :- incarnate(X).
+#program cand_os_by_immaculate_mother.   % a candidate reading: free because his mother was (TTC-CREED CE1d)
+not_by_propagation(X) :- incarnate(X), orig_hum(M,X), preserved_from_os(M).

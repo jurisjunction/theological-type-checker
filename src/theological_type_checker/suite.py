@@ -1431,6 +1431,15 @@ scen("CE1", CR, "Original sin: no reading of why Christ is free", ["trinity", "c
      [has("sin_in_christ(son)")], "finding: propagation (DH 1513) reaches him unless a reading says why it does not")
 scen("CE1b", CR, "Original sin: by the union", ["trinity", "creed", "os_union", "ic"],
      [clean], "boots")
+scen("CE1d", CR, "Christ free because his mother was, as of 1600", ["trinity", "creed", "ic", "asof_1600",
+                                                                "cand_os_by_immaculate_mother"],
+     [branch_violation("q(ic)=no", "sin_in_christ(son)"), branch_violation("q(ic)=yes", "sin_in_christ", present=False),
+      cls("q(ic)=no", "open")],
+     "the protected maculist branch (Sixtus IV, 1483) would hold sin in Christ: the reading censures what was "
+     "forbidden to censure; Thomas, Bernard, Bonaventure held Christ sinless without it", mode=B)
+scen("CE1e", CR, "Thomas's own reading in the same branch", ["trinity", "creed", "ic", "asof_1600", "os_virginal"],
+     [branch_violation("q(ic)=no", "sin_in_christ", present=False)],
+     "no human father, no propagation (I-II q.81 a.5): Christ free whatever is held of Mary", mode=B)
 scen("CE1c", CR, "Original sin by descent alone", CREED + ["cand_descent_alone"],
      [has("sin_in_christ(son)", "stain_on_the_preserved(mary)")], "against DH 301 and DH 2803")
 scen("CE2", CR, "The cross's effects only after it in time", CREED + ["cand_merits_in_time"],

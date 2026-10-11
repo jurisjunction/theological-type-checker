@@ -424,6 +424,9 @@ first ([ttc-creed(7)](research/creed-preregistration.md)).
   why it does not (CE1): the virginal conception, or the union. Each
   boots. Mary is preserved by her own definition (DH 2803), "in view of
   the merits of Jesus Christ": a grace before the cross, from it (CE2).
+  The popular reading, that Christ is free because his mother was, would
+  put sin in Christ in the branch Sixtus IV protected: it censures
+  Thomas, who held Christ sinless without it (CE1d, CE1e).
 
 ### 20. Method
 

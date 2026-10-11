@@ -324,6 +324,12 @@ persons and events; candidates). Scenarios CS, CR, CM, CE (43).
 - **Original sin needs a reading** (CE1). The rule of propagation (DH 1513)
   reaches Christ unless a reading says why it does not; the deposit says
   that he is free (DH 301), not why.
+- **Christ free because his mother was?** Added after the scoring, at the
+  person's question. Encoded as a candidate, the reading holds after 1854;
+  but as of 1600 it puts sin in Christ in the branch Sixtus IV protected
+  (CE1d), so it would censure the maculist Doctors, who held Christ sinless
+  on Thomas's reading in that same branch (CE1e). Mary is the
+  counterexample: preserved, with a mother who was not.
 - **Trent's protection outlives the definition in the data.** With
   *Ineffabilis Deus* removed, Trent's tier-1 protection of the question
   (DH 1516) still blocks every lower act (CM1c removes both).
