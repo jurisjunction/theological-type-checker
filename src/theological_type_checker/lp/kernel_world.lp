@@ -64,3 +64,70 @@ denies_image(gabriel, pure_spirit).
 
 #program communicatio_nature.     % a nature term with a predicate of its own nature
 sentence(humanity_is_created, humanity, is_a_creature).
+
+% ---------- The creeds' persons and events (TTC-CREED) ------------------
+% Load with trinity. The Son incarnate, his mother, and the economy as the
+% second article of the creeds tells it (DH 30, 150).
+#program creed.
+incarnate(son).                    % the only-begotten Son made incarnate (Lateran IV, DH 801)
+created_person(mary). created_person(adam).
+gen(nativity,mary,son). in_nature(nativity,hum).    % born of the Virgin Mary, in his humanity (DH 422)
+changes_in(son,hum).               % he grew (Lk 2:52) and suffered in the flesh (DH 432)
+virginally_conceived(son).         % conceived by the Holy Spirit (DH 30, 150)
+descends_from(mary,adam). descends_from(son,adam).   % by generation; his through Mary (Lk 3:23-38)
+% the economy: an order of events
+next(creation,fall). next(fall,conception_of_mary). next(conception_of_mary,annunciation).
+next(annunciation,nativity_of_christ). next(nativity_of_christ,passion). next(passion,death).
+next(death,burial). next(burial,descent). next(descent,resurrection). next(resurrection,ascension).
+next(ascension,session). next(session,pentecost). next(pentecost,return). next(return,judgment).
+% "under Pontius Pilate" dates the passion, the creeds' one date; the rest is order, not date.
+% Mary preserved at her conception "in view of the merits of Jesus Christ" (DH 2803)
+caused_by(preservation_of_mary,passion). happens_at(preservation_of_mary,conception_of_mary).
+foreseen(preservation_of_mary,passion).
+term_sort(son,suppositum). pred_nature(born_of_mary,hum).   % T5: God the Son was born of Mary (DH 251)
+sentence(the_son_born_of_mary,son,born_of_mary).
+
+% ---------- Candidates: what the councils refused (TTC-CREED) -------------
+#program creed_predication.       % what may be said of whom (T5 by the person's natures)
+term_sort(mary,suppositum). pred_nature(is_god,div).
+sentence(the_son_is_god,son,is_god).          % well typed
+sentence(mary_is_god,mary,is_god).            % ill typed: a creature (the Collyridians, Epiphanius, Panarion 79)
+#program cand_father_suffered.    % the Father suffered (Praxeas)
+changes_in(father,hum).
+#program cand_incarnate_apart.     % the incarnate named apart from the Son (the theory's models before TTC-CREED)
+incarnate(christ).
+#program cand_incarnate_father.    % the Father made flesh (Sabellius)
+incarnate(father).
+#program cand_birth_by_person.     % the birth of Mary typed by the person only
+gen(nativity_untyped,mary,son).
+#program cand_change_by_person.    % his growth and passion said of the person without a nature
+changes(son).
+#program cand_change_in_divinity.  % the passion said in the divine nature (Theopaschism)
+changes_in(son,div).
+#program cand_patripassian.        % the Father born of Mary (Noetus, Praxeas)
+gen(nativity_of_father,mary,father). in_nature(nativity_of_father,hum).
+term_sort(father,suppositum). pred_nature(born_of_mary,hum).
+sentence(father_born_of_mary,father,born_of_mary).
+#program cand_apollinarian.        % the Word in place of a human mind (Apollinaris)
+lacks(son,rational_soul).
+#program cand_eutychian.           % the humanity absorbed after the union (Eutyches)
+absorbed(son).
+#program cand_monothelite.         % one will (Sergius of Constantinople)
+denies(son,human_will).
+#program cand_monoenergist.        % one operation (Cyrus of Alexandria)
+denies(son,human_operation).
+#program cand_nestorian.           % the one born of Mary a man joined to the Word (Nestorius)
+created_person(jesus_man). gen(nativity_n,mary,jesus_man). conjoined(jesus_man,son).
+term_sort(son,suppositum). pred_nature(born_of_mary,hum).
+sentence(god_the_word_born_of_mary,son,born_of_mary).
+#program cand_descent_alone.       % original sin by descent alone, propagation or none
+contracts_original_sin(P) :- descends_from(P,adam).
+#program cand_merits_in_time.      % the cross's effects only after it in time
+violation(effect_before_cause(E,C)) :- caused_by(E,C), happens_at(E,T), before(T,C).
+#program cand_grace_unforeseen.    % a grace before the cross, typed without foresight
+next(fall,call_of_abraham). next(call_of_abraham,conception_of_mary).
+caused_by(grace_of_abraham,passion). happens_at(grace_of_abraham,call_of_abraham).
+#program cand_economy_reversed.    % risen before he died
+next(resurrection,death).
+#program cand_scripture_raw.      % a text of Scripture entered with no readings (TTC-CREED)
+source(raw_text,0,truth,95). supports(raw_text,q(water_of_baptism),true_water).

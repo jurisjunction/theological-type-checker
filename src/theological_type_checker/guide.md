@@ -39,7 +39,7 @@ side, juridical facts on the canon side.
 | --- | --- |
 | `question(Q)`, `value(Q,V)`, `question_kind(Q,K)` | A question, its answers, its type. |
 | `default(Q,V)` | Holds unless a source in force says otherwise (c. 1058). |
-| `source(S,T,F,Y)` | Tier 1–5; force `truth`, `juridical` or `protective`; year. |
+| `source(S,T,F,Y)` | Tier 0–5; force `truth`, `juridical` or `protective`; year. Tier 0 is a text of Scripture: give it readings, never `supports`. |
 | `supports(S,Q,V)` | S holds V on Q. |
 | `papal_form(S,F)` | `ex_cathedra` (1), `definitive_declaration` (2), `legislative`, `ordinary` (3). |
 | `character(S,K)` | Weight under LG 25. 3: `constitution`, `encyclical`, `conciliar_constitution`. 2: `conciliar_decree`, `exhortation`, `declaration`, `instruction`, `catechism`, `apostolic_letter`, `profession`. 1: `letter`, `address`, `homily`, `notification`, `responses`, `commentary`. 0: `interview` (cannot cleave). |
@@ -52,9 +52,19 @@ side, juridical facts on the canon side.
 | `holds_reading(S,R)` | A runtime's reading of S: only the branches it holds. |
 | `interprets(S,S1,R)` | Weighs for a reading; never fixes one. |
 | `oum_claim(S,T)` | Claimed as ordinary universal magisterium at tier T; computed both ways. |
+| `consent_claim(S,R)`, `faith_morals(S)`, `records_diverse_readings(F,S)` | The Fathers' unanimous consent for reading R of text S: computed both ways; binds in faith and morals; refused where F records diverse readings. |
 | `binds(L,T,O)` | Law L attaches obligation O to tier T. |
 | `custom_practice/4` and companions | Custom, cc. 23–28. |
 | `salience(S,high)`, `relies_on(A,S)` | Warnings only. |
+
+### The incarnate
+
+| Fact | Meaning |
+| --- | --- |
+| `incarnate(X)` | X is the Son incarnate: divine, of a human nature. With the Trinity loaded, X must be its begotten person. |
+| `in_nature(A,K)`, `changes_in(X,K)` | An act (a birth) or a change said of a person in nature `hum` or `div`. Say the nature: said of the person alone, a birth gives the Son a second principle and a change is change in God. |
+| `term_sort(T,suppositum)`, `pred_nature(P,K)`, `sentence(S,T,P)` | Predication (T5). A person's name takes only predicates of a nature the person has. |
+| `descends_from(P,adam)`, `caused_by(E,C)`, `happens_at(E,T)`, `next(E1,E2)`, `foreseen(E,C)` | The economy: descent, causes, the order of events, merits foreseen. |
 
 ## CANON
 

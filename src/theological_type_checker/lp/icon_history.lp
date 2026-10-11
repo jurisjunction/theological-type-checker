@@ -19,11 +19,15 @@ character(sollicitudo_1661,constitution).
 source(ineffabilis_1854,1,truth,1854).  supports(ineffabilis_1854,q(ic),yes).   % Pius IX
 papal_form(grave_nimis,legislative). papal_form(sollicitudo_1661,ordinary).
 papal_form(ineffabilis_1854,ex_cathedra).
+preserved_from_os(mary) :- holds(q(ic),yes).    % the dogma in the economy (kernel_core.lp; TTC-CREED EC1)
 
 #program ic_unprotected.          % ablation: remove both protective acts
 relaxed(grave_nimis). relaxed(trent_1546).
 
 #program asof_1400. asof(1400). custom_asof.
+#program asof_1100. asof(1100). custom_asof.
+#program asof_1250. asof(1250). custom_asof.
+#program asof_1550. asof(1550). custom_asof.
 #program asof_1600. asof(1600). custom_asof.
 #program asof_1850. asof(1850). custom_asof.
 #program asof_1860. asof(1860). custom_asof.
@@ -78,13 +82,13 @@ source(atf_misread,1,juridical,1998). papal_form(atf_misread,legislative).
 % ---------- Infants who die without baptism ---------------------------
 #program limbo.
 uses(icon).                             % the Grammar of the Icon
-god(god). bridegroom(christ). incarnate(christ). created_person(infant).
+god(god). bridegroom(son). incarnate(son). created_person(infant).   % the incarnate is the Son (TTC-CREED CR2)
 question(q(infant_state)).  question_kind(q(infant_state),doctrinal).
 value(q(infant_state),original_sin_alone). value(q(infant_state),held_in_trust).
 question(q(infant_fate)).   question_kind(q(infant_fate),doctrinal).
 value(q(infant_fate),poena_sensus). value(q(infant_fate),limbo). value(q(infant_fate),beatific).
 % modelling link: a welcome held in trust (as at baptism) admits the infant to the bond
-held_for(god_supplies,infant,christ) :- holds(q(infant_state),held_in_trust).
+held_for(god_supplies,infant,son) :- holds(q(infant_state),held_in_trust).
 :- holds(q(infant_state),held_in_trust), not holds(q(infant_fate),beatific).
 % Florence, Laetentur caeli (DH 1306), tier 1: those who die in original sin
 % alone do not attain the beatific vision. Its content, as a hard constraint:
@@ -101,9 +105,9 @@ source(itc_2007,4,truth,2007). supports(itc_2007,q(infant_fate),beatific). suppo
 
 #program refusal.                 % "his own received him not" (Jn 1:11)
 uses(icon).                             % the Grammar of the Icon
-god(god). bridegroom(christ). incarnate(christ).
+god(god). bridegroom(son). incarnate(son).
 created_person(receiver). created_person(refuser).
-consent(receiver,christ).
+consent(receiver,son).
 
 % ---------- The death penalty ------------------------------------------
 #program deathpenalty.
@@ -495,3 +499,80 @@ character(s_amb,letter). character(s_int,letter).
 
 #program hypothetical_definition. % what a tier-1 act would settle
 source(def_t2,1,truth,2030). meta_supports(def_t2,t2_truth).
+
+% ---------- The creeds and the word of God (TTC-CREED) ------------------
+#program creeds.                  % tier 1, as the Church professes them
+source(apostles_creed,1,truth,700).   % textus receptus (DH 30); the Old Roman Creed is older
+source(nicene_creed,1,truth,381).     % Constantinople I (DH 150): "proceeds from the Father"
+source(quicumque,1,truth,500).        % DH 75-76, 5th-6th c.; tier 1 by the Church's reception
+source(lateran_iv_1215,1,truth,1215). % Firmiter (DH 800-802)
+supports(quicumque,q(spirit_origin),father_and_son).         % "a Patre et Filio"
+supports(lateran_iv_1215,q(spirit_origin),father_and_son).   % "ab utroque pariter" (DH 800)
+supports(lateran_iv_1215,q(monarchy),father_principle_without_principle).   % "Pater a nullo" (DH 800)
+% Paul VI's Credo (1968) is "without being strictly speaking a dogmatic definition" (n. 3)
+source(credo_1968,3,truth,1968). papal_form(credo_1968,ordinary). character(credo_1968,profession).
+supports(credo_1968,q(spirit_origin),father_and_son).        % n. 10
+supports(credo_1968,q(ic),yes).                              % n. 14
+supports(credo_1968,q(ever_virgin),yes).                     % n. 14
+
+#program marian.                  % Mary's dogmas beside the Immaculate Conception (part ic)
+question(q(ever_virgin)). question_kind(q(ever_virgin),doctrinal).
+value(q(ever_virgin),yes). value(q(ever_virgin),no).
+source(constantinople_ii_553,1,truth,553). supports(constantinople_ii_553,q(ever_virgin),yes).  % can. 2, DH 422
+source(lateran_649,3,truth,649).           supports(lateran_649,q(ever_virgin),yes).            % can. 3, DH 503: a Roman synod
+character(lateran_649,conciliar_decree).
+source(cum_quorundam_1555,3,truth,1555).   supports(cum_quorundam_1555,q(ever_virgin),yes).     % Paul IV, DH 1880
+papal_form(cum_quorundam_1555,ordinary).
+question(q(assumption)). question_kind(q(assumption),doctrinal).
+value(q(assumption),yes). value(q(assumption),no).
+source(munificentissimus_1950,1,truth,1950). supports(munificentissimus_1950,q(assumption),yes).   % DH 3903
+papal_form(munificentissimus_1950,ex_cathedra).
+% "having completed the course of her earthly life": whether she died first is left open
+question(q(died_before_assumption)). question_kind(q(died_before_assumption),doctrinal).
+value(q(died_before_assumption),yes). value(q(died_before_assumption),no).
+source(damascene_dormition,5,truth,740). promoted(damascene_dormition,4,1890).   % Homilies on the Dormition
+supports(damascene_dormition,q(died_before_assumption),yes).
+
+#program brothers_of_the_lord.    % Mk 6:3 and Mt 1:25, read against "ever-virgin" (load with marian)
+question(q(brothers_of_the_lord)). question_kind(q(brothers_of_the_lord),doctrinal).
+value(q(brothers_of_the_lord),(sons_of_mary;sons_of_joseph;kinsmen)).
+source(mk6_3,0,truth,70). ambiguous(mk6_3).
+reading(mk6_3,(helvidius;epiphanius;jerome)).
+reads(mk6_3,helvidius,q(brothers_of_the_lord),sons_of_mary).    % Helvidius, refuted by Jerome
+reads(mk6_3,helvidius,q(ever_virgin),no).
+reads(mk6_3,epiphanius,q(brothers_of_the_lord),sons_of_joseph). % by an earlier marriage (Panarion 78)
+reads(mk6_3,jerome,q(brothers_of_the_lord),kinsmen).            % Adversus Helvidium
+source(mt1_25,0,truth,80). ambiguous(mt1_25).
+reading(mt1_25,(until_after;until_only)).
+reads(mt1_25,until_after,q(ever_virgin),no).       % "until" implies what came after (Helvidius)
+                                                   % until_only: "until" says nothing of after (Jerome)
+
+#program defined_senses.          % texts whose sense the Church has defined
+question(q(water_of_baptism)). question_kind(q(water_of_baptism),doctrinal).
+value(q(water_of_baptism),(true_water;metaphor)).
+source(jn3_5,0,truth,95). ambiguous(jn3_5). reading(jn3_5,(literal;figurative)).
+reads(jn3_5,literal,q(water_of_baptism),true_water). reads(jn3_5,figurative,q(water_of_baptism),metaphor).
+source(trent_vii_baptism_c2,1,truth,1547). supports(trent_vii_baptism_c2,q(water_of_baptism),true_water).   % DH 1615
+question(q(jn20_23_power)). question_kind(q(jn20_23_power),doctrinal).
+value(q(jn20_23_power),(forgiving_in_the_sacrament;preaching_the_gospel)).
+source(jn20_23,0,truth,95). ambiguous(jn20_23). reading(jn20_23,(sacramental;kerygmatic)).
+reads(jn20_23,sacramental,q(jn20_23_power),forgiving_in_the_sacrament).
+reads(jn20_23,kerygmatic,q(jn20_23_power),preaching_the_gospel).
+source(trent_xiv_penance_c3,1,truth,1551). supports(trent_xiv_penance_c3,q(jn20_23_power),forgiving_in_the_sacrament).   % DH 1703
+
+#program jn6.                     % Jn 6:53: a claim of the Fathers' unanimous consent
+question(q(jn6_53_sense)). question_kind(q(jn6_53_sense),doctrinal).
+value(q(jn6_53_sense),(eucharistic;spiritual)).
+source(jn6_53,0,truth,95). ambiguous(jn6_53). reading(jn6_53,(eucharistic;spiritual)).
+reads(jn6_53,eucharistic,q(jn6_53_sense),eucharistic). reads(jn6_53,spiritual,q(jn6_53_sense),spiritual).
+faith_morals(jn6_53).
+consent_claim(jn6_53,eucharistic).
+% Trent records "the various interpretations of the holy Fathers and Doctors" (sess. XXI, ch. 1, DH 1727)
+source(trent_xxi_ch1,1,truth,1562). records_diverse_readings(trent_xxi_ch1,jn6_53).
+
+% ablations: which act carries which value
+#program quicumque_relaxed.       relaxed(quicumque).
+#program creed_parts_relaxed.     relaxed(quicumque). relaxed(lateran_iv_1215).
+#program marian_council_relaxed.  relaxed(constantinople_ii_553).
+#program ic_definition_relaxed.   relaxed(ineffabilis_1854).
+#program senses_relaxed.          relaxed(trent_vii_baptism_c2). relaxed(trent_xiv_penance_c3).

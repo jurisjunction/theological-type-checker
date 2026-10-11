@@ -177,7 +177,8 @@ def _outcome(s, extra=()):
 
 def test_monopatrism_changes_only_the_processions():
     # RT excluded: its scenarios load whole runtimes; switching monopatrism under one tests nothing here
-    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT)
+    # CR excluded: the creed loads the Trinity, and monopatrism changes its processions by design (TTC-CREED)
+    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT, suite.CR)
                and _outcome(s) != _outcome(s, ["monopatrism"])}
     assert changed == FILIOQUE_DEPENDENT
 
@@ -195,7 +196,8 @@ THOMIST_STACK_CHANGES = {
 
 def test_thomist_stack_changes_exactly_these():
     # RT excluded: the Thomist runtime is this stack; adding it to other runtimes is the pair test (test_schools.py)
-    changed = {s["id"] for s in suite.S if s["group"] not in (suite.TH, suite.KG, suite.RT)
+    # CR excluded: its scenarios name their runtimes, the Thomist among them (TTC-CREED CR5)
+    changed = {s["id"] for s in suite.S if s["group"] not in (suite.TH, suite.KG, suite.RT, suite.CR)
                and _outcome(s) != _outcome(s, suite.THOMIST)}
     assert changed == THOMIST_STACK_CHANGES
 
@@ -223,7 +225,8 @@ def test_kernel_names_nothing_of_the_theory(name):
 # The kernel fills no school's slot (TTC-SCHOOLS M2): no rule in the kernel files
 # derives a slot a runtime fills, and with no runtime nothing fills one.
 SCHOOL_SLOTS = {"acts", "one_power", "divine_contraction", "distinction", "esse_not_really_distinct",
-                "univocal_concept", "holds_reading", "monopatrism", "no_divine_contraction"}
+                "univocal_concept", "holds_reading", "monopatrism", "no_divine_contraction",
+                "operates", "not_by_propagation", "preserved_from_os"}     # TTC-CREED: CR6, EC1
 
 
 @pytest.mark.parametrize("name", KERNEL_FILES)
@@ -236,9 +239,10 @@ def test_kernel_derives_no_school_slot(name):
 
 
 def test_bare_runs_no_school():
-    r = engine.solve(["world", "trinity", "rt_bare"], "one",
-                     show=("acts/1", "one_power/2", "divine_contraction/1", "distinction/1"))
-    hits = [a for a in r["atoms"] if a.split("(")[0] in {"acts", "one_power", "divine_contraction", "distinction"}]
+    r = engine.solve(["world", "trinity", "creed", "rt_bare"], "one",
+                     show=("acts/1", "one_power/2", "divine_contraction/1", "distinction/1", "operates/2"))
+    hits = [a for a in r["atoms"] if a.split("(")[0] in {"acts", "one_power", "divine_contraction", "distinction",
+                                                           "operates"}]
     assert not hits, hits
 
 

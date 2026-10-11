@@ -15,14 +15,73 @@
 % ---------- Sorts --------------------------------------------------
 person(X)       :- divine(X).
 person(X)       :- created_person(X).
-person(X)       :- incarnate(X).
 created_person(X) :- angel(X).          % angels: spiritual creatures (DH 800), personal (CCC 330)
 human(X)        :- created_person(X), not angel(X).
 creature(X)     :- created_person(X).
 creature(X)     :- organism(X).
 creature(X)     :- inanimate(X).
 human_nature(X) :- human(X).
-human_nature(X) :- incarnate(X).
+human_nature(X) :- incarnate(X), not absorbed(X).
+
+% ---------- The Incarnation (deposit; TTC-CREED) -------------------------
+% One and the same Son, in two natures, without confusion, change, division
+% or separation (Chalcedon, DH 301-302). incarnate/1 names the person; the
+% union is in the person (ST III q.2 aa.2-3), so the incarnate is divine.
+divine(X) :- incarnate(X).                 % and so a person (above)
+% The only-begotten Son was made incarnate (Lateran IV, DH 801), and the
+% creeds confess three persons (DH 75, 800). Where a model gives the Trinity
+% (its Son's generation is named begetting, as in the kernel's fixtures),
+% the incarnate is one of the three, and the Son.
+trinity_given :- gen(begetting,F,S), divine(F), divine(S).
+in_trinity(X) :- gen(_,X,Y), divine(X), divine(Y).
+in_trinity(Y) :- gen(_,X,Y), divine(X), divine(Y).
+violation(fourth_divine_person(X))   :- incarnate(X), trinity_given, not in_trinity(X).
+violation(incarnate_not_the_son(X))  :- incarnate(X), trinity_given, in_trinity(X), not gen(begetting,_,X).
+% Typed by nature. What is said of the person is said by a nature (div or
+% hum, the natures of T5): his birth of Mary, growth and passion are his in
+% the human nature (DH 422, 432); none of it is said of a person without
+% that nature.
+has_nature(X,div) :- divine(X).
+has_nature(X,hum) :- human_nature(X).
+said_in(Z,K) :- gen(A,_,Z), in_nature(A,K).
+said_in(X,K) :- changes_in(X,K).
+violation(nature_not_had(X,K)) :- said_in(X,K), not has_nature(X,K).
+changes(X) :- changes_in(X,div).                          % change in the divine nature is change in God
+% Two births (Constantinople II, can. 2, DH 422): in the human nature the
+% Son is born of Mary, who is Mother of God (Ephesus, DH 251); that birth
+% gives him no second principle (the grain, A3, below).
+orig_hum(P,Z) :- o_edge(P,Z,A), incarnate(Z), in_nature(A,hum).
+info(mother_of_god(M,Z)) :- orig_hum(M,Z).
+% Two natures, a rational soul, two natural wills and operations
+% (Chalcedon, DH 301-302; Constantinople III, DH 556-557). That the human
+% nature operates is a runtime's slot (schools.lp, classical); on a runtime
+% that grants it nothing, the incarnate has one operation.
+rational_soul(X) :- incarnate(X), not lacks(X,rational_soul).
+wills(X,hum)     :- operates(X,hum), rational_soul(X), not denies(X,human_will).
+violation(one_nature(X))      :- incarnate(X), not human_nature(X).         % Eutyches; DH 302
+violation(no_rational_soul(X)) :- incarnate(X), lacks(X,rational_soul).     % Apollinaris; DH 301
+violation(one_operation(X))   :- incarnate(X), not operates(X,hum).         % DH 557
+violation(one_operation(X))   :- incarnate(X), denies(X,human_operation).
+violation(one_will(X))        :- incarnate(X), not wills(X,hum).            % DH 556
+% Not two persons joined (Ephesus, DH 250-251; Chalcedon, DH 302).
+violation(two_persons_in_christ(Y,X)) :- conjoined(Y,X), person(Y), person(X), Y != X.
+
+% ---------- The economy (deposit; TTC-CREED) ------------------------------
+% The creeds tell one order of events (next/2): it has no cycle.
+before(E1,E2) :- next(E1,E2).
+before(E1,E3) :- before(E1,E2), next(E2,E3).
+violation(economy_out_of_order(E)) :- before(E,E).
+% A cause does not come after its effect, save as merits foreseen: Mary is
+% preserved "in view of the merits of Jesus Christ" (DH 2803).
+violation(effect_before_cause(E,C)) :- caused_by(E,C), happens_at(E,T), before(T,C), not foreseen(E,C).
+% Original sin is transmitted to all by propagation, not by imitation
+% (Trent, sess. V, can. 3, DH 1513). Of origin only: nothing here is a
+% person's present state (rule 3). Why Christ is free is a reading's slot
+% (not_by_propagation/1, preserved_from_os/1; kernel_world.lp).
+propagated_from_adam(P)   :- descends_from(P,adam), not not_by_propagation(P).
+contracts_original_sin(P) :- propagated_from_adam(P), not preserved_from_os(P).
+violation(sin_in_christ(X))          :- incarnate(X), contracts_original_sin(X).          % DH 301
+violation(stain_on_the_preserved(P)) :- contracts_original_sin(P), preserved_from_os(P).  % DH 2803
 
 % ---------- A0  Fixed relation inventory ---------------------------
 % Base relations: being/2 (E), orig_cr/2 (O), orig_div/2 (O in God, the
@@ -75,7 +134,7 @@ o_edge(X,Z,A)         :- gen(A,X,Z), contributors(A,1).
 o_edge(pair(X,Y),Z,A) :- gen(A,X,Z), gen(A,Y,Z), X < Y, contractible(A,X,Y).
 o_edge(X,Z,A)         :- gen(A,X,Z), gen(A,Y,Z), X != Y, not contractible(A,X,Y).
 % sorted relations: eternal procession in God, temporal generation in creatures
-orig_div(P,Z) :- o_edge(P,Z,_), not retype(P,Z), divine(Z).
+orig_div(P,Z) :- o_edge(P,Z,A), not retype(P,Z), divine(Z), not in_nature(A,hum).   % a birth in the human nature is not a procession
 orig_cr(P,Z)  :- o_edge(P,Z,_), not retype(P,Z), not divine(Z).
 % the shared form, admitted per sort only through the 'origination' bridge
 orig(P,Z) :- orig_div(P,Z), licensed(origination,div).
@@ -111,7 +170,7 @@ theorem(principle_without_principle(X)) :- divine(X), from(_,X), not from(X,_).
 % (unbegotten, begotten, proceeding: Gregory Nazianzen, Or. 31.8-9).
 opposed(X,Y) :- from(X,Y).
 originated(X) :- gen(_,_,X).
-origin_mode(X,A) :- gen(A,_,X), divine(X).
+origin_mode(X,A) :- gen(A,_,X), divine(X), not in_nature(A,hum).
 origin_mode(X,unoriginate) :- divine(X), not originated(X).
 distinct_by_mode(X,Y) :- origin_mode(X,A), origin_mode(Y,B), A != B.
 violation(persons_not_distinguished(X,Y)) :- distinction(opposition), divine(X), divine(Y), X < Y,
@@ -147,7 +206,15 @@ violation(modal_collapse(X)) :- necessary(X), contingent(X).
 violation(sort_clash(X,S1,S2)) :- sort(X,S1), sort(X,S2), S1 < S2.
 
 % communicatio idiomatum as typing (T5; ST III q.16)
-welltyped(S) :- sentence(S,T,_), term_sort(T,suppositum).
+% A person's name takes a predicate only of a nature the person has: the
+% Father was not born of Mary (TTC-CREED; ST III q.16 a.1). A term the
+% kernel does not know as a person (god, or a fixture's name) is typed by
+% its sort alone.
+nature_known(T) :- divine(T).
+nature_known(T) :- created_person(T).
+nature_missing(S) :- sentence(S,T,P), term_sort(T,suppositum), pred_nature(P,K), nature_known(T),
+                     not has_nature(T,K).
+welltyped(S) :- sentence(S,T,_), term_sort(T,suppositum), not nature_missing(S).
 welltyped(S) :- sentence(S,T,P), term_sort(T,nature(K)), pred_nature(P,K).
 needs_q(S)   :- sentence(S,T,P), welltyped(S), term_sort(T,suppositum),
                 unsafe_unqualified(P), not qualified(S).

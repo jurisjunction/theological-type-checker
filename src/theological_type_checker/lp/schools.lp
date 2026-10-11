@@ -8,6 +8,10 @@
 
 #program classical.               % agere sequitur esse: creatures act (ST I q.105 a.5; SCG III.69-70).
 acts(X) :- creature(X).           % Common to the four runtimes; denied by occasionalism.
+operates(X,hum) :- incarnate(X).  % Said of Christ's humanity too: two natural operations (DH 557).
+
+#program christs_humanity_operates.   % a runtime that grants one created operation only: that of
+operates(X,hum) :- incarnate(X).      % Christ's humanity, which the deposit defines (TTC-CREED CR6)
 
 #program one_power.               % Lyons II defines one principle of the Spirit (DH 850); the Latin
                                   % account of it: one spirative power of Father and Son (ST I q.36 a.4).
@@ -36,3 +40,10 @@ holds_reading(theses_1914,concurrence).
 #program dh1330_deposit.          % Florence, Cantate Domino (DH 1330): "omnia sunt unum, ubi non obviat
 distinction(opposition).          % relationis oppositio", read as deposit (TTC-SCHOOLS, encoding A).
                                   % As a Thomist reading it follows from simplicity_thomist (encoding B).
+
+% Why Christ does not contract original sin (TTC-CREED EC1): the deposit says
+% that he does not (DH 301), not why. Each reading supplies a slot.
+#program os_virginal.             % by the virginal conception: no propagation (ST I-II q.81 a.4)
+not_by_propagation(X) :- virginally_conceived(X).
+#program os_union.                % by the union itself: the nature assumed is holy
+preserved_from_os(X) :- incarnate(X).

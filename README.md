@@ -24,8 +24,8 @@ does not check them for truth. It has three layers, used as an ordered pair
   without a declared bridge. Schools run on it as runtimes (Thomist,
   Scotist, Suárezian, Palamite); one theory, the *Grammar of the Icon*,
   runs on them.
-- **authority**: sources by tier (c. 750 §1, §2; c. 752; Doctors;
-  theologians), form, character and date. Questions branch. Only tier 1
+- **authority**: sources by tier (Scripture, read and never raw; the creeds
+  and c. 750 §1, §2; c. 752; Doctors; theologians), form, character and date. Questions branch. Only tier 1
   deletes a branch; lower acts leave shadows.
 - **canon**: canons as dated yes/no rules. A canon-law question branches
   only on disputed facts, disputed readings, or the internal forum, which
@@ -33,7 +33,7 @@ does not check them for truth. It has three layers, used as an ordered pair
 
 Encoding is interpretation. Checking is mechanical. Do not confuse them.
 
-**ttc-suite** runs 277 scenarios. **ttc-check** runs one case.
+**ttc-suite** runs 320 scenarios. **ttc-check** runs one case.
 **ttc-schools** boots each school alone and in pairs.
 **ttc-library** prints a fetch list of physical copies, with the nearest
 library first. **ttc-mcp** serves all of it to a language model. The model

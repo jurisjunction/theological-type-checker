@@ -2,7 +2,8 @@
 %  Authority graph, branches and shadows (answer-set layer)
 %
 %  source(S, Tier, Force, Year)
-%     Tier  1  de fide credenda (c. 750 §1)
+%     Tier  0  the word of God, Scripture with Tradition (DV 10): read, never raw
+%           1  de fide credenda (c. 750 §1)
 %           2  definitive tenenda (c. 750 §2)
 %           3  authentic ordinary magisterium; ecclesiastical law (c. 752)
 %           4  Doctors of the Church; common theological teaching
@@ -40,6 +41,26 @@ readable(S) :- reading(S,_).
 % a runtime that holds a reading keeps only the branches it holds (TTC-SCHOOLS P8)
 :- holds_reading(S,_), read_as(S,R), not holds_reading(S,R).
 supports(S,Q,V) :- read_as(S,R), reads(S,R,Q,V).
+
+% ---------- Tier 0: the word of God (DV 10-12; TTC-CREED) -------------------
+% Scripture with Tradition, one deposit (DV 10): above tier 1 in authority,
+% below it in determinacy, since its authentic interpretation belongs to the
+% teaching office. A text enters only through its readings (ambiguous/1,
+% reading/2, reads/4), never raw. Inerrancy (DV 11): no branch holds a value
+% contrary to the reading it takes. The analogy of faith (DV 12) needs no
+% rule of its own: a tier-1 text fixes the value, and inerrancy then
+% excludes every reading against it; a defined sense is that case.
+:- holds(Q,V), in_force(S), eff_tier(S,0), supports(S,Q,W), W != V.
+frontier(theology,scripture_without_readings(S)) :- source(S,0,_,_), not readable(S).
+% In faith and morals, no one may read a text against the unanimous consent
+% of the Fathers (Trent, sess. IV, DH 1507; Vatican I, DH 3007). That a
+% consent is unanimous is a claim, computed both ways, and refused where an
+% act in force records that the Fathers read the text diversely.
+{ unanimous(S,R) } :- consent_claim(S,R), in_force(S).
+:- unanimous(S,_), records_diverse_readings(F,S), in_force(F).
+:- unanimous(S,R), read_as(S,R2), R2 != R, faith_morals(S).
+assumed_fact(unanimous(S,R))        :- consent_claim(S,R), unanimous(S,R).
+assumed_fact(false(unanimous(S,R))) :- consent_claim(S,R), in_force(S), not unanimous(S,R).
 
 % ---------- "Taught by the ordinary and universal magisterium" ---------
 % The OUM has no formal act, so the claim that a teaching meets its

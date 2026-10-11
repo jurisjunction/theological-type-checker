@@ -380,7 +380,52 @@ theory is now one library (`law.lp`), and cc. 7–8, 14, 16–21, 85–86 and
   computed both ways when disputed, never derived; in a penal matter it
   cannot supply a penalty (c. 221 §3).
 
-### 19. Method
+### 19. The deposit as the creeds profess it (CR, CS, CM, CE)
+
+The kernel held the deposit only where the *Grammar of the Icon* needed
+it. It now holds the Incarnation, Mary and the economy as the creeds tell
+them, with Scripture above the creeds as tier 0. Predictions were stamped
+first ([ttc-creed(7)](research/creed-preregistration.md)).
+
+- **The kernel never said who Christ is.** The incarnate was a person of
+  human nature, not divine, and the theory's models named him `christ`,
+  apart from the Son. With the union encoded, the seven scenarios that
+  load the Trinity with those models found a fourth divine person (CR2b).
+  The models now name the Son.
+- **Everything said of him is said by a nature.** Typed by the person
+  alone, his birth of Mary gives the Son a second principle of origin
+  (CR4b), and his growth and passion are change in God, on the Thomist
+  runtime potency in pure act (CR5b). Typed by nature, nothing fires: the
+  two births of Constantinople II, one principle.
+- **The Father was born of Mary, and the kernel allowed it.** Not
+  predicted. T5 typed a term by its sort and never asked whether the
+  person has the nature of the predicate (CR3b). It now does; Nestorius's
+  "God the Word was born of Mary", with the Word not incarnate, is ill
+  typed (CR3), and "Mary is God" is too (CR2d).
+- **Bare is monoenergist** (CR6). With no runtime, Christ's humanity has
+  no operation and no will: against Constantinople III. The deposit
+  defines one created operation, not *agere sequitur esse*; a runtime that
+  grants that one alone boots (CR6b).
+- **Scripture is read, never raw.** A text enters with readings; no
+  branch holds against the reading it takes (CS2c); a reading against a
+  definition is excluded (CS2). Of Mk 6:3's three readings, "ever-virgin"
+  excludes Helvidius's and leaves Epiphanius's and Jerome's (CS3); without
+  the dogma, his reading stands (CS3b). The Fathers' unanimous consent is a
+  claim computed both ways, refused on Jn 6:53 once Trent records their
+  differing readings (CS4, CS4b).
+- **The creeds are earlier than the councils the base cited.** Not
+  predicted. The Quicumque and Lateran IV settle the Filioque without
+  Lyons II and Florence (CR1, CR1d); typed by its composition, c. 500,
+  the Quicumque settles it before Lyons II (CR1b). Its tier-1 standing
+  comes from reception, and reception has no date. Paul VI's Credo,
+  tier 3, cleaves and does not delete (CR1e).
+- **Original sin needs a reading between two definitions.** Not
+  predicted. Propagation (DH 1513) reaches Christ unless a reading says
+  why it does not (CE1): the virginal conception, or the union. Each
+  boots. Mary is preserved by her own definition (DH 2803), "in view of
+  the merits of Jesus Christ": a grace before the cross, from it (CE2).
+
+### 20. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

@@ -12,34 +12,34 @@ gen(spiration,son,spirit) :- not monopatrism.   % Lyons II, DH 850; Florence, DH
 
 #program family.                        % M2: marriage, conception, baptism
 uses(icon).                             % the Grammar of the Icon
-god(god). bridegroom(christ). incarnate(christ).
+god(god). bridegroom(son). incarnate(son).   % the incarnate is the Son (TTC-CREED CR2)
 created_person(man). created_person(woman). created_person(child).
 proposed_bond(man,woman).
 consent(man,woman). consent(woman,man). capable_closing(man,woman).
 gen(conception,man,child). gen(conception,woman,child).
 closed_in_act(conception,man,woman).
-consent(man,christ). consent(woman,christ).
-held_for(church,child,christ).          % infant baptism: held in trust
+consent(man,son). consent(woman,son).
+held_for(church,child,son).          % infant baptism: held in trust
 
 #program souls.                         % M3: Christ and many souls
 uses(icon).                             % the Grammar of the Icon
-god(god). bridegroom(christ). incarnate(christ).
+god(god). bridegroom(son). incarnate(son).
 created_person(soul1). created_person(soul2). created_person(soul3).
-consent(soul1,christ). consent(soul2,christ). consent(soul3,christ).
-total(christ,soul1). total(christ,soul2). total(christ,soul3).
-total(soul1,christ). total(soul2,christ). total(soul3,christ).
-stage(christ,embryo).
+consent(soul1,son). consent(soul2,son). consent(soul3,son).
+total(son,soul1). total(son,soul2). total(son,soul3).
+total(soul1,son). total(soul2,son). total(soul3,son).
+stage(son,embryo).
 
 #program friendship.                    % M4: co-phase love
 uses(icon).                             % the Grammar of the Icon
-god(god). bridegroom(christ). incarnate(christ).
+god(god). bridegroom(son). incarnate(son).
 created_person(david). created_person(jonathan).
-consent(david,christ). consent(jonathan,christ).
+consent(david,son). consent(jonathan,son).
 side_by_side(david,jonathan,god).
 intense(david,jonathan).
 
 #program communicatio.                  % M5: predication about Christ
-term_sort(god,suppositum). term_sort(christ,suppositum). term_sort(this_man,suppositum).
+term_sort(god,suppositum). term_sort(son,suppositum). term_sort(this_man,suppositum).
 term_sort(divinity,nature(div)). term_sort(humanity,nature(hum)).
 pred_nature(died,hum). pred_nature(born_of_mary,hum). pred_nature(is_a_creature,hum).
 pred_nature(is_god,div). pred_nature(eternal,div).
@@ -49,8 +49,8 @@ sentence(this_man_is_god,this_man,is_god).
 sentence(god_born_of_mary,god,born_of_mary).
 sentence(divinity_died,divinity,died).
 sentence(humanity_is_eternal,humanity,eternal).
-sentence(christ_is_a_creature,christ,is_a_creature).
-sentence(christ_as_man_is_a_creature,christ,is_a_creature).
+sentence(christ_is_a_creature,son,is_a_creature).
+sentence(christ_as_man_is_a_creature,son,is_a_creature).
 qualified(christ_as_man_is_a_creature).
 
 #program bonds.                         % c. 1084 / c. 1057 shapes
@@ -70,11 +70,11 @@ total(h,w1). total(h,w2).
 
 #program separate_act.                  % married couple; generation without the closing act
 uses(icon).                             % the Grammar of the Icon
-god(god). bridegroom(christ). incarnate(christ).
+god(god). bridegroom(son). incarnate(son).
 created_person(man2). created_person(woman2). created_person(child2).
 proposed_bond(man2,woman2).
 consent(man2,woman2). consent(woman2,man2). capable_closing(man2,woman2).
-consent(man2,christ). consent(woman2,christ). held_for(church,child2,christ).
+consent(man2,son). consent(woman2,son). held_for(church,child2,son).
 gen(separate,man2,child2). gen(separate,woman2,child2).   % no closed_in_act
 
 #program asexual.                       % fission and parthenogenesis

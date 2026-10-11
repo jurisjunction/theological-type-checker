@@ -86,6 +86,12 @@ theory is needed outside it.
 The four school statements left the kernel (R1); the defined attributes
 entered the deposit as four facts and three checks (R2).
 
+TTC-CREED then added the Incarnation, original sin and the economy to
+`kernel_core.lp`, all deposit, and dropped one rule the union made
+redundant (`person(X) :- incarnate(X)`). The counts above predate it.
+Every new statement turns a test red when deleted
+([ttc-creed(7)](research/creed-preregistration.md)).
+
 Earlier: after the split, 187 statements: deposit 17 / 13 / 4 / 0, kernel
 106 / 95 / 8 / 3, school 4 / 4 / 0 / 0, icon 60 / 0 / 50 / 10. Before the
 split, 183, of which icon 49 / 4 / 38 / 7. Before the kernel's world, 177,

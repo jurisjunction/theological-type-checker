@@ -147,8 +147,11 @@ scen("T2", "theorem", "Contraction yields one principle of the child", ["family"
      "no grain violation; exactly one principle, the pair")
 scen("T3a", "theorem", "Finite totality is unique: polygamy", ["polygamy"],
      [has("rivalrous_total(h,w1,w2)")], "violation")
+# TTC-CREED CR2 (rule 7): the theory's models named the incarnate `christ`, apart from the Son; they now
+# name him `son`. T3b, X3, X4, L1 and L3 expect the same violations under that name (T3b's pair prints in
+# name order).
 scen("T3b", "theorem", "Finite totality is unique: a soul given twice", ["souls", "soul_two_spouses"],
-     [has("rivalrous_total(soul1,christ,rival)")], "violation")
+     [has("rivalrous_total(soul1,rival,son)")], "violation")
 scen("T3c", "theorem", "Divine gift to many souls is non-rivalrous", ["souls"],
      [none_of("rivalrous")], "no violation")
 scen("T5", "theorem", "Communicatio idiomatum as typing (ST III q.16)", ["communicatio"],
@@ -179,9 +182,9 @@ scen("X1", "prohibition", "Receiver-as-lesser (Trinity)", ["trinity", "cand_rece
 scen("X2", "prohibition", "Receiver-as-lesser (spouses)", ["family", "cand_receiver_lesser_nuptial"],
      [count("receiver_ranked_lower", 2)], "2 violations")
 scen("X3", "prohibition", "Functionalist personhood", ["souls", "cand_functionalism"],
-     [has("image_denied(christ,no_exercised_reason(embryo))")], "violation at the embryonic Christ")
+     [has("image_denied(son,no_exercised_reason(embryo))")], "violation at the embryonic Christ")
 scen("X4", "prohibition", "Couple-completion imago", ["souls", "cand_couple_completion"],
-     [has("image_denied(christ,unmarried)")], "violation at the unmarried Christ")
+     [has("image_denied(son,unmarried)")], "violation at the unmarried Christ")
 scen("X5", "prohibition", "The gift of self measured by state of life", ["family", "cand_magnitude"],
      [has("self_gift_ranked_by_state")], "violation")
 scen("X5b", "prohibition", "Trent on virginity (DH 1810) beside the prohibition", ["family", "virginity"],
@@ -293,8 +296,8 @@ def branch_violation(qv, sub, present=True):
 
 scen("L1", "case", "Unbaptized infants, old universal A9", ["limbo", "a9_universal"],
      [cls("q(infant_fate)=limbo", "open"),
-      branch_violation("q(infant_fate)=limbo", "reception_without_act(infant,christ)"),
-      branch_violation("q(infant_fate)=poena_sensus", "reception_without_act(infant,christ)"),
+      branch_violation("q(infant_fate)=limbo", "reception_without_act(infant,son)"),
+      branch_violation("q(infant_fate)=poena_sensus", "reception_without_act(infant,son)"),
       branch_violation("q(infant_fate)=beatific", "reception_without_act", present=False)],
      "the grammar flags the protected limbo school as ill-formed", mode=B)
 scen("L2", "case", "Unbaptized infants, A9 as MD 25 words it (default)", ["limbo"],
@@ -302,7 +305,7 @@ scen("L2", "case", "Unbaptized infants, A9 as MD 25 words it (default)", ["limbo
       clean_branches, prefers("q(infant_fate)", "beatific")],
      "neutral: all three open, CCC 1261 tips preference to hope", mode=B)
 scen("L3", "case", "A refusal, old universal A9", ["refusal", "a9_universal"],
-     [has("reception_without_act(refuser,christ)")], "refusal is ill-formed")
+     [has("reception_without_act(refuser,son)")], "refusal is ill-formed")
 scen("L4", "case", "A refusal, A9 as MD 25 words it (default)", ["refusal"],
      [clean, theorems("vacuous_over_persons(called_bridal)"),
       lambda r: ("vacuous_over_persons(bridal)" not in r["theorems"], "'bridal' now distinguishes persons")],
@@ -1259,6 +1262,188 @@ scen("LW10", LW, "Who falls under which code", SX,
      "(cc. 7-8) and the reordering (c. 20); consecrator and consecrated alike under c. 751", mode=B)
 scen("LW9", LW, "Revocation in doubt (c. 21)", ["law_cases"],
      [info_all("revocation_not_presumed(l_new,l_old)")], "not presumed", mode=B)
+
+# ---------- The deposit as the creeds profess it (TTC-CREED) ---------------
+CR = "creed"
+CREED = ["trinity", "creed", "os_virginal", "ic"]
+
+def assumed_none(sub):
+    def chk(r):
+        hit = sorted({a for b in r["branches"] for a in b["assume"] if sub in a})
+        return not hit, "; ".join(hit) or f"no branch assumes {sub}"
+    return chk
+
+def eff_tier_is(src, tier, parts):
+    def chk(_r):
+        atoms = solve(parts, "one", show=("eff_tier/2",))["atoms"]
+        got = sorted(a for a in atoms if a.startswith(f"eff_tier({src},"))
+        return got == [f"eff_tier({src},{tier})"], ", ".join(got) or f"no tier for {src}"
+    return chk
+
+def missing_nature(parts, *sentences):
+    def chk(_r):
+        atoms = solve(parts, "one", show=("nature_missing/1",))["atoms"]
+        got = [x for x in sentences if f"nature_missing({x})" in atoms]
+        return got == list(sentences), f"ill typed by the person's natures: {', '.join(got) or 'none'}"
+    return chk
+
+def shows(parts, *atoms_wanted, sig=()):
+    def chk(_r):
+        atoms = solve(parts, "one", show=sig)["atoms"]
+        got = [a for a in atoms_wanted if a in atoms]
+        return got == list(atoms_wanted), ", ".join(got) or "none"
+    return chk
+
+# Scripture: tier 0, read, never raw
+scen("CS2", CR, "Defined senses: Jn 3:5, Jn 20:22-23", ["defined_senses"],
+     [branches_n(1), branch_facts("read_as(jn3_5,literal)", "read_as(jn20_23,sacramental)"),
+      cls("q(water_of_baptism)=metaphor", "excluded"), cls("q(jn20_23_power)=preaching_the_gospel", "excluded")],
+     "the figurative and the kerygmatic readings excluded with no branch (DH 1615, 1703)", mode=B)
+def readings_carry_values(text, pairs):
+    def chk(r):
+        bad = [b["values"] for b in r["branches"] for rd, qv in pairs
+               if f"read_as({text},{rd})" in b["assume"] and qv not in b["values"]]
+        seen = {rd for b in r["branches"] for rd, _ in pairs if f"read_as({text},{rd})" in b["assume"]}
+        return not bad and seen == {rd for rd, _ in pairs}, f"{text}: each reading holds its value ({len(seen)} read)"
+    return chk
+
+scen("CS2c", CR, "The same texts with the defining canons removed", ["defined_senses", "senses_relaxed"],
+     [branches_n(4), readings_carry_values("jn20_23", [("sacramental", "q(jn20_23_power)=forgiving_in_the_sacrament"),
+                                                      ("kerygmatic", "q(jn20_23_power)=preaching_the_gospel")]),
+      readings_carry_values("jn3_5", [("literal", "q(water_of_baptism)=true_water"),
+                                      ("figurative", "q(water_of_baptism)=metaphor")])],
+     "inerrancy: each branch holds what its reading says; without the definitions both readings stand", mode=B)
+scen("CS2b", CR, "A text entered raw", ["defined_senses", "cand_scripture_raw"],
+     [lambda r: (any("scripture_without_readings(raw_text)" in a
+                     for a in solve(["defined_senses", "cand_scripture_raw"], "one", show=("frontier/2",))["atoms"]),
+                 "frontier: a text with no readings")],
+     "flagged on the frontier: Scripture enters through its readings", mode=B)
+scen("CS3", CR, "The brothers of the Lord (Mk 6:3; Mt 1:25)", ["marian", "brothers_of_the_lord"],
+     [assumed_none("read_as(mk6_3,helvidius)"), assumed_none("read_as(mt1_25,until_after)"),
+      branch_facts("read_as(mt1_25,until_only)"),
+      cls("q(brothers_of_the_lord)=sons_of_mary", "excluded"),
+      cls("q(brothers_of_the_lord)=sons_of_joseph", "open"), cls("q(brothers_of_the_lord)=kinsmen", "open")],
+     "Helvidius excluded by the analogy of faith (ever-virgin); Epiphanius and Jerome both main", mode=B)
+scen("CS3b", CR, "The brothers of the Lord without the dogma", ["brothers_of_the_lord"],
+     [cls("q(brothers_of_the_lord)=sons_of_mary", "open"),
+      readings_carry_values("mk6_3", [("helvidius", "q(brothers_of_the_lord)=sons_of_mary"),
+                                      ("epiphanius", "q(brothers_of_the_lord)=sons_of_joseph"),
+                                      ("jerome", "q(brothers_of_the_lord)=kinsmen")])],
+     "Helvidius's reading stands: the exclusion is the analogy of faith's, not the text's", mode=B)
+scen("CS4", CR, "The Fathers' consent on Jn 6:53, as of 1550", ["jn6", "asof_1550"],
+     [branches_n(3), branch_facts("assumed_fact(unanimous(jn6_53,eucharistic))", every=False),
+      cls("q(jn6_53_sense)=eucharistic", "open"), cls("q(jn6_53_sense)=spiritual", "open")],
+     "the claim of unanimous consent computed both ways; where it holds, it fixes the reading", mode=B)
+scen("CS4b", CR, "The same as of 1600", ["jn6", "asof_1600"],
+     [branches_n(2), assumed_none("assumed_fact(unanimous("),
+      branch_facts("assumed_fact(false(unanimous(jn6_53,eucharistic)))")],
+     "refused: Trent records the Fathers' differing readings (DH 1727)", mode=B)
+
+# The creeds and the Incarnation
+scen("CR1", CR, "The creeds with the two councils removed", ["trinity", "filioque", "councils_relaxed", "creeds"],
+     [cls("q(spirit_origin)=father_alone", "excluded")],
+     "finding: the Quicumque and Lateran IV settle the Filioque without Lyons II and Florence (FQ19 opens it)", mode=B)
+scen("CR1b", CR, "The creeds as of 1100", ["trinity", "filioque", "creeds", "asof_1100"],
+     [cls("q(spirit_origin)=father_alone", "excluded")],
+     "finding: typed by its composition (c. 500), the Quicumque settles the Filioque before Lyons II; reception has no date", mode=B)
+scen("CR1c", CR, "Paul VI's Credo is tier 3 by its form", ["creeds"],
+     [eff_tier_is("credo_1968", 3, ["creeds"]), eff_tier_is("quicumque", 1, ["creeds"]),
+      eff_tier_is("apostles_creed", 1, ["creeds"]), eff_tier_is("nicene_creed", 1, ["creeds"]),
+      eff_tier_is("lateran_iv_1215", 1, ["creeds"]),
+      none_of("tier_inconsistent")],
+     "\"without being strictly speaking a dogmatic definition\" (n. 3)")
+scen("CR1d", CR, "Lateran IV as of 1250, the Quicumque set aside", ["trinity", "filioque", "creeds", "quicumque_relaxed", "asof_1250"],
+     [cls("q(spirit_origin)=father_alone", "excluded"), cls("q(monarchy)=denied", "excluded")],
+     "Firmiter (DH 800): the Spirit from both, the Father from none", mode=B)
+scen("CR1e", CR, "The Credo alone", ["trinity", "filioque", "creeds", "councils_relaxed", "creed_parts_relaxed"],
+     [reint_includes("q(spirit_origin)=father_alone", "credo_1968")],
+     "tier 3: it cleaves, it does not delete", mode=B)
+scen("CR2", CR, "One and the same: the Son incarnate", CREED,
+     [clean, lambda r: ("mother_of_god(mary,son)" in r["info"], "Mother of God: " + str("mother_of_god(mary,son)" in r["info"])),
+      verdicts({"the_son_born_of_mary": "well_typed"})],
+     "the incarnate is the Son, divine and of a human nature; Mary is Mother of God")
+scen("CR2a", CR, "The incarnate is divine with no model of the Trinity", ["creed"],
+     [lambda r: (all(a in solve(["creed"], "one", show=("divine/1", "person/1"))["atoms"]
+                     for a in ("divine(son)", "person(son)")), "divine(son), person(son)")],
+     "the union is in the person: divine, and so a person")
+scen("CR2d", CR, "What may be said of whom", CREED + ["creed_predication"],
+     [verdicts({"the_son_is_god": "well_typed", "mary_is_god": "ill_typed", "the_son_born_of_mary": "well_typed"}),
+      missing_nature(CREED + ["creed_predication"], "mary_is_god")],
+     "the Son is God and born of Mary; Mary is not God (MA1)")
+scen("CR3c", CR, "The Father suffered", CREED + ["cand_father_suffered"],
+     [has("nature_not_had(father,hum)")], "the Father has no human nature")
+scen("CR2b", CR, "The incarnate named apart from the Son", ["trinity", "cand_incarnate_apart"],
+     [has("fourth_divine_person(christ)")], "a fourth divine person: the theory's models before they named the Son")
+scen("CR2c", CR, "The Father made flesh", ["trinity", "cand_incarnate_father"],
+     [has("incarnate_not_the_son(father)")], "the only-begotten Son was made incarnate (DH 801)")
+scen("CR3", CR, "Nestorius: the one born of Mary a man joined to the Word", ["trinity", "cand_nestorian"],
+     [has("two_persons_in_christ(jesus_man,son)"), verdicts({"god_the_word_born_of_mary": "ill_typed"}),
+      missing_nature(["trinity", "cand_nestorian"], "god_the_word_born_of_mary"),
+      lambda r: (not any(i.startswith("mother_of_god") for i in r["info"]), "no Mother of God")],
+     "two persons; 'God the Word was born of Mary' ill typed; Mary not Mother of God (DH 250-251)")
+scen("CR3b", CR, "The Father born of Mary", CREED + ["cand_patripassian"],
+     [has("nature_not_had(father,hum)"), verdicts({"father_born_of_mary": "ill_typed"}),
+      missing_nature(CREED + ["cand_patripassian"], "father_born_of_mary")],
+     "the Father has no human nature (finding: T5 typed the term, not the person's natures)")
+scen("CR4", CR, "Two births, one principle", CREED,
+     [none_of("grain"), principles_of("son", "father")], "born of Mary in his humanity, from the Father alone in his divinity")
+scen("CR4b", CR, "The birth of Mary typed by the person only", CREED + ["cand_birth_by_person"],
+     [has("incoherent(grain(o,son,father,mary))")], "a second principle of the Son (A3)")
+scen("CR5", CR, "Growth and passion, typed by nature, on the Thomist runtime", CREED + ["rt_thomist"],
+     [clean, shows(CREED + ["rt_thomist"], "changes_in(son,hum)", sig=("changes_in/2",))],
+     "he grows and suffers in the flesh: no change in God, no potency in pure act")
+scen("CR5b", CR, "The same said of the person only", CREED + ["cand_change_by_person", "rt_thomist"],
+     [has("change_in_god(son)", "potency_in_pure_act(son)")], "change in God (DH 800); potency in pure act (Th. 1)")
+scen("CR5c", CR, "The passion said in the divine nature", CREED + ["cand_change_in_divinity"],
+     [has("change_in_god(son)")], "change in God")
+scen("CR6", CR, "Bare: the incarnate on no runtime", CREED + ["rt_bare"],
+     [has("one_operation(son)", "one_will(son)")], "one operation, one will: against Constantinople III (DH 556-557)")
+scen("CR6b", CR, "Bare with Christ's human operation alone", CREED + ["rt_bare", "christs_humanity_operates"],
+     [none_of("one_operation", "one_will")], "boots: the deposit defines this one created operation")
+scen("CR7a", CR, "Apollinaris", CREED + ["cand_apollinarian"], [has("no_rational_soul(son)", "one_will(son)")], "refused (DH 301)")
+scen("CR7b", CR, "Eutyches", CREED + ["cand_eutychian"], [has("one_nature(son)")], "refused (DH 302)")
+scen("CR7c", CR, "One will", CREED + ["cand_monothelite"], [has("one_will(son)")], "refused (DH 556)")
+scen("CR7d", CR, "One operation", CREED + ["cand_monoenergist"], [has("one_operation(son)")], "refused (DH 557)")
+scen("CR7e", CR, "The creed on every runtime", CREED,
+     [lambda r: (all(not solve(CREED + [rt], "one")["violations"] for rt in
+                     ("rt_thomist", "rt_scotist", "rt_suarezian", "rt_palamite")), "clean on the four runtimes")],
+     "clean on the four runtimes")
+
+# Mary
+scen("CM2", CR, "The Immaculate Conception as of 1860: Thomas against a later definition", ["ic", "asof_1860"],
+     [info_any("against_tier1(aquinas,q(ic))")], "recorded as a Doctor's teaching against a definition (III q.27 a.2)", mode=B)
+scen("CM1b", CR, "Ever-virgin without Constantinople II", ["marian", "creeds", "marian_council_relaxed"],
+     [reint_includes("q(ever_virgin)=no", "lateran_649"), reint_includes("q(ever_virgin)=no", "cum_quorundam_1555"),
+      reint_includes("q(ever_virgin)=no", "credo_1968")],
+     "the tier-3 acts cleave the contrary; they do not delete it", mode=B)
+scen("CM1c", CR, "The Immaculate Conception without its definition or the protections",
+     ["ic", "creeds", "ic_definition_relaxed", "ic_unprotected"],
+     [reint_includes("q(ic)=no", "credo_1968")], "the Credo cleaves; it does not define", mode=B)
+scen("CM3", CR, "The Assumption and Mary's death", ["marian"],
+     [cls("q(assumption)=yes", "settled"), cls("q(died_before_assumption)=yes", "open"),
+      cls("q(died_before_assumption)=no", "open"), prefers("q(died_before_assumption)", "yes"),
+      shows(["marian", "creeds"], "papal_form(cum_quorundam_1555,ordinary)", "papal_form(credo_1968,ordinary)",
+            "papal_form(munificentissimus_1950,ex_cathedra)", sig=("papal_form/2",))],
+     "the Assumption settled (DH 3903); whether she died first open, the Damascene weighing for it", mode=B)
+
+# The economy
+scen("CE1", CR, "Original sin: no reading of why Christ is free", ["trinity", "creed", "ic"],
+     [has("sin_in_christ(son)")], "finding: propagation (DH 1513) reaches him unless a reading says why it does not")
+scen("CE1b", CR, "Original sin: by the union", ["trinity", "creed", "os_union", "ic"],
+     [clean], "boots")
+scen("CE1c", CR, "Original sin by descent alone", CREED + ["cand_descent_alone"],
+     [has("sin_in_christ(son)", "stain_on_the_preserved(mary)")], "against DH 301 and DH 2803")
+scen("CE2", CR, "The cross's effects only after it in time", CREED + ["cand_merits_in_time"],
+     [has("effect_before_cause(preservation_of_mary,passion)")], "turns DH 2803 red")
+scen("CE2b", CR, "A grace before the cross, without foresight", CREED + ["cand_grace_unforeseen"],
+     [has("effect_before_cause(grace_of_abraham,passion)")], "a cause after its effect")
+scen("CE0", CR, "The economy in one order", CREED,
+     [lambda r: (all(a in solve(CREED, "one", show=("before/2",))["atoms"] for a in
+                     ("before(creation,judgment)", "before(conception_of_mary,passion)",
+                      "before(passion,resurrection)")), "creation ... passion ... judgment")],
+     "from creation to judgment, the passion between")
+scen("CE3", CR, "The economy reversed", CREED + ["cand_economy_reversed"],
+     [has("economy_out_of_order(death)", "economy_out_of_order(resurrection)")], "risen before he died")
 
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
