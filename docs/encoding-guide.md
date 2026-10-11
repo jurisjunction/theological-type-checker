@@ -31,6 +31,9 @@ side, juridical facts on the canon side.
    Name a runtime when the answer depends on a school.
 6. If you disagree with the result, use `fix_method`. If you agree, use
    `save_scenario`.
+7. A red test is a finding. Open each with `read_test` before deciding
+   whether the change is wrong, the test is brittle, or the expectation
+   should change, and say which. Never save over one unexamined.
 
 ## THEOLOGY
 

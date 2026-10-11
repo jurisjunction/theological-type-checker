@@ -49,6 +49,7 @@ Inside the repository, `.mcp.json` registers it for the project.
 | `check` | Run parts plus new facts: statuses, violations, branches. |
 | `compare` | Two configurations, and only what differs between them. |
 | `run_suite` | The regression suite. |
+| `read_test` | One test: its parts, its checks' source. Open every test a change turns red. |
 | `lint` | Rules that cross the Creator–creature line without a bridge. |
 | `norm_graph`, `norm_check` | The canon graph; its loops and gaps. |
 
@@ -57,7 +58,7 @@ Inside the repository, `.mcp.json` registers it for the project.
 | Tool | Does |
 | --- | --- |
 | `fix_method` | Add or remove rules, rerun everything, report gains and losses. Writes nothing. |
-| `save_rules`, `save_case`, `save_scenario` | Write to `$TTC_HOME`, and only if the suite stays green. |
+| `save_rules`, `save_case`, `save_scenario` | Write to `$TTC_HOME`, and only if the suite stays green. `save_rules` with `force` needs a stated reason for each red test. |
 | `mark_consulted` | Record a source as checked against print. |
 
 ### Library and status

@@ -71,6 +71,28 @@ def test_flywheel_saves_only_what_passes(tmp_path, monkeypatch):
     breaking = server.save_rules("breaker", "a9_universal.")
     assert breaking["saved"] is False and breaking["newly_failing"]
     assert not (tmp_path / "rules" / "breaker.lp").exists()
+    forced = server.save_rules("breaker", "a9_universal.", force=True)
+    assert forced["saved"] is False and "reason for each red test" in forced["reason"]
+    assert forced["newly_failing"][0]["definition"]["source"].startswith("scen(")
+    why = {f["id"]: "agreed: the universal reading is the one under test" for f in forced["newly_failing"]}
+    accepted = server.save_rules("breaker", "a9_universal.", force=True, reasons=why)
+    assert accepted["saved"] is True
+    assert "% red test accepted:" in (tmp_path / "rules" / "breaker.lp").read_text()
+
+
+def test_read_test_shows_the_checks():
+    pytest.importorskip("mcp")
+    from theological_type_checker import server
+    d = server._definition("TH8")
+    assert d["parts"] == ["family", "th22", "bridges_as_order_of_knowing"]
+    assert any(h.startswith("def every_bridge_projected") for h in d["checks_defined_as"])
+
+
+def test_a_new_bridge_leaves_th8_green():
+    """TH8 counted five projections; any new bridge turned it red. It now counts against the bridges."""
+    with engine.rule_change(add="bridge(authority,div,cr). mode(authority,div,source). mode(authority,cr,derived)."):
+        rows = suite.run(["TH8"])
+    assert rows[0]["ok"], rows[0]["got"]
 
 
 def _fake_http(method, url, headers=None, data=None, timeout=20):

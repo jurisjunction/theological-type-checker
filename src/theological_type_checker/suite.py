@@ -903,8 +903,15 @@ scen("TH7c", TH, "Th. 21: Augustine's mind", ["lateran", "lateran_mind", "th21"]
      [none_of("will_before_intellect")], "admitted", mode="opt")
 scen("TH7d", TH, "Th. 21: memory, understanding, will (De Trin. X)", ["lateran", "lateran_mind_memory", "th21"],
      [lateran({"n_licensed": 2}), none_of("will_before_intellect")], "admitted; both processions licensed", mode="opt")
+def every_bridge_projected(r):
+    """As many projections as bridges from God, whatever bridges the base holds."""
+    bridges = [a for a in solve(r["_parts"], "one", facts=r["_facts"], show=("bridge/3",))["atoms"]
+               if a.startswith("bridge(") and a.endswith(",div,cr)")]
+    k = sum("projection(" in v for v in r["violations"])
+    return k == len(bridges) > 0, f"{k} projections, {len(bridges)} bridges"
+
 scen("TH8", TH, "Th. 22 with bridges read in the order of knowing", ["family", "th22", "bridges_as_order_of_knowing"],
-     [count("projection(", 5)], "every bridge a projection; ST I q.13 a.6 reads them in the order of being")
+     [every_bridge_projected], "every bridge a projection; ST I q.13 a.6 reads them in the order of being")
 scen("TH9", TH, "Th. 24: creative power given to a minister (Lombard)", ["family", "cand_instrumental_creation"],
      [has("being_from_non_god(minister,child)")], "already a violation of A1 (ST I q.45 a.5)")
 scen("TH10", TH, "Th. 24, last clause, against De auxiliis", ["auxiliis", "theses_1914"],

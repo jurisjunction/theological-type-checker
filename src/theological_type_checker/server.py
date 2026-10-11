@@ -8,6 +8,7 @@ claims, at what tier, in what form). The checker does the mechanical work
 from __future__ import annotations
 
 import functools
+import inspect
 import pathlib
 import re
 
@@ -207,8 +208,41 @@ def run_suite(ids: list[str] | None = None) -> dict:
     it got. A failure means the rule base no longer explains a case it used to."""
     rows = suite.run(ids)
     return {"passed": sum(r["ok"] for r in rows), "total": len(rows),
+            "next": RED_IS_A_FINDING if any(not r["ok"] for r in rows) else None,
             "failures": [r for r in rows if not r["ok"]],
             "results": [{"id": r["id"], "name": r["name"], "ok": r["ok"]} for r in rows]}
+
+
+RED_IS_A_FINDING = ("A red test is a finding (house rule 7). Open each with read_test before deciding, "
+                    "then say which it is: the change is wrong; the test is brittle (say why, and how it "
+                    "should be written); or the expectation should change (say why). Never save over a "
+                    "red test without one of these for each.")
+
+
+def _definition(sid: str) -> dict:
+    """A scenario's parts, mode, expectation and the source that defines its checks."""
+    s = next((x for x in suite.S + suite.personal_scenarios() if x["id"] == sid), None)
+    if s is None:
+        raise ValueError(f"no such test: {sid}")
+    src = pathlib.Path(suite.__file__).read_text()
+    m = re.search(r'^scen\("' + re.escape(sid) + r'".*?(?=^\S)', src, re.S | re.M)
+    body = m.group(0).rstrip() if m else "(a personal scenario: see scenarios.json)"
+    helpers = []
+    for w in dict.fromkeys(re.findall(r"\b([a-z_][a-z0-9_]*)\b", body)):
+        f = getattr(suite, w, None)
+        if w != "scen" and inspect.isfunction(f) and f.__module__ == suite.__name__:
+            helpers.append(inspect.getsource(f).rstrip())
+    return {"id": sid, "group": s["group"], "name": s["name"], "parts": s["parts"], "mode": s["mode"],
+            "expected": s["expected"], "source": body, "checks_defined_as": helpers}
+
+
+@server.tool()
+@_friendly
+def read_test(id: str) -> dict:
+    """One regression test: its parts, mode, what it expects, and the source of
+    its checks in suite.py. Open every test a change turns red before deciding
+    what the red means."""
+    return _definition(id)
 
 
 _BASELINE = {}
@@ -243,14 +277,16 @@ def fix_method(add_rules: str = "", remove_lines: list[str] | None = None) -> di
     base = _baseline()
     with engine.rule_change(add_rules, remove_lines or []):
         now = {r["id"]: r for r in suite.run()}
-    newly_failing = [{"id": i, "name": now[i]["name"], "expected": now[i]["expected"], "got": now[i]["got"]}
+    newly_failing = [{"id": i, "name": now[i]["name"], "expected": now[i]["expected"], "got": now[i]["got"],
+                      "definition": _definition(i)}
                      for i in now if base[i]["ok"] and not now[i]["ok"]]
     newly_passing = [{"id": i, "name": now[i]["name"]} for i in now if not base[i]["ok"] and now[i]["ok"]]
     changed = [{"id": i, "before": base[i]["got"], "after": now[i]["got"]}
                for i in now if now[i]["ok"] and base[i]["ok"] and now[i]["got"] != base[i]["got"]]
     return {"tests": len(now), "newly_failing": newly_failing, "newly_passing": newly_passing,
             "passing_but_output_changed": changed,
-            "verdict": "no loss" if not newly_failing else f"{len(newly_failing)} test(s) lost"}
+            "verdict": "no loss" if not newly_failing else f"{len(newly_failing)} test(s) lost",
+            "next": RED_IS_A_FINDING if newly_failing else None}
 
 
 @server.tool()
@@ -337,11 +373,13 @@ def flywheel_status(run_tests: bool = False) -> dict:
 
 @server.tool()
 @_friendly
-def save_rules(name: str, rules: str, force: bool = False) -> dict:
+def save_rules(name: str, rules: str, force: bool = False, reasons: dict[str, str] | None = None) -> dict:
     """Save rules to the personal layer ($TTC_HOME/rules/<name>.lp), after
     running the whole suite with them. If any test that passed now fails, the
-    rules are NOT saved (unless force=True, which you should use only when
-    the person has agreed that each loss is right). Tag canon-law rules with
+    rules are NOT saved. force=True saves anyway, but only with `reasons`: for
+    every newly failing test id, why the loss is right (the test is brittle,
+    or its expectation should change), as the person has agreed after you
+    opened the test with read_test. Tag canon-law rules with
     `% @norm <id> | <citation> | <source URL>` and declare new fact slots
     with `% @input <name>/<arity> | <meaning>`."""
     if not _NAME.match(name):
@@ -350,7 +388,13 @@ def save_rules(name: str, rules: str, force: bool = False) -> dict:
     report = fix_method(add_rules=rules)
     if report["newly_failing"] and not force:
         return {"saved": False, "reason": "the change turns tests red", **report}
-    (home / "rules" / f"{name}.lp").write_text(rules.rstrip() + "\n")
+    missing = [f["id"] for f in report["newly_failing"] if not (reasons or {}).get(f["id"], "").strip()]
+    if missing:
+        return {"saved": False, "reason": "force needs a stated reason for each red test: " + ", ".join(missing),
+                **report}
+    header = "".join(f"% red test accepted: {i}: {r}\n" for i, r in sorted((reasons or {}).items())
+                     if i in {f["id"] for f in report["newly_failing"]})
+    (home / "rules" / f"{name}.lp").write_text(header + rules.rstrip() + "\n")
     _BASELINE.clear()
     return {"saved": True, "file": str(home / "rules" / f"{name}.lp"), **report}
 

@@ -68,7 +68,7 @@ unaffected until you contribute.
 | Tool | Does |
 | --- | --- |
 | `flywheel_status` | Frontiers: theology, canon, library. Optionally the suite. |
-| `save_rules` | Save rules if the suite stays green. |
+| `save_rules` | Save rules if the suite stays green; over a red test only with a stated reason for it. |
 | `save_case` | Save an ordered pair, `theology` then `canon`. Mixing the sides is refused. |
 | `save_scenario` | Record a result as a test, only if it passes now. |
 | `mark_consulted` | Record a source as checked against the original. |
