@@ -37,6 +37,8 @@ in_force(S)     :- source(S,_,_,Y), asof(A), Y <= A, not relaxed(S), not withdra
 % a source marked ambiguous but given no readings is a frontier item, not a contradiction
 readable(S) :- reading(S,_).
 1 { read_as(S,R) : reading(S,R) } 1 :- ambiguous(S), in_force(S), readable(S).
+% a runtime that holds a reading keeps only the branches it holds (TTC-SCHOOLS P8)
+:- holds_reading(S,_), read_as(S,R), not holds_reading(S,R).
 supports(S,Q,V) :- read_as(S,R), reads(S,R,Q,V).
 
 % ---------- "Taught by the ordinary and universal magisterium" ---------

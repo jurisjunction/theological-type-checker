@@ -38,9 +38,9 @@ rel(d,X,Y)     :- acton(X,Y).
 rel(fresh,X,Y) :- retype(X,Y).                % only used by the rescue stress test
 violation(unknown_reltype(R)) :- rel(R,_,_), not reltype(R).
 
-% ---------- A1  Being is received from God alone; creatures act -----
+% ---------- A1  Being is received from God alone -------------------
 being(G,X) :- god(G), creature(X), licensed(creation,cr).   % received being: the root of analogy
-acts(X)    :- creature(X).
+% That creatures act (agere sequitur esse) is a runtime's: schools.lp, classical.
 violation(being_from_non_god(P,X)) :- being(P,X), not god(P).
 
 % ---------- A2  Poles are positions in typed binary relations -------
@@ -65,15 +65,11 @@ violation(false_claim(C)) :- claims(C,_,_,_,_), not true_claim(C).
 % gen(Act, Source, Term): Source contributes to the origin of Term in Act.
 act(A) :- gen(A,_,_).
 contributors(A,N) :- act(A), N = #count{ X : gen(A,X,_) }.
-one_power(Y,X) :- one_power(X,Y).
 
-% Two sources are one principle only by a license. In God the license is one
-% power of Father and Son (the Latin account of Lyons II's "one principle":
-% ST I q.36 a.4); the switch no_divine_contraction withholds it (Photius).
-% A theory may add licenses of its own for creatures.
-divine_contraction(identity_of_power) :- not no_divine_contraction.
-contractible(A,X,Y) :- divine_contraction(identity_of_power), gen(A,X,_), gen(A,Y,_), X != Y,
-                       one_power(X,Y).
+% Two sources are one principle only by a license (contractible/3). The kernel
+% grants none. In God a runtime grants it: the Latin runtimes by one spirative
+% power (schools.lp, one_power); the switch no_divine_contraction withholds it
+% (Photius). A theory may add licenses of its own for creatures.
 
 o_edge(X,Z,A)         :- gen(A,X,Z), contributors(A,1).
 o_edge(pair(X,Y),Z,A) :- gen(A,X,Z), gen(A,Y,Z), X < Y, contractible(A,X,Y).
@@ -134,6 +130,18 @@ consubstantial(X,Y) :- divine(X), divine(Y), X != Y.
 equal_dignity(X,Y)  :- human(X), human(Y), X != Y.          % GS 29: human persons
 violation(receiver_ranked_lower(X,Y)) :- less(X,Y), consubstantial(X,Y).
 violation(receiver_ranked_lower(X,Y)) :- less(X,Y), equal_dignity(X,Y).
+
+% ---------- The attributes as defined (deposit) ----------------------
+% Lateran IV (DH 800, 804); Vatican I, Dei Filius (DH 3001-3002, 3025). The
+% schools read simplicity more strictly (icon_metaphysics.lp); the definition
+% excludes only composition of parts.
+simplicity(defined).                                   % "simplex omnino"
+immutability(defined).                                 % "incommutabilis"
+contingent(X) :- creature(X).                          % created "liberrimo consilio" (DH 3002, 3025)
+allowed(defined,(rational;formal;energetic)).
+violation(composition_in_god(X,Y,K,R)) :- simplicity(R), god_distinction(X,Y,K), not allowed(R,K).
+violation(change_in_god(G))  :- immutability(_), changes(G).
+violation(modal_collapse(X)) :- necessary(X), contingent(X).
 
 % ---------- A11  Sorted predicates ------------------------------------
 violation(sort_clash(X,S1,S2)) :- sort(X,S1), sort(X,S2), S1 < S2.

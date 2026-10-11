@@ -154,7 +154,8 @@ def _outcome(s, extra=()):
 
 
 def test_monopatrism_changes_only_the_processions():
-    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG)
+    # RT excluded: its scenarios load whole runtimes; switching monopatrism under one tests nothing here
+    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT)
                and _outcome(s) != _outcome(s, ["monopatrism"])}
     assert changed == FILIOQUE_DEPENDENT
 
@@ -171,7 +172,9 @@ THOMIST_STACK_CHANGES = {
 
 
 def test_thomist_stack_changes_exactly_these():
-    changed = {s["id"] for s in suite.S if s["group"] not in (suite.TH, suite.KG) and _outcome(s) != _outcome(s, suite.THOMIST)}
+    # RT excluded: the Thomist runtime is this stack; adding it to other runtimes is the pair test (test_schools.py)
+    changed = {s["id"] for s in suite.S if s["group"] not in (suite.TH, suite.KG, suite.RT)
+               and _outcome(s) != _outcome(s, suite.THOMIST)}
     assert changed == THOMIST_STACK_CHANGES
 
 
@@ -193,3 +196,31 @@ def test_kernel_names_nothing_of_the_theory(name):
     code = re.sub(r"%.*", "", (engine.LP_DIR / name).read_text())
     used = {w for w in re.findall(r"\b([a-z]\w*)\b", code)} & THEORY_PREDICATES
     assert not used, f"{name} names the theory's predicates: {sorted(used)}"
+
+
+# The kernel fills no school's slot (TTC-SCHOOLS M2): no rule in the kernel files
+# derives a slot a runtime fills, and with no runtime nothing fills one.
+SCHOOL_SLOTS = {"acts", "one_power", "divine_contraction", "distinction", "esse_not_really_distinct",
+                "univocal_concept", "holds_reading", "monopatrism", "no_divine_contraction"}
+
+
+@pytest.mark.parametrize("name", KERNEL_FILES)
+def test_kernel_derives_no_school_slot(name):
+    import re
+    code = re.sub(r"%.*", "", (engine.LP_DIR / name).read_text())
+    heads = [st.split(":-")[0] for st in re.split(r"\.\s", code) if st.strip() and not st.strip().startswith("#")]
+    filled = {p for h in heads for p in re.findall(r"\b([a-z]\w*)\b(?=\s*\(|\s*$)", h.strip())} & SCHOOL_SLOTS
+    assert not filled, f"{name} derives school slots: {sorted(filled)}"
+
+
+def test_bare_runs_no_school():
+    r = engine.solve(["world", "trinity", "rt_bare"], "one",
+                     show=("acts/1", "one_power/2", "divine_contraction/1", "distinction/1"))
+    hits = [a for a in r["atoms"] if a.split("(")[0] in {"acts", "one_power", "divine_contraction", "distinction"}]
+    assert not hits, hits
+
+
+def test_default_runtime_is_the_relocated_statements():
+    assert engine.RUNTIMES["default"] == ["classical", "one_power"]
+    assert engine.expand_runtimes(["trinity"]) == ["classical", "one_power", "trinity"]
+    assert engine.expand_runtimes(["trinity", "rt_bare"]) == ["trinity"]

@@ -19,9 +19,11 @@ ttc-mcp
 does not check them for truth. It has three layers, used as an ordered pair
 (teaching first, law ordered to it):
 
-- **grammar**: five typed relations (being, origination, action, nuptial
-  gift, side-by-side). Analogy is a sort discipline: nothing crosses the
-  Creator–creature line without a declared bridge.
+- **grammar**: a kernel of typed relations, with the deposit's rules.
+  Analogy is a sort discipline: nothing crosses the Creator–creature line
+  without a declared bridge. Schools run on it as runtimes (Thomist,
+  Scotist, Suárezian, Palamite); one theory, the *Grammar of the Icon*,
+  runs on them.
 - **authority**: sources by tier (c. 750 §1, §2; c. 752; Doctors;
   theologians), form, character and date. Questions branch. Only tier 1
   deletes a branch; lower acts leave shadows.
@@ -31,7 +33,8 @@ does not check them for truth. It has three layers, used as an ordered pair
 
 Encoding is interpretation. Checking is mechanical. Do not confuse them.
 
-**ttc-suite** runs 234 scenarios. **ttc-check** runs one case.
+**ttc-suite** runs 252 scenarios. **ttc-check** runs one case.
+**ttc-schools** boots each school alone and in pairs.
 **ttc-library** prints a fetch list of physical copies, with the nearest
 library first. **ttc-mcp** serves all of it to a language model. The model
 reads the texts; **ttc** computes what follows.
@@ -80,6 +83,7 @@ finding, not an inconvenience.
 [Being, Relation, and Gift](docs/theology-of-the-core.md) (the theology, in the discipline's language),
 [ttc(7)](docs/guide-for-theologians-and-canonists.md),
 [ttc-findings(7)](docs/findings.md), [ttc-core(5)](docs/core-edition.md),
+[ttc-layers(7)](docs/layers.md), [ttc-schools(7)](docs/research/schools-preregistration.md),
 [ttc-canon(5)](docs/canon-law-layer.md), [ttc-encoding(5)](docs/encoding-guide.md),
 [ttc-flywheel(7)](docs/flywheel.md), [ttc-library(1)](docs/library.md),
 [ttc-mcp(8)](docs/mcp.md), [cases](docs/cases/),

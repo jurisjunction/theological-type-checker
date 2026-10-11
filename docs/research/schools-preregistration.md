@@ -196,4 +196,81 @@ are corrected in RESULTS, not above.
 
 ## RESULTS
 
-Appended after the runs.
+Appended after the runs. Predictions committed in 8ee05e8, stamped in
+96af2b0. Encoded in `schools.lp`, `engine.RUNTIMES`, `schools.py`; tests
+RT1–RT14 (fast) and `tests/test_schools.py` (the tables; `TTC_SLOW=1`).
+`ttc-schools` prints the tables.
+
+### Boots, encoding B
+
+| Runtime | Changed | Red |
+| --- | --- | --- |
+| bare | 50 | 18 |
+| Thomist | UN1, UN2, AN4, FQ13, FQ19, K7, K9 | FQ19 |
+| Scotist | none | none |
+| Suárezian | AN4, FQ19 | FQ19 |
+| Palamite | 47 | 23 |
+
+### Pairs
+
+| Pair | Clashes (scenarios) |
+| --- | --- |
+| Thomist + Scotist | `composition_in_god` (171); `received_esse_without_real_distinction` (54) |
+| Thomist + Suárezian | `received_esse_without_real_distinction` (54) |
+| Thomist + Palamite | `composition_in_god` (170); `persons_not_distinguished` (12) |
+| Scotist + Suárezian | `composition_in_god` (171) |
+| Scotist + Palamite | `composition_in_god` (170) |
+| Suárezian + Palamite | `composition_in_god` (170); `persons_not_distinguished` (12) |
+
+A pair clashes on simplicity in nearly every scenario because each
+runtime carries its own data (the attributes, the energies).
+
+### Scoring
+
+| | Result |
+| --- | --- |
+| R1 | Held: no scenario changed. |
+| R2 | Held. |
+| R3 | Partly false. The Spirit gained two principles in the nine predicted (M1, M5, X1, AN1, AN6, FQ2, FQ18, FQ19, K7), and *donative* stopped being vacuous (T1, K1). "Nothing else changes" is false: every scenario of the theory gained `bridge_without_mode(principle,div)`, and K2 turned red. 18 red, not 7. |
+| B1 | Held exactly. |
+| B2 | Held. |
+| B3 | Held exactly. |
+| B4 | False. Outside the theory, the reds fell among the 22 (AN9, AN10, AN11, FQ13, FQ16, M1, T6c, X1), each a check on the Filioque's shape, and no violation came from the Palamite parts. But one change fell outside the 14 Trinity scenarios: AN11, the Lateran fixture, which states the processions itself. And the theory's scenarios failed (below). |
+| B5 | False as worded. On Palamite and bare a kernel rule fires (`bridge_without_mode`), but on the theory's bridge, not on a part of the runtime. |
+| P1–P6 | Held exactly. |
+| P7 | Held (RT6, RT6b). |
+| P8 | Held (RT12–RT12c). Each runtime alone keeps its own reading (two branches); the pair keeps both (four); no violation; the question stays open. |
+| P9 | Held. |
+| P10 | Held (RT11). M1's `not monopatrism` is the only negation, in the deposit or the kernel, on an atom a runtime sets. |
+| D1 | Held. FQ4 is red but not "changed": it has no violations of its own. |
+| D2 | Held (RT13, RT13b). |
+| D3 | Held: all 14. |
+| D4 | Held. |
+| D5 | Held (RT14). |
+| M1 | False. There is a third kind of failure: between a runtime and the application. |
+| M2 | Held, and enforced (`test_kernel_derives_no_school_slot`, `test_bare_runs_no_school`). |
+
+21 held, 1 partly false, 3 false. The four misses have one cause.
+
+### Not predicted
+
+- **The Grammar of the Icon is Latin.** Its analogy of one principle (the
+  Spirit from Father and Son as one; the child from the parents as one)
+  takes its divine side from the Latin license: one spirative power. On
+  the Palamite runtime, or bare, the bridge has no divine side, and every
+  scenario of the theory is refused (RT3, RT9). With the Filioque but no
+  common power (Photius's premise), the Spirit has two principles (FQ4).
+  The theory needs both the Filioque and the Latin account of it. Whether
+  its claim about the child can stand on the creaturely side alone is a
+  question for step 4.
+- **Agere sequitur esse carries more than a theorem.** Bare, the claim
+  that *donative* tells God from a stone comes true (K2): it was refused
+  only because stones act.
+- **The deposit's attributes are tested through the theory.** Of the
+  seven statements moved into the deposit, four are exercised only by
+  scenarios that load the theory's models (TH16, TH17d).
+
+### Corrections
+
+- Scotus, *Ord.* I d.12: the question number was not checked against the
+  text. The bundle cites the distinction only.

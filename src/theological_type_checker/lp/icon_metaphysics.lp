@@ -13,21 +13,18 @@
 % kind, other than between the persons. The persons are distinct by
 % relations of origin; a reading of simplicity fixes which (kernel_core.lp).
 % allowed(Reading,Kind): the kinds a reading admits besides those relations.
+% The definition's reading and the check are the deposit's (kernel_core.lp).
 % The synonym reading (the objectors in ST I q.13 a.4) admits none.
-allowed(defined,(rational;formal;energetic)).   % "simplex omnino": no composition of parts
 allowed(thomist,rational).                      % ST I q.3 a.7; q.28 a.3; q.13 a.4
 allowed(scotist,(rational;formal)).             % Scotus, Ord. I d.8 p.1 q.4
 allowed(palamite,(rational;energetic)).         % Basil, Ep. 234; Palamas, Capita 150
-violation(composition_in_god(X,Y,K,R)) :- simplicity(R), god_distinction(X,Y,K), not allowed(R,K).
 distinction(opposition) :- simplicity(thomist).                 % ST I q.36 a.2
 distinction(mode)       :- simplicity(scotist).                 % Scotus, Ord. I d.11 q.2
 distinction(mode)       :- simplicity(palamite).                % Nazianzen, Or. 31.9
 god_distinction(essence,energies,energetic) :- rel(m,_,_), reltype(m).   % distinct, not divided
 
 % ---------- Immutability, contingency, perfections -------------------
-violation(change_in_god(G))         :- immutability(_), changes(G).
 violation(real_relation_in_god(G,X)) :- really_related(G,X), mixed_relations.
-violation(modal_collapse(X))         :- necessary(X), contingent(X).
 violation(potency_in_pure_act(X))    :- pure_act(X), potency(X).
 violation(unlicensed_perfection(P))  :- said_of_god(P), not licensed(P,div).
 violation(bridge_for_creaturely_predicate(P)) :- creaturely_only(P), bridge(P,_,_).
@@ -37,10 +34,8 @@ violation(being_graded_less_good(X,R)) :- graded_less_good(X,R), creature(X), tr
 %  0. The attributes as defined
 % ===================================================================
 #program defined_attributes.      % Lateran IV, DH 800, 804; Vatican I, DH 3001-3002, 3025
-simplicity(defined).              % "simplex omnino"
-immutability(defined).            % "incommutabilis"
-contingent(X) :- creature(X).     % created "liberrimo consilio", not by necessity (DH 3002, 3025)
-% "aeternus", "infinitus": already the crossing guards (temporal_generation, finite; AN6)
+% Now always on, as deposit (kernel_core.lp, TTC-SCHOOLS R2); kept so that
+% scenarios naming it still load. "aeternus", "infinitus": the crossing guards (AN6).
 
 % ===================================================================
 %  1. The 24 Theses (DH 3601-3624), minimal readings
@@ -55,8 +50,7 @@ potency(X)  :- changes(X).        % to change is to pass from potency to act
 #program th02.                    % act limited only by potency: already the finitude guard (AN6)
 
 #program th03.                    % God alone most simple; in creatures essence and esse really distinct
-simplicity(defined).
-esse_distinct(X,real) :- creature(X), not suarez.
+esse_distinct(X,real) :- creature(X), not esse_not_really_distinct.
 
 #program th04.                    % being said analogically, neither univocally nor equivocally
 violation(univocity_against_th4(F)) :- univocal(F).
@@ -120,7 +114,7 @@ potency(X) :- rec(_,X,_).         % what it receives, and really distinct from i
 receiver_distinct(X) :- rec(_,X,_).   % ST I q.42 a.4 ad 1: "He is not less to Whom the same being is given")
 
 #program suarez_esse.             % Suarez, DM 31: essence and existence distinct by reason, not really
-suarez.
+esse_not_really_distinct.
 
 #program treatise_dependence_constitutive.   % the treatise, section 2: dependence "not an accident
 constitutive(e).                              % added to a creature already constituted"

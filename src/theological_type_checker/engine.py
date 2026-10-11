@@ -21,8 +21,36 @@ from typing import Iterable
 import clingo
 
 LP_DIR = pathlib.Path(__file__).resolve().parent / "lp"
-FILES = ["kernel_core.lp", "kernel_analogy.lp", "icon_theory.lp", "icon_models.lp", "icon_tests.lp", "icon_metaphysics.lp", "kernel_world.lp",
+FILES = ["kernel_core.lp", "kernel_analogy.lp", "icon_theory.lp", "icon_models.lp", "icon_tests.lp", "icon_metaphysics.lp", "schools.lp", "kernel_world.lp",
          "icon_authority.lp", "icon_history.lp", "canon_law.lp", "canon_cases.lp", "pair.lp", "library.lp"]
+
+# School runtimes (docs/research/schools-preregistration.md): named lists of
+# parts, loaded whole. A scenario names one as the part "rt_<name>", or two for
+# a pair; naming none runs it on "default". "rt_bare" loads no runtime at all.
+RUNTIMES = {
+    "bare": [],
+    "default": ["classical", "one_power"],
+    "thomist": ["classical", "one_power", "th01", "th03", "th04", "th05", "th06", "th21", "th22", "th24",
+                "simplicity_thomist", "attributes_by_reason", "mixed_relations", "transcendentals",
+                "holds_premotion"],
+    "scotist": ["classical", "one_power", "simplicity_scotist", "attributes_formal", "univocity_of_concept",
+                "scotus_esse", "mixed_relations", "transcendentals"],
+    "suarezian": ["classical", "one_power", "simplicity_thomist", "attributes_by_reason", "suarez_esse",
+                  "mixed_relations", "transcendentals", "holds_concurrence"],
+    "palamite": ["classical", "simplicity_palamite", "palamite_energies", "monopatrism", "no_divine_contraction"],
+}
+
+
+def is_runtime(part: str) -> bool:
+    return part.startswith("rt_") and part[3:] in RUNTIMES
+
+
+def expand_runtimes(parts) -> list[str]:
+    """The parts to ground: the named runtimes' parts (default if none), then the rest."""
+    named = [p[3:] for p in parts if is_runtime(p)] or ["default"]
+    rest = [p for p in parts if not is_runtime(p)]
+    return list(dict.fromkeys([q for r in named for q in RUNTIMES[r]] + rest))
+
 
 # Rule-base overrides for the "fix method": text added to the base, and
 # lines (exact substrings) commented out. Scoped with rule_change().
@@ -123,7 +151,7 @@ def solve(parts, mode="one", facts="", max_models=0, timeout=None, show=()):
           "opt" (optimal models of a #minimize/#maximize part).
     """
     parts = list(parts)
-    unknown = [p for p in parts if p not in known_parts()]
+    unknown = [p for p in parts if p not in known_parts() and not is_runtime(p)]
     if unknown:
         raise SnippetError(f"unknown part(s): {', '.join(unknown)}")
     facts = check_snippet(facts)
@@ -141,7 +169,7 @@ def solve(parts, mode="one", facts="", max_models=0, timeout=None, show=()):
     try:
         if facts:
             ctl.add("user", [], facts)
-        ctl.ground([("base", [])] + [(p, []) for p in parts] + ([("user", [])] if facts else []))
+        ctl.ground([("base", [])] + [(p, []) for p in expand_runtimes(parts)] + ([("user", [])] if facts else []))
     except RuntimeError as exc:
         errors = [m.strip() for m in logs if "error" in m.lower()] or [str(exc)]
         raise SnippetError("clingo could not ground the program: " + " | ".join(errors[:5])) from None

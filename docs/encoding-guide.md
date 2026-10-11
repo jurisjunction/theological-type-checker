@@ -25,7 +25,10 @@ side, juridical facts on the canon side.
 3. Enter the theology side: sources with tier, force, year, form, character.
 4. Enter the canon side: events, decrees, grants, acts. Link the two sides
    with `classification/3` and `premise/3`.
-5. Run `check`. Read the result as branches, not verdicts.
+5. Run `check`. Read the result as branches, not verdicts. A run uses the
+   default runtime unless it names one (`rt_thomist`, `rt_scotist`,
+   `rt_suarezian`, `rt_palamite`; `rt_bare` for none; two for a pair).
+   Name a runtime when the answer depends on a school.
 6. If you disagree with the result, use `fix_method`. If you agree, use
    `save_scenario`.
 
@@ -45,6 +48,7 @@ side, juridical facts on the canon side.
 | `promoted(S,T,Y)`, `withdrawn(S,Y)`, `relaxed(S)` | Declared a Doctor; text replaced; dispensed or abrogated. |
 | `cites(S,S2)`, `reaffirms(S,S2)` | Repeats (no weight); re-teaches (weight). |
 | `ambiguous(S)`, `reading(S,R)`, `reads(S,R,Q,V)` | One branch per reading. |
+| `holds_reading(S,R)` | A runtime's reading of S: only the branches it holds. |
 | `interprets(S,S1,R)` | Weighs for a reading; never fixes one. |
 | `oum_claim(S,T)` | Claimed as ordinary universal magisterium at tier T; computed both ways. |
 | `binds(L,T,O)` | Law L attaches obligation O to tier T. |

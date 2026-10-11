@@ -779,17 +779,24 @@ scen("CL1", "canon", "The norm graph is well founded", [], [_norm_check],
 # each premise that has been offered to decide it.
 FQ = "filioque"
 
-def filioque_table(r):
+FILIOQUE_TABLE = {("one_power", "mode"): (True, True), ("one_power", "opposition"): (True, False),
+                  ("none", "mode"): (False, True), ("none", "opposition"): (False, False)}
+
+
+def filioque_table_with(want, extra=()):
     """divine license (one power | none) x distinction (mode | opposition) x model (filioque | monopatrism)"""
-    want = {("one_power", "mode"): (True, True), ("one_power", "opposition"): (True, False),
-            ("none", "mode"): (False, True), ("none", "opposition"): (False, False)}
-    got, cells = {}, []
-    for (lic, dist), _ in want.items():
-        base = ["trinity", f"distinction_{dist}"] + (["no_divine_contraction"] if lic == "none" else [])
-        got[(lic, dist)] = tuple(not solve(base + m, "one")["violations"] for m in ([], ["monopatrism"]))
-        f, m = got[(lic, dist)]
-        cells.append(f"{lic}/{dist}: F {'ok' if f else 'X'}, M {'ok' if m else 'X'}")
-    return got == want, "; ".join(cells)
+    def chk(r):
+        got, cells = {}, []
+        for (lic, dist) in want:
+            base = ["trinity", f"distinction_{dist}"] + (["no_divine_contraction"] if lic == "none" else []) + list(extra)
+            got[(lic, dist)] = tuple(not solve(base + m, "one")["violations"] for m in ([], ["monopatrism"]))
+            f, m = got[(lic, dist)]
+            cells.append(f"{lic}/{dist}: F {'ok' if f else 'X'}, M {'ok' if m else 'X'}")
+        return got == want, "; ".join(cells)
+    return chk
+
+
+filioque_table = filioque_table_with(FILIOQUE_TABLE)
 
 scen("FQ1", FQ, "The Trinity, the Spirit from the Father alone", ["trinity", "monopatrism"],
      [clean, principles_of("spirit", "father"), only_theorem("both_positions"),
@@ -1042,6 +1049,67 @@ scen("AN14", AN, "The theory's one principle of the child, without its bridge", 
      [has("norm_breach(grain(o,child,man,woman))")],
      "the parents are one principle only through the bridge; without it, two principles and the norm breached")
 
+
+# ---------- School runtimes (TTC-SCHOOLS(7)) --------------------------------
+# A runtime is a named list of parts (engine.RUNTIMES), named as the part
+# rt_<name>; naming none runs default. The full boot and pair tables are
+# tests/test_schools.py (slow: TTC_SLOW=1).
+RT = "runtimes"
+
+def branches_n(n):
+    return lambda r: (r["models"] == n, f"{r['models']} branches")
+
+def theorem_absent(t):
+    return lambda r: (t not in r["theorems"], f"{t} {'present' if t in r['theorems'] else 'absent'}")
+
+scen("RT1", RT, "Bare: the defined Filioque", ["trinity", "rt_bare"],
+     [has("incoherent(grain(o,spirit,father,son))"), count("incoherent(", 1)],
+     "two principles (DH 850): the deposit defines one principle, not how; only a runtime licenses it")
+scen("RT2", RT, "Bare: creatures do not act", ["world", "rt_bare"],
+     [theorem_absent("vacuous_over_persons(donative)"), theorems("vacuous_over_persons(receptive)")],
+     "'donative' now tells persons apart: its vacuity rested on agere sequitur esse")
+scen("RT3", RT, "Bare: the theory's analogy of one principle", ["family", "rt_bare"],
+     [has("bridge_without_mode(principle,div)")], "no divine side: the theory presupposes the Latin license")
+scen("RT4", RT, "Thomist: the Son a creature (Arius)", ["trinity", "cand_arian", "rt_thomist"],
+     [has("potency_in_pure_act(son)", "unlicensed_crossing(finite,son)")], "refused again, by Th. 1")
+scen("RT5", RT, "Scotist: univocity of the concept of being, modes distinct", ["world", "rt_scotist"],
+     [clean], "boots: the kernel types modes, not concepts")
+scen("RT6", RT, "Thomist and Scotist, Th. 4 read as worded", ["world", "rt_thomist", "rt_scotist", "th04_predication"],
+     [has("univocity_against_th4(being)")], "being said univocally: refused")
+scen("RT6b", RT, "Thomist and Scotist, Th. 4 read minimally", ["world", "rt_thomist", "rt_scotist"],
+     [none_of("univocity_against_th4"), has("received_esse_without_real_distinction", "composition_in_god(")],
+     "they clash on the formal distinction and on Th. 5, not on univocity")
+scen("RT7", RT, "Thomist and Suarezian", ["world", "rt_thomist", "rt_suarezian"],
+     [has("received_esse_without_real_distinction"), none_of("composition_in_god")], "Th. 5 only")
+scen("RT8", RT, "Palamite: the Trinity", ["trinity", "rt_palamite"],
+     [clean, principles_of("spirit", "father"),
+      lambda r: ("manifested_through(spirit,son)" in r["info"], "manifested through the Son")],
+     "boots; the Spirit from the Father; the energies typed")
+scen("RT9", RT, "Palamite: the theory's analogy of one principle", ["family", "rt_palamite"],
+     [has("bridge_without_mode(principle,div)")], "the theory does not boot on Palamas: it is Latin")
+scen("RT10", RT, "Thomist and Palamite: the Trinity", ["trinity", "rt_thomist", "rt_palamite"],
+     [has("composition_in_god(essence,energies,energetic,thomist)", "persons_not_distinguished(son,spirit)")],
+     "simplicity and the principle of distinction")
+scen("RT11", RT, "Scotist and Palamite: the Filioque", ["trinity", "rt_scotist", "rt_palamite"],
+     [principles_of("spirit", "father"), none_of("persons_not_distinguished", "grain"), has("composition_in_god(")],
+     "retracted, not refused: monopatrism removes a fact of the deposit's model (M1); only simplicity clashes")
+scen("RT12", RT, "De auxiliis, Thomist", ["auxiliis", "theses_1914", "rt_thomist"],
+     [branches_n(2), clean_branches], "premotion only", mode=B)
+scen("RT12b", RT, "De auxiliis, Suarezian", ["auxiliis", "theses_1914", "rt_suarezian"],
+     [branches_n(2), clean_branches], "concurrence only", mode=B)
+scen("RT12c", RT, "De auxiliis, Thomist and Suarezian", ["auxiliis", "theses_1914", "rt_thomist", "rt_suarezian"],
+     [branches_n(4), clean_branches, cls("q(efficacious_grace)=physical_premotion", "open"),
+      cls("q(efficacious_grace)=middle_knowledge", "open")], "both readings kept; open (Paul V)", mode=B)
+scen("RT13", RT, "DH 1330 as deposit: Scotus's counterfactual (HYPOTHETICAL monopatrism)",
+     ["trinity", "monopatrism", "rt_scotist", "dh1330_deposit"],
+     [has("persons_not_distinguished(son,spirit)")], "refused (Ord. I d.11 q.2)")
+scen("RT13b", RT, "DH 1330 a Thomist reading: Scotus's counterfactual", ["trinity", "monopatrism", "rt_scotist"],
+     [clean], "stands")
+scen("RT14", RT, "DH 1330 as deposit: the Filioque table", [],
+     [filioque_table_with({("one_power", "mode"): (True, False), ("one_power", "opposition"): (True, False),
+                           ("none", "mode"): (False, False), ("none", "opposition"): (False, False)},
+                          ["dh1330_deposit"])],
+     "the mode rows collapse into the opposition rows: the Filioque follows inside the grammar")
 
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):

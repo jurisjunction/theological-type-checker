@@ -277,7 +277,48 @@ vacuity holds across the Creator–creature line, not only among persons.
 The whole Thomistic stack fits the world. Only Arius gains a violation
 (potency in the Son made a creature) and univocity is refused (Th. 4).
 
-### 16. Method
+### 16. The schools as runtimes (RT1–RT14)
+
+Four schools packaged as runtimes, each a named list of parts loaded whole:
+Thomist, Scotist, Suárezian, Palamite, over a shared classical base
+(*agere sequitur esse*). The four school statements left in the kernel,
+and the deposit model's line for one power, moved into a default runtime;
+no scenario changed. Predictions were stamped first
+([ttc-schools(7)](research/schools-preregistration.md)): 21 of 25 held.
+
+- **The deposit asks what only a school answers.** With no runtime, the
+  defined Filioque gives the Spirit two principles (RT1). Lyons II
+  defines one principle (DH 850), not how. The Latin runtimes answer by
+  one spirative power; the Palamite runtime needs no answer.
+- **Each school boots.** The Thomist runtime changes seven scenarios,
+  the Suárezian two, the Scotist none. Scotus's univocity of concept, with
+  distinct modes, raises nothing (RT5): the kernel types modes.
+- **Every clash between two schools lands on one of three instructions:**
+  how simplicity is read, what distinguishes the persons, and Th. 5 on
+  essence and existence. Univocity clashes only if Th. 4 is read as a rule
+  on predication (RT6, RT6b). *De auxiliis* never clashes; two readings
+  stay two branches (RT12c).
+- **One leak.** A runtime can remove a fact of the deposit's model: the
+  Palamite runtime's monopatrism retracts the Filioque of M1 instead of
+  being refused (RT11). The refusal comes from the authority layer
+  (FQ18), by the rule of the ordered pair.
+- **Florence's axiom of opposition (DH 1330) two ways.** Read as deposit,
+  the Filioque follows inside the grammar; the "mode" rows of the
+  Filioque table collapse into the "opposition" rows (RT14); nine
+  scenarios turn red, among them Scotus's counterfactual (RT13) and
+  Nazianzen's properties when the analogy of procession is withheld
+  (TH20b). Read as Thomist, nothing changes. The checker prices each
+  reading; it does not choose.
+- **The Grammar of the Icon is Latin.** Not predicted. Its analogy of one
+  principle takes its divine side from one spirative power. On the
+  Palamite runtime, or with none, every scenario of the theory is refused
+  (RT3, RT9).
+- **"Giving" is vacuous because creatures act.** §15's result, that a
+  unary *donative* does not tell God from a stone (K2), holds only under
+  *agere sequitur esse*. With no runtime, stones do not act, and the claim
+  comes true (RT2).
+
+### 17. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

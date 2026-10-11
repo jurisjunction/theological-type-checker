@@ -13,21 +13,24 @@ This is a deterministic checker for theological and canonical claims
 | --- | --- |
 | kernel (and the deposit's rules) | `kernel_core.lp`, `kernel_analogy.lp`, `kernel_world.lp` |
 | the Grammar of the Icon (one theory) | `icon_theory.lp`, `icon_models.lp`, `icon_tests.lp` |
-| schools (readings, switches) | `icon_metaphysics.lp` |
+| schools (runtimes, readings, switches) | `schools.lp`, `icon_metaphysics.lp` |
 | authority (teaching) | `icon_authority.lp`, `icon_history.lp` |
 | canon (law) | `canon_law.lp`, `canon_cases.lp` |
 | pair, frontier | `pair.lp` |
 | library | `library.lp` |
 
 The suite is `suite.py`, the server is `server.py`, the fetch lists are
-`library.py`, the norm graph is `norms.py`.
+`library.py`, the norm graph is `norms.py`. The runtimes are
+`engine.RUNTIMES`; their boot and pair tables are `schools.py`.
 
 ## COMMANDS
 
 ```
 pip install -e ".[dev]"
 pytest -q
+TTC_SLOW=1 pytest -q tests/test_schools.py
 ttc-suite
+ttc-schools
 ttc-check sspx lattice
 ttc-library ic --near 41.90,12.45
 ```

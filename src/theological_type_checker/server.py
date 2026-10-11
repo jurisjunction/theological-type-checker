@@ -121,9 +121,16 @@ def list_parts(kind: str | None = None) -> list[dict]:
     kind filters to one of: model (core domain models), case (historical and
     current cases with questions and sources), switch (readings, typings,
     ablations), candidate (positions written as rules, usually to show they
-    fail), date (asof_YYYY), search (optimisation runs).
+    fail), date (asof_YYYY), search (optimisation runs), runtime (a school's
+    parts loaded whole: name it as rt_<name>; with none named a run uses
+    rt_default, and rt_bare loads none).
     """
     rows = []
+    if kind in (None, "runtime"):
+        rows += [{"part": f"rt_{n}", "kind": "runtime", "file": "engine.py", "note": ", ".join(ps) or "no runtime",
+                  "questions": []} for n, ps in engine.RUNTIMES.items()]
+        if kind == "runtime":
+            return rows
     for name, (f, comment, block) in _part_blocks().items():
         k = _kind(name, f, block)
         if kind and k != kind:

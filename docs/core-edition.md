@@ -51,7 +51,7 @@ unary pole predicate.
 | # | Axiom | Warrant |
 | --- | --- | --- |
 | A0 | The relation types are exactly E, O, D, N, S. A new type needs a warrant independent of the case it rescues. | S8, S9 |
-| A1 | Every creature receives being from God alone, and acts. | *esse ab alio*; CCC 366 |
+| A1 | Every creature receives being from God alone, and acts (the latter on the classical runtime: *agere sequitur esse*). | *esse ab alio*; CCC 366; ST I q.105 a.5 |
 | A2 | Poles are positions, not properties. | definitional |
 | A3 | E gives a term one source, God: a *necessity* on both sides. O gives at most one: a *necessity* in God, a *norm* for created persons. | Lateran IV, DH 800; ST I q.45 a.5 |
 | A4 | Two sources form one principle only by license: identity of power (God) or a closed nuptial circuit (creatures). The licenses are never interchanged. | Lyons II, DH 850; Florence, DH 1300–1302; ST I q.36 a.4 |
@@ -247,12 +247,13 @@ classified as schismatic, c. 1364 does not apply. See
 
 | File | Contents |
 | --- | --- |
-| `kernel_core.lp` | the kernel and the deposit's rules: sorts, relations, origin, creation, image and dignity, predication |
+| `kernel_core.lp` | the kernel and the deposit's rules: sorts, relations, origin, creation, image and dignity, the attributes as defined, predication |
 | `kernel_analogy.lp` | bridges, modes, crossing guards, the kernel's sorts |
 | `icon_theory.lp` | the Grammar of the Icon: N, A4a–A10 as the theory states them, its bridges and sorts |
 | `icon_models.lp` | models |
 | `icon_tests.lp` | candidates, switches |
-| `icon_metaphysics.lp` | the attributes, the 24 Theses, Thomas's readings, rival readings (switches) |
+| `icon_metaphysics.lp` | the 24 Theses, Thomas's readings, rival readings (switches) |
+| `schools.lp` | the runtimes' shared and new parts: the classical base, one spirative power, Scotus's univocity and *esse*, readings of the 1914 decree, DH 1330 as deposit |
 | `kernel_world.lp` | the kernel's own creatures, from stones to angels, and the positions it refuses |
 | `icon_authority.lp` | branches |
 | `icon_history.lp` | cases |
