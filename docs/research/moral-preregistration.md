@@ -18,10 +18,11 @@ canons that touch them read `act.lp`'s claims.
 The libraries that remain, in Thomas's order and in the order each needs
 the others:
 
-| Step | Libraries | Needs |
+| Step | Contents | Needs |
 | --- | --- | --- |
+| first | the deposit: Scripture, the creeds, the Incarnation, Mary, the economy ([ttc-creed(7)](creed-preregistration.md)) | the kernel |
 | this | morality and sin; grace | act, law, the runtimes |
-| next | Christ; the sacraments ([ttc-christ(7)](christ-preregistration.md)) | act, law, grace |
+| next | Christ's acts; the sacraments ([ttc-christ(7)](christ-preregistration.md)) | the deposit, act, law, grace |
 | then | faith and communion (II-II qq. 1–16, 39; cc. 11, 205, 751) | the sacraments, law |
 
 When these are written, the patterns they repeat become a small language
@@ -37,8 +38,8 @@ grace of God" (Trent, sess. VI, ch. 9; DH 1534). Rule 3 is the checker's
 discipline; these are its warrant.
 
 This file was committed and stamped before any of it was encoded,
-together with TTC-CHRIST. SCORING will be appended below; nothing above
-it will be edited.
+together with TTC-CREED, which is encoded first, and TTC-CHRIST. SCORING
+will be appended below; nothing above it will be edited.
 
 ## THE LIBRARIES
 
@@ -169,10 +170,10 @@ boots.
   grace.
 - **GR3. Bare is incoherent with Trent.** In a constructed case of
   justification, bare yields a violation: there the will does nothing and
-  is merely passive, against can. 4 (DH 1554). The deposit defines one
-  instance of *agere sequitur esse*, the will moved by grace acts, and not
-  the general thesis: a runtime that grants that one operation alone would
-  boot.
+  is merely passive, against can. 4 (DH 1554). The deposit defines a
+  second instance of *agere sequitur esse* (the first is TTC-CREED CR6):
+  the will moved by grace acts. Not the general thesis: a runtime that
+  grants these operations alone would boot.
 - **GR4. Resisted grace.** The library needs a sufficient grace that is
   resisted. With it, the Jansenist candidate (every interior grace
   efficacious) is refused on every runtime, at tier 1.
@@ -193,8 +194,8 @@ boots.
 
 ### M: meta
 
-- **M1.** The TTC-SCHOOLS tables and the TTC-ACT and TTC-LAW results do
-  not change, except as GR3 on bare.
+- **M1.** The TTC-SCHOOLS tables and the TTC-ACT, TTC-LAW and TTC-CREED
+  results do not change, except as GR3 on bare.
 - **M2.** Every new rule has a test that fails without it; CL1 and PR4
   stay clean.
 
