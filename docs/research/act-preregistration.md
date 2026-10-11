@@ -81,10 +81,10 @@ fear. Run the whole suite and the runtimes' boots.
   typed as a presumption. After encoding, a test enforces this.
 - **L3. One fear, four canons.** A grave fear, unjustly inflicted from
   without, typed once: c. 125 §2, the juridic act stands but may be
-  rescinded; c. 1103, a marriage is invalid; c. 1323 n. 4, no penalty
-  unless the act is intrinsically evil or tends to the harm of souls;
-  c. 1324 §1 n. 5, a lesser penalty. No canon needs a fear predicate of its
-  own.
+  rescinded; c. 1103, a marriage is invalid (there the fear need not be
+  unjust, nor even intended); c. 1323 n. 4, no penalty, unless the act is
+  intrinsically evil or tends to the harm of souls, and then c. 1324 §1
+  n. 5, a lesser one. No canon needs a fear predicate of its own.
 - **L4.** On the bare runtime no creature acts, so no human act exists and
   no penalty is incurred anywhere: canon law presupposes *agere sequitur
   esse*. On each of the four runtimes the library boots unchanged.
