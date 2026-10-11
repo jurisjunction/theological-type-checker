@@ -39,8 +39,8 @@ Contributions, most useful first:
 
 ## LICENSE
 
-Code: MIT. Documentation: CC BY 4.0. Contributions are licensed the same
-way.
+CC0 1.0. Contributions are dedicated to the public domain on the same
+terms. Contribute under a pseudonym if you like; nothing here needs a name.
 
 ## BUGS
 

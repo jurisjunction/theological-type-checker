@@ -97,7 +97,7 @@ it found was wrong with the paper. See [ttc-findings(7)](docs/findings.md).
 
 ## AUTHORS
 
-Ora pro me, peccatore and contributors. See [CONTRIBUTING](CONTRIBUTING.md).
+Ora pro me, peccatore, and contributors. See [CONTRIBUTING](CONTRIBUTING.md).
 
 ## BUGS
 
@@ -114,5 +114,8 @@ the Church.
 
 ## LICENSE
 
-Code MIT; documentation CC BY 4.0. See [LICENSE](LICENSE),
-[LICENSE-docs](LICENSE-docs).
+CC0 1.0: code, rules and documentation are dedicated to the public domain.
+No permission is needed and no credit is required. See [LICENSE](LICENSE).
+Quotations from magisterial documents, the Code of Canon Law and other
+sources remain under their own terms, reproduced as brief quotations for
+commentary. Where the work lives, and how to keep it: [ttc-archive(7)](docs/archive.md).

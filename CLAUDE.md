@@ -64,6 +64,12 @@ with it disabled.
     only, no notation in the body (the concordance maps it). The research
     report is an evidence record.
 11. **Run `pytest -q` before every commit.**
+12. **Stamp predictions before encoding.** Commit the predictions, run
+    `tools/stamp`, commit the proof, then begin. Commit dates are typed by
+    whoever commits; a stamp is not.
+13. **No names.** The work is CC0 and anonymous. Commits and citations say
+    *Ora pro me, peccatore*; examples use neutral places. See
+    `docs/archive.md`.
 
 While the person is growing their own checker, write to their layer with
 `save_rules`, `save_case`, `save_scenario` and `mark_consulted`. Change the

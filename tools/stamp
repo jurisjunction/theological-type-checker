@@ -1,0 +1,16 @@
+#!/bin/sh
+# Stamp a commit with OpenTimestamps: a hash in the Bitcoin chain, proof that
+# the commit (and so its whole tree and history) existed no later than the
+# block that includes it. Free; no account; reveals nothing.
+#
+#   tools/stamp [commit]          default: HEAD
+#   ots upgrade stamps/<commit>.txt.ots && ots verify stamps/<commit>.txt.ots   (hours later)
+#
+# Needs the OpenTimestamps client: uv tool install opentimestamps-client
+set -eu
+command -v ots >/dev/null || { echo "ots not found: uv tool install opentimestamps-client" >&2; exit 1; }
+c=$(git rev-parse "${1:-HEAD}")
+mkdir -p stamps
+printf '%s\n' "$c" > "stamps/$c.txt"
+ots stamp "stamps/$c.txt"
+echo "stamped $c: stamps/$c.txt.ots. Commit it; run ots upgrade in a few hours."
