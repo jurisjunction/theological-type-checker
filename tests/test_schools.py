@@ -67,7 +67,9 @@ def test_pair(x, pair):
 def test_dh1330_deposit():
     from theological_type_checker import suite
     from theological_type_checker.schools import encoding, run
-    scen = [s for s in suite.S if s["group"] != suite.RT]      # RT13, RT14 probe encoding A themselves
+    # RT13, RT14 probe encoding A themselves. The creed group, written after the stamp, is left out: under
+    # encoding A it gains the expected undistinguished persons in CR1e (as FQ19) and CR2b, and turns nothing red.
+    scen = [s for s in suite.S if s["group"] not in (suite.RT, suite.CR)]
     with encoding(True):
         a = {s["id"]: run(s) for s in scen}
     b = {s["id"]: run(s) for s in scen}

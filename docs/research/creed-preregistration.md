@@ -280,3 +280,50 @@ the dormition is not encoded.
 [ttc-moral(7)](moral-preregistration.md),
 [ttc-christ(7)](christ-preregistration.md),
 [ttc-layers(7)](../layers.md), [ttc-schools(7)](schools-preregistration.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in b22a7c8 and corrected
+in 3e794f2, stamped in 3ef1fb1. Encoded in `kernel_core.lp` (the
+Incarnation, typed by nature; original sin; the economy; T5 by the
+person's natures), `schools.lp` (Christ's human operation in the classical
+runtime; the two readings of why he is free of original sin),
+`icon_authority.lp` (tier 0), `icon_history.lp` (the creeds, Mary's
+dogmas, the Scripture cases, ablations) and `kernel_world.lp` (the creed's
+persons and events; candidates). Scenarios CS, CR, CM, CE (43).
+
+| | Result |
+| --- | --- |
+| SC1 | Held. Adding tier 0 changed no scenario. |
+| SC2 | Held (CS2). Without the defining canons both readings stand, each branch holding what its reading says (CS2c). |
+| SC3 | Held (CS3). Without the dogma, Helvidius's reading stands (CS3b): the exclusion is the analogy of faith's. |
+| SC4 | Held (CS4, CS4b). |
+| CR1 | False. No scenario as written changes; loaded beside the Filioque and Immaculate Conception scenarios, the creeds add only notes of the assent owed. But the base had taken the Filioque's tier-1 standing from Lyons II and Florence, and the creeds are older: with the two councils removed, the Quicumque and Lateran IV still settle it (CR1, CR1d), and as of 1100 the Quicumque, typed by its composition, settles it before Lyons II (CR1b). |
+| CR2 | Held exactly. The seven scenarios, and no others, found `fourth_divine_person(christ)` (TH20, TH20b and TH20c also failed to distinguish him from the three). The theory's models now name the incarnate `son`; T3b, X3, X4, L1 and L3 expect the same violations under that name (rule 7). |
+| CR3 | Held in outcome, false in mechanism. The Nestorian candidate is refused (CR3), but T5 had to change: it typed a term by its sort and never asked whether the person has the nature of the predicate. |
+| CR4 | Held (CR4, CR4b). |
+| CR5 | Held (CR5, CR5b, CR5c). |
+| CR6 | Held (CR6, CR6b); bare also has one will. |
+| CR7 | Held (CR7a-d, CR3), with T5 changed as in CR3. |
+| MA1 | Held (CR2d: "Mary is God" ill typed; nothing crosses). |
+| MA2 | Held, and no test of this step: the base already held the history of the Immaculate Conception (B1-B5) when the prediction was written. CM2 adds the record of Thomas against the definition. |
+| MA3 | Held (CM3). The Damascene, a Doctor, weighs for her death without cleaving. |
+| EC1 | Held (CE1b, CE1c, CR2). |
+| EC2 | Held (CE2, CE2b). |
+| M1 | Held. The TTC-SCHOOLS tables pass unchanged. On bare, the scenarios that load an incarnate were already red (the theory is Latin), and RT3 gains one operation and one will. The TTC-ACT and TTC-LAW results are unchanged. Of the 277 earlier scenarios, two changed output: T3b (the name, CR2) and RT3 (CR6). The seven turned red and returned to green once the models named the Son. |
+| M2 | Held after closing gaps. One rule was made redundant by the union and removed (`person(X) :- incarnate(X)`). The supporting acts of the authority graph (the Lateran synod of 649, *Cum quorundam*, the Credo, Lateran IV, the Damascene) were pinned by ablations that remove the act above them (CM1b, CM1c, CR1d, CR1e, CM3); the readings, by checks that each branch holds its reading's value (CS2c, CS3b). CL1 and PR4 clean. |
+
+### Not predicted
+
+- **The Father was born of Mary, and T5 allowed it** (CR3b). A person's
+  name now takes only predicates of a nature the person has; the Father
+  suffering is refused the same way (CR3c).
+- **The creeds date the Filioque.** See CR1. A tier-1 act received rather
+  than promulgated has no date of its own; the checker needs one, and the
+  date chosen decides history.
+- **Original sin needs a reading** (CE1). The rule of propagation (DH 1513)
+  reaches Christ unless a reading says why it does not; the deposit says
+  that he is free (DH 301), not why.
+- **Trent's protection outlives the definition in the data.** With
+  *Ineffabilis Deus* removed, Trent's tier-1 protection of the question
+  (DH 1516) still blocks every lower act (CM1c removes both).
