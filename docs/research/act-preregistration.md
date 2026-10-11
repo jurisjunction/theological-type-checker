@@ -156,3 +156,21 @@ delict. Each reading becomes a branch, not a verdict.
 ## RESULTS
 
 Appended after the runs.
+
+## AMENDMENT
+
+Committed after the first stamp (of 893dc32) and before any encoding;
+stamped on its own. Nothing above is changed.
+
+- **Dolus and culpa belong to the library.** The two forms of
+  imputability the Code names (c. 1321 §§2–3): *dolus*, the deliberate
+  violation of a law, with knowledge of the law and of the act and a will
+  set on it; *culpa*, the omission of due diligence, whose ignorance is
+  vincible (ST I-II q. 6 a. 8; q. 76 aa. 2–3). Each is composed from the
+  library's elements; culpa is punished only where the law provides
+  (c. 1321 §3).
+- **L5.** *Dolus* and *culpa* are compositions of the library's elements;
+  no canon needs a predicate of its own for either. c. 1321 §3 becomes one
+  switch per norm: whether that norm punishes culpa.
+- **N1–N5** stand as written. They are scored in the canon-law step, which
+  encodes art. 6 n. 1 on the library's *dolus* and *culpa*.
