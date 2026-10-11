@@ -43,14 +43,14 @@ with the rule it tests.
 Evidence first, by script; the label is a judgment, recorded with its
 reason.
 
-For every statement of `kernel_core.lp`, `kernel_analogy.lp` and
-`icon_theory.lp` (`tools/layer_evidence.py`):
+For every statement of `kernel_core.lp`, `kernel_analogy.lp`,
+`icon_theory.lp` and `schools.lp` (`tools/layer_evidence.py`):
 
 - **cites**: the source in its comment.
 - **sorts**: whether it names divine-sorted or creature-sorted predicates.
 - **icon predicates**: whether it names a predicate only the theory uses
   (`nupt`, `consent`, `bond`, `total`, ...).
-- **blast radius**: delete it, run every scenario (234), and list what turns
+- **blast radius**: delete it, run every scenario (252), and list what turns
   red, split by whether the red scenario loads any of the theory's parts.
   A part is the theory's when it declares `uses(icon)`: its models
   (`family`, `souls`, `friendship`, `bonds`, `polygamy`, `separate_act`,
@@ -68,24 +68,28 @@ A **borderline** case is one where the evidence and the label disagree.
 
 ## SUMMARY
 
-187 statements in `kernel_core.lp`, `kernel_analogy.lp` and
-`icon_theory.lp`, after the split:
+203 statements in `kernel_core.lp`, `kernel_analogy.lp`,
+`icon_theory.lp` and `schools.lp`, after the schools became runtimes:
 
 | Layer | Statements | Needed outside the theory | Exercised only through the theory | Untested |
 | --- | --- | --- | --- | --- |
-| deposit | 17 | 13 | 4 | 0 |
-| kernel | 106 | 95 | 8 | 3 |
-| school | 4 | 4 | 0 | 0 |
+| deposit | 21 | 15 | 6 | 0 |
+| kernel | 109 | 96 | 10 | 3 |
+| school | 13 | 13 | 0 | 0 |
 | icon | 60 | 0 | 50 | 10 |
 
-The files now match the layers. The kernel files hold the deposit, the
-kernel and four school statements; the theory's file holds the theory and
-nothing else. No statement of the theory is needed outside it.
+The files match the layers. The kernel files hold the deposit and the
+kernel and no school statement; the runtimes' parts are in `schools.lp`;
+the theory's file holds the theory and nothing else. No statement of the
+theory is needed outside it.
 
-Before the split (183 statements, in `icon_core.lp` and `icon_analogy.lp`):
-deposit 18 / 14 / 4 / 0, kernel 112 / 98 / 8 / 6, school 4 / 4 / 0 / 0,
-icon 49 / 4 / 38 / 7. Before the kernel's world: 177 statements, 46
-untested.
+The four school statements left the kernel (R1); the defined attributes
+entered the deposit as four facts and three checks (R2).
+
+Earlier: after the split, 187 statements: deposit 17 / 13 / 4 / 0, kernel
+106 / 95 / 8 / 3, school 4 / 4 / 0 / 0, icon 60 / 0 / 50 / 10. Before the
+split, 183, of which icon 49 / 4 / 38 / 7. Before the kernel's world, 177,
+46 untested.
 
 ## INVENTORY
 
@@ -95,12 +99,13 @@ By section. Per statement, with reasons and the red tests: `docs/layers.csv`.
 | --- | --- | --- | --- | --- |
 | `kernel_core` | sorts | 10 | deposit 2, kernel 8 | out 6, icon-only 2, untested 2 |
 | `kernel_core` | A0 inventory | 10 | kernel | out 9, icon-only 1 |
-| `kernel_core` | A1 creation | 3 | deposit 2, school 1 | out 3 |
+| `kernel_core` | A1 creation | 2 | deposit | out 2 |
 | `kernel_core` | A2 poles | 14 | kernel | out 13, icon-only 1 |
-| `kernel_core` | A3, A4 origin and grain | 26 | deposit 3, kernel 20, school 3 | out 26 |
+| `kernel_core` | A3, A4 origin and grain | 23 | deposit 3, kernel 20 | out 23 |
 | `kernel_core` | distinction of persons | 7 | kernel | out 6, icon-only 1 |
 | `kernel_core` | finitude | 1 | kernel | out 1 |
 | `kernel_core` | A10 image and dignity | 7 | deposit | out 4, icon-only 3 |
+| `kernel_core` | the attributes as defined | 7 | deposit 4, kernel 3 | out 3, icon-only 4 |
 | `kernel_core` | A11, communicatio | 7 | kernel | out 6, icon-only 1 |
 | `kernel_analogy` | sorts | 3 | kernel | out 3 |
 | `kernel_analogy` | bridges | 3 | kernel | out 3 |
@@ -124,6 +129,14 @@ By section. Per statement, with reasons and the red tests: `docs/layers.csv`.
 | `icon_theory` | A10 states of life | 1 | icon | icon-only 1 |
 | `icon_theory` | A11 | 4 | icon | icon-only 2, untested 2 |
 | `icon_theory` | sort table | 4 | icon | icon-only 3, untested 1 |
+| `schools` | classical | 1 | school | out 1 |
+| `schools` | one_power | 3 | school | out 3 |
+| `schools` | univocity_of_concept | 4 | school | out 4 |
+| `schools` | scotus_esse | 1 | school | out 1 |
+| `schools` | th04_predication | 1 | school | out 1 |
+| `schools` | holds_premotion | 1 | school | out 1 |
+| `schools` | holds_concurrence | 1 | school | out 1 |
+| `schools` | dh1330_deposit | 1 | school | out 1 |
 
 "out": deleting it reddens a scenario that loads none of the theory's
 parts. "icon-only": only the theory's scenarios. "untested": nothing.
@@ -134,7 +147,8 @@ Other files, by program:
 | --- | --- | --- | --- | --- |
 | `icon_models.lp` | `trinity` (with one school line, below) | `communicatio` (fixture) | — | `family`, `souls`, `friendship`, `bonds`, `polygamy`, `separate_act`, `asexual` |
 | `icon_tests.lp` | `cand_receiver_lesser` | 17 fixtures (rescue, Augustine, Lateran, analogy stress, `two_sons`) | 9 (the minds of Augustine and Palamas, Nazianzen's Adam, monopatrism, Photius's denial of one power, energies, the two distinction principles) | 18 candidates and stress switches |
-| `icon_metaphysics.lp` | `defined_attributes` | the simplicity whitelist | the 24 Theses and every reading | the treatise's two sentences |
+| `icon_metaphysics.lp` | — (the attributes as defined are now in `kernel_core.lp`) | — | the 24 Theses and every reading | the treatise's two sentences |
+| `schools.lp` | — | — | the runtimes' parts: `classical`, `one_power`, Scotus's univocity and *esse*, the readings of the 1914 decree, `dh1330_deposit` | — |
 | `kernel_world.lp` | — | `world`, its claims, and ten refused positions | — | — |
 | `icon_history.lp` | tier-1 sources | — | tier 4–5 sources | `disparity`, `limbo`, `refusal`, `a9_universal` (written in the theory's vocabulary) |
 
@@ -179,11 +193,17 @@ K9 shows the kernel's half without it.
 
 **One power is the Latin account, not the dogma.** Lyons II teaches one
 principle (DH 850). That the one principle is one *power* is Thomas's
-explanation (ST I q.36 a.4). The deposit model M1 carries one school line,
-and the kernel turns the license on by default
-(`divine_contraction(identity_of_power)`). These, and *agere sequitur
-esse*, are the four school statements in the kernel files; they move when
-the schools get runtimes of their own.
+explanation (ST I q.36 a.4). The deposit model M1 carried it as a fact,
+and the kernel turned the license on by default. These, and *agere
+sequitur esse*, were the four school statements in the kernel files. They
+are now runtime parts (`schools.lp`: `classical`, `one_power`), loaded by
+the default runtime; with no runtime the defined Filioque has two
+principles (RT1). See [ttc-schools(7)](research/schools-preregistration.md).
+
+**The theory takes its divine side from a school.** The theory's bridge of
+one principle reads its divine mode off the Latin license. On the
+Palamite runtime, or bare, it has none, and every scenario of the theory
+is refused (RT3, RT9). The theory is Latin at this point.
 
 **The deposit's prohibitions on persons are tested only through the
 theory.** Equal dignity (GS 29) and the image not denied are enforced only
@@ -211,6 +231,10 @@ predicate of the theory; a test fails if one does
 (`test_kernel_names_nothing_of_the_theory`). Dependencies point downward:
 the theory uses the kernel, never the reverse.
 
+The schools run as runtimes (`engine.RUNTIMES`, `schools.lp`). The kernel
+files may not derive a slot a runtime fills (`test_kernel_derives_no_school_slot`),
+and with no runtime nothing fills one (`test_bare_runs_no_school`).
+
 ## DIAGNOSTICS
 
 13 statements turn nothing red when deleted (46 before the kernel's
@@ -224,6 +248,9 @@ world):
 - **3 in the kernel**: two definitional (the incarnate Word is a person;
   human persons have human nature; nothing yet asks), and the `hypostatic`
   entry for `incarnate` (the static check ignores that sort).
+
+None in `schools.lp`: each runtime part turns a test red (RT1–RT14, M1,
+T1, K1).
 
 Earlier pages said every rule, deleted, turns a test red. That held for the
 canon layer and the files added since. It did not hold for the grammar
@@ -241,9 +268,9 @@ The labels are judgments. The evidence checks them; it does not make them.
 Blast radius depends on what the suite happens to test. A rule untested
 today may be needed tomorrow.
 
-The full run predates AN14. The three statements changed with it (the
-principle bridge and the two circuit rules) were measured again with it;
-AN14 can only add to the others' theory-only reds.
+The defined attributes' checks are exercised only by scenarios that also
+load the theory's models (TH16, TH17d). They belong to the deposit; the
+tests that reach them were written for the theory.
 
 ## BUGS
 

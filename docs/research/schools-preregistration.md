@@ -197,7 +197,7 @@ are corrected in RESULTS, not above.
 ## RESULTS
 
 Appended after the runs. Predictions committed in 8ee05e8, stamped in
-96af2b0. Encoded in `schools.lp`, `engine.RUNTIMES`, `schools.py`; tests
+3c1d0de. Encoded in `schools.lp`, `engine.RUNTIMES`, `schools.py`; tests
 RT1–RT14 (fast) and `tests/test_schools.py` (the tables; `TTC_SLOW=1`).
 `ttc-schools` prints the tables.
 
