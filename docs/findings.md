@@ -241,7 +241,42 @@ vocabulary with it. The core had no bridge for goodness (TH19c).
 Two of three meta-predictions failed. Both failures are in the list
 above.
 
-### 15. Method
+### 15. The kernel's own world (K1–K14)
+
+Give the kernel creatures of its own, across the range of created being
+(ST I q.18 a.3; q.76 a.3; Lateran IV, DH 800): stones, stars, an oak, a
+bacterium, lions, humans from embryo to adult, a sculptor and his bronze,
+two angels. Then the positions it must refuse: God the cause of himself,
+a theogony, a demiurge, a loop of ancestors, Arius, a bridge with no
+divine mode.
+
+The kernel refuses each (K3–K9). It also had two errors of its own:
+
+- **Created person was read as human.** The image (GS 12) and equal
+  dignity (GS 29) were stated over all created persons. With angels
+  present, a ranking of natures ("a little less than the angels", Ps
+  8:5) became a violation of equal dignity. Both now range over human
+  persons (K10). On whether angels bear the image, the deposit is silent
+  and Thomas affirms it (ST I q.93 a.3): a school's question (K12).
+- **Two givers of being were a norm breach.** Only God creates (ST I
+  q.45 a.5; Th. 24), so a second giver is impossible, not wrong. A3 now
+  types it so (K5).
+
+And two errors of the theory, left for its author:
+
+- **The norm of origin reaches lions** (K1b). A3 makes one principle of
+  origin a norm for creatures. A lion cub has two parents and no bond. A
+  norm binds rational agents.
+- **The call to be bridal reaches angels** (K1c). A9 ranges over created
+  persons; MD 25 speaks of human beings.
+
+"Giving", taken as a property, does not tell God from a stone (K2): T1's
+vacuity holds across the Creator–creature line, not only among persons.
+
+The whole Thomistic stack fits the world. Only Arius gains a violation
+(potency in the Son made a creature) and univocity is refused (Th. 4).
+
+### 16. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius
@@ -261,8 +296,9 @@ above.
 
 ## STANDARDS
 
-- Aquinas, ST I q.3 a.7; q.13 aa.4–7; q.19 a.3; q.27 aa.2, 4; q.28 aa.3–4;
-  q.36 aa.2, 4; q.42 a.4 ad 1; q.45 a.3 ad 3; III q.16
+- Aquinas, ST I q.2 a.3; q.3 a.7; q.13 aa.4–7; q.18 a.3; q.19 a.3; q.27 aa.2, 4;
+  q.28 aa.3–4; q.36 aa.2, 4; q.42 a.4 ad 1; q.45 a.3 ad 3, a.5; q.76 a.3;
+  q.93 a.3; III q.16
 - Anselm, *De processione Spiritus Sancti* 1
 - Scotus, *Ordinatio* I d.8 p.1 q.4; I d.11 q.2; Suárez, *DM* 31
 - Augustine, *De Trinitate* IX–X, XII

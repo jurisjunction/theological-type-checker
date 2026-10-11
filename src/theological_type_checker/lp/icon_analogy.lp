@@ -64,4 +64,5 @@ sort_of(consubstantial,div).
 sort_of(creature,cr). sort_of(created_person,cr). sort_of(organism,cr). sort_of(orig_cr,cr).
 sort_of(acts,cr). sort_of(finite,cr). sort_of(needs_welcome,cr). sort_of(equal_dignity,cr).
 sort_of(level,cr). sort_of(lone,cr).
+sort_of(inanimate,cr). sort_of(angel,cr). sort_of(human,cr).
 sort_of(incarnate,hypostatic). sort_of(bridegroom,hypostatic).

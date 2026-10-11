@@ -20,9 +20,12 @@ gen_policy(none)    :- not gen_policy(unbanded), not gen_policy(by_level),
 person(X)       :- divine(X).
 person(X)       :- created_person(X).
 person(X)       :- incarnate(X).
+created_person(X) :- angel(X).          % angels: spiritual creatures (DH 800), personal (CCC 330)
+human(X)        :- created_person(X), not angel(X).
 creature(X)     :- created_person(X).
 creature(X)     :- organism(X).
-human_nature(X) :- created_person(X).
+creature(X)     :- inanimate(X).
+human_nature(X) :- human(X).
 human_nature(X) :- incarnate(X).
 
 % ---------- A0  Fixed relation inventory ---------------------------
@@ -126,8 +129,10 @@ orig(P,Z) :- orig_div(P,Z), licensed(origination,div).
 orig(P,Z) :- orig_cr(P,Z),  licensed(origination,cr).
 info(principle_of(Z,P)) :- orig(P,Z).
 
-% A3  the grain, typed by mode: a necessity in God, a norm for creatures
-violation(norm_breach(grain(e,Z,P,Q))) :- being(P,Z), being(Q,Z), P < Q.
+% A3  the grain, typed by mode. Being has one giver on both sides: only God
+% creates (ST I q.45 a.5; Th. 24), so two givers are impossible, not wrong.
+% Origin: a necessity in God, a norm for creatures.
+violation(incoherent(grain(e,Z,P,Q)))  :- being(P,Z), being(Q,Z), P < Q.
 violation(incoherent(grain(o,Z,P,Q)))  :- orig(P,Z), orig(Q,Z), P < Q, ind_sort(Z,S),
                                           licensed(grain,S), mode(grain,S,necessity).
 violation(norm_breach(grain(o,Z,P,Q))) :- orig(P,Z), orig(Q,Z), P < Q, ind_sort(Z,S),
@@ -177,11 +182,11 @@ finite(X) :- creature(X).
 violation(rivalrous_total(X,Y1,Y2)) :- total(X,Y1), total(X,Y2), Y1 < Y2, finite(X).
 
 % ---------- A10  Image and dignity are not graded --------------------
-image(X) :- created_person(X).
+image(X) :- human(X).                   % GS 12; the deposit is silent on angels (cf. ST I q.93 a.3)
 image(X) :- incarnate(X).
 violation(image_denied(X,R)) :- denies_image(X,R), image(X).
 consubstantial(X,Y) :- divine(X), divine(Y), X != Y.
-equal_dignity(X,Y)  :- created_person(X), created_person(Y), X != Y.
+equal_dignity(X,Y)  :- human(X), human(Y), X != Y.          % GS 29: human persons
 violation(receiver_ranked_lower(X,Y)) :- less(X,Y), consubstantial(X,Y).
 violation(receiver_ranked_lower(X,Y)) :- less(X,Y), equal_dignity(X,Y).
 % States of life: the gift of self is total in each (FC 16: two ways of living the

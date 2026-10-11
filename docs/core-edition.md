@@ -31,8 +31,8 @@ theory with a checker.
 **Sorts:**
 - God (the one source *ad extra*, not a level)
 - divine persons
-- created persons
-- other creatures, by level
+- created persons: human, and angelic (pure spirits)
+- other creatures, by level: living, sensing, merely existing
 - principles: single beings, or contracted pairs \[x, y\]
 
 | Relation | Reads | Carries the grain | Encoded |
@@ -53,7 +53,7 @@ unary pole predicate.
 | A0 | The relation types are exactly E, O, D, N, S. A new type needs a warrant independent of the case it rescues. | S8, S9 |
 | A1 | Every creature receives being from God alone, and acts. | *esse ab alio*; CCC 366 |
 | A2 | Poles are positions, not properties. | definitional |
-| A3 | E and O give a term at most one source. A *necessity* in God, a *norm* in creatures. | Lateran IV, DH 800 |
+| A3 | E gives a term one source, God: a *necessity* on both sides. O gives at most one: a *necessity* in God, a *norm* in creatures. | Lateran IV, DH 800; ST I q.45 a.5 |
 | A4 | Two sources form one principle only by license: identity of power (God) or a closed nuptial circuit (creatures). The licenses are never interchanged. | Lyons II, DH 850; Florence, DH 1300–1302; ST I q.36 a.4 |
 | A4a | Closure belongs to the conjugal act, not merely to the standing bond. The bond gives a right to the act, not to the child. | Pius XII, AAS 43 (1951) 850; AAS 48 (1956) 470–473; HV 14 |
 | A5 | A nuptial gift is received only by one's own consent; at origin it may be held in trust. | Lk 1:38; ST III q.30 a.1; LG 56; infant baptism |
@@ -252,6 +252,7 @@ classified as schismatic, c. 1364 does not apply. See
 | `icon_models.lp` | models |
 | `icon_tests.lp` | candidates, switches |
 | `icon_metaphysics.lp` | the attributes, the 24 Theses, Thomas's readings, rival readings (switches) |
+| `kernel_world.lp` | the kernel's own creatures, from stones to angels, and the positions it refuses |
 | `icon_authority.lp` | branches |
 | `icon_history.lp` | cases |
 | `canon_law.lp`, `canon_cases.lp` | canon law |
@@ -296,3 +297,7 @@ M1 is the Latin Trinity. The grammar would accept the Greek one.
 
 The whole Thomistic stack fits the core. One sentence of the treatise did
 not; it was corrected (TH5).
+
+The first time the kernel had creatures of its own, A3's norm of origin
+reached lions and A9's call reached angels (K1b, K1c). Both are the
+theory's to fix.

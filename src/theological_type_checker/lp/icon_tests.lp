@@ -183,3 +183,6 @@ distinction(mode).                  % Gregory Nazianzen, Or. 31.8-9; John of Dam
 #program two_sons.                  % a second Son: one source, one mode, no opposition
 divine(begetter). divine(a_son). divine(b_son).   % names sort the sons before their source
 gen(begetting2,begetter,a_son). gen(begetting2,begetter,b_son).
+
+#program angel_called_bridal.     % does "called to be bridal" (A9) tell an angel from a man?
+distinguishes(d_angel, called_bridal, gabriel, peter).

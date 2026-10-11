@@ -154,7 +154,7 @@ def _outcome(s, extra=()):
 
 
 def test_monopatrism_changes_only_the_processions():
-    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH)
+    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG)
                and _outcome(s) != _outcome(s, ["monopatrism"])}
     assert changed == FILIOQUE_DEPENDENT
 
@@ -171,5 +171,5 @@ THOMIST_STACK_CHANGES = {
 
 
 def test_thomist_stack_changes_exactly_these():
-    changed = {s["id"] for s in suite.S if s["group"] != suite.TH and _outcome(s) != _outcome(s, suite.THOMIST)}
+    changed = {s["id"] for s in suite.S if s["group"] not in (suite.TH, suite.KG) and _outcome(s) != _outcome(s, suite.THOMIST)}
     assert changed == THOMIST_STACK_CHANGES

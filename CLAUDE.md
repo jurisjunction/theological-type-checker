@@ -11,7 +11,7 @@ This is a deterministic checker for theological and canonical claims
 
 | Layer | Files |
 | --- | --- |
-| grammar | `icon_core.lp`, `icon_analogy.lp`, `icon_models.lp`, `icon_tests.lp`, `icon_metaphysics.lp` |
+| grammar | `icon_core.lp`, `icon_analogy.lp`, `icon_models.lp`, `icon_tests.lp`, `icon_metaphysics.lp`, `kernel_world.lp` |
 | authority (teaching) | `icon_authority.lp`, `icon_history.lp` |
 | canon (law) | `canon_law.lp`, `canon_cases.lp` |
 | pair, frontier | `pair.lp` |

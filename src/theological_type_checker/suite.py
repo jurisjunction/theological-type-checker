@@ -971,6 +971,67 @@ scen("TH20c", TH, "Deny by default, Thomist, opposition read off the names",
      [none_of("persons_not_distinguished")], "the persons return")
 
 
+
+# ---------- the kernel's own world ----------------------------------------
+# Creatures across the range of created being, so that kernel rules are tested
+# without the theory's models (docs/layers.md; lp/kernel_world.lp).
+KG = "kernel"
+OVERREACH = "norm_breach(grain(o,cub,lion,lioness))"
+
+def only_violations(*allowed):
+    def chk(r):
+        extra = [v for v in r["violations"] if v not in allowed]
+        return not extra, "; ".join(extra) or f"nothing beyond {', '.join(allowed) or 'none'}"
+    return chk
+
+LINT_BATCH = "\n".join(
+    [f"x_{p}(X) :- {p}(X{',Y' if p in ('one_power', 'orig_div', 'consubstantial') else ''}), created_person({'Y' if p in ('one_power', 'orig_div', 'consubstantial') else 'X'})."
+     for p in ("god", "divine", "one_power", "orig_div", "consubstantial")] +
+    [f"y_{p}(X) :- {p}(X{',Y' if p in ('orig_cr', 'needs_welcome', 'equal_dignity', 'level') else ''}), divine(X)."
+     for p in ("creature", "organism", "orig_cr", "acts", "finite", "needs_welcome", "equal_dignity", "level",
+               "lone", "inanimate", "angel", "human")])
+
+def lint_batch(_r):
+    n = len(lint(LINT_BATCH))
+    return n == 17, f"{n} of 17 crossing rules flagged"
+
+scen("K1", KG, "The world: things, plants, animals, humans at every stage, angels", ["world"],
+     [theorems("vacuous_over_persons(receptive)", "vacuous_over_persons(donative)"), only_violations(OVERREACH)],
+     "consistent; receiving and giving hold of every created person, angels included")
+scen("K1b", KG, "The theory's norm of origin reaches lions (finding)", ["world"],
+     [has(OVERREACH)], "the creaturely mode of the grain is a norm, and a norm is not for lions")
+scen("K1c", KG, "The theory's call to be bridal reaches angels (finding)", ["world", "family", "angel_called_bridal"],
+     [has("fails_to_distinguish(d_angel,called_bridal,gabriel,peter)")], "A9 ranges over created persons; MD 25 over human beings")
+scen("K2", KG, "Claims about action and origin, checked against the relations", ["world", "world_claims"],
+     [has("false_claim(c_false)", "fails_to_distinguish(d_god_stone,donative,god,stone)"), count("false_claim", 1)],
+     "one false claim; 'giving' as a property does not tell God from a stone")
+scen("K3", KG, "God the cause of himself", ["world", "cand_causa_sui"],
+     [has("unlicensed_crossing(received_being,god)")], "received being on God: refused")
+scen("K4", KG, "Theogony: the god born of chaos", ["world", "cand_theogony"],
+     [has("unlicensed_crossing(temporal_generation,god)")], "temporal generation on God: refused")
+scen("K5", KG, "A demiurge beside God", ["world", "cand_demiurge"],
+     [has("being_from_non_god(demiurge,peter)", "incoherent(grain(e,peter,demiurge,god))"), none_of("norm_breach(grain(e")],
+     "a second giver of being: impossible, not merely wrong")
+scen("K6", KG, "Two creatures each the other's ancestor", ["world", "cand_time_loop"],
+     [has("origin_cycle(x1)", "origin_cycle(x2)")], "refused")
+scen("K7", KG, "The Son a creature (Arius)", ["trinity", "cand_arian"],
+     [has("unlicensed_crossing(eternal_procession,son)", "unlicensed_crossing(finite,son)")], "refused twice")
+scen("K8", KG, "A bridge with no divine mode", ["world", "cand_bridge_no_divine_mode"],
+     [has("bridge_without_mode(wisdom,div)")], "refused")
+scen("K9", KG, "Acyclicity typed as a norm on both sides", ["world", "cand_univocal_acyclicity"],
+     [has("deontic_in_god(acyclicity)")], "God under a norm: refused")
+scen("K10", KG, "Men a little less than the angels (Ps 8:5)", ["world", "cand_angels_above_men"],
+     [none_of("receiver_ranked_lower")], "a ranking of natures; equal dignity is among human persons (GS 29)")
+scen("K11", KG, "The image withheld until birth", ["world", "cand_image_by_birth"],
+     [has("image_denied(embryo,not_yet_born)")], "refused (Donum vitae I.1)")
+scen("K12", KG, "The image denied to angels", ["world", "cand_image_of_angels"],
+     [none_of("image_denied")], "the deposit is silent on angels; Thomas affirms it (ST I q.93 a.3): a school's question")
+scen("K13", KG, "A nature term with its own nature's predicate", ["communicatio", "communicatio_nature"],
+     [verdicts({"humanity_is_created": "well_typed"})], "well typed")
+scen("K14", KG, "The static crossing check, one rule per sorted predicate", [],
+     [lint_batch], "every sorted predicate, paired across the line, is flagged")
+
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")
