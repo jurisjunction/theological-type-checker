@@ -65,14 +65,15 @@ A **borderline** case is one where the evidence and the label disagree.
 ## SUMMARY
 
 183 statements in `icon_core.lp` and `icon_analogy.lp`, after the kernel
-was given creatures of its own (`kernel_world.lp`; K1–K14):
+was given creatures of its own (`kernel_world.lp`; K1–K14) and the two
+fixes it led to:
 
 | Layer | Statements | Needed outside the theory | Exercised only through the theory | Untested |
 | --- | --- | --- | --- | --- |
-| deposit | 18 | 13 | 5 | 0 |
-| kernel | 112 | 98 | 7 | 7 |
+| deposit | 18 | 14 | 4 | 0 |
+| kernel | 112 | 98 | 8 | 6 |
 | school | 4 | 4 | 0 | 0 |
-| icon | 49 | 5 | 37 | 7 |
+| icon | 49 | 4 | 38 | 7 |
 
 Before the kernel's world: 177 statements; kernel 42 / 28 / 37, deposit
 8 / 7 / 2; 46 untested in all.
@@ -86,14 +87,14 @@ By section. Per statement, with reasons and the red tests: `docs/layers.csv`.
 | File | Section | Statements | Layers | Evidence |
 | --- | --- | --- | --- | --- |
 | `icon_core` | switch defaults | 3 | icon | icon-only 1, untested 2 |
-| `icon_core` | sorts | 10 | deposit 2, kernel 8 | out 5, icon-only 2, untested 3 |
+| `icon_core` | sorts | 10 | deposit 2, kernel 8 | out 6, icon-only 2, untested 2 |
 | `icon_core` | A0 inventory | 12 | kernel 10, icon 2 | out 9, icon-only 3 |
 | `icon_core` | A1 creation | 3 | deposit 2, school 1 | out 3 |
 | `icon_core` | A2 poles | 16 | kernel 14, icon 2 | out 13, icon-only 3 |
 | `icon_core` | A9, A5 | 11 | icon | icon-only 10, untested 1 |
 | `icon_core` | A6, A7 | 9 | icon | icon-only 7, untested 2 |
 | `icon_core` | A3, A4 origin | 28 | kernel 20, school 2, icon 6 | out 22, icon-only 6 |
-| `icon_core` | A3 grain | 3 | deposit 2, icon 1 | out 3 |
+| `icon_core` | A3 grain | 3 | deposit 2, icon 1 | out 2, icon-only 1 |
 | `icon_core` | monarchy | 1 | deposit | out 1 |
 | `icon_core` | distinction of persons | 7 | kernel | out 6, icon-only 1 |
 | `icon_core` | A11 guards | 2 | icon | icon-only 1, untested 1 |
@@ -176,7 +177,7 @@ register its own sorts.
 
 ## DIAGNOSTICS
 
-14 statements turn nothing red when deleted (46 before the kernel's
+13 statements turn nothing red when deleted (46 before the kernel's
 world):
 
 - **7 of the theory's**: two switch defaults, the motif check, a pending
@@ -186,8 +187,8 @@ world):
   `welcome_owed`. They move with the theory.
 - **2 that cannot fail**: the `hypostatic` entries of the sort table.
   The static check ignores that sort.
-- **3 definitional**: created and incarnate persons are persons; human
-  persons have human nature. Nothing yet asks.
+- **2 definitional**: the incarnate Word is a person; human persons have
+  human nature. Nothing yet asks.
 
 Earlier pages said every rule, deleted, turns a test red. That held for the
 canon layer and the files added since. It did not hold for the grammar

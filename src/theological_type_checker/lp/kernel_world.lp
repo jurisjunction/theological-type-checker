@@ -26,6 +26,7 @@ claims(c_recv,  receptive, bronze, sculptor, d).   % true: the bronze is acted o
 claims(c_give,  donative,  sculptor, bronze, d).   % true
 claims(c_false, donative,  bronze, sculptor, d).   % false: the bronze does not act on the sculptor
 claims(c_cub,   receptive, cub, lion, o).          % true: the cub is from the lion
+claims(c_angel, receptive, gabriel, god, e).       % true: the angel receives being from God (DH 800)
 distinguishes(d_god_stone, donative, god, stone).  % "giving" as a property: does it tell God from a stone?
 
 % ---------- Candidates: positions the kernel must refuse ----------------

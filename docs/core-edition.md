@@ -262,7 +262,7 @@ classified as schismatic, c. 1364 does not apply. See
 ## DIAGNOSTICS
 
 Every rule, when deleted, should turn some test red. If one does not, the
-test is missing, not the rule. In the grammar core, 14 statements do not yet
+test is missing, not the rule. In the grammar core, 13 statements do not yet
 (46 before the kernel had creatures of its own); see
 [ttc-layers(7)](layers.md).
 
