@@ -1,0 +1,187 @@
+% ===================================================================
+%  Classical metaphysics of God, as switches: the accretion experiment.
+%  Predictions were committed first: docs/research/thomism-preregistration.md.
+%  Every part here is off by default. The list, in order:
+%    0. the attributes as defined (Lateran IV, DH 800, 804;
+%       Vatican I, DH 3001-3002, 3025)
+%    1. the 24 Thomistic Theses (DH 3601-3624), minimal readings
+%    2. Thomas's readings      3. rival readings and candidates
+% ===================================================================
+
+% ---------- Simplicity: which distinctions in God a reading allows ----
+% god_distinction(X,Y,Kind): the data assert a distinction in God of this
+% kind, other than between the persons. The persons are distinct by
+% relations of origin; a reading of simplicity fixes which (icon_core.lp).
+% allowed(Reading,Kind): the kinds a reading admits besides those relations.
+% The synonym reading (the objectors in ST I q.13 a.4) admits none.
+allowed(defined,(rational;formal;energetic)).   % "simplex omnino": no composition of parts
+allowed(thomist,rational).                      % ST I q.3 a.7; q.28 a.3; q.13 a.4
+allowed(scotist,(rational;formal)).             % Scotus, Ord. I d.8 p.1 q.4
+allowed(palamite,(rational;energetic)).         % Basil, Ep. 234; Palamas, Capita 150
+violation(composition_in_god(X,Y,K,R)) :- simplicity(R), god_distinction(X,Y,K), not allowed(R,K).
+distinction(opposition) :- simplicity(thomist).                 % ST I q.36 a.2
+distinction(mode)       :- simplicity(scotist).                 % Scotus, Ord. I d.11 q.2
+distinction(mode)       :- simplicity(palamite).                % Nazianzen, Or. 31.9
+god_distinction(essence,energies,energetic) :- rel(m,_,_), reltype(m).   % distinct, not divided
+
+% ---------- Immutability, contingency, perfections -------------------
+violation(change_in_god(G))         :- immutability(_), changes(G).
+violation(real_relation_in_god(G,X)) :- really_related(G,X), mixed_relations.
+violation(modal_collapse(X))         :- necessary(X), contingent(X).
+violation(potency_in_pure_act(X))    :- pure_act(X), potency(X).
+violation(unlicensed_perfection(P))  :- said_of_god(P), not licensed(P,div).
+violation(bridge_for_creaturely_predicate(P)) :- creaturely_only(P), bridge(P,_,_).
+violation(being_graded_less_good(X,R)) :- graded_less_good(X,R), creature(X), transcendentals.
+
+% ===================================================================
+%  0. The attributes as defined
+% ===================================================================
+#program defined_attributes.      % Lateran IV, DH 800, 804; Vatican I, DH 3001-3002, 3025
+simplicity(defined).              % "simplex omnino"
+immutability(defined).            % "incommutabilis"
+contingent(X) :- creature(X).     % created "liberrimo consilio", not by necessity (DH 3002, 3025)
+% "aeternus", "infinitus": already the crossing guards (temporal_generation, finite; AN6)
+
+% ===================================================================
+%  1. The 24 Theses (DH 3601-3624), minimal readings
+%  Th. 7-14 and 16-20 share no vocabulary with the core: not encoded.
+% ===================================================================
+#program th01.                    % potency and act divide being: pure act, or composed
+pure_act(X) :- divine(X).
+pure_act(G) :- god(G).
+potency(X)  :- creature(X).
+potency(X)  :- changes(X).        % to change is to pass from potency to act
+
+#program th02.                    % act limited only by potency: already the finitude guard (AN6)
+
+#program th03.                    % God alone most simple; in creatures essence and esse really distinct
+simplicity(defined).
+esse_distinct(X,real) :- creature(X), not suarez.
+
+#program th04.                    % being said analogically, neither univocally nor equivocally
+violation(univocity_against_th4(F)) :- univocal(F).
+
+#program th05.                    % composition of subject and accidents requires esse received into a distinct essence
+receiver_distinct(X) :- rec(e,X,_), creature(X).
+violation(received_esse_without_real_distinction(X)) :- receiver_distinct(X), creature(X), not esse_distinct(X,real).
+god_distinction(X,essence,real) :- receiver_distinct(X), divine(X).
+
+#program th06.                    % relation in creatures: an accident, a real entity distinct from its subject.
+predicamental(e).                 % ST I q.45 a.3 ad 3: the creature is prior to its relation of creation
+violation(constitutive_and_accidental(R)) :-   % "as the subject is to the accident"
+    predicamental(R), constitutive(R), not transcendental_relation.
+
+#program th15.                    % the human soul created by God: already A1 (E from God, O from the parents)
+
+#program th21.                    % the will follows the intellect; read with ST I q.36 a.2: love proceeds from a word
+cmem(A,pair(A,B)) :- c_edge(pair(A,B),_,_).
+cmem(B,pair(A,B)) :- c_edge(pair(A,B),_,_).
+word(W) :- c_edge(_,W,word_conception).
+from_word(C)   :- c_edge(P,C,love_procession), cmem(W,P), word(W).
+toward_word(C) :- rests_in(C,W), word(W).
+toward_word_ok(C) :- love_object_reading, toward_word(C).
+violation(will_before_intellect(C)) :- c_edge(_,C,love_procession), not from_word(C), not toward_word_ok(C).
+
+#program th22.                    % God known a posteriori, from effects; creatures indifferent to being and not-being
+contingent(X) :- creature(X).
+known_from_effects.
+
+#program th23.                    % essence identical with esse; infinite: already the finitude guard
+
+#program th24.                    % creation by God alone, its power incommunicable: already A1.
+                                  % The last clause (premotion) is in the authority part theses_1914.
+
+% ===================================================================
+%  2. Thomas's readings
+% ===================================================================
+#program simplicity_thomist.      % ST I q.3 a.7; q.28 a.3: only opposed relations distinguish in God
+simplicity(thomist).
+
+#program attributes_by_reason.    % ST I q.13 a.4: the names of God differ by reason, with a foundation in God
+attribute(wisdom;goodness;power).
+god_distinction(A,B,rational) :- attribute(A), attribute(B), A < B.
+
+#program mixed_relations.         % ST I q.13 a.7; q.19 a.3: God's relations to creatures are of reason only
+mixed_relations.
+relation_of_reason(G,X) :- being(G,X), god(G).
+
+#program transcendentals.         % ST I qq.5, 11, 16; De veritate q.1 a.1: pure perfections, said first of God (q.13 a.3, 6)
+transcendentals.
+transcendental(goodness_t;truth_t;unity_t).
+bridge(T,div,cr) :- transcendental(T).
+mode(T,div,subsistent) :- transcendental(T).
+mode(T,cr,participated) :- transcendental(T).
+
+% ===================================================================
+%  3. Rival readings and candidates
+% ===================================================================
+#program univocal_reception.      % receiving in one mode on both sides: whoever receives is in potency to
+potency(X) :- rec(_,X,_).         % what it receives, and really distinct from it (contrast Hilary, in
+receiver_distinct(X) :- rec(_,X,_).   % ST I q.42 a.4 ad 1: "He is not less to Whom the same being is given")
+
+#program suarez_esse.             % Suarez, DM 31: essence and existence distinct by reason, not really
+suarez.
+
+#program treatise_dependence_constitutive.   % the treatise, section 2: dependence "not an accident
+constitutive(e).                              % added to a creature already constituted"
+
+#program transcendental_relation. % later scholastic: the creature's being-from (transcendental relation)
+transcendental_relation.          % is not the predicamental relation that follows on it
+
+#program th21_object.             % weaker reading of Th. 21: love presupposes its known object
+love_object_reading.
+
+#program bridges_as_order_of_knowing.   % a reading: a bridge runs in the order in which we know (Th. 22)
+bridge(F,cr,div) :- bridge(F,div,cr), known_from_effects.
+
+#program cand_traducianism.       % the parents give the soul its being
+being(P,Z) :- orig_cr(pair(P,_),Z), created_person(Z).
+being(P,Z) :- orig_cr(pair(_,P),Z), created_person(Z).
+
+#program cand_instrumental_creation.   % Peter Lombard, Sent. IV d.5: creative power given to a minister
+being(minister,Z) :- being(G,Z), god(G), created_person(Z).   % (rejected, ST I q.45 a.5)
+
+#program simplicity_scotist.      % formal distinction a parte rei; Son and Spirit distinct without procession
+simplicity(scotist).
+
+#program attributes_formal.       % Scotus, Ord. I d.8 p.1 q.4
+attribute(wisdom;goodness;power).
+god_distinction(A,B,formal) :- attribute(A), attribute(B), A < B.
+
+#program simplicity_palamite.     % essence simple, energies many (Basil, Ep. 234); distinct, not divided
+simplicity(palamite).
+
+#program simplicity_synonymous.   % no distinction in God but of opposed relations, not even of reason
+simplicity(synonymous).           % (the objectors in ST I q.13 a.4)
+
+#program cand_process_god.        % God changes with the world (process theism: Whitehead, Hartshorne)
+changes(G) :- god(G).
+
+#program cand_uncreated_in_soul.  % "something in the soul uncreated and uncreatable" (Eckhart; DH 977)
+pure_act(X) :- created_person(X).
+
+#program say_goodness_of_god.     % goodness said of God formally (ST I q.6 a.2; q.13 a.3)
+said_of_god(goodness_t).
+
+#program clarke_relational.       % Clarke, "A New Look at the Immutability of God" (Explorations in
+really_related(G,X) :- god(G), created_person(X).   % Metaphysics, 1994, ch. 9): really related in
+                                                     % consciousness; "different", not changing
+
+#program modal_collapse_inference.   % Mullins (2013): the identity of God's act with his essence
+necessary(X) :- being(G,X), god(G), simplicity(_), not relation_of_reason(G,X).   % carries necessity to its term
+
+#program reception_pure_perfection.  % Clarke, The Thomist 61 (1997) 617-24: receptivity a pure perfection,
+bridge(reception,div,cr).            % found first in the Son
+mode(reception,div,without_potency). mode(reception,cr,with_potency).
+
+#program reception_creaturely.       % Long, The Thomist 61 (1997) 1-31: "receiving indicates potency"
+creaturely_only(reception).
+
+#program treatise_receptivity.       % the treatise, section 3: to receive "can be a perfection" (said of the Son)
+said_of_god(reception).
+
+#program cand_child_less_good.       % the child of an illicit act graded a lesser good by its origin
+graded_less_good(Z,origin) :- gen(separate,_,Z).
+
+#program opposition_from_names.      % opposition read off the revealed relative names (the acts),
+opposed(X,Y) :- gen(_,Y,X), divine(X).   % not off the relation of origin as analogically licensed

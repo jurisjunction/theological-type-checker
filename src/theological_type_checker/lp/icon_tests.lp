@@ -132,6 +132,11 @@ c_person(mens;verbum;amor).
 #program lateran_mind_palamas.    % Palamas, Capita 150, 36-37: love of the mind for its word,
 c_ind(mens;verbum;amor).          % from the mind, resting in the word (cf. Flogaus, SVTQ 42, 1998)
 c_edge(mens,verbum,word_conception). c_edge(mens,amor,love_procession).
+rests_in(amor,verbum).
+
+#program lateran_mind_memory.     % Augustine, De Trinitate X.11.17-12.19: memory, understanding, will
+c_ind(memoria;intelligentia;voluntas).
+c_edge(memoria,intelligentia,word_conception). c_edge(pair(intelligentia,memoria),voluntas,love_procession).
 
 #program lateran_adam.            % Gregory Nazianzen, Or. 31.11: Adam a creature, Eve "a fragment",
 c_ind(adam;eve;seth).             % Seth "the begotten of both"; said of consubstantiality only

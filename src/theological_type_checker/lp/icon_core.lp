@@ -150,9 +150,12 @@ theorem(principle_without_principle(X)) :- divine(X), from(_,X), not from(X,_).
 
 % ---------- Distinction of the persons (no default) ------------------
 % The axioms do not say what makes two divine persons distinct. A switch says it:
-% opposed relations of origin only, or also distinct modes of origin.
+% opposed relations of origin only, or also the distinct properties of origin
+% (unbegotten, begotten, proceeding: Gregory Nazianzen, Or. 31.8-9).
 opposed(X,Y) :- from(X,Y).
+originated(X) :- gen(_,_,X).
 origin_mode(X,A) :- gen(A,_,X), divine(X).
+origin_mode(X,unoriginate) :- divine(X), not originated(X).
 distinct_by_mode(X,Y) :- origin_mode(X,A), origin_mode(Y,B), A != B.
 violation(persons_not_distinguished(X,Y)) :- distinction(opposition), divine(X), divine(Y), X < Y,
                                              not opposed(X,Y), not opposed(Y,X).

@@ -20,6 +20,7 @@
 | [ttc-mcp(8)](mcp.md) | the server |
 | [sspx](cases/sspx-2026.md) | a worked case |
 | [research](research/warrants-and-prior-art.md) | the A4a warrant, prior art, the reservation of orders |
+| [ttc-thomism(7)](research/thomism-preregistration.md) | classical metaphysics of God against the core: predictions, then results |
 
 ## BUGS
 

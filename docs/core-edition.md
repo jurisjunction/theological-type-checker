@@ -211,6 +211,20 @@ through the Son is a sixth relation type, admitted by A0 with its warrant.
 In the authority layer the councils settle the question at tier 1 (FQ18);
 without them it is open (FQ19). See [ttc-findings(7)](findings.md) §13.
 
+### Classical metaphysics of God (TH0–TH20c)
+
+The attributes as defined (DH 800, 804, 3001–3002, 3025), the 24 Theses
+(DH 3601–3624) and Thomas's readings (ST I q.3 a.7; q.13 aa.4, 7; q.19
+a.3; q.28 a.3) were added one at a time. No default scenario turned red.
+Conflicts arise with rival schools (Scotus, Suárez, Palamas, Clarke, the
+modal-collapse critics) and with readings that fault a bridge: receiving
+taken in one mode (potency in the Son), necessity carried to creatures
+(modal collapse), bridges read in the order of knowing, and procession
+denied its analogy (AN4: Thomist simplicity then distinguishes nothing).
+Thomist simplicity decides the Filioque; Scotus's does not (*Ord.* I d.11
+q.2). Predictions were committed before encoding:
+[ttc-thomism(7)](research/thomism-preregistration.md).
+
 ### Schism and the SSPX (SX1–SX23, PR1–PR4)
 
 Classification belongs to the authority layer. Incurring, declaration and
@@ -237,6 +251,7 @@ classified as schismatic, c. 1364 does not apply. See
 | `icon_analogy.lp` | bridges |
 | `icon_models.lp` | models |
 | `icon_tests.lp` | candidates, switches |
+| `icon_metaphysics.lp` | the attributes, the 24 Theses, Thomas's readings, rival readings (switches) |
 | `icon_authority.lp` | branches |
 | `icon_history.lp` | cases |
 | `canon_law.lp`, `canon_cases.lp` | canon law |
@@ -277,3 +292,6 @@ now forbids measuring the gift of self by state, which Trent does not. Both were
 considered. There are probably more.
 
 M1 is the Latin Trinity. The grammar would accept the Greek one.
+
+The whole Thomistic stack fits the core. One sentence of the treatise did
+not; it was corrected (TH5).

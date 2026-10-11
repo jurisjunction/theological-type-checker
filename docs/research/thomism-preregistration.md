@@ -161,4 +161,67 @@ admits more than one reading, the reading is a switch.
 
 ## RESULTS
 
-(appended after the runs)
+Appended after the runs. Tests TH0–TH20c; the full stack is pinned in
+`tests/test_suite.py`.
+
+### Accretion
+
+Cumulative, over the 170 scenarios that existed before this experiment:
+
+| Step | Changed | Red |
+| --- | --- | --- |
+| defined attributes; Th. 1, 2, 3 | 0 | 0 |
+| + Th. 4 | 2 (UN1, UN2: univocity refused) | 0 |
+| + Th. 5, 6, 15 | 2 | 0 |
+| + Th. 21 | 5 (+ FQ12, FQ13, FQ15: Palamas's mind refused) | 0 |
+| + Th. 22, 23, 24 | 5 | 0 |
+| + simplicity as Thomas reads it | 11 (+ FQ1, FQ3, FQ7, FQ8, FQ19, AN4) | FQ1, FQ3, FQ7, FQ19 |
+| + attributes by reason, mixed relations, transcendentals | 11 | same |
+
+Every default scenario stays green under the whole stack. The four red
+scenarios were built to show monopatrism coherent; Thomist simplicity
+decides against it, as P13 said.
+
+### Scoring
+
+| | Result |
+| --- | --- |
+| P0 | Held (TH0). |
+| P1 | Held (TH1, TH2, TH2b). |
+| P2 | Held. |
+| P3 | Held (TH3, TH3b, TH3c). |
+| P4 | Held. |
+| P5 | Held. |
+| P6 | Held (TH5, TH5b). The treatise is corrected. |
+| P7 | Not tested: silent by construction. |
+| P8 | Held (TH6). |
+| P9 | Held (TH7, TH7b). |
+| P10 | Held (TH8). |
+| P11 | Held. |
+| P12 | Held (TH10, TH10b). Read as premotion and typed as teaching, the decree weighs against Molina at tier 3; it does not cleave. |
+| P13 | Partly false. It decides the Filioque and refuses the energies and the formal distinction (TH12, TH13, TH15b). It does not change only monopatrism and energies scenarios: AN4 changed. |
+| P14 | Held (TH14, TH15). |
+| P15 | Held (TH16, TH16b). Th. 22's contingency alone suffices (TH16c). |
+| P16 | Held (TH17, TH17b, TH17c). Process theism fails both (TH17d): the line is Clarke's "different, not changing". |
+| P17 | Held (TH18, TH18b, TH18c). |
+| P18 | Held (TH19). The core had no bridge for goodness (TH19c). |
+| M1 | Held for the core: no default scenario conflicts with a defined attribute or a thesis as stated. False as worded: Th. 4 and 5 refute univocity of mode and Suárez in their own words, and Th. 6 with ST I q.45 a.3 ad 3 refutes the treatise's sentence. |
+| M2 | False. Of the conflicts that touch the core, two are univocities (TH2, TH16), one an inverted bridge (TH8), one a missing bridge (TH20). Post hoc: every conflict with the core is a fault in a bridge. |
+| M3 | False. AN4 changed. |
+
+### Not predicted
+
+- **AN4 (TH20).** Withhold the analogy of procession (deny by default)
+  and Thomist simplicity distinguishes nothing: one person. The
+  properties of origin (unbegotten, begotten, proceeding; Nazianzen, Or.
+  31.8–9) still distinguish three (TH20b). Read opposition off the
+  revealed relative names instead of the analogically licensed relation,
+  and the persons return (TH20c). Thomas founds the relations on the
+  processions (ST I q.28 a.4), which he states by analogy (q.27); the
+  Cappadocians name the properties without explaining them.
+- **The mode principle omitted the Father's property.** Running AN4 under
+  distinction by mode exposed it. Unbegottenness was added (Or. 31.8–9).
+  No earlier result changed.
+- **Scotus.** A Latin who held the Filioque denied that simplicity
+  decides it (*Ord.* I d.11 q.2). The premise that decides the Filioque
+  rests on Thomas's reading of a defined attribute, not on the definition.

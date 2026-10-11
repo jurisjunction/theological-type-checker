@@ -154,7 +154,8 @@ Each deciding premise took its classical form inside the controversy:
 Anselm's axiom in *De processione Spiritus Sancti* (after Bari, 1098),
 the two causes in Photius's *Mystagogia*. Whether either has a warrant from
 another case is the next question. The Latin side argues opposition from
-simplicity (ST I q.28 a.3); that argument has not been encoded.
+simplicity (ST I q.28 a.3). §14 encodes it: it follows on Thomas's reading
+of simplicity, not on Scotus's.
 
 Both doctrines keep the monarchy: the Father alone is principle without
 principle (FQ1, FQ2; DH 1331). PCPCU (1995) says the same, keeps
@@ -179,7 +180,68 @@ branches clean (FQ19), unless distinction by opposition is added (FQ20).
 
 The grammar does not decide the Filioque. The councils do.
 
-### 14. Method
+### 14. Classical metaphysics of God (TH0–TH20c)
+
+Add the metaphysics of God from a list fixed by others: the attributes as
+defined (DH 800, 804, 3001–3002, 3025), then the 24 Theses (DH
+3601–3624), then Thomas's readings. Rerun everything at each step.
+Predictions were committed first;
+[ttc-thomism(7)](research/thomism-preregistration.md) scores them.
+
+The whole stack goes in. No default scenario turns red.
+
+What conflicts, and why:
+
+- **Receiving in one mode** (TH2): potency in the Son and the Spirit, each
+  really distinct from the essence, the quaternity Lateran IV excludes
+  (DH 804). Thomas keeps receiving analogical (q.42 a.4 ad 1).
+- **Necessity carried to creatures** (TH16): the modal-collapse inference
+  makes every creature necessary, against DH 3025. Mixed relations (q.13
+  a.7; q.19 a.3) remove it.
+- **Bridges read in the order of knowing** (TH8): every bridge becomes a
+  projection. q.13 a.6 reads them in the order of being.
+- **Procession denied its analogy** (TH20, AN4; not predicted): Thomist
+  simplicity then distinguishes nothing, and the persons are one. The
+  Cappadocian properties (unbegotten, begotten, proceeding) still
+  distinguish three. Thomas founds the relations on the processions (q.28
+  a.4), and states the processions by analogy (q.27).
+
+Each is a fault in a bridge: one mode on both sides, the wrong direction,
+or none.
+
+Between schools:
+
+- **Simplicity decides the Filioque only as Thomas reads it** (TH12): only
+  opposed relations distinguish in God, so the Son and Spirit need one.
+  This is the warrant from another case that §13 asked for. Scotus held
+  the Filioque and denied the inference (*Ord.* I d.11 q.2; TH14). The
+  decisive premise is a reading of a defined attribute, not the
+  definition.
+- **Thomist simplicity refuses** Scotus's formal distinction (TH13) and
+  Palamas's energies (TH15b). The definition refuses neither (TH15c).
+  Thomas's distinction of reason sits between the synonym reading and
+  Scotus (TH13b).
+- **Clarke** passes immutability as defined and fails q.13 a.7 (TH17,
+  TH17b). Process theism fails both (TH17d). The core passes both (TH17c).
+- **Clarke and Long on receptivity** (TH18): the grammar is neutral. The
+  treatise's sentence needs Clarke's bridge, God first.
+- **Th. 5 refutes Suárez** in its own words (TH3); the core is neutral
+  (TH3b).
+
+Against the treatise (TH5): §2 called the creature's relation of creation
+"not an accident added to a creature already constituted". ST I q.45 a.3
+ad 3 says the creature is prior to it "as the subject is to the accident".
+The distinction of transcendental and predicamental relation reconciles
+them; the treatise now says so.
+
+Already in the core: eternity and infinity (crossing guards), Th. 15
+(A1), Th. 24's first two clauses (A1). Th. 7–14 and 16–20 share no
+vocabulary with it. The core had no bridge for goodness (TH19c).
+
+Two of three meta-predictions failed. Both failures are in the list
+above.
+
+### 15. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius
@@ -197,8 +259,10 @@ The grammar does not decide the Filioque. The councils do.
 
 ## STANDARDS
 
-- Aquinas, ST I q.13 aa.5–6, q.27 aa.2, 4, q.28 a.3, q.36 aa.2, 4; III q.16
+- Aquinas, ST I q.3 a.7; q.13 aa.4–7; q.19 a.3; q.27 aa.2, 4; q.28 aa.3–4;
+  q.36 aa.2, 4; q.42 a.4 ad 1; q.45 a.3 ad 3; III q.16
 - Anselm, *De processione Spiritus Sancti* 1
+- Scotus, *Ordinatio* I d.8 p.1 q.4; I d.11 q.2; Suárez, *DM* 31
 - Augustine, *De Trinitate* IX–X, XII
 - Scotus, *Ordinatio* I d.3 p.1 qq.1–3; I d.8 p.1 q.3; III d.3 q.1
 - Gregory Nazianzen, Or. 31.8–9, 11; John of Damascus, *De fide orthodoxa* I.8
@@ -219,6 +283,11 @@ The grammar does not decide the Filioque. The councils do.
 - E. Przywara, *Analogia Entis* (1932; Eerdmans, 2014)
 - I. Lakatos, "Falsification and the Methodology of Scientific Research
   Programmes" (1970)
+- Theses approved by the Sacred Congregation of Studies (1914), DH 3601–3624
+- W. N. Clarke, *Explorations in Metaphysics* (1994) ch. 9; *The Thomist* 61
+  (1997) 617–24; S. A. Long, *The Thomist* 61 (1997) 1–31
+- R. T. Mullins, *Journal of Reformed Theology* 7 (2013); C. Tomaszewski,
+  *Analysis* 79 (2019) 275–284
 
 ## BUGS
 

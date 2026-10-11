@@ -461,6 +461,19 @@ monopatrism :- holds(q(spirit_origin),father_alone).             % into the core
 #program councils_relaxed.        % ablation: the two councils removed from the graph
 relaxed(lyons_ii_1274). relaxed(florence_1439).
 
+#program theses_1914.             % Sacred Congregation of Studies, 27 July 1914 (AAS 6, 383-386; DH 3601-3624)
+source(theses_1914,3,F,1914) :- theses_force(F).
+theses_force(truth)     :- not theses_directive.
+theses_force(juridical) :- theses_directive.
+character(theses_1914,declaration).
+% Th. 24, last clause: no created agent acts on being without a motion from the First Cause.
+ambiguous(theses_1914). reading(theses_1914,premotion). reading(theses_1914,concurrence).
+reads(theses_1914,premotion,q(efficacious_grace),physical_premotion).     % read with Banez (and Garrigou-Lagrange)
+% the concurrence reading (simultaneous concurrence, Molina) supports neither school
+
+#program theses_directive.        % 1916: "proponantur veluti tutae normae directivae"
+theses_directive.
+
 #program a9_universal.            % the old reading of A9, for comparison
 a9_universal.
 

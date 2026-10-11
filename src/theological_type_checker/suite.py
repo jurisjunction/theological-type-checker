@@ -852,6 +852,125 @@ scen("FQ20", FQ, "Authority: councils removed, distinction by opposition",
      "the father-alone branch fails to distinguish Son and Spirit", mode=B)
 
 
+
+# ---------- classical metaphysics of God: the accretion experiment -------
+# Predictions committed first: docs/research/thomism-preregistration.md.
+TH = "thomism"
+DEF = ["defined_attributes"]
+THESES = DEF + ["th01", "th02", "th03", "th04", "th05", "th06", "th15", "th21", "th22", "th23", "th24"]
+THOMIST = THESES + ["simplicity_thomist", "attributes_by_reason", "mixed_relations", "transcendentals"]
+
+scen("TH0", TH, "The attributes as defined (DH 800, 804, 3001-3002, 3025)", ALL_CLEAN + DEF,
+     [clean], "no conflict; eternal and infinite were already the crossing guards")
+scen("TH1", TH, "Th. 1: pure act, receiving as Thomas reads it", ["trinity", "th01", "th03", "th05"] + DEF,
+     [clean], "no potency in the Son: he receives the whole, unlimited act")
+scen("TH1b", TH, "Th. 1: something uncreated in the soul (DH 977)", ["family", "th01", "cand_uncreated_in_soul"],
+     [has("potency_in_pure_act(man)")], "a creature typed as pure act: refused")
+scen("TH2", TH, "Th. 1 and 5 with receiving in one mode", ["trinity", "th01", "th05", "univocal_reception"] + DEF,
+     [has("potency_in_pure_act(son)", "potency_in_pure_act(spirit)", "composition_in_god(son,essence,real,defined)")],
+     "potency in the Son and Spirit, each really distinct from the essence: the quaternity (DH 804)")
+scen("TH2b", TH, "The same, simplicity from Th. 3 alone", ["trinity", "th03", "th05", "univocal_reception"],
+     [has("composition_in_god(son,essence,real,defined)")], "Th. 3's simplicity refuses it too")
+scen("TH3", TH, "Th. 3 and 5 against Suarez", ["family", "th03", "th05", "suarez_esse"],
+     [has("received_esse_without_real_distinction(child)")], "the thesis refutes Suarez in its own words")
+scen("TH3b", TH, "Suarez against the core alone", ["family", "suarez_esse"],
+     [clean], "the core is neutral on the real distinction")
+scen("TH3c", TH, "Th. 3 and 5 with the core", ["family", "th03", "th05"],
+     [clean], "consistent")
+scen("TH4", TH, "Th. 4: analogy, against univocity of mode", ["trinity", "circuit_only", "univocal_norm", "th04"],
+     [has("univocity_against_th4(grain)")], "the univocity stress switches are refused; nothing else")
+scen("TH5", TH, "Th. 6 and ST I q.45 a.3 ad 3 against the treatise (section 2)",
+     ["family", "th06", "treatise_dependence_constitutive"],
+     [has("constitutive_and_accidental(e)")], "the treatise calls the relation of creation constitutive; Thomas, an accident")
+scen("TH5b", TH, "The same, with transcendental and predicamental relation",
+     ["family", "th06", "treatise_dependence_constitutive", "transcendental_relation"],
+     [clean], "being-from is constitutive; the relation that follows it is an accident")
+scen("TH6", TH, "Th. 15: traducianism, without the thesis", ["family", "cand_traducianism"],
+     [has("being_from_non_god(man,child)", "being_from_non_god(woman,child)")], "already a violation of A1: the thesis adds nothing")
+scen("TH7", TH, "Th. 21 read with ST I q.36 a.2: Palamas's mind", ["lateran", "lateran_mind_palamas", "th21"],
+     [has("will_before_intellect(amor)")], "love not from the word: refused", mode="opt")
+scen("TH7b", TH, "Th. 21 read weakly: love presupposes its known object",
+     ["lateran", "lateran_mind_palamas", "th21", "th21_object"], [none_of("will_before_intellect")],
+     "admitted: love rests in the word", mode="opt")
+scen("TH7c", TH, "Th. 21: Augustine's mind", ["lateran", "lateran_mind", "th21"],
+     [none_of("will_before_intellect")], "admitted", mode="opt")
+scen("TH7d", TH, "Th. 21: memory, understanding, will (De Trin. X)", ["lateran", "lateran_mind_memory", "th21"],
+     [lateran({"n_licensed": 2}), none_of("will_before_intellect")], "admitted; both processions licensed", mode="opt")
+scen("TH8", TH, "Th. 22 with bridges read in the order of knowing", ["family", "th22", "bridges_as_order_of_knowing"],
+     [count("projection(", 5)], "every bridge a projection; ST I q.13 a.6 reads them in the order of being")
+scen("TH9", TH, "Th. 24: creative power given to a minister (Lombard)", ["family", "cand_instrumental_creation"],
+     [has("being_from_non_god(minister,child)")], "already a violation of A1 (ST I q.45 a.5)")
+scen("TH10", TH, "Th. 24, last clause, against De auxiliis", ["auxiliis", "theses_1914"],
+     [cls("q(efficacious_grace)=physical_premotion", "open"), cls("q(efficacious_grace)=middle_knowledge", "open"),
+      clean_branches,
+      lambda r: (any(b["w"].get(3) == 2 and "q(efficacious_grace)=middle_knowledge" in b["values"]
+                     and "read_as(theses_1914,premotion)" in b["assume"] for b in r["branches"]),
+                 "read as premotion, it weighs against Molina at tier 3")],
+     "both schools stay open (Paul V's protection); read as premotion, it weighs, it does not cleave", mode=B)
+scen("TH10b", TH, "The same, typed as directive norms (1916)", ["auxiliis", "theses_1914", "theses_directive"],
+     [cls("q(efficacious_grace)=middle_knowledge", "open"),
+      any_branch_violation("governance_read_as_teaching(theses_1914,q(efficacious_grace))")],
+     "governance read as teaching, where read as premotion; still open", mode=B)
+scen("TH11", TH, "Simplicity as Thomas reads it, Filioque", ["trinity", "simplicity_thomist", "attributes_by_reason"],
+     [clean], "consistent")
+scen("TH12", TH, "Simplicity as Thomas reads it, monopatrism", ["trinity", "monopatrism", "simplicity_thomist"],
+     [has("persons_not_distinguished(son,spirit)")], "decides the Filioque: opposition follows from simplicity")
+scen("TH13", TH, "Thomist simplicity with Scotus's formal distinction", ["trinity", "simplicity_thomist", "attributes_formal"],
+     [count("composition_in_god(", 3)], "refused")
+scen("TH13b", TH, "Distinction of reason under the synonym reading (ST I q.13 a.4, objections)",
+     ["trinity", "simplicity_synonymous", "attributes_by_reason"],
+     [count("composition_in_god(", 3)], "refused: Thomas sits between the synonym reading and Scotus")
+scen("TH14", TH, "Simplicity as Scotus reads it, monopatrism", ["trinity", "monopatrism", "simplicity_scotist", "attributes_formal"],
+     [clean], "does not decide the Filioque (Ord. I d.11 q.2)")
+scen("TH14b", TH, "Scotist simplicity: a second Son", ["two_sons", "simplicity_scotist"],
+     [has("persons_not_distinguished(a_son,b_son)")], "still refused: same source, same production")
+scen("TH15", TH, "Simplicity as Palamas reads it, with the energies",
+     ["trinity", "monopatrism", "simplicity_palamite", "palamite_energies"], [clean], "consistent")
+scen("TH15b", TH, "Thomist simplicity with the energies", ["trinity", "simplicity_thomist", "palamite_energies"],
+     [has("composition_in_god(essence,energies,energetic,thomist)")], "refused")
+scen("TH15c", TH, "Simplicity as defined, with the energies", ["trinity", "monopatrism", "palamite_energies"] + DEF,
+     [clean], "the definition does not decide it")
+scen("TH15d", TH, "Palamite simplicity: a second Son", ["two_sons", "simplicity_palamite"],
+     [has("persons_not_distinguished(a_son,b_son)")], "refused")
+scen("TH16", TH, "The modal-collapse inference", ["family", "modal_collapse_inference"] + DEF,
+     [has("modal_collapse(child)")], "every creature necessary: against DH 3025")
+scen("TH16b", TH, "The same, with mixed relations (ST I q.13 a.7; q.19 a.3)",
+     ["family", "modal_collapse_inference", "mixed_relations"] + DEF, [clean], "removed")
+scen("TH16c", TH, "The same inference against Th. 3 and 22 only", ["family", "th03", "th22", "modal_collapse_inference"],
+     [has("modal_collapse(child)")], "the contingency of Th. 22 suffices")
+scen("TH17", TH, "Clarke: God really related to creatures, against the defined attributes",
+     ["family", "clarke_relational"] + DEF, [clean], "passes: different, not changing")
+scen("TH17b", TH, "Clarke against ST I q.13 a.7", ["family", "clarke_relational", "mixed_relations"] + DEF,
+     [has("real_relation_in_god(god,child)")], "fails")
+scen("TH17c", TH, "The core against ST I q.13 a.7", ["souls", "mixed_relations"] + DEF,
+     [clean], "passes: the Bridegroom receives in his humanity")
+scen("TH17d", TH, "Process theism against the defined attributes and Th. 1", ["family", "cand_process_god", "th01"] + DEF,
+     [has("change_in_god(god)", "potency_in_pure_act(god)")], "fails both: Clarke's 'different, not changing' is the line")
+scen("TH18", TH, "The treatise's receptivity (section 3), with Clarke's bridge",
+     ["trinity", "treatise_receptivity", "reception_pure_perfection"], [clean], "licensed")
+scen("TH18b", TH, "The same, typed as Long types it", ["trinity", "treatise_receptivity", "reception_creaturely"],
+     [has("unlicensed_perfection(reception)")], "unlicensed: the grammar is neutral, the treatise is Clarke's")
+scen("TH18c", TH, "Clarke and Long together", ["trinity", "reception_pure_perfection", "reception_creaturely"],
+     [has("bridge_for_creaturely_predicate(reception)")], "contradictory")
+scen("TH19", TH, "Transcendentals: the child of an illicit act graded less good",
+     ["separate_act", "cand_child_less_good", "transcendentals"],
+     [has("being_graded_less_good(child2,origin)", "norm_breach(grain(o,child2"), count("being_graded", 1)],
+     "refused; the norm breach stays on the act (DV II.B.5)")
+scen("TH19b", TH, "Transcendentals: goodness said of God", ["family", "transcendentals", "say_goodness_of_god"],
+     [clean], "licensed: a pure perfection, God first")
+scen("TH19c", TH, "Goodness said of God without the transcendentals", ["family", "say_goodness_of_god"],
+     [has("unlicensed_perfection(goodness_t)")], "unlicensed: the core had no bridge for it")
+scen("TH20", TH, "Deny by default (AN4) under Thomist simplicity",
+     ["trinity", "family", "unlicense_origination_div", "simplicity_thomist"],
+     [count("persons_not_distinguished(", 3)], "without the analogy of procession, nothing distinguishes the persons")
+scen("TH20b", TH, "Deny by default under distinction by the properties of origin",
+     ["trinity", "family", "unlicense_origination_div", "distinction_mode"],
+     [none_of("persons_not_distinguished")], "unbegotten, begotten, proceeding: the names suffice (Or. 31.8-9)")
+scen("TH20c", TH, "Deny by default, Thomist, opposition read off the names",
+     ["trinity", "family", "unlicense_origination_div", "simplicity_thomist", "opposition_from_names"],
+     [none_of("persons_not_distinguished")], "the persons return")
+
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

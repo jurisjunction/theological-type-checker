@@ -154,5 +154,22 @@ def _outcome(s, extra=()):
 
 
 def test_monopatrism_changes_only_the_processions():
-    changed = {s["id"] for s in suite.S if s["group"] != suite.FQ and _outcome(s) != _outcome(s, ["monopatrism"])}
+    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH)
+               and _outcome(s) != _outcome(s, ["monopatrism"])}
     assert changed == FILIOQUE_DEPENDENT
+
+
+# The Thomistic stack (defined attributes, the 24 Theses, Thomas's readings)
+# against everything else. Pre-registered prediction M3 was that only scenarios
+# carrying another school's switch would change; AN4 falsified it.
+THOMIST_STACK_CHANGES = {
+    "UN1", "UN2",                                   # univocity of mode refused (Th. 4)
+    "FQ1", "FQ3", "FQ7", "FQ8", "FQ19",             # monopatrism: Thomist simplicity decides it
+    "FQ12", "FQ13", "FQ15",                         # Palamas's mind refused (Th. 21 as Thomas reads it)
+    "AN4",                                          # deny by default: the persons undistinguished
+}
+
+
+def test_thomist_stack_changes_exactly_these():
+    changed = {s["id"] for s in suite.S if s["group"] != suite.TH and _outcome(s) != _outcome(s, suite.THOMIST)}
+    assert changed == THOMIST_STACK_CHANGES

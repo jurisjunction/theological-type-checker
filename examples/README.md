@@ -13,4 +13,4 @@
 
 ## BUGS
 
-Two examples. The suite has 170 more.
+Two examples. The suite has 216 more.
