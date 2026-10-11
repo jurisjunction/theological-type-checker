@@ -261,3 +261,17 @@ def test_interior_is_never_derived():
             if ":-" in st and re.match(r"\{?\s*interior\s*\(", st.split(":-")[0].strip()):
                 derived.append((f.name, st))
     assert derived == [("act.lp", "{ interior(P,A,X) } :- disputed(interior(P,A,X)).")], derived
+
+
+# Equity is input (c. 19; TTC-LAW G5): equity_rule/2 is derived by one rule only,
+# the choice that computes a disputed rule both ways.
+def test_equity_is_never_computed():
+    import re
+    derived = []
+    for f in sorted(engine.LP_DIR.glob("*.lp")):
+        code = re.sub(r"%.*", "", f.read_text())
+        for st in re.split(r"(?<=\.)\s", code):
+            st = " ".join(st.split())
+            if ":-" in st and re.match(r"\{?\s*equity_rule\s*\(", st.split(":-")[0].strip()):
+                derived.append((f.name, st))
+    assert derived == [("canon_law.lp", "{ equity_rule(M,R) } :- disputed(equity_rule(M,R)).")], derived

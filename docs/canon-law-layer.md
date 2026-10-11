@@ -58,6 +58,25 @@ Each act is judged on its own date. A 2026 revocation does not reach a 2018
 absolution. Norms carry the dates they are in force: c. 1382 (1983) until
 8 December 2021, c. 1387 after. "Now" is `today/1`, or an `asof_YYYY` part.
 
+## LAW
+
+The general norms call one library, `law.lp`
+([ttc-law(7)](research/law-preregistration.md)): the order of laws
+(eternal, natural, divine positive, ecclesiastical; ST I-II qq. 91–95), a
+law against a higher law (q. 96 a. 4; c. 135 §2), the readings a law
+admits.
+
+| Canon | What it does here |
+| --- | --- |
+| 7–8, 20 | Dates in force, from promulgation, the vacatio and a reordering law. |
+| 16 §§1–3 | An authentic interpretation binds generally as law, a particular matter otherwise. |
+| 17 | A disputed reading branches; the supreme legislator's law is read in harmony with a higher law. |
+| 18 | Penal terms take the strictest admissible reading. |
+| 14 | In a doubt of law, an obliging or invalidating law reaches only what every reading reaches; in a doubt of fact the ordinary may dispense. |
+| 19 | A lacuna takes an equitable rule as input, never in a penal matter. |
+| 21 | Revocation in doubt is not presumed. |
+| 85–86 | Only a merely ecclesiastical law, not defining what constitutes an act, is dispensed. |
+
 ## SYNTAX
 
 ```prolog
@@ -116,7 +135,7 @@ wrong.
 
 | Area | Canons |
 | --- | --- |
-| general | 16 §1; 135 §2; 333 §3; grants until competently revoked |
+| general | 7, 8 §1; 14; 16 §§1–3; 17; 18; 19; 20; 21; 85, 86; 135 §2; 333 §3; grants until competently revoked |
 | delicts | 751 with 1364 §1 (and 1983); 1382 (1983); 1387; 1379 §1 n. 2 |
 | imputability | 1321 §§2–4; 1322; 1323; 1324 §1 nn. 1, 3, 4, 5, 8, 9, §3; 1325; 1355 |
 | juridic acts, consent | 125 §§1–2; 1103 |

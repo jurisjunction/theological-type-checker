@@ -49,6 +49,26 @@
 % @input just_cause_request/3 | just_cause_request(Penitent, Priest, Date)
 % @input common_error/1 | c. 144: common error or positive and probable doubt about this act
 % @input appears_otherwise/2 | the external presumption of imputability is rebutted on the facts
+% @input promulgated/2 | promulgated(Act, Date): a law, or an authentic interpretation in the form of law, published (cc. 7-8, 16 §2)
+% @input vacatio_until/2 | vacatio_until(Law, Date): the law takes force on this date (c. 8 §1)
+% @input enacted_by/2 | enacted_by(Body, Law): a body of norms enacted by this law
+% @input part_of/2 | part_of(Norm, Body)
+% @input interpretation_form/2 | interpretation_form(Act, law | particular): an authentic interpretation's form (c. 16 §§2-3)
+% @input particular_matter/2 | particular_matter(Act, Event): the matter an act in a particular matter concerns (c. 16 §3)
+% @input applies_reading/3 | applies_reading(Act, Canon, Reading): an act that applies this reading of a canon
+% @input needs_reading/2 | needs_reading(Law, Context): the law's reading decides something here
+% @input legislator/2 | legislator(Law, Authority)
+% @input contrary_to_law/2 | contrary_to_law(L, H): a juridical finding that human law L contradicts human law H
+% @input invalidating/1 | an invalidating or disqualifying law (c. 10)
+% @input obliging/1 | a law that imposes an obligation
+% @input permits/1 | a law that grants a permission
+% @input fact_for/3 | fact_for(Law, X, Fact): whether the law reaches X turns on this fact
+% @input lacuna/1 | lacuna(Matter): no custom and no express prescript (c. 19)
+% @input penal_matter/1 | the matter is penal
+% @input equity_rule/2 | equity_rule(Matter, Rule): a rule drawn by c. 19's means; supplied, never computed
+% @input dispensation/3 | dispensation(Act, Law, X): a dispensation from Law for X
+% @input defines_essentials/1 | the law defines what essentially constitutes an institute or juridic act (c. 86)
+% @input doubtful_revocation/2 | doubtful_revocation(Later, Earlier): whether the later revokes the earlier is in doubt
 % @input age_at/3 | age_at(Person, Act, Years): the agent's age when the act was placed
 % @input juridic_act/2 | juridic_act(Act, Person): a juridic act placed by the person (c. 124)
 % @input spouse/2 | spouse(Marriage, Person): one who gave consent to the marriage
@@ -81,6 +101,10 @@ priest(P) :- bishop(P).
 { heard(D,P) } :- disputed(heard(D,P)), issued(D).
 { common_error(A) } :- disputed(common_error(A)).
 { appears_otherwise(P,E) } :- disputed(appears_otherwise(P,E)).
+{ interpretation_form(A,law) } :- disputed(interpretation_form(A,law)).
+{ equity_rule(M,R) } :- disputed(equity_rule(M,R)).
+assumed_fact(F)      :- disputed(F), F = interpretation_form(A,law), interpretation_form(A,law).
+assumed_fact(false(F)) :- disputed(F), F = interpretation_form(A,law), not interpretation_form(A,law).
 assumed_fact(F)      :- disputed(F), F = heard(D,P), issued(D), heard(D,P).
 assumed_fact(false(F)) :- disputed(F), F = heard(D,P), issued(D), not heard(D,P).
 assumed_fact(F)      :- disputed(F), F = common_error(A), common_error(A).
@@ -88,17 +112,82 @@ assumed_fact(false(F)) :- disputed(F), F = common_error(A), not common_error(A).
 assumed_fact(F)      :- disputed(F), F = appears_otherwise(P,E), appears_otherwise(P,E).
 assumed_fact(false(F)) :- disputed(F), F = appears_otherwise(P,E), not appears_otherwise(P,E).
 
-% Norms and the dates they are in force.
-norm(n1382_1983, 19831127, 20211208).  norm(n1387, 20211208, 99991231).
-norm(n1364_1983, 19831127, 20211208).  norm(n1364, 20211208, 99991231).
-norm(n1379, 20211208, 99991231).
+% The penal norms, the bodies they belong to, and the laws that enacted them.
+promulgated(code1983,19830125). vacatio_until(code1983,19831127).   % Sacrae disciplinae leges
+promulgated(pgd2021,20210601).  vacatio_until(pgd2021,20211208).    % Pascite gregem Dei: Book VI revised
+enacted_by(book6_1983,code1983). enacted_by(book6_2021,pgd2021).
+part_of(n1382_1983,book6_1983). part_of(n1364_1983,book6_1983).
+part_of(n1387,book6_2021). part_of(n1364,book6_2021). part_of(n1379,book6_2021).
 norm_in_force(N,T) :- norm(N,F,U), event_date(_,T), F <= T, T < U.
+% c. 751: one act, or a lasting state? Its reading decides schism.
+reading_option(c751,act_suffices). reading_option(c751,lasting_state).
+narrower(lasting_state,act_suffices).
+needs_reading(c751,E) :- consecration(E,_,_,_), against_explicit_papal_will(E).
 
 % ---------- Book I: general norms ------------------------------------------
-% @norm cic:16 | c. 16 §1: the legislator interprets authentically | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
-canon_reading(N,R) :- authentic_reading(N,R,_).
+% @norm cic:7 | c. 7: a law is established when it is promulgated; c. 8 §1: it takes force when its vacatio ends | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+in_force_from(L,T) :- promulgated(L,_), vacatio_until(L,T).
+norm(N,F,U)        :- part_of(N,B), enacted_by(B,L), in_force_from(L,F), reorders(L2,B), in_force_from(L2,U).
+norm(N,F,99991231) :- part_of(N,B), enacted_by(B,L), in_force_from(L,F), not reordered(B).
+reordered(B) :- reorders(_,B).
+
+% @norm cic:20 | c. 20: a later law abrogates or derogates from an earlier one if it says so, is directly contrary to it, or completely reorders its matter | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+reorders(pgd2021,book6_1983).
+
+% @norm cic:21 | c. 21: in doubt the revocation of a pre-existing law is not presumed; later laws are harmonized with earlier ones | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+info(revocation_not_presumed(L2,L)) :- doubtful_revocation(L2,L).
+
+% @norm cic:16 | c. 16 §§1-3: the legislator interprets authentically; in the form of law the interpretation has the force of law and must be promulgated; in a sentence or an administrative act in a particular matter it binds only the persons and matters for which it was given | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+authentic_reading(N,R,D) :- applies_reading(D,N,R), issuer(D,A), authority(A,4).
+interpretation_form(A,particular) :- authentic_reading(_,_,A), not interpretation_form(A,law).
+reading_binds(N,R,E) :- authentic_reading(N,R,A), interpretation_form(A,law), promulgated(A,_), needs_reading(N,E).
+reading_binds(N,R,E) :- authentic_reading(N,R,A), interpretation_form(A,particular), particular_matter(A,E), needs_reading(N,E).
+authentically_read(N,E) :- reading_binds(N,_,E).
+read_for(N,R,E) :- reading_binds(N,R,E).
+
+% @norm cic:17 | c. 17: laws are understood by the proper meaning of their words in text and context; if the meaning remains doubtful, by parallel places, purpose and circumstances, and the mind of the legislator | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+% A disputed reading with no authentic interpretation branches (rule 2). The
+% mind of the supreme legislator is presumed in harmony with the higher law:
+% a reading on which his law contradicts it is excluded. A lower legislator's
+% law keeps that reading, and on it does not bind (c. 135 §2; ST I-II q. 96 a. 4).
+supreme_law(L) :- legislator(L,A), authority(A,4).
+excluded_reading(L,R) :- reading_contrary(L,R,H), higher(H,L), supreme_law(L).
+1 { read_for(L,R,E) : admissible(L,R) } 1 :- needs_reading(L,E), not authentically_read(L,E).
+
+% @norm cic:18 | c. 18: laws which establish a penalty, restrict the free exercise of rights, or contain an exception are subject to strict interpretation | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+% @input penal_use/1 | the law's terms set a penalty (or restrict rights, or make an exception)
+:- read_for(L,R,E), penal_use(L), not authentically_read(L,E), admissible(L,R2), narrower(R2,R).
+penal_use(c751).                                   % c. 1364 punishes the schismatic
+
+% @norm cic:14 | c. 14: laws, even invalidating and disqualifying ones, do not oblige when there is a doubt about the law; in a doubt of fact ordinaries can dispense | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+:- read_for(L,R,E), doubt_binds_strictly(L), not authentically_read(L,E), admissible(L,R2), narrower(R2,R).
+doubt_binds_strictly(L) :- invalidating(L).
+doubt_binds_strictly(L) :- obliging(L).
+doubt_of_fact(L,X) :- fact_for(L,X,F), disputed(F).
+info(ordinary_may_dispense(L,X)) :- doubt_of_fact(L,X), dispensable(L).
+
+% @norm cic:19 | c. 19: where custom and express law are lacking, a case, unless it is penal, is resolved by laws in similar matters, general principles applied with canonical equity, the jurisprudence and practice of the Roman Curia, and the common opinion of the learned | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+resolved_by(M,R) :- lacuna(M), equity_rule(M,R), not penal_matter(M).
+violation(penalty_without_law(M)) :- lacuna(M), penal_matter(M), equity_rule(M,_).
+
+% @norm cic:85 | c. 85: dispensation relaxes a merely ecclesiastical law in a particular case; c. 86: laws defining what essentially constitutes an institute or juridic act are not subject to dispensation | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann85-93_en.html
+dispensable(L) :- law_kind(L,ecclesiastical), not defines_essentials(L).
+dispensed(L,X) :- dispensation(_,L,X), dispensable(L).
+violation(dispensing_divine_law(D,L))  :- dispensation(D,L,_), divine_law(L).
+violation(dispensing_essentials(D,L))  :- dispensation(D,L,_), defines_essentials(L).
+% @end
+info(reading_excluded(L,R))  :- excluded_reading(L,R).
+info(does_not_bind(L))       :- does_not_bind(L).
+info(permitted(X,L))         :- permits(L), binds_on(L,X).
+info(obliged(X,L))           :- obliging(L), binds_on(L,X).
+info(invalid(X,L))           :- invalidating(L), binds_on(L,X).
+info(resolved_by(M,R))       :- resolved_by(M,R).
+info(dispensed(L,X))         :- dispensed(L,X).
 
 % @norm cic:135 | c. 135 §2: a lower authority cannot validly act contrary to a higher one | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann129-144_en.html
+higher(H,L) :- law_kind(H,ecclesiastical), law_kind(L,ecclesiastical), legislator(H,AH), legislator(L,AL),
+               authority(AH,KH), authority(AL,KL), KH > KL.
+contrary(L,H) :- contrary_to_law(L,H).
 competent_revocation(R,G) :- revocation(R,G,_), issuer(R,A1), issuer(G,A2), authority(A1,K1), authority(A2,K2), K1 >= K2.
 violation(ineffective_revocation(R,G)) :- revocation(R,G,_), not competent_revocation(R,G).
 
@@ -130,8 +219,8 @@ penalty(n1387,excommunication).
 % @norm cic:751 | c. 751: schism is the refusal of submission to the Supreme Pontiff | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib3-cann747-755_en.html
 % Whether one act can constitute schism, or only a lasting state, is a
 % reading of c. 751. Ecclesia Dei adflicta 3 (papal) applies it to the act.
-schismatic_act(P,E) :- consecrates(E,P), against_explicit_papal_will(E), canon_reading(c751,act_suffices), not not_of_kind(E,schism).
-schismatic_act(P,E) :- consecration(E,_,P,_), against_explicit_papal_will(E), canon_reading(c751,act_suffices), not not_of_kind(E,schism).
+schismatic_act(P,E) :- consecrates(E,P), against_explicit_papal_will(E), read_for(c751,act_suffices,E), not not_of_kind(E,schism).
+schismatic_act(P,E) :- consecration(E,_,P,_), against_explicit_papal_will(E), read_for(c751,act_suffices,E), not not_of_kind(E,schism).
 
 % @norm cic2021:1364 | c. 1364 §1: the schismatic incurs latae sententiae excommunication | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
 delict(P,n1364,E) :- schismatic_act(P,E), event_date(E,T), norm_in_force(n1364,T).

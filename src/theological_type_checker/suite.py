@@ -608,10 +608,11 @@ scen("SA2", T3, "Salience warning", SA + ["salience_marks"],
      "warned; verdicts unchanged", mode=B)
 
 
-def main_with(qv, sub, present=True):
-    """among main branches holding qv, sub is in every one (or in none)"""
+def main_with(qv, sub, present=True, where=None):
+    """among main branches holding qv (and resting on the assumption `where`), sub is in every one (or in none)"""
     def chk(r):
-        bs = [b for b in r["branches"] if b["status"] == "main" and qv in b["values"]]
+        bs = [b for b in r["branches"] if b["status"] == "main" and qv in b["values"]
+              and (where is None or any(where in a for a in b["assume"]))]
         hits = [any(sub in f for f in b["facts"]) for b in bs]
         ok = bool(bs) and (all(hits) if present else not any(hits))
         return ok, f"{qv}: {sub} {'present' if bs and all(hits) else 'absent' if bs and not any(hits) else 'mixed'}"
@@ -667,13 +668,22 @@ scen("SX10", SC, "2026: the consecrations", SX,
       cls("q(society_schism_now)=yes", "settled"), info_none("category_error")],
      "schismatic act settled; the Society's schism settled; the basis is the act, so no category error", mode=B)
 # canon-law side: binary, from the facts and the norms in force
+# Ecclesia Dei adflicta's reading of c. 751: given as law (c. 16 §2), or in a
+# particular matter, the 1988 consecrations (c. 16 §3)? Disputed: both are computed.
+ED_LAW = "assumed_fact(interpretation_form(ed1988,law))"
+ED_PARTICULAR = "assumed_fact(false(interpretation_form(ed1988,law)))"
+
 scen("SX11", SC, "Incurred and declared, recourse pending", SX,
      [info_all("presumed_incurred(fellay,n1387)", "presumed_incurred(schreiber,n1387)",
                "declaration_suspended(ddf_decree_2026,fellay)", "investigation_dispensable(ddf_decree_2026,galarreta)"),
       # changed with the ordered pair (and the investigation check moved from
       # Fellay, whose declared title is c. 1364, to de Galarreta, c. 1387): c. 1364 now applies only in the branches
       # that classify the act as schismatic (all main branches), not in the shadow
-      main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1364)"),
+      # changed with the law library (TTC-LAW G2): c. 1364 applies in the schismatic branches where
+      # Ecclesia Dei adflicta's reading binds 2026 (given as law); where it reaches 1988 only, c. 18 reads
+      # c. 751 strictly for 2026 and the title of c. 1364 is not derived
+      main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1364)", where=ED_LAW),
+      main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1364)", present=False, where=ED_PARTICULAR),
       info_none("declared(")],
      "presumed incurred (c. 1321 §4) under c. 1387 even as co-consecrator, and under c. 1364 where the act is classified as schismatic; declaration suspended (c. 1353)", mode=B)
 scen("SX12", SC, "Recourse decided", SX + ["recourse_decided_2026"],
@@ -727,9 +737,9 @@ scen("SX23", SC, "The lattice now", SXE,
 
 
 # the ordered pair: teaching first, law ordered to it
-def _by_value(qv, sub, present):
+def _by_value(qv, sub, present, where=None):
     def chk(r):
-        bs = [b for b in r["branches"] if qv in b["values"]]
+        bs = [b for b in r["branches"] if qv in b["values"] and (where is None or any(where in a for a in b["assume"]))]
         hits = [any(sub in f for f in b["facts"]) for b in bs]
         ok = bool(bs) and (all(hits) if present else not any(hits))
         return ok, f"{qv}: {sub} {'in every such branch' if bs and all(hits) else 'in none' if not any(hits) else 'in some'}"
@@ -737,13 +747,19 @@ def _by_value(qv, sub, present):
 
 PR = "pair"
 scen("PR1", PR, "The law follows the theological branch", SX,
-     [_by_value("q(act2026_schismatic)=yes", "delict(fellay,n1364,", True),
+     # changed with the law library (TTC-LAW G2): where the act is classified as schismatic, c. 1364 applies
+     # when Ecclesia Dei adflicta's reading binds 2026; where it reaches 1988 only, penal law read strictly
+     # declines the title, and the pair raises nothing
+     [_by_value("q(act2026_schismatic)=yes", "delict(fellay,n1364,", True, where=ED_LAW),
+      _by_value("q(act2026_schismatic)=yes", "delict(fellay,n1364,", False, where=ED_PARTICULAR),
       _by_value("q(act2026_schismatic)=no", "delict(fellay,n1364,", False),
       _by_value("q(act2026_schismatic)=no", "presumed_incurred(fellay,n1387)", True),
       info_none("law_without_premise")],
      "where the act is classified as schismatic, c. 1364 applies; where not, only c. 1387; no mismatch", mode=B)
 scen("PR2", PR, "The law applied without regard to the theological branch", SX + ["cand_uncoupled"],
-     [_by_value("q(act2026_schismatic)=no", "law_without_premise(n1364,", True)],
+     # changed with the law library (TTC-LAW G2): only where c. 751's act reading binds 2026 is there a title to misapply
+     [_by_value("q(act2026_schismatic)=no", "law_without_premise(n1364,", True, where=ED_LAW),
+      _by_value("q(act2026_schismatic)=no", "law_without_premise(n1364,", False, where=ED_PARTICULAR)],
      "violation: a canon applied where its theological premise fails", mode=B)
 scen("PR3", PR, "A canon-law result used to settle a doctrinal question", ["ecumenism", "lattice", "cand_law_answers_teaching"],
      [any_branch_violation("teaching_from_law(q(church_identity))")],
@@ -1184,6 +1200,56 @@ scen("AC10", AC, "Bare: no creature acts", ["act_penal", "rt_bare"],
      "no human act, no penalty: canon law presupposes agere sequitur esse", mode=B)
 scen("AC11", AC, "Bare: the SSPX case", ["sspx", "rt_bare"],
      [info_none("presumed_incurred")], "the same", mode=B)
+
+# ---------- Law (TTC-LAW(7)) -------------------------------------------------
+# law.lp: the order of laws, a law against a higher law, readings. The general
+# norms (cc. 7-8, 14, 16-21, 85-86, 135 §2) call it.
+LW = "law"
+
+scen("LW1", LW, "Ecclesia Dei adflicta given in a particular matter: the 2026 title", SX,
+     [main_with("q(act2026_schismatic)=yes", "title_not_derived(ddf_decree_2026,fellay,n1364)", where=ED_PARTICULAR),
+      main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1387)", where=ED_PARTICULAR),
+      main_with("q(act1988_schismatic)=yes", "delict(lefebvre,n1364_1983", where=ED_PARTICULAR),
+      info_none("law_without_premise")],
+     "c. 16 §3: the reading reaches 1988 only; for 2026, c. 18 reads c. 751 strictly: no title under c. 1364, "
+     "c. 1387 still reaches Bp Fellay as co-consecrator; 1988 untouched", mode=B)
+scen("LW2", LW, "The 2026 decree approved by the Pope (HYPOTHETICAL)", SX + ["decree_papally_approved"],
+     [main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1364)", where=ED_PARTICULAR),
+      main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1364)", where=ED_LAW)],
+     "the legislator's act in the particular matter binds it (c. 16 §3): the title returns", mode=B)
+scen("LW3", LW, "The mind of the legislator, by rank (c. 17; q. 96 a. 4)", ["law_cases"],
+     [info_all("reading_excluded(l_sup,broad)", "permitted(act_n,l_sup)"), info_none("permitted(act_b,l_sup)"),
+      info_any("does_not_bind(l_bish)", "permitted(act_n,l_bish)"), info_none("reading_excluded(l_bish"),
+      lambda r: (not all(any("does_not_bind(l_bish)" in f for f in b["facts"]) for b in r["branches"]),
+                 "the bishop's broad reading is a branch, not the only one")],
+     "the supreme legislator's law is read in harmony with the natural law; a bishop's keeps the reading, and on it "
+     "does not bind", mode=B)
+scen("LW4", LW, "Doubt of law, doubt of fact (c. 14)", ["law_cases"],
+     [info_none("invalid(contract_c,l_inv)", "obliged(person_q,l_obl)"),
+      info_all("obliged(person_r,l_obl)", "obliged(person_s,l_fact)", "ordinary_may_dispense(l_fact,person_s)")],
+     "in a doubt of law an invalidating or obliging law reaches only what every reading reaches; a doubt of fact "
+     "leaves the obligation, and the ordinary may dispense", mode=B)
+scen("LW5", LW, "Laws against a higher law (c. 135 §2; q. 96 a. 4)", ["law_cases"],
+     [info_all("does_not_bind(l_low)", "does_not_bind(l_nat)", "does_not_bind(l_pos)", "does_not_bind(l_ete)"),
+      info_none("obliged(person_u,", "obliged(person_v,", "obliged(person_w,", "obliged(person_x,")],
+     "against a higher human law, the natural law, divine positive law, the eternal law: no binding force", mode=B)
+scen("LW6", LW, "The lacuna (c. 19)", ["law_cases"],
+     [info_all("resolved_by(m_civil,analogy_of_similar_laws)"), info_any("resolved_by(m_disp,common_opinion)"),
+      lambda r: (not all(any("resolved_by(m_disp" in f for f in b["facts"]) for b in r["branches"]),
+                 "the disputed equitable rule holds in some branches only")],
+     "equity is input: supplied, or computed both ways", mode=B)
+scen("LW6b", LW, "A penalty by analogy (HYPOTHETICAL)", ["law_cases", "law_penal_lacuna"],
+     [any_branch_violation("penalty_without_law(m_pen)")], "c. 19 excludes penal matters; c. 221 §3", mode=B)
+scen("LW7", LW, "Dispensation (cc. 85-86)", ["law_cases"],
+     [info_all("dispensed(l_disp,person_t)")], "a merely ecclesiastical law is dispensed", mode=B)
+scen("LW7b", LW, "Dispensations no human authority can give (HYPOTHETICAL)", ["law_cases", "law_bad_dispensations"],
+     [any_branch_violation("dispensing_divine_law(dsp2,d1)"), any_branch_violation("dispensing_divine_law(dsp3,d2)"),
+      any_branch_violation("dispensing_essentials(dsp4,l_form)"), info_none("dispensed(d1", "dispensed(d2", "dispensed(l_form")],
+     "the natural law, divine positive law, and what constitutes the act", mode=B)
+scen("LW8", LW, "A law's failing to bind used to settle doctrine", ["law_cases", "cand_validity_settles_doctrine"],
+     [any_branch_violation("teaching_from_law(q(broad_bish))")], "law answers no doctrinal question (rule 1)", mode=B)
+scen("LW9", LW, "Revocation in doubt (c. 21)", ["law_cases"],
+     [info_all("revocation_not_presumed(l_new,l_old)")], "not presumed", mode=B)
 
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):

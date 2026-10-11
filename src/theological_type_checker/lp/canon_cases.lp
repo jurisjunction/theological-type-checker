@@ -22,6 +22,11 @@ against_explicit_papal_will((e1988_fellay;e1988_galarreta)).
 % Ecclesia Dei adflicta 3: such disobedience "constitutes a schismatic act".
 % The supreme legislator's own application of c. 751 (c. 16 §1).
 authentic_reading(c751,act_suffices,ed1988) :- not c751_state_reading.
+% Given in the form of law (c. 16 §2), or as an act in a particular matter
+% (c. 16 §3)? Its form is disputed, and the checker computes both.
+disputed(interpretation_form(ed1988,law)).
+promulgated(ed1988,19880702).                                      % AAS 80 (1988)
+particular_matter(ed1988,(e1988_fellay;e1988_galarreta)).
 % 21 January 2009: the Congregation for Bishops, by papal mandate, remits the
 % excommunication of the four bishops consecrated in 1988.
 remission(cb2009,(fellay;galarreta),(n1382_1983;n1364_1983),20090121).
@@ -56,6 +61,9 @@ premise(n1364,q(act2026_schismatic),yes).
 decree(ddf_decree_2026,ddf,20260702). issuer(ddf_decree_2026,ddf).
 declares(ddf_decree_2026,(galarreta;schreiber;goldade;poinsinet;hanappier),n1387).
 declares(ddf_decree_2026,fellay,n1364).
+% The decree applies c. 751's act reading to the 2026 consecrations: its particular matter.
+applies_reading(ddf_decree_2026,c751,act_suffices).
+particular_matter(ddf_decree_2026,(e2026_schreiber;e2026_goldade;e2026_poinsinet;e2026_hanappier)).
 % Did the warnings recited in the decree give the hearing of c. 1720 n. 1?
 % The published text does not say. A disputed fact, computed both ways.
 disputed(heard(ddf_decree_2026,named)).
@@ -154,3 +162,60 @@ absolution(a4,y,pen,20260904).     interior(y,a4,fear(grave,extrinsic,unjust)).
 question(q(evil_a4)). question_kind(q(evil_a4),doctrinal). value(q(evil_a4),yes). value(q(evil_a4),no).
 default(q(evil_a4),yes).
 classification(q(evil_a4),a4,intrinsically_evil).
+
+% ---------- Law (TTC-LAW): constructed laws, all HYPOTHETICAL ----------------
+#program law_cases.                 % HYPOTHETICAL
+today(20261010).
+authority(pope_x,4). authority(bishop_x,1).
+law_kind(e1,eternal). law_kind(d1,natural). law_kind(d2,divine_positive).
+% G3: the same permission, given by the supreme legislator and by a bishop. Its
+% broad reading would permit what the natural law forbids (the theology side).
+law_kind(l_sup,ecclesiastical).  legislator(l_sup,pope_x).    permits(l_sup).
+law_kind(l_bish,ecclesiastical). legislator(l_bish,bishop_x). permits(l_bish).
+reading_option((l_sup;l_bish),(narrow;broad)). narrower(narrow,broad).
+needs_reading((l_sup;l_bish),all).
+reaches((l_sup;l_bish),broad,(act_n;act_b)). reaches((l_sup;l_bish),narrow,act_n).
+question(q(broad_sup)).  question_kind(q(broad_sup),doctrinal).  value(q(broad_sup),(yes;no)).  default(q(broad_sup),yes).
+question(q(broad_bish)). question_kind(q(broad_bish),doctrinal). value(q(broad_bish),(yes;no)). default(q(broad_bish),yes).
+classification(q(broad_sup),reading(l_sup,broad),contrary_to(d1)).
+classification(q(broad_bish),reading(l_bish,broad),contrary_to(d1)).
+% G4: a doubt of law, in an invalidating law and in an obliging one; a doubt of fact
+law_kind(l_inv,ecclesiastical). legislator(l_inv,bishop_x). invalidating(l_inv).
+reading_option(l_inv,(narrow;broad)). needs_reading(l_inv,all). reaches(l_inv,broad,contract_c).
+law_kind(l_obl,ecclesiastical). legislator(l_obl,bishop_x). obliging(l_obl).
+reading_option(l_obl,(narrow;broad)). needs_reading(l_obl,all).
+reaches(l_obl,broad,(person_q;person_r)). reaches(l_obl,narrow,person_r).
+law_kind(l_fact,ecclesiastical). legislator(l_fact,bishop_x). obliging(l_fact).
+reading_option(l_fact,plain). needs_reading(l_fact,all). reaches(l_fact,plain,person_s).
+fact_for(l_fact,person_s,resident(person_s)). disputed(resident(person_s)).
+% c. 135 §2 and q. 96 a. 4: laws against a higher law
+law_kind(l_low,ecclesiastical). legislator(l_low,bishop_x). obliging(l_low).
+law_kind(l_high,ecclesiastical). legislator(l_high,pope_x).
+reading_option(l_low,plain). needs_reading(l_low,all). reaches(l_low,plain,person_u).
+contrary_to_law(l_low,l_high).                                       % a juridical finding
+law_kind((l_nat;l_pos;l_ete),ecclesiastical). legislator((l_nat;l_pos;l_ete),bishop_x). obliging((l_nat;l_pos;l_ete)).
+reading_option((l_nat;l_pos;l_ete),plain). needs_reading((l_nat;l_pos;l_ete),all).
+reaches(l_nat,plain,person_v). reaches(l_pos,plain,person_w). reaches(l_ete,plain,person_x).
+question(q(against(L))) :- law_kind(L,ecclesiastical), L = (l_nat;l_pos;l_ete).
+question_kind(q(against(L)),doctrinal) :- question(q(against(L))).
+value(q(against(L)),(yes;no)) :- question(q(against(L))).
+default(q(against(L)),yes) :- question(q(against(L))).
+classification(q(against(l_nat)),l_nat,contrary_to(d1)).
+classification(q(against(l_pos)),l_pos,contrary_to(d2)).
+classification(q(against(l_ete)),l_ete,contrary_to(e1)).
+% G5: lacunae
+lacuna(m_civil). equity_rule(m_civil,analogy_of_similar_laws).
+lacuna(m_disp).  disputed(equity_rule(m_disp,common_opinion)).
+% G6: dispensation; c. 21
+law_kind(l_disp,ecclesiastical). dispensation(dsp1,l_disp,person_t).
+doubtful_revocation(l_new,l_old).
+
+#program law_penal_lacuna.          % HYPOTHETICAL: a penalty supplied by analogy in a penal lacuna
+lacuna(m_pen). penal_matter(m_pen). equity_rule(m_pen,punish_by_analogy).
+
+#program law_bad_dispensations.     % HYPOTHETICAL: dispensations no human authority can give
+law_kind(d1,natural). law_kind(d2,divine_positive). law_kind(l_form,ecclesiastical). defines_essentials(l_form).
+dispensation(dsp2,d1,person_t). dispensation(dsp3,d2,person_t). dispensation(dsp4,l_form,person_t).
+
+#program cand_validity_settles_doctrine.   % a law's failing to bind used to settle that it contradicts divine law
+law_answers(q(broad_bish)) :- does_not_bind(l_bish).

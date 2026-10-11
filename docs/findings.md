@@ -344,7 +344,43 @@ stamped first ([ttc-act(7)](research/act-preregistration.md)).
   runtime no human act exists, and no penalty is incurred, the SSPX case
   included.
 
-### 18. Method
+### 18. Law as a library (LW1–LW9)
+
+Thomas defines law before any code (ST I-II q. 90 a. 4), orders the kinds
+of law (q. 91), and says when a human law fails (q. 96 a. 4). The Code's
+general norms state the same theory as rules of the external forum. The
+theory is now one library (`law.lp`), and cc. 7–8, 14, 16–21, 85–86 and
+135 §2 call it. Predictions were stamped first
+([ttc-law(7)](research/law-preregistration.md)).
+
+- **The reach of an authentic interpretation** (LW1, LW2). *Ecclesia Dei
+  adflicta* reads c. 751: a single act of disobedience "constitutes a
+  schismatic act". Given in the form of law (c. 16 §2), it binds every
+  case. Given as an act in a particular matter (c. 16 §3), it reaches the
+  1988 consecrations only. Its form is disputed, and the checker computes
+  both. In the second branch c. 751 has no authentic interpretation for
+  2026, c. 18 reads it strictly for the penal effect, and the 2026 title of
+  c. 1364 for Bp Fellay is not derived; c. 1387 still reaches him as
+  co-consecrator. Approved by the Pope, the 2026 decree would itself be the
+  legislator's act in that matter, and the title would return.
+- **The suite had assumed more than the ordered pair says.** Three
+  scenarios (SX11, PR1, PR2) asserted that c. 1364 applies wherever the act
+  is classified as schismatic. The pair requires only that the law not
+  apply without its theological premise. Penal law, read strictly, may
+  decline a title the classification would allow. The expectations now
+  hold for each form of the letter.
+- **The mind of the legislator, by rank** (LW3). A reading on which the
+  supreme legislator's law would contradict the natural law is excluded:
+  his law is read in harmony with it. A bishop's law keeps the reading, and
+  on it does not bind (c. 135 §2; q. 96 a. 4). Both rules are binary.
+- **Doubt of law, doubt of fact** (LW4). In a doubt of law an invalidating
+  or obliging law reaches only what every reading reaches (c. 14). A doubt
+  of fact leaves the obligation and lets the ordinary dispense.
+- **Equity is input** (LW6). An equitable rule (c. 19) is supplied, or
+  computed both ways when disputed, never derived; in a penal matter it
+  cannot supply a penalty (c. 221 §3).
+
+### 19. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

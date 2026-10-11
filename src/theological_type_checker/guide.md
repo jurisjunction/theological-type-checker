@@ -70,7 +70,11 @@ side, juridical facts on the canon side.
 | `juridic_act(J,P)`, `spouse(M,P)`, `age_at(P,A,Years)` | A juridic act (c. 124); a party to a marriage; an agent's age. |
 | `interior(P,A,Claim)` | What a case claims of the agent's knowledge, will or freedom: `ignorance(Of,Kind)`, `error(…)`, `fear(Grade,Origin,How)`, `violence`, `reason(…)`, `passion(…)`, `necessity`, `deliberate`, `negligence`, … Never derived; read by the human-act library (`act.lp`). |
 | `disputed(F)` | Computed both ways: `heard/2`, `common_error/1`, `appears_otherwise/2`, `interior/3`. |
-| `authentic_reading(C,R,Act)` | The legislator's reading (c. 16 §1). |
+| `authentic_reading(C,R,Act)` | The legislator's reading (c. 16 §1). Its reach: `interpretation_form(Act,F)` (F: `law` or `particular`), `particular_matter(Act,E)`, `promulgated(Act,Date)` (c. 16 §§2–3). |
+| `reading_option(L,R)`, `narrower(R1,R2)`, `needs_reading(L,Context)` | The readings a law admits; a disputed one branches (c. 17), penal terms read strictly (c. 18). |
+| `law_kind(L,K)`, `legislator(L,A)`, `permits/1`, `obliging/1`, `invalidating/1`, `reaches(L,R,X)` | A law: kind (eternal, natural, divine_positive, ecclesiastical), maker, effect, reach (library `law.lp`). |
+| `lacuna(M)`, `penal_matter(M)`, `equity_rule(M,R)` | c. 19: equity is input, never computed. |
+| `dispensation(D,L,X)`, `defines_essentials(L)` | cc. 85–86. |
 
 A new canon goes under `% @norm id | citation | source`. New slots go under
 `% @input name/arity | meaning`. See [ttc-canon(5)](canon-law-layer.md).
