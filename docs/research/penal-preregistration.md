@@ -18,9 +18,12 @@ Read as the rules stand, before any run:
   classification of the event (`of_kind(E,intrinsically_evil)`), entered
   case by case; the moral library composes an act's kind and its object
   (`evil_by_object/1`). Nothing joins them.
-- **c. 16 has no dates.** An authentic interpretation in the form of law
-  binds every event that needs its reading, before its promulgation as
-  after. c. 16 §2's rule on retroactivity is not encoded.
+- **c. 16 ignores the dates it has.** Every authentic interpretation is
+  recorded with its date (`promulgated/2`), but the rule that applies one
+  in the form of law never compares that date with the act's
+  (`promulgated(A,_)`): it binds every act that needs its reading, before
+  its force as after. c. 16 §2's rule on retroactivity, and c. 9's, are
+  not encoded.
 - **No general penal norm.** Neither c. 1399 nor c. 1752 is encoded.
 - **The Dicastery's clause** on a minor's age is not encoded; TTC-ACT's
   N1–N5, stamped, wait for this step.
@@ -34,7 +37,10 @@ Read as the rules stand, before any run:
   `info(offense(sspx,dissent_c752,dignitatis_humanae))`.
 
 This file is committed and stamped before any of it is encoded. SCORING
-will be appended below; nothing above it will be edited.
+will be appended below; nothing above it will be edited. (First committed
+in d7792b3 and amended before the stamp: c. 16's dates, cc. 8 §1 and 9,
+AB8, AB9, CAVEATS. The response of 1988 is extensive on the canonists'
+common reading, so it does not branch.)
 
 ## THE NORMS
 
@@ -55,6 +61,11 @@ and VII) and iuscangreg.
   declares the words of the law which are certain in themselves, it is
   retroactive; if it restricts or extends the law, or if it explains a
   doubtful law, it is not retroactive."
+- **c. 9**: "Laws regard the future, not the past, unless they expressly
+  provide for the past." **c. 8 §1**: universal laws are promulgated in
+  the *Acta Apostolicae Sedis* and take force three months from the date
+  of that issue, unless they bind at once from the nature of the matter
+  or set another *vacatio*.
 - **cc. 1323–1325**: under sixteen, no penalty (c. 1323 n. 1); grave
   fear exempts "unless the act is intrinsically evil or tends to the harm
   of souls" (n. 4), and then mitigates (c. 1324 §1 n. 5); sixteen to
@@ -131,8 +142,8 @@ Fixed here.
 
 ## METHOD
 
-Encode c. 1397 §2 and c. 1398 (1983) with the interpretation of 1988 and
-c. 16 §2's dates; join c. 1323 n. 4 to the library's kinds; encode
+Encode c. 1397 §2 and c. 1398 (1983) with the interpretation of 1988;
+give c. 16 §2 its dates, with cc. 8 §1 and 9; join c. 1323 n. 4 to the library's kinds; encode
 cc. 1328 §1, 1329 §2, 1399 and 1752; art. 6 n. 1 with c. 1398 §1 n. 1
 (2021), and score TTC-ACT's N1–N5. Repair form and object in
 `icon_authority.lp`; add the Jansenist dogmatic fact and *Ordinatio
@@ -182,21 +193,24 @@ runtimes' boots and the coverage index.
   another's.
 - **AB7. c. 11.** A mother baptized outside the Church and not received
   incurs nothing; her act is still "must not" (divine law binds all).
-- **AB8. The interpretation and its date.** c. 16 §2 gets its dates: an
-  interpretation in the form of law reaches an act before its force only
-  where it declares words certain in themselves. Whether the response of
-  1988 does is a disputed reading with no authentic interpretation of its
-  own, computed both ways. A killing in utero without expulsion in 1987
-  is the delict where the response is declaratory; where it is not,
-  c. 18 reads c. 1398 strictly (the expulsion of the immature fetus) and
-  there is no delict. In 1990, the delict either way.
+- **AB8. The interpretation and its date.** An interpretation in the form
+  of law reaches the acts placed from its force on (c. 8 §1), and an
+  earlier act only where it is entered as declaring words certain in
+  themselves (c. 16 §2): the past is the exception (c. 9). The response
+  of 1988 is entered as extensive, the canonists' common reading, with
+  its ground in its own text: asked whether abortion means only the
+  expulsion of the immature fetus, it answers "Negative". It does not
+  branch. A killing in utero without expulsion in 1987 is not the delict
+  (c. 18 reads c. 1398 strictly: the expulsion of the immature fetus); in
+  1990 it is.
 - **AB9. The same rule for *Ecclesia Dei*.** In the branch where its
-  reading of c. 751 is given in the form of law, it reaches the
-  consecrations of 30 June 1988, two days before it, only where it is
-  declaratory. Where it is not, c. 18 reads c. 751 strictly and there is
-  no c. 1364 (1983) delict for 1988 in that branch; c. 1382 (1983)
-  reaches consecrator and consecrated as before. No existing check changes: LW1
-  tests 1988 in the particular-matter branch.
+  reading of c. 751 is given in the form of law, whether it declares
+  words certain in themselves is disputed with its form and computed both
+  ways. It reaches the consecrations of 30 June 1988, two days before it,
+  only where declaratory. Where it is not, c. 18 reads c. 751 strictly
+  and there is no c. 1364 (1983) delict for 1988 in that branch; c. 1382
+  (1983) reaches consecrator and consecrated as before. No existing check
+  changes: LW1 tests 1988 in the particular-matter branch.
 
 ### GP: the general penal norm
 
@@ -307,9 +321,10 @@ c. 1397 §2 takes its matter from the moral library. A canonist may read
 "abortion" apart from moral theology: the killing of a viable fetus
 during labour as homicide (c. 1397 §1), say. That reading is not entered.
 
-Whether the response of 1988 (AB8), and *Ecclesia Dei*'s reading
-(AB9), declare words certain in themselves is computed both ways because
-nothing authentic settles it; a commentator's view is tier 5.
+The response of 1988 is entered as extensive because canonists read it
+so and its text supports them (AB8); were the reading disputed, it would
+branch (rule 2). *Ecclesia Dei*'s reading is disputed with its form, and
+computed both ways (AB9).
 
 Remission is not encoded: c. 1355 §2, and the faculty given to every
 priest to absolve the sin of procured abortion (*Misericordia et misera*
@@ -328,7 +343,7 @@ the external forum's.
 
 ## STANDARDS
 
-- CIC 1983 cc. 11, 16 §2, 18, 113–120, 749 §3, 1321 §4, 1323 nn. 1, 4,
+- CIC 1983 cc. 8 §1, 9, 11, 16 §2, 18, 113–120, 749 §3, 1321 §4, 1323 nn. 1, 4,
   1324 §1 nn. 4, 5, 9, §3, 1325, 1328 §1, 1329 §2, 1398 (1983), 1752;
   CIC 2021 cc. 1397 §2, 1398 §1 n. 1, 1399
   (https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html)
