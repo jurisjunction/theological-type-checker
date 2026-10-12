@@ -90,7 +90,7 @@ finding, not an inconvenience.
 [ttc-findings(7)](docs/findings.md), [ttc-core(5)](docs/core-edition.md),
 [ttc-layers(7)](docs/layers.md), [ttc-schools(7)](docs/research/schools-preregistration.md),
 [ttc-canon(5)](docs/canon-law-layer.md), [ttc-encoding(5)](docs/encoding-guide.md),
-[ttc-flywheel(7)](docs/flywheel.md), [ttc-library(1)](docs/library.md),
+[ttc-flywheel(7)](docs/flywheel.md), [ttc-roadmap(7)](docs/roadmap.md), [ttc-library(1)](docs/library.md),
 [ttc-mcp(8)](docs/mcp.md), [cases](docs/cases/),
 [research report](docs/research/warrants-and-prior-art.md).
 
