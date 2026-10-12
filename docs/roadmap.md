@@ -124,8 +124,25 @@ generic delict input came with the christ step.)
   compute a disputed fact both ways. Take from the MOP the shape of L
   itself: kinds of declaration (norm, reading, claim, presumption, runtime)
   as metaclasses, each compiling itself to clingo; a runtime defined by
-  inheritance from another, with an explicit combiner (union or override)
-  where definitions clash, and the pair test as the clash report.
+  inheritance from another, with an explicit combiner where definitions
+  clash.
+- **Clashes refuse; they are not linearized.** CLOS's class precedence list
+  silently picks an order when two parents disagree: a partial order made
+  a line, which this checker refuses elsewhere. A runtime inheriting a
+  clash fails to compile until its author writes the combinator: the pair
+  test, moved from run time to compile time.
+- **Three combinators**, as Lethen's generalisations are three: add
+  (union), alter (override), exclude. The Palamite runtime already
+  excludes (it drops `one_power` and adds `no_divine_contraction`).
+- **The compiled base stays checked in.** Every stamp points at a commit
+  whose rule files are what the solver read. The compiler's first test is
+  byte-identical regeneration of the present base, comments and citations
+  included (they are slots in L); its second is the suite, 393 of 393.
+  Only then a new construct.
+- **What a rule needs, as slots.** Modal type (may, must, is), layer,
+  tier, date and declared input slots keep being found after the fact.
+  As slots on the metaclass, the layer test (a higher layer writes into a
+  lower one only through declared slots) becomes a compile error.
 
 ## AMENDMENTS AND REPAIRS
 
