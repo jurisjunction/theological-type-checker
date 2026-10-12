@@ -183,6 +183,13 @@ from forms already existing" (SC 23). Three faces:
 - **Reception has no date.** A creed typed tier 1 by reception needs a
   date the checker can use; the *Quicumque*'s decides the Filioque's
   history (CR1b).
+- **Attribution is a claim too.** The *Supplementum* of the *Summa* was
+  compiled after Thomas's death, traditionally by Reginald of Piperno,
+  from his early commentary on Book IV of the Sentences (c. 1252–56).
+  Cite and date it by the commentary, as the seal's source already is
+  (In IV Sent. d. 21 q. 3 a. 1); a citation of the Supplement alone is a
+  frontier item. The article numbers of d. 48 behind Suppl. q. 91 are to
+  be checked against the text.
 - **Trent's protection outlives the definition** in the Immaculate
   Conception's data (CM1c).
 - **EV 56's judgment of today's circumstances** ("very rare, if not
@@ -242,8 +249,24 @@ To run on the system. None enters the kernel.
   to collect (ST I q. 48 a. 1); death and Hades go to the lake (Rev 20:14),
   persons are not pruned (DH 801, 1002, 1440); "uncreated light" is the
   Palamite reading, the light of glory created on the Latin (DH 895);
-  whether plants and animals remain branches (no: Suppl. q. 91 a. 5; "each
-  creature, resplendently transfigured": *Laudato si'* 243).
+  whether plants and animals remain branches (no: In IV Sent. d. 48,
+  Suppl. q. 91 a. 5; "each creature, resplendently transfigured":
+  *Laudato si'* 243).
+- **Creation taken up through love** (a participation in our
+  participation). Every creature has its being from God immediately
+  (ST I q. 8 a. 1); what human love mediates is its way to the end.
+  Irrational creatures attain God by likeness, rational ones by knowing
+  and loving him (I-II q. 1 a. 8); the beloved is in the lover (I-II
+  q. 28 a. 2), so a creature known and loved stands before God in a
+  spiritual creature, as Christ's humanity takes ours up (Col 1:20;
+  Eph 1:10; Maximus, *Ambigua* 41). The Eucharist as its sign: "fruit of
+  the earth and work of human hands". The question to run: is
+  non-rational creation preserved in itself (Rom 8:19–22, tier 0, read two
+  ways; *Laudato si'* 83, "with us and through us", tier 3), only in the
+  knowing and loving of the blessed and in God's ideas (I q. 12 a. 8;
+  q. 15), or not at all (In IV Sent. d. 48, Suppl. q. 91 a. 5)? Also
+  Isaac the Syrian on the merciful heart; C. S. Lewis, *The Problem of
+  Pain* ch. 9, on tame animals.
 - **Measurement and minds.** Definiteness relative to a created knower
   (Wigner; compare Rovelli). Angels from the beginning of time answer the
   objection of a universe with no observers (DH 800). Refused: God
