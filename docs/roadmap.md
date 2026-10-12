@@ -23,7 +23,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | creed | Scripture as tier 0; the creeds; the Incarnation; Mary; the economy | done ([ttc-creed(7)](research/creed-preregistration.md)) |
 | moral | the morality of acts, sin, grace | done ([ttc-moral(7)](research/moral-preregistration.md)) |
 | christ | Christ's acts; the sacraments; the seal; presence by mode | done ([ttc-christ(7)](research/christ-preregistration.md)) |
-| moral amendment | verdicts and obligation: illicit, may, must | to predict; **next** |
+| moral amendment | verdicts and obligation: may, must, must not; social doctrine as tests | predicted, to stamp; **next** ([ttc-precept(7)](research/precept-preregistration.md)) |
 | communion | faith and communion | to predict |
 | canon | the canon-law step | to predict |
 | last things | soteriology and eschatology | to predict |
@@ -33,7 +33,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 
 ## NEXT STEPS IN DETAIL
 
-### moral amendment (to predict)
+### moral amendment (predicted, to stamp)
 
 From a run of the trolley problem on the moral library (2026-10-12). It
 changes `moral.lp`, so it is predicted and stamped first.
