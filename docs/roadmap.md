@@ -26,6 +26,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | moral amendment | verdicts and obligation: may, must, must not; social doctrine as tests | done ([ttc-precept(7)](research/precept-preregistration.md)) |
 | communion | rule 14; faith and communion: notes, denials, bonds | done ([ttc-communion(7)](research/communion-preregistration.md)) |
 | canon | the canon-law step | to predict |
+| cceo | the Eastern Code: a second canon layer, chosen by ascription | to predict |
 | liturgy | the liturgy as witness, rite and development | to predict |
 | last things | soteriology and eschatology | to predict |
 | empirical | science | to predict |
@@ -53,6 +54,40 @@ generic delict input came with the christ step.)
   direct abortion is "must not" in every main branch (TTC-PRECEPT DI3),
   so c. 1397 §2 can take the act's kind from the library, as c. 1386 took
   the seal's ground.
+
+### cceo
+
+A second canon layer beside the Latin one, under the same discipline:
+binary, dated, each rule under `@norm` (iuscangreg's `cceo.php`; the
+official text, AAS 82 (1990) 1033–1364). The teaching above is shared;
+only the law differs (rule 1).
+
+- **Which code binds is a fact.** The Latin Code concerns only the Latin
+  Church (CIC c. 1), the Eastern Code only the Eastern Catholic Churches
+  unless a canon says otherwise (CCEO c. 1). Ascription to a Church *sui
+  iuris* (CIC cc. 111–112; CCEO cc. 29–38) selects the layer for each
+  person; the interritual canons of each code reach the other.
+- ***De concordia inter Codices*** (31 May 2016, published 15 September
+  2016) brought the Latin Code toward the Eastern: cc. 111, 112, 535 §2,
+  868 §§1, 3, 1108 §3, 1109, 1111 §1, 1112 §1, 1116 §3, 1127 §1. The base
+  encodes c. 1108 §1 and c. 1111 without it. From 2016 "only a priest
+  validly assists" at a marriage with an Eastern party (c. 1108 §3), as
+  the Eastern Code asks a priest's blessing (CCEO c. 828). Its date in
+  force is to be fixed from its promulgation (c. 8 §1). A test of dates
+  in the layer already built; c. 1127 §1 (AMENDMENTS AND REPAIRS) comes
+  with it.
+- **Penalties imposed, never incurred.** The Eastern Code has no latae
+  sententiae penalties, so one act runs two ways by ascription. A
+  consecration without mandate is c. 1387's excommunication incurred in
+  the Latin layer, deposition to be imposed in the Eastern (CCEO c. 1459
+  §1). Heresy and apostasy are c. 1364 in the one, a major
+  excommunication to be imposed in the other (CCEO c. 1436 §1).
+  `to_be_imposed/3`, from the communion step, carries it. The penal title
+  as later revised, each text in its own years.
+- ***Ad tuendam fidem*** amended both codes (CCEO c. 598 §2, c. 1436 §2):
+  TTC-COMMUNION's CN4 runs again on the Eastern side.
+- **Particular law** of each Church *sui iuris* sits below the common
+  code and stays on the frontier until a case needs it.
 
 ### liturgy
 
@@ -153,8 +188,8 @@ world of sense, and every element holds of a body over time.
   tiers by *Pastor aeternus* and LG 25, the Latin Code for law. There is
   no view from nowhere; the stance is declared, and every other communion
   runs inside it. The magisterium is the whole Catholic Church's, the
-  Eastern Catholic Churches included; their law (CCEO, 1990) is not
-  encoded, so the canon layer is Latin, not Catholic. An Orthodox frame
+  Eastern Catholic Churches included; their law (CCEO, 1990) is not yet
+  encoded (the cceo step), so the canon layer is Latin, not Catholic. An Orthodox frame
   would change the authority layer, not the kernel: seven councils, on
   one account a council's ecumenicity by its reception, no definition ex
   cathedra. Reception by the whole is the candidate theory of the whole
