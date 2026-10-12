@@ -22,7 +22,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | law | law | done ([ttc-law(7)](research/law-preregistration.md)) |
 | creed | Scripture as tier 0; the creeds; the Incarnation; Mary; the economy | done ([ttc-creed(7)](research/creed-preregistration.md)) |
 | moral | the morality of acts, sin, grace | done ([ttc-moral(7)](research/moral-preregistration.md)) |
-| christ | Christ's acts; the sacraments; the seal | stamped; **next**, amendment first ([ttc-christ(7)](research/christ-preregistration.md)) |
+| christ | Christ's acts; the sacraments; the seal; presence by mode | stamped; amendment committed, to stamp; **next** ([ttc-christ(7)](research/christ-preregistration.md)) |
 | communion | faith and communion | to predict |
 | canon | the canon-law step | to predict |
 | last things | soteriology and eschatology | to predict |
@@ -32,26 +32,21 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 
 ## NEXT STEPS IN DETAIL
 
-### christ (stamped; amendment first)
+### christ (amendment to stamp, then encode)
 
-- **Amendment: presence typed by mode.** A body is in a place
-  circumscriptively, an angel definitively, God by filling it (ST I
-  q. 52 a. 2). The deposit adds sacramental presence, "in many other
-  places" while Christ sits at the Father's right hand "according to the
-  natural mode of existing" (DH 1636), and the glorious body, "not limited
-  by space and time but able to be present how and when he wills"
-  (CCC 645).
-- **Three outputs, kept apart** (from a friend's git sketch of the
-  sacraments): valid, the act took place; the character, indelible
-  (DH 1609; c. 290); fruitful, grace received, which depends on the
-  recipient's disposition and is interior, so input and never computed
-  (TTC-MORAL GR1). Nullity declares that no bond came to be; dissolution
-  (cc. 1142-1143) never reaches a ratified and consummated marriage
-  (c. 1141). The minister signs as Christ, not as himself: why "We
-  baptize" fails.
-- The seal (the MCP agent's case): a generic delict; coercion (c. 1324
-  §1 n. 5, §3, already in); "the nature of the sacrament" checked as a
-  ground.
+The amendment is committed (presence typed by mode; the three outputs of
+a sacrament; nullity and dissolution). Stamp it, then encode. What to
+watch:
+
+- Trent's "no repugnance" (DH 1636) as the warrant for typing presence
+  by mode (PM2); one body in two places as the schools' question (PM3);
+  Berengar's profession of 1059 read two ways (PM4).
+- The fruit of a sacrament as input (SA8); infants, where the deposit
+  states the fruit, composed and never entered as a state (SA9); a
+  declaration of nullity read as a divorce (SA10).
+- The seal (SA7): a generic delict; coercion (c. 1324 §1 n. 5, §3);
+  "the nature of the sacrament" checked as a ground.
+- The minister acts as Christ's instrument: why "We baptize" fails (SA5).
 
 ### communion
 
@@ -76,6 +71,9 @@ TTC-ACT's N1–N5, now on `moral.lp`'s object and circumstance.
 - **Two judgments**: each soul at death (DH 1000), all at the end.
 - **The end arriving early**: the Assumption (DH 3903); Christ's
   resurrection as firstfruits (1 Cor 15:20).
+- **The glorified body's mode**, left open by the christ amendment: "not
+  limited by space and time" (CCC 645), or in a bodily place (Thomas's
+  empyrean heaven).
 - Indulgences without "days and years" (Paul VI, *Indulgentiarum
   doctrina*, 1967, norm 4): purgation not measured by earthly time.
 - The kernel already allows this: its order of events has no cycles but

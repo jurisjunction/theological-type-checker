@@ -215,3 +215,139 @@ here asks which.
 [ttc-creed(7)](creed-preregistration.md),
 [ttc-moral(7)](moral-preregistration.md), [ttc-act(7)](act-preregistration.md),
 [ttc-law(7)](law-preregistration.md), [ttc-canon(5)](../canon-law-layer.md)
+
+## AMENDMENT
+
+Committed after the stamp of 3e794f2 (in 3ef1fb1) and before any encoding;
+stamped on its own. Nothing above is changed.
+
+Two things the step needs are missing above: where Christ's body is, and
+what a sacrament yields.
+
+### Presence, typed by mode
+
+- **The deposit.** God is immense (Lateran IV, DH 800; Vatican I,
+  DH 3001). Christ sits at the right hand of the Father "according to the
+  natural mode of existing", and is "in many other places sacramentally
+  present to us in His own substance"; Trent finds "no repugnance in this"
+  (sess. XIII, ch. 1, DH 1636). The whole Christ is contained truly,
+  really and substantially, not only as in a sign (can. 1, DH 1651), under
+  each species and under every part of each when separated (can. 3,
+  DH 1653), and remains after the consecration, not only in use (can. 4,
+  DH 1654).
+- **Thomas's account.** A body is in a place circumscriptively, measured
+  by it; an angel definitively, "in such a manner that he is not in
+  another"; God neither way, "because He is everywhere" (I q. 52 a. 2;
+  q. 8 a. 3). Christ's body is "in no way locally" in the sacrament
+  (III q. 76 a. 5), and entire under every part (a. 3). The library takes
+  these as an account, not a definition, as `grace.lp` takes created
+  grace.
+- **No theory of space.** A place is whatever a case names. The kernel
+  says nothing of what heaven is, nor of the mode of the glorified body
+  (CCC 645); that is the last-things step.
+
+### Three outputs of a sacrament
+
+- **Valid, the character, the fruit**, computed apart. Validity and the
+  character come from outward facts and the presumption of intention
+  (SA3). The fruit, grace received, is given to those who "place no
+  obstacle" (Trent, sess. VII, can. 6, DH 1606); the obstacle is interior,
+  so input. A baptism received with an obstacle is valid, imprints the
+  character, and is not repeated (III q. 69 a. 9; DH 1609).
+- **The bond of marriage** comes to be by consent (c. 1057 §1). It ends by
+  death, or by dissolution where the law allows: a marriage not
+  consummated (c. 1142); one not ratified, in favour of the faith
+  (c. 1143). A marriage *ratum et consummatum* "can be dissolved by no
+  human power and by no cause, except death" (c. 1141; CCC 1640). A
+  declaration of nullity dissolves nothing: it finds that no bond came to
+  be. Once it is effective the parties may marry (c. 1682 §1); cases on
+  the status of persons never become an adjudged matter (c. 1643).
+
+### PM: presence
+
+- **PM1.** Presence relates a thing, a place or a species, and a mode. No
+  rule compares presences of different modes. The deposit's two modes of
+  Christ's body enter the kernel; Thomas's three modes, the library.
+- **PM2. Trent's warrant.** A candidate with one untyped presence and the
+  rule that a body is in one place at a time turns the deposit red:
+  Christ's body at the Father's right hand and in the hosts reserved
+  (DH 1636, 1654). With presence typed, the deposit is clean on every
+  runtime. The council's "no repugnance" is the sort discipline's warrant,
+  as Trent's ch. 9 is rule 3's (TTC-MORAL GR1).
+- **PM3. Multilocation is the schools'.** Whether God can make one body
+  circumscriptively present in two places is disputed: impossible (Thomas,
+  *Quodl.* III q. 1 a. 2; Vásquez), possible by divine power (Scotus,
+  Bellarmine, Suárez, De Lugo, Franzelin). That a body is
+  circumscriptively in one place is the Thomist runtime's reading, not the
+  kernel's. A constructed bilocation, both presences claimed
+  circumscriptive (HYPOTHETICAL), is red on the Thomist runtime only. No
+  source of tier 1 to 3 decides it.
+- **PM4. Not divided with the species.** Berengar's profession of 1059
+  (DH 690) says that the body of Christ is broken by the hands of priests
+  and ground by the teeth of the faithful. Read of the body in its own
+  species, it says Christ is divided with the host, against can. 3; read
+  of the sacramental species, as Thomas reads it (III q. 77 a. 7 ad 3), it
+  does not. The checker reads the profession both ways. As of 1300 both
+  readings stand; from 1551 the first is excluded at tier 1.
+- **PM5. God is not in a place as bodies or angels are.** A candidate that
+  types God's presence as circumscriptive or definitive is refused
+  (DH 800, 3001).
+- **PM6. Presence follows the consecration, not the receiver.** Candidates
+  that make Christ present only in use, or only as in a sign, are refused
+  (DH 1654, 1651). The presence is computed from validity, never from
+  anyone's faith.
+
+### SA: three outputs
+
+- **SA8. The fruit is input.** In a constructed case of an adult validly
+  baptized, the obstacle is a claim, computed both ways. In both branches
+  the baptism is valid and the character imprinted; grace is received
+  only in the branch without the obstacle. A candidate that derives the
+  fruit from validity alone is refused (DH 1606), as TTC-MORAL GR1's is.
+- **SA9. Infants.** For one who cannot place an obstacle, the deposit
+  states the fruit: infants are baptized for the remission of sins, so
+  that what they contracted by generation is cleansed by regeneration
+  (Trent, sess. V, can. 4, DH 1514). The library composes "reborn, if
+  validly baptized" on the deposit and the presumption of intention, as
+  `moral.lp` composes "mortal, on the claims". It never enters a person's
+  state of grace; GR1 refuses every candidate that does, infants
+  included.
+- **SA10. Nullity is not dissolution.** A candidate that reads a
+  declaration of nullity as ending a bond is refused in every branch where
+  the marriage was valid, ratified and consummated (c. 1141), and is
+  silent where it was null. A dissolution of a marriage not consummated
+  stands (c. 1142). The declaration changes what the external forum holds,
+  never the fact: where validity is disputed the checker branches as
+  before, and the declaration settles the forum only.
+
+### M
+
+- **M3.** CH1–CH3 and SA1–SA7 stand as written. The amendment changes no
+  earlier result, and the TTC-SCHOOLS tables do not change: PM3's reading
+  is new to the Thomist runtime and fires on no earlier case.
+
+### Method, caveats, standards
+
+Enter the deposit's presence in the kernel; Thomas's modes and the
+sacramental mode in `christ.lp` and `sacrament.lp`; Berengar's profession
+in `icon_history.lp`; PM3's reading in `schools.lp`; cc. 1057 §1,
+1141–1143, 1643 and 1682 §1 under `% @norm`, from vatican.va.
+
+Berengar's profession is typed tier 3: a profession of faith imposed at a
+Roman synod under Nicholas II, not a definition. The list of theologians
+in PM3 is the *Catholic Encyclopedia*'s; their places in Scotus and
+Suárez are owed to the library's fetch list. "Reborn, if validly
+baptized" stays conditional, since validity rests on a presumption the
+Church does not judge (*Apostolicae curae* 33).
+
+- Aquinas, ST I q. 8 a. 3; q. 52 a. 2; III q. 69 a. 9; q. 76 aa. 3, 5;
+  q. 77 a. 7 ad 3; *Quodlibet* III q. 1 a. 2
+- Roman synod (1059), profession of Berengar (DH 690); Lateran IV
+  (1215), DH 800; Trent, sess. V (1546), can. 4 (DH 1514); sess. VII
+  (1547), can. 6 (DH 1606); sess. XIII (1551), ch. 1, cann. 1, 3, 4
+  (DH 1636, 1651, 1653, 1654); Vatican I, *Dei Filius* (1870), ch. 1
+  (DH 3001)
+- CCC 645, 1640
+- CIC cc. 1057 §1, 1141, 1142, 1143, 1643, 1682 §1 (as revised by *Mitis
+  Iudex Dominus Iesus*, 2015)
+- *Catholic Encyclopedia*, "Bilocation" (1907)
