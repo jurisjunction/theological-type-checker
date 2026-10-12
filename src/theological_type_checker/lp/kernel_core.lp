@@ -67,13 +67,13 @@ violation(one_will(X))        :- incarnate(X), not wills(X,hum).            % DH
 violation(two_persons_in_christ(Y,X)) :- conjoined(Y,X), person(Y), person(X), Y != X.
 
 % ---------- The economy (deposit; TTC-CREED) ------------------------------
-% The creeds tell one order of events (next/2): it has no cycle.
+% The creeds tell an order of events (next/2): he died, then rose, once for
+% all. The order has no cycle; it need not be a line (a tree or a DAG is an
+% order too). How causes stand to time is not the deposit's: a theory of time
+% is a part (schools.lp, causes_precede).
 before(E1,E2) :- next(E1,E2).
 before(E1,E3) :- before(E1,E2), next(E2,E3).
 violation(economy_out_of_order(E)) :- before(E,E).
-% A cause does not come after its effect, save as merits foreseen: Mary is
-% preserved "in view of the merits of Jesus Christ" (DH 2803).
-violation(effect_before_cause(E,C)) :- caused_by(E,C), happens_at(E,T), before(T,C), not foreseen(E,C).
 % Original sin is transmitted to all by propagation, not by imitation
 % (Trent, sess. V, can. 3, DH 1513). Of origin only: nothing here is a
 % person's present state (rule 3). Why Christ is free is a reading's slot

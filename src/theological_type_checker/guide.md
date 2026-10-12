@@ -64,7 +64,7 @@ side, juridical facts on the canon side.
 | `incarnate(X)` | X is the Son incarnate: divine, of a human nature. With the Trinity loaded, X must be its begotten person. |
 | `in_nature(A,K)`, `changes_in(X,K)` | An act (a birth) or a change said of a person in nature `hum` or `div`. Say the nature: said of the person alone, a birth gives the Son a second principle and a change is change in God. |
 | `term_sort(T,suppositum)`, `pred_nature(P,K)`, `sentence(S,T,P)` | Predication (T5). A person's name takes only predicates of a nature the person has. |
-| `descends_from(P,adam)`, `caused_by(E,C)`, `happens_at(E,T)`, `next(E1,E2)`, `foreseen(E,C)` | The economy: descent, causes, the order of events, merits foreseen. |
+| `descends_from(P,adam)`, `caused_by(E,C)`, `happens_at(E,T)`, `next(E1,E2)`, `foreseen(E,C)` | The economy: descent, causes, the order of events (no cycle; not necessarily a line), merits foreseen. Causes ordered in time only with the part `causes_precede`. |
 
 ## CANON
 

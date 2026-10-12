@@ -424,6 +424,8 @@ first ([ttc-creed(7)](research/creed-preregistration.md)).
   why it does not (CE1): the virginal conception, or the union. Each
   boots. Mary is preserved by her own definition (DH 2803), "in view of
   the merits of Jesus Christ": a grace before the cross, from it (CE2).
+  How causes stand to time is not the deposit's: that rule is a part, and
+  the core's order of events need not be a line (CE2c).
   The popular reading, that Christ is free because his mother was, would
   put sin in Christ in the branch Sixtus IV protected: it censures
   Thomas, who held Christ sinless without it (CE1d, CE1e).

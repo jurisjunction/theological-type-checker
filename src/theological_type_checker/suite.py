@@ -1444,8 +1444,12 @@ scen("CE1c", CR, "Original sin by descent alone", CREED + ["cand_descent_alone"]
      [has("sin_in_christ(son)", "stain_on_the_preserved(mary)")], "against DH 301 and DH 2803")
 scen("CE2", CR, "The cross's effects only after it in time", CREED + ["cand_merits_in_time"],
      [has("effect_before_cause(preservation_of_mary,passion)")], "turns DH 2803 red")
-scen("CE2b", CR, "A grace before the cross, without foresight", CREED + ["cand_grace_unforeseen"],
-     [has("effect_before_cause(grace_of_abraham,passion)")], "a cause after its effect")
+scen("CE2b", CR, "A grace before the cross, without foresight, on a theory of time", CREED + ["cand_grace_unforeseen", "causes_precede"],
+     [has("effect_before_cause(grace_of_abraham,passion)")], "a cause after its effect, where causes precede in time")
+scen("CE2c", CR, "The same with no theory of time", CREED + ["cand_grace_unforeseen"],
+     [none_of("effect_before_cause")], "the core holds no theory of time: a tree, a DAG, the cross as root may run")
+scen("CE2d", CR, "Mary preserved, on the theory of time", CREED + ["causes_precede"],
+     [clean], "merits foreseen: nothing fires")
 scen("CE0", CR, "The economy in one order", CREED,
      [lambda r: (all(a in solve(CREED, "one", show=("before/2",))["atoms"] for a in
                      ("before(creation,judgment)", "before(conception_of_mary,passion)",

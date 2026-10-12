@@ -49,3 +49,11 @@ not_by_propagation(X) :- virginally_conceived(X).
 preserved_from_os(X) :- incarnate(X).
 #program cand_os_by_immaculate_mother.   % a candidate reading: free because his mother was (TTC-CREED CE1d)
 not_by_propagation(X) :- incarnate(X), orig_hum(M,X), preserved_from_os(M).
+
+% A theory of time, not the deposit (moved out of the kernel after TTC-CREED):
+% an efficient cause does not come after its effect in time, save as merits
+% foreseen, as Mary is preserved "in view of the merits of Jesus Christ"
+% (DH 2803). A theory that roots creation in the passion, or lets history
+% branch, runs without it.
+#program causes_precede.
+violation(effect_before_cause(E,C)) :- caused_by(E,C), happens_at(E,T), before(T,C), not foreseen(E,C).

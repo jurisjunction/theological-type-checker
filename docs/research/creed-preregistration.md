@@ -330,6 +330,13 @@ persons and events; candidates). Scenarios CS, CR, CM, CE (43).
   (CE1d), so it would censure the maculist Doctors, who held Christ sinless
   on Thomas's reading in that same branch (CE1e). Mary is the
   counterexample: preserved, with a mother who was not.
+- **The core held a theory of time.** Moved after the scoring, at the
+  person's request. The rule that a cause does not come after its effect
+  in time, save as merits foreseen, is not the deposit; it is now a part
+  (`causes_precede`). The core keeps only the creeds' order of events,
+  with no cycle and no requirement that it be a line: a branching
+  history, or a reading that roots creation in the passion, can run
+  (CE2c). EC2 holds on that part (CE2, CE2b, CE2d).
 - **Trent's protection outlives the definition in the data.** With
   *Ineffabilis Deus* removed, Trent's tier-1 protection of the question
   (DH 1516) still blocks every lower act (CM1c removes both).
