@@ -385,6 +385,47 @@ world of sense, and every element holds of a body over time.
   condemned *in globo*. An *in globo* censure fixes no note for any one
   proposition: each listed note is a reading. One question or two, as
   with usury.
+- **Fictions of law** (a friend's conversation). "The United States is
+  evil" is ill-typed, not false. "Evil" is said of acts (`moral.lp`;
+  CCC 1861), and a state is neither an act nor a will but a name for an
+  order among wills: a unity of order, not a substance (*In I Ethic.*
+  lect. 1); a people, "a multitude of rational beings united by common
+  agreement on the objects of their love" (*De civ. Dei* XIX.24). The
+  canonists made the type for this question. Lyon I forbade
+  excommunicating a *universitas* or *collegium*, lest the innocent be
+  caught (VI 5.11.5, *Romana ecclesia*, 1245; to check), and Innocent IV
+  is often credited with the *persona ficta*; the fiction theory and
+  "universitas delinquere non potest" are later readings of him
+  (attribution is a claim). The Code keeps the shape: juridic persons are
+  subjects of obligations and rights by law (cc. 113 §2, 114), act
+  through those who represent them (c. 118), and are perpetual by nature
+  (c. 120 §1). The gap is real: `act.lp` makes whatever has `act_of/2` a
+  creature that acts, so a state entered as an actor would get verdicts.
+  The sketch:
+
+  ```prolog
+  % @input juridic_person/1 | cc. 113 §2, 114: a subject of obligations and rights by law; a unity of order, not a substance
+  % @input represents/2     | c. 118: who acts in its name
+  acts_through(J,P) :- juridic_person(J), represents(P,J).
+  violation(interior_of_fiction(J)) :- juridic_person(J), interior(J,_,_).
+  violation(verdict_on_fiction(J))  :- juridic_person(J), sin_on_the_claims(J,_).
+  ```
+
+  Then "it has done evil acts" types as acts of its representatives in
+  its name; "these laws are evil by their object" through `law.lp`;
+  "structures of sin" only across an analogy bridge carrying the mode
+  *Reconciliatio et paenitentia* 16 and *Sollicitudo rei socialis* 36 give
+  it: social sin is said by analogy and reduces to personal sins.
+  Nostra aetate 4 refuses collective guilt. Two sorts, not one: c. 113 §1
+  makes the Church and the Apostolic See moral persons "by divine
+  ordinance itself", and the Church bears predicates no state bears (holy,
+  Bride, Mother; "at once holy and always in need of being purified",
+  LG 8) by relation to her Head, a person; there the Grammar of the
+  Icon's nuptial relation enters. The churches step needs the same line:
+  a censure is said of a proposition or of a person's profession
+  (`faith.lp`), never of a body; a body's confessional standard is a text.
+  To check: interdict on a community, allowed in 1245 and in the Code of
+  1917, and the Code of 1983's interdict, personal only (c. 1332).
 - **Sources the amendment left out:** *Veritatis splendor* 80, CCC 2258,
   Pius XII on the gravid cancerous uterus, HV 12.
 
