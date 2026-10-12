@@ -29,6 +29,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | liturgy | the liturgy as witness, rite and development | to predict |
 | last things | soteriology and eschatology | to predict |
 | empirical | science | to predict |
+| churches | other Churches and ecclesial communities: succession, sacraments, *subsistit in* | to predict, after empirical |
 | L | a language for libraries, compiled to clingo | after the libraries |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
@@ -140,6 +141,79 @@ from forms already existing" (SC 23). Three faces:
   doctrine, but it can leave a condition unshown, and with it the claimed
   tier. `consent_claim/2` computes the Fathers' consent both ways but
   records neither claimant nor conditions; it takes rule 14's shape too.
+
+### churches
+
+The `ecumenism` part enters the elements by hand: `has(orthodox,orders)`
+is a fact, not a finding. This step computes them from history, so it
+follows the empirical step. Succession, rites and dates are facts of the
+world of sense, and every element holds of a body over time.
+
+- **The frame.** The checker judges from the Catholic Church's stance:
+  tiers by *Pastor aeternus* and LG 25, the Latin Code for law. There is
+  no view from nowhere; the stance is declared, and every other communion
+  runs inside it. The magisterium is the whole Catholic Church's, the
+  Eastern Catholic Churches included; their law (CCEO, 1990) is not
+  encoded, so the canon layer is Latin, not Catholic. An Orthodox frame
+  would change the authority layer, not the kernel: seven councils, on
+  one account a council's ecumenicity by its reception, no definition ex
+  cathedra. Reception by the whole is the candidate theory of the whole
+  seen at the end, so the two frames could be run on the same cases.
+- ***Subsistit in*** (LG 8) stays a disputed reading (`lg8_identity`,
+  `lg8_broader`); the CDF's readings (1985, DI 2000, 2007) are tier-3
+  claims for one of them. The responses of 2007 make the reading
+  temporal: "'subsistence' means this perduring, historical continuity and
+  the permanence of all the elements instituted by Christ". Which
+  elements, held when, by whom, is what this step checks.
+- **Elements computed, not listed** (LG 8, 15; UR 3, 15, 22). Baptism from
+  the rite's form and matter (`sacrament.lp`); orders from a graph of
+  ordinations through time, each with its rite; the Eucharist from orders
+  and the anaphora; the creeds and councils received, each with its date.
+  A Church in the proper sense, or an ecclesial community (DI 17; the
+  responses of 2007, qq. 4–5), is then derived by `church_proper/1` from
+  the elements shown, never taken from anyone's list.
+- **Intention is never computed** (rule 3). *Apostolicae curae* judges
+  intention only "in so far as it is manifested externally" (n. 33): the
+  rite is the outward sign. The CDF's response on the baptism of the
+  Latter-day Saints (5 June 2001) reads the words of the form by the
+  body's own doctrine, not the minister's mind; a test of that line.
+- **Tests.**
+  - Anglican orders: the Edwardine Ordinal (1550, 1552) and its amendment
+    of 1662, which *Apostolicae curae* holds came too late, the line
+    already broken. The Dutch touch becomes a
+    path in the ordination graph (Old Catholic co-consecrators after the
+    Bonn agreement, 1931), not a tier-5 opinion (`dutch_touch`); and what
+    later changes in a co-consecrating church do to the path.
+  - The Anaphora of Addai and Mari, judged valid without the words of
+    institution (CDF, 17 January 2001, approved by the pope; PCPCU
+    guidelines, 20 July 2001), against `sacrament.lp`'s form of the
+    Eucharist.
+  - Chalcedon not received: the common Christological declarations (with
+    the Coptic Church, 1973; with the Assyrian Church of the East, 1994).
+    Does a formula without Chalcedon's terms run on the kernel's
+    Incarnation?
+  - Justification: the Joint Declaration (1999) against the canons of
+    Trent's sixth session; JDDJ 41 says the condemnations do not reach
+    the teaching it presents. Also the Church of Sweden's claimed
+    succession.
+  - Baptism's form (DH 1314): "in Jesus' name" alone; "Creator, Redeemer
+    and Sanctifier" (CDF, 1 February 2008).
+  - Dates: the union of Florence (1439) and its rejection; Brest (1596);
+    Utrecht (1724).
+- **Which communions run.** One runtime per confessional family, not per
+  body: Eastern Orthodox; Oriental Orthodox; the Assyrian Church of the
+  East; Old Catholic (Utrecht); Anglican (the Thirty-nine Articles, 1571,
+  and the Ordinal); Lutheran (the Book of Concord, 1580); Reformed
+  (Heidelberg, 1563; Westminster, 1646); Methodist (the Articles of
+  Religion, 1784); Baptist; Pentecostal, trinitarian and oneness; and two
+  bodies that deny the Trinity (Latter-day Saints, Jehovah's Witnesses).
+  A family enters when it has a confessional standard of its own and is
+  large or tests a rule no other family tests. Bodies within a family
+  inherit its runtime with switches (the L step's inheritance). Each run
+  reports where it stops: the kernel (the Trinity, the Incarnation), a
+  library (baptism, orders, the Eucharist, justification) or the
+  authority layer (the councils received, the papacy). A stop is at a
+  rule, never a verdict on persons (UR 3; rule 3).
 
 ### L (after the libraries)
 
