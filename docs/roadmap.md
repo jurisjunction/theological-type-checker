@@ -141,6 +141,18 @@ To run on the system. None enters the kernel.
     self-gift through death in the flesh; in creatures, passing through
     death into life. "God suffers in himself" is refused as change in
     God.
+- **The Parousia as a merge** (a friend's sketch). Not a new repo:
+  "I make all things new" (Rev 21:5), the same creation transformed
+  (Rom 8:21; CCC 1047), the same bodies risen (DH 801), Christ's wounds
+  kept, glorified (ST III q. 54 a. 4). The Fall as a detached HEAD, healed
+  by re-heading all things in Christ (Eph 1:10, *anakephalaiōsis*). To
+  check: a rebase "onto the divine nature" confuses the natures (DH 302;
+  partakers, 2 Pet 1:4, not the same); evil is a privation, not an object
+  to collect (ST I q. 48 a. 1); death and Hades go to the lake (Rev 20:14),
+  persons are not pruned (DH 801, 1002, 1440); "uncreated light" is the
+  Palamite reading, the light of glory created on the Latin (DH 895);
+  whether plants and animals remain branches (no: Suppl. q. 91 a. 5; "each
+  creature, resplendently transfigured": *Laudato si'* 243).
 - **Measurement and minds.** Definiteness relative to a created knower
   (Wigner; compare Rovelli). Angels from the beginning of time answer the
   objection of a universe with no observers (DH 800). Refused: God
