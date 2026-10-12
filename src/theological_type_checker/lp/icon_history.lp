@@ -576,3 +576,15 @@ source(trent_xxi_ch1,1,truth,1562). records_diverse_readings(trent_xxi_ch1,jn6_5
 #program marian_council_relaxed.  relaxed(constantinople_ii_553).
 #program ic_definition_relaxed.   relaxed(ineffabilis_1854).
 #program senses_relaxed.          relaxed(trent_vii_baptism_c2). relaxed(trent_xiv_penance_c3).
+
+% ---------- Grace (TTC-MORAL) ------------------------------------------------
+#program jansenism.               % Cum occasione (1653) against the Augustinus (1640)
+question(q(grace_always_efficacious)). question_kind(q(grace_always_efficacious),doctrinal).
+value(q(grace_always_efficacious),(yes;no)).
+source(cum_occasione_1653,1,truth,1653).   % prop. 2 condemned as heretical (DH 2002)
+supports(cum_occasione_1653,q(grace_always_efficacious),no).
+source(jansen_augustinus,5,truth,1640). supports(jansen_augustinus,q(grace_always_efficacious),yes).
+
+#program trent_formal_cause.      % sess. VI, ch. 7 (DH 1529), read two ways
+source(trent_vi_ch7,1,truth,1547). ambiguous(trent_vi_ch7).
+reading(trent_vi_ch7,(against_osiander;against_every_uncreated_cause)).

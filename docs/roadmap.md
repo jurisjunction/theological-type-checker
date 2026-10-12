@@ -21,8 +21,8 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | act | the human act | done ([ttc-act(7)](research/act-preregistration.md)) |
 | law | law | done ([ttc-law(7)](research/law-preregistration.md)) |
 | creed | Scripture as tier 0; the creeds; the Incarnation; Mary; the economy | done ([ttc-creed(7)](research/creed-preregistration.md)) |
-| moral | the morality of acts, sin, grace | stamped; **next** ([ttc-moral(7)](research/moral-preregistration.md)) |
-| christ | Christ's acts; the sacraments; the seal | stamped ([ttc-christ(7)](research/christ-preregistration.md)); amendment first |
+| moral | the morality of acts, sin, grace | done ([ttc-moral(7)](research/moral-preregistration.md)) |
+| christ | Christ's acts; the sacraments; the seal | stamped; **next**, amendment first ([ttc-christ(7)](research/christ-preregistration.md)) |
 | communion | faith and communion | to predict |
 | canon | the canon-law step | to predict |
 | last things | soteriology and eschatology | to predict |
@@ -31,14 +31,6 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
-
-### moral (stamped)
-
-What to watch: bare against Trent's "not like something inanimate"
-(GR3); Trent's "can dissent" against the Thomists without the composite
-and divided sense, which Paul V forbade either side to press (GR5); the
-Palamite runtime and the formal cause of justification (GR6); c. 915
-branching on "manifest grave sin" (MO5).
 
 ### christ (stamped; amendment first)
 

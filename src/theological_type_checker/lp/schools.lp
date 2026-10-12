@@ -57,3 +57,9 @@ not_by_propagation(X) :- incarnate(X), orig_hum(M,X), preserved_from_os(M).
 % branch, runs without it.
 #program causes_precede.
 violation(effect_before_cause(E,C)) :- caused_by(E,C), happens_at(E,T), before(T,C), not foreseen(E,C).
+
+% Grace (TTC-MORAL)
+#program grace_uncreated.         % Palamas: deifying grace is an uncreated energy (Triads III.1)
+grace_uncreated.
+#program justified_will_operates. % a runtime that grants one more created operation: the will moved by
+acts(P) :- justification(P,_).    % grace, which Trent defines (DH 1554; TTC-MORAL GR3)

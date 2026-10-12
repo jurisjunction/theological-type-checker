@@ -68,6 +68,17 @@ side, juridical facts on the canon side.
 | `term_sort(T,suppositum)`, `pred_nature(P,K)`, `sentence(S,T,P)` | Predication (T5). A person's name takes only predicates of a nature the person has. |
 | `descends_from(P,adam)`, `caused_by(E,C)`, `happens_at(E,T)`, `next(E1,E2)`, `foreseen(E,C)` | The economy: descent, causes, the order of events (no cycle; not necessarily a line), merits foreseen. Causes ordered in time only with the part `causes_precede`. |
 
+### Morality, sin, grace
+
+| Fact | Meaning |
+| --- | --- |
+| `kind_of_act(A,K)` | The kind of act a case says its act is: an outward fact. |
+| `classification(Q,K,evil_by_object)`, `classification(Q,K,grave_matter)` | What a kind is, morally: teaching, from the authority graph. Never of a person. |
+| `interior(P,A,X)` with X = `full_knowledge`, `deliberate_consent`, `evil_unintended`, `proportionate_reason` | Claims about the agent (act.lp). Mortal sin and double effect are composed "on the claims"; proportion is never computed. |
+| `interior(P,state,in_grace)` | Being in grace: a claim, computed both ways if disputed; never derived (Trent, DH 1534). |
+| `effect(A,E,V)` (V good or evil), `means(A,E1,E2)`, `forbids(L,K)` | Double effect's outward conditions; a law forbidding a kind (a law that does not bind makes nothing sinful). |
+| `salutary(P,A)`, `beginning_of_faith(P,A)`, `justification(P,A)`, `moved_by(P,A,G)`, `efficacious(G)` | Grace: no salutary act without it; in justification the will acts. |
+
 ## CANON
 
 | Fact | Meaning |
@@ -78,6 +89,7 @@ side, juridical facts on the canon side.
 | `grant/5`, `permission/4`, `revocation/3` | Faculties and their revocation. |
 | `absolution/4`, `marriage/3`, `delegation/5` | Acts whose validity is computed. |
 | `danger_of_death/2`, `just_cause_request/3`, `common_error/1` | cc. 976, 1335 §2, 144. |
+| `communion/3`, `situation/2`, `situation_kind/2`, `manifest/1`, `persisting/1`, `confession_impossible/2` | cc. 912, 915, 916: c. 916 is the internal forum, computed both ways; c. 915 branches on the reading of "manifest grave sin". |
 | `asserts(T,Claim,Date)` | A text's claim, checked act by act. |
 | `juridic_act(J,P)`, `spouse(M,P)`, `age_at(P,A,Years)` | A juridic act (c. 124); a party to a marriage; an agent's age. |
 | `interior(P,A,Claim)` | What a case claims of the agent's knowledge, will or freedom: `ignorance(Of,Kind)`, `error(…)`, `fear(Grade,Origin,How)`, `violence`, `reason(…)`, `passion(…)`, `necessity`, `deliberate`, `negligence`, … Never derived; read by the human-act library (`act.lp`). |

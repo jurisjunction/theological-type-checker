@@ -79,6 +79,13 @@
 % @input authentic_reading/3 | authentic_reading(Canon, Reading, Act): the legislator's own reading (c. 16 §1)
 % @input of_kind/2 | from the theological side (pair.lp): in this branch the event is classified as of this kind
 % @input punishes_culpa/1 | c. 1321 §3: the law punishes this delict also when committed by culpability
+% @input communion/3 | communion(C, Person, Date): holy communion received, or sought
+% @input situation/2 | situation(Person, S): an outward situation of the person
+% @input situation_kind/2 | situation_kind(S, Kind): the kind of act or state the situation is
+% @input manifest/1 | manifest(S): the situation is publicly known
+% @input persisting/1 | persisting(S): the situation endures and is not ended
+% @input confession_impossible/2 | confession_impossible(P, C): a grave reason, and no opportunity to confess (c. 916)
+% @input grave_by_matter/1 | moral.lp: a kind grave by its matter, from the theological side
 % @input not_of_kind/2 | from the theological side (pair.lp): in this branch the event is classified as not of this kind
 % @input notoriety_substitutes/2 | candidate only: notoriety treated as the hearing
 % @input treated_as_declaring/2 | candidate only: a text's class statement treated as a declaration
@@ -103,8 +110,11 @@ priest(P) :- bishop(P).
 { appears_otherwise(P,E) } :- disputed(appears_otherwise(P,E)).
 { interpretation_form(A,law) } :- disputed(interpretation_form(A,law)).
 { equity_rule(M,R) } :- disputed(equity_rule(M,R)).
+{ excluded_reading(L,R) } :- disputed(excluded_reading(L,R)).
 assumed_fact(F)      :- disputed(F), F = interpretation_form(A,law), interpretation_form(A,law).
 assumed_fact(false(F)) :- disputed(F), F = interpretation_form(A,law), not interpretation_form(A,law).
+assumed_fact(F)      :- disputed(F), F = excluded_reading(L,R), excluded_reading(L,R).
+assumed_fact(false(F)) :- disputed(F), F = excluded_reading(L,R), not excluded_reading(L,R).
 assumed_fact(F)      :- disputed(F), F = heard(D,P), issued(D), heard(D,P).
 assumed_fact(false(F)) :- disputed(F), F = heard(D,P), issued(D), not heard(D,P).
 assumed_fact(F)      :- disputed(F), F = common_error(A), common_error(A).
@@ -123,6 +133,15 @@ norm_in_force(N,T) :- norm(N,F,U), event_date(_,T), F <= T, T < U.
 reading_option(c751,act_suffices). reading_option(c751,lasting_state).
 narrower(lasting_state,act_suffices).
 needs_reading(c751,E) :- consecration(E,_,_,_), against_explicit_papal_will(E).
+% c. 915: "manifest grave sin", objectively or subjectively? The Pontifical
+% Council's declaration (24 June 2000) applies the objective reading; it is not
+% an authentic interpretation (c. 16 §1; Pastor bonus art. 155). Whether the
+% subjective reading is admissible at all is disputed.
+reading_option(c915,objective). reading_option(c915,subjective).
+narrower(subjective,objective).
+applies_reading(pclt2000,c915,objective). issuer(pclt2000,pclt). authority(pclt,3).
+disputed(excluded_reading(c915,subjective)) :- needs_reading(c915,_).
+needs_reading(c915,S) :- situation(_,S), manifest(S), persisting(S).
 
 % ---------- Book I: general norms ------------------------------------------
 % @norm cic:7 | c. 7: a law is established when it is promulgated; c. 8 §1: it takes force when its vacatio ends | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
@@ -155,10 +174,13 @@ excluded_reading(L,R) :- reading_contrary(L,R,H), higher(H,L), supreme_law(L).
 1 { read_for(L,R,E) : admissible(L,R) } 1 :- needs_reading(L,E), not authentically_read(L,E).
 
 % @norm cic:18 | c. 18: laws which establish a penalty, restrict the free exercise of rights, or contain an exception are subject to strict interpretation | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
-% @input penal_use/1 | the law's terms set a penalty (or restrict rights, or make an exception)
-:- read_for(L,R,E), penal_use(L), not authentically_read(L,E), admissible(L,R2), narrower(R2,R).
+% @input penal_use/1 | the law's terms set a penalty (or make an exception)
+% @input restricts_rights/1 | the law restricts the free exercise of a right
+strict(L) :- penal_use(L).
+strict(L) :- restricts_rights(L).
+:- read_for(L,R,E), strict(L), not authentically_read(L,E), admissible(L,R2), narrower(R2,R).
 penal_use(c751).                                   % c. 1364 punishes the schismatic
-info(declined_by_strict_interpretation(L,R,E)) :- needs_reading(L,E), penal_use(L), not authentically_read(L,E),
+info(declined_by_strict_interpretation(L,R,E)) :- needs_reading(L,E), strict(L), not authentically_read(L,E),
                                                   admissible(L,R), admissible(L,R2), narrower(R2,R).
 
 % @norm cic:14 | c. 14: laws, even invalidating and disqualifying ones, do not oblige when there is a doubt about the law; in a doubt of fact ordinaries can dispense | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
@@ -329,6 +351,32 @@ governance_invalid_at(P,T) :- declared_at(P,N,T), penalty(N,excommunication).
 declared_any_at(P,T) :- declared_at(P,_,T).
 prohibition_lifted(P,A) :- absolution(A,P,Pen,T), danger_of_death(Pen,T).
 prohibition_lifted(P,A) :- absolution(A,P,Pen,T), just_cause_request(Pen,P,T), not declared_any_at(P,T).
+
+% ---------- Book IV: holy communion (TTC-MORAL) ----------------------------
+% @norm cic:912 | c. 912: any baptized person not prohibited by law can and must be admitted to holy communion | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann879-958_en.html
+right_to_communion(P) :- communion(_,P,_).
+% @norm cic:915 | c. 915: those excommunicated or interdicted after the imposition or declaration of the penalty, and others obstinately persevering in manifest grave sin, are not to be admitted to holy communion | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann879-958_en.html
+% The first clause reads declared or imposed penalties only, never one
+% incurred and undeclared. The second turns on the reading of "manifest grave
+% sin" (above, with c. 751's): objectively, a situation grave by its matter;
+% subjectively, a claim no minister can judge. Where the subjective reading is
+% admissible, c. 18 takes it: the canon restricts the right of c. 912.
+censure_barring(excommunication). censure_barring(interdict).
+not_to_be_admitted(P,c915_censure) :- declared_effective(P,N), penalty(N,K), censure_barring(K).
+restricts_rights(c915).
+reaches(c915,objective,S)  :- situation_kind(S,K), grave_by_matter(K).
+reaches(c915,subjective,S) :- situation(P,S), situation_kind(S,K), grave_by_matter(K), interior(P,S,subjectively_grave).
+disputed(interior(P,S,subjectively_grave)) :- read_for(c915,subjective,S), situation(P,S).   % the internal forum
+not_to_be_admitted(P,c915_sin) :- situation(P,S), binds_on(c915,S).
+% @norm cic:916 | c. 916: one conscious of grave sin is not to celebrate Mass or receive the body of the Lord without previous sacramental confession, unless there is a grave reason and no opportunity to confess | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann879-958_en.html
+% Its one element is interior: of the internal forum, computed both ways in
+% every case (rule 2), never derived.
+disputed(interior(P,C,conscious_of_grave_sin)) :- communion(C,P,_).
+not_to_receive(P,C) :- communion(C,P,_), interior(P,C,conscious_of_grave_sin), not confession_impossible(P,C).
+% @end
+info(not_to_be_admitted(P,R)) :- not_to_be_admitted(P,R).
+info(not_to_receive(P,C))     :- not_to_receive(P,C).
+info(admitted_by_right(P,C))  :- communion(C,P,_), right_to_communion(P), not not_to_be_admitted(P,_), not not_to_receive(P,C).
 
 % ---------- Book IV: faculties ----------------------------------------------
 % @norm grants | a grant of faculty lasts until revoked by a competent authority ("until further provisions are made") | https://www.vatican.va/content/francesco/en/apost_letters/documents/papa-francesco-lettera-ap_20161120_misericordia-et-misera.html

@@ -430,7 +430,50 @@ first ([ttc-creed(7)](research/creed-preregistration.md)).
   put sin in Christ in the branch Sixtus IV protected: it censures
   Thomas, who held Christ sinless without it (CE1d, CE1e).
 
-### 20. Method
+### 20. Morality, sin and grace as libraries (MS, GR)
+
+The Prima Secundae closes with two libraries, `moral.lp` and `grace.lp`,
+and the canons on Communion call them. Predictions were stamped first
+([ttc-moral(7)](research/moral-preregistration.md)).
+
+- **The judgment of persons stays with God.** Mortal sin is composed "on
+  the claims": grave matter by teaching about the kind, knowledge and
+  consent as claims about the agent (MS1). A law that does not bind makes
+  nothing sinful (q. 96 a. 4). That a person is in grace is a claim, never
+  derived; read off his reception of the sacraments it is refused, by
+  Trent (DH 1534), not only by the checker's rule (GR1).
+- **Double effect is legitimate defence's own form** (MS2, MS2b). The
+  library and c. 1323 n. 5 read one claim. Proportion is never computed,
+  and a good end never makes an act evil by its object licit (MS2c).
+- **c. 916 is the internal forum** (MS3): a branch on the claim, in every
+  case.
+- **c. 915 has two clauses and two natures.** The first reads declared
+  penalties only: in the SSPX case it bars the six the 2026 decree names
+  once the recourse is decided, and no one while it is pending (MS4,
+  MS4b). The second turns on "manifest grave sin". The Pontifical
+  Council's objective reading (2000) is not an authentic interpretation,
+  so the reading is a doubt of law. Where only the objective reading is
+  admissible, outward facts suffice. Where the subjective one is, c. 18
+  takes it, the canon restricting the right of c. 912, and the clause
+  then reaches only on an interior claim, exactly as c. 916 does (MS5).
+- **Bare is incoherent with Trent too.** With no created operation, the
+  will moved by grace is "like something inanimate" (GR3). After
+  Christ's humanity (§19), the deposit defines a second created
+  operation. A runtime that grants either alone boots on its case (CR6b,
+  GR3b): the deposit defines instances, not the general thesis.
+- **Paul V's protection reaches the library** (GR5). Read in the
+  composite sense, Trent's "can dissent" condemns the Thomists; read in
+  the divided sense, as the Thomists read it, both schools boot. The
+  checker would otherwise have pressed the charge Paul V forbade.
+- **Jansen is refused at tier 1** (GR4), on every runtime; the library
+  keeps a grace that is resisted.
+- **Created and uncreated grace** (GR6). The Palamite runtime fits
+  Trent's chapter on the formal cause of justification if it is read
+  against Osiander alone, and fails if it is read against every uncreated
+  formal cause. The checker computes both readings; the four Latin
+  runtimes pass both.
+
+### 21. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

@@ -239,3 +239,50 @@ file's amendment says.
 [ttc-act(7)](act-preregistration.md), [ttc-law(7)](law-preregistration.md),
 [ttc-christ(7)](christ-preregistration.md),
 [ttc-schools(7)](schools-preregistration.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in 9e4afb1, corrected in
+877e045 and b22a7c8, stamped (as 3e794f2) in 3ef1fb1. Encoded in
+`moral.lp` and `grace.lp` (new libraries), `canon_law.lp` (cc. 912, 915,
+916; c. 18 to its own words; the declaration of 2000 as a source),
+`icon_history.lp` (*Cum occasione*; ch. 7 of Trent's sixth session, with
+two readings), `schools.lp` (uncreated grace in the Palamite runtime; the
+justified will's operation as a part) and `canon_cases.lp` (cases and
+candidates). Scenarios MS, GR (26).
+
+| | Result |
+| --- | --- |
+| MO1 | Held. The claim of being in grace is `interior/3` of a state, `interior(P,state,in_grace)`: no new predicate. Knowledge, consent, the intention and proportion in double effect, the subjective gravity c. 915 may read and the consciousness c. 916 reads are all `interior/3`. A test requires every rule that concludes a person's knowledge, consent, mortal sin, double effect, state of grace or duty to abstain to rest on a claim. |
+| MO2 | Held (MS2, MS2b). Double effect and c. 1323 n. 5 both read `due_defence`; a test fixes the only two rules that conclude proportion, both from claims. |
+| MO3 | Held (MS3). Every case branches on the claim. |
+| MO4 | Held (MS4, MS4b), with the recourse. In the SSPX case as it stands the recourse is pending and the declarations are suspended (c. 1353): the clause bars no one (MS4b). With the recourse decided, it bars exactly those declared, in the branches where the declaration stands; not the Society's other priests, not the faithful, and no interior input. In SX18 it follows the refused candidate's collective declaration to `sspx_priest_x`; every branch that bars him is red. |
+| MO5 | Held (MS5). Six branches: two readings, the subjective claim where the subjective reading is admissible, and c. 916's claim. Excluded: outward facts bar. Admissible: c. 18 declines the objective reading, and the clause bars only on the interior claim. Clean throughout. Had the declaration been confirmed and promulgated (a hypothetical), the objective reading binds and nothing branches (MS5b): the doubt rests exactly on the missing confirmation. |
+| MO6 | Held in verdicts, not in output. No violation, branch count or satisfiability changed. Six scenarios (SX12, SX13, SX18, SX20, SX22, LW2) gained c. 915's notes on facts already there: the new canon reading old cases. |
+| GR1 | Held (GR1). The candidate that reads the state of grace off baptism received is refused by `grace.lp`'s own rule, citing DH 1534. As a claim it is computed both ways (GR1b). |
+| GR2 | Held (GR2, GR2b): refused on the default runtime and the four others. On bare nothing salutary is judged, since no creature acts (GR2c); the Pelagian's justification is red there as GR3 is, the will merely passive. |
+| GR3 | Held (GR3, GR3b). Bare with the justified will's operation alone boots. |
+| GR4 | Held (GR4, GR4b). "Yes" to *grace always efficacious* is excluded at tier 1 on every runtime; Jansen's *Augustinus* (tier 5) is recorded against it. A library with no resisted grace is red on every runtime. |
+| GR5 | Held (GR5, GR5b, GR5c). The composite reading turns the Thomist runtime red, not the Suárezian. The library takes the divided sense; both boot, and a test enforces it. |
+| GR6 | Held (GR6, GR6b, GR6c). The Palamite runtime is red only on the reading against every uncreated formal cause; the four Latin runtimes are clean on both readings; Osiander is refused on both. |
+| M1 | Held. The TTC-SCHOOLS tables pass unchanged. No earlier scenario on bare held a justification, so bare's results are unchanged; GR3 is new. The TTC-ACT, TTC-LAW and TTC-CREED results are unchanged in verdict (LW2's notes, MO6). |
+| M2 | Held after closing gaps. Each statement of the step was deleted in turn; each deletion now turns a scenario red. Gaps closed on the way: the licit verdict had no check (MS2); the resisted grace was a bare fact, so the constraint that requires it could not fail (GR4b); `salutary` from justification was untested (the Pelagian candidate gained a justification, GR2); the claim of grace had no output to check (GR1b); the declaration of 2000 needed an ablation (MS5b); the negative cases were checked only by their silence, now as near misses that pass once the missing claim is supplied (MS1b, MS2d); two dead date facts were removed. CL1 and PR4 clean. |
+
+### Not predicted
+
+- **The recourse governs c. 915's first clause** (MO4). The prediction
+  spoke of branches where the declaration stands; in the case as it
+  stands there are none, until the recourse is decided.
+- **A doubt of law is raised by a case.** Entered as a fact, c. 915's
+  doubt doubled every model of every scenario. It now arises only where a
+  case needs the reading: a situation manifest and persisting.
+- **c. 915's reading is about the law, not a norm.** Placed under c. 915's
+  `@norm`, its reading facts closed a cycle in the norm graph (c. 915,
+  c. 16, cc. 1353, 751, 1364). They sit beside c. 751's readings, outside
+  any norm, as facts about how a law is read.
+- **One rule could never be tested.** The resisted grace was first a bare
+  fact; the constraint that requires it could not fail. It is now absent
+  exactly where a theory claims every grace efficacious (GR4b).
+- **Pelagius's justification on bare** (GR2c) is red as GR3 is, not as
+  Pelagian. The expectation was written so in this step, before any
+  commit.

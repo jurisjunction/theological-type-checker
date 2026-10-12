@@ -33,7 +33,7 @@ does not check them for truth. It has three layers, used as an ordered pair
 
 Encoding is interpretation. Checking is mechanical. Do not confuse them.
 
-**ttc-suite** runs 324 scenarios. **ttc-check** runs one case.
+**ttc-suite** runs 350 scenarios. **ttc-check** runs one case.
 **ttc-schools** boots each school alone and in pairs.
 **ttc-library** prints a fetch list of physical copies, with the nearest
 library first. **ttc-mcp** serves all of it to a language model. The model

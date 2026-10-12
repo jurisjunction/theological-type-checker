@@ -1458,6 +1458,162 @@ scen("CE0", CR, "The economy in one order", CREED,
 scen("CE3", CR, "The economy reversed", CREED + ["cand_economy_reversed"],
      [has("economy_out_of_order(death)", "economy_out_of_order(resurrection)")], "risen before he died")
 
+# ---------- The morality of acts, sin and grace (TTC-MORAL) ----------------
+MR = "moral"
+
+def every_branch_with(when, then, present=True):
+    """in every branch whose assumptions or facts contain `when`, `then` is (or is not) among the facts"""
+    def chk(r):
+        bs = [b for b in r["branches"] if any(when in x for x in b["assume"] + b["facts"])]
+        hits = [any(then in f for f in b["facts"]) for b in bs]
+        ok = bool(bs) and (all(hits) if present else not any(hits))
+        return ok, f"{len(bs)} branch(es) with {when}: {then} {'in all' if all(hits) else 'in none' if not any(hits) else 'in some'}"
+    return chk
+
+def only_with(fact, assumption):
+    """`fact` appears in some branch, and only in branches that assume `assumption`"""
+    def chk(r):
+        bs = [b for b in r["branches"] if any(fact in f for f in b["facts"])]
+        ok = bool(bs) and all(any(assumption in a for a in b["assume"]) for b in bs)
+        return ok, f"{fact}: {len(bs)} branch(es), {'each on' if ok else 'not all on'} {assumption}"
+    return chk
+
+GRACE_RUNTIMES = ("rt_thomist", "rt_scotist", "rt_suarezian", "rt_palamite")
+
+scen("MS1", MR, "Mortal, on the claims", ["moral_cases"],
+     [lambda r: (sorted(i for i in r["info"] if i.startswith("mortal_on_the_claims")) ==
+                 ["mortal_on_the_claims(m1,act_m1)", "mortal_on_the_claims(m3,act_m3)"],
+                 ", ".join(sorted(i for i in r["info"] if i.startswith("mortal"))) or "none"),
+      lambda r: ("does_not_bind(l_unjust)" in r["info"], "l_unjust does not bind")],
+     "grave matter by teaching with knowledge and consent claimed (m1); consent unclaimed, nothing (m2); "
+     "a law that does not bind makes nothing sinful (m4, q. 96 a. 4)")
+scen("MS2", MR, "Double effect", ["moral_cases"],
+     [lambda r: (sorted(i for i in r["info"] if i.startswith("double_effect")) ==
+                 ["double_effect(d1,act_d1)", "double_effect(d5,def1)"],
+                 ", ".join(sorted(i for i in r["info"] if i.startswith("double_effect"))) or "none"),
+      lambda r: (sorted(i for i in r["info"] if i.startswith("licit_on_the_claims")) ==
+                 ["licit_on_the_claims(d1,act_d1)", "licit_on_the_claims(d5,def1)"], "licit on the claims: d1, d5")],
+     "holds for d1 and for defence (d5); not where the evil is the means (d2), the object evil (d3), "
+     "or proportion unclaimed (d4)")
+scen("MS2b", MR, "Defence: double effect and c. 1323 n. 5 read one claim", ["moral_cases", "act_penal"],
+     [lambda r: (all(x in r["info"] for x in ("double_effect(d5,def1)", "exempt(x12,a_def)")), "both from defence(moderate)")],
+     "the same supplied claim (act.lp's due_defence); neither keeps a predicate of its own")
+def shown(parts, preds, *atoms, facts="", absent=()):
+    """with only `preds` shown, every atom in `atoms` is derived and none in `absent`"""
+    def chk(r):
+        a = set(solve(parts, "one", facts=facts, show=preds)["atoms"])
+        wrong = [x for x in atoms if x not in a] + [x for x in absent if x in a]
+        return not wrong, "as stated" if not wrong else f"wrong: {wrong}"
+    return chk
+
+# The negative cases of MS1 and MS2 are near misses: each fails one condition,
+# and supplying the missing claim makes it pass (so a broken fixture shows).
+scen("MS1b", MR, "Mortal, on the claims: the near misses", ["moral_cases"],
+     [shown(["moral_cases"], ("actus_humanus/2", "full_knowledge/2", "deliberate_consent/2", "grave_by_matter/1", "sinful_kind/1"),
+            "actus_humanus(m2,act_m2)", "full_knowledge(m2,act_m2)", "grave_by_matter(k_grave)", "sinful_kind(k_grave)",
+            "actus_humanus(m4,act_m4)", "full_knowledge(m4,act_m4)", "deliberate_consent(m4,act_m4)", "grave_by_matter(k_unbound)",
+            absent=("deliberate_consent(m2,act_m2)", "sinful_kind(k_unbound)")),
+      shown(["moral_cases"], ("info/1",), "info(mortal_on_the_claims(m2,act_m2))", facts="interior(m2,act_m2,deliberate_consent).")],
+     "m2 lacks only consent, and with it claimed is mortal on the claims; m4 lacks only a law that binds")
+scen("MS2d", MR, "Double effect: the near misses", ["moral_cases"],
+     [shown(["moral_cases"], ("evil_as_means/1", "evil_unintended/2", "proportionate/2"),
+            "evil_as_means(act_d2)", "evil_unintended(d2,act_d2)", "proportionate(d2,act_d2)", "evil_unintended(d4,act_d4)",
+            absent=("proportionate(d4,act_d4)",)),
+      shown(["moral_cases"], ("info/1",), "info(double_effect(d4,act_d4))", facts="interior(d4,act_d4,proportionate_reason).")],
+     "d2 fails only as the evil is the means; d4 lacks only the claim of proportion, and with it claimed holds")
+scen("MS2c", MR, "A good end and a proportion make any act licit", ["moral_cases", "cand_proportionalism"],
+     [has("evil_object_made_licit(d3,act_d3)")], "refused (VS 79-81; CCC 1756)")
+scen("MS3", MR, "c. 916: the internal forum", ["c915_case"],
+     [only_with("not_to_receive(r916,c_r916)", "assumed_fact(interior(r916,c_r916,conscious_of_grave_sin))"),
+      every_branch_with("assumed_fact(false(interior(r916,c_r916,conscious_of_grave_sin)))", "admitted_by_right(r916,c_r916)")],
+     "never computed: a branch on the claim, in every case", mode=B)
+
+def c915_first_clause(r):
+    six = ("fellay", "galarreta", "schreiber", "goldade", "poinsinet", "hanappier")
+    bad = []
+    for b in r["branches"]:
+        for p in six + ("sspx_priest_x",):
+            barred = any(f"not_to_be_admitted({p},c915_censure)" in f for f in b["facts"])
+            declared = any(f.startswith(f"info(declared({p},") for f in b["facts"])
+            if barred != declared or (p == "sspx_priest_x" and barred):
+                bad.append(p)
+    seen = any("c915_censure" in f for b in r["branches"] for f in b["facts"])
+    return seen and not bad, "barred exactly where declared" if seen and not bad else f"mismatch: {sorted(set(bad))}"
+
+scen("MS4", MR, "c. 915, first clause, the recourse decided", SX + ["recourse_decided_2026"],
+     [c915_first_clause], "those the 2026 decree names, where the declaration stands; no one else", mode=B)
+scen("MS4b", MR, "c. 915, first clause, the recourse pending", SX,
+     [info_none("c915_censure")], "the declaration suspended (c. 1353): no one barred by it; nothing incurred and undeclared counts", mode=B)
+scen("MS5", MR, "c. 915, second clause", ["c915_case"],
+     [every_branch_with("assumed_fact(excluded_reading(c915,subjective))", "not_to_be_admitted(q915,c915_sin)"),
+      every_branch_with("assumed_fact(excluded_reading(c915,subjective))", "declined_by_strict", present=False),
+      every_branch_with("assumed_fact(false(excluded_reading(c915,subjective)))", "declined_by_strict_interpretation(c915,objective,s915)"),
+      every_branch_with("assumed_fact(false(interior(q915,s915,subjectively_grave)))", "not_to_be_admitted(q915", present=False),
+      every_branch_with("assumed_fact(interior(q915,s915,subjectively_grave))", "not_to_be_admitted(q915,c915_sin)"),
+      clean_branches],
+     "objectively, outward facts suffice; where the subjective reading is admissible c. 18 takes it, and the "
+     "clause reaches only on an interior claim, as c. 916 does; the pair raises nothing", mode=B)
+
+scen("MS5b", MR, "c. 915 had the declaration been confirmed and promulgated", ["c915_case", "pclt_confirmed"],
+     [info_none("declined_by_strict"), info_all("not_to_be_admitted(q915,c915_sin)"),
+      assumed_none("subjectively_grave")],
+     "then the objective reading would bind as authentic (c. 16 §2; Pastor bonus art. 155): no doubt of law", mode=B)
+scen("GR1", MR, "The state of grace read off outward signs", ["grace_cases", "cand_grace_from_sacraments"],
+     [has("grace_known_by_outward_signs(pj)")], "refused (Trent, DH 1534, 1563-1566)")
+scen("GR1b", MR, "The state of grace as a claim", ["grace_cases", "grace_claimed"],
+     [branches_n(2), clean_branches, only_with("in_grace_on_the_claim(pj)", "assumed_fact(interior(pj,state,in_grace))")],
+     "computed both ways; nothing derived", mode=B)
+def on_every_runtime(parts, *subs):
+    """each violation in `subs` on the default runtime and on every runtime in GRACE_RUNTIMES"""
+    def chk(r):
+        miss = [rt for rt in GRACE_RUNTIMES if not has(*subs)(solve(list(parts) + [rt], "one"))[0]]
+        return not miss, "on every runtime" if not miss else f"not on {', '.join(miss)}"
+    return chk
+
+scen("GR2", MR, "Pelagius: a salutary act without grace", ["cand_pelagian"],
+     [has("salutary_without_grace(pp,good_work)", "salutary_without_grace(pp,assent_pp)"),
+      on_every_runtime(["cand_pelagian"], "salutary_without_grace(pp,good_work)", "salutary_without_grace(pp,assent_pp)")],
+     "refused on every runtime but bare (Carthage; Trent can. 1)")
+scen("GR2b", MR, "The beginning of faith without grace", ["cand_semipelagian"],
+     [has("salutary_without_grace(ps,first_assent)"), on_every_runtime(["cand_semipelagian"], "salutary_without_grace(ps,first_assent)")],
+     "refused on every runtime but bare (Orange II, can. 5, DH 375)")
+scen("GR2c", MR, "Pelagius on bare", ["cand_pelagian", "rt_bare"],
+     [none_of("salutary_without_grace"), has("will_merely_passive(pp,assent_pp)")],
+     "no creature acts: nothing to move; the Pelagian's justification is GR3's finding")
+scen("GR3", MR, "A justification on bare", ["grace_cases", "rt_bare"],
+     [has("will_merely_passive(pj,consent_j)")], "the will \"like something inanimate\": against Trent can. 4 (DH 1554)")
+scen("GR3b", MR, "Bare with the justified will's operation alone", ["grace_cases", "rt_bare", "justified_will_operates"],
+     [clean], "boots: a second created operation the deposit defines")
+scen("GR4", MR, "Jansen: no interior grace is ever resisted", ["jansenism"],
+     [cls("q(grace_always_efficacious)=yes", "excluded"), cls("q(grace_always_efficacious)=no", "settled"),
+      info_any("against_tier1(jansen_augustinus,q(grace_always_efficacious))"), clean_branches,
+      lambda r: (all(cls("q(grace_always_efficacious)=yes", "excluded")(solve(["jansenism", rt], "branches"))[0]
+                     for rt in GRACE_RUNTIMES), "excluded on every runtime")],
+     "refused at tier 1 (Cum occasione, prop. 2); the library keeps a grace that is resisted", mode=B)
+scen("GR4b", MR, "A library with every interior grace efficacious", ["jansenism", "cand_jansenist"],
+     [any_branch_violation("resisted_grace_unrepresented"),
+      lambda r: (all(any(f.startswith("violation(resisted_grace_unrepresented") for b in solve(["jansenism", "cand_jansenist", rt], "branches")["branches"]
+                         for f in b["facts"]) for rt in GRACE_RUNTIMES), "on every runtime")],
+     "refused: the definition requires a grace that is resisted", mode=B)
+scen("GR5", MR, "Trent's \"can dissent\" in the composite sense, Thomist", ["grace_cases", "cand_dissent_composite", "rt_thomist"],
+     [has("dissent_impossible(pj,consent_j)")], "turns the Thomist runtime red: the charge Paul V forbade (1607)")
+scen("GR5b", MR, "The same, Suarezian", ["grace_cases", "cand_dissent_composite", "rt_suarezian"],
+     [clean], "middle knowledge: nothing to accuse")
+scen("GR5c", MR, "The divided sense, Thomist and Suarezian", ["grace_cases", "rt_thomist"],
+     [clean, lambda r: (not solve(["grace_cases", "rt_suarezian"], "one")["violations"], "Suarezian clean")],
+     "the will keeps its power to dissent under any motion: both boot")
+scen("GR6", MR, "Uncreated grace and Trent's formal cause, Palamite", ["grace_cases", "trent_formal_cause", "rt_palamite"],
+     [only_with("formal_cause_uncreated(pj,consent_j)", "read_as(trent_vi_ch7,against_every_uncreated_cause)"),
+      every_branch_with("read_as(trent_vi_ch7,against_osiander)", "violation(", present=False)],
+     "boots on the reading against Osiander only; red on the reading against every uncreated formal cause", mode=B)
+scen("GR6b", MR, "The same on the four Latin runtimes", ["grace_cases", "trent_formal_cause"],
+     [lambda r: (all(not any(f.startswith("violation(") for b in solve(["grace_cases", "trent_formal_cause"] + rt, "branches")["branches"]
+                             for f in b["facts"]) for rt in ([], ["rt_thomist"], ["rt_scotist"], ["rt_suarezian"])),
+                 "clean on both readings")],
+     "created grace: both readings boot", mode=B)
+scen("GR6c", MR, "Osiander", ["grace_cases", "cand_osiander"],
+     [has("formal_cause_the_divine_essence(pj,consent_j)")], "refused on every reading (DH 1529)")
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

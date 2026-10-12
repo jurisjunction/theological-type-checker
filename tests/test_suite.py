@@ -178,7 +178,7 @@ def _outcome(s, extra=()):
 def test_monopatrism_changes_only_the_processions():
     # RT excluded: its scenarios load whole runtimes; switching monopatrism under one tests nothing here
     # CR excluded: the creed loads the Trinity, and monopatrism changes its processions by design (TTC-CREED)
-    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT, suite.CR)
+    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT, suite.CR, suite.MR)
                and _outcome(s) != _outcome(s, ["monopatrism"])}
     assert changed == FILIOQUE_DEPENDENT
 
@@ -197,7 +197,7 @@ THOMIST_STACK_CHANGES = {
 def test_thomist_stack_changes_exactly_these():
     # RT excluded: the Thomist runtime is this stack; adding it to other runtimes is the pair test (test_schools.py)
     # CR excluded: its scenarios name their runtimes, the Thomist among them (TTC-CREED CR5)
-    changed = {s["id"] for s in suite.S if s["group"] not in (suite.TH, suite.KG, suite.RT, suite.CR)
+    changed = {s["id"] for s in suite.S if s["group"] not in (suite.TH, suite.KG, suite.RT, suite.CR, suite.MR)
                and _outcome(s) != _outcome(s, suite.THOMIST)}
     assert changed == THOMIST_STACK_CHANGES
 
@@ -279,3 +279,53 @@ def test_equity_is_never_computed():
             if ":-" in st and re.match(r"\{?\s*equity_rule\s*\(", st.split(":-")[0].strip()):
                 derived.append((f.name, st))
     assert derived == [("canon_law.lp", "{ equity_rule(M,R) } :- disputed(equity_rule(M,R)).")], derived
+
+
+# TTC-MORAL MO1: every rule that speaks of a person's sin, grace or reception rests
+# on a claim (interior/3, or act.lp's due_defence, or another such predicate);
+# none is derived from outward facts alone.
+PERSON_STATE = {"full_knowledge", "deliberate_consent", "mortal_on_the_claims", "evil_unintended",
+                "proportionate", "double_effect", "in_grace", "not_to_receive"}
+CLAIMS = {"interior", "due_defence"} | PERSON_STATE
+
+
+def test_person_state_rests_on_claims():
+    import re
+    bad = []
+    for name in ("moral.lp", "grace.lp", "canon_law.lp"):
+        code = re.sub(r"%.*", "", (engine.LP_DIR / name).read_text())
+        for st in re.split(r"(?<=\.)\s", code):
+            st = " ".join(st.split())
+            if ":-" not in st:
+                continue
+            head, body = st.split(":-", 1)
+            hp = re.match(r"\s*(\w+)\s*\(", head)
+            if hp and hp.group(1) in PERSON_STATE:
+                used = set(re.findall(r"(?<!not )\b(\w+)\s*\(", body))
+                if not used & CLAIMS:
+                    bad.append((name, st))
+    assert not bad, bad
+
+
+# Proportion in double effect is weighed by the agent, never by the checker
+# (TTC-MORAL MO2): proportionate/2 is derived only from a claim.
+def test_proportion_is_never_computed():
+    import re
+    derived = []
+    for f in sorted(engine.LP_DIR.glob("*.lp")):
+        code = re.sub(r"%.*", "", f.read_text())
+        for st in re.split(r"(?<=\.)\s", code):
+            st = " ".join(st.split())
+            if ":-" in st and re.match(r"proportionate\s*\(", st.split(":-")[0].strip()):
+                derived.append((f.name, st))
+    assert derived == [("moral.lp", "proportionate(P,A) :- interior(P,A,proportionate_reason)."),
+                       ("moral.lp", "proportionate(P,A) :- due_defence(P,A).")], derived
+
+
+# TTC-MORAL GR5: no library rule makes a runtime that holds a protected reading
+# (de auxiliis, Paul V 1607) incoherent.
+@pytest.mark.parametrize("rt", ["rt_thomist", "rt_suarezian"])
+def test_no_library_rule_condemns_a_protected_reading(rt):
+    r = engine.solve(["grace_cases", "jansenism", "trent_formal_cause", "auxiliis", rt], "branches")
+    v = sorted({f for m in r["all_models"] for f in m if f.startswith("violation(")})
+    assert r["sat"] and not v, v

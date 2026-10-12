@@ -220,3 +220,67 @@ dispensation(dsp2,d1,person_t). dispensation(dsp3,d2,person_t). dispensation(dsp
 
 #program cand_validity_settles_doctrine.   % a law's failing to bind used to settle that it contradicts divine law
 law_answers(q(broad_bish)) :- does_not_bind(l_bish).
+
+% ---------- The morality of acts, sin, grace (TTC-MORAL), all HYPOTHETICAL -------
+#program moral_cases.               % HYPOTHETICAL
+question(q(k_grave)). question_kind(q(k_grave),doctrinal). value(q(k_grave),(yes;no)). default(q(k_grave),yes).
+classification(q(k_grave),k_grave,grave_matter). classification(q(k_grave),k_grave,evil_by_object).
+% mortal sin, on the claims: grave matter by teaching, knowledge and consent claimed
+act_of(m1,act_m1). kind_of_act(act_m1,k_grave).
+interior(m1,act_m1,full_knowledge). interior(m1,act_m1,deliberate_consent).
+act_of(m2,act_m2). kind_of_act(act_m2,k_grave). interior(m2,act_m2,full_knowledge).   % consent not claimed
+% a kind grave by its matter, forbidden by a law that binds, and by one that does not (q. 96 a. 4)
+question(q(k_law_grave)). question_kind(q(k_law_grave),doctrinal). value(q(k_law_grave),(yes;no)). default(q(k_law_grave),yes).
+classification(q(k_law_grave),(k_bound;k_unbound),grave_matter).
+law_kind(l_binding,ecclesiastical). forbids(l_binding,k_bound).
+law_kind(l_unjust,ecclesiastical). law_kind(nat_law,natural). forbids(l_unjust,k_unbound).
+question(q(l_unjust_contrary)). question_kind(q(l_unjust_contrary),doctrinal). value(q(l_unjust_contrary),(yes;no)).
+default(q(l_unjust_contrary),yes). classification(q(l_unjust_contrary),l_unjust,contrary_to(nat_law)).
+act_of(m3,act_m3). kind_of_act(act_m3,k_bound).
+interior(m3,act_m3,full_knowledge). interior(m3,act_m3,deliberate_consent).
+act_of(m4,act_m4). kind_of_act(act_m4,k_unbound).
+interior(m4,act_m4,full_knowledge). interior(m4,act_m4,deliberate_consent).
+% double effect (II-II q. 64 a. 7)
+act_of(d1,act_d1). kind_of_act(act_d1,k_treatment). effect(act_d1,cure,good). effect(act_d1,harm,evil).
+interior(d1,act_d1,evil_unintended). interior(d1,act_d1,proportionate_reason).           % holds
+act_of(d2,act_d2). kind_of_act(act_d2,k_treatment). effect(act_d2,cure,good). effect(act_d2,harm,evil).
+means(act_d2,harm,cure).
+interior(d2,act_d2,evil_unintended). interior(d2,act_d2,proportionate_reason).           % the evil is the means
+act_of(d3,act_d3). kind_of_act(act_d3,k_grave). effect(act_d3,cure,good). effect(act_d3,harm,evil).
+interior(d3,act_d3,evil_unintended). interior(d3,act_d3,proportionate_reason).           % evil by its object
+act_of(d4,act_d4). kind_of_act(act_d4,k_treatment). effect(act_d4,cure,good). effect(act_d4,harm,evil).
+interior(d4,act_d4,evil_unintended).                                                       % proportion not claimed
+act_of(d5,def1). kind_of_act(def1,k_defence). effect(def1,safety,good). effect(def1,injury,evil).
+interior(d5,def1,defence(moderate)).                                                       % legitimate defence (CCC 2263)
+
+#program cand_proportionalism.      % a good end and a proportion make any act licit
+licit_on_the_claims(P,A) :- act_of(P,A), interior(P,A,proportionate_reason).
+
+#program c915_case.                 % HYPOTHETICAL: c. 915 and c. 916
+situation(q915,s915). situation_kind(s915,k915). manifest(s915). persisting(s915).
+question(q(k915_grave)). question_kind(q(k915_grave),doctrinal). value(q(k915_grave),(yes;no)).
+default(q(k915_grave),yes). classification(q(k915_grave),k915,grave_matter).
+communion(c_r916,r916,20261004).    % c. 916: one who comes to receive
+
+#program grace_cases.               % HYPOTHETICAL: a justification, moved by efficacious grace
+act_of(pj,consent_j). justification(pj,consent_j). moved_by(pj,consent_j,g1). efficacious(g1).
+
+#program grace_claimed.             % HYPOTHETICAL: being in grace, as a claim computed both ways
+disputed(interior(pj,state,in_grace)).
+
+#program cand_pelagian.             % a salutary act, and justification, without grace (Pelagius; Carthage, Trent can. 1)
+act_of(pp,good_work). salutary(pp,good_work).
+act_of(pp,assent_pp). justification(pp,assent_pp).
+#program cand_semipelagian.         % the beginning of faith without grace (Orange II, can. 5, DH 375)
+act_of(ps,first_assent). beginning_of_faith(ps,first_assent).
+#program cand_grace_from_sacraments.   % the state of grace read off outward signs (Trent, DH 1534)
+received(pj,baptism).
+in_grace(P) :- received(P,baptism).
+#program cand_dissent_composite.    % Trent's "can dissent" read in the composite sense
+violation(dissent_impossible(P,A)) :- justification(P,A), moved_infallibly(P,A).
+#program cand_osiander.             % just by the justice by which God is just (Osiander)
+formal_cause_essence.
+#program cand_jansenist.            % every interior grace efficacious, none resisted (Jansen)
+every_grace_efficacious.
+#program pclt_confirmed.            % HYPOTHETICAL: the 2000 declaration confirmed by pontifical authority and promulgated
+authority(pclt,4). interpretation_form(pclt2000,law). promulgated(pclt2000,20000624).
