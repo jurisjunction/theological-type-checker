@@ -31,8 +31,8 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | saeculum | one library for time: the Church's computation (cc. 200–203), one calendar, the measures | to predict, before the last things |
 | last things | soteriology and eschatology | to predict |
 | empirical | science | to predict |
-| churches | other Churches and ecclesial communities: succession, sacraments, *subsistit in* | to predict, after empirical |
-| L | a language for libraries, compiled to clingo | after the libraries |
+| L | a language for libraries, compiled to clingo | after empirical, before the churches |
+| churches | other Churches and ecclesial communities: succession, sacraments, *subsistit in* | to predict, after L |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
@@ -200,6 +200,44 @@ before the end. Today time is scattered. The canon layer counts days
   tier. `consent_claim/2` computes the Fathers' consent both ways but
   records neither claimant nor conditions; it takes rule 14's shape too.
 
+### L (after empirical, before the churches)
+
+Between steps, never in one: the base L regenerates is the one the last
+stamp's scoring ran on. Before the churches, because one runtime per
+confessional family, inherited with switches, is what L's combinators are
+for; after empirical, the last new kind of declaration in view (findings
+with provenance, witnesses citing witnesses), so its metaclasses are
+designed against the whole set. If the churches must come sooner, a thin
+L first: runtime inheritance and the three combinators only.
+
+- **A metaobject protocol for L** (Lethen, "Computational Theology: A
+  Metaobject-Based Implementation of Models of Generalised Trinitarian
+  Logic", *TheoLogica* 6/2, 2022). Keep answer-set programming as the
+  engine: its stable models are the branches, negation as failure is the
+  presumption "until rebutted", constraints delete branches, choice rules
+  compute a disputed fact both ways. Take from the MOP the shape of L
+  itself: kinds of declaration (norm, reading, claim, presumption, runtime)
+  as metaclasses, each compiling itself to clingo; a runtime defined by
+  inheritance from another, with an explicit combiner where definitions
+  clash.
+- **Clashes refuse; they are not linearized.** CLOS's class precedence list
+  silently picks an order when two parents disagree: a partial order made
+  a line, which this checker refuses elsewhere. A runtime inheriting a
+  clash fails to compile until its author writes the combinator: the pair
+  test, moved from run time to compile time.
+- **Three combinators**, as Lethen's generalisations are three: add
+  (union), alter (override), exclude. The Palamite runtime already
+  excludes (it drops `one_power` and adds `no_divine_contraction`).
+- **The compiled base stays checked in.** Every stamp points at a commit
+  whose rule files are what the solver read. The compiler's first test is
+  byte-identical regeneration of the present base, comments and citations
+  included (they are slots in L); its second is the suite, 393 of 393.
+  Only then a new construct.
+- **What a rule needs, as slots.** Modal type (may, must, is), layer,
+  tier, date and declared input slots keep being found after the fact.
+  As slots on the metaclass, the layer test (a higher layer writes into a
+  lower one only through declared slots) becomes a compile error.
+
 ### churches
 
 The `ecumenism` part enters the elements by hand: `has(orthodox,orders)`
@@ -272,36 +310,6 @@ world of sense, and every element holds of a body over time.
   library (baptism, orders, the Eucharist, justification) or the
   authority layer (the councils received, the papacy). A stop is at a
   rule, never a verdict on persons (UR 3; rule 3).
-
-### L (after the libraries)
-
-- **A metaobject protocol for L** (Lethen, "Computational Theology: A
-  Metaobject-Based Implementation of Models of Generalised Trinitarian
-  Logic", *TheoLogica* 6/2, 2022). Keep answer-set programming as the
-  engine: its stable models are the branches, negation as failure is the
-  presumption "until rebutted", constraints delete branches, choice rules
-  compute a disputed fact both ways. Take from the MOP the shape of L
-  itself: kinds of declaration (norm, reading, claim, presumption, runtime)
-  as metaclasses, each compiling itself to clingo; a runtime defined by
-  inheritance from another, with an explicit combiner where definitions
-  clash.
-- **Clashes refuse; they are not linearized.** CLOS's class precedence list
-  silently picks an order when two parents disagree: a partial order made
-  a line, which this checker refuses elsewhere. A runtime inheriting a
-  clash fails to compile until its author writes the combinator: the pair
-  test, moved from run time to compile time.
-- **Three combinators**, as Lethen's generalisations are three: add
-  (union), alter (override), exclude. The Palamite runtime already
-  excludes (it drops `one_power` and adds `no_divine_contraction`).
-- **The compiled base stays checked in.** Every stamp points at a commit
-  whose rule files are what the solver read. The compiler's first test is
-  byte-identical regeneration of the present base, comments and citations
-  included (they are slots in L); its second is the suite, 393 of 393.
-  Only then a new construct.
-- **What a rule needs, as slots.** Modal type (may, must, is), layer,
-  tier, date and declared input slots keep being found after the fact.
-  As slots on the metaclass, the layer test (a higher layer writes into a
-  lower one only through declared slots) becomes a compile error.
 
 ### knowledge and other subjects (with L)
 
@@ -551,6 +559,46 @@ To run on the system. None enters the kernel.
   God changing history only with creatures' consent (ST I q. 25 a. 4; no
   norm over God). True underneath: consent in the order of grace, Mary's
   *fiat* (ST III q. 30 a. 1) and free cooperation (DH 1554).
+- **Time as order, not a conductor.** A conductor beats time inside the
+  music; providence is no scheduler inside time. God knows all times at
+  once (ST I q. 14 a. 13), his knowledge causes things (q. 14 a. 8), and
+  he governs through secondary causes, each acting by its own nature
+  (q. 22 a. 3; q. 103 a. 6), some necessarily, some freely (q. 22 a. 4):
+  the composer of the score, not a clock interrupting the players. Software
+  has the architecture. A distributed system keeps no global clock: time
+  is the happens-before order of events (Lamport, "Time, Clocks, and the
+  Ordering of Events in a Distributed System", 1978), a partial order, as
+  the kernel's order of events need not be a line; clocks are measures
+  laid on it, as time is "the number of motion according to before and
+  after" (ST I q. 10 a. 1). Each creature an actor with its own operation;
+  a scheduler that does every act itself is occasionalism, which the
+  classical runtime refuses. An angel's movement need not be continuous
+  (q. 53 a. 1): discrete time beside continuous. Git works so already: the
+  commit graph is the order, a commit's date is typed by whoever commits,
+  and a stamp anchors it (rule 12). For the saeculum library: the order
+  first, the calendars as measures on it.
+  - **Space works the same way.** Causal set theory (Bombelli, Lee,
+    Meyer and Sorkin, 1987) takes spacetime as a locally finite partial
+    order of events: the causal order fixes the geometry up to a local
+    scale, a conformal factor (Hawking, King and McCarthy, 1976; Malament,
+    1977), and counting events gives the volume.
+    The speed of light is the bound of the order, the relation by which
+    one event can reach another; Lamport's happens-before is the same
+    relation, drawn from special relativity. So no spacetime scheduler:
+    an order of events among creatures, and measures on it.
+  - **Past, now, not yet.** An event's past is what precedes it, its not
+    yet what follows, and between them an "elsewhere" that neither
+    reaches. A "now" is a maximal set of events no one of which precedes
+    another (an antichain); there are many, and choosing one is choosing a
+    frame, which is relativity's loss of a single simultaneity. In git,
+    the tips of the branches are such a set. The saeculum's common now is
+    then a chosen slice, not a clock everyone reads.
+  - **Light has no age** in this sense only: along a light ray no proper
+    time passes; there is no frame moving with light. Not the *nunc stans*
+    of eternity, "the whole, simultaneous and perfect possession of
+    unending life" (Boethius; ST I q. 10 a. 1): light is a creature with a
+    path, and to give it eternity's mode would be the kernel's refused
+    confusion of the creature with God.
 - **The whole seen at the end** (development as unfolding). The consent
   of the whole people, "from the Bishops down to the last of the lay
   faithful" (LG 12), of every church (LG 23) and every time, the dead
