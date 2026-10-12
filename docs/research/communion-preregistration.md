@@ -21,10 +21,18 @@ Read as the rules stand, before any run:
   canonical form binds every marriage (TTC-CHRIST, "Not predicted").
 - **Dissent is typed by hand.** The SSPX case types its refusal of
   *Dignitatis humanae* as dissent of c. 752 with a tier entered for it.
+- **Tiers rest on the encoder's word.** A source's tier is entered by
+  hand; only papal acts are checked against their form (B14). LG 25 sits
+  at tier 1, though Vatican II defined nothing. A claim of the ordinary
+  universal magisterium raises the tier of the document that makes it:
+  where the claim holds, EV 57 counts at tier 2.
 
-Write a library, `faith.lp`: the notes of teaching (c. 750 §§1–2, c. 752;
-the CDF's commentary of 1998), professions and their denials, and heresy,
-apostasy and schism as Thomas distinguishes them (II-II qq. 5, 11, 12, 39).
+Notes read tiers, so the step begins with rule 14 (CLAUDE.md, added with
+this file's amendment): tiers are computed, never taken on anyone's word.
+Then write a library, `faith.lp`: the notes of teaching (c. 750 §§1–2,
+c. 752; the CDF's commentary of 1998), professions and their denials, and
+heresy, apostasy and schism as Thomas distinguishes them (II-II qq. 5, 11,
+12, 39).
 Add to the canon layer cc. 11, 96 and 205; heresy and apostasy in cc. 751
 and 1364; c. 1371 n. 1 with its 1998 amendment and its successor of 2021,
 c. 1365; and c. 1117 with its amendment of 2009. Run them on the graph's
@@ -32,7 +40,39 @@ own questions: the Immaculate Conception, the Filioque, Anglican orders,
 the killing of the innocent.
 
 This file is committed and stamped before any of it is encoded. SCORING
-will be appended below; nothing above it will be edited.
+will be appended below; nothing above it will be edited. (First committed
+in 4942448 and amended before the stamp: rule 14, the section TIER CLAIMS,
+TC1–TC4, NT3, NT4, M1.)
+
+## TIER CLAIMS
+
+Fixed here (rule 14).
+
+- **A tier is a finding about form and conditions.** Warrants: a papal
+  definition with the conditions of *Pastor aeternus* (DH 3074): as pastor
+  of all, by apostolic authority, defining a doctrine of faith or morals
+  to be held by the whole Church; a council's canon or definition that the
+  council itself declares as such ("the sacred Council defines matters of
+  faith or morals as binding on the Church only when the Council itself
+  openly declares so", notification of 16 November 1964); a creed
+  received; the ordinary universal magisterium with the conditions of
+  LG 25: the bishops, dispersed but in communion with one another and with
+  Peter's successor, teaching authentically on faith or morals, agree on
+  one position as to be held definitively.
+- **Every statement about a tier is a claim**, its own or another's, by
+  any author: entered with its claimant and grade, computed both ways.
+- **The consensus is its own source.** A claim of the ordinary universal
+  magisterium enters as a source of its own, the bishops' consensus, whose
+  existence is the claim. The document that reports it keeps its own
+  tier. Where the claimant states no grade (revealed, or to be held
+  definitively), the grade is computed both ways.
+- **Lower of higher.** A claim made by a lower tier about a higher is
+  flagged; treated as fixing, refused (B10's self-elevation, extended from
+  tier 2's force to every tier).
+- **c. 749 §3.** "No doctrine is understood as defined infallibly unless
+  this is manifestly evident." Where a claim's conditions are not shown by
+  evidence independent of its claimant, its branch is never preferred by
+  weight.
 
 ## THE LIBRARY
 
@@ -97,18 +137,51 @@ Fixed here.
 
 ## METHOD
 
-Write `faith.lp`. Add the canons under `@norm`, from vatican.va or
-iuscangreg. Enter c. 750 §§1–2 and c. 752 in a part of their own (they sit
-now inside the part `tier2`). Write cases, all HYPOTHETICAL, of professions
-on the graph's questions: the Immaculate Conception, denied in 1850 and in
-1860; the Filioque, denied by an Orthodox theologian and by a Catholic,
-and the Creed professed without it; Anglican orders professed valid by a
-Catholic, warned and not retracting, in 1997, 2000 and 2022; a doubt; an
-apostasy; a mixed marriage, a marriage of two baptized non-Catholics, and
-one after a formal act of defection, before and after 2009. Run the whole
-suite, the runtimes' boots and the coverage index.
+Apply rule 14 first: write the warrants, re-enter the recorded claims as
+claims, run the audit. Write `faith.lp`. Add the canons under `@norm`,
+from vatican.va or iuscangreg. Enter c. 750 §§1–2 and c. 752 in a part of
+their own (they sit now inside the part `tier2`). Write cases, all
+HYPOTHETICAL, of professions on the graph's questions: the Immaculate
+Conception, denied in 1850 and in 1860; the Filioque, denied by an
+Orthodox theologian and by a Catholic, and the Creed professed without it;
+Anglican orders professed valid by a Catholic, warned and not retracting,
+in 1997, 2000 and 2022; a doubt; an apostasy; a mixed marriage, a marriage
+of two baptized non-Catholics, and one after a formal act of defection,
+before and after 2009. Run the whole suite, the runtimes' boots and the
+coverage index.
 
 ## PREDICTIONS
+
+### TC: tier claims
+
+- **TC1. The audit.** A test fails on any source at tier 1 or 2 without a
+  warrant. On the base: LG 25 has none (the notification of 1964), and is
+  re-typed at tier 3, a conciliar constitution. B15's expectation changes:
+  LG 25 is owed religious submission (c. 752), not divine and catholic
+  faith. So re-typed, LG 25 is itself a tier-3 source speaking of tier 2's
+  force, and is flagged (TC4). The chapters of Trent at tier 1 (sess. VI
+  ch. 7; sess. XXI ch. 1) are warranted by their sessions' own
+  declarations of what they define (sess. VI, proem, DH 1520; sess. XXI,
+  proem). The Apostles' Creed and the *Quicumque* are creeds received;
+  their reception is a claim without a date, recorded as a claim and not
+  computed both ways in this step (the roadmap's repair dates reception).
+  Every other source at tier 1 passes by its form.
+- **TC2. The consensus as its own source.** The five recorded claims of
+  the ordinary universal magisterium (*Apostolicae curae*; Innocent III's
+  profession of 1208; EV 57; EV 62; FC 84) become sources of their own,
+  each naming its claimant; every reporting document keeps its tier, and
+  EV is at tier 3 in every branch. For the three with one claimed grade,
+  branch statuses do not change; a check that lists the sources whose
+  relaxation would reintegrate a shadow, exactly, gains the consensus
+  (DP7), and its expectation changes.
+- **TC3. c. 749 §3.** None of the five has LG 25's conditions shown by
+  evidence independent of its claimant: EV 62 reports a consultation whose
+  replies are not public. No branch resting on any of them is preferred by
+  weight. The preference tests (DP4, EC5, EC6, EC9, B17) do not change.
+- **TC4. Lower of higher.** The commentary's classifications (n. 11), and
+  its and LG 25's statements on the force of tier 2, are flagged as tier-3
+  sources speaking of higher tiers. A candidate that treats n. 11 as
+  fixing EV 57's grade is refused.
 
 ### NT: notes
 
@@ -125,16 +198,18 @@ suite, the runtimes' boots and the coverage index.
 - **NT3. Dated notes.** The Immaculate Conception has no note in 1850,
   *Sollicitudo* (1661) being blocked by Trent's protection; with the
   protection removed (the ablation), authentic; from 1854, de fide. The
-  invalidity of Anglican orders is definitive where *Apostolicae curae*'s
-  claim holds and authentic where it does not, as the commentary lists it
-  (n. 11).
-- **NT4. *Evangelium vitae* 57, re-typed.** The commentary lists EV 57
-  among the truths of the first paragraph (n. 11); TTC-PRECEPT typed its
-  claim at tier 2. Re-typed at tier 1: where the claim holds, the direct
-  killing of the innocent is de fide and its contrary is excluded, no
-  longer a counterfactual shadow; where it does not, authentic. The
-  precept scenarios that load these sources lose those branches; of their
-  checks only DI3's changes, and no verdict.
+  invalidity of Anglican orders is definitive where the claim of the
+  ordinary universal magisterium holds (claimed by the commentary, n. 11,
+  a tier-3 witness) and authentic where it does not.
+- **NT4. *Evangelium vitae* stays at tier 3.** Nn. 57 and 62 report a
+  teaching of the ordinary universal magisterium; each teaching enters as
+  a claimed source of its own (TC2). EV states no grade, so each grade is
+  computed. The commentary's listing of EV 57 in the first paragraph
+  (n. 11) is a tier-3 witness, flagged, fixing nothing (TC4). Where a
+  claim holds at grade 1, the direct killing of the innocent is de fide
+  and its contrary excluded; at grade 2, definitive, the contrary a
+  counterfactual shadow on `t2_truth`; where neither holds, authentic. No
+  check of TTC-PRECEPT changes; its scenarios gain the grade as a branch.
 - **NT5. Erroneous or rash.** A profession contrary to authentic teaching
   is erroneous; contrary to teaching typed a directive, rash (on a case
   written for it).
@@ -208,9 +283,10 @@ suite, the runtimes' boots and the coverage index.
 
 ### M: meta
 
-- **M1.** No earlier result changes, except NT4's. The marriage cases of
-  TTC-CHRIST keep their form (silence binds). SX8's typing of dissent
-  stands beside the library's. The TTC-SCHOOLS tables do not change.
+- **M1.** No earlier result changes, except B15 and DP7 (TC1, TC2) and
+  the branches NT4 adds. The marriage cases of TTC-CHRIST keep their form
+  (silence binds). SX8's typing of dissent stands beside the library's.
+  The TTC-SCHOOLS tables do not change.
 - **M2.** Every new rule has a test that fails without it; CL1 and PR4
   stay clean.
 - **M3.** In the coverage index, "I believe" (CCC 144–165) and "We
@@ -237,6 +313,12 @@ The prudential order is recognized only where a source is typed a
 directive. The Holy Office's craniotomy responses use n. 10's own formula
 ("tuto doceri non posse") and are not so typed (TTC-PRECEPT DI4).
 
+Rule 14 makes every claim of the ordinary universal magisterium in the
+base unshown: the encoding holds no evidence of LG 25's conditions apart
+from the claimants' word. The commentary's own examples are uneven: it
+lists EV 57 in the first paragraph and EV 65 in the second, though EV 65
+and EV 62 rest the doctrine on the same sources in the same words.
+
 Implicit faith, and the salvation of those who do not know the Gospel
 (q. 2 aa. 5–8; LG 16), belong to the last things.
 
@@ -245,6 +327,10 @@ into force; c. 8 §1 applies, and the cases are dated clear of it.
 
 ## STANDARDS
 
+- Vatican I, *Dei Filius* ch. 3 (DH 3011); *Pastor aeternus* ch. 4
+  (DH 3074); Vatican II, notification of the Theological Commission,
+  16 November 1964; LG 25; CIC 1983 c. 749 §3
+- Trent, sess. VI, proem (DH 1520); sess. XXI, proem
 - Aquinas, ST II-II q. 1; q. 5 a. 3; q. 11 a. 2 ad 3; q. 12 a. 1; q. 39 a. 1
 - Sixtus IV, *Grave nimis* (1483); Trent, sess. V (1546); Pius IX,
   *Ineffabilis Deus* (1854), DH 2803–2804

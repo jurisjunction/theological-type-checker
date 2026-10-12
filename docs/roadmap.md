@@ -40,9 +40,13 @@ The notes of teaching read off the graph (c. 750 §§1–2, c. 752; the CDF's
 commentary of 1998); professions and their censures; heresy, apostasy and
 schism (c. 751; II-II qq. 5, 11, 12, 39); cc. 11, 96, 205; c. 1364;
 c. 1371 n. 1 (1983, 1998) and c. 1365 (2021); c. 1117 (1983, 2009); LG 14.
-Writing the predictions found that the commentary lists EV 57 among the
-truths of the first paragraph (n. 11), where TTC-PRECEPT typed its claim
-at tier 2 (NT4).
+The step begins with rule 14: tiers are computed from form and
+conditions, never taken on anyone's word (c. 749 §3). An audit of every
+source at tier 1 or 2; claims of the ordinary universal magisterium as
+sources of their own, the documents reporting them keeping their tier; a
+lower tier speaking of a higher, flagged. Found while writing: the CDF's
+commentary of 1998 classifies EV 57 as de fide (n. 11), a tier-3 source
+grading teaching above it.
 
 ### canon
 

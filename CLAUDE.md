@@ -77,6 +77,20 @@ with it disabled.
 13. **No names.** The work is CC0 and anonymous. Commits and citations say
     *Ora pro me, peccatore*; examples use neutral places. See
     `docs/archive.md`.
+14. **Tiers are computed, never taken on anyone's word.** A source's tier
+    comes from its form, and the form's conditions are shown, not
+    asserted: for a papal definition, those of Pastor aeternus (DH 3074);
+    for a council, that it openly declares a definition (Vatican II,
+    notification of 16 November 1964); for the ordinary universal
+    magisterium, those of LG 25. Any statement about the tier or grade of
+    a teaching, its own or another's, by any author (a dicastery, a pope,
+    a council), is a claim: entered with its claimant, computed both ways,
+    flagged when a lower tier speaks of a higher, refused when treated as
+    fixing. A document that reports a teaching of the ordinary universal
+    magisterium keeps its own tier. "No doctrine is understood as defined
+    infallibly unless this is manifestly evident" (c. 749 §3): where the
+    conditions are not shown by evidence independent of the claimant, the
+    branch resting on the claim is never preferred.
 
 While the person is growing their own checker, write to their layer with
 `save_rules`, `save_case`, `save_scenario` and `mark_consulted`. Change the
