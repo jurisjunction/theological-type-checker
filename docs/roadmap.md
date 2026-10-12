@@ -25,7 +25,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | christ | Christ's acts; the sacraments; the seal; presence by mode | done ([ttc-christ(7)](research/christ-preregistration.md)) |
 | moral amendment | verdicts and obligation: may, must, must not; social doctrine as tests | done ([ttc-precept(7)](research/precept-preregistration.md)) |
 | communion | rule 14; faith and communion: notes, denials, bonds | done ([ttc-communion(7)](research/communion-preregistration.md)) |
-| canon | the canon-law step | to predict |
+| canon | abortion, c. 1399, c. 1752, the Dicastery's clause; form and object; fictions of law | predicted ([ttc-penal(7)](research/penal-preregistration.md)), to stamp |
 | cceo | the Eastern Code: a second canon layer, chosen by ascription | to predict |
 | liturgy | the liturgy as witness, rite and development | to predict |
 | last things | soteriology and eschatology | to predict |
@@ -391,10 +391,12 @@ world of sense, and every element holds of a body over time.
   order among wills: a unity of order, not a substance (*In I Ethic.*
   lect. 1); a people, "a multitude of rational beings united by common
   agreement on the objects of their love" (*De civ. Dei* XIX.24). The
-  canonists made the type for this question. Lyon I forbade
-  excommunicating a *universitas* or *collegium*, lest the innocent be
-  caught (VI 5.11.5, *Romana ecclesia*, 1245; to check), and Innocent IV
-  is often credited with the *persona ficta*; the fiction theory and
+  canonists made the type for this question. Innocent IV's *Romana
+  ecclesia* forbids excommunicating a *universitas* or *collegium*: "In
+  universitatem vel collegium proferri excommunicationis sententiam
+  penitus prohibemus" (VI 5.11.5; not among the constitutions of Lyons I
+  in Tanner's edition, its date to check). Innocent IV is often credited
+  with the *persona ficta*; the fiction theory and
   "universitas delinquere non potest" are later readings of him
   (attribution is a claim). The Code keeps the shape: juridic persons are
   subjects of obligations and rights by law (cc. 113 §2, 114), act
