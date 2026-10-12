@@ -114,6 +114,30 @@ from forms already existing" (SC 23). Three faces:
   DH 902); the unity of other organisms is a school's.
 - Interpretations of quantum mechanics as runtimes, tested against one
   soul as the form of one body and one judgment (DH 902, 1000).
+- **The ordinary universal magisterium is a claim about witnesses.**
+  *Dei Filius* 3 names it (DH 3011) without conditions; its conditions are
+  stated only at tier 3 (LG 25). It has no act, no date, no roll and no
+  threshold, so whoever claims it supplies them: the loosest route to a
+  tier, and rule 14's chief case. Its conditions are facts about a body of
+  witnesses over time, as the Fathers' unanimous consent is (Trent,
+  DH 1507; `consent_claim/2`). Galileo's case joins the two: in 1616 a
+  claimed consent of the Fathers fixed a reading on a question of fact.
+  Inputs to make explicit, each a reading computed both ways where no
+  authentic interpretation fixes it:
+  - the window: synchronic (LG 25, "dispersed through the world") or
+    diachronic (Vincent of Lérins, *quod ubique, quod semper, quod ab
+    omnibus*);
+  - the threshold: moral unanimity, and of whom;
+  - the mode: taught as to be held definitively, not only taught commonly
+    or long;
+  - the evidence: documents, catechisms, consultations (EV 5's of 1991),
+    each with its provenance. The claimant's own document never shows a
+    condition (c. 749 §3).
+
+  Here the usual direction reverses. An empirical finding settles no
+  doctrine, but it can leave a condition unshown, and with it the claimed
+  tier. `consent_claim/2` computes the Fathers' consent both ways but
+  records neither claimant nor conditions; it takes rule 14's shape too.
 
 ### L (after the libraries)
 
@@ -192,6 +216,27 @@ from forms already existing" (SC 23). Three faces:
   ordinary universal magisterium unshown: no evidence of LG 25's
   conditions apart from the claimants. The 1991 consultation behind EV 57
   and 62 (EV 5) is the first to look for.
+- **Form and object.** A papal act's form says whether it defines; its
+  object gives the grade: revealed, tier 1; connected with revelation,
+  tier 2 (*tenendam*, DH 3074). Typing the tier by form alone gives two
+  bugs. `form_tier(ex_cathedra,1)` refuses an ex cathedra definition of a
+  connected truth (`tier_inconsistent_with_form`).
+  `form_tier(definitive_declaration,2)` has no warrant, so a source of
+  that form is always refused (`tier_without_warrant`); no source has the
+  form yet, so nothing showed it. The repair: the form decides whether the act defines, the object the
+  grade; an act that declares a teaching definitive without defining it
+  enters at its own tier, 3, with an `oum_claim` whose claimant is its
+  author. *Ordinatio sacerdotalis* 4 (1994) is the case. The CDF's
+  responsum of 28 October 1995 (approved and ordered published: tier 3)
+  says the teaching was "set forth infallibly by the ordinary and
+  universal Magisterium" and handed on by "a formal declaration ... as
+  belonging to the deposit of the faith"; its commentary of 1998 (n. 11)
+  lists it under c. 750 §2, to be defined as revealed perhaps later. The
+  grade is claimed two ways, as EV 57's is. A declaration of grade is
+  never a route of its own: if the declaring act defines, it is a
+  definition; if not, a claim ("not a new dogmatic definition", n. 9).
+  Only the force of tier 2 itself (`t2_truth`) waits on a tier-1 act, and
+  none has fixed it (Gasser, relatio of 11 July 1870, on the fetch list).
 - **A default is not a note** (TTC-COMMUNION NT1): a case's stipulated
   value excludes its contrary without teaching. And a constraint between
   questions can exclude a contrary no note excludes (DP's intrinsic
