@@ -588,3 +588,70 @@ source(jansen_augustinus,5,truth,1640). supports(jansen_augustinus,q(grace_alway
 #program trent_formal_cause.      % sess. VI, ch. 7 (DH 1529), read two ways
 source(trent_vi_ch7,1,truth,1547). ambiguous(trent_vi_ch7).
 reading(trent_vi_ch7,(against_osiander;against_every_uncreated_cause)).
+
+% ---------- Christ and the sacraments (TTC-CHRIST) ---------------------------
+#program incarnation_schools.     % two questions no source of tier 1 to 3 decides (CH3)
+question(q(motive_of_incarnation)). question_kind(q(motive_of_incarnation),doctrinal).
+value(q(motive_of_incarnation),(for_sin;absolute_primacy)).
+source(aquinas_motive,5,truth,1273). promoted(aquinas_motive,4,1567).        % ST III q. 1 a. 3: "more fittingly" for sin
+supports(aquinas_motive,q(motive_of_incarnation),for_sin).
+source(scotus_motive,5,truth,1300).                                           % Ord. III d. 7 q. 3: Christ predestined first
+supports(scotus_motive,q(motive_of_incarnation),absolute_primacy).
+question(q(esse_of_christ)). question_kind(q(esse_of_christ),doctrinal).
+value(q(esse_of_christ),(one_esse;secondary_esse)).
+source(aquinas_esse_st,5,truth,1273). promoted(aquinas_esse_st,4,1567).      % ST III q. 17 a. 2: one esse
+supports(aquinas_esse_st,q(esse_of_christ),one_esse).
+source(aquinas_de_unione,5,truth,1272). promoted(aquinas_de_unione,4,1567).  % De unione Verbi incarnati a. 4: a secondary esse
+supports(aquinas_de_unione,q(esse_of_christ),secondary_esse).
+
+#program mary_actual_sin.         % Trent, sess. VI, can. 23 (DH 1573): no one avoids all venial sin through life
+                                  % "except by a special privilege of God, as the Church holds of the Blessed Virgin"
+question(q(mary_without_actual_sin)). question_kind(q(mary_without_actual_sin),doctrinal).
+value(q(mary_without_actual_sin),(yes;no)).
+classification(q(mary_without_actual_sin),mary,without_actual_sin).
+source(trent_vi_c23_clause,3,truth,1547). character(trent_vi_c23_clause,conciliar_decree).   % stated, not anathematized
+supports(trent_vi_c23_clause,q(mary_without_actual_sin),yes).
+
+#program berengar.                % Berengar's profession at the Roman synod of 1059 (DH 690), read two ways (PM4)
+question(q(christ_divided_with_species)). question_kind(q(christ_divided_with_species),doctrinal).
+value(q(christ_divided_with_species),(yes;no)).
+source(berengar_1059,3,truth,1059). character(berengar_1059,profession).
+ambiguous(berengar_1059). reading(berengar_1059,(of_the_body_in_its_species;of_the_sacramental_species)).
+reads(berengar_1059,of_the_body_in_its_species,q(christ_divided_with_species),yes).
+reads(berengar_1059,of_the_sacramental_species,q(christ_divided_with_species),no).
+source(aquinas_berengar,5,truth,1273). promoted(aquinas_berengar,4,1567).    % ST III q. 77 a. 7 ad 3
+interprets(aquinas_berengar,berengar_1059,of_the_sacramental_species).
+supports(aquinas_berengar,q(christ_divided_with_species),no).
+source(trent_xiii_c3,1,truth,1551).                                           % sess. XIII, can. 3 (DH 1653)
+supports(trent_xiii_c3,q(christ_divided_with_species),no).
+
+#program sacrament_conditions.    % which conditions belong to the substance (Trent, sess. XXI, ch. 2, DH 1728)
+question(q(substance(K,C))) :- condition_in_question(K,C).
+question_kind(q(substance(K,C)),doctrinal) :- condition_in_question(K,C).
+value(q(substance(K,C)),(yes;no)) :- condition_in_question(K,C).
+classification(q(substance(K,C)),cond(K,C),of_substance) :- condition_in_question(K,C).
+condition_in_question(baptism,matter). condition_in_question(penance,minister).
+condition_in_question(matrimony,consent). condition_in_question(matrimony,canonical_form).
+source(trent_vii_baptism_c2,1,truth,1547).                                    % true and natural water necessary (DH 1615)
+supports(trent_vii_baptism_c2,q(substance(baptism,matter)),yes).
+source(trent_xiv_c10,1,truth,1551).                                           % priests alone ministers of absolution (DH 1710)
+supports(trent_xiv_c10,q(substance(penance,minister)),yes).
+default(q(substance(matrimony,canonical_form)),no).                          % the form: the Church's, since Tametsi (DH 1813-1816)
+source(ccc_1626,3,truth,1992). character(ccc_1626,catechism).                % consent "the indispensable element that 'makes the marriage'"
+supports(ccc_1626,q(substance(matrimony,consent)),yes).
+
+#program we_baptize.              % "We baptize": CDF, Responsa ad dubia (24 June 2020), approved by the Pope (8 June 2020)
+question(q(valid_form(baptism,we_baptize))). question_kind(q(valid_form(baptism,we_baptize)),doctrinal).
+value(q(valid_form(baptism,we_baptize)),(yes;no)).
+classification(q(valid_form(baptism,we_baptize)),form(baptism,we_baptize),valid_form).
+source(cdf_responsum_2020,3,truth,2020). character(cdf_responsum_2020,responses).
+supports(cdf_responsum_2020,q(valid_form(baptism,we_baptize)),no).
+
+#program seal.                    % the seal's ground: "from the nature of the sacrament" (SA7)
+question(q(seal_of_divine_law)). question_kind(q(seal_of_divine_law),doctrinal).
+value(q(seal_of_divine_law),(yes;no)).
+classification(q(seal_of_divine_law),seal,of_divine_law).
+source(penitentiary_2019,3,truth,2019). character(penitentiary_2019,notification).   % Note, 29 June 2019, approved by the Pope
+supports(penitentiary_2019,q(seal_of_divine_law),yes).
+source(aquinas_seal,5,truth,1256). promoted(aquinas_seal,4,1567).            % In IV Sent. d. 21 q. 3 a. 1 (Suppl. q. 11 a. 1)
+supports(aquinas_seal,q(seal_of_divine_law),yes).

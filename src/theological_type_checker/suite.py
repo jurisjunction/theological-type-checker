@@ -1614,6 +1614,244 @@ scen("GR6b", MR, "The same on the four Latin runtimes", ["grace_cases", "trent_f
 scen("GR6c", MR, "Osiander", ["grace_cases", "cand_osiander"],
      [has("formal_cause_the_divine_essence(pj,consent_j)")], "refused on every reading (DH 1529)")
 
+# ---------- Christ, presence, the sacraments (TTC-CHRIST) --------------------
+CX = "christ"
+ALL_RUNTIMES = ("rt_thomist", "rt_scotist", "rt_suarezian", "rt_palamite")
+
+def branch_fact(qv, sub, present=True):
+    """in every branch holding qv, a fact containing sub is (or is not) present"""
+    def chk(r):
+        bs = [b for b in r["branches"] if qv in b["values"]]
+        hits = [any(sub in f for f in b["facts"]) for b in bs]
+        ok = bool(bs) and (all(hits) if present else not any(hits))
+        return ok, f"{qv}: {sub} {'in all' if all(hits) else 'in none' if not any(hits) else 'in some'} of {len(bs)}"
+    return chk
+
+def all_branches_violation(sub):
+    def chk(r):
+        hits = [any(f.startswith("violation(") and sub in f for f in b["facts"]) for b in r["branches"]]
+        return bool(hits) and all(hits), f"{sub}: in {sum(hits)} of {len(hits)} branches"
+    return chk
+
+def runtimes_clean(parts, runtimes, *subs):
+    """no violation containing any of subs (or none at all, if subs is empty) on each runtime"""
+    def chk(_r):
+        bad = []
+        for rt in runtimes:
+            v = solve(list(parts) + [rt], "one")["violations"]
+            if any(not subs or any(s in x for s in subs) for x in v):
+                bad.append(rt)
+        return not bad, "clean on " + ", ".join(runtimes) if not bad else f"red on {', '.join(bad)}"
+    return chk
+
+def weight_in(qv, tier, n, extra=None):
+    """every branch holding qv (and the read_as or value in extra, if given) has weight(tier, n)"""
+    def chk(r):
+        bs = [b for b in r["branches"] if qv in b["values"] and (extra is None or extra in b["values"] + b["assume"])]
+        ok = bool(bs) and all(b["w"].get(tier) == n for b in bs)
+        return ok, f"{qv}{' ' + extra if extra else ''}: weight({tier},{n}) {'in all' if ok else 'not in all'} of {len(bs)}"
+    return chk
+
+def no_main_with(*items):
+    """no main branch carries all the given values or assumptions"""
+    def chk(r):
+        hit = [b for b in r["branches"] if b["status"] == "main" and all(i in b["values"] + b["assume"] for i in items)]
+        return not hit, f"{' & '.join(items)}: {'no main branch' if not hit else 'a main branch'}"
+    return chk
+
+def models_split(parts, qv, atom):
+    """over every model, atom holds exactly where the question holds the value"""
+    q, v = qv.split("=", 1)
+    def chk(_r):
+        ms = solve(parts, "all", show=("holds/2", atom.split("(")[0] + "/1"))["all_models"]
+        bad = [m for m in ms if (f"holds({q},{v})" in m) != (atom in m)]
+        return bool(ms) and not bad, f"{atom} exactly where {qv}" if not bad else f"{atom}: {len(bad)} model(s) disagree"
+    return chk
+
+def reading_in_main(src, reading):
+    def chk(r):
+        ok = any(f"read_as({src},{reading})" in b["assume"] for b in r["branches"] if b["status"] == "main")
+        return ok, f"{reading}: {'a main branch' if ok else 'no main branch'}"
+    return chk
+
+scen("CH1", CX, "A human act of the incarnate", CREED + ["christ_acts"],
+     [clean, info_any("human_act_of_a_divine_person(son,healing)", "instrument_of_the_divinity(healing,healing_power)"),
+      shown(CREED + ["christ_acts"], ("actus_humanus/2", "creature/1"), "actus_humanus(son,healing)",
+            absent=("creature(son)", "actus_humanus(son,healing_power)"))],
+     "the person acts by the nature (III q. 19 a. 1): an actus humanus of a divine person, who is no creature", mode=B)
+scen("CH1b", CX, "The same on bare", CREED + ["christ_acts", "rt_bare"],
+     [has("one_operation(son)"), shown(CREED + ["christ_acts", "rt_bare"], ("actus_humanus/2",), absent=("actus_humanus(son,healing)",))],
+     "no human operation, so no human act (CR6)")
+scen("CH1c", CX, "One act of both natures (Severus)", CREED + ["christ_acts", "cand_one_theandric_operation"],
+     [has("operations_confused(son,walking_on_water)")], "refused: \"without confusion\" (DH 557)")
+scen("CH1d", CX, "A human act of the Father", CREED + ["cand_father_acts_humanly"],
+     [has("nature_not_had(father,hum)")], "refused as his birth of Mary is (CR3b)")
+scen("CH2", CX, "Claims that compose a sin of Christ", CREED + ["cand_sin_of_christ"],
+     [has("sin_claimed_of_the_sinless(son,act_s)")], "refused (DH 301): the deposit states his interior, nothing is computed")
+scen("CH2b", CX, "The same claims of Mary, with Trent's can. 23", CREED + ["cand_sin_of_mary", "mary_actual_sin"],
+     [branch_violation("q(mary_without_actual_sin)=yes", "sin_claimed_of_the_sinless(mary,act_v)"),
+      branch_violation("q(mary_without_actual_sin)=no", "sin_claimed_of_the_sinless", present=False),
+      cls("q(mary_without_actual_sin)=yes", "settled"), cls("q(mary_without_actual_sin)=no", "shadow")],
+     "refused in the main branch (\"as the Church holds\", DH 1573, typed tier 3); the shadow is clean", mode=B)
+scen("CH2c", CX, "The same claims of Mary, no source loaded", CREED + ["cand_sin_of_mary"],
+     [none_of("sin_claimed_of_the_sinless")], "nothing refuses what no source states")
+scen("CH3", CX, "Why the Word became flesh; Christ's esse", ["incarnation_schools"],
+     [branches_n(4), cls("q(motive_of_incarnation)=for_sin", "open"), cls("q(motive_of_incarnation)=absolute_primacy", "open"),
+      cls("q(esse_of_christ)=one_esse", "open"), cls("q(esse_of_christ)=secondary_esse", "open"),
+      prefers("q(motive_of_incarnation)", "for_sin"), prefers("q(esse_of_christ)", "tie"),
+      weight_in("q(motive_of_incarnation)=for_sin", 5, 1)],
+     "every value main: no source of tier 1 to 3 decides either; Thomas, a Doctor, weighs above Scotus (a preference)", mode=B)
+scen("CH3b", CX, "The library on every runtime", CREED + ["christ_acts"],
+     [runtimes_clean(CREED + ["christ_acts"], ALL_RUNTIMES), lambda r: (bool(solve(CREED + ["christ_acts", "rt_bare"], "one")["violations"]), "bare red")],
+     "boots on every runtime but bare")
+
+PX = CREED + ["eucharist_case"]
+scen("PM1", CX, "Presence typed by mode: the deposit and a Mass", PX,
+     [clean, info_any("present(son,host_a,sacramental)", "present(son,host_b,sacramental)", "present(son,host_a_part,sacramental)",
+                      "sacrament(mass_2,eucharist,invalid(minister))", "sacrament(mass_3,eucharist,invalid(matter))"),
+      info_none("present(son,host_c", "present(son,host_d")],
+     "at the Father's right hand by the natural mode, under the species sacramentally, whole under the part (DH 1636, 1653)", mode=B)
+scen("PM1b", CX, "A presence of no known mode", CREED + ["cand_mode_unknown"],
+     [has("untyped_presence(son,place_d,located)")], "presence is typed: a mode the kernel or a library declares")
+scen("PM2", CX, "One untyped presence, and a body in one place", PX + ["cand_untyped_presence"],
+     [has("in_two_places(son,host_b,right_hand_of_the_father)")], "the deposit turns red: Trent's \"no repugnance\" (DH 1636) types it")
+scen("PM2b", CX, "Typed, on every runtime", PX,
+     [runtimes_clean(PX, ALL_RUNTIMES + ("rt_bare",), "in_two_places", "two_circumscribed", "immensity", "untyped_presence")],
+     "no rule compares presences of different modes")
+scen("PM3", CX, "One body circumscribed in two places, Thomist", CREED + ["cand_bilocation", "rt_thomist"],
+     [has("two_circumscribed_places(saint_b,place_a,place_b)")], "impossible even to God (Quodl. III q. 1 a. 2)")
+scen("PM3b", CX, "The same on the other runtimes", CREED + ["cand_bilocation"],
+     [clean, runtimes_clean(CREED + ["cand_bilocation"], ("rt_scotist", "rt_suarezian", "rt_palamite"))],
+     "possible by divine power (Scotus, Suarez): the schools', not the kernel's")
+scen("PM4", CX, "Berengar's profession of 1059, read two ways", ["berengar"],
+     [cls("q(christ_divided_with_species)=yes", "excluded"),
+      reading_in_main("berengar_1059", "of_the_body_in_its_species"), reading_in_main("berengar_1059", "of_the_sacramental_species"),
+      info_any("against_tier1(berengar_1059,q(christ_divided_with_species))")],
+     "after Trent (DH 1653) the value is excluded; the literal reading stands, recorded against tier 1", mode=B)
+scen("PM4b", CX, "The same as of 1550", ["berengar", "asof_1550"],
+     [cls("q(christ_divided_with_species)=yes", "open"), cls("q(christ_divided_with_species)=no", "open"),
+      reading_in_main("berengar_1059", "of_the_body_in_its_species"), reading_in_main("berengar_1059", "of_the_sacramental_species"),
+      no_main_with("q(christ_divided_with_species)=yes", "read_as(berengar_1059,of_the_sacramental_species)"),
+      no_main_with("q(christ_divided_with_species)=no", "read_as(berengar_1059,of_the_body_in_its_species)"),
+      weight_in("q(christ_divided_with_species)=yes", 5, 2, "read_as(berengar_1059,of_the_body_in_its_species)")],
+     "before Trent both readings stand; Thomas (not yet a Doctor in 1550) weighs against the literal one", mode=B)
+scen("PM5", CX, "God in heaven as in a place", ["cand_god_located"],
+     [has("immensity_denied(deus,heaven,definitive)")], "refused (DH 800, 3001)")
+scen("PM5b", CX, "The Father under the species, and in heaven as a spirit is", ["trinity", "cand_father_in_the_host"],
+     [has("nature_not_had(father,hum)", "immensity_denied(father,heaven,definitive)")],
+     "a bodily mode is said by the human nature; a bounded spirit's mode denies immensity")
+scen("PM5c", CX, "An angel circumscribed", ["cand_angel_circumscribed"],
+     [has("nature_not_had(angel_g,hum)")], "an angel is in a place definitively, not measured by it (I q. 52 a. 2)")
+scen("PM6", CX, "Christ present only in the use", PX + ["cand_presence_in_use"],
+     [has("presence_only_in_use(host_b)")], "refused (DH 1654)")
+scen("PM6b", CX, "Present only as in a sign", PX + ["cand_presence_sign"],
+     [has("presence_only_as_sign(host_a)")], "refused (DH 1651)")
+
+scen("SM2", CX, "Conditions typed by their law", ["sacrament_conditions", "sacrament_dispensations"],
+     [all_branches_violation("dispensing_divine_law(dsp_water,cond(baptism,matter))"),
+      all_branches_violation("dispensing_divine_law(dsp_ord,cond(penance,minister))"),
+      none_of("dispensing_divine_law(dsp_form"),
+      info_all("dispensed(cond(matrimony,canonical_form),m_mixed)", "marriage(m_mixed,form_dispensed)",
+               "sacrament(bap_w,baptism,invalid(matter))", "absolution(abs_lay,invalid)"),
+      info_none("sacrament(bap_w,baptism,invalid(intention))"),
+      branch_violation("q(substance(matrimony,consent))=yes", "dispensing_divine_law(dsp_consent,cond(matrimony,consent))"),
+      branch_fact("q(substance(matrimony,consent))=no", "dispensed(cond(matrimony,consent),m_vit)"),
+      cls("q(substance(matrimony,consent))=no", "shadow"),
+      models_split(["sacrament_conditions", "sacrament_dispensations"], "q(substance(matrimony,consent))=no", "bond(m_vit)"),
+      shown(["sacrament_conditions", "sacrament_dispensations"], ("bond/1",), "bond(m_mixed)")],
+     "the form dispensed (c. 1127 §2); the water and the power of orders not (DH 1615, 1710); consent not, on a tier-3 ground "
+     "(CCC 1626), whose shadow could dispense it", mode=B)
+scen("SM2b", CX, "The same with the substance unclassified", ["sacrament_dispensations"],
+     [none_of("dispensing_divine_law"), info_none("dispensed(")],
+     "without the theological side no condition is typed: nothing dispensed, nothing refused", mode=B)
+scen("SM2c", CX, "The Code cited to settle the substance", ["sacrament_conditions", "sacrament_dispensations", "cand_law_types_the_substance"],
+     [has("governance_read_as_teaching(c1108_text,q(substance(matrimony,canonical_form)))")],
+     "law never answers a doctrinal question (rule 1)", mode=B)
+scen("SM3b", CX, "c. 1321 §4: the presumption rebutted", ["act_rebutted"],
+     [info_all("delict(x25,n1379,a_reb)"), info_none("presumed_incurred(x25")],
+     "the same shape: an outward fact rebuts the presumption", mode=B)
+scen("SM3", CX, "A contrary intention manifested", ["sacrament_cases"],
+     [info_all("sacrament(bap_4,baptism,invalid(intention))", "sacrament(bap_1,baptism,valid)")],
+     "presumed from the rite rightly used, rebutted only by an outward sign (Apostolicae curae 33)", mode=B)
+scen("SM4", CX, "Validity resting on the minister's grace (Donatism)", ["sacrament_cases", "cand_donatist"],
+     [all_branches_violation("validity_from_the_ministers_holiness(baptism,in_grace)"), branches_n(16),
+      only_with("sacrament(bap_1,baptism,valid)", "assumed_fact(interior(layman_d,state,in_grace))")],
+     "every validity a branch on the internal forum; refused (DH 1612)", mode=B)
+scen("SM5", CX, "\"We baptize\"", ["we_baptize", "we_baptize_case"],
+     [cls("q(valid_form(baptism,we_baptize))=no", "settled"), cls("q(valid_form(baptism,we_baptize))=yes", "shadow"),
+      branch_fact("q(valid_form(baptism,we_baptize))=no", "to_be_conferred(child_x,baptism,absolutely)"),
+      branch_fact("q(valid_form(baptism,we_baptize))=yes", "sacrament(bap_we,baptism,valid)"),
+      info_all("to_be_conferred(child_y,baptism,conditionally)"), branches_n(4),
+      only_with("sacrament(bap_doubt,baptism,invalid(form))", "assumed_fact(form_used(bap_doubt,we_baptize))"),
+      every_branch_with("assumed_fact(false(form_used(bap_doubt,we_baptize)))", "sacrament(bap_doubt,baptism,valid)"),
+      info_none("invalid(intention)")],
+     "invalid, baptized absolutely; the valid branch a live shadow; where the words are in doubt, conditionally (c. 845 §2)", mode=B)
+scen("SM5b", CX, "Was true water used?", ["doubt_of_matter"],
+     [branches_n(2), info_all("to_be_conferred(child_z,baptism,conditionally)"),
+      only_with("sacrament(bap_dw,baptism,invalid(matter))", "assumed_fact(matter_used(bap_dw,rose_water))"),
+      every_branch_with("assumed_fact(false(matter_used(bap_dw,rose_water)))", "sacrament(bap_dw,baptism,valid)")],
+     "a doubt of fact: conferred conditionally (c. 845 §2)", mode=B)
+scen("SM6", CX, "The 1988 and 2026 consecrations", SX,
+     [shown(SX, ("sacramental_character/3",), *[f"sacramental_character({p},orders(episcopate),{e})" for p, e in
+             (("fellay", "e1988_fellay"), ("galarreta", "e1988_galarreta"), ("schreiber", "e2026_schreiber"),
+              ("goldade", "e2026_goldade"), ("poinsinet", "e2026_poinsinet"), ("hanappier", "e2026_hanappier"))])],
+     "valid on the presumption, with the character")
+scen("SM6b", CX, "A baptism repeated; confirmation of the unbaptized", ["sacrament_cases"],
+     [info_all("sacrament(bap_3,baptism,null_repetition)", "sacrament(conf_1,confirmation,invalid(subject))",
+               "sacrament(abs_1,penance,invalid(minister))", "sacrament(conf_2,confirmation,valid)",
+               "character_imprinted(adult_a,confirmation)", "sacrament(anoint_1,anointing,valid)",
+               "sacrament(anoint_2,anointing,invalid(minister))", "sacrament(bap_4b,baptism,valid)"),
+      info_none("to_be_conferred(adult_a", "to_be_conferred(adult_m")],
+     "not repeated (DH 1609; c. 845 §1); the other sacraments need baptism (c. 842 §1)", mode=B)
+scen("SM6c", CX, "Orders conferred twice; a defective form", ["orders_cases"],
+     [shown(["orders_cases"], ("valid/1", "repeated/1", "sacramental_character/3", "unmet/2"),
+            "valid(e_o1)", "sacramental_character(cand_o,orders(episcopate),e_o1)", "repeated(e_o2)", "unmet(e_o3,form)",
+            absent=("valid(e_o2)", "valid(e_o3)"))],
+     "the imposition of hands and the consecratory prayer (DH 3859-3860); a second ordination confers nothing")
+scen("SM8", CX, "The fruit: the obstacle a claim", ["sacrament_cases"],
+     [branches_n(2), info_all("sacrament(bap_2,baptism,valid)", "character_imprinted(adult_a,baptism)"),
+      only_with("fruit_on_the_claims(adult_a,bap_2)", "assumed_fact(interior(adult_a,bap_2,no_obstacle))")],
+     "valid and the character in both branches; grace only where no obstacle is claimed (DH 1606)", mode=B)
+scen("SM8b", CX, "The fruit read off validity", ["sacrament_cases", "cand_fruit_from_validity"],
+     [has("grace_known_by_outward_signs(adult_a)")], "refused, as TTC-MORAL GR1 is")
+scen("SM9", CX, "An infant baptized", ["sacrament_cases"],
+     [info_all("reborn_on_the_deposit(infant_i,bap_1)", "reborn_on_the_deposit(adult_h,bap_6)"),
+      shown(["sacrament_cases"], ("in_grace/1",), absent=("in_grace(infant_i)",))],
+     "reborn, if validly baptized (DH 1514): composed on the deposit, never a state of grace", mode=B)
+scen("SM9b", CX, "The infant's rebirth entered as a state of grace", ["sacrament_cases", "cand_infant_state"],
+     [has("grace_known_by_outward_signs(infant_i)")], "refused: infants included")
+scen("SM10", CX, "Nullity and dissolution", ["marriage_cases"],
+     [info_all("dissolved(m_nc,dis_nc)", "free_to_marry(sp_e)", "never_res_iudicata(m_doubt)", "info(bond(m_nc))",
+               "dissolved(m_pauline,dis_pf)", "marriage(m_noform,invalid_form)"),
+      only_with("info(no_bond(m_doubt))", "assumed_fact(interior(sp_e,m_doubt,fear(grave,extrinsic,unjust)))"),
+      shown(["marriage_cases"], ("bond/1",), "bond(m_rc)", absent=("bond(m_noform)",)),
+      only_with("info(bond(m_doubt))", "assumed_fact(false(interior(sp_e,m_doubt,fear(grave,extrinsic,unjust))))"),
+      only_with("forum_holds_null_where_bond_stands(m_doubt)", "assumed_fact(false(interior(sp_e,m_doubt,fear(grave,extrinsic,unjust))))"),
+      clean_branches],
+     "the sentence settles the forum, never the fact (cc. 1643, 1682 §1); a non-consummated bond dissolved (c. 1142)", mode=B)
+scen("SM10b", CX, "A ratified and consummated marriage dissolved", ["marriage_cases", "dissolve_ratum_consummatum"],
+     [all_branches_violation("ratum_et_consummatum_dissolved(dis_rc,m_rc)")], "refused (c. 1141)", mode=B)
+scen("SM10c", CX, "A declaration of nullity read as a divorce", ["marriage_cases", "cand_nullity_as_divorce"],
+     [only_with("violation(ratum_et_consummatum_dissolved(ns_doubt,m_doubt))",
+                "assumed_fact(false(interior(sp_e,m_doubt,fear(grave,extrinsic,unjust))))")],
+     "refused where the marriage was valid; silent where it was null", mode=B)
+SEAL = ["seal", "seal_case"]
+scen("SM7", CX, "A confessor coerced under a civil law", SEAL,
+     [cls("q(seal_of_divine_law)=yes", "settled"), cls("q(seal_of_divine_law)=no", "shadow"),
+      branch_fact("q(seal_of_divine_law)=yes", "does_not_bind(civil_disclosure_law)"),
+      branch_fact("q(seal_of_divine_law)=no", "does_not_bind(civil_disclosure_law)", present=False),
+      info_all("delict(conf_k,n1386,disclosure_k)", "mitigated(conf_k,disclosure_k,fear)"),
+      info_none("exempt(conf_k", "presumed_incurred(conf_k"), weight_in("q(seal_of_divine_law)=no", 4, 1),
+      shown(SEAL, ("excommunicated_at/2",), "excommunicated_at(conf_j,20261010)", absent=("excommunicated_at(conf_k,20261010)",))],
+     "the ground a classification at tier 3; not exempt (c. 1323 n. 4), mitigated (c. 1324 §1 n. 5), no latae sententiae (§3); the delict stands",
+     mode=B)
+scen("SM7b", CX, "The seal dispensed by the supreme authority", SEAL + ["seal_dispensed"],
+     [branch_violation("q(seal_of_divine_law)=yes", "dispensing_divine_law(dsp_seal,seal)"),
+      branch_fact("q(seal_of_divine_law)=no", "dispensed(seal,conf_k)")],
+     "the shadow shows what the ground protects: there it could be dispensed", mode=B)
+scen("SM7c", CX, "The penitent releases the confessor", SEAL + ["cand_penitent_releases"],
+     [all_branches_violation("seal_lifted(disclosure_k,penitent_release)")], "\"for any reason\" (c. 983 §1)", mode=B)
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

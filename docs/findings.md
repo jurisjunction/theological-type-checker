@@ -473,7 +473,54 @@ and the canons on Communion call them. Predictions were stamped first
   formal cause. The checker computes both readings; the four Latin
   runtimes pass both.
 
-### 21. Method
+### 21. Christ, presence and the sacraments as libraries (CH, PM, SM)
+
+The *Tertia Pars* gives two libraries, `christ.lp` and `sacrament.lp`; the
+canons on absolution, marriage, consecration and the seal now call them.
+Predictions and an amendment were stamped first
+([ttc-christ(7)](research/christ-preregistration.md)).
+
+- **The person acts, by a nature** (CH1). A human act of the incarnate is
+  an *actus humanus* of a divine person; nothing makes him a creature. One
+  act typed in both natures is refused (CH1c), and a human act of the
+  Father is refused as his birth of Mary is (CH1d).
+- **The deposit states two interiors, not one.** Claims composing a sin of
+  Christ are refused on DH 301 (CH2). Trent states Mary's freedom from
+  venial sin "as the Church holds" (DH 1573), outside any anathema: typed
+  tier 3, the same claims are refused in the main branch only (CH2b).
+- **Trent warrants typing presence by mode** (PM2). With one untyped
+  presence and the rule that a body is in one place, Christ at the right
+  hand and in a reserved host turn the deposit red; Trent says there is
+  "no repugnance". Whether one body can be circumscribed in two places is
+  the schools': red on the Thomist runtime only (PM3).
+- **A reformable text read against a definition is outranked, not
+  excluded** (PM4). Berengar's profession of 1059, read of the body in its
+  own species, stands after Trent as a reading against tier 1. Only
+  Scripture's readings are excluded by a definition (inerrancy).
+- **Validity, the character and the fruit are three outputs** (SM8). The
+  fruit is composed on a claim; for an infant, on the deposit (SM9);
+  never as a state of grace. Read off validity it is refused, as
+  TTC-MORAL GR1 is.
+- **Each condition is typed by its law** (SM2). A dispensation reaches the
+  canonical form (c. 1127 §2) and not the water of baptism or the power of
+  orders. Consent rests on a tier-3 ground (CCC 1626), so its shadow could
+  dispense it. With the substance unclassified, nothing is dispensed and
+  nothing refused (SM2b); the Code cited to classify it is law answering
+  doctrine (SM2c).
+- **Donatism makes every validity a branch on the internal forum** (SM4).
+- **"We baptize"** is invalid in the main branch; the valid branch is a
+  live shadow of a tier-3 responsum; where the words are in doubt, c. 845
+  §2 gives conditional baptism (SM5).
+- **Nullity is not dissolution** (SM10). A sentence settles the forum and
+  never the fact; read as a divorce, it is refused exactly where the
+  marriage was valid and consummated (SM10c).
+- **The seal's ground is checked, not cited** (SM7). It rests on tier-3
+  teaching: in the shadow where the seal is ecclesiastical law, the
+  supreme authority could dispense, and a civil law requiring disclosure
+  is not shown void. In the main branch neither. The coerced confessor's
+  delict stands, mitigated, without the latae sententiae.
+
+### 22. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

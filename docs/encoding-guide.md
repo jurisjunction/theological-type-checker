@@ -79,6 +79,19 @@ side, juridical facts on the canon side.
 | `effect(A,E,V)` (V good or evil), `means(A,E1,E2)`, `forbids(L,K)` | Double effect's outward conditions; a law forbidding a kind (a law that does not bind makes nothing sinful). |
 | `salutary(P,A)`, `beginning_of_faith(P,A)`, `justification(P,A)`, `moved_by(P,A,G)`, `efficacious(G)` | Grace: no salutary act without it; in justification the will acts. |
 
+### Christ, presence, the sacraments
+
+| Fact | Meaning |
+| --- | --- |
+| `act_of(P,A)`, `in_nature(A,K)`, `instrument_of(A,D)` | An act of a person, by a nature. The incarnate places a human act by the nature assumed, on a runtime that grants it an operation; one act in both natures is refused (DH 557). |
+| `classification(Q,P,without_actual_sin)` | The theological side says a person is without sin; claims composing a sin of that person are refused. Christ's is the kernel's (DH 301). |
+| `present(X,Place,Mode)` | Presence, typed by mode. The deposit's: `natural`, `sacramental`, `immensity`; Thomas's: `circumscriptive`, `definitive`. No rule compares two modes. Whether one body is circumscribed in two places is a runtime's. |
+| `celebrated(E,K,Minister,Recipient)`, `celebration_date(E,D)` | A sacrament celebrated: K is `baptism`, `confirmation`, `eucharist`, `penance`, `anointing`, `orders(G)`. Absolutions and consecrations are routed from the canon layer. |
+| `matter_used(E,M)`, `form_used(E,F)`, `contrary_intention_manifested(E)`, `simulated(E)`, `conditional(E)` | A recorded defect fails a condition; the intention is presumed from the rite rightly used (Apostolicae curae 33). |
+| `classification(Q,cond(K,C),of_substance)`, `classification(Q,form(K,F),valid_form)`, `classification(Q,L,of_divine_law)` | Which conditions are of the substance, which forms are valid, which laws are divine: teaching. A condition's law then decides whether it can be dispensed. |
+| `interior(R,E,no_obstacle)`, `age_at(R,E,Y)` | The fruit is composed on the claim; for an infant, "reborn" on the deposit (DH 1514). Neither is a state of grace. |
+| `host_of(E,H)`, `reserved(H)`, `fragment_of(H2,H)`, `species_ceased(H)` | The Eucharist: Christ present under each host and each fragment while the species remain (DH 1651-1654). |
+
 ## CANON
 
 | Fact | Meaning |
@@ -96,9 +109,12 @@ side, juridical facts on the canon side.
 | `disputed(F)` | Computed both ways: `heard/2`, `common_error/1`, `appears_otherwise/2`, `interior/3`. |
 | `authentic_reading(C,R,Act)` | The legislator's reading (c. 16 §1). Its reach: `interpretation_form(Act,F)` (F: `law` or `particular`), `particular_matter(Act,E)`, `promulgated(Act,Date)` (c. 16 §§2–3). |
 | `reading_option(L,R)`, `narrower(R1,R2)`, `needs_reading(L,Context)` | The readings a law admits; a disputed one branches (c. 17), penal terms read strictly (c. 18). |
-| `law_kind(L,K)`, `legislator(L,A)`, `permits/1`, `obliging/1`, `invalidating/1`, `reaches(L,R,X)` | A law: kind (eternal, natural, divine_positive, ecclesiastical), maker, effect, reach (library `law.lp`). |
+| `law_kind(L,K)`, `legislator(L,A)`, `permits/1`, `obliging/1`, `invalidating/1`, `reaches(L,R,X)` | A law: kind (eternal, natural, divine_positive, ecclesiastical, civil), maker, effect, reach (library `law.lp`). |
 | `lacuna(M)`, `penal_matter(M)`, `equity_rule(M,R)` | c. 19: equity is input, never computed. |
 | `dispensation(D,L,X)`, `defines_essentials(L)` | cc. 85–86. |
+| `unbaptized(P)` | c. 842 §1: the other sacraments need baptism. |
+| `consummated(M)`, `dissolution(D,M,Kind,Date)`, `nullity_sentence(S,M,Date)`, `sentence_effective(S)`, `prohibited_to_marry(P)` | The bond: dissolved only where cc. 1142-1143 allow, never ratified and consummated (c. 1141); a sentence of nullity settles the forum, never the fact (cc. 1643, 1682 §1). |
+| `delict_act(P,N,Act)`, `act_date(Act,Date)` | A delict that need not be a consecration, absolution or marriage (e.g. c. 1386 §1, the seal). |
 
 A new canon goes under `% @norm id | citation | source`. New slots go under
 `% @input name/arity | meaning`. See [ttc-canon(5)](canon-law-layer.md).

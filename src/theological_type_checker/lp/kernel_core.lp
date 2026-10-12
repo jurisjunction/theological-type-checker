@@ -65,6 +65,26 @@ violation(one_operation(X))   :- incarnate(X), denies(X,human_operation).
 violation(one_will(X))        :- incarnate(X), not wills(X,hum).            % DH 556
 % Not two persons joined (Ephesus, DH 250-251; Chalcedon, DH 302).
 violation(two_persons_in_christ(Y,X)) :- conjoined(Y,X), person(Y), person(X), Y != X.
+% "Like us in all things but sin" (Chalcedon, DH 301; Heb 4:15). Of this one
+% person the deposit states the interior; the libraries read it here and
+% never compute it (TTC-CHRIST CH2).
+without_sin(X) :- incarnate(X).
+
+% ---------- Presence (deposit; TTC-CHRIST) --------------------------------
+% Presence is typed by mode: present(X, Place, Mode). God is immense (Lateran
+% IV, DH 800; Vatican I, DH 3001): present by immensity, contained by no
+% place. Christ sits at the right hand of the Father "according to the
+% natural mode of existing", and is sacramentally present "in many other
+% places"; Trent finds "no repugnance in this" (sess. XIII, ch. 1, DH 1636).
+% So no rule here compares presences of different modes. A bodily mode is
+% said of a person by the human nature (T5). A place is whatever a case
+% names: the kernel holds no theory of space.
+presence_mode(natural). presence_mode(sacramental). presence_mode(immensity).
+bodily(natural). bodily(sacramental).
+violation(untyped_presence(X,L,M)) :- present(X,L,M), not presence_mode(M).
+said_in(X,hum) :- present(X,_,M), bodily(M), person(X).
+violation(immensity_denied(X,L,M)) :- present(X,L,M), god(X), M != immensity.
+violation(immensity_denied(X,L,M)) :- present(X,L,M), divine(X), M != immensity, not bodily(M).
 
 % ---------- The economy (deposit; TTC-CREED) ------------------------------
 % The creeds tell an order of events (next/2): he died, then rose, once for

@@ -73,6 +73,8 @@ incarnate(son).                    % the only-begotten Son made incarnate (Later
 created_person(mary). created_person(adam).
 gen(nativity,mary,son). in_nature(nativity,hum).    % born of the Virgin Mary, in his humanity (DH 422)
 changes_in(son,hum).               % he grew (Lk 2:52) and suffered in the flesh (DH 432)
+present(son,right_hand_of_the_father,natural).   % he sits at the right hand of the Father (DH 30, 150),
+                                                 % "according to the natural mode of existing" (DH 1636)
 virginally_conceived(son).         % conceived by the Holy Spirit (DH 30, 150)
 descends_from(mary,adam). descends_from(son,adam).   % by generation; his through Mary (Lk 3:23-38)
 % the economy: an order of events

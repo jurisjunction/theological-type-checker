@@ -63,3 +63,10 @@ violation(effect_before_cause(E,C)) :- caused_by(E,C), happens_at(E,T), before(T
 grace_uncreated.
 #program justified_will_operates. % a runtime that grants one more created operation: the will moved by
 acts(P) :- justification(P,_).    % grace, which Trent defines (DH 1554; TTC-MORAL GR3)
+
+% Presence (TTC-CHRIST PM3): whether God can make one body circumscriptively
+% present in two places is the schools'. Thomas: no, being contained by one
+% place excludes another (Quodl. III q. 1 a. 2); Scotus, Bellarmine, Suarez:
+% yes, by divine power. The Thomist runtime holds the first.
+#program one_place_circumscribed.
+violation(two_circumscribed_places(X,L1,L2)) :- present(X,L1,circumscriptive), present(X,L2,circumscriptive), L1 < L2.

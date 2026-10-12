@@ -178,7 +178,8 @@ def _outcome(s, extra=()):
 def test_monopatrism_changes_only_the_processions():
     # RT excluded: its scenarios load whole runtimes; switching monopatrism under one tests nothing here
     # CR excluded: the creed loads the Trinity, and monopatrism changes its processions by design (TTC-CREED)
-    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT, suite.CR, suite.MR)
+    # CX excluded for the same reason: the christ group loads the creed (TTC-CHRIST)
+    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT, suite.CR, suite.MR, suite.CX)
                and _outcome(s) != _outcome(s, ["monopatrism"])}
     assert changed == FILIOQUE_DEPENDENT
 
@@ -285,14 +286,15 @@ def test_equity_is_never_computed():
 # on a claim (interior/3, or act.lp's due_defence, or another such predicate);
 # none is derived from outward facts alone.
 PERSON_STATE = {"full_knowledge", "deliberate_consent", "mortal_on_the_claims", "evil_unintended",
-                "proportionate", "double_effect", "in_grace", "not_to_receive"}
+                "proportionate", "double_effect", "in_grace", "not_to_receive",
+                "sin_on_the_claims", "fruit_on_the_claims"}     # TTC-CHRIST; reborn_on_the_deposit is the deposit's (SA9)
 CLAIMS = {"interior", "due_defence"} | PERSON_STATE
 
 
 def test_person_state_rests_on_claims():
     import re
     bad = []
-    for name in ("moral.lp", "grace.lp", "canon_law.lp"):
+    for name in ("moral.lp", "grace.lp", "christ.lp", "sacrament.lp", "canon_law.lp"):
         code = re.sub(r"%.*", "", (engine.LP_DIR / name).read_text())
         for st in re.split(r"(?<=\.)\s", code):
             st = " ".join(st.split())
@@ -329,3 +331,47 @@ def test_no_library_rule_condemns_a_protected_reading(rt):
     r = engine.solve(["grace_cases", "jansenism", "trent_formal_cause", "auxiliis", rt], "branches")
     v = sorted({f for m in r["all_models"] for f in m if f.startswith("violation(")})
     assert r["sat"] and not v, v
+
+
+# One shape of presumption (TTC-CHRIST SA3): presumed/1 is derived by act.lp's
+# one rule; the canons and libraries only say what raises and what rebuts.
+def test_one_presumption():
+    import re
+    derived, raised = [], set()
+    for f in sorted(engine.LP_DIR.glob("*.lp")):
+        code = re.sub(r"%.*", "", f.read_text())
+        for st in re.split(r"(?<=\.)\s", code):
+            st = " ".join(st.split())
+            if ":-" not in st:
+                continue
+            head = st.split(":-")[0].strip()
+            if re.match(r"presumed\s*\(", head):
+                derived.append((f.name, st))
+            m = re.match(r"raises\s*\(\s*(\w+)\s*\(", head)
+            if m:
+                raised.add((f.name, m.group(1)))
+    assert derived == [("act.lp", "presumed(X) :- raises(X), not rebutted(X).")], derived
+    assert raised == {("canon_law.lp", "imputability"), ("sacrament.lp", "intention")}, raised
+
+
+# Presence is typed by mode (TTC-CHRIST PM1): outside the candidates, no rule
+# compares two presences unless both are of one named mode.
+def test_presences_of_different_modes_are_never_compared():
+    import re
+    bad = []
+    for f in sorted(engine.LP_DIR.glob("*.lp")):
+        part = "base"
+        for chunk in re.split(r"(?m)^(#program\s+\w+\s*\.)", re.sub(r"%.*", "", f.read_text())):
+            m = re.match(r"#program\s+(\w+)", chunk)
+            if m:
+                part = m.group(1)
+                continue
+            if part.startswith("cand_"):
+                continue
+            for st in re.split(r"(?<=\.)\s", chunk):
+                if ":-" not in st:
+                    continue
+                modes = re.findall(r"present\s*\([^,()]+,[^,()]+,\s*(\w+)\s*\)", st.split(":-", 1)[1])
+                if len(modes) > 1 and (len(set(modes)) > 1 or not modes[0][0].islower()):
+                    bad.append((f.name, part, " ".join(st.split())))
+    assert not bad, bad

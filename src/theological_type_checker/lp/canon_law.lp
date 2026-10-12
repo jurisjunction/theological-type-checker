@@ -89,10 +89,20 @@
 % @input not_of_kind/2 | from the theological side (pair.lp): in this branch the event is classified as not of this kind
 % @input notoriety_substitutes/2 | candidate only: notoriety treated as the hearing
 % @input treated_as_declaring/2 | candidate only: a text's class statement treated as a declaration
+% @input unbaptized/1 | the person is recorded as not baptized (c. 842 §1)
+% @input dissolution/4 | dissolution(D, Marriage, non_consummation | favour_of_faith | Other, Date): an act that dissolves a bond
+% @input consummated/1 | the marriage was consummated (c. 1061 §1)
+% @input nullity_sentence/3 | nullity_sentence(S, Marriage, Date): a sentence declaring a marriage null
+% @input sentence_effective/1 | the sentence has become effective (c. 1679)
+% @input prohibited_to_marry/1 | a prohibition attached to the sentence or set by the local ordinary (c. 1682 §1)
+% @input delict_act/3 | delict_act(Person, Norm, Act): an external violation of the norm, as a case records it (a delict that need not be a consecration, absolution or marriage)
+% @input act_date/2 | act_date(Act, Date): the date of an act a case records
+% @input seal_lifted/2 | seal_lifted(Act, Why): a candidate's claim that something released the confessor
 
 event_date(E,T) :- consecration(E,_,_,T).
 event_date(A,T) :- absolution(A,_,_,T).
 event_date(M,T) :- marriage(M,_,T).
+event_date(E,T) :- act_date(E,T).
 eval_date(T) :- today(T), not custom_asof.
 eval_date(T) :- custom_asof, asof(Y), T = Y*10000 + 1231.
 past(E) :- event_date(E,TE), eval_date(T), TE <= T.
@@ -127,7 +137,7 @@ promulgated(code1983,19830125). vacatio_until(code1983,19831127).   % Sacrae dis
 promulgated(pgd2021,20210601).  vacatio_until(pgd2021,20211208).    % Pascite gregem Dei: Book VI revised
 enacted_by(book6_1983,code1983). enacted_by(book6_2021,pgd2021).
 part_of(n1382_1983,book6_1983). part_of(n1364_1983,book6_1983).
-part_of(n1387,book6_2021). part_of(n1364,book6_2021). part_of(n1379,book6_2021).
+part_of(n1387,book6_2021). part_of(n1364,book6_2021). part_of(n1379,book6_2021). part_of(n1386,book6_2021).
 norm_in_force(N,T) :- norm(N,F,U), event_date(_,T), F <= T, T < U.
 % c. 751: one act, or a lasting state? Its reading decides schism.
 reading_option(c751,act_suffices). reading_option(c751,lasting_state).
@@ -264,7 +274,11 @@ element_of(n1379,cannot_absolve).                 % the delict's matter: one who
 % claims a case supplies (interior/3), and the canons read the library.
 % @norm cic2021:1321 | c. 1321 §§2-4 and c. 1322: no one is punished unless the external violation is gravely imputable by malice or culpability; culpability is punished only where the law provides; once the violation is established imputability is presumed unless it appears otherwise; the habitually insane are incapable | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
 act_of(P,E) :- delict(P,_,E).
-imputed(P,N,E) :- delict(P,N,E), not appears_otherwise(P,E), actus_humanus(P,E),
+% §4 is act.lp's one shape of presumption: the violation raises it, an
+% outward appearance rebuts it (TTC-CHRIST SA3).
+raises(imputability(P,E))   :- delict(P,_,E).
+rebutted(imputability(P,E)) :- appears_otherwise(P,E).
+imputed(P,N,E) :- delict(P,N,E), presumed(imputability(P,E)), actus_humanus(P,E),
                   not exempt(P,E), not unpunished_culpa(P,N,E).
 unpunished_culpa(P,N,E) :- delict(P,N,E), culpa(P,E), not punishes_culpa(N).
 incurred_at(P,N,E,T) :- imputed(P,N,E), event_date(E,TE), instant(T), TE <= T,
@@ -297,8 +311,8 @@ mitigated(P,E,fear)             :- delict(P,_,E), fear_or_necessity(P,E), grave_
 mitigated(P,E,mistaken)         :- delict(P,_,E), believed(P,E,C,vincible), excusing(C). % n. 8
 mitigated(P,E,penalty_unknown)  :- delict(P,_,E), ignorant_without_fault(P,E,penalty).  % n. 9
 latae_excused(P,N,E) :- delict(P,N,E), mitigated(P,E,_), latae_sententiae(N).           % §3
-% each of these canons says "latae sententiae": 1983 cc. 1382, 1364 §1; 2021 cc. 1387, 1364 §1, 1379 §1
-latae_sententiae(n1382_1983;n1364_1983;n1387;n1364;n1379).
+% each of these canons says "latae sententiae": 1983 cc. 1382, 1364 §1; 2021 cc. 1387, 1364 §1, 1379 §1, 1386 §1
+latae_sententiae(n1382_1983;n1364_1983;n1387;n1364;n1379;n1386).
 
 % @norm cic2021:1325 | c. 1325: crass, supine or affected ignorance is never taken into account in applying cc. 1323 and 1324 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
 info(ignorance_disregarded(P,E,Of)) :- delict(P,_,E), gross_ignorance(P,E,Of).
@@ -390,9 +404,13 @@ info(class_faculty(C,F)) :- class_faculty(C,F).
 info(class_may_receive_delegation(C,marriage)) :- class_permission(C,marriage).
 
 % @norm cic:966 | c. 966 §1: valid absolution requires orders and the faculty; c. 976: any priest absolves the dying; c. 144 §2: the Church supplies in common error | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann959-997_en.html
-valid_absolution(A) :- absolution(A,P,_,T), priest(P), faculty_at(P,confession,T), not governance_invalid_at(P,T).
-valid_absolution(A) :- absolution(A,P,Pen,T), priest(P), danger_of_death(Pen,T).
-valid_absolution(A) :- absolution(A,P,_,_), priest(P), common_error(A).
+% Routed through sacrament.lp (TTC-CHRIST SA1): orders are the minister's
+% power, of divine law (DH 1710); the faculty is the condition this canon adds.
+faculty_met(A) :- absolution(A,P,_,T), faculty_at(P,confession,T), not governance_invalid_at(P,T).
+faculty_met(A) :- absolution(A,_,Pen,T), danger_of_death(Pen,T).
+faculty_met(A) :- absolution(A,_,_,_), common_error(A).
+defect(A,faculty) :- celebration(A,penance,_,_), not faculty_met(A).
+valid_absolution(A) :- absolution(A,_,_,_), valid(A).
 licit_absolution(A) :- valid_absolution(A), absolution(A,P,_,T), not excommunicated_at(P,T).
 licit_absolution(A) :- valid_absolution(A), absolution(A,P,_,_), prohibition_lifted(P,A).
 % @end
@@ -408,13 +426,74 @@ valid_form(M) :- marriage(M,P,T), delegated(P,M), not governance_invalid_at(P,T)
 valid_form(M) :- marriage(M,_,_), common_error(M).
 % @end
 info(marriage(M,valid_form))   :- marriage(M,_,_), past(M), valid_form(M).
-info(marriage(M,invalid_form)) :- marriage(M,_,_), past(M), not valid_form(M).
+info(marriage(M,invalid_form)) :- marriage(M,_,_), past(M), not valid_form(M), not dispensed(cond(matrimony,canonical_form),M).
+info(marriage(M,form_dispensed)) :- marriage(M,_,_), past(M), not valid_form(M), dispensed(cond(matrimony,canonical_form),M).
 
 % @norm cic:1103 | c. 1103: a marriage is invalid if entered into because of force or grave fear from without, even when inflicted unintentionally, so that a person is compelled to choose marriage in order to be freed from it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1095-1107_en.html
 act_of(P,M) :- spouse(M,P).
 consent_vitiated(M) :- spouse(M,P), removes_voluntary(P,M,violence).
 consent_vitiated(M) :- spouse(M,P), actus_humanus(P,M), grave_fear(P,M), fear_from_without(P,M), chosen_to_escape(P,M).
 info(marriage(M,invalid_consent)) :- consent_vitiated(M).
+
+% ---------- Book IV: the sacraments, through sacrament.lp (TTC-CHRIST) ---------
+% @norm cic:842 | c. 842 §1: a person who has not received baptism cannot be admitted validly to the other sacraments | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann834-878_en.html
+defect(E,subject) :- celebration(E,K,_,R), K != baptism, unbaptized(R).
+% @norm cic:845 | c. 845 §1: baptism, confirmation and sacred ordination imprint a character and cannot be repeated; §2: if after diligent inquiry a prudent doubt remains whether they were conferred at all or validly, they are to be conferred conditionally | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann834-878_en.html
+% A doubt of fact about a condition of validity is a prudent doubt (§2). Where
+% the sacrament certainly failed, it is conferred absolutely.
+doubt_of_validity(E) :- celebration(E,K,_,_), imprints(K), disputed(form_used(E,_)).
+doubt_of_validity(E) :- celebration(E,K,_,_), imprints(K), disputed(matter_used(E,_)).
+received(R,K) :- sacramental_character(R,K,_).
+to_be_conferred(R,K,conditionally) :- celebration(E,K,_,R), doubt_of_validity(E).
+to_be_conferred(R,K,absolutely)    :- celebration(E,K,_,R), imprints(K), not valid(E), not repeated(E),
+                                      not doubt_of_validity(E), not received(R,K).
+% @end
+info(to_be_conferred(R,K,How)) :- to_be_conferred(R,K,How).
+
+% ---------- Book IV: the bond of marriage (TTC-CHRIST SA10) ---------------------
+% @norm cic:1057 | c. 1057 §1: the consent of the parties, legitimately manifested between persons qualified by law, makes marriage; no human power is able to supply this consent | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
+% Consent and the canonical form are conditions typed by their law
+% (sacrament.lp), so a dispensation reaches only the one that is
+% ecclesiastical (c. 1127 §2).
+defect_of_marriage(M,consent) :- consent_vitiated(M).
+defect_of_marriage(M,canonical_form) :- marriage(M,_,_), not valid_form(M).
+unmet_in_marriage(M,C) :- defect_of_marriage(M,C), not dispensed(cond(matrimony,C),M).
+bond(M) :- marriage(M,_,_), not unmet_in_marriage(M,_).
+ratified(M) :- bond(M), not spouse_unbaptized(M).
+spouse_unbaptized(M) :- spouse(M,P), unbaptized(P).
+% @norm cic:1141 | c. 1141: a marriage that is ratum et consummatum can be dissolved by no human power and by no cause, except death | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
+violation(ratum_et_consummatum_dissolved(D,M)) :- dissolution(D,M,_,_), ratified(M), consummated(M).
+% @norm cic:1142 | c. 1142: a non-consummated marriage between baptized persons, or between a baptized and a non-baptized party, can be dissolved by the Roman Pontiff for a just cause | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
+dissolved(M,D) :- dissolution(D,M,non_consummation,_), bond(M), not consummated(M), issuer(D,A), authority(A,4).
+% @norm cic:1143 | c. 1143 §1: a marriage entered into by two non-baptized persons is dissolved by the pauline privilege in favour of the faith of the party who received baptism | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
+dissolved(M,D) :- dissolution(D,M,favour_of_faith,_), bond(M), not ratified(M).
+% A declaration of nullity dissolves nothing: it finds that no bond came to
+% be. It changes what the external forum holds (c. 1682 §1), never the fact,
+% and never becomes an adjudged matter (c. 1643).
+% @norm cic:1682 | c. 1682 §1: after the sentence declaring the nullity of the marriage has become effective, the parties whose marriage has been declared null can contract a new marriage, unless a prohibition attached to the sentence or established by the local ordinary forbids it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib7-cann1671-1716_en.html
+free_to_marry(P) :- nullity_sentence(S,M,_), sentence_effective(S), spouse(M,P), not prohibited_to_marry(P).
+% @norm cic:1643 | c. 1643: cases concerning the status of persons, including cases concerning the separation of spouses, never become res iudicata | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib7-cann1501-1670_en.html
+never_res_iudicata(M) :- nullity_sentence(_,M,_).
+% @end
+at_issue(M) :- dissolution(_,M,_,_).
+at_issue(M) :- nullity_sentence(_,M,_).
+info(bond(M))    :- at_issue(M), bond(M).
+info(no_bond(M)) :- at_issue(M), marriage(M,_,_), not bond(M).
+info(dissolved(M,D)) :- dissolved(M,D).
+info(free_to_marry(P)) :- free_to_marry(P).
+info(never_res_iudicata(M)) :- never_res_iudicata(M).
+info(forum_holds_null_where_bond_stands(M)) :- bond(M), nullity_sentence(S,M,_), sentence_effective(S).
+
+% ---------- Book IV and VI: the seal (TTC-CHRIST SA7) ---------------------------
+% @norm cic:983 | c. 983 §1: the sacramental seal is inviolable; therefore it is absolutely forbidden for a confessor to betray in any way a penitent in words or in any manner and for any reason | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann959-997_en.html
+% Whether the seal is of divine law "from the nature of the sacrament" is
+% the theological side's (law_kind(seal, ...), through sacrament.lp); "for
+% any reason" is the canon's own: no release by anyone lifts it.
+violation(seal_lifted(E,Why)) :- seal_lifted(E,Why).
+% @norm cic2021:1386 | c. 1386 §1: a confessor who directly violates the sacramental seal incurs a latae sententiae excommunication reserved to the Apostolic See | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
+delict(P,n1386,E) :- delict_act(P,n1386,E), event_date(E,T), norm_in_force(n1386,T).
+penalty(n1386,excommunication).
+% @end
 
 % ---------- Texts checked against the derivation ------------------------------
 % @norm checking | a text's claims compared with what the norms derive | -

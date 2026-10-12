@@ -22,7 +22,7 @@ import clingo
 
 LP_DIR = pathlib.Path(__file__).resolve().parent / "lp"
 FILES = ["kernel_core.lp", "kernel_analogy.lp", "icon_theory.lp", "icon_models.lp", "icon_tests.lp", "icon_metaphysics.lp", "schools.lp", "kernel_world.lp",
-         "icon_authority.lp", "icon_history.lp", "act.lp", "law.lp", "moral.lp", "grace.lp", "canon_law.lp", "canon_cases.lp", "pair.lp", "library.lp"]
+         "icon_authority.lp", "icon_history.lp", "act.lp", "law.lp", "moral.lp", "grace.lp", "christ.lp", "sacrament.lp", "canon_law.lp", "canon_cases.lp", "pair.lp", "library.lp"]
 
 # School runtimes (docs/research/schools-preregistration.md): named lists of
 # parts, loaded whole. A scenario names one as the part "rt_<name>", or two for
@@ -32,7 +32,7 @@ RUNTIMES = {
     "default": ["classical", "one_power"],
     "thomist": ["classical", "one_power", "th01", "th03", "th04", "th05", "th06", "th21", "th22", "th24",
                 "simplicity_thomist", "attributes_by_reason", "mixed_relations", "transcendentals",
-                "holds_premotion"],
+                "holds_premotion", "one_place_circumscribed"],
     "scotist": ["classical", "one_power", "simplicity_scotist", "attributes_formal", "univocity_of_concept",
                 "scotus_esse", "mixed_relations", "transcendentals"],
     "suarezian": ["classical", "one_power", "simplicity_thomist", "attributes_by_reason", "suarez_esse",

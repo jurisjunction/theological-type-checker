@@ -15,19 +15,21 @@
 %  @library  (read by norms.py: its predicates count as defined)
 % ===================================================================
 
-% @input law_kind/2 | law_kind(Law, Kind): eternal, natural, divine_positive, ecclesiastical
+% @input law_kind/2 | law_kind(Law, Kind): eternal, natural, divine_positive, ecclesiastical, civil
 % @input of_kind/2 | from the theological side (pair.lp): in this branch the thing is classified as of this kind
 % @input reading_option/2 | reading_option(Law, Reading): a reading the words admit (c. 17)
 % @input narrower/2 | narrower(R1, R2): reading R1 reaches less than R2
 
 % ---------- The order of laws (q. 91; q. 93 a. 3; q. 95 a. 2) -----------
 % Eternal law; the natural law, its participation in the rational creature;
-% divine positive law; human law, here ecclesiastical, derived from the
-% natural by conclusion or determination.
+% divine positive law; human law, ecclesiastical or civil, derived from the
+% natural by conclusion or determination. Of two human laws neither is
+% higher by its kind (TTC-CHRIST SA7).
 kind_rank(eternal,4).
 kind_rank(natural,3).
 kind_rank(divine_positive,3).
 kind_rank(ecclesiastical,2).
+kind_rank(civil,2).
 divine_law(L) :- law_kind(L,natural).
 divine_law(L) :- law_kind(L,divine_positive).
 higher(H,L) :- law_kind(H,KH), law_kind(L,KL), kind_rank(KH,RH), kind_rank(KL,RL), RH > RL.

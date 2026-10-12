@@ -284,3 +284,140 @@ formal_cause_essence.
 every_grace_efficacious.
 #program pclt_confirmed.            % HYPOTHETICAL: the 2000 declaration confirmed by pontifical authority and promulgated
 authority(pclt,4). interpretation_form(pclt2000,law). promulgated(pclt2000,20000624).
+
+% ---------- Christ and the sacraments (TTC-CHRIST), all HYPOTHETICAL -------------
+#program christ_acts.               % HYPOTHETICAL: a human act of the incarnate, the divinity's instrument (load with creed)
+act_of(son,healing). in_nature(healing,hum).
+act_of(son,healing_power). in_nature(healing_power,div). instrument_of(healing,healing_power).
+#program cand_one_theandric_operation.   % one act of both natures (Severus of Antioch)
+act_of(son,walking_on_water). in_nature(walking_on_water,(div;hum)).
+#program cand_father_acts_humanly.  % a human act placed by the Father (Patripassian)
+act_of(father,healing_f). in_nature(healing_f,hum).
+#program cand_sin_of_christ.        % claims composing a sin of the incarnate
+act_of(son,act_s). in_nature(act_s,hum). kind_of_act(act_s,k_grave_c).
+question(q(k_grave_c)). question_kind(q(k_grave_c),doctrinal). value(q(k_grave_c),(yes;no)). default(q(k_grave_c),yes).
+classification(q(k_grave_c),k_grave_c,grave_matter). classification(q(k_grave_c),k_grave_c,evil_by_object).
+interior(son,act_s,full_knowledge). interior(son,act_s,deliberate_consent).
+#program cand_sin_of_mary.          % claims composing a venial sin of Mary (load with creed and mary_actual_sin)
+act_of(mary,act_v). kind_of_act(act_v,k_idle_word). law_kind(eternal_law,eternal). forbids(eternal_law,k_idle_word).
+interior(mary,act_v,deliberate_consent).
+
+#program eucharist_case.            % HYPOTHETICAL: two Masses, one by a layman; a host reserved, a fragment
+priest(priest_e).
+celebrated(mass_1,eucharist,priest_e,assembly). celebration_date(mass_1,20261004).
+matter_used(mass_1,wheat_bread). form_used(mass_1,words_of_institution).
+host_of(mass_1,(host_a;host_b)). reserved(host_b). fragment_of(host_a_part,host_a).
+celebrated(mass_2,eucharist,layman_l,assembly). celebration_date(mass_2,20261004).
+matter_used(mass_2,wheat_bread). form_used(mass_2,words_of_institution). host_of(mass_2,host_c).
+celebrated(mass_3,eucharist,priest_e,assembly). celebration_date(mass_3,20261004).      % not wheat bread (c. 924 §2)
+matter_used(mass_3,rice_cake). host_of(mass_3,host_d).
+#program cand_untyped_presence.     % presence with no mode, and a body in one place at a time
+located(X,L) :- present(X,L,_).
+violation(in_two_places(X,L1,L2)) :- located(X,L1), located(X,L2), L1 < L2, has_nature(X,hum).
+#program cand_bilocation.           % HYPOTHETICAL: one person circumscribed in two places at once
+created_person(saint_b). present(saint_b,(place_a;place_b),circumscriptive).
+#program cand_god_located.          % God in heaven as in a place, definitively
+god(deus). present(deus,heaven,definitive).
+#program cand_father_in_the_host.   % the Father present under the species, and in heaven as a spirit is (load with trinity)
+present(father,host_f,sacramental). present(father,heaven,definitive).
+#program cand_angel_circumscribed.  % an angel measured by a place, as a body is
+angel(angel_g). present(angel_g,place_c,circumscriptive).
+#program cand_mode_unknown.         % a presence with no mode the kernel or a library knows
+present(son,place_d,located).
+#program cand_presence_in_use.      % Christ present only in the use, while received (DH 1654)
+presence_requires(use).
+#program cand_presence_sign.        % only as in a sign or figure (DH 1651)
+presence_as(sign).
+
+#program sacrament_cases.           % HYPOTHETICAL
+priest(priest_p). bishop(bishop_b).
+celebrated(bap_1,baptism,layman_d,infant_i). celebration_date(bap_1,20260105). age_at(infant_i,bap_1,0).
+matter_used(bap_1,true_water). form_used(bap_1,i_baptize).
+celebrated(bap_2,baptism,priest_p,adult_a). celebration_date(bap_2,20260404).            % SA8: the obstacle a claim
+disputed(interior(adult_a,bap_2,no_obstacle)).
+celebrated(bap_3,baptism,priest_p,adult_a). celebration_date(bap_3,20260601).            % repeated absolutely (c. 845 §1)
+celebrated(bap_4,baptism,priest_p,adult_m). celebration_date(bap_4,20260602).            % a contrary intention manifested
+contrary_intention_manifested(bap_4).
+celebrated(bap_4b,baptism,priest_p,adult_m). celebration_date(bap_4b,20260702).          % then baptized validly
+celebrated(bap_6,baptism,priest_p,adult_h). celebration_date(bap_6,20260703).            % habitually without reason (c. 99)
+interior(adult_h,bap_6,reason(habitually_lacking)).
+celebrated(conf_2,confirmation,bishop_b,adult_a). celebration_date(conf_2,20260704).
+celebrated(anoint_1,anointing,priest_p,adult_a). celebration_date(anoint_1,20260705).
+celebrated(anoint_2,anointing,layman_d,adult_a). celebration_date(anoint_2,20260706).
+celebrated(conf_1,confirmation,bishop_b,adult_u). celebration_date(conf_1,20260603). unbaptized(adult_u).   % c. 842 §1
+celebrated(abs_1,penance,layman_d,adult_a). celebration_date(abs_1,20260604).           % no power of orders
+#program doubt_of_matter.           % HYPOTHETICAL: was true water used?
+celebrated(bap_dw,baptism,priest_p,child_z). celebration_date(bap_dw,20260801).
+disputed(matter_used(bap_dw,rose_water)).
+#program orders_cases.              % HYPOTHETICAL: one ordained twice; a defective form
+bishop(bishop_o).
+consecration(e_o1,bishop_o,cand_o,20200101). pontifical_mandate(e_o1).
+matter_used(e_o1,imposition_of_hands). form_used(e_o1,consecratory_prayer).
+consecration(e_o2,bishop_o,cand_o,20210101). pontifical_mandate(e_o2).
+consecration(e_o3,bishop_o,cand_p,20210102). pontifical_mandate(e_o3). form_used(e_o3,prayer_of_blessing).
+#program act_rebutted.              % HYPOTHETICAL: c. 1321 §4, the presumption rebutted on the facts
+today(20261010).
+absolution(a_reb,x25,pen,20260901). appears_otherwise(x25,a_reb).
+#program cand_donatist.             % validity resting on the minister's grace (the Donatists; DH 1612)
+requires_of_minister(K,in_grace) :- celebration(_,K,_,_).
+disputed(interior(P,state,in_grace)) :- celebration(_,_,P,_).
+defect(E,minister_grace) :- celebration(E,_,P,_), not interior(P,state,in_grace).
+#program cand_fruit_from_validity.  % the fruit read off validity (against DH 1606)
+in_grace(R) :- valid(E), celebration(E,_,_,R).
+#program cand_infant_state.         % the infant's rebirth entered as a state of grace
+in_grace(R) :- reborn_on_the_deposit(R,_).
+
+#program sacrament_dispensations.   % HYPOTHETICAL: load with sacrament_conditions
+today(20261010). priest(priest_p).
+marriage(m_mixed,minister_m,20260502). spouse(m_mixed,(spouse_c;spouse_n)).              % c. 1127 §2
+dispensation(dsp_form,cond(matrimony,canonical_form),m_mixed).
+celebrated(bap_w,baptism,priest_p,child_w). celebration_date(bap_w,20260503). matter_used(bap_w,rose_water).
+dispensation(dsp_water,cond(baptism,matter),bap_w).
+absolution(abs_lay,layman_q,penitent_q,20260505).                                        % no power of orders
+dispensation(dsp_ord,cond(penance,minister),abs_lay).
+marriage(m_vit,priest_p,20260506). spouse(m_vit,(spouse_v;spouse_w)).                      % consent vitiated (c. 1103)
+ordinary(ordinary_v). delegation(dl_v,ordinary_v,priest_p,m_vit,20260501).
+interior(spouse_v,m_vit,fear(grave,extrinsic,unjust)). interior(spouse_v,m_vit,escape_choice).
+dispensation(dsp_consent,cond(matrimony,consent),m_vit).
+#program cand_law_types_the_substance.   % the Code's c. 1108 cited as settling that the form is not of the substance
+source(c1108_text,3,juridical,1983). supports(c1108_text,q(substance(matrimony,canonical_form)),no).
+
+#program we_baptize_case.           % HYPOTHETICAL: load with we_baptize
+celebrated(bap_we,baptism,deacon_w,child_x). celebration_date(bap_we,20200101).
+matter_used(bap_we,true_water). form_used(bap_we,we_baptize).
+celebrated(bap_doubt,baptism,deacon_w,child_y). celebration_date(bap_doubt,20200102). matter_used(bap_doubt,true_water).
+disputed(form_used(bap_doubt,we_baptize)).                                                % was "we" said?
+
+#program marriage_cases.            % HYPOTHETICAL: nullity and dissolution (SA10)
+today(20261010). authority(pope_m,4).
+marriage(m_rc,priest_m,20200601). spouse(m_rc,(sp_a;sp_b)). delegation(dl_m,ordinary_m,priest_m,general,20200101). ordinary(ordinary_m).
+consummated(m_rc).                                                                       % ratified and consummated
+marriage(m_nc,priest_m,20200602). spouse(m_nc,(sp_c;sp_d)).                               % not consummated
+dissolution(dis_nc,m_nc,non_consummation,20230101). issuer(dis_nc,pope_m).
+marriage(m_doubt,priest_m,20200603). spouse(m_doubt,(sp_e;sp_f)). consummated(m_doubt).   % consent disputed
+disputed(interior(sp_e,m_doubt,fear(grave,extrinsic,unjust))). interior(sp_e,m_doubt,escape_choice).
+nullity_sentence(ns_doubt,m_doubt,20240101). sentence_effective(ns_doubt).
+marriage(m_noform,priest_u,20200604). spouse(m_noform,(sp_i;sp_j)).                       % no delegation: the form fails
+marriage(m_pauline,priest_m,20200605). spouse(m_pauline,(sp_g;sp_h)). unbaptized((sp_g;sp_h)). consummated(m_pauline).
+dissolution(dis_pf,m_pauline,favour_of_faith,20250101).                                   % c. 1143
+#program dissolve_ratum_consummatum.   % HYPOTHETICAL: a dissolution attempted of a ratified, consummated marriage
+dissolution(dis_rc,m_rc,non_consummation,20230102). issuer(dis_rc,pope_m).
+#program cand_nullity_as_divorce.   % a declaration of nullity read as ending a bond
+dissolution(S,M,by_sentence,T) :- nullity_sentence(S,M,T).
+
+#program seal_case.                 % HYPOTHETICAL: a confessor coerced, under a civil law, to disclose a confession
+today(20261010). priest(conf_k).
+delict_act(conf_k,n1386,disclosure_k). act_date(disclosure_k,20260915).
+interior(conf_k,disclosure_k,fear(grave,extrinsic,unjust)).
+priest(conf_j). delict_act(conf_j,n1386,disclosure_j). act_date(disclosure_j,20260916).   % disclosed, uncoerced
+law_kind(civil_disclosure_law,civil).
+question(q(civil_law_against_seal)). question_kind(q(civil_law_against_seal),doctrinal).
+value(q(civil_law_against_seal),(yes;no)). default(q(civil_law_against_seal),yes).
+classification(q(civil_law_against_seal),civil_disclosure_law,contrary_to(seal)).
+question(q(disclosure_harms_souls)). question_kind(q(disclosure_harms_souls),doctrinal).
+value(q(disclosure_harms_souls),(yes;no)). default(q(disclosure_harms_souls),yes).
+classification(q(disclosure_harms_souls),disclosure_k,harm_of_souls).
+#program seal_dispensed.            % HYPOTHETICAL: the supreme authority dispenses the confessor from the seal
+dispensation(dsp_seal,seal,conf_k).
+#program cand_penitent_releases.    % the penitent's permission lifts the seal
+seal_lifted(disclosure_k,penitent_release).

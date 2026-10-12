@@ -22,7 +22,8 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | law | law | done ([ttc-law(7)](research/law-preregistration.md)) |
 | creed | Scripture as tier 0; the creeds; the Incarnation; Mary; the economy | done ([ttc-creed(7)](research/creed-preregistration.md)) |
 | moral | the morality of acts, sin, grace | done ([ttc-moral(7)](research/moral-preregistration.md)) |
-| christ | Christ's acts; the sacraments; the seal; presence by mode | stamped; amendment committed, to stamp; **next** ([ttc-christ(7)](research/christ-preregistration.md)) |
+| christ | Christ's acts; the sacraments; the seal; presence by mode | done ([ttc-christ(7)](research/christ-preregistration.md)) |
+| moral amendment | verdicts and obligation: illicit, may, must | to predict; **next** |
 | communion | faith and communion | to predict |
 | canon | the canon-law step | to predict |
 | last things | soteriology and eschatology | to predict |
@@ -32,21 +33,29 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 
 ## NEXT STEPS IN DETAIL
 
-### christ (amendment to stamp, then encode)
+### moral amendment (to predict)
 
-The amendment is committed (presence typed by mode; the three outputs of
-a sacrament; nullity and dissolution). Stamp it, then encode. What to
-watch:
+From a run of the trolley problem on the moral library (2026-10-12). It
+changes `moral.lp`, so it is predicted and stamped first.
 
-- Trent's "no repugnance" (DH 1636) as the warrant for typing presence
-  by mode (PM2); one body in two places as the schools' question (PM3);
-  Berengar's profession of 1059 read two ways (PM4).
-- The fruit of a sacrament as input (SA8); infants, where the deposit
-  states the fruit, composed and never entered as a state (SA9); a
-  declaration of nullity read as a divorce (SA10).
-- The seal (SA7): a generic delict; coercion (c. 1324 §1 n. 5, §3);
-  "the nature of the sacrament" checked as a ground.
-- The minister acts as Christ's instrument: why "We baptize" fails (SA5).
+- **A negative verdict.** The library says "licit on the claims" or
+  nothing. An act of a kind evil by its object is illicit on the kind
+  alone, with no interior claim: a verdict on the act, not the person
+  (rule 3 allows it). Failing double effect is not the same verdict.
+- **"Evil as means" and "direct".** Whether an evil effect that is the
+  means makes the act "direct killing" is a reading: by the physical order
+  of causes (the manualists) or by what is chosen (Anscombe, Finnis). It
+  branches. Cases: the craniotomy responses of the Holy Office (1884,
+  1889), ectopic pregnancy, the gravid cancerous uterus (Pius XII).
+- **Sources into the graph.** *Evangelium vitae* 57 and 62 ("I confirm":
+  a claim of the ordinary universal magisterium, computed both ways),
+  *Veritatis splendor* 80, CCC 2258, 2271.
+- **May and must.** Licit is permission. Obligation needs its own shape:
+  negative precepts bind always and in every instance (*semper et pro
+  semper*), affirmative ones always but not at every moment (VS 52; II-II
+  q. 33 a. 2). Pulling the lever is "may".
+- **Test cases**: the trolley (lever, push, loop); abortion; IVF
+  (*Donum vitae*, 1987; *Dignitas personae*, 2008; HV 12).
 
 ### communion
 
@@ -56,9 +65,19 @@ as offences against the bonds; II-II qq. 1–16 and 39; LG 14.
 
 ### canon
 
-A delict that need not be a consecration, absolution or marriage;
 c. 1399; c. 1752; the DDF clause on error about a minor's age, with
-TTC-ACT's N1–N5, now on `moral.lp`'s object and circumstance.
+TTC-ACT's N1–N5, now on `moral.lp`'s object and circumstance. (The
+generic delict input came with the christ step.)
+
+- **Abortion, c. 1397 §2** (c. 1398 before 2021): latae sententiae
+  excommunication for one who procures a completed abortion, and
+  notoriously tricky. What "abortion" is: the 1988 interpretation is
+  authentic (c. 16 §1), unlike the 2000 declaration on c. 915;
+  "completed"; necessary accomplices (c. 1329 §2);
+  and the exemptions and mitigations that keep the latae sententiae from
+  binding: age (cc. 1323 n. 1, 1324 §1 n. 4), ignorance of the penalty
+  (c. 1324 §1 n. 9), grave fear (c. 1324 §1 n. 5, §3). The act layer has
+  them; the case tests them together.
 
 ### last things
 
@@ -95,7 +114,31 @@ TTC-ACT's N1–N5, now on `moral.lp`'s object and circumstance.
 - Interpretations of quantum mechanics as runtimes, tested against one
   soul as the form of one body and one judgment (DH 902, 1000).
 
+### L (after the libraries)
+
+- **A metaobject protocol for L** (Lethen, "Computational Theology: A
+  Metaobject-Based Implementation of Models of Generalised Trinitarian
+  Logic", *TheoLogica* 6/2, 2022). Keep answer-set programming as the
+  engine: its stable models are the branches, negation as failure is the
+  presumption "until rebutted", constraints delete branches, choice rules
+  compute a disputed fact both ways. Take from the MOP the shape of L
+  itself: kinds of declaration (norm, reading, claim, presumption, runtime)
+  as metaclasses, each compiling itself to clingo; a runtime defined by
+  inheritance from another, with an explicit combiner (union or override)
+  where definitions clash, and the pair test as the clash report.
+
 ## AMENDMENTS AND REPAIRS
+
+- **Lethen's models as test cases.** His seven dogmas (Ott's D1–D7) and
+  "generalised trinitarian logics" (a dogma dropped, altered or added) are
+  this checker's candidates and runtimes. To check: whether the kernel
+  refuses a fourth divine person outside the incarnate's case (his D1);
+  his models (a)–(d) and the six-person godhead; his D5 formula, which
+  drops "as from a single principle" (the grain, A3, keeps it); and his
+  definition of subordination as precedence in every topological order,
+  which makes the order of origin a rank: refused by A10 and by the
+  *Quicumque*, "nothing before or after, nothing greater or less"
+  (DH 75; ST I q. 42 a. 3).
 
 - **The kernel's world** treats an oak or a lion as one creature. What
   counts as one creature should become input.

@@ -351,3 +351,75 @@ Church does not judge (*Apostolicae curae* 33).
 - CIC cc. 1057 §1, 1141, 1142, 1143, 1643, 1682 §1 (as revised by *Mitis
   Iudex Dominus Iesus*, 2015)
 - *Catholic Encyclopedia*, "Bilocation" (1907)
+
+## SCORING
+
+Appended after the runs. Predictions committed in 9e4afb1, corrected in
+877e045 and b22a7c8, stamped (as 3e794f2) in 3ef1fb1; the amendment
+committed in 2f9cfa5 and stamped in bd682dc. Encoded in `christ.lp` and
+`sacrament.lp` (new libraries), `act.lp` (the agent by a nature; one
+presumption), `moral.lp` (sin of either gravity, on the claims),
+`kernel_core.lp` and `kernel_world.lp` (without sin; presence typed by
+mode; Christ at the right hand), `law.lp` (civil law), `schools.lp` (the
+Thomist reading of one circumscribed place), `canon_law.lp` (cc. 842, 845,
+966 routed, 983, 1057, 1141-1143, 1386, 1643, 1682; the generic delict),
+`icon_history.lp` (the schools' questions, Trent's can. 23, Berengar, the
+conditions of the substance, "We baptize", the seal) and `canon_cases.lp`.
+Scenarios CH, PM, SM (43).
+
+| | Result |
+| --- | --- |
+| CH1 | Held (CH1, CH1b). `act.lp` reads the nature: the incarnate is the agent of a human act by the nature assumed, where the runtime grants it an operation; the act is an *actus humanus* of a divine person, who is not made a creature. On bare there is no such act (CH1b). No TTC-ACT scenario changed. |
+| CH2 | Held in outcome, false in one clause (CH2, CH2b, CH2c). Claims composing a sin of Christ are refused on DH 301, and nothing is computed. But he is not "the one person of whom the deposit states the interior": Trent's can. 23 states that Mary avoided all venial sin "as the Church holds" (DH 1573), outside the anathema, and the Immaculate Conception states her preservation from original sin (DH 2803). Typed tier 3, the clause refuses the same claims of Mary in the main branch; the shadow is clean. |
+| CH3 | Held (CH3, CH3b). Four main branches; Thomas, a Doctor, weighs above Scotus, as a preference. The library is clean on the four runtimes and the default, and red only on bare, by CR6. |
+| SA1 | Held. Absolution and consecration are routed through the library, c. 1321 §4 through the one presumption; of the 350 earlier scenarios none changed output. Marriage is routed in part: its two conditions are typed by the library's law; validity and the bond stay the canons' (cc. 1057, 1108). |
+| SA2 | Held (SM2, SM2b, SM2c). Typed by its law, the canonical form is dispensed (c. 1127 §2), and dispensations from the water of baptism and from the power of orders are refused as dispensing divine law, by c. 85's existing rules. Consent, of the substance on a tier-3 ground (CCC 1626), is refused in the main branch; in its shadow it could be dispensed, as the seal could. With the substance unclassified nothing is typed: nothing dispensed, nothing refused. The Code cited to settle the substance is refused as law answering doctrine (rule 1). |
+| SA3 | Held (SM3, SM3b). One rule, `presumed(X) :- raises(X), not rebutted(X)`, serves c. 1321 §4 and the presumption of intention; a test pins it. The test of rule 3 passes. |
+| SA4 | Held (SM4), on the sacrament cases: every validity becomes a branch on the minister's state of grace (16 branches), and the candidate is refused in each. Not run on the SSPX case, where it would multiply 128 branches by two for each of seven ministers. |
+| SA5 | Held (SM5). |
+| SA6 | Held (SM6, SM6b). The repetition is flagged as a null celebration, a note, not a violation: the act took place. The 1988 and 2026 consecrations are valid on the presumption, with the character; no SX scenario changed. |
+| SA7 | Held, with two inputs, not one (SM7, SM7b, SM7c): the generic delict needs its date (`delict_act/3`, `act_date/2`). The ground is a classification at tier 3 and Thomas; the ecclesiastical branch is a live shadow, where the supreme authority could dispense (SM7b) and a civil law requiring disclosure is not shown void. In the main branch it is; the penitent's release is refused in both branches, by c. 983's "for any reason", not by the ground. The coerced confessor is not exempt, is mitigated, and is not bound by the latae sententiae; the delict stands. |
+| PM1 | Held (PM1). |
+| PM2 | Held (PM2, PM2b), on every runtime and on bare. |
+| PM3 | Held (PM3, PM3b). |
+| PM4 | Held in part (PM4, PM4b). Before Trent both readings stand (tested as of 1550). From 1551 the value is excluded at tier 1, but the reading is not: read of the body in its own species, the profession stands, recorded against tier 1. A reformable text read against a later definition is outranked, not excluded; only Scripture's readings are excluded by a definition, by inerrancy. |
+| PM5 | Held (PM5). Not predicted: the Father under the species is refused by the nature, as his birth of Mary is (PM5b). |
+| PM6 | Held (PM6, PM6b); a layman's Mass makes nothing present (PM1). |
+| SA8 | Held (SM8, SM8b). |
+| SA9 | Held (SM9, SM9b). `reborn_on_the_deposit` is the one composition about a person's grace that rests on no interior claim; the test of rule 3 names it as the deposit's, and leaves it out. |
+| SA10 | Held (SM10, SM10b, SM10c). |
+| M1 | Held. The TTC-SCHOOLS tables pass unchanged; of the 350 earlier scenarios none changed output, the TTC-ACT, TTC-LAW, TTC-CREED and TTC-MORAL results among them. |
+| M2 | Held after closing gaps. Each new statement was deleted in turn; every deletion now turns a scenario red, save case records of a rite rightly used, which the presumption makes redundant (below). Closed on the way: dead rules removed (a date read for absolutions, a rule withholding the presumption, the faculty as a condition in question); cases added for an angel circumscribed, a mode unknown, the Father in heaven as a spirit is, confirmation and anointing, a later valid baptism, c. 99, orders twice, a doubt of matter, a Pauline dissolution, a marriage without the form, an uncoerced confessor; the schools' and Berengar's sources pinned by their weights. CL1 and PR4 clean. |
+| M3 | Held. No earlier result changed; the Thomist reading of PM3 fires on no earlier case. |
+
+### Not predicted
+
+- **Two interiors** (CH2): Mary's, at tier 3 for actual sin and at tier 1
+  for her preservation.
+- **Outranked, not excluded** (PM4).
+- **A defective rite fails as a rite.** First encoded, a wrong matter or
+  form also failed the intention, since the presumption was withheld. The
+  withholding changed no validity and was removed: the intention fails
+  only on its own outward signs.
+- **A rite recorded as rightly used adds nothing.** A celebration that
+  records no defect is presumed performed by the books, so a record of the
+  right matter and form survives deletion; only a wrong one changes a
+  result.
+- **c. 1321 §4's rebuttal had no test** since TTC-ACT; routed through the
+  one presumption, it has one now (SM3b).
+- **A faculty is granted, not dispensed.** Typing a condition by its law
+  makes every ecclesiastical condition dispensable, the faculty to absolve
+  among them; c. 966 §1 gives it by law or by concession. The case that
+  dispensed it was dropped, and the typing's reach is a caveat.
+- **The canons' report on the form of marriage** called a dispensed form
+  invalid; it now reports the dispensation.
+- **The form binds everyone here.** c. 1117 (the form binds where a party
+  is Catholic) is not encoded; a Pauline case uses the form so that its
+  natural bond exists.
+- **Thomas was not yet a Doctor in 1550.** Berengar's literal reading is
+  outweighed then by a theologian of tier 5 (PM4b).
+- **The Trinity under monopatrism and DH 1330.** The christ group loads
+  the creed, so monopatrism changes it as it changes CR; under encoding A
+  of DH 1330, CH3b and PM3b redden through the Palamite runtime, whose
+  persons are left undistinguished there (as FQ19). Both tests leave the
+  group out, saying why.

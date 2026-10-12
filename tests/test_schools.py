@@ -69,8 +69,10 @@ def test_dh1330_deposit():
     from theological_type_checker.schools import encoding, run
     # RT13, RT14 probe encoding A themselves. The creed group, written after the stamp, is left out: under
     # encoding A it gains the expected undistinguished persons in CR1e (as FQ19) and CR2b, and turns nothing red.
-    # The moral group (TTC-MORAL), also later, loads no Trinity.
-    scen = [s for s in suite.S if s["group"] not in (suite.RT, suite.CR, suite.MR)]
+    # The moral group (TTC-MORAL), also later, loads no Trinity. The christ group (TTC-CHRIST), later still,
+    # changes no violation under encoding A; CH3b and PM3b turn red there because they boot the Palamite
+    # runtime, whose persons encoding A leaves undistinguished (as FQ19).
+    scen = [s for s in suite.S if s["group"] not in (suite.RT, suite.CR, suite.MR, suite.CX)]
     with encoding(True):
         a = {s["id"]: run(s) for s in scen}
     b = {s["id"]: run(s) for s in scen}

@@ -18,6 +18,8 @@
 % ===================================================================
 
 % @input acts/1 | from the runtime (schools.lp, classical): creatures act
+% @input operates/2 | from the runtime (schools.lp, classical): operates(X, hum), the incarnate's human operation
+% @input in_nature/2 | in_nature(Act, Nature): the nature by which the person places the act (the kernel's T5 natures)
 % @input divine/1 | from the kernel's sorts
 % @input god/1 | from the kernel's sorts
 % @input interior/3 | interior(Person, Act, Element): a claim about the agent's knowledge, will or freedom in the act; supplied, never derived
@@ -26,10 +28,14 @@ assumed_fact(interior(P,A,X))        :- disputed(interior(P,A,X)), interior(P,A,
 assumed_fact(false(interior(P,A,X))) :- disputed(interior(P,A,X)), not interior(P,A,X).
 
 % ---------- Agents -----------------------------------------------------
-% Only a creature places an act the canons judge, and it acts only if
-% creatures act at all (agere sequitur esse: the classical runtime).
+% The person acts; the nature is that by which (ST III q. 19 a. 1). A
+% creature acts by its own nature, if creatures act at all (agere sequitur
+% esse: the classical runtime); the incarnate places a human act by the
+% nature assumed, where the runtime grants it an operation (DH 557). A
+% divine person is never made a creature by acting (TTC-CHRIST CH1).
 creature(P)  :- act_of(P,_), not divine(P), not god(P).
 agent(P,A)   :- act_of(P,A), acts(P).
+agent(P,A)   :- act_of(P,A), in_nature(A,hum), operates(P,hum).
 
 % ---------- Kinds of act (ST I-II q. 1 a. 1; q. 6 a. 5) ------------------
 % An actus humanus proceeds from knowledge and deliberate will; force from
@@ -67,6 +73,16 @@ necessity(P,A)           :- interior(P,A,necessity).
 chance(P,A)              :- interior(P,A,chance).
 due_defence(P,A)         :- interior(P,A,defence(moderate)).
 believed(P,A,C,K)        :- interior(P,A,believed(C,K)).
+
+% ---------- Presumptions (c. 1321 §4; Apostolicae curae 33) ---------------
+% One shape (TTC-CHRIST SA3): an outward fact raises a presumption about the
+% interior, and only an outward fact rebuts it. What is presumed is what the
+% external forum holds, never a finding about the soul: the Church "does not
+% judge about the mind and intention, in so far as it is something by its
+% nature internal" (Apostolicae curae 33).
+% @input raises/1 | raises(X): an outward fact raises the presumption X (from a canon or a library)
+% @input rebutted/1 | rebutted(X): an outward fact rebuts the presumption X
+presumed(X) :- raises(X), not rebutted(X).
 
 % ---------- Dolus and culpa (c. 1321 §§2-3) -------------------------------
 % Compositions of the elements. Dolus: the violation known and willed.

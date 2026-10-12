@@ -43,6 +43,9 @@ full_knowledge(P,A)     :- interior(P,A,full_knowledge).
 deliberate_consent(P,A) :- interior(P,A,deliberate_consent).
 mortal_on_the_claims(P,A) :- actus_humanus(P,A), kind_of_act(A,K), sinful_kind(K), grave_by_matter(K),
                              full_knowledge(P,A), deliberate_consent(P,A).
+% Sin of either gravity, on the claims: an act of a sinful kind with consent
+% claimed (CCC 1862 for venial sin). TTC-CHRIST CH2 reads it.
+sin_on_the_claims(P,A) :- actus_humanus(P,A), kind_of_act(A,K), sinful_kind(K), deliberate_consent(P,A).
 
 % ---------- Double effect (II-II q. 64 a. 7; CCC 2263-2265) ------------------
 % Two conditions are outward and computed: the object is not evil, and the
