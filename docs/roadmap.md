@@ -24,7 +24,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | moral | the morality of acts, sin, grace | done ([ttc-moral(7)](research/moral-preregistration.md)) |
 | christ | Christ's acts; the sacraments; the seal; presence by mode | done ([ttc-christ(7)](research/christ-preregistration.md)) |
 | moral amendment | verdicts and obligation: may, must, must not; social doctrine as tests | done ([ttc-precept(7)](research/precept-preregistration.md)) |
-| communion | faith and communion | to predict |
+| communion | faith and communion: notes, denials, bonds | predicted; **to stamp** ([ttc-communion(7)](research/communion-preregistration.md)) |
 | canon | the canon-law step | to predict |
 | liturgy | the liturgy as witness, rite and development | to predict |
 | last things | soteriology and eschatology | to predict |
@@ -34,11 +34,15 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 
 ## NEXT STEPS IN DETAIL
 
-### communion
+### communion (predicted, to stamp)
 
-c. 11 (who is bound by merely ecclesiastical law); c. 205 (the three
-bonds: faith, sacraments, governance); c. 751 (heresy, apostasy, schism)
-as offences against the bonds; II-II qq. 1–16 and 39; LG 14.
+The notes of teaching read off the graph (c. 750 §§1–2, c. 752; the CDF's
+commentary of 1998); professions and their censures; heresy, apostasy and
+schism (c. 751; II-II qq. 5, 11, 12, 39); cc. 11, 96, 205; c. 1364;
+c. 1371 n. 1 (1983, 1998) and c. 1365 (2021); c. 1117 (1983, 2009); LG 14.
+Writing the predictions found that the commentary lists EV 57 among the
+truths of the first paragraph (n. 11), where TTC-PRECEPT typed its claim
+at tier 2 (NT4).
 
 ### canon
 
@@ -187,6 +191,12 @@ from forms already existing" (SC 23). Three faces:
   among moralists; the typing could become a disputed fact.
 - **Social justice** (CCC 1928-1948) is still on the frontier: respect for
   the person, equality, solidarity (TTC-PRECEPT M3).
+- **Religious liberty.** The SSPX's own question: *Dignitatis humanae* 2
+  against *Quanta cura* and the Syllabus (1864), whose force is claimed
+  ex cathedra by some, and against *Exsurge Domine* (1520) prop. 33,
+  condemned *in globo*. An *in globo* censure fixes no note for any one
+  proposition: each listed note is a reading. One question or two, as
+  with usury.
 - **Sources the amendment left out:** *Veritatis splendor* 80, CCC 2258,
   Pius XII on the gravid cancerous uterus, HV 12.
 
