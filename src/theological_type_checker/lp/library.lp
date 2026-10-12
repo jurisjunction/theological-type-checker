@@ -47,6 +47,7 @@ cites_work(trent_1563, dh43, "DH 1807").
 cites_work(trent_1551, dh43, "DH 1661").
 cites_work(lg25, gasser_relatio, "relatio of 11 July 1870").
 cites_work(ed1988, aas, "AAS 80 (1988) 1495-1498").
+cites_work(ad_sanctam_1656, dh43, "DH 2010-2012").   % TTC-PENAL FO2: its conditions, unread
 
 % research the theory still owes (docs/research/warrants-and-prior-art.md)
 to_read(comentario_exegetico, "Bañares on cc. 1057, 1084, 1091; Fornés on cc. 1134-1135: may already contain the systematic reading claimed as new").

@@ -26,6 +26,10 @@ authentic_reading(c751,act_suffices,ed1988) :- not c751_state_reading.
 % (c. 16 §3)? Its form is disputed, and the checker computes both.
 disputed(interpretation_form(ed1988,law)).
 promulgated(ed1988,19880702).                                      % AAS 80 (1988)
+vacatio_until(ed1988,19880702).     % names no date (c. 8 §1); the acts are dated clear of 1988's months
+% In the form of law, does it only declare words of c. 751 certain in themselves
+% (retroactive, c. 16 §2)? Disputed with its form: computed both ways (TTC-PENAL AB9).
+disputed(declaratory(ed1988)).
 particular_matter(ed1988,(e1988_fellay;e1988_galarreta)).
 % 21 January 2009: the Congregation for Bishops, by papal mandate, remits the
 % excommunication of the four bishops consecrated in 1988.
@@ -283,7 +287,7 @@ formal_cause_essence.
 #program cand_jansenist.            % every interior grace efficacious, none resisted (Jansen)
 every_grace_efficacious.
 #program pclt_confirmed.            % HYPOTHETICAL: the 2000 declaration confirmed by pontifical authority and promulgated
-authority(pclt,4). interpretation_form(pclt2000,law). promulgated(pclt2000,20000624).
+authority(pclt,4). interpretation_form(pclt2000,law). promulgated(pclt2000,20000624). vacatio_until(pclt2000,20000624).
 
 % ---------- Christ and the sacraments (TTC-CHRIST), all HYPOTHETICAL -------------
 #program christ_acts.               % HYPOTHETICAL: a human act of the incarnate, the divinity's instrument (load with creed)
@@ -574,3 +578,92 @@ baptized_in((lefebvre;fellay;galarreta;conf_j;conf_k),catholic).
 #program lg14_case.                 % HYPOTHETICAL: full communion, and grace claimed both ways
 baptized_in(fid_l,catholic). communion_at_issue(fid_l).
 disputed(interior(fid_l,state,in_grace)).
+
+% ---------- Abortion, c. 1399, c. 1752, the Dicastery's clause, fictions (TTC-PENAL), all HYPOTHETICAL ----
+#program abortion_canon.            % HYPOTHETICAL: direct abortions, one mother each (load with life_sources and abortion)
+today(20261010).
+unborn(death_of_unborn).
+procures(doctor_b,(ab_15;ab_17;ab_fear;ab_pen;ab_aff;ab_out;ab_try;ab_19;ab_87;ab_87x;ab_90)).   % the one who performs it
+object_is((ab_15;ab_17;ab_fear;ab_pen;ab_aff;ab_out;ab_try;ab_19;ab_87;ab_87x;ab_90),death_of_unborn).
+effect((ab_15;ab_17;ab_fear;ab_pen;ab_aff;ab_out;ab_try;ab_19;ab_87;ab_87x;ab_90),death_of_unborn,evil).
+act_date((ab_15;ab_17;ab_fear;ab_pen;ab_aff;ab_out;ab_try),20230401).
+procures(m_15,ab_15).     age_at(m_15,ab_15,15).                                  % c. 1323 n. 1
+procures(m_17,ab_17).     age_at(m_17,ab_17,17).                                  % c. 1324 §1 n. 4, §3
+procures(m_fear,ab_fear). interior(m_fear,ab_fear,fear(grave,extrinsic,unjust)).  % c. 1323 n. 4's exception; c. 1324 §1 n. 5
+procures(m_pen,ab_pen).   interior(m_pen,ab_pen,ignorance(penalty,invincible)).   % c. 1324 §1 n. 9
+procures(m_aff,ab_aff).   interior(m_aff,ab_aff,ignorance(penalty,affected)).     % c. 1325
+procures(m_out,ab_out).   baptized_in(m_out,lutheran).                           % c. 11
+procures(m_try,ab_try).   attempted_only(ab_try).                                % c. 1328 §1
+assists(nurse_n,ab_15).   disputed(necessary_assistance(nurse_n,ab_15)).          % c. 1329 §2
+assists(nurse_u,ab_17).                                                          % assistance not necessary
+act_date(ab_19,20190401).                                                        % under c. 1398 (1983)
+act_date(ab_87,19870301). act_date(ab_90,19900301).                               % killed in utero, not by expulsion
+act_date(ab_87x,19870302). by_expulsion(ab_87x).                                  % the expulsion of the immature fetus
+
+#program abortion_canon_di.         % HYPOTHETICAL: TTC-PRECEPT's acts, dated (load with abortion or ectopic and their sources)
+today(20261010).
+unborn((death_of_unborn;death_of_child;death_of_embryo_s;death_of_embryo_t;death_of_embryo_m)).
+act_date((abort_1;cranio;tube_out;embryo_out;mtx),20230301).
+procures(mother_a,abort_1).                                                      % the mother who seeks it
+procures(doctor_a,abort_1). procures(doctor_c,cranio). procures(doctor_e,tube_out).   % those who perform them
+procures(doctor_t,embryo_out). procures(doctor_m,mtx).
+
+#program cand_salus_animarum.       % "salus animarum suprema lex" read as a power to set a penalty aside (load with abortion_canon)
+sets_aside(text_s,n1397,salus_animarum).
+latae_excused(P,N,E) :- delict(P,N,E), sets_aside(_,N,salus_animarum).
+
+#program transfer_case.             % HYPOTHETICAL: a pastor transferred (cc. 1748-1752)
+transfer(dec_t,pastor_t,20230601).
+
+#program c1399_case.                % HYPOTHETICAL: violations no canon names
+today(20261010).
+question(q(k_v_evil)). question_kind(q(k_v_evil),doctrinal). value(q(k_v_evil),(yes;no)). default(q(k_v_evil),yes).
+classification(q(k_v_evil),k_v,evil_by_object).
+act_of(cat_v,act_v). kind_of_act(act_v,k_v). act_date(act_v,20230501).
+special_gravity(ordinary_v,act_v). scandal_necessity(ordinary_v,act_v).          % the authority's judgments, supplied
+act_of(cat_w,act_w). kind_of_act(act_w,k_v). act_date(act_w,20230502).            % no judgment
+act_of(cat_f,act_f). kind_of_act(act_f,k_f). act_date(act_f,20230503).            % forbidden by an ecclesiastical law
+forbids(l_f,k_f). law_kind(l_f,ecclesiastical).
+special_gravity(ordinary_v,act_f). scandal_necessity(ordinary_v,act_f).
+act_of(out_v,act_o). kind_of_act(act_o,k_v). act_date(act_o,20230504). baptized_in(out_v,lutheran).   % c. 11
+special_gravity(ordinary_v,act_o). scandal_necessity(ordinary_v,act_o).
+act_of(conf_v,act_x). kind_of_act(act_x,k_v). act_date(act_x,20230505).           % a specific canon reaches it
+delict_act(conf_v,n1386,act_x). special_gravity(ordinary_v,act_x). scandal_necessity(ordinary_v,act_x).
+
+#program art6_case.                 % HYPOTHETICAL: a cleric's delict with a minor, the error about the age claimed (TTC-ACT N1-N5)
+today(20261010).
+priest((cl_a;cl_b)).
+delict_act(cl_a,n1398_1,act_a). act_date(act_a,20230301). disputed(interior(cl_a,act_a,error(fact(minor),invincible))).
+delict_act(cl_b,n1398_1,act_b). act_date(act_b,20230302). interior(cl_b,act_b,error(fact(minor),vincible)).
+% unlawful apart from the age: c. 277 §1, perfect and perpetual continence
+kind_of_act((act_a;act_b),unchaste_act_of_cleric). forbids(c277_1,unchaste_act_of_cleric). law_kind(c277_1,ecclesiastical).
+#program art6_papal.                % the norms of 2021, promulgated by papal rescript (11 October 2021)
+issuer(sst2021,francis). authority(francis,4).
+#program art6_decree.               % HYPOTHETICAL: the clause entered as a dicastery's general decree
+issuer(sst2021,ddf). authority(ddf,3).
+#program art6_rank_disputed.        % HYPOTHETICAL: whether papal approval was given, disputed
+disputed(issuer(sst2021,francis)). authority(francis,4).
+#program art6_transposed.           % HYPOTHETICAL (TTC-ACT N4): the clause on an act lawful apart from the circumstance
+element_of(n_hyp,minor). age_clause(sst_hyp,n_hyp). issuer(sst_hyp,pope_h). authority(pope_h,4).
+delict(P,n_hyp,E) :- delict_act(P,n_hyp,E).
+delict_act(lay_t,n_hyp,act_t). act_date(act_t,20230303). interior(lay_t,act_t,error(fact(minor),invincible)).
+kind_of_act(act_t,k_lawful).
+#program cand_art6_moral.           % the clause read as a moral judgment: the species of the act though the age was unknown without fault (TTC-ACT N3)
+question(q(species_with_age_unknown)). question_kind(q(species_with_age_unknown),doctrinal).
+value(q(species_with_age_unknown),(yes;no)). default(q(species_with_age_unknown),yes).
+law_answers(q(species_with_age_unknown)).
+
+#program fiction_acts.              % HYPOTHETICAL: acts in the name of a juridic person, and of the Apostolic See (c. 118)
+question(q(k_s_evil)). question_kind(q(k_s_evil),doctrinal). value(q(k_s_evil),(yes;no)). default(q(k_s_evil),yes).
+classification(q(k_s_evil),k_s,evil_by_object).
+juridic_person(diocese_d). represents(bishop_d,diocese_d).
+act_of(diocese_d,act_d). kind_of_act(act_d,k_s). interior(bishop_d,act_d,deliberate_consent).
+represents(pope_r,apostolic_see). act_of(apostolic_see,act_as). kind_of_act(act_as,k_neutral).
+#program cand_state_is_evil.        % "the state is evil": the state as the agent of an act evil by its object, with consent claimed
+question(q(k_s_evil)). question_kind(q(k_s_evil),doctrinal). value(q(k_s_evil),(yes;no)). default(q(k_s_evil),yes).
+classification(q(k_s_evil),k_s,evil_by_object).
+juridic_person(state_x).            % a fiction of civil law
+act_of(state_x,act_x_s). kind_of_act(act_x_s,k_s). interior(state_x,act_x_s,deliberate_consent).
+#program cand_fiction_delict.       % a delict and its excommunication imputed to a juridic person (Romana ecclesia)
+today(20261010). juridic_person(college_c).
+delict_act(college_c,n1386,act_c). act_date(act_c,20230701).

@@ -1219,7 +1219,9 @@ scen("LW1", LW, "Ecclesia Dei adflicta given in a particular matter: the 2026 ti
       main_with("q(act1988_schismatic)=yes", "delict(lefebvre,n1364_1983", where=ED_PARTICULAR),
       main_with("q(act2026_schismatic)=yes", "declined_by_strict_interpretation(c751,act_suffices,e2026_schreiber)",
                 where=ED_PARTICULAR),
-      main_with("q(act2026_schismatic)=yes", "declined_by_strict_interpretation", present=False, where=ED_LAW),
+      # TTC-PENAL AB9 (expectation changed): given as law, Ecclesia Dei reaches 30 June 1988 only where it
+      # is declaratory (c. 16 §2), so a strict reading can now appear in that world for 1988; never for 2026.
+      main_with("q(act2026_schismatic)=yes", "declined_by_strict_interpretation(c751,act_suffices,e2026", present=False, where=ED_LAW),
       info_none("law_without_premise")],
      "c. 16 §3: the reading reaches 1988 only; for 2026, c. 18 reads c. 751 strictly: no title under c. 1364, "
      "c. 1387 still reaches Bp Fellay as co-consecrator; 1988 untouched", mode=B)
@@ -2214,9 +2216,15 @@ scen("FC1", CO, "c. 96 and c. 205", FIL,
       only_with("info(bond_broken(theo_c,profession))", "assumed_fact(interior(theo_c,prof_c,pertinacious))"),
       lambda r: (all(f"info(in_full_communion({p}))" in b["facts"] for b in solve(["seal", "seal_case", "communion_asked"], "branches")["branches"]
                      for p in ("conf_j", "conf_k")), "the confessors, excommunicated or not, in full communion"),
+      # TTC-PENAL AB9 (expectation changed): where Ecclesia Dei, given as law, is not declaratory, it does not
+      # reach 30 June 1988 (c. 16 §2) and Abp Lefebvre's bond stands; the 2026 act breaks the other two.
       lambda r: (all(f"info(bond_broken({p},governance))" in b["facts"]
                      for b in solve(["sspx", "lattice", "communion_asked"], "branches")["branches"] if b["status"] == "main"
-                     for p in ("lefebvre", "fellay", "galarreta")), "1988: the bond of governance broken in every main branch")],
+                     for p in (("fellay", "galarreta") if ED_NOT_DECL in b["assume"] else ("lefebvre", "fellay", "galarreta")))
+                 and all("info(in_full_communion(lefebvre))" in b["facts"]
+                         for b in solve(["sspx", "lattice", "communion_asked"], "branches")["branches"]
+                         if b["status"] == "main" and ED_NOT_DECL in b["assume"]),
+                 "1988: the bond broken in every main branch the reading reaches; not where Ecclesia Dei is law and not declaratory")],
      "the Orthodox theologian incorporated, not in full communion; no delict but c. 751's breaks a bond", mode=B)
 scen("FC2", CO, "The commentary and the canon diverge", ANG + ["commentary_communion"],
      [in_branches("info(in_full_communion(theo_a))"), cls("q(definitive_denial_breaks_communion)=no", "shadow"),
@@ -2227,6 +2235,235 @@ scen("FC3", CO, "LG 14: in body, not in heart", ["lg14_case"],
      [only_with("info(fully_incorporated_on_the_claims(fid_l))", "assumed_fact(interior(fid_l,state,in_grace))"),
       only_with("info(in_body_not_in_heart_on_the_claims(fid_l))", "assumed_fact(false(interior(fid_l,state,in_grace)))")],
      "on the claim of grace, both ways", mode=B)
+
+# ---------- TTC-PENAL: abortion, c. 1399, c. 1752, the Dicastery's clause; form and object; fictions ----
+PN = "penal"
+ABC = ["life_sources", "abortion", "abortion_canon"]
+ABD = AB + ["abortion_canon_di"]
+ECD = EC + ["abortion_canon_di"]
+ART6 = ["art6_case"]
+ED_DECL, ED_NOT_DECL = "assumed_fact(declaratory(ed1988))", "assumed_fact(false(declaratory(ed1988)))"
+
+def follows_verdict(parts, acts):
+    """in every main branch, the act is the delict of c. 1397 §2 exactly where it is "must not" as a direct killing"""
+    def chk(_r):
+        bad = []
+        for b in solve(parts, "branches")["branches"]:
+            if b["status"] != "main":
+                continue
+            for p, a in acts:
+                v = f"info(verdict({a},must_not,by_object(direct(killing_of_innocent))))" in b["facts"]
+                d = f"info(delict({p},n1397,{a}))" in b["facts"]
+                if v != d:
+                    bad.append((a, v, d))
+        return not bad, "delict exactly where the verdict is the direct killing" if not bad else f"apart: {bad[:3]}"
+    return chk
+
+def outcomes(parts, person):
+    """the set of outcomes for a person across branches: exempt, imposed, or neither"""
+    out = set()
+    for b in solve(parts, "branches")["branches"]:
+        f = b["facts"]
+        out.add("exempt" if f"info(exempt({person}," in " ".join(f) else
+                "imposed" if any(x.startswith(f"info(to_be_imposed({person},") for x in f) else "neither")
+    return out
+
+def noted_by_grade(q, doc):
+    """de fide where the claim holds at grade 1, definitive at 2, authentic without it; no contrary under grade 1"""
+    def chk(r):
+        bad = []
+        for b in r["branches"]:
+            if b["status"] != "main":
+                continue
+            g = 1 if f"graded({doc},1)" in b["assume"] else 2 if f"oum_holds({doc})" in b["assume"] else 0
+            want = {1: "de_fide", 2: "definitive", 0: "authentic"}[g]
+            if f"info(note({q},yes,{want}))" not in b["facts"]:
+                bad.append(want)
+        excl = [b for b in r["branches"] if f"{q}=no" in b["values"] and f"graded({doc},1)" in b["assume"]]
+        return not bad and not excl, "noted by grade; no contrary under grade 1" if not bad and not excl else f"wrong: {bad[:3]} {len(excl)}"
+    return chk
+
+def feeds_nothing(norm):
+    def chk(_r):
+        from .norms import graph
+        out = [e for e in graph()["edges"] if e[0] == norm]
+        return not out, f"{norm} feeds nothing" if not out else f"{norm} feeds {out}"
+    return chk
+
+scen("AB1", PN, "Abortion: the matter from the library", ABD,
+     [in_branches("info(delict(doctor_a,n1397,abort_1))", "main"), in_branches("info(delict(mother_a,n1397,abort_1))", "main"),
+      in_branches("info(delict(doctor_c,n1397,cranio))", "main", [CAUSAL]),
+      in_branches("info(delict(doctor_c,n1397,cranio))", "main", [CHOICE], [chose("doctor_c", "cranio", "death_of_child")]),
+      in_branches("info(delict(doctor_c,n1397,cranio))", "main", [CHOICE], [chose("doctor_c", "cranio", "death_of_child", False)],
+                  present=False),
+      follows_verdict(ABD, [("doctor_a", "abort_1"), ("doctor_c", "cranio")]),
+      follows_verdict(ECD, [("doctor_e", "tube_out"), ("doctor_t", "embryo_out"), ("doctor_m", "mtx")]),
+      lambda r: (not any("delict(doctor_e," in f for b in solve(ECD, "branches")["branches"] for f in b["facts"]),
+                 "the salpingectomy, licit on the claims: no delict")],
+     "c. 1397 §2 follows the verdicts act by act: the direct killing of the unborn, and only it, is the delict", mode=B)
+scen("AB2", PN, "The attempt", ABC,
+     [in_branches("info(attempt_not_the_delict(m_try,ab_try))", "main"), info_none("info(delict(m_try,", "info(delict(doctor_b,n1397,ab_try)"),
+      in_branches("info(verdict(ab_try,must_not,by_object(direct(killing_of_innocent))))", "main")],
+     "not the delict (c. 1328 §1); the act still \"must not\"", mode=B)
+scen("AB3", PN, "Two texts, one content", ABC,
+     [shown(ABC, ("delict/3",), "delict(doctor_b,n1398_1983,ab_19)", "delict(doctor_b,n1397,ab_15)",
+            absent=("delict(doctor_b,n1397,ab_19)", "delict(doctor_b,n1398_1983,ab_15)")),
+      shown(ABC, ("excommunicated_at/2",), "excommunicated_at(doctor_b,19900301)")],
+     "2019 under c. 1398 (1983), 2023 under c. 1397 §2; no act under both", mode=B)
+scen("AB4", PN, "The exemptions, through the library", ABC,
+     [in_branches("info(exempt(m_15,ab_15))", "main"), in_branches("info(mitigated(m_17,ab_17,minor))", "main"),
+      in_branches("info(mitigated(m_pen,ab_pen,penalty_unknown))", "main"), in_branches("info(mitigated(m_fear,ab_fear,fear))", "main"),
+      in_branches("info(exempt(m_fear,ab_fear))", "main", present=False),
+      in_branches("info(presumed_incurred(m_aff,n1397))", "main"), in_branches("info(ignorance_disregarded(m_aff,ab_aff,penalty))", "main"),
+      in_branches("info(presumed_incurred(doctor_b,n1397))", "main"),
+      info_none("presumed_incurred(m_15,", "presumed_incurred(m_17,", "presumed_incurred(m_pen,", "presumed_incurred(m_fear,"),
+      shown(ABC, ("excommunicated_at/2",), "excommunicated_at(doctor_b,20261010)", "excommunicated_at(m_aff,20261010)",
+            absent=("excommunicated_at(m_17,20261010)",))] +
+     [in_branches(f"info(verdict({a},must_not,by_object(direct(killing_of_innocent))))", "main")
+      for a in ("ab_15", "ab_17", "ab_pen", "ab_fear", "ab_aff")],
+     "under 16 exempt; at 17, the penalty unknown, and grave fear (the act intrinsically evil) mitigated, so not bound; "
+     "affected ignorance disregarded; every act still \"must not\"", mode=B)
+scen("AB5", PN, "One kind, two canons", ABC,
+     [in_branches("info(exempt(m_fear,ab_fear))", None, ["q(direct_killing_of_innocent)=no"]),
+      in_branches("info(mitigated(m_fear,ab_fear,fear))", None, ["q(direct_killing_of_innocent)=yes"])],
+     "c. 1323 n. 4 reads the library's kind: where the kind is not evil by its object (a shadow), fear exempts", mode=B)
+scen("AB6", PN, "Accomplices", ABC,
+     [only_with("info(presumed_incurred(nurse_n,n1397))", "assumed_fact(necessary_assistance(nurse_n,ab_15))"),
+      only_with("info(accomplice_may_be_punished(nurse_n,n1397,ab_15))", "assumed_fact(false(necessary_assistance(nurse_n,ab_15)))"),
+      info_all("accomplice_may_be_punished(nurse_u,n1397,ab_17)"), info_none("presumed_incurred(nurse_u,")],
+     "a necessary accomplice incurs it though the mother (15) is exempt; one not necessary may be punished (c. 1329 §2)", mode=B)
+scen("AB7", PN, "c. 11", ABC,
+     [info_none("delict(m_out,"), in_branches("info(delict(doctor_b,n1397,ab_out))", "main"),
+      shown(ABC, ("delict/3",), "delict(m_out,n1397,ab_out)", facts="received_into(m_out)."),
+      in_branches("info(verdict(ab_out,must_not,by_object(direct(killing_of_innocent))))", "main")],
+     "the mother baptized outside incurs nothing; the act \"must not\" (divine law binds all)", mode=B)
+scen("AB8", PN, "The interpretation of 1988 and its date", ABC,
+     [info_all("not_retroactive(pclt1988,ab_87)", "declined_by_strict_interpretation(abortion,killing,ab_87)"),
+      shown(ABC, ("delict/3",), "delict(doctor_b,n1398_1983,ab_90)", "delict(doctor_b,n1398_1983,ab_87x)",
+            absent=("delict(doctor_b,n1398_1983,ab_87)",)),
+      info_none("not_retroactive(pclt1988,ab_90)"),
+      lambda r: (any("info(not_retroactive(pclt2000,s915))" in b["facts"] and
+                     "info(declined_by_strict_interpretation(c915,objective,s915))" in b["facts"]
+                     for b in solve(["c915_case", "pclt_confirmed"], "branches", facts="today(19991231).")["branches"]),
+                 "judged in 1999, before the declaration's force: not reached, the reading open"),
+      lambda r: (not any("info(declined_by_strict_interpretation(c915,objective,s915))" in b["facts"]
+                         for b in solve(["c915_case", "pclt_confirmed"], "branches", facts="today(20261010).")["branches"]),
+                 "judged in 2026: reached"),
+      shown(["c915_case"], ("violation/1",), "violation(interpretation_without_force(x_int))",
+            facts="applies_reading(x_int,c915,objective). issuer(x_int,pope_x). authority(pope_x,4). "
+                  "interpretation_form(x_int,law). promulgated(x_int,20000101).")],
+     "extensive, not retroactive: 1987, killed in utero, no delict (c. 18: expulsion); expelled, the delict; 1990, the delict. "
+     "A lasting situation is judged on the evaluation date; a law-form interpretation without a date of force is refused", mode=B)
+scen("AB9", PN, "The same rule for Ecclesia Dei", SX,
+     [only_with("info(declined_by_strict_interpretation(c751,act_suffices,e1988_fellay))", ED_NOT_DECL),
+      main_with("q(act1988_schismatic)=yes", "delict(lefebvre,n1364_1983,e1988_fellay)", where=ED_DECL),
+      every_branch_with(ED_NOT_DECL, "delict(lefebvre,n1364_1983", present=False),
+      every_branch_with(ED_NOT_DECL, "delict(lefebvre,n1382_1983,e1988_fellay)"),
+      lambda r: (all(ED_LAW in b["assume"] for b in r["branches"] if ED_NOT_DECL in b["assume"]), "the split is in the law-form world only")],
+     "given as law, it reaches 30 June 1988 only if declaratory; otherwise c. 18 reads c. 751 strictly; c. 1382 reaches them anyway",
+     mode=B)
+scen("GP1", PN, "c. 1399: imposed, on the authority's judgment", ["c1399_case"],
+     [info_all("to_be_imposed(cat_v,n1399,act_v,just_penalty)"), info_none("presumed_incurred(cat_v,", "delict(cat_w,"),
+      shown(["c1399_case"], ("delict/3",), "delict(cat_w,n1399,act_w)",
+            facts="special_gravity(ordinary_v,act_w). scandal_necessity(ordinary_v,act_w).")],
+     "to be imposed, never incurred; without the two judgments, nothing", mode=B)
+scen("GP2", PN, "c. 1399: divine or canon law, and c. 11", ["c1399_case"],
+     [info_all("delict(cat_f,n1399,act_f)", "verdict(act_o,must_not,by_object(k_v))"), info_none("delict(out_v,"),
+      shown(["c1399_case"], ("delict/3",), "delict(out_v,n1399,act_o)", facts="received_into(out_v).")],
+     "a violation of an ecclesiastical law too; not one outside, though the law violated is divine", mode=B)
+scen("GP3", PN, "c. 1399: besides the cases prescribed", ["c1399_case"],
+     [info_all("delict(conf_v,n1386,act_x)"), info_none("delict(conf_v,n1399")],
+     "where a specific canon reaches the act, no second title", mode=B)
+scen("SL1", PN, "c. 1752: the supreme law names no effect", ["transfer_case"],
+     [info_all("to_keep_in_view(dec_t,salus_animarum)"), feeds_nothing("cic:1752")],
+     "a judgment kept in view; in the norm graph it feeds nothing", mode=B)
+scen("SL2", PN, "Salus animarum against the law", ABC + ["cand_salus_animarum"],
+     [any_branch_violation("weighing_against_law(text_s,n1397)"), info_none("presumed_incurred(doctor_b,n1397)")],
+     "refused: canonists never weigh against the law (rule 2)", mode=B)
+scen("N1", PN, "The Dicastery's clause: versari in re illicita", ART6 + ["art6_papal"],
+     [clean_branches, info_all("to_be_imposed(cl_a,n1398_1,act_a,deprivation)", "to_be_imposed(cl_b,n1398_1,act_b,deprivation)")],
+     "the act unlawful apart from the age (c. 277 §1): the clause raises no violation", mode=B)
+scen("N2", PN, "One branch fewer", ART6 + ["art6_papal"],
+     [lambda r: (outcomes(ART6, "cl_a") == {"exempt", "imposed"} and outcomes(ART6 + ["art6_papal"], "cl_a") == {"imposed"},
+                 "without the clause: exempt or imposed; with it: imposed"),
+      lambda r: (any("culpa_not_punished(cl_b" in f for b in solve(ART6, "branches")["branches"] for f in b["facts"]), "without it, culpa unpunished"),
+      info_none("culpa_not_punished(cl_b"), info_all("error_disregarded(cl_b,n1398_1,act_b)"),
+      lambda r: ({any("assumed_fact(interior(cl_a,act_a,error(fact(minor),invincible)))" == a for a in b["assume"]) for b in r["branches"]}
+                 == {True, False}, "the claim still computed both ways")],
+     "the branch in which the error exempts is gone; the claim is still computed both ways", mode=B)
+scen("N3", PN, "Read as a moral judgment", ART6 + ["art6_papal", "cand_art6_moral"],
+     [any_branch_violation("teaching_from_law(q(species_with_age_unknown))")],
+     "refused: law answering a doctrinal question (rule 1)", mode=B)
+scen("N4", PN, "Transposed to a lawful act (HYPOTHETICAL)", ["art6_transposed"],
+     [any_branch_violation("punished_without_fault(lay_t,n_hyp,act_t)"),
+      shown(["art6_transposed"], ("violation/1",), facts="forbids(l_t,k_lawful). law_kind(l_t,ecclesiastical).",
+            absent=("violation(punished_without_fault(lay_t,n_hyp,act_t))",))],
+     "punished without dolus or culpa (c. 1321 §2): flagged", mode=B)
+scen("N5", PN, "Rank", ART6 + ["art6_decree"],
+     [info_all("derogation_refused(sst2021,n1398_1)"), info_any("exempt(cl_a,act_a)"),
+      lambda r: ((bs := [b for b in solve(ART6 + ["art6_rank_disputed"], "branches")["branches"]
+                         if "assumed_fact(interior(cl_a,act_a,error(fact(minor),invincible)))" in b["assume"]])
+                 and all(("assumed_fact(issuer(sst2021,francis))" in b["assume"]) != any(f.startswith("info(exempt(cl_a,") for f in b["facts"])
+                         for b in bs)
+                 and {("assumed_fact(issuer(sst2021,francis))" in b["assume"],
+                       "assumed_fact(false(issuer(sst2021,francis)))" in b["assume"]) for b in bs} == {(True, False), (False, True)},
+                 "rank disputed: exempt on the claim exactly where papal approval is not assumed")],
+     "as a dicastery's decree it cannot derogate (cc. 33 §1, 135 §2); it branches on rank only where the rank is disputed", mode=B)
+scen("FO1", PN, "Form and object: a connected truth defined", ["connected_definition"],
+     [clean_branches, cls("q(fact_x)=yes", "settled"),
+      lambda r: ("tier_inconsistent_with_form(def_y,1,ex_cathedra)" in (v := solve(["connected_definition", "cand_connected_at_tier1"], "one")["violations"])
+                 and not any(x.startswith("tier_without_warrant(def_y") for x in v), "entered at tier 1: refused, though warranted"),
+      shown(["marian", "creeds"], ("object_of/2",), "object_of(munificentissimus_1950,revealed)")],
+     "tier 2 by its object, no violation; at tier 1, refused; the base's definitions define as revealed", mode=B)
+scen("FO2", PN, "Jansen's sense: a dogmatic fact", ["jansenism", "jansen_fact", "ad_sanctam_defined"],
+     [cls("q(five_in_augustinus)=yes", "settled"), branch_of("q(five_in_augustinus)=no", "counterfactual_shadow", t2=True),
+      branch_of("q(five_in_augustinus)=no", "live_shadow", t2=False), cls("q(grace_always_efficacious)=yes", "excluded"),
+      weight_in("q(five_in_augustinus)=yes", 5, 2),   # Jansen on the right, Arnauld on the fact, both against
+      lambda r: (classify(solve(["jansenism", "jansen_fact", "ad_sanctam_as_shown"], "branches"), "q(five_in_augustinus)=no") == "shadow"
+                 and any("lower_speaks_of_higher(ad_sanctam_1656,ad_sanctam_1656,2)" in f
+                         for b in solve(["jansenism", "jansen_fact", "ad_sanctam_as_shown"], "branches")["branches"] for f in b["facts"]),
+                 "as shown without DH 2010-2012: tier 3, its own word a claim")],
+     "definitive where its conditions are shown (HYPOTHETICAL until the text is read): the denial a counterfactual shadow on t2_truth; "
+     "the question of right unchanged", mode=B)
+scen("FO3", PN, "Respectful silence", ["jansenism", "jansen_fact", "ad_sanctam_defined", "respectful_silence"],
+     [info_all("silence_without_censure(jansenist_s,q(five_in_augustinus))"), info_none("censure(sil_1"),
+      lambda r: (any("assent_computed(jansenist_s,q(five_in_augustinus))" in v for v in
+                     solve(["jansenism", "jansen_fact", "ad_sanctam_defined", "respectful_silence", "cand_silence_as_assent"], "one")["violations"]),
+                 "silence read as assent: refused")],
+     "silence takes no censure, and assent is never computed (Vineam Domini; rule 3)", mode=B)
+scen("FO4", PN, "A declaration that defines nothing", ["ordination_reserved", "report_notes"],
+     [noted_by_grade("q(ordination_reserved_to_men)", "os1994"), best_rest_on_no_claim,
+      info_all("lower_speaks_of_higher(os1994,os1994,2)", "lower_speaks_of_higher(cdf_1995,os1994,1)",
+               "lower_speaks_of_higher(cdf_1998,os1994,2)"), clean_branches,
+      cleaved_by_each("q(ordination_reserved_to_men)=no", "os1994", "cdf_1995"),
+      lambda r: ("tier_inconsistent_with_form(decl_w,2,definitive_declaration)" in solve([], "one",
+                 facts="source(decl_w,2,truth,2000). papal_form(decl_w,definitive_declaration). oum_claim(decl_w,2). oum_claimant(decl_w,decl_w).")["violations"],
+                 "a declaration entered at tier 2: refused"),
+      lambda r: ("declaration_without_claim(decl_z)" in solve(["cand_declaration_unclaimed"], "one")["violations"],
+                 "a declaration of grade with no claim: refused")],
+     "tier 3 with its claim; de fide, definitive or authentic by the grade; never preferred on the unshown claim", mode=B)
+scen("FO5", PN, "The force of tier 2 still waits", ["ordination_reserved"],
+     [lambda r: ({b["t2"] for b in r["branches"]} == {True, False}, "t2_truth computed both ways")],
+     "no source of this step fixes t2_truth", mode=B)
+scen("FL1", PN, "Fictions: acts through representatives", ["fiction_acts"],
+     [shown(["fiction_acts"], ("sin_on_the_claims/2", "agent/2"), "sin_on_the_claims(bishop_d,act_d)", "agent(bishop_d,act_d)",
+            "agent(pope_r,act_as)", absent=("agent(diocese_d,act_d)", "agent(apostolic_see,act_as)", "sin_on_the_claims(diocese_d,act_d)")),
+      info_all("verdict(act_d,must_not,by_object(k_s))"), clean_branches],
+     "the bishop acts for the diocese, the pope for the Apostolic See; the act's verdict stands", mode=B)
+scen("FL2", PN, "\"The state is evil\"", ["cand_state_is_evil"],
+     [any_branch_violation("interior_of_fiction(state_x,act_x_s)"), info_all("verdict(act_x_s,must_not,by_object(k_s))"),
+      lambda r: ("delict_of_fiction(college_c,n1386,act_c)" in solve(["cand_fiction_delict"], "one")["violations"],
+                 "a college excommunicated: refused (Romana ecclesia)")],
+     "refused, not answered: no interior, no sin, no delict of a fiction", mode=B)
+scen("FL4", PN, "The Society's refusal: a position, not an offence", SX,
+     [info_all("public_position(sspx,refuses(dignitatis_humanae))"), info_none("offense(sspx,"),
+      shown(SX, ("info/1",), "info(offense(fidelis_r,dissent_c752,dignitatis_humanae))", facts="refuses(fidelis_r,dignitatis_humanae)."),
+      lambda r: (all(("holds(q(canonical_status),recognized)" in m) == ("juridic_person(sspx)" in m) != ("group(sspx)" in m)
+                     for m in solve(SX, "all", facts="source(grant_x,3,juridical,2026). dicastery(grant_x). "
+                                    "supports(grant_x,q(canonical_status),recognized).",
+                                    show=("juridic_person/1", "group/1", "holds/2"))["all_models"]),
+                 "recognized (HYPOTHETICAL): a juridic person; otherwise a group")],
+     "a group without canonical status: an offence is said only of a person", mode=B)
 
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):

@@ -94,7 +94,7 @@ violation(claim_without_claimant(S)) :- oum_claim(S,_), not oum_claimant(S,_).  
 % consensus. Synthetic test sources carry a hypothetical warrant.
 ec_condition(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church).
 ec_unmet(S)  :- papal_form(S,ex_cathedra), ec_condition(C), not condition_shown(S,C).
-warranted(S) :- papal_form(S,ex_cathedra), not ec_unmet(S).
+warranted(S) :- papal_form(S,ex_cathedra), not ec_unmet(S), object_of(S,_).   % and what it defines (TTC-PENAL FO)
 defining_act(canon;definition;creed;scope).
 warranted(S) :- conciliar_act(S,K), defining_act(K).
 warranted(S) :- conciliar_act(S,chapter), session_defines(S).
@@ -222,12 +222,23 @@ t2_truth :- fixed(t2_truth).
 t2_truth :- assume(t2_truth).
 violation(self_elevation(S,M)) :- treated_as_fixing(S,M), eff_tier(S,T), meta_target(M,K), T >= K.
 
-% ---------- A papal act's tier follows its form ------------------------
-% ex cathedra with all formalities -> 1; a formal definitive declaration
-% -> 2; legislative or ordinary acts -> 3, whoever the author.
-form_tier(ex_cathedra,1). form_tier(definitive_declaration,2).
-form_tier(legislative,3). form_tier(ordinary,3).
-violation(tier_inconsistent_with_form(S,T,F)) :- papal_form(S,F), source(S,T,_,_), form_tier(F,K), T != K.
+% ---------- A papal act's tier follows its form and its object -----------
+% The form says whether the act defines; the object gives the grade (TTC-PENAL
+% FO). A definition of a truth as revealed is tier 1; of a truth connected
+% with revelation (a secondary object, a dogmatic fact), tier 2: the pope
+% defines a doctrine "tenendam", to be held (DH 3074). An act that declares a
+% teaching to be held definitively without defining it keeps its own tier, 3,
+% and carries a claim of the ordinary universal magisterium, its author the
+% claimant: "not a new dogmatic definition" (CDF 1998, n. 9). Legislative and
+% ordinary acts are tier 3, whoever the author.
+% @input object_of/2 | object_of(S, revealed | connected): what a defining act defines, as its text shows
+defining_form(ex_cathedra).
+object_tier(revealed,1). object_tier(connected,2).
+form_tier(definitive_declaration,3). form_tier(legislative,3). form_tier(ordinary,3).
+expected_tier(S,K) :- papal_form(S,F), form_tier(F,K).
+expected_tier(S,K) :- papal_form(S,F), defining_form(F), object_of(S,O), object_tier(O,K).
+violation(tier_inconsistent_with_form(S,T,F)) :- papal_form(S,F), source(S,T,_,_), expected_tier(S,K), T != K.
+violation(declaration_without_claim(S)) :- papal_form(S,definitive_declaration), not oum_claim(S,_).
 
 % ---------- Teaching and governance are different output types --------
 % A teaching act yields truth-claims with a grade of assent. A governance

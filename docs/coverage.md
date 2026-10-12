@@ -18,10 +18,10 @@ a test checks the file is current and every scenario named exists.
 
 ## SUMMARY
 
-Of 87 units: 41 touched by rules, 9 by cases only,
-37 frontier. A unit counts as touched if one rule reaches
+Of 87 units: 42 touched by rules, 9 by cases only,
+36 frontier. A unit counts as touched if one rule reaches
 it, so this measures reach, not depth. The rule files cite
-23 of the Catechism's 2,865 paragraphs by number (the column
+26 of the Catechism's 2,865 paragraphs by number (the column
 "Cited"). The Prologue (1–25) is frontier.
 
 ## PART ONE: THE PROFESSION OF FAITH
@@ -89,7 +89,7 @@ it, so this measures reach, not depth. The rule files cite
 
 ## PART THREE: LIFE IN CHRIST
 
-24 units: 14 under rules, 0 under cases only, 10 frontier.
+24 units: 15 under rules, 0 under cases only, 9 frontier.
 
 | CCC | Unit | Status | Cited | Scenarios | The base holds |
 | --- | --- | --- | --- | --- | --- |
@@ -100,8 +100,8 @@ it, so this measures reach, not depth. The rule files cite
 | 1762–1775 | The morality of the passions | rules |  | AC3 | undeliberate passion mitigates |
 | 1776–1802 | Moral conscience | frontier |  |  |  |
 | 1803–1845 | The virtues | frontier |  |  |  |
-| 1846–1876 | Sin | rules | 5 | MS1, MS1b, CH2 | mortal and venial, on the claims |
-| 1878–1896 | The person and society | frontier |  |  |  |
+| 1846–1876 | Sin | rules | 6 | MS1, MS1b, CH2, FL2 | mortal and venial, on the claims; structures of sin said by analogy, never of a collective (CCC 1869) |
+| 1878–1896 | The person and society | rules | 1 | FL1, FL2, FL4 | a society a unity of order: juridic persons act through persons, with no interior, sin or delict (cc. 113-118; CCC 1880) |
 | 1897–1927 | Participation in social life | rules |  | LW3, LW5 | a law against a higher law does not bind |
 | 1928–1948 | Social justice | frontier |  |  |  |
 | 1950–1986 | The moral law | rules |  | LW1, LW4, LW7, LW7b, OB1, OB2 | eternal, natural, divine and human law; affirmative precepts |
@@ -111,7 +111,7 @@ it, so this measures reach, not depth. The rule files cite
 | 2142–2167 | The second commandment | frontier |  |  |  |
 | 2168–2195 | The third commandment | frontier |  |  |  |
 | 2197–2257 | The fourth commandment | frontier |  |  |  |
-| 2258–2330 | The fifth commandment | rules | 5 | DP1, DP2, DP5, SD1, MS2, MS2b, DI3, DI4, DI5, SD3 | the death penalty's history and verdict; legitimate defence; abortion; just war |
+| 2258–2330 | The fifth commandment | rules | 6 | DP1, DP2, DP5, SD1, MS2, MS2b, DI3, DI4, DI5, SD3, AB1, AB4 | the death penalty's history and verdict; legitimate defence; abortion and its penalty (c. 1397 §2; CCC 2272); just war |
 | 2331–2400 | The sixth commandment | rules |  | DI6, DR1, K11 | IVF "must not" (Donum vitae); remarriage; the embryo's image |
 | 2401–2463 | The seventh commandment | rules | 1 | SD2, SD2b, SD4 | usury as two questions; social teaching typed (CCC 2423) |
 | 2464–2513 | The eighth commandment | rules |  | SM7, SM7c | the seal |

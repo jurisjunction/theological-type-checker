@@ -599,7 +599,50 @@ stamped first ([ttc-communion(7)](research/communion-preregistration.md)).
 - **c. 1117 binds the form only on a Catholic party** (CN5); the Pauline
   case's unbaptized couple no longer needs it.
 
-### 24. Method
+### 24. The canon step: abortion, c. 1399, the last canon; form and object; fictions (AB, GP, SL, N, FO, FL)
+
+Predictions were stamped first ([ttc-penal(7)](research/penal-preregistration.md)).
+
+- **c. 1397 §2 follows the library act by act** (AB1). The direct killing
+  of the unborn, completed, is the delict; the salpingectomy, licit on the
+  claims, is not; the craniotomy and methotrexate exactly where they are
+  direct. The canon layer keeps no kind of its own.
+- **The penalty falls away; the verdict does not** (AB4). Under sixteen,
+  exempt; at seventeen, with the penalty unknown, or under grave fear,
+  mitigated, and so not bound by a latae sententiae penalty (c. 1324 §3).
+  Fear does not exempt, the act being intrinsically evil (c. 1323 n. 4),
+  which the canon reads off the library's kind: where that kind is a
+  shadow, fear exempts (AB5).
+- **c. 16 kept dates it never compared** (AB8, AB9). An interpretation in
+  the form of law reaches the acts placed from its force (c. 8 §1), earlier
+  ones only if declaratory (c. 9). The response of 1988 is extensive: a
+  killing in utero in 1987 is not the delict. *Ecclesia Dei*, given as law
+  and not declaratory, does not reach 30 June 1988; there c. 18 reads
+  c. 751 strictly, the 1988 act is no schism, and Abp Lefebvre's bond of
+  governance stands. Two expectations changed (LW1, FC1).
+- **c. 1399 and the last canon** (GP, SL). c. 1399's penalty is to be
+  imposed on the authority's two judgments, supplied; it reaches only those
+  c. 11 binds and adds no title where a canon names the act. c. 1752 names
+  no effect and feeds nothing in the norm graph; "salus animarum" read as a
+  power over a penalty is refused.
+- **The Dicastery's clause fits as *versari in re illicita*** (N1–N5): one
+  branch fewer in the external forum; refused as a moral judgment; flagged
+  on an act lawful apart from the age (c. 1321 §2); derogating as papal
+  law, refused as a dicastery's decree.
+- **The form says that it defines; the object gives the grade** (FO). The
+  base's definitions define as revealed; a connected truth defined is
+  tier 2. *Ordinatio sacerdotalis* stands at tier 3 with its claim, graded
+  two ways by its claimants and never preferred on the unshown claim.
+  Jansen's sense is a dogmatic fact: definitive if *Ad sanctam*'s
+  conditions are shown; its text unread here, it stands at tier 3.
+- **Only a physical person acts** (FL). A juridic person acts through those
+  who represent it; an interior, sin or delict of a fiction is refused, and
+  "the state is evil" is ill-typed. The Society, without canonical status,
+  has a public position, not an offence.
+- **The norm graph** needed a second kind of benign loop, recursion over
+  persons (c. 1329), and pushed data out of the norms that read it.
+
+### 25. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

@@ -97,5 +97,15 @@ info(no_longer_in_full_communion_by_teaching(P,E)) :- no_longer_in_full_communio
 info(fully_incorporated_on_the_claims(P)) :- fully_incorporated_on_the_claims(P).
 info(in_body_not_in_heart_on_the_claims(P)) :- in_body_not_in_heart_on_the_claims(P).
 
+% ---------- Assent is never computed (TTC-PENAL FO3; rule 3) -----------------
+% What a teaching is owed is read off the graph (owed/2, the notes); whether it
+% is given is interior. Silence is not denial (no censure), and not assent:
+% Vineam Domini (1705, DH 2390) refused "obsequious silence" as what is owed,
+% and no rule may read assent off silence or off an outward profession.
+% @input silent/3 | silent(Person, Act, Q): an outward silence on the question
+% @input assents/2 | candidate only: assents(Person, Q), inward assent read off outward facts
+violation(assent_computed(P,Q)) :- assents(P,Q).
+info(silence_without_censure(P,Q)) :- silent(P,_,Q).
+
 #program report_notes.            % every note, for the test of NT1
 info(note(Q,V,G)) :- note(Q,V,T), grade_name(T,G).

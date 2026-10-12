@@ -19,7 +19,7 @@ source(sollicitudo_1661,3,truth,1661).  supports(sollicitudo_1661,q(ic),yes).   
 character(sollicitudo_1661,constitution).
 source(ineffabilis_1854,1,truth,1854).  supports(ineffabilis_1854,q(ic),yes).   % Pius IX
 papal_form(grave_nimis,legislative). papal_form(sollicitudo_1661,ordinary).
-papal_form(ineffabilis_1854,ex_cathedra).
+papal_form(ineffabilis_1854,ex_cathedra). object_of(ineffabilis_1854,revealed).   % "revealed by God" (DH 2803)
 condition_shown(ineffabilis_1854,(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church)).
 % "declaramus, pronuntiamus et definimus ... ab omnibus fidelibus firmiter constanterque credendam" (DH 2803)
 preserved_from_os(mary) :- holds(q(ic),yes).    % the dogma in the economy (kernel_core.lp; TTC-CREED EC1)
@@ -414,7 +414,13 @@ source(schism_thesis,5,truth,2010). supports(schism_thesis,q(society_schism_now)
 % c. 752 / c. 1365 (obstinate rejection of teaching after a warning).
 % A classification as schism must rest on a schism-type basis.
 refuses(sspx,dignitatis_humanae). teaching_tier(dignitatis_humanae,3).
-info(offense(X,dissent_c752,T)) :- refuses(X,T), teaching_tier(T,3).
+% An offence is said of a person, never of a body (TTC-PENAL FL4): without
+% canonical status the Society is a name for persons; its refusal is a public
+% position, a text's matter. No person who professes it is recorded here.
+group(sspx)          :- holds(q(canonical_status),none).
+juridic_person(sspx) :- holds(q(canonical_status),recognized).
+info(offense(X,dissent_c752,T)) :- refuses(X,T), teaching_tier(T,3), not non_physical(X).
+info(public_position(X,refuses(T))) :- refuses(X,T), non_physical(X).
 schism_basis(refusal_of_subjection).            % c. 751: refusal of submission to the Supreme Pontiff
 violation(category_error(X,B)) :- classified_on(X,schism_c751,B), not schism_basis(B).
 % formal adherence is declared externally or discerned internally, never inferred
@@ -544,7 +550,7 @@ papal_form(cum_quorundam_1555,ordinary).
 question(q(assumption)). question_kind(q(assumption),doctrinal).
 value(q(assumption),yes). value(q(assumption),no).
 source(munificentissimus_1950,1,truth,1950). supports(munificentissimus_1950,q(assumption),yes).   % DH 3903
-papal_form(munificentissimus_1950,ex_cathedra).
+papal_form(munificentissimus_1950,ex_cathedra). object_of(munificentissimus_1950,revealed).   % "a divinely revealed dogma" (DH 3903)
 condition_shown(munificentissimus_1950,(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church)).
 % "pronuntiamus, declaramus et definimus esse divinitus revelatum dogma" (DH 3903)
 % "having completed the course of her earthly life": whether she died first is left open
@@ -605,11 +611,59 @@ conciliar_act(trent_xxi_ch1,chapter). session_defines(trent_xxi_ch1).   % proem:
 question(q(grace_always_efficacious)). question_kind(q(grace_always_efficacious),doctrinal).
 value(q(grace_always_efficacious),(yes;no)).
 source(cum_occasione_1653,1,truth,1653).   % prop. 2 condemned as heretical (DH 2002)
-papal_form(cum_occasione_1653,ex_cathedra).
+papal_form(cum_occasione_1653,ex_cathedra). object_of(cum_occasione_1653,revealed).   % condemned as heretical: against revealed truth (DH 2001-2007)
 condition_shown(cum_occasione_1653,(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church)).
 % each proposition declared and condemned as heretical, by apostolic authority, for all the faithful (DH 2001-2007)
 supports(cum_occasione_1653,q(grace_always_efficacious),no).
 source(jansen_augustinus,5,truth,1640). supports(jansen_augustinus,q(grace_always_efficacious),yes).
+
+#program jansen_fact.             % right and fact (Arnauld, 1655): the five propositions are in the Augustinus, in its author's sense (load with jansenism)
+% A dogmatic fact: connected with revelation, not revealed (TTC-PENAL FO2).
+question(q(five_in_augustinus)). question_kind(q(five_in_augustinus),doctrinal).
+value(q(five_in_augustinus),(yes;no)).
+source(arnauld_1655,5,truth,1655).   % Seconde lettre a un duc et pair: the condemnation granted, the fact denied
+supports(arnauld_1655,q(five_in_augustinus),no).
+supports(ad_sanctam_1656,q(five_in_augustinus),yes).   % "contained in the Augustinus, and condemned according to the sense of the author" (DH 2010-2012)
+#program ad_sanctam_as_shown.     % Ad sanctam beati Petri sedem (Alexander VII, 16 October 1656), as far as its text is shown here
+% "this declaration and definition"; binding all the faithful. The pastor of all
+% and apostolic authority are not shown without DH 2010-2012 (rule 14): tier 3,
+% its own word a claim.
+source(ad_sanctam_1656,3,truth,1656). papal_form(ad_sanctam_1656,ordinary). character(ad_sanctam_1656,constitution).
+claims_tier(ad_sanctam_1656,ad_sanctam_1656,2).
+#program ad_sanctam_defined.      % HYPOTHETICAL until DH 2010-2012 is read: the five conditions shown; a dogmatic fact defined
+source(ad_sanctam_1656,2,truth,1656). papal_form(ad_sanctam_1656,ex_cathedra). object_of(ad_sanctam_1656,connected).
+condition_shown(ad_sanctam_1656,(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church)).
+#program respectful_silence.      % HYPOTHETICAL: silence kept on the fact (Vineam Domini, 1705, DH 2390)
+silent(jansenist_s,sil_1,q(five_in_augustinus)).
+#program cand_silence_as_assent.  % "obsequious silence" read as the assent owed
+assents(P,Q) :- silent(P,_,Q).
+
+#program connected_definition.    % HYPOTHETICAL: an ex cathedra definition of a truth connected with revelation (FO1)
+question(q(fact_x)). question_kind(q(fact_x),doctrinal). value(q(fact_x),(yes;no)).
+source(def_x,2,truth,1900). papal_form(def_x,ex_cathedra). object_of(def_x,connected).
+condition_shown(def_x,(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church)).
+supports(def_x,q(fact_x),yes).
+#program cand_connected_at_tier1. % the same kind of definition entered at tier 1
+source(def_y,1,truth,1900). papal_form(def_y,ex_cathedra). object_of(def_y,connected).
+condition_shown(def_y,(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church)).
+
+#program cand_declaration_unclaimed.   % a declaration of grade that defines nothing, entered with no claim
+source(decl_z,3,truth,2000). papal_form(decl_z,definitive_declaration). character(decl_z,letter).
+
+#program ordination_reserved.     % Ordinatio sacerdotalis 4 (1994) and its claimants (TTC-PENAL FO4)
+% A declaration that defines nothing: its own tier, 3, and a claim of the
+% ordinary universal magisterium, the grade claimed two ways.
+question(q(ordination_reserved_to_men)). question_kind(q(ordination_reserved_to_men),doctrinal).
+value(q(ordination_reserved_to_men),(yes;no)).
+source(os1994,3,truth,1994). papal_form(os1994,definitive_declaration). character(os1994,apostolic_letter).
+supports(os1994,q(ordination_reserved_to_men),yes).   % "this judgment is to be definitively held by all the Church's faithful"
+oum_claim(os1994,(1;2)). oum_claimant(os1994,(os1994;cdf_1995;cdf_1998)).
+claims_tier(os1994,os1994,2).
+source(cdf_1995,3,truth,1995). character(cdf_1995,responses).   % responsum ad dubium, 28 October 1995, approved and ordered published
+supports(cdf_1995,q(ordination_reserved_to_men),yes).
+claims_tier(cdf_1995,os1994,1).    % "set forth infallibly by the ordinary and universal Magisterium ... as belonging to the deposit of the faith"
+source(cdf_1998,3,truth,1998). character(cdf_1998,commentary).
+claims_tier(cdf_1998,os1994,2).    % n. 11: c. 750 §2; perhaps one day defined as revealed
 
 #program trent_formal_cause.      % sess. VI, ch. 7 (DH 1529), read two ways
 source(trent_vi_ch7,1,truth,1547). ambiguous(trent_vi_ch7).
@@ -722,7 +776,7 @@ supports(cdf_1998,q(definitive_denial_breaks_communion),yes).
 source(lg25,1,truth,1964).
 
 #program cand_ev57_ex_cathedra.    % EV 57 entered as a definition: "I confirm", not "we define" (TC1)
-source(ev57_def,1,truth,1995). papal_form(ev57_def,ex_cathedra).
+source(ev57_def,1,truth,1995). papal_form(ev57_def,ex_cathedra). object_of(ev57_def,revealed).
 condition_shown(ev57_def,(pastor_of_all;apostolic_authority;faith_or_morals;whole_church)).
 
 #program cand_claim_without_claimant.   % a claim of the ordinary universal magisterium with no one making it (rule 14)

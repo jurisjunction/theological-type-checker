@@ -25,9 +25,10 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | christ | Christ's acts; the sacraments; the seal; presence by mode | done ([ttc-christ(7)](research/christ-preregistration.md)) |
 | moral amendment | verdicts and obligation: may, must, must not; social doctrine as tests | done ([ttc-precept(7)](research/precept-preregistration.md)) |
 | communion | rule 14; faith and communion: notes, denials, bonds | done ([ttc-communion(7)](research/communion-preregistration.md)) |
-| canon | abortion, c. 1399, c. 1752, the Dicastery's clause; form and object; fictions of law | predicted ([ttc-penal(7)](research/penal-preregistration.md)), to stamp |
+| canon | abortion, c. 1399, c. 1752, the Dicastery's clause; form and object; fictions of law | done ([ttc-penal(7)](research/penal-preregistration.md)) |
 | cceo | the Eastern Code: a second canon layer, chosen by ascription | to predict |
 | liturgy | the liturgy as witness, rite and development | to predict |
+| saeculum | one library for time: the Church's computation (cc. 200–203), one calendar, the measures | to predict, before the last things |
 | last things | soteriology and eschatology | to predict |
 | empirical | science | to predict |
 | churches | other Churches and ecclesial communities: succession, sacraments, *subsistit in* | to predict, after empirical |
@@ -35,25 +36,6 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
-
-### canon
-
-c. 1399; c. 1752; the DDF clause on error about a minor's age, with
-TTC-ACT's N1–N5, now on `moral.lp`'s object and circumstance. (The
-generic delict input came with the christ step.)
-
-- **Abortion, c. 1397 §2** (c. 1398 before 2021): latae sententiae
-  excommunication for one who procures a completed abortion, and
-  notoriously tricky. What "abortion" is: the 1988 interpretation is
-  authentic (c. 16 §1), unlike the 2000 declaration on c. 915;
-  "completed"; necessary accomplices (c. 1329 §2);
-  and the exemptions and mitigations that keep the latae sententiae from
-  binding: age (cc. 1323 n. 1, 1324 §1 n. 4), ignorance of the penalty
-  (c. 1324 §1 n. 9), grave fear (c. 1324 §1 n. 5, §3). The act layer has
-  them; the case tests them together. The moral side is in place:
-  direct abortion is "must not" in every main branch (TTC-PRECEPT DI3),
-  so c. 1397 §2 can take the act's kind from the library, as c. 1386 took
-  the seal's ground.
 
 ### cceo
 
@@ -138,6 +120,24 @@ from forms already existing" (SC 23). Three faces:
 - The bridge to the last things: in the earthly liturgy "we take part in a
   foretaste of that heavenly liturgy" (SC 8); the Mass is the one
   sacrifice offered in a different manner (DH 1743).
+
+### saeculum
+
+One library for time: Augustine's *saeculum*, the time of the two cities
+before the end. Today time is scattered. The canon layer counts days
+(`YYYYMMDD`), the authority layer years, joined by one bridge
+(`asof*10000+1231`); the kernel orders events and holds no theory of time.
+
+- **The Church's computation of time** (cc. 200–203): a day of 24 hours, a
+  month of 30 days unless the calendar is meant, the first day not
+  counted; c. 8 §1's three months, which TTC-PENAL entered by hand
+  (`vacatio_until/2`).
+- **One calendar for every layer:** years and days, intervals, "in force
+  from ... until", what "now" is (`today/1`, `asof`), reception dated (the
+  *Quicumque*'s repair).
+- **The measures:** time, the measure of motion (ST I q. 10 aa. 4–6); the
+  *aevum*; eternity. The last things' duration typed by measure is built
+  on them, and the empirical step and the churches run under it.
 
 ### last things
 
@@ -303,6 +303,39 @@ world of sense, and every element holds of a body over time.
   As slots on the metaclass, the layer test (a higher layer writes into a
   lower one only through declared slots) becomes a compile error.
 
+### knowledge and other subjects (with L)
+
+Subsidiarity: "a community of a higher order should not interfere in the
+internal life of a community of a lower order" (*Quadragesimo anno* 79;
+CCC 1883). The checker need not hold everything.
+
+- **The checker stays small and deterministic:** the engine, the kernel,
+  the libraries and the canons as rules, which are what is checked against.
+- **Knowledge is another server.** Records, not conclusions: sources with
+  dates, authors and form; canons with dated texts; claims with their
+  claimants; the graph of who cites whom (the independence measure). A
+  language model links the servers: it finds the records, puts them into
+  the checker's slots, and asks.
+- **The contract is the `@input` slots.** A record crosses only as a
+  declared input, with its provenance (source, date, where read); never a
+  tier or a verdict (rule 14). The checker lints what crosses: an undefined
+  predicate is frontier. A run names the snapshot of records it read, as a
+  stamp names a commit, so it stays deterministic. Writing stays gated, as
+  the flywheel's save tools already are.
+- **Other subjects as domain packs:** each its tier theory as a runtime on
+  the same engine. History weighs by provenance and independence; science
+  by method (replication, observation, model), revisable in time; in
+  mathematics tier 1 is proof. The limit is the same everywhere: a claim
+  shown ill-formed, never a well-formed claim shown true. No pack borrows
+  another's tiers on its word.
+- **Mathematics is not a pack but a warrant.** A proof assistant (Lean: a
+  small trusted kernel, a library that grows, every theorem checked down
+  to the kernel) is another server. "X is a theorem" is tier 1 exactly
+  when its proof checks there: shown, not asserted (rule 14). It needs no
+  empirical library: it abstracts from sensible matter and motion (*Super
+  Boetium De Trinitate* q. 5 a. 1). Its record is in the saeculum: who
+  proved what and when, conjectures with their claimants.
+
 ## AMENDMENTS AND REPAIRS
 
 - **Lethen's models as test cases.** His seven dogmas (Ott's D1–D7) and
@@ -343,14 +376,21 @@ world of sense, and every element holds of a body over time.
 - **What "extraction" names.** Salpingostomy is typed as the extraction of
   an immature ectopic fetus and so meets the Holy Office's response of
   1902 (TTC-PRECEPT DI5). Whether the response reaches it is disputed
-  among moralists; the typing could become a disputed fact.
+  among moralists; the typing could become a disputed fact. On c. 1398's
+  older reading (the expulsion of the immature fetus) the extraction is an
+  expulsion in the letter; the canon layer takes abortion only as the
+  library's direct killing (TTC-PENAL), so where it is not direct it is
+  not the delict on either reading.
 - **Social justice** (CCC 1928-1948) is still on the frontier: respect for
   the person, equality, solidarity (TTC-PRECEPT M3).
 - **The conditions of a claim.** Rule 14 leaves every claim of the
   ordinary universal magisterium unshown: no evidence of LG 25's
   conditions apart from the claimants. The 1991 consultation behind EV 57
   and 62 (EV 5) is the first to look for.
-- **Form and object.** A papal act's form says whether it defines; its
+- **Form and object** (done, TTC-PENAL FO). Left: *Ad sanctam beati Petri
+  sedem*'s text (DH 2010–2012), to show or refuse its conditions; until
+  then it stands at tier 3 as shown, its definition hypothetical. The
+  entry as it was: a papal act's form says whether it defines; its
   object gives the grade: revealed, tier 1; connected with revelation,
   tier 2 (*tenendam*, DH 3074). Typing the tier by form alone gives two
   bugs. `form_tier(ex_cathedra,1)` refuses an ex cathedra definition of a
@@ -385,7 +425,10 @@ world of sense, and every element holds of a body over time.
   condemned *in globo*. An *in globo* censure fixes no note for any one
   proposition: each listed note is a reading. One question or two, as
   with usury.
-- **Fictions of law** (a friend's conversation). "The United States is
+- **Fictions of law** (done, TTC-PENAL FL). Left: the Church's
+  predicates by relation to her Head (below); *Romana ecclesia*'s date;
+  the interdict on a community (below). The entry as it was, from a
+  friend's conversation: "The United States is
   evil" is ill-typed, not false. "Evil" is said of acts (`moral.lp`;
   CCC 1861), and a state is neither an act nor a will but a name for an
   order among wills: a unity of order, not a substance (*In I Ethic.*
@@ -434,6 +477,20 @@ world of sense, and every element holds of a body over time.
 ## CANDIDATE THEORIES
 
 To run on the system. None enters the kernel.
+
+- **The cogitative power, and git thought.** In the saeculum the intellect
+  works through a bodily power of pattern: the cogitative power,
+  "particular reason" (ST I q. 78 a. 4). "In the present state of life"
+  it understands only by turning to images (q. 84 a. 7), the separated
+  soul without them (q. 89 a. 1): abstraction one way (q. 85 a. 1), the
+  turn to images the other. One soul, the form of one body (DH 902):
+  Descartes fixed. The project has the shape: a language model reads, the
+  checker computes. The analogy holds for the division of labour, not for
+  the intellect's nature, which is immaterial and no mechanism; a
+  deterministic engine is still a material computation. Git thought:
+  thinking as a graph without cycles of commits, branches and merges; the
+  branching history, the merge at the end, and stamps as the record never
+  undone.
 
 - **The postman.** Spacetime as a creature through which bodies act on
   one another; spirits speak without it, "local distance does not impede"

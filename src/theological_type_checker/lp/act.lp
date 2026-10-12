@@ -33,9 +33,30 @@ assumed_fact(false(interior(P,A,X))) :- disputed(interior(P,A,X)), not interior(
 % esse: the classical runtime); the incarnate places a human act by the
 % nature assumed, where the runtime grants it an operation (DH 557). A
 % divine person is never made a creature by acting (TTC-CHRIST CH1).
-creature(P)  :- act_of(P,_), not divine(P), not god(P).
-agent(P,A)   :- act_of(P,A), acts(P).
+creature(P)  :- act_of(P,_), not divine(P), not god(P), not non_physical(P).
+agent(P,A)   :- act_of(P,A), acts(P), not non_physical(P).
 agent(P,A)   :- act_of(P,A), in_nature(A,hum), operates(P,hum).
+
+% ---------- Subjects: physical persons and fictions (TTC-PENAL FL) --------
+% Only a physical person places a human act. A juridic person (cc. 113 §2,
+% 114), a group with no status in law, and the two moral persons by divine
+% ordinance (c. 113 §1) do not: a city or an army "has only a unity of order"
+% (In I Ethic. lect. 1); a people is "a multitude of rational beings united by
+% common agreement on the objects of their love" (De civ. Dei XIX.24); a
+% society, "a group of persons bound together organically by a principle of
+% unity" (CCC 1880). An act recorded in its name is placed by those who
+% represent it (c. 118). Structures of sin are "the expression and effect of
+% personal sins" (CCC 1869; RP 16): said by analogy, never of the collective.
+% @input juridic_person/1 | cc. 113 §2, 114: a subject of obligations and rights by law or decree (of the Church or of a civil order)
+% @input moral_person/1 | c. 113 §1: a moral person by divine ordinance (the Catholic Church, the Apostolic See)
+% @input group/1 | a name for persons with no status in law
+% @input represents/2 | represents(Person, J): c. 118, who acts in its name
+fiction(J)       :- juridic_person(J).
+fiction(J)       :- group(J).
+non_physical(J)  :- fiction(J).
+non_physical(J)  :- moral_person(J).
+act_of(P,A) :- act_of(J,A), non_physical(J), represents(P,J).
+violation(interior_of_fiction(J,A)) :- fiction(J), interior(J,A,_).
 
 % ---------- Kinds of act (ST I-II q. 1 a. 1; q. 6 a. 5) ------------------
 % An actus humanus proceeds from knowledge and deliberate will; force from

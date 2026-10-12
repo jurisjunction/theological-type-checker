@@ -372,3 +372,71 @@ the external forum's.
 [ttc-act(7)](act-preregistration.md), [ttc-precept(7)](precept-preregistration.md),
 [ttc-communion(7)](communion-preregistration.md), [ttc-canon(5)](../canon-law-layer.md),
 [ttc-roadmap(7)](../roadmap.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in d7792b3, amended before
+the stamp in 7433211, stamped in 60d7513. Encoded in `canon_law.lp` (c. 16
+§2's dates with cc. 8 §1 and 9; cc. 1397 §2 and 1398 (1983) with the
+interpretation of 1988; cc. 1328 §1, 1329 §2; c. 1398 §1 n. 1 with the
+Dicastery's art. 6 n. 1; c. 1321 §2's principle; c. 1399; c. 1752;
+c. 113), `act.lp` (the sorts of subject), `faith.lp` (assent never
+computed), `icon_authority.lp` (form and object), `icon_history.lp`
+(Jansen's sense; *Ordinatio sacerdotalis*; the Society's position),
+`canon_cases.lp`, `norms.py` (`@recursive`). Scenarios AB, GP, SL, N, FO,
+FL (25; SA1 and SA2 were renamed SL1 and SL2, those ids being taken).
+
+| | Result |
+| --- | --- |
+| AB1 | Held. The direct abortion is the delict, for the doctor and for the mother who procures it; the craniotomy where it is direct (each reading of `q(direct_by)`, and the chosen death), not where it is not; the salpingectomy never; the salpingostomy and methotrexate exactly where they are direct. A check pins it: in every main branch the delict and the verdict "must not" as a direct killing coincide, act by act. |
+| AB2 | Held (AB2). |
+| AB3 | Held (AB3). |
+| AB4 | Held (AB4), in the main branches. |
+| AB5 | Held (AB5), and more is visible: in the shadow branch where the direct killing is not evil by its object, fear exempts. c. 1323 n. 4 reads the kind branch by branch. The AC scenarios did not change. |
+| AB6 | Held (AB6). |
+| AB7 | Held (AB7). |
+| AB8 | Held (AB8). |
+| AB9 | Held in its main clauses, false in its last. Given as law and not declaratory, *Ecclesia Dei* does not reach 30 June 1988; c. 18 reads c. 751 strictly and there is no c. 1364 (1983) delict for 1988 in that branch; c. 1382 reaches consecrator and consecrated. But two existing checks changed, not none. LW1 required that no strict reading appear in the law-form world; it now appears there for 1988 where the reading is not declaratory, and the check is narrowed to 2026. FC1 required Abp Lefebvre's bond of governance broken in every main branch; where the reading does not reach 1988 his bond stands, and he is in full communion by c. 205. Both changes are stated in the suite. |
+| GP1 | Held (GP1). |
+| GP2 | Held (GP2). |
+| GP3 | Held (GP3). |
+| SA1 | Held (SL1): no effect but a judgment kept in view; c. 1752 feeds nothing in the norm graph. |
+| SA2 | Held (SL2). |
+| N1 | Held (N1). TTC-ACT's prediction scored here: the act is unlawful apart from the age (c. 277 §1), and the clause raises no violation. |
+| N2 | Held (N2). Without the clause, the claim of invincible error exempts and vincible error leaves culpa unpunished (c. 1321 §3); with it, the penalty is to be imposed in both branches; the claim is still computed both ways. |
+| N3 | Held (N3). |
+| N4 | Held (N4). The flag is c. 1321 §2's principle: a law that disregards an error is coherent only where the act is unlawful apart from what the error concerns. |
+| N5 | Held (N5): refused as a decree, with the exemption back; both ways where the rank is disputed. |
+| N6 | Held as a statement: art. 29 is recorded with the norm; the Eastern Code waits for the cceo step. |
+| FO1 | Held (FO1). |
+| FO2 | Not scored. *Ad sanctam*'s text (DH 2010–2012) could not be read here: the secondary sources show "this declaration and definition" and a decision binding all the faithful, not apostolic authority or the pastor of all. By rule 14 it stands at tier 3 as shown, its own word a claim (`ad_sanctam_as_shown`), and the attribution is authentic. With the five conditions shown (`ad_sanctam_defined`, HYPOTHETICAL) it is tier 2 and definitive, the question of right unchanged. The text is on the fetch list. The prediction's wording also slips: it is the denial, not the attribution, that is a counterfactual shadow on `t2_truth` and live without it (NT1). |
+| FO3 | Held (FO3). A test pins it: `assents/2` is derived only in the candidate. |
+| FO4 | Held (FO4). |
+| FO5 | Held (FO5). |
+| FL1 | Held (FL1). |
+| FL2 | Held (FL2). |
+| FL3 | Held (FL1: the pope acts for the Apostolic See, which is never an agent; no violation). |
+| FL4 | Held (FL4). SX6, SX8 and SX10 unchanged. |
+| FL5 | Held. |
+| M1 | False in part. LW1 and FC1 changed (AB9). Otherwise as predicted: the SSPX scenarios gained AB9's branch (their model counts by half again) and FL4's re-typed info; SM6's one model changed (mode "one"; its check unaffected); every output gained *Ad sanctam* on the fetch list. The TTC-SCHOOLS tables did not change, and NT1's slow test holds over all 462 scenarios. |
+| M2 | Held after closing gaps. Each new statement was deleted in turn (67 in `canon_law.lp`, 8 in `act.lp`, 2 in `faith.lp`, 8 in `icon_authority.lp`, 38 in `icon_history.lp`, 72 in `canon_cases.lp`). Closed on the way: the rank of the clause disputed, both ways; an interpretation's reach for a lasting situation, judged before its force and after; an interpretation in the form of law with no date of force, refused; each abortion canon's penalty, excommunication in its own years; the clause's error recorded; a person's dissent beside the Society's position, and the Society recognized as a juridic person; c. 1399 with a judgment given, and with the person received into the Church; the mother received, bound; the candidate of the supreme law with its own effect; a declaration entered at tier 2, refused; a connected definition at tier 1, refused though warranted; Arnauld's weight against the attribution; the letter and the responsum cleaving the denial; the state's act still "must not". Redundant fixtures removed: a duplicated `act_of`, two unused dates, an unused support. What survives: one display rule (`info(abortion_reading/2)`). CL1 and PR4 clean. |
+| M3 | Held: "The person and society" leaves the frontier (42 units under rules, 9 under cases, 36 frontier); the rule files cite CCC 1869, 1880 and 2272 (26 paragraphs). |
+
+### Not predicted
+
+- **c. 1329 is recursion over persons.** One person's delict defined by
+  another's made the norm graph draw cycles through every delict norm. It
+  gained a tag beside `@temporal`: `@recursive`.
+- **Data out of norms.** The list of latae sententiae canons, and the
+  readings of "abortion" with the interpretation's record, moved out of
+  the norms that use them, as c. 751's and c. 915's readings already were;
+  otherwise the graph drew false cycles.
+- **A lasting situation with no clock.** c. 915's case has no evaluation
+  date; dated interpretations would have stopped reaching it. With no
+  clock, the present is assumed.
+- **Two scenarios shared ids** (SA1, SA2, salience): the new ones were
+  renamed, and a test now keeps ids unique.
+- **The extraction and the older reading.** On "the expulsion of the
+  immature fetus", the 1902 extraction is an expulsion in the letter; the
+  canon layer takes abortion only as the direct killing, so where the
+  salpingostomy is not direct it is no delict on either reading (roadmap).

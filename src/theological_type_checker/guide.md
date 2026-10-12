@@ -87,7 +87,9 @@ side, juridical facts on the canon side.
 | Fact | Meaning |
 | --- | --- |
 | `conciliar_act(S,K)` (`canon`, `definition`, `creed`, `scope`, `chapter`), `session_defines(S)`, `received_creed(S)` | Rule 14: a source at tier 1 or 2 needs a warrant: a council's own defining act, a chapter its session binds, or a creed received (a claim of reception). Otherwise `tier_without_warrant`. |
-| `papal_form(S,ex_cathedra)`, `condition_shown(S,C)` | A papal definition, with the conditions of Pastor aeternus shown: `pastor_of_all`, `apostolic_authority`, `defines`, `faith_or_morals`, `whole_church`. |
+| `papal_form(S,ex_cathedra)`, `condition_shown(S,C)`, `object_of(S,O)` | A papal definition, with the conditions of Pastor aeternus shown: `pastor_of_all`, `apostolic_authority`, `defines`, `faith_or_morals`, `whole_church`. The form says that it defines; the object gives the grade: `revealed`, tier 1; `connected` (a dogmatic fact), tier 2. |
+| `papal_form(S,definitive_declaration)` | A declaration that a teaching is to be held definitively, defining nothing: its own tier, 3, with an `oum_claim` whose claimant is its author, or `declaration_without_claim`. |
+| `silent(P,E,Q)` | An outward silence: no censure, and no assent. Assent is interior and never computed (Vineam Domini). |
 | `oum_claim(S,K)`, `oum_claimant(S,C)` | A claim of the ordinary universal magisterium. The consensus is a source of its own, `oum(S)`, at grade K (both, where the claimant states none); S keeps its tier. Without LG 25's conditions shown (`condition_shown/2`), never preferred (c. 749 §3). |
 | `claims_tier(C,S,K)`, `treated_as_fixing(C,S)` | A statement about a tier: flagged when a lower tier speaks of a higher; refused when treated as fixing. |
 | `professes(P,E,Q,V)`, `doubts(P,E,Q)`, `repudiates(P,E,christian_faith)` | Outward professions. The censure follows the note contradicted: heretical, contrary to definitive doctrine, erroneous, or rash (against a directive). A doubt is censured only against de fide teaching. Omission is not denial. |
@@ -132,9 +134,17 @@ side, juridical facts on the canon side.
 | `unbaptized(P)` | c. 842 §1: the other sacraments need baptism. |
 | `consummated(M)`, `dissolution(D,M,Kind,Date)`, `nullity_sentence(S,M,Date)`, `sentence_effective(S)`, `prohibited_to_marry(P)` | The bond: dissolved only where cc. 1142-1143 allow, never ratified and consummated (c. 1141); a sentence of nullity settles the forum, never the fact (cc. 1643, 1682 §1). |
 | `delict_act(P,N,Act)`, `act_date(Act,Date)` | A delict that need not be a consecration, absolution or marriage (e.g. c. 1386 §1, the seal). |
+| `declaratory(Act)`, `vacatio_until(Act,Date)` | c. 16 §2: an interpretation in the form of law reaches acts from its force (c. 8 §1), earlier ones only if declaratory (c. 9). |
+| `procures(P,A)`, `unborn(E)`, `by_expulsion(A)`, `attempted_only(A)` | c. 1397 §2 (c. 1398 before 2021): the matter is the library's direct killing of an innocent, unborn, completed; the reading of 1988 extends it to any killing from conception, from 1988. An attempt is not the delict (c. 1328 §1). |
+| `assists(P,A)`, `necessary_assistance(P,A)` | c. 1329 §2: a necessary accomplice incurs a latae sententiae penalty; one not necessary may be punished. |
+| `cleric(P)`; the clause `age_clause(D,N)` with `issuer(D,A)` | c. 1398 §1 n. 1 and the Dicastery's art. 6 n. 1: the error about the age disregarded where the clause is papal law; refused as a dicastery's decree; flagged where the act is lawful apart from the age. |
+| `special_gravity(Auth,A)`, `scandal_necessity(Auth,A)` | c. 1399: the authority's two judgments, supplied, never computed; a penalty to be imposed, besides the cases prescribed, on those c. 11 binds. |
+| `transfer(D,P,Date)` | c. 1752: the salvation of souls kept in view; no effect, no weight against the law. |
+| `juridic_person(J)`, `group(J)`, `moral_person(J)`, `represents(P,J)` | cc. 113-118: only a physical person acts; a fiction acts through those who represent it and bears no interior, sin or delict. The Church and the Apostolic See are moral persons by divine ordinance. |
 
 A new canon goes under `% @norm id | citation | source`. New slots go under
-`% @input name/arity | meaning`. See [ttc-canon(5)](canon-law-layer.md).
+`% @input name/arity | meaning`. A norm that defines one person's delict by
+another's (c. 1329) is tagged `% @recursive id`. See [ttc-canon(5)](canon-law-layer.md).
 
 ## THE PAIR
 

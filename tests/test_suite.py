@@ -474,3 +474,45 @@ def test_a_default_is_not_a_note():
     from theological_type_checker import notes_check
     assert notes_check.check(["moral_cases"]) == []
     assert ("default", "q(k_grave)", "yes") in notes_check.check(["moral_cases"], with_defaults=True)
+
+
+# TTC-PENAL FO3 (rule 3): assent is interior. assents/2 is derived only by a
+# candidate written to be refused; the base reads what is owed, never whether given.
+def test_assent_is_never_computed():
+    import re
+    derived = []
+    for f in sorted(engine.LP_DIR.glob("*.lp")):
+        part = None
+        for st in re.split(r"(?<=\.)\s", re.sub(r"%.*", "", f.read_text())):
+            st = " ".join(st.split())
+            m = re.match(r"#program\s+(\w+)\.", st)
+            if m:
+                part = m.group(1)
+                st = st[m.end():].strip()
+            if ":-" in st and re.match(r"assents\s*\(", st.split(":-")[0].strip()):
+                derived.append((f.name, part))
+    assert derived == [("icon_history.lp", "cand_silence_as_assent")], derived
+
+
+# TTC-PENAL GP1: c. 1399's two judgments (special gravity, the need to repair
+# scandal) belong to the competent authority: supplied, never derived.
+def test_c1399_judgments_are_supplied():
+    derived = [(f, st) for f, st in _heads_and_bodies()
+               if ":-" in st and st.split(":-")[0].strip().startswith(("special_gravity(", "scandal_necessity("))]
+    assert derived == [], derived
+
+
+# TTC-PENAL AB8: an authentic interpretation in the form of law binds an act
+# only where it reaches it (its force, c. 8 §1; or declaratory, c. 16 §2).
+def test_interpretation_reaches_by_date():
+    rules = [st for f, st in _heads_and_bodies() if st.startswith("reading_binds(N,R,E)") and "interpretation_form(A,law)" in st]
+    assert rules and all("reaches_act(A,E)" in st for st in rules), rules
+
+
+# TTC-PENAL, not predicted: two scenarios once shared an id (SA1, SA2), and one
+# hid the other in every keyed report. Ids are unique.
+def test_scenario_ids_are_unique():
+    from collections import Counter
+    dup = [k for k, n in Counter(s["id"] for s in suite.S).items() if n > 1]
+    assert not dup, dup
+

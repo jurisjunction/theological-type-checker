@@ -14,8 +14,11 @@
 
 ## CANON
 
-- Frontier: c. 1332, c. 1352, c. 1313, *Sacramentorum sanctitatis tutela*,
-  and the PCLT note of 24 August 1996.
+- Frontier: c. 1332, c. 1352, c. 1313, c. 1328 §2, remission (c. 1355 §2;
+  *Misericordia et misera* 12), the rest of the Dicastery's norms of 2021
+  (art. 6 n. 1 is encoded), and the PCLT note of 24 August 1996.
+- *Ad sanctam beati Petri sedem* (DH 2010–2012): read its text, and show or
+  refuse its conditions (TTC-PENAL FO2).
 - Book IV marriage law as rules: cc. 1057, 1084, 1091, 1134–1135.
 - Authentic interpretations from iuscangreg `risposte.php`.
 - The outcome of the SSPX recourse.

@@ -134,6 +134,15 @@ priest(P) :- bishop(P).
 { interpretation_form(A,law) } :- disputed(interpretation_form(A,law)).
 { equity_rule(M,R) } :- disputed(equity_rule(M,R)).
 { excluded_reading(L,R) } :- disputed(excluded_reading(L,R)).
+{ declaratory(A) } :- disputed(declaratory(A)), interpretation_form(A,law).
+{ necessary_assistance(P,A) } :- disputed(necessary_assistance(P,A)).
+{ issuer(D,A) } :- disputed(issuer(D,A)).
+assumed_fact(F)      :- disputed(F), F = declaratory(A), interpretation_form(A,law), declaratory(A).
+assumed_fact(false(F)) :- disputed(F), F = declaratory(A), interpretation_form(A,law), not declaratory(A).
+assumed_fact(F)      :- disputed(F), F = necessary_assistance(P,A), necessary_assistance(P,A).
+assumed_fact(false(F)) :- disputed(F), F = necessary_assistance(P,A), not necessary_assistance(P,A).
+assumed_fact(F)      :- disputed(F), F = issuer(D,A), issuer(D,A).
+assumed_fact(false(F)) :- disputed(F), F = issuer(D,A), not issuer(D,A).
 assumed_fact(F)      :- disputed(F), F = interpretation_form(A,law), interpretation_form(A,law).
 assumed_fact(false(F)) :- disputed(F), F = interpretation_form(A,law), not interpretation_form(A,law).
 assumed_fact(F)      :- disputed(F), F = excluded_reading(L,R), excluded_reading(L,R).
@@ -152,6 +161,20 @@ enacted_by(book6_1983,code1983). enacted_by(book6_2021,pgd2021).
 part_of(n1382_1983,book6_1983). part_of(n1364_1983,book6_1983).
 part_of(n1387,book6_2021). part_of(n1364,book6_2021). part_of(n1379,book6_2021). part_of(n1386,book6_2021).
 part_of(n1365,book6_2021).
+part_of(n1398_1983,book6_1983). part_of((n1397;n1398_1;n1399),book6_2021).
+% each of these canons says "latae sententiae": 1983 cc. 1382, 1364 §1, 1398;
+% 2021 cc. 1387, 1364 §1, 1379 §1, 1386 §1, 1397 §2
+latae_sententiae(n1382_1983;n1364_1983;n1387;n1364;n1379;n1386;n1398_1983;n1397).
+% Abortion: the term's readings (c. 17), and the authentic interpretation of
+% 1988 (c. 16 §2): extensive, on the canonists' common reading and on its own
+% text (asked whether abortion is only the expulsion of the immature fetus, it
+% answers "Negative"), so not declaratory and not retroactive (TTC-PENAL AB8).
+reading_option(abortion,expulsion). reading_option(abortion,killing). narrower(expulsion,killing).
+penal_use(abortion).
+needs_reading(abortion,A) :- killing_of_unborn(A), event_date(A,_).
+applies_reading(pclt1988,abortion,killing). issuer(pclt1988,john_paul_ii). authority(john_paul_ii,4).
+interpretation_form(pclt1988,law).
+promulgated(pclt1988,19880523). vacatio_until(pclt1988,19880523).   % c. 8 §1's months run from AAS 80 (1988); the cases are dated clear of 1988-89
 % c. 1371 n. 1: the Code's text until Ad tuendam fidem, the amended text until Pascite gregem Dei
 promulgated(atf1998,19980518). vacatio_until(atf1998,19980518).   % names no date (c. 8 §1); the cases are dated clear of 1998
 enacted_by(c1371_text_1983,code1983). enacted_by(c1371_text_1998,atf1998).
@@ -185,11 +208,24 @@ reorders(atf1998,c1371_text_1983). reorders(pgd2021,c1371_text_1998).
 % @norm cic:21 | c. 21: in doubt the revocation of a pre-existing law is not presumed; later laws are harmonized with earlier ones | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 info(revocation_not_presumed(L2,L)) :- doubtful_revocation(L2,L).
 
-% @norm cic:16 | c. 16 §§1-3: the legislator interprets authentically; in the form of law the interpretation has the force of law and must be promulgated; in a sentence or an administrative act in a particular matter it binds only the persons and matters for which it was given | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+% @norm cic:16 | c. 16 §§1-3: the legislator interprets authentically; in the form of law the interpretation has the force of law and must be promulgated; if it only declares words certain in themselves it is retroactive, if it restricts, extends or explains a doubtful law it is not; in a sentence or an administrative act in a particular matter it binds only the persons and matters for which it was given; with c. 9: laws regard the future, not the past, unless they expressly provide for the past | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+% @input declaratory/1 | c. 16 §2: the interpretation only declares words of the law certain in themselves (so retroactive)
 authentic_reading(N,R,D) :- applies_reading(D,N,R), issuer(D,A), authority(A,4).
 interpretation_form(A,particular) :- authentic_reading(_,_,A), not interpretation_form(A,law).
-reading_binds(N,R,E) :- authentic_reading(N,R,A), interpretation_form(A,law), promulgated(A,_), needs_reading(N,E).
+% In the form of law it reaches the acts placed from its force on (c. 8 §1),
+% and an earlier act only where it is declaratory: the past is the exception
+% (c. 9). A lasting situation with no date of its own is judged now.
+% (TTC-PENAL AB8: the dates were recorded, never compared.)
+dated(E) :- event_date(E,_).
+reaches_act(A,E) :- in_force_from(A,F), needs_reading(_,E), event_date(E,T), F <= T.
+reaches_act(A,E) :- in_force_from(A,F), needs_reading(_,E), not dated(E), eval_date(T), F <= T.
+reaches_act(A,E) :- in_force_from(A,_), needs_reading(_,E), not dated(E), not has_eval_date.   % no clock: the present
+has_eval_date :- eval_date(_).
+reaches_act(A,E) :- declaratory(A), needs_reading(_,E).
+reading_binds(N,R,E) :- authentic_reading(N,R,A), interpretation_form(A,law), needs_reading(N,E), reaches_act(A,E).
 reading_binds(N,R,E) :- authentic_reading(N,R,A), interpretation_form(A,particular), particular_matter(A,E), needs_reading(N,E).
+info(not_retroactive(A,E)) :- authentic_reading(N,_,A), interpretation_form(A,law), needs_reading(N,E), not reaches_act(A,E).
+violation(interpretation_without_force(A)) :- authentic_reading(_,_,A), interpretation_form(A,law), not in_force_from(A,_).
 authentically_read(N,E) :- reading_binds(N,_,E).
 read_for(N,R,E) :- reading_binds(N,R,E).
 
@@ -246,6 +282,15 @@ violation(ineffective_revocation(R,G)) :- revocation(R,G,_), not competent_revoc
 
 % @norm cic:333 | c. 333 §3: no appeal or recourse against a decision of the Roman Pontiff | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann330-367_en.html
 papal_act(D) :- issuer(D,A), authority(A,4).
+
+% @norm cic:113 | c. 113: the Catholic Church and the Apostolic See have the character of a moral person by divine ordinance itself; in the Church, besides physical persons, there are juridic persons, subjects of obligations and rights which correspond to their nature; c. 114 §1: constituted by law or by decree; c. 118: represented by those whose competence is acknowledged; c. 120 §1: perpetual by nature | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann96-123_en.html
+% A juridic person is a unity of order, not a substance (In I Ethic. lect. 1;
+% CCC 1880): it acts through those who represent it (act.lp), and bears no
+% interior, no sin, no delict. Innocent IV, Romana ecclesia (VI 5.11.5): "In
+% universitatem vel collegium proferri excommunicationis sententiam penitus
+% prohibemus." (TTC-PENAL FL)
+moral_person(catholic_church). moral_person(apostolic_see).
+violation(delict_of_fiction(J,N,E)) :- fiction(J), delict(J,N,E).
 
 % @norm cic:125 | c. 125: an act placed out of force from without which could not be resisted is considered never to have taken place; one placed out of grave fear unjustly inflicted is valid unless the law provides otherwise, but can be rescinded by a judge | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann124-128_en.html
 act_of(P,J) :- juridic_act(J,P).
@@ -340,6 +385,39 @@ delict(P,n1379,A) :- absolution(A,P,_,T), not valid_absolution(A), norm_in_force
 penalty(n1379,interdict).
 element_of(n1379,cannot_absolve).                 % the delict's matter: one who cannot validly absolve
 
+% ---------- Book VI: abortion (TTC-PENAL AB) -----------------------------------
+% The matter comes from the moral library (moral.lp): a completed act whose
+% kind is the direct killing of an innocent, its victim unborn. The canon layer
+% keeps no kind of its own (CCC 2272: "a crime against human life").
+% @input procures/2 | procures(Person, Act): the person procures the act (one who seeks it as well as one who performs it)
+% @input unborn/1 | unborn(E): the evil effect E is the death of one not yet born, from conception
+% @input by_expulsion/1 | by_expulsion(A): the act kills by expelling the immature fetus (outward)
+% @input attempted_only/1 | attempted_only(A): the act was attempted and its effect did not follow (c. 1328)
+% @input evil_kind_of/2 | moral.lp: an evil effect of this kind
+% @norm pclt1988:1398 | authentic interpretation of c. 1398 (Pontifical Commission for the Authentic Interpretation of the Code, 19 January 1988, approved by John Paul II on 23 May 1988; AAS 80 (1988) 1818-1819): abortion is not only the expulsion of the immature fetus but also its killing in whatever way and at whatever time from the moment of conception | https://www.vatican.va/roman_curia/pontifical_councils/intrptxt/documents/rc_pc_intrptxt_doc_22091998_authentic-interp_lt.html
+killing_of_unborn(A) :- direct(A,E), evil_kind_of(E,killing_of_innocent), unborn(E).
+abortion_matter(A) :- killing_of_unborn(A), read_for(abortion,killing,A).
+abortion_matter(A) :- killing_of_unborn(A), read_for(abortion,expulsion,A), by_expulsion(A).
+% @norm cic1983:1398 | c. 1398 (1983): one who procures an abortion, the effect following, incurs a latae sententiae excommunication | https://www.iuscangreg.it/cic1983.php
+delict(P,n1398_1983,A) :- procures(P,A), abortion_matter(A), not attempted_only(A), event_date(A,T),
+                          norm_in_force(n1398_1983,T), not outside(P).
+penalty(n1398_1983,excommunication).
+% @norm cic2021:1397 | c. 1397 §2: a person who actually procures an abortion incurs a latae sententiae excommunication | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
+delict(P,n1397,A) :- procures(P,A), abortion_matter(A), not attempted_only(A), event_date(A,T),
+                     norm_in_force(n1397,T), not outside(P).
+penalty(n1397,excommunication).
+% @norm cic2021:1328 | c. 1328 §1: one who in furtherance of an offence did or omitted something but did not complete it is not bound by the penalty prescribed for the completed offence, unless the law provides otherwise (the same in 1983) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
+info(attempt_not_the_delict(P,A)) :- procures(P,A), attempted_only(A), killing_of_unborn(A).
+% @recursive cic2021:1329
+% @norm cic2021:1329 | c. 1329 §2: accomplices not named in the law incur a latae sententiae penalty if without their assistance the delict would not have been committed and the penalty can affect them; otherwise they can be punished by ferendae sententiae penalties (the same in 1983) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
+% @input assists/2 | assists(Person, Act): the person gives assistance to another's delict
+% @input necessary_assistance/2 | without the person's assistance the delict would not have been committed (outward; computed both ways when disputed)
+delict(P,N,A) :- assists(P,A), necessary_assistance(P,A), delict(Q,N,A), Q != P, latae_sententiae(N), not outside(P).
+info(accomplice_may_be_punished(P,N,A)) :- assists(P,A), not necessary_assistance(P,A), delict(Q,N,A), Q != P,
+                                           latae_sententiae(N), not outside(P).
+% @end
+info(abortion_reading(A,R)) :- read_for(abortion,R,A).
+
 % ---------- Book VI: imputability, through the human act (act.lp) ---------
 % Status is computed at each instant: an act is judged by the law and the
 % juridical situation on its own date, not on the evaluation date. What the
@@ -353,7 +431,7 @@ raises(imputability(P,E))   :- delict(P,_,E).
 rebutted(imputability(P,E)) :- appears_otherwise(P,E).
 imputed(P,N,E) :- delict(P,N,E), presumed(imputability(P,E)), actus_humanus(P,E),
                   not exempt(P,E), not unpunished_culpa(P,N,E).
-unpunished_culpa(P,N,E) :- delict(P,N,E), culpa(P,E), not punishes_culpa(N).
+unpunished_culpa(P,N,E) :- delict(P,N,E), culpa(P,E), not punishes_culpa(N), not culpa_disregarded(P,N,E).
 incurred_at(P,N,E,T) :- imputed(P,N,E), latae_sententiae(N), event_date(E,TE), instant(T), TE <= T,
                         not remitted_at(P,N,E,T), not latae_excused(P,N,E).
 to_be_imposed(P,N,E) :- imputed(P,N,E), not latae_sententiae(N).
@@ -361,11 +439,18 @@ presumed_incurred(P,N,E) :- incurred_at(P,N,E,T), eval_date(T).
 info(not_a_human_act(P,E)) :- delict(P,_,E), not actus_humanus(P,E).
 info(dolus(P,E))           :- delict(P,_,E), dolus(P,E).
 info(culpa_not_punished(P,N,E)) :- unpunished_culpa(P,N,E).
+% §2: no one is punished without dolus or culpa. A law that disregards an error
+% is coherent only where the act is unlawful apart from what the error concerns:
+% one engaged in an unlawful act answers for what follows from it (versari in
+% re illicita, II-II q. 64 a. 8; TTC-ACT N1, N4).
+illicit_apart(P,E) :- binds_for(P,E,K), kind_of_act(E,K).
+violation(punished_without_fault(P,N,E)) :- imputed(P,N,E), disregarded(N,Of), ignorant_without_fault(P,E,Of),
+                                            not illicit_apart(P,E).
 
 % @norm cic2021:1323 | c. 1323: not subject to a penalty: one under sixteen; one ignorant without fault of violating the law (inadvertence and error equivalent); physical force or unforeseeable chance; grave fear, necessity or grave inconvenience unless the act is intrinsically evil or tends to the harm of souls; due self-defence; lack of reason; one who thought without fault that the circumstances of nn. 4-5 existed | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
 exempt(P,E) :- delict(P,_,E), age_at(P,E,Y), Y < 16.                                   % n. 1
 exempt(P,E) :- delict(P,_,E), ignorant_without_fault(P,E,law).                          % n. 2
-exempt(P,E) :- delict(P,N,E), ignorant_without_fault(P,E,fact(C)), element_of(N,C).     % n. 2: unaware he violated it
+exempt(P,E) :- delict(P,N,E), ignorant_without_fault(P,E,fact(C)), element_of(N,C), not disregarded(N,fact(C)).  % n. 2: unaware he violated it
 exempt(P,E) :- delict(P,_,E), chance(P,E).                                               % n. 3 (force: no human act)
 exempt(P,E) :- delict(P,_,E), fear_or_necessity(P,E), not grave_matter(E).               % n. 4
 exempt(P,E) :- delict(P,_,E), due_defence(P,E).                                          % n. 5
@@ -375,6 +460,7 @@ fear_or_necessity(P,E) :- necessity(P,E).
 excusing(fear). excusing(necessity). excusing(defence).
 grave_matter(E) :- of_kind(E,intrinsically_evil).
 grave_matter(E) :- of_kind(E,harm_of_souls).
+grave_matter(E) :- kind_of_act(E,K), evil_by_object(K).          % the library's kind (TTC-PENAL AB5)
 info(exempt(P,E)) :- exempt(P,E).
 
 % @norm cic2021:1324 | c. 1324 §1 nn. 1, 3, 4, 5, 8, 9 and §3: imperfect use of reason; undeliberate grave passion; a minor over sixteen; grave fear or necessity where the act is intrinsically evil or harmful to souls; culpably mistaken circumstances of c. 1323 nn. 4-5; ignorance without fault of the penalty: the penalty is tempered, and no latae sententiae penalty binds | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
@@ -385,8 +471,6 @@ mitigated(P,E,fear)             :- delict(P,_,E), fear_or_necessity(P,E), grave_
 mitigated(P,E,mistaken)         :- delict(P,_,E), believed(P,E,C,vincible), excusing(C). % n. 8
 mitigated(P,E,penalty_unknown)  :- delict(P,_,E), ignorant_without_fault(P,E,penalty).  % n. 9
 latae_excused(P,N,E) :- delict(P,N,E), mitigated(P,E,_), latae_sententiae(N).           % §3
-% each of these canons says "latae sententiae": 1983 cc. 1382, 1364 §1; 2021 cc. 1387, 1364 §1, 1379 §1, 1386 §1
-latae_sententiae(n1382_1983;n1364_1983;n1387;n1364;n1379;n1386).
 
 % @norm cic2021:1325 | c. 1325: crass, supine or affected ignorance is never taken into account in applying cc. 1323 and 1324 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
 info(ignorance_disregarded(P,E,Of)) :- delict(P,_,E), gross_ignorance(P,E,Of).
@@ -578,6 +662,50 @@ violation(seal_lifted(E,Why)) :- seal_lifted(E,Why).
 % @norm cic2021:1386 | c. 1386 §1: a confessor who directly violates the sacramental seal incurs a latae sententiae excommunication reserved to the Apostolic See | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
 delict(P,n1386,E) :- delict_act(P,n1386,E), event_date(E,T), norm_in_force(n1386,T), not outside(P).
 penalty(n1386,excommunication).
+
+% ---------- Book VI: the cleric and the minor; the Dicastery's clause (TTC-ACT N1-N5) ----
+% @input cleric/1 | a cleric (deacon, priest or bishop)
+% @norm cic2021:1398 | c. 1398 §1 n. 1: a cleric who commits an offence against the sixth commandment of the Decalogue with a minor is to be punished with deprivation of office and other just penalties, not excluding dismissal from the clerical state | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
+cleric(P) :- priest(P).
+delict(P,n1398_1,E) :- delict_act(P,n1398_1,E), cleric(P), event_date(E,T), norm_in_force(n1398_1,T), not outside(P).
+penalty(n1398_1,deprivation).
+element_of(n1398_1,minor).                        % the delict's matter: with a minor
+% @norm sst2021:6 | Norms on delicts reserved to the Dicastery for the Doctrine of the Faith (11 October 2021), art. 6 n. 1: in the delict of c. 1398 §1 n. 1, ignorance or error on the part of the cleric regarding the age of the minor does not constitute an extenuating or exonerating circumstance; art. 29: the canons on delicts and penalties of each Code apply with the norms | https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_con_cfaith_doc_20211011_norme-delittiriservati-cfaith_en.html
+% Papal law derogates, for the age only, from cc. 1321 §3, 1323 n. 2 and 1324
+% as special law; a dicastery's general decree could not (cc. 33 §1, 135 §2).
+age_clause(sst2021,n1398_1).
+disregarded(N,fact(minor)) :- age_clause(D,N), issuer(D,A), authority(A,4).
+info(derogation_refused(D,N)) :- age_clause(D,N), issuer(D,A), authority(A,K), K < 4.
+% the error about the age disregarded, culpa resting on it alone is no ground of non-punishment
+other_fault(P,N,E) :- delict(P,N,E), ignorant_with_fault(P,E,Of), not disregarded(N,Of).
+culpa_disregarded(P,N,E) :- delict(P,N,E), disregarded(N,Of), ignorant_with_fault(P,E,Of),
+                            not interior(P,E,negligence), not other_fault(P,N,E).
+info(error_disregarded(P,N,E)) :- delict(P,N,E), disregarded(N,Of), ignorance(P,E,Of,_).
+
+% ---------- Book VI: the general norm (TTC-PENAL GP) ----------------------------
+% @input special_gravity/2 | special_gravity(Authority, Act): the competent authority's judgment that the violation's special gravity requires punishment (supplied, never computed)
+% @input scandal_necessity/2 | scandal_necessity(Authority, Act): the authority's judgment that necessity demands that scandals be prevented or repaired (supplied, never computed)
+% @norm cic2021:1399 | c. 1399: besides the cases prescribed in this or in other laws, the external violation of divine or canon law can be punished, and with a just penalty, only when the special gravity of the violation requires it and necessity demands that scandals be prevented or repaired | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
+% The violation is read from the library: an act of a kind that binds the
+% person (evil by its object, or forbidden by a law that binds). Penal law is
+% ecclesiastical: it reaches only those c. 11 binds.
+external_violation(P,A) :- binds_for(P,A,K), kind_of_act(A,K).
+named_delict(P,A) :- delict(P,N,A), N != n1399.
+delict(P,n1399,A) :- external_violation(P,A), special_gravity(_,A), scandal_necessity(_,A), event_date(A,T),
+                     norm_in_force(n1399,T), not outside(P), not named_delict(P,A).
+penalty(n1399,just_penalty).
+% @end
+
+% ---------- Book VII: the last canon (TTC-PENAL SA) ------------------------------
+% @input transfer/3 | transfer(Decree, Pastor, Date): a decree transferring a pastor (cc. 1748-1752)
+% @input sets_aside/3 | candidate only: sets_aside(Text, Norm, Ground): a text treats a penalty the law attaches as not incurred, on this ground
+% @norm cic:1752 | c. 1752: in cases of transfer the prescripts of c. 1747 are to be applied, canonical equity is to be observed, and the salvation of souls, which must always be the supreme law in the Church, is to be kept before one's eyes | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib7-cann1732-1752_en.html
+% It names no effect: it binds the authority deciding a transfer to keep the
+% salvation of souls in view, a judgment supplied, never computed. It is not a
+% power over the law: canonists never weigh against the law (rule 2); the
+% law's own remedies (exemption, mitigation, remission) are the routes.
+info(to_keep_in_view(D,salus_animarum)) :- transfer(D,_,_).
+violation(weighing_against_law(T,N)) :- sets_aside(T,N,salus_animarum).
 % @end
 
 % ---------- Texts checked against the derivation ------------------------------

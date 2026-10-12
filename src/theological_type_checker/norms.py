@@ -15,9 +15,12 @@ plus three checks:
   ``@input`` declares (usually a canon not yet encoded: the frontier)
 * inputs never used: declared slots no rule reads
 
-``% @end`` closes the current norm (for display rules), and
+``% @end`` closes the current norm (for display rules),
 ``% @temporal <id>`` marks a norm whose effects fall only on later acts, so
-that a loop through it is recursion over time, not circularity.
+that a loop through it is recursion over time, not circularity, and
+``% @recursive <id>`` marks a norm that defines one person's delict by
+another's (c. 1329, complicity), so that a loop through it is recursion over
+persons, not circularity.
 """
 from __future__ import annotations
 
@@ -31,7 +34,7 @@ BUILTIN = {"asof", "custom_asof", "not", "false"}
 TAG_NORM = re.compile(r"^%\s*@norm\s+(\S+)\s*\|\s*([^|]*?)\s*(?:\|\s*(\S+))?\s*$")
 TAG_INPUT = re.compile(r"^%\s*@input\s+(\w+)/(\d+)\s*\|\s*(.*)$")
 TAG_END = re.compile(r"^%\s*@end\b")
-TAG_TEMPORAL = re.compile(r"^%\s*@temporal\s+(\S+)")
+TAG_TEMPORAL = re.compile(r"^%\s*@(?:temporal|recursive)\s+(\S+)")
 
 
 def _split_top(s: str, sep: str = ","):
@@ -171,7 +174,7 @@ def cycles(edges):
 
 
 def check(texts=None):
-    """Cycles (vicious, or recursion over time through a @temporal norm),
+    """Cycles (vicious, or recursion through a @temporal or @recursive norm),
     undefined predicates (the frontier) and unused inputs."""
     g = graph(texts)
     loops = cycles(g["edges"])

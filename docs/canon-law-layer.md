@@ -58,6 +58,14 @@ Each act is judged on its own date. A 2026 revocation does not reach a 2018
 absolution. Norms carry the dates they are in force: c. 1382 (1983) until
 8 December 2021, c. 1387 after. "Now" is `today/1`, or an `asof_YYYY` part.
 
+An authentic interpretation in the form of law reaches the acts placed from
+its force (c. 8 §1), and an earlier act only where it is declaratory
+(c. 16 §2): laws regard the future (c. 9). The response of 1988 on abortion
+is extensive, so a killing in utero in 1987 falls to c. 18's strict reading.
+Whether *Ecclesia Dei* (2 July 1988), given as law, was declaratory is
+disputed and computed both ways; only where it was does it reach the
+consecrations of 30 June.
+
 ## LAW
 
 The general norms call one library, `law.lp`
@@ -91,6 +99,7 @@ penalty(n1387,excommunication).
 | `% @norm id \| citation \| source` | Starts a norm. Rules belong to it until the next tag. |
 | `% @input name/arity \| meaning` | A fact a case supplies. |
 | `% @temporal id` | Effects fall on later acts; a loop through it is recursion, not circularity. |
+| `% @recursive id` | One person's delict defined by another's (c. 1329); a loop through it is recursion over persons. |
 | `% @end` | Closes the current norm, for display rules. |
 | `% @library` | A library file (`act.lp`): its predicates count as defined in the norm graph. |
 
@@ -135,11 +144,12 @@ wrong.
 
 | Area | Canons |
 | --- | --- |
-| general | 7, 8 §1; 14; 16 §§1–3; 17; 18; 19; 20; 21; 85, 86; 135 §2; 333 §3; grants until competently revoked |
-| delicts | 751 with 1364 §1 (and 1983); 1382 (1983); 1387; 1379 §1 n. 2 |
-| imputability | 1321 §§2–4; 1322; 1323; 1324 §1 nn. 1, 3, 4, 5, 8, 9, §3; 1325; 1355 |
+| general | 7, 8 §1; 9; 14; 16 §§1–3 (with the dates of §2); 17; 18; 19; 20; 21; 85, 86; 135 §2; 333 §3; grants until competently revoked |
+| persons | 11; 96; 113–120 (physical and juridic persons, moral persons by divine ordinance); 205 |
+| delicts | 751 with 1364 §1 (and 1983); 1371 n. 1 (1983, 1998); 1365; 1382 (1983); 1387; 1379 §1 n. 2; 1386 §1; 1398 (1983) and 1397 §2, with the interpretation of 1988; 1398 §1 n. 1 with the Dicastery's art. 6 n. 1 (2021); 1399 |
+| imputability | 1321 §§2–4; 1322; 1323; 1324 §1 nn. 1, 3, 4, 5, 8, 9, §3; 1325; 1328 §1; 1329 §2; 1355 |
 | juridic acts, consent | 125 §§1–2; 1103 |
-| procedure | 1717 §1; 1342 §1 with 1720 n. 1; 124 §2; 1353 |
+| procedure | 1717 §1; 1342 §1 with 1720 n. 1; 124 §2; 1353; 1752 |
 | effects | 1331 §1 n. 1, §2 n. 2; 1335 §2 |
 | sacraments | 966, 976, 144 §2; 1108 §1, 1111 |
 
@@ -152,6 +162,8 @@ wrong.
 
 About two dozen canons out of 1752. The rest is the frontier.
 
-The Dicastery for the Doctrine of the Faith's special norms (*Sacramentorum
-sanctitatis tutela*) are not encoded. Neither are c. 1313 (the more
-favourable law after a change), c. 1332 (interdict) and c. 1352.
+Of the Dicastery for the Doctrine of the Faith's norms on reserved delicts
+(2021), only art. 6 n. 1 is encoded. Neither are c. 1313 (the more
+favourable law after a change), c. 1328 §2, c. 1332 (interdict), c. 1352,
+and remission beyond c. 1355's dates (c. 1355 §2; *Misericordia et misera*
+12). The Eastern Code is not encoded: the canon layer is Latin.
