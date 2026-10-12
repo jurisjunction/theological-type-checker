@@ -15,8 +15,8 @@ Copies are the defence. Each place below is free. None is enough alone.
 
 | Place | Gives | Account | Decentralized |
 | --- | --- | --- | --- |
-| GitHub | the working copy; issues; discovery | yes, pseudonymous | no |
-| Radicle (`rad:z9REkMbmisawZ51TYM8PxU9FK3jZ`) | peer-to-peer git; the identity is a key | no: a key and an alias | yes |
+| Radicle (`rad:z9REkMbmisawZ51TYM8PxU9FK3jZ`) | the public copy; peer-to-peer git; the identity is a key | no: a key and an alias | yes |
+| GitHub | the working copy, private | yes, pseudonymous | no |
 | Software Heritage | a permanent archive, with intrinsic identifiers (SWHID) | no | no: a non-profit archive with mirrors |
 | IPFS | a content-addressed copy: one CID names one release | no | yes, while someone pins it |
 | OpenTimestamps | proof in the Bitcoin chain that a commit existed by a date | no | yes |
@@ -45,8 +45,9 @@ it: `rad clone rad:z9REkMbmisawZ51TYM8PxU9FK3jZ`. To browse it:
 <https://radicle.network/nodes/iris.radicle.network/rad:z9REkMbmisawZ51TYM8PxU9FK3jZ>.
 
 **Software Heritage.** Ask the archive to take a copy:
-<https://archive.softwareheritage.org/save/>, origin type git, the
-repository URL. Repeat after each release. Each archived revision gets a
+<https://archive.softwareheritage.org/save/>, origin type git, a public
+git URL of the repository (a Radicle seed's, if it serves git over
+HTTPS; GitHub's is private). Repeat after each release. Each archived revision gets a
 SWHID (`swh:1:rev:...`), derived from its content, which names it forever.
 
 **OpenTimestamps.** Stamp a commit: `tools/stamp`. The stamp is a hash in
@@ -70,8 +71,8 @@ ipfs add --cid-version 1 ttc-v0.4.0.tar.gz   # prints the CID
 Put the CID in the release notes. It stays reachable while some node pins
 it: yours, or anyone's who chooses to.
 
-**Wayback Machine.** <https://web.archive.org/save/> with the repository's
-URL.
+**Wayback Machine.** <https://web.archive.org/save/> with the Radicle
+browse URL above.
 
 ## FILES
 
@@ -92,6 +93,10 @@ The rewrite changed every commit's hash, including that of the Thomist
 pre-registration. Its order before the results is still fixed by the
 chain of commits; its clock time is not. Predictions are stamped from now
 on, before anything is encoded.
+
+The GitHub repository was public until 12 October 2026 and is private
+since; Radicle is the public copy. What GitHub served before then may
+have been copied.
 
 A hosting account is tied to whoever made it. A separate account, a
 separate email and Tor put distance between the work and a person.

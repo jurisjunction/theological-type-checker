@@ -31,7 +31,7 @@ ttc-schools = "theological_type_checker.schools:main"
 ttc-coverage = "theological_type_checker.coverage:main"
 
 [project.urls]
-Documentation = "https://github.com/jurisjunction/theological-type-checker/tree/main/docs"
+Repository = "https://radicle.network/nodes/iris.radicle.network/rad:z9REkMbmisawZ51TYM8PxU9FK3jZ"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -39,7 +39,7 @@ from dataclasses import dataclass, field
 
 from . import __version__, engine
 
-UA = f"theological-type-checker/{__version__} (+https://github.com/jurisjunction/theological-type-checker)"
+UA = f"theological-type-checker/{__version__} (+https://radicle.network/nodes/iris.radicle.network/rad:z9REkMbmisawZ51TYM8PxU9FK3jZ)"
 OCLC_TOKEN = "https://oauth.oclc.org/token"
 OCLC_BASE = "https://americas.discovery.api.oclc.org/worldcat/search/v2"
 

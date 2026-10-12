@@ -62,6 +62,29 @@ binary, dated, each rule under `@norm` (iuscangreg's `cceo.php`; the
 official text, AAS 82 (1990) 1033–1364). The teaching above is shared;
 only the law differs (rule 1).
 
+- **Siblings, not a patch.** The Latin Church is one Church *sui iuris*
+  among the Catholic Churches, not the church the others derive from; the
+  Churches of East and West are "of equal dignity" (OE 3). Its Code is
+  its own common law, not the Catholic Church's, so the Eastern layer is
+  not written as amendments to the Latin. Three strata: what binds every
+  Catholic by the nature of the matter (divine law; the supreme authority
+  as such, CIC cc. 330–341, CCEO cc. 42–54); the common law of each code;
+  the particular law of each Church. Today every norm in `canon_law.lp`
+  binds every Catholic; this step sorts them.
+- **Links stated and links *ex natura rei*.** The Eastern Code links into
+  the Latin at many points by name: ascription and its change (CCEO
+  cc. 29–38); chrismation by any Eastern presbyter, valid for the faithful
+  of any Church *sui iuris*, the Latin included (c. 696 §1); the canons
+  the Latin Code answers since 2016 (below). Other links are stated
+  nowhere and hold from the nature of the matter: a canon that states
+  divine law, or a relation between Churches neither code settles alone.
+  These are computed, not listed. `law.lp` already types a law as divine
+  or ecclesiastical, and c. 11 already confines merely ecclesiastical
+  laws; each code's c. 1 limits only its merely ecclesiastical canons. A
+  layer test: no merely ecclesiastical rule of one code fires for a
+  person of the other, except by a stated link or by the nature of the
+  matter. Which links hold *ex natura rei* is itself a reading where no
+  authentic interpretation settles it (rule 2).
 - **Which code binds is a fact.** The Latin Code concerns only the Latin
   Church (CIC c. 1), the Eastern Code only the Eastern Catholic Churches
   unless a canon says otherwise (CCEO c. 1). Ascription to a Church *sui

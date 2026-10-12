@@ -7,7 +7,7 @@
 ## SYNOPSIS
 
 ```
-git clone https://github.com/jurisjunction/theological-type-checker
+rad clone rad:z9REkMbmisawZ51TYM8PxU9FK3jZ     # Radicle: ttc-archive(7)
 cd theological-type-checker
 python3 -m venv .venv && .venv/bin/pip install -e ".[mcp]"
 mkdir -p ~/.ttc && git -C ~/.ttc init
