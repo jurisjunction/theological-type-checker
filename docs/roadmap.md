@@ -49,6 +49,14 @@ branching on "manifest grave sin" (MO5).
   natural mode of existing" (DH 1636), and the glorious body, "not limited
   by space and time but able to be present how and when he wills"
   (CCC 645).
+- **Three outputs, kept apart** (from a friend's git sketch of the
+  sacraments): valid, the act took place; the character, indelible
+  (DH 1609; c. 290); fruitful, grace received, which depends on the
+  recipient's disposition and is interior, so input and never computed
+  (TTC-MORAL GR1). Nullity declares that no bond came to be; dissolution
+  (cc. 1142-1143) never reaches a ratified and consummated marriage
+  (c. 1141). The minister signs as Christ, not as himself: why "We
+  baptize" fails.
 - The seal (the MCP agent's case): a generic delict; coercion (c. 1324
   §1 n. 5, §3, already in); "the nature of the sacrament" checked as a
   ground.
