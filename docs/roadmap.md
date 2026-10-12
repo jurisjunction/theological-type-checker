@@ -229,5 +229,5 @@ To run on the system. None enters the kernel.
 
 ## SEE ALSO
 
-[ttc-findings(7)](findings.md), [ttc-layers(7)](layers.md),
+[ttc-coverage(7)](coverage.md), [ttc-findings(7)](findings.md), [ttc-layers(7)](layers.md),
 [ttc-flywheel(7)](flywheel.md)

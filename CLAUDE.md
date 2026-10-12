@@ -34,6 +34,7 @@ ttc-suite
 ttc-schools
 ttc-check sspx lattice
 ttc-library ic --near 41.90,12.45
+ttc-coverage --write
 ```
 
 The personal layer is `$TTC_HOME` (default `~/.ttc` if present). Tests run

@@ -375,3 +375,27 @@ def test_presences_of_different_modes_are_never_compared():
                 if len(modes) > 1 and (len(set(modes)) > 1 or not modes[0][0].islower()):
                     bad.append((f.name, part, " ".join(st.split())))
     assert not bad, bad
+
+
+# The Catechism coverage index (docs/coverage.md): an ordered outline, scenarios
+# that exist, and a document regenerated from the code.
+def test_coverage_outline_is_ordered():
+    from theological_type_checker import coverage
+    last = 0
+    for key, _title, lo, hi in coverage.OUTLINE:
+        assert last < lo <= hi <= 2865, key
+        last = hi
+    assert set(coverage.COVER) <= {k for k, *_ in coverage.OUTLINE}
+
+
+def test_coverage_names_only_existing_scenarios():
+    from theological_type_checker import coverage
+    ids = {s["id"] for s in suite.S}
+    missing = sorted({x for _st, scen, _n in coverage.COVER.values() for x in scen} - ids)
+    assert not missing, missing
+    assert all(st in ("rules", "case") and scen for st, scen, _n in coverage.COVER.values())
+
+
+def test_coverage_doc_is_current():
+    from theological_type_checker import coverage
+    assert coverage.DOC.read_text() == coverage.report(), "run: python -m theological_type_checker.coverage --write"

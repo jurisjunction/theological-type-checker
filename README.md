@@ -36,7 +36,9 @@ Encoding is interpretation. Checking is mechanical. Do not confuse them.
 **ttc-suite** runs 393 scenarios. **ttc-check** runs one case.
 **ttc-schools** boots each school alone and in pairs.
 **ttc-library** prints a fetch list of physical copies, with the nearest
-library first. **ttc-mcp** serves all of it to a language model. The model
+library first. **ttc-coverage** maps the Catechism, article by article, to
+what the base holds ([ttc-coverage(7)](docs/coverage.md)). **ttc-mcp**
+serves all of it to a language model. The model
 reads the texts; **ttc** computes what follows.
 
 ## INSTALLATION

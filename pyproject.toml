@@ -28,6 +28,7 @@ ttc-mcp = "theological_type_checker.server:main"
 ttc-check = "theological_type_checker.cli:main"
 ttc-library = "theological_type_checker.library:main"
 ttc-schools = "theological_type_checker.schools:main"
+ttc-coverage = "theological_type_checker.coverage:main"
 
 [project.urls]
 Documentation = "https://github.com/jurisjunction/theological-type-checker/tree/main/docs"
