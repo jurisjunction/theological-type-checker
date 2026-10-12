@@ -23,39 +23,16 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | creed | Scripture as tier 0; the creeds; the Incarnation; Mary; the economy | done ([ttc-creed(7)](research/creed-preregistration.md)) |
 | moral | the morality of acts, sin, grace | done ([ttc-moral(7)](research/moral-preregistration.md)) |
 | christ | Christ's acts; the sacraments; the seal; presence by mode | done ([ttc-christ(7)](research/christ-preregistration.md)) |
-| moral amendment | verdicts and obligation: may, must, must not; social doctrine as tests | predicted, to stamp; **next** ([ttc-precept(7)](research/precept-preregistration.md)) |
+| moral amendment | verdicts and obligation: may, must, must not; social doctrine as tests | done ([ttc-precept(7)](research/precept-preregistration.md)) |
 | communion | faith and communion | to predict |
 | canon | the canon-law step | to predict |
+| liturgy | the liturgy as witness, rite and development | to predict |
 | last things | soteriology and eschatology | to predict |
 | empirical | science | to predict |
 | L | a language for libraries, compiled to clingo | after the libraries |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
-
-### moral amendment (predicted, to stamp)
-
-From a run of the trolley problem on the moral library (2026-10-12). It
-changes `moral.lp`, so it is predicted and stamped first.
-
-- **A negative verdict.** The library says "licit on the claims" or
-  nothing. An act of a kind evil by its object is illicit on the kind
-  alone, with no interior claim: a verdict on the act, not the person
-  (rule 3 allows it). Failing double effect is not the same verdict.
-- **"Evil as means" and "direct".** Whether an evil effect that is the
-  means makes the act "direct killing" is a reading: by the physical order
-  of causes (the manualists) or by what is chosen (Anscombe, Finnis). It
-  branches. Cases: the craniotomy responses of the Holy Office (1884,
-  1889), ectopic pregnancy, the gravid cancerous uterus (Pius XII).
-- **Sources into the graph.** *Evangelium vitae* 57 and 62 ("I confirm":
-  a claim of the ordinary universal magisterium, computed both ways),
-  *Veritatis splendor* 80, CCC 2258, 2271.
-- **May and must.** Licit is permission. Obligation needs its own shape:
-  negative precepts bind always and in every instance (*semper et pro
-  semper*), affirmative ones always but not at every moment (VS 52; II-II
-  q. 33 a. 2). Pulling the lever is "may".
-- **Test cases**: the trolley (lever, push, loop); abortion; IVF
-  (*Donum vitae*, 1987; *Dignitas personae*, 2008; HV 12).
 
 ### communion
 
@@ -77,7 +54,37 @@ generic delict input came with the christ step.)
   and the exemptions and mitigations that keep the latae sententiae from
   binding: age (cc. 1323 n. 1, 1324 §1 n. 4), ignorance of the penalty
   (c. 1324 §1 n. 9), grave fear (c. 1324 §1 n. 5, §3). The act layer has
-  them; the case tests them together.
+  them; the case tests them together. The moral side is in place:
+  direct abortion is "must not" in every main branch (TTC-PRECEPT DI3),
+  so c. 1397 §2 can take the act's kind from the library, as c. 1386 took
+  the seal's ground.
+
+### liturgy
+
+The liturgy is "more than" a rite plus positive law, and the Church says
+how: "made up of immutable elements divinely instituted, and of elements
+subject to change" (SC 21); new forms "should in some way grow organically
+from forms already existing" (SC 23). Three faces:
+
+- **A witness** on the authority graph: Tradition is handed on "in her
+  teaching, life and worship" (DV 8); *lex orandi, lex credendi* (the
+  Indiculus, DH 246), with Pius XII's caution that belief also rules prayer
+  (*Mediator Dei*). The Immaculate Conception and the Assumption were
+  argued in part from the liturgies.
+- **A rite**: its essential core is `sacrament.lp`'s substance (SC 21 is
+  the sacraments' two laws again); the rest is law (cc. 834-846; c. 838 on
+  the competent authorities).
+- **A development**: rites descend from rites, an ordered history that need
+  not be a line. SC 23's "organically" is a disputed reading with no
+  authentic interpretation (rule 2). A theory of organic development runs
+  on top, as the Grammar of the Icon does; the reform of 1970 as organic,
+  as *ressourcement* or as rupture are its readings, and the checker
+  settles none.
+- Already in the base: the old Missal (LT1-LT8), lex orandi typed as
+  teaching or governance (left open), translations (G1-G4).
+- The bridge to the last things: in the earthly liturgy "we take part in a
+  foretaste of that heavenly liturgy" (SC 8); the Mass is the one
+  sacrifice offered in a different manner (DH 1743).
 
 ### last things
 
@@ -170,6 +177,18 @@ generic delict input came with the christ step.)
   history (CR1b).
 - **Trent's protection outlives the definition** in the Immaculate
   Conception's data (CM1c).
+- **EV 56's judgment of today's circumstances** ("very rare, if not
+  practically non-existent") is not on `q(necessity_today)`, so as of 2017
+  the question is open (TTC-PRECEPT SD1c). Entering it needs a value
+  between "sometimes" and "none", or a typed directive.
+- **What "extraction" names.** Salpingostomy is typed as the extraction of
+  an immature ectopic fetus and so meets the Holy Office's response of
+  1902 (TTC-PRECEPT DI5). Whether the response reaches it is disputed
+  among moralists; the typing could become a disputed fact.
+- **Social justice** (CCC 1928-1948) is still on the frontier: respect for
+  the person, equality, solidarity (TTC-PRECEPT M3).
+- **Sources the amendment left out:** *Veritatis splendor* 80, CCC 2258,
+  Pius XII on the gravid cancerous uterus, HV 12.
 
 ## CANDIDATE THEORIES
 

@@ -655,3 +655,67 @@ source(penitentiary_2019,3,truth,2019). character(penitentiary_2019,notification
 supports(penitentiary_2019,q(seal_of_divine_law),yes).
 source(aquinas_seal,5,truth,1256). promoted(aquinas_seal,4,1567).            % In IV Sent. d. 21 q. 3 a. 1 (Suppl. q. 11 a. 1)
 supports(aquinas_seal,q(seal_of_divine_law),yes).
+
+% ---------- Verdicts and obligation (TTC-PRECEPT) ------------------------------
+#program direct_reading.          % "direct": by the order of causes or by what is chosen (DI1)
+question(q(direct_by)). question_kind(q(direct_by),doctrinal).
+value(q(direct_by),(causal_order;what_is_chosen)).
+source(gury_1850,5,truth,1850).     supports(gury_1850,q(direct_by),causal_order).        % Compendium theologiae moralis
+source(anscombe_1982,5,truth,1982). supports(anscombe_1982,q(direct_by),what_is_chosen). % "Action, Intention and 'Double Effect'"
+source(fgb_2001,5,truth,2001).      supports(fgb_2001,q(direct_by),what_is_chosen).      % The Thomist 65 (2001)
+
+#program life_sources.            % the direct killing of the innocent (DI3)
+question(q(direct_killing_of_innocent)). question_kind(q(direct_killing_of_innocent),doctrinal).
+value(q(direct_killing_of_innocent),(yes;no)).
+classification(q(direct_killing_of_innocent),direct(killing_of_innocent),evil_by_object).
+source(pius_xii_1951,3,truth,1951). papal_form(pius_xii_1951,ordinary). character(pius_xii_1951,address).   % to midwives, 29 Oct. 1951
+supports(pius_xii_1951,q(direct_killing_of_innocent),yes).
+source(ev57,3,truth,1995). papal_form(ev57,ordinary). character(ev57,encyclical).   % "I confirm that the direct and voluntary killing..."
+supports(ev57,q(direct_killing_of_innocent),yes). oum_claim(ev57,2).
+source(ev62,3,truth,1995). papal_form(ev62,ordinary). character(ev62,encyclical).   % "I declare that direct abortion..."
+supports(ev62,q(direct_killing_of_innocent),yes). oum_claim(ev62,2).
+source(ccc2271,3,truth,1997). character(ccc2271,catechism). supports(ccc2271,q(direct_killing_of_innocent),yes).
+
+#program craniotomy_sources.      % the Holy Office: craniotomy "cannot safely be taught" (DI4)
+question(q(craniotomy_illicit)). question_kind(q(craniotomy_illicit),doctrinal).
+value(q(craniotomy_illicit),(yes;no)).
+classification(q(craniotomy_illicit),craniotomy,evil_by_object).
+source(ho_1884,3,truth,1884). character(ho_1884,responses). supports(ho_1884,q(craniotomy_illicit),yes).   % ASS 17, 556
+source(ho_1889,3,truth,1889). character(ho_1889,responses). supports(ho_1889,q(craniotomy_illicit),yes).   % ASS 22, 748
+source(ho_1902,3,truth,1902). character(ho_1902,responses).                                               % ASS 35, 162
+question(q(ectopic_extraction_illicit)). question_kind(q(ectopic_extraction_illicit),doctrinal).
+value(q(ectopic_extraction_illicit),(yes;no)).
+classification(q(ectopic_extraction_illicit),extraction_of_ectopic_fetus,evil_by_object).
+supports(ho_1902,q(ectopic_extraction_illicit),yes).   % immature ectopic fetuses may not be extracted
+
+#program ivf_sources.             % Donum vitae II.B.5 (1987); Dignitas personae (2008) (DI6)
+question(q(ivf_illicit)). question_kind(q(ivf_illicit),doctrinal). value(q(ivf_illicit),(yes;no)).
+classification(q(ivf_illicit),ivf,evil_by_object).
+source(donum_vitae_1987,3,truth,1987). character(donum_vitae_1987,instruction). supports(donum_vitae_1987,q(ivf_illicit),yes).
+source(dignitas_personae_2008,3,truth,2008). character(dignitas_personae_2008,instruction).
+supports(dignitas_personae_2008,q(ivf_illicit),yes). reaffirms(dignitas_personae_2008,donum_vitae_1987).
+
+#program usury_one_question.      % Vix pervenit and the 1917 Code entered as one question (SD2)
+question(q(interest_on_loans)). question_kind(q(interest_on_loans),doctrinal).
+value(q(interest_on_loans),(forbidden;permitted)).
+source(vix_pervenit,3,truth,1745). papal_form(vix_pervenit,ordinary). character(vix_pervenit,encyclical).
+supports(vix_pervenit,q(interest_on_loans),forbidden).
+source(cic1917_c1543,3,juridical,1917). papal_form(cic1917_c1543,legislative).
+supports(cic1917_c1543,q(interest_on_loans),permitted).
+#program usury_two_questions.     % typed: profit from the loan as such; interest by an extrinsic title (SD2)
+question(q(profit_from_loan_as_such)). question_kind(q(profit_from_loan_as_such),doctrinal).
+value(q(profit_from_loan_as_such),(yes;no)).
+classification(q(profit_from_loan_as_such),profit_from_loan_as_such,evil_by_object).
+source(vix_pervenit,3,truth,1745). papal_form(vix_pervenit,ordinary). character(vix_pervenit,encyclical).
+supports(vix_pervenit,q(profit_from_loan_as_such),yes). teaching_type(vix_pervenit,principle).
+question(q(interest_by_extrinsic_title)). question_kind(q(interest_by_extrinsic_title),juridical).
+value(q(interest_by_extrinsic_title),(permitted;forbidden)).
+source(cic1917_c1543,3,juridical,1917). papal_form(cic1917_c1543,legislative).
+supports(cic1917_c1543,q(interest_by_extrinsic_title),permitted).
+
+#program cand_directive_as_principle.   % EV 56's judgment of today's circumstances read as fixing the kind (SD4)
+question(q(execution_evil_by_object)). question_kind(q(execution_evil_by_object),doctrinal).
+value(q(execution_evil_by_object),(yes;no)).
+classification(q(execution_evil_by_object),execution,evil_by_object).
+source(ev56_rarity,3,truth,1995). papal_form(ev56_rarity,ordinary). teaching_type(ev56_rarity,directive).   % "very rare, if not practically non-existent"
+supports(ev56_rarity,q(execution_evil_by_object),yes).

@@ -78,6 +78,11 @@ side, juridical facts on the canon side.
 | `interior(P,state,in_grace)` | Being in grace: a claim, computed both ways if disputed; never derived (Trent, DH 1534). |
 | `effect(A,E,V)` (V good or evil), `means(A,E1,E2)`, `forbids(L,K)` | Double effect's outward conditions; a law forbidding a kind (a law that does not bind makes nothing sinful). |
 | `salutary(P,A)`, `beginning_of_faith(P,A)`, `justification(P,A)`, `moved_by(P,A,G)`, `efficacious(G)` | Grace: no salutary act without it; in justification the will acts. |
+| `object_is(A,E)`, `evil_kind_of(E,K)`, `interior(P,A,chooses(E))` | An act that consists in an evil effect; the kind of that effect (`killing_of_innocent`); the claim that it is chosen. With `q(direct_by)` (part `direct_reading`), an evil means is direct by the order of causes, or where it is claimed chosen. The direct act takes the kind `direct(K)`: composed, never typed by hand. |
+| `permitted_only_if(K,C)`, `prudential(A,C)`, `denied(C)` | A kind permitted only where conditions hold (the death penalty, just war). Each condition is the judgment of those responsible (CCC 2309): supplied, never computed. The theological side may deny one today. |
+| `commands(L,K,O)`, `occasion(P,O)` | An affirmative precept: "must" only where its occasion is supplied. One that commands what is evil by its object is refused. |
+| `teaching_type(S,T)` (`principle`, `criterion`, `directive`) | Social teaching typed (CCC 2423). A directive cited as fixing what is evil by its object is refused. |
+| *output* `verdict(A,may,G)`, `verdict(A,must_not,G)`, `obligation(P,K)` | Verdicts are said of acts. Must not: by its object, or by a denied circumstance. May: by double effect on the claims, or on the judgment. An act lacking a claim gets no verdict. |
 
 ### Christ, presence, the sacraments
 

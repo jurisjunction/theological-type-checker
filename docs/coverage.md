@@ -18,10 +18,10 @@ a test checks the file is current and every scenario named exists.
 
 ## SUMMARY
 
-Of 87 units: 35 touched by rules, 12 by cases only,
-40 frontier. A unit counts as touched if one rule reaches
+Of 87 units: 37 touched by rules, 11 by cases only,
+39 frontier. A unit counts as touched if one rule reaches
 it, so this measures reach, not depth. The rule files cite
-19 of the Catechism's 2,865 paragraphs by number (the column
+22 of the Catechism's 2,865 paragraphs by number (the column
 "Cited"). The Prologue (1–25) is frontier.
 
 ## PART ONE: THE PROFESSION OF FAITH
@@ -89,14 +89,14 @@ it, so this measures reach, not depth. The rule files cite
 
 ## PART THREE: LIFE IN CHRIST
 
-24 units: 11 under rules, 2 under cases only, 11 frontier.
+24 units: 13 under rules, 1 under cases only, 10 frontier.
 
 | CCC | Unit | Status | Cited | Scenarios | The base holds |
 | --- | --- | --- | --- | --- | --- |
 | 1701–1715 | Man: the image of God | rules |  | K11, X3 | the image; personhood |
 | 1716–1729 | Our vocation to beatitude | frontier |  |  |  |
 | 1730–1748 | Man's freedom | rules | 1 | AC1, AC5, AC8 | imputability, ignorance, fear |
-| 1749–1761 | The morality of human acts | rules | 7 | MS1, MS2, MS2c | the sources of morality; double effect |
+| 1749–1761 | The morality of human acts | rules | 7 | MS1, MS2, MS2c, VD1, DI2 | the sources of morality; double effect; may, must not; "direct" as a reading |
 | 1762–1775 | The morality of the passions | rules |  | AC3 | undeliberate passion mitigates |
 | 1776–1802 | Moral conscience | frontier |  |  |  |
 | 1803–1845 | The virtues | frontier |  |  |  |
@@ -104,16 +104,16 @@ it, so this measures reach, not depth. The rule files cite
 | 1878–1896 | The person and society | frontier |  |  |  |
 | 1897–1927 | Participation in social life | rules |  | LW3, LW5 | a law against a higher law does not bind |
 | 1928–1948 | Social justice | frontier |  |  |  |
-| 1950–1986 | The moral law | rules |  | LW1, LW4, LW7, LW7b | eternal, natural, divine and human law |
+| 1950–1986 | The moral law | rules |  | LW1, LW4, LW7, LW7b, OB1, OB2 | eternal, natural, divine and human law; affirmative precepts |
 | 1987–2029 | Grace and justification | rules | 1 | GR1, GR2, GR3, GR4, GR5, GR6, B6 | necessity, cooperation, efficacy, resisted grace |
 | 2030–2051 | The Church, mother and teacher | rules |  | B10, B12, DR3 | the magisterium in morals |
 | 2084–2141 | The first commandment | case |  | SX8 | dissent from Dignitatis humanae, not schism |
 | 2142–2167 | The second commandment | frontier |  |  |  |
 | 2168–2195 | The third commandment | frontier |  |  |  |
 | 2197–2257 | The fourth commandment | frontier |  |  |  |
-| 2258–2330 | The fifth commandment | rules | 3 | DP1, DP2, DP5, MS2, MS2b | the death penalty's history; legitimate defence |
-| 2331–2400 | The sixth commandment | case |  | DR1, K11 | remarriage; the embryo's image (Donum vitae) |
-| 2401–2463 | The seventh commandment | frontier |  |  |  |
+| 2258–2330 | The fifth commandment | rules | 5 | DP1, DP2, DP5, SD1, MS2, MS2b, DI3, DI4, DI5, SD3 | the death penalty's history and verdict; legitimate defence; abortion; just war |
+| 2331–2400 | The sixth commandment | rules |  | DI6, DR1, K11 | IVF "must not" (Donum vitae); remarriage; the embryo's image |
+| 2401–2463 | The seventh commandment | rules | 1 | SD2, SD2b, SD4 | usury as two questions; social teaching typed (CCC 2423) |
 | 2464–2513 | The eighth commandment | rules |  | SM7, SM7c | the seal |
 | 2514–2533 | The ninth commandment | frontier |  |  |  |
 | 2534–2557 | The tenth commandment | frontier |  |  |  |

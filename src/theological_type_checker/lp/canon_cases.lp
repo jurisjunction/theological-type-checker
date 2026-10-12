@@ -421,3 +421,82 @@ classification(q(disclosure_harms_souls),disclosure_k,harm_of_souls).
 dispensation(dsp_seal,seal,conf_k).
 #program cand_penitent_releases.    % the penitent's permission lifts the seal
 seal_lifted(disclosure_k,penitent_release).
+
+% ---------- Verdicts and obligation (TTC-PRECEPT), all HYPOTHETICAL -------------
+% Load with direct_reading and life_sources: the kind of a direct killing is
+% composed from the effect and typed by the sources, never by hand.
+#program trolley.                   % HYPOTHETICAL: the lever, the push, the loop
+act_of(bystander_b,lever). kind_of_act(lever,divert).                           % the one dies as a side effect
+effect(lever,five_saved,good). effect(lever,death_of_one,evil). evil_kind_of(death_of_one,killing_of_innocent).
+interior(bystander_b,lever,evil_unintended). interior(bystander_b,lever,proportionate_reason).
+act_of(bystander_c,lever_c). kind_of_act(lever_c,divert).                       % proportion not claimed
+effect(lever_c,five_saved,good). effect(lever_c,death_of_one_c,evil). evil_kind_of(death_of_one_c,killing_of_innocent).
+interior(bystander_c,lever_c,evil_unintended).
+act_of(agent_p,push). kind_of_act(push,push_man).                               % the man's death stops the trolley
+effect(push,five_saved,good). effect(push,death_of_man,evil). means(push,death_of_man,five_saved).
+evil_kind_of(death_of_man,killing_of_innocent).
+interior(agent_p,push,evil_unintended). interior(agent_p,push,proportionate_reason).
+disputed(interior(agent_p,push,chooses(death_of_man))).
+act_of(agent_l,loop). kind_of_act(loop,divert).                                 % the track loops back: the one's body stops it
+effect(loop,five_saved,good). effect(loop,death_of_one_l,evil). means(loop,death_of_one_l,five_saved).
+evil_kind_of(death_of_one_l,killing_of_innocent).
+interior(agent_l,loop,evil_unintended). interior(agent_l,loop,proportionate_reason).
+disputed(interior(agent_l,loop,chooses(death_of_one_l))).
+act_of(surgeon_h,harvest). kind_of_act(harvest,transplant).                     % one killed for five transplants; nothing claimed
+object_is(harvest,death_of_patient). effect(harvest,death_of_patient,evil). effect(harvest,five_saved,good).
+evil_kind_of(death_of_patient,killing_of_innocent).
+
+#program trolley_duty.              % HYPOTHETICAL: one responsible for others, attacked (CCC 2265)
+commands(nat_law,defend(charges),charges_attacked).
+occasion(guard_g,charges_attacked).
+
+#program cand_must_push.            % "you must push the man to save five" (load with life_sources)
+commands(greater_number_rule,direct(killing_of_innocent),more_at_stake).
+occasion(agent_p,more_at_stake).
+
+#program abortion.                  % HYPOTHETICAL: load with direct_reading, life_sources, craniotomy_sources; ectopic likewise
+act_of(doctor_a,abort_1).                                                       % direct abortion: the act is the death; its kind composed
+object_is(abort_1,death_of_unborn). effect(abort_1,death_of_unborn,evil). evil_kind_of(death_of_unborn,killing_of_innocent).
+act_of(doctor_c,cranio). kind_of_act(cranio,craniotomy).                        % to save the mother in obstructed labour
+effect(cranio,mother_saved,good). effect(cranio,death_of_child,evil). means(cranio,death_of_child,mother_saved).
+evil_kind_of(death_of_child,killing_of_innocent).
+interior(doctor_c,cranio,evil_unintended). interior(doctor_c,cranio,proportionate_reason).
+disputed(interior(doctor_c,cranio,chooses(death_of_child))).
+#program ectopic.                   % HYPOTHETICAL: the damaged tube removed; the embryo removed; its growth stopped by a drug
+act_of(doctor_e,tube_out). kind_of_act(tube_out,salpingectomy).
+effect(tube_out,mother_saved,good). effect(tube_out,tube_removed,neutral). means(tube_out,tube_removed,mother_saved).
+effect(tube_out,death_of_embryo_s,evil). evil_kind_of(death_of_embryo_s,killing_of_innocent).
+interior(doctor_e,tube_out,evil_unintended). interior(doctor_e,tube_out,proportionate_reason).
+act_of(doctor_t,embryo_out). kind_of_act(embryo_out,extraction_of_ectopic_fetus).   % salpingostomy
+effect(embryo_out,mother_saved,good). effect(embryo_out,death_of_embryo_t,evil). means(embryo_out,death_of_embryo_t,mother_saved).
+evil_kind_of(death_of_embryo_t,killing_of_innocent).
+interior(doctor_t,embryo_out,evil_unintended). interior(doctor_t,embryo_out,proportionate_reason).
+disputed(interior(doctor_t,embryo_out,chooses(death_of_embryo_t))).
+act_of(doctor_m,mtx). kind_of_act(mtx,drug_treatment).                           % methotrexate
+effect(mtx,mother_saved,good). effect(mtx,death_of_embryo_m,evil). means(mtx,death_of_embryo_m,mother_saved).
+evil_kind_of(death_of_embryo_m,killing_of_innocent).
+interior(doctor_m,mtx,evil_unintended). interior(doctor_m,mtx,proportionate_reason).
+disputed(interior(doctor_m,mtx,chooses(death_of_embryo_m))).
+
+#program ivf.                       % HYPOTHETICAL: load with ivf_sources and life_sources
+act_of(clinic_i,ivf_1). kind_of_act(ivf_1,ivf).
+act_of(clinic_i,discard_1).                                                     % the embryos destroyed; its kind composed
+object_is(discard_1,death_of_embryo_i). effect(discard_1,death_of_embryo_i,evil). evil_kind_of(death_of_embryo_i,killing_of_innocent).
+
+#program dp_verdict.                % HYPOTHETICAL: an execution; load with deathpenalty and a date or reading
+act_of(state_s,exec_1). kind_of_act(exec_1,execution).
+permitted_only_if(execution,absolute_necessity).                                  % EV 56; CCC 2267 (1997)
+prudential(exec_1,absolute_necessity).                                            % the judgment of those responsible
+% q(dp_principle) and q(necessity_today) are not yes/no questions: the case states the bridge.
+of_kind(execution,evil_by_object) :- holds(q(dp_principle),intrinsically_wrong).
+denied(absolute_necessity)        :- holds(q(necessity_today),none).
+
+#program just_war.                  % HYPOTHETICAL: the conditions of CCC 2309, claimed by those responsible
+act_of(authority_w,force_1). kind_of_act(force_1,use_of_force).
+act_of(authority_v,force_2). kind_of_act(force_2,use_of_force).
+permitted_only_if(use_of_force,(lasting_grave_damage;other_means_ineffective;prospects_of_success;no_graver_evils)).
+prudential(force_1,(lasting_grave_damage;other_means_ineffective;prospects_of_success;no_graver_evils)).
+prudential(force_2,(lasting_grave_damage;other_means_ineffective;prospects_of_success)).   % the comparison of evils not claimed
+
+#program usury_case.                % HYPOTHETICAL: load with usury_two_questions
+act_of(lender_u,loan_u). kind_of_act(loan_u,profit_from_loan_as_such).            % gain from the loan itself

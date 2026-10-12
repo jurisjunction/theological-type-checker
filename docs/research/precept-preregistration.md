@@ -183,3 +183,49 @@ pervenit*; the extrinsic titles).
 
 [ttc-moral(7)](moral-preregistration.md), [ttc-coverage(7)](../coverage.md),
 [ttc-roadmap(7)](../roadmap.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in a02c284 and stamped in
+9538e6d. Encoded in `moral.lp` (verdicts; "direct" as a reading; conditions
+by prudential judgment; affirmative precepts; social teaching typed),
+`icon_history.lp` (the reading of "direct"; the sources on the killing of
+the innocent, craniotomy and ectopic extraction, IVF; usury as one question
+and as two; a directive cited as a principle) and `canon_cases.lp` (the
+trolley with the transplant, the guard's duty, abortion, ectopic pregnancy,
+IVF, an execution, just war, a loan, and the candidates). Scenarios VD,
+OB, DI, SD (18).
+
+| | Result |
+| --- | --- |
+| VD1 | Held (VD1, VD1b). The lever is "may" on the claims; the transplant, with nothing claimed, "must not" in every main branch; the lever without the claim of proportion gets no verdict, and with it, "may". In the moral cases the acts of a kind evil by its object are "must not" with or without consent claimed; d2 and d4, not shown licit, are not forbidden. |
+| VD2 | Held (VD2). The test of rule 3 passes unchanged; every verdict, in the trolley, abortion and IVF cases, is said of an act, none of a person. |
+| OB1 | Held (OB1). The guard, with the occasion supplied, "must" defend his charges; the bystander has no obligation and "may". |
+| OB2 | Held (OB2). The candidate is refused in every main branch, and the push stays "must not" on the causal reading. In the shadow where the direct killing of the innocent is not evil by its object, nothing refuses it: the refusal rests on the teaching, as it should. |
+| DI1 | Held (DI1). Both values main; the sources are of tier 5. Weight prefers the reading by choice, two to one, because two of its authors were entered and one manualist: a preference only, and here a count of the encoding (§2 of the findings). |
+| DI2 | Held (DI2). On the causal reading the push and the loop are "must not" as direct killings of the innocent; on the reading by choice each is "must not" where the death is claimed chosen and "may" where it is claimed not chosen; the lever is "may" on both. No case gives an act a direct kind; a test pins it. |
+| DI3 | Held (DI3), with the standing qualification of every counterfactual shadow: the contrary is counterfactual where a claim of the ordinary universal magisterium holds (EV 57 or EV 62) *and* tier 2 is read as truth (`t2_truth`), live otherwise. Never main. |
+| DI4 | Held (DI4). |
+| DI5 | False for salpingostomy (DI5). Salpingectomy is "may" on both readings and methotrexate splits by reading, as predicted. Salpingostomy does not split: typed as what it outwardly is, the extraction of an immature ectopic fetus, it meets the Holy Office's response of 1902 in every main branch on both readings, as craniotomy meets those of 1884 and 1889 (DI4); only the live shadow of the response permits it. The source was entered for the case and not seen to apply. |
+| DI6 | Held (DI6). |
+| SD1 | Held in part (SD1, SD1b, SD1c). As of 2019 on the CDF's reading, "must not" in every main branch by circumstance, never by kind: held. On the intrinsic reading the kind is the ground in the branch that holds it, but the circumstance stays main beside it: read so, CCC 2267 contradicts EV 56 and DH 795 at tier 3, a tension in which neither cleaves (as DP3 already shows). The readings agree on the act. As of 2017, false as stated: "may" holds only where necessity today is "sometimes", and whether it is was open, since no source before 2018 answers the question; EV 56's "very rare, if not practically non-existent" is not entered on it. |
+| SD2 | Held (SD2, SD2b). |
+| SD3 | Held (SD3). Three claims of four: silence; a condition denied: "must not" by circumstance. `prudential/2` is derived by no rule; a test pins it, beside the test of proportion. |
+| SD4 | Held (SD4). |
+| M1 | Held in part. No earlier scenario's pass or fail changed, nor any branch count. But seven outputs gained verdicts, not two: every scenario that loads the moral cases (MS1, MS1b, MS2, MS2b, MS2c, MS2d) and CH2. The acts named gain "must not" as predicted; the prediction missed the "may" of d1 and of defence, the candidate of MS2c making d2 and d3 "may" (d3 is then "may" and "must not" at once, and refused as before), and the candidate act of the Son in CH2. The TTC-SCHOOLS tables did not change. |
+| M2 | Held after closing gaps. Each new statement was deleted in turn (20 in `moral.lp`, 50 in `icon_history.lp`, 58 in `canon_cases.lp`); every deletion now turns a scenario red. Closed on the way: a death chosen as the means, in the shadow where the direct killing of the innocent is not evil by its object, still fails double effect (DI2; the means condition on the reading by choice had no test); each source pinned by the branches it cleaves, or by weight; each claim of the ordinary universal magisterium shown sufficient alone (DI3); salpingostomy direct on the causal reading (DI5); the candidate's obligation derived and refused (OB2); usury as one question left open (SD2); a loan for profit as such "must not" (SD2b); verdicts said of acts in the abortion and IVF cases (VD2). Removed as inert: two law kinds, two descriptive kinds on acts whose kind is composed, a loan by an extrinsic title. CL1 and PR4 clean. |
+| M3 | Held in part. The seventh commandment leaves the frontier (SD2, SD2b, SD4) and the sixth moves to rules (DI6). "Social justice" (CCC 1928-1948) stays on the frontier: nothing in the amendment encodes respect for the person, equality or solidarity. The prediction counted the social teaching tested here (CCC 2309, 2423, 2267) as that article's; it belongs to the fifth and seventh commandments. |
+
+### Not predicted
+
+- **Weight by headcount** (DI1): the reading by choice is preferred
+  because more of its authors were entered.
+- **The transplant.** VD1 needed an act evil by its object with nothing
+  claimed; the trolley's own companion (one killed for five transplants)
+  supplied it.
+- **The death penalty's questions are not yes or no.** The case states the
+  bridge from its values to the kind and the condition (two rules in
+  `dp_verdict`); `classification/3` reads only "yes".
+- **Salpingostomy meets 1902** (DI5).
+- **The intrinsic reading keeps the circumstance main** (SD1b).
+- **2017 was open** (SD1c).

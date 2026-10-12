@@ -324,6 +324,36 @@ def test_proportion_is_never_computed():
                        ("moral.lp", "proportionate(P,A) :- due_defence(P,A).")], derived
 
 
+def _heads(pred):
+    """every statement in the rule base whose head is pred, with its file"""
+    import re
+    out = []
+    for f in sorted(engine.LP_DIR.glob("*.lp")):
+        code = re.sub(r"%.*", "", f.read_text())
+        for st in re.split(r"(?<=\.)\s", code):
+            st = " ".join(st.split())
+            head = st.split(":-")[0].strip()
+            if re.match(r"\{?\s*" + pred + r"\s*\(", head):
+                out.append((f.name, st))
+    return out
+
+
+# TTC-PRECEPT SD3: the conditions of a just war, and of the death penalty, belong
+# to the prudential judgment of those responsible (CCC 2309). prudential/2 is
+# supplied by a case, never derived; the comparison of evils is never computed.
+def test_prudence_is_never_computed():
+    assert not [st for _, st in _heads("prudential") if ":-" in st]
+    assert [st for _, st in _heads("condition_met")] == ["condition_met(A,C) :- prudential(A,C), not denied(C)."]
+
+
+# TTC-PRECEPT DI2: the kind of a direct killing is composed from the effect and
+# the reading, never typed by hand: no case gives an act a direct(...) kind.
+def test_direct_kinds_are_composed():
+    import re
+    typed = [(f, st) for f, st in _heads("kind_of_act") if re.match(r"kind_of_act\s*\(\s*\w+\s*,\s*direct\s*\(", st)]
+    assert typed == [("moral.lp", "kind_of_act(A,direct(K)) :- direct(A,E), evil_kind_of(E,K).")], typed
+
+
 # TTC-MORAL GR5: no library rule makes a runtime that holds a protected reading
 # (de auxiliis, Paul V 1607) incoherent.
 @pytest.mark.parametrize("rt", ["rt_thomist", "rt_suarezian"])

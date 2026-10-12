@@ -520,7 +520,45 @@ Predictions and an amendment were stamped first
   is not shown void. In the main branch neither. The coerced confessor's
   delict stands, mitigated, without the latae sententiae.
 
-### 22. Method
+### 22. Verdicts and obligation (VD, OB, DI, SD)
+
+`moral.lp` now says *may*, *must* and *must not*, of acts; the cases the
+commentary makes hard, and the Church's social teaching, are its test set.
+Predictions were stamped first
+([ttc-precept(7)](research/precept-preregistration.md)).
+
+- **Three verdicts and a silence** (VD1). An act of a kind evil by its
+  object is "must not" on the kind alone, with nothing claimed; an act that
+  passes double effect on the claims is "may"; one that fails only for want
+  of a claim gets no verdict. Not shown licit is never reported forbidden.
+- **"Must" needs its occasion** (OB1). Affirmative precepts bind always,
+  not at every moment: the guard must defend his charges, the bystander
+  may. A precept that commands an act evil by its object is refused (OB2).
+- **"Direct" is a reading, and the reading meets sources.** By the order
+  of causes the push and the loop are direct killings of the innocent; by
+  what is chosen they turn on a claim (DI2). The kind is composed from the
+  effect, never typed by hand. On the reading by choice, craniotomy and
+  salpingostomy still meet the Holy Office's responses (1884, 1889, 1902)
+  in every main branch; only their live shadows permit them (DI4, DI5).
+  Methotrexate, which no response names, splits by reading. Weight
+  prefers the reading by choice, two authors to one, as entered: weight is
+  not prediction (§2).
+- **Direct abortion is "must not" in every main branch** (DI3). Its contrary
+  is a counterfactual shadow on EV 57's claim of the ordinary universal
+  magisterium (with tier 2 read as truth), live without it.
+- **Circumstance and kind are different grounds** (SD1). As of 2019, on the
+  CDF's reading of CCC 2267, an execution is "must not" by circumstance;
+  on the intrinsic reading, by kind, with the circumstance main beside it
+  (the readings' tension at tier 3, DP3). As of 2017 whether necessity
+  existed was open: EV 56's judgment of it is not entered.
+- **Usury is two questions** (SD2). Entered as one, the 1917 Code answers
+  doctrine; typed as profit from the loan as such and interest by an
+  extrinsic title, *Vix pervenit* and c. 1543 both stand.
+- **Prudence is input** (SD3). The conditions of a just war are claims of
+  those responsible, as proportion is the agent's; no rule derives them.
+- **A directive is not a principle** (SD4; CCC 2423).
+
+### 23. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius
@@ -574,6 +612,11 @@ Predictions and an amendment were stamped first
   (1997) 617–24; S. A. Long, *The Thomist* 61 (1997) 1–31
 - R. T. Mullins, *Journal of Reformed Theology* 7 (2013); C. Tomaszewski,
   *Analysis* 79 (2019) 275–284
+- J.-P. Gury, *Compendium theologiae moralis* (1850); G. E. M. Anscombe,
+  "Action, Intention and 'Double Effect'" (1982); J. Finnis, G. Grisez,
+  J. Boyle, *The Thomist* 65 (2001)
+- Holy Office, responses of 1884, 1889 and 1902; Benedict XIV, *Vix
+  pervenit* (1745); EV 56–57, 62; CDF, *Donum vitae* (1987)
 
 ## BUGS
 

@@ -1852,6 +1852,184 @@ scen("SM7b", CX, "The seal dispensed by the supreme authority", SEAL + ["seal_di
 scen("SM7c", CX, "The penitent releases the confessor", SEAL + ["cand_penitent_releases"],
      [all_branches_violation("seal_lifted(disclosure_k,penitent_release)")], "\"for any reason\" (c. 983 §1)", mode=B)
 
+# ---------- Verdicts and obligation (TTC-PRECEPT) ---------------------------
+# may, must, must not: said of acts. "Direct" is a reading (q(direct_by)); what
+# is chosen is a claim, computed both ways. Social teaching as the test set.
+PC = "precept"
+CAUSAL, CHOICE = "q(direct_by)=causal_order", "q(direct_by)=what_is_chosen"
+TR = ["direct_reading", "life_sources", "trolley"]
+AB = ["direct_reading", "life_sources", "craniotomy_sources", "abortion"]
+EC = ["direct_reading", "life_sources", "craniotomy_sources", "ectopic"]
+IV = ["ivf_sources", "life_sources", "ivf"]
+DPV = ["deathpenalty", "dp_verdict"]
+
+def chose(p, a, e, yes=True):
+    x = f"interior({p},{a},chooses({e}))"
+    return f"assumed_fact({x})" if yes else f"assumed_fact(false({x}))"
+
+def in_branches(sub, status=None, values=(), assume=(), present=True):
+    """in every branch with this status, these values and these assumptions, sub is (or is not) among the facts"""
+    def chk(r):
+        bs = [b for b in r["branches"] if (status is None or b["status"] == status)
+              and all(v in b["values"] for v in values) and all(a in b["assume"] for a in assume)]
+        hits = [any(sub in f for f in b["facts"]) for b in bs]
+        ok = bool(bs) and (all(hits) if present else not any(hits))
+        where = " & ".join([status or "every"] + list(values) + [a[len("assumed_fact("):-1] for a in assume])
+        return ok, f"{where}: {sub} {'in all' if hits and all(hits) else 'in none' if not any(hits) else 'in some'} of {len(bs)}"
+    return chk
+
+def shadow_by_oum(qv):
+    """qv is in no main branch; a counterfactual shadow only where a claim of the OUM holds, a live one where none does"""
+    def chk(r):
+        bs = [b for b in r["branches"] if qv in b["values"]]
+        oum = lambda b: any(a.startswith("oum_holds(") for a in b["assume"])
+        main = [b for b in bs if b["status"] == "main"]
+        cf = [b for b in bs if b["status"] == "counterfactual_shadow"]
+        bare = [b for b in bs if not oum(b)]
+        ok = not main and bool(cf) and all(oum(b) for b in cf) and bool(bare) and all(b["status"] == "live_shadow" for b in bare)
+        return ok, (f"{qv}: counterfactual on the claim ({len(cf)}), live without it ({len(bare)})" if ok
+                    else f"{qv}: main {len(main)}, counterfactual {len(cf)}, without the claim {[b['status'] for b in bare][:3]}")
+    return chk
+
+def cleaved_by_each(qv, *srcs):
+    """every branch holding qv is cleaved by each of these sources"""
+    def chk(r):
+        bs = [b for b in r["branches"] if qv in b["values"]]
+        miss = sorted({x for b in bs for x in srcs if x not in b["cleaved"]})
+        ok = bool(bs) and not miss
+        return ok, f"{qv}: cleaved by {', '.join(srcs)}" if ok else f"{qv}: not cleaved by {', '.join(miss) or '(no branch)'}"
+    return chk
+
+def on_each_claim(qv, *srcs):
+    """for each source, a counterfactual shadow holding qv rests on its claim of the OUM alone"""
+    def chk(r):
+        oums = lambda b: [a for a in b["assume"] if a.startswith("oum_holds(")]
+        miss = [s for s in srcs if not any(b["status"] == "counterfactual_shadow" and qv in b["values"]
+                                           and oums(b) == [f"oum_holds({s})"] for b in r["branches"])]
+        return not miss, "each claim alone suffices" if not miss else f"not alone: {miss}"
+    return chk
+
+def verdicts_on_acts(parts):
+    """every verdict is said of an act (act_of/2's second place), none of a person"""
+    def chk(_r):
+        said = {f[len("info(verdict("):].split(",")[0] for b in solve(parts, "branches")["branches"]
+                for f in b["facts"] if f.startswith("info(verdict(")}
+        ao = [a[len("act_of("):-1].split(",") for a in solve(parts, "one", show=("act_of/2",))["atoms"] if a.startswith("act_of(")]
+        acts, persons = {a for _, a in ao}, {p for p, _ in ao}
+        ok = bool(said) and said <= acts and not said & persons
+        return ok, f"{len(said)} acts with verdicts, no person" if ok else f"not acts: {sorted(said - acts)}"
+    return chk
+
+scen("VD1", PC, "Three verdicts", TR,
+     [in_branches("verdict(lever,may,double_effect)"), in_branches("verdict(lever_c,", present=False),
+      in_branches("verdict(harvest,must_not,by_object(direct(killing_of_innocent)))", "main"),
+      shown(TR, ("info/1",), "info(verdict(lever_c,may,double_effect))", facts="interior(bystander_c,lever_c,proportionate_reason).")],
+     "the lever \"may\" on the claims; the transplant \"must not\" with nothing claimed; without the claim of proportion, "
+     "silence, and with it, \"may\"", mode=B)
+scen("VD1b", PC, "The moral cases gain \"must not\"", ["moral_cases"],
+     [shown(["moral_cases"], ("info/1",), "info(verdict(act_m1,must_not,by_object(k_grave)))",
+            "info(verdict(act_m2,must_not,by_object(k_grave)))", "info(verdict(act_d3,must_not,by_object(k_grave)))",
+            "info(verdict(act_d1,may,double_effect))", "info(verdict(def1,may,double_effect))",
+            absent=("info(verdict(act_d2,may,double_effect))", "info(verdict(act_d4,may,double_effect))",
+                    "info(verdict(act_d2,must_not,by_object(k_treatment)))"))],
+     "on the kind alone, consent claimed or not (m1, m2, d3); not shown licit (d2, d4) is not forbidden")
+scen("VD2", PC, "Acts, not persons", TR + ["trolley_duty"],
+     [verdicts_on_acts(TR + ["trolley_duty"]), verdicts_on_acts(["life_sources", "abortion", "ivf_sources", "ivf"])],
+     "no verdict names a person", mode=B)
+scen("OB1", PC, "Must, with its occasion", TR + ["trolley_duty"],
+     [in_branches("obligation(guard_g,defend(charges))"), in_branches("obligation(bystander_b", present=False),
+      in_branches("verdict(lever,may,double_effect)")],
+     "the guard, with the occasion, \"must\" (CCC 2265); the bystander \"may\"", mode=B)
+scen("OB2", PC, "No duty to do evil", TR + ["cand_must_push"],
+     [in_branches("violation(obliged_to_evil(greater_number_rule,direct(killing_of_innocent)))", "main"),
+      in_branches("obligation(agent_p,direct(killing_of_innocent))", "main"),
+      in_branches("verdict(push,must_not,by_object(direct(killing_of_innocent)))", "main", [CAUSAL])],
+     "refused in every main branch; the push stays \"must not\"", mode=B)
+scen("DI1", PC, "\"Direct\": a reading", ["direct_reading"],
+     [cls(CAUSAL, "open"), cls(CHOICE, "open"), weight_in(CAUSAL, 5, 2), weight_in(CHOICE, 5, 1)],
+     "both main: no source of tier 1 to 3 decides; tier-5 weight two to one, as entered", mode=B)
+scen("DI2", PC, "The trolley, composed", TR,
+     [in_branches(f"verdict({a},must_not,by_object(direct(killing_of_innocent)))", "main", [CAUSAL]) for a in ("push", "loop")] +
+     [in_branches(f"verdict({a},must_not,by_object(direct(killing_of_innocent)))", "main", [CHOICE], [chose(p, a, e)])
+      for p, a, e in (("agent_p", "push", "death_of_man"), ("agent_l", "loop", "death_of_one_l"))] +
+     [in_branches(f"verdict({a},may,double_effect)", "main", [CHOICE], [chose(p, a, e, False)])
+      for p, a, e in (("agent_p", "push", "death_of_man"), ("agent_l", "loop", "death_of_one_l"))] +
+     [in_branches("verdict(lever,may,double_effect)", "main"),
+      in_branches("verdict(push,may,", None, [CHOICE, "q(direct_killing_of_innocent)=no"],
+                  [chose("agent_p", "push", "death_of_man")], present=False)],
+     "causal: the push and the loop \"must not\"; by choice, on the claim; the lever \"may\" on both. "
+     "Where the direct killing is not evil by its object (a shadow), a death chosen as the means still fails double effect",
+     mode=B)
+scen("DI3", PC, "Direct abortion", ["life_sources", "abortion"],
+     [in_branches("verdict(abort_1,must_not,by_object(direct(killing_of_innocent)))", "main"),
+      shadow_by_oum("q(direct_killing_of_innocent)=no"), on_each_claim("q(direct_killing_of_innocent)=no", "ev57", "ev62"),
+      cleaved_by_each("q(direct_killing_of_innocent)=no", "ccc2271", "ev57", "ev62", "pius_xii_1951")],
+     "\"must not\" in every main branch (EV 62); the contrary a counterfactual shadow on EV 57's claim, live without it",
+     mode=B)
+scen("DI4", PC, "Craniotomy", AB,
+     [in_branches("verdict(cranio,must_not,by_object(direct(killing_of_innocent)))", "main", [CAUSAL]),
+      in_branches("verdict(cranio,must_not,by_object(craniotomy))", "main", [CHOICE], [chose("doctor_c", "cranio", "death_of_child", False)]),
+      in_branches("verdict(cranio,must_not,by_object(direct(", "main", [CHOICE],
+                  [chose("doctor_c", "cranio", "death_of_child", False)], present=False),
+      in_branches("verdict(cranio,may,double_effect)", "live_shadow", [CHOICE, "q(craniotomy_illicit)=no"],
+                  [chose("doctor_c", "cranio", "death_of_child", False)]),
+      cls("q(craniotomy_illicit)=no", "shadow"), cleaved_by_each("q(craniotomy_illicit)=no", "ho_1884", "ho_1889")],
+     "causal: direct; by choice, not chosen: the Holy Office still forbids it (1884, 1889), and only its live shadow permits",
+     mode=B)
+scen("DI5", PC, "Ectopic pregnancy", EC,
+     [in_branches("verdict(tube_out,may,double_effect)"),
+      in_branches("verdict(mtx,must_not,by_object(direct(killing_of_innocent)))", "main", [CAUSAL]),
+      in_branches("verdict(mtx,may,double_effect)", "main", [CHOICE], [chose("doctor_m", "mtx", "death_of_embryo_m", False)]),
+      in_branches("verdict(mtx,must_not,by_object(direct(killing_of_innocent)))", "main", [CHOICE],
+                  [chose("doctor_m", "mtx", "death_of_embryo_m")]),
+      in_branches("verdict(embryo_out,must_not,by_object(extraction_of_ectopic_fetus))", "main"),
+      in_branches("verdict(embryo_out,must_not,by_object(direct(killing_of_innocent)))", "main", [CAUSAL]),
+      cleaved_by_each("q(ectopic_extraction_illicit)=no", "ho_1902"),
+      in_branches("verdict(embryo_out,may,double_effect)", "live_shadow", [CHOICE, "q(ectopic_extraction_illicit)=no"],
+                  [chose("doctor_t", "embryo_out", "death_of_embryo_t", False)])],
+     "salpingectomy \"may\" on both readings; methotrexate splits by reading; salpingostomy meets the Holy Office (1902) "
+     "in every main branch", mode=B)
+scen("DI6", PC, "IVF", IV,
+     [in_branches("verdict(ivf_1,must_not,by_object(ivf))", "main"), cls("q(ivf_illicit)=no", "shadow"),
+      in_branches("verdict(ivf_1,", "live_shadow", ["q(ivf_illicit)=no"], present=False),
+      cleaved_by_each("q(ivf_illicit)=no", "dignitas_personae_2008", "donum_vitae_1987"),
+      in_branches("verdict(discard_1,must_not,by_object(direct(killing_of_innocent)))", "main")],
+     "\"must not\" in the main branch (Donum vitae II.B.5), a live shadow; the destruction of embryos direct", mode=B)
+scen("SD1", PC, "The death penalty, 2019, on the CDF's reading", DPV + ["asof_2019", "ccc_circumstantial"],
+     [in_branches("verdict(exec_1,must_not,by_circumstance(absolute_necessity))", "main"),
+      in_branches("by_object(execution)", "main", present=False)],
+     "\"must not\" in every main branch, by circumstance, not by kind", mode=B)
+scen("SD1b", PC, "The death penalty, 2019, on the intrinsic reading", DPV + ["asof_2019", "ccc_intrinsic"],
+     [in_branches("verdict(exec_1,must_not,", "main"),
+      in_branches("verdict(exec_1,must_not,by_object(execution))", "main", ["q(dp_principle)=intrinsically_wrong"]),
+      in_branches("by_circumstance", "main", ["q(dp_principle)=intrinsically_wrong"], present=False),
+      in_branches("verdict(exec_1,must_not,by_circumstance(absolute_necessity))", "main", ["q(dp_principle)=permitted"])],
+     "the ground the kind; the circumstance stays main beside it (CCC 2267 against EV 56 at tier 3)", mode=B)
+scen("SD1c", PC, "The death penalty, 2017", DPV + ["asof_2017"],
+     [in_branches("verdict(exec_1,may,on_the_judgment)", "main", ["q(necessity_today)=sometimes"]),
+      in_branches("verdict(exec_1,must_not,by_circumstance(absolute_necessity))", "main", ["q(necessity_today)=none"]),
+      cls("q(necessity_today)=sometimes", "open")],
+     "\"may\" where necessity is claimed, on the branch where it can be; whether it can be is open", mode=B)
+scen("SD2", PC, "Usury as one question", ["usury_one_question"],
+     [all_branches_violation("governance_read_as_teaching(cic1917_c1543,q(interest_on_loans))"),
+      cls("q(interest_on_loans)=forbidden", "open")],
+     "refused: the canon would be law answering doctrine", mode=B)
+scen("SD2b", PC, "Usury as two questions", ["usury_two_questions", "usury_case"],
+     [clean_branches, cls("q(profit_from_loan_as_such)=yes", "settled"),
+      cls("q(interest_by_extrinsic_title)=permitted", "settled"),
+      in_branches("verdict(loan_u,must_not,by_object(profit_from_loan_as_such))", "main")],
+     "both stand: profit from the loan as such \"must not\"; interest by an extrinsic title a permission of law", mode=B)
+scen("SD3", PC, "Just war", ["just_war"],
+     [lambda r: ([i for i in r["info"] if i.startswith("verdict(")] == ["verdict(force_1,may,on_the_judgment)"],
+                 ", ".join(i for i in r["info"] if i.startswith("verdict(")) or "none"),
+      shown(["just_war"], ("info/1",), "info(verdict(force_2,may,on_the_judgment))", facts="prudential(force_2,no_graver_evils)."),
+      shown(["just_war"], ("info/1",), "info(verdict(force_1,must_not,by_circumstance(prospects_of_success)))",
+            facts="denied(prospects_of_success).", absent=("info(verdict(force_1,may,on_the_judgment))",))],
+     "\"may\" on the four claims; three, silence; a condition denied, \"must not\" by circumstance")
+scen("SD4", PC, "A directive cited as a principle", ["cand_directive_as_principle"],
+     [all_branches_violation("directive_as_principle(ev56_rarity,execution)"), cls("q(execution_evil_by_object)=yes", "settled")],
+     "refused (CCC 2423), though the directive, so cited, would settle the kind", mode=B)
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")
