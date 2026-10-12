@@ -2422,9 +2422,13 @@ scen("FO2", PN, "Jansen's sense: a dogmatic fact", ["jansenism", "jansen_fact", 
       lambda r: (classify(solve(["jansenism", "jansen_fact", "ad_sanctam_as_shown"], "branches"), "q(five_in_augustinus)=no") == "shadow"
                  and any("lower_speaks_of_higher(ad_sanctam_1656,ad_sanctam_1656,2)" in f
                          for b in solve(["jansenism", "jansen_fact", "ad_sanctam_as_shown"], "branches")["branches"] for f in b["facts"]),
-                 "as shown without DH 2010-2012: tier 3, its own word a claim")],
-     "definitive where its conditions are shown (HYPOTHETICAL until the text is read): the denial a counterfactual shadow on t2_truth; "
-     "the question of right unchanged", mode=B)
+                 "as shown: tier 3, its own word a claim"),
+      lambda r: ((v := solve(["jansenism", "jansen_fact", "cand_ad_sanctam_on_dh"], "one"))["violations"] == ["tier_without_warrant(ad_sanctam_1656,2)"]
+                 and sorted(a for a in v["atoms"] if a.startswith("info(condition_unshown(ad_sanctam_1656,")) ==
+                 [f"info(condition_unshown(ad_sanctam_1656,{c}))" for c in ("apostolic_authority", "pastor_of_all", "whole_church")],
+                 "on DH 2010-2012 as a definition: refused, three conditions unshown")],
+     "DH 2010-2012 shows a definition of a dogmatic fact but not the pastor of all, apostolic authority in the defining clause, "
+     "or the whole Church: at tier 3, authentic; definitive only with the five shown (HYPOTHETICAL until the full bull is read)", mode=B)
 scen("FO3", PN, "Respectful silence", ["jansenism", "jansen_fact", "ad_sanctam_defined", "respectful_silence"],
      [info_all("silence_without_censure(jansenist_s,q(five_in_augustinus))"), info_none("censure(sil_1"),
       lambda r: (any("assent_computed(jansenist_s,q(five_in_augustinus))" in v for v in

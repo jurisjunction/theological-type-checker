@@ -440,3 +440,22 @@ FL (25; SA1 and SA2 were renamed SL1 and SL2, those ids being taken).
   immature fetus", the 1902 extraction is an expulsion in the letter; the
   canon layer takes abortion only as the direct killing, so where the
   salpingostomy is not direct it is no delict on either reading (roadmap).
+
+### FO2, scored on the text
+
+Appended after DH 2010–2012 was read (12 October 2026; §§ 5–6). False on
+Denzinger's text. The bull defines a dogmatic fact: the five propositions,
+"ex libro ... Cornelii Iansenii ... excerptas ac in sensu ab eodem Cornelio
+Iansenio intento damnatas fuisse, declaramus et definimus", and condemns
+them again with the same note. That shows two of *Pastor aeternus*'s
+conditions: it defines, and on a matter of faith (the object connected,
+tier 2 if warranted). It does not show the pope acting as pastor of all,
+apostolic authority in the defining clause (it names it only for the
+congresses where the cause was discussed, "Apostolica auctoritate"), or a
+doctrine to be held by the whole Church; its stated end is "quamcumque
+dubitationem super praemissis in posterum auferre". Taken at its word as a
+definition (`cand_ad_sanctam_on_dh`), it is refused for want of a warrant,
+the three conditions reported unshown. So the attribution stays at tier 3,
+authentic. Denzinger abridges; the full bull (Bullarium Romanum, Turin
+edition) is on the fetch list for what the ellipses omit.
+

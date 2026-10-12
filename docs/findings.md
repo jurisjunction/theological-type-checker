@@ -633,8 +633,10 @@ Predictions were stamped first ([ttc-penal(7)](research/penal-preregistration.md
   base's definitions define as revealed; a connected truth defined is
   tier 2. *Ordinatio sacerdotalis* stands at tier 3 with its claim, graded
   two ways by its claimants and never preferred on the unshown claim.
-  Jansen's sense is a dogmatic fact: definitive if *Ad sanctam*'s
-  conditions are shown; its text unread here, it stands at tier 3.
+  Jansen's sense is a dogmatic fact. *Ad sanctam* defines it ("declaramus
+  et definimus"), but DH's text does not show the pastor of all, apostolic
+  authority in the defining clause, or the whole Church: tier 3, authentic,
+  until the full bull shows them.
 - **Only a physical person acts** (FL). A juridic person acts through those
   who represent it; an interior, sin or delict of a fiction is refused, and
   "the state is evil" is ill-typed. The Society, without canonical status,

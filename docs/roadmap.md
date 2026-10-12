@@ -396,8 +396,10 @@ CCC 1883). The checker need not hold everything.
   conditions apart from the claimants. The 1991 consultation behind EV 57
   and 62 (EV 5) is the first to look for.
 - **Form and object** (done, TTC-PENAL FO). Left: *Ad sanctam beati Petri
-  sedem*'s text (DH 2010–2012), to show or refuse its conditions; until
-  then it stands at tier 3 as shown, its definition hypothetical. The
+  sedem*. DH 2010–2012 shows two conditions (it defines; faith); the full
+  bull (Bullarium Romanum, Turin edition) for the pastor of all, apostolic
+  authority in the defining clause and the whole Church. Until then, tier
+  3. The
   entry as it was: a papal act's form says whether it defines; its
   object gives the grade: revealed, tier 1; connected with revelation,
   tier 2 (*tenendam*, DH 3074). Typing the tier by form alone gives two

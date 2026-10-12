@@ -95,6 +95,7 @@ violation(claim_without_claimant(S)) :- oum_claim(S,_), not oum_claimant(S,_).  
 ec_condition(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church).
 ec_unmet(S)  :- papal_form(S,ex_cathedra), ec_condition(C), not condition_shown(S,C).
 warranted(S) :- papal_form(S,ex_cathedra), not ec_unmet(S), object_of(S,_).   % and what it defines (TTC-PENAL FO)
+info(condition_unshown(S,C)) :- papal_form(S,ex_cathedra), ec_condition(C), not condition_shown(S,C).
 defining_act(canon;definition;creed;scope).
 warranted(S) :- conciliar_act(S,K), defining_act(K).
 warranted(S) :- conciliar_act(S,chapter), session_defines(S).

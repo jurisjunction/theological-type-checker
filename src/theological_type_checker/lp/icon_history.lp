@@ -625,12 +625,20 @@ source(arnauld_1655,5,truth,1655).   % Seconde lettre a un duc et pair: the cond
 supports(arnauld_1655,q(five_in_augustinus),no).
 supports(ad_sanctam_1656,q(five_in_augustinus),yes).   % "contained in the Augustinus, and condemned according to the sense of the author" (DH 2010-2012)
 #program ad_sanctam_as_shown.     % Ad sanctam beati Petri sedem (Alexander VII, 16 October 1656), as far as its text is shown here
-% "this declaration and definition"; binding all the faithful. The pastor of all
-% and apostolic authority are not shown without DH 2010-2012 (rule 14): tier 3,
-% its own word a claim.
+% DH 2010-2012 (read 12 October 2026), §§ 5-6: "quinque illas propositiones ex
+% libro ... Cornelii Iansenii ... excerptas ac in sensu ab eodem Cornelio Iansenio
+% intento damnatas fuisse, declaramus et definimus". It defines, and its object is
+% a fact connected with the faith. DH's abridgment does not show the pope as
+% pastor of all, apostolic authority in the defining clause (it names it for the
+% congresses where the cause was discussed), or a doctrine to be held by the
+% whole Church (rule 14; c. 749 §3): tier 3, its own word a claim.
 source(ad_sanctam_1656,3,truth,1656). papal_form(ad_sanctam_1656,ordinary). character(ad_sanctam_1656,constitution).
 claims_tier(ad_sanctam_1656,ad_sanctam_1656,2).
-#program ad_sanctam_defined.      % HYPOTHETICAL until DH 2010-2012 is read: the five conditions shown; a dogmatic fact defined
+#program cand_ad_sanctam_on_dh.   % the bull taken at its word as a definition, on DH's text: two of the five conditions shown
+source(ad_sanctam_1656,2,truth,1656). papal_form(ad_sanctam_1656,ex_cathedra). object_of(ad_sanctam_1656,connected).
+condition_shown(ad_sanctam_1656,defines).          % "declaramus et definimus"
+condition_shown(ad_sanctam_1656,faith_or_morals).  % the propositions' sense, condemned with the same note
+#program ad_sanctam_defined.      % HYPOTHETICAL until the full bull is read: the five conditions shown; a dogmatic fact defined
 source(ad_sanctam_1656,2,truth,1656). papal_form(ad_sanctam_1656,ex_cathedra). object_of(ad_sanctam_1656,connected).
 condition_shown(ad_sanctam_1656,(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church)).
 #program respectful_silence.      % HYPOTHETICAL: silence kept on the fact (Vineam Domini, 1705, DH 2390)
