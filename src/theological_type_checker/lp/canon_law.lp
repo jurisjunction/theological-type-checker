@@ -98,6 +98,19 @@
 % @input delict_act/3 | delict_act(Person, Norm, Act): an external violation of the norm, as a case records it (a delict that need not be a consecration, absolution or marriage)
 % @input act_date/2 | act_date(Act, Date): the date of an act a case records
 % @input seal_lifted/2 | seal_lifted(Act, Why): a candidate's claim that something released the confessor
+% @input baptized_in/2 | baptized_in(Person, catholic | Community): a baptism the case records, its validity presumed
+% @input received_into/1 | the person was received into the Catholic Church
+% @input formal_defection/2 | formal_defection(Person, Date): a formal act of defection (cc. 1086 §1, 1117, 1124, 1983-2009)
+% @input communion_at_issue/1 | the case asks after the person's communion
+% @input professes/4 | professes(Person, Act, Q, V): in the act the person publicly holds V on Q (faith.lp)
+% @input doubts/3 | doubts(Person, Act, Q): in the act the person publicly doubts the question
+% @input repudiates/3 | repudiates(Person, Act, christian_faith): an outward repudiation of the faith as a whole
+% @input warned/3 | warned(Person, Act, apostolic_see | ordinary): a warning given about the act
+% @input retracted/2 | retracted(Person, Act)
+% @input owed/2 | from the authority graph: the assent a canon attaches to a teaching act by reference (cc. 750, 752)
+% @input supports/3 | from the authority graph
+% @input law_kind/2 | law.lp: the kind of a law
+% @input interior/3 | act.lp: a claim about the agent (here, pertinacious)
 
 event_date(E,T) :- consecration(E,_,_,T).
 event_date(A,T) :- absolution(A,_,_,T).
@@ -138,6 +151,11 @@ promulgated(pgd2021,20210601).  vacatio_until(pgd2021,20211208).    % Pascite gr
 enacted_by(book6_1983,code1983). enacted_by(book6_2021,pgd2021).
 part_of(n1382_1983,book6_1983). part_of(n1364_1983,book6_1983).
 part_of(n1387,book6_2021). part_of(n1364,book6_2021). part_of(n1379,book6_2021). part_of(n1386,book6_2021).
+part_of(n1365,book6_2021).
+% c. 1371 n. 1: the Code's text until Ad tuendam fidem, the amended text until Pascite gregem Dei
+promulgated(atf1998,19980518). vacatio_until(atf1998,19980518).   % names no date (c. 8 §1); the cases are dated clear of 1998
+enacted_by(c1371_text_1983,code1983). enacted_by(c1371_text_1998,atf1998).
+part_of(n1371_1983,c1371_text_1983). part_of(n1371_1998,c1371_text_1998).
 norm_in_force(N,T) :- norm(N,F,U), event_date(_,T), F <= T, T < U.
 % c. 751: one act, or a lasting state? Its reading decides schism.
 reading_option(c751,act_suffices). reading_option(c751,lasting_state).
@@ -162,6 +180,7 @@ reordered(B) :- reorders(_,B).
 
 % @norm cic:20 | c. 20: a later law abrogates or derogates from an earlier one if it says so, is directly contrary to it, or completely reorders its matter | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 reorders(pgd2021,book6_1983).
+reorders(atf1998,c1371_text_1983). reorders(pgd2021,c1371_text_1998).
 
 % @norm cic:21 | c. 21: in doubt the revocation of a pre-existing law is not presumed; later laws are harmonized with earlier ones | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 info(revocation_not_presumed(L2,L)) :- doubtful_revocation(L2,L).
@@ -234,6 +253,31 @@ never_placed(J) :- juridic_act(J,P), removes_voluntary(P,J,violence).
 info(juridic_act(J,never_placed)) :- never_placed(J).
 info(juridic_act(J,rescindable))  :- juridic_act(J,P), actus_humanus(P,J), grave_fear(P,J), fear_unjust(P,J).
 
+% ---------- Books I and II: who is bound; incorporation; communion (TTC-COMMUNION) ----
+% @norm cic:11 | c. 11: merely ecclesiastical laws bind those baptized in the Catholic Church or received into it, who have the sufficient use of reason and, unless the law expressly provides otherwise, have completed seven years of age | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+% Read negatively: a case's silence binds; what it records can exclude. The
+% habitual lack of reason (c. 99) is act.lp's: no human act, and no law reaches it.
+in_catholic_church(P) :- baptized_in(P,catholic).
+in_catholic_church(P) :- received_into(P).
+outside(P) :- unbaptized(P).
+outside(P) :- baptized_in(P,C), C != catholic, not received_into(P).
+unbound(P,L)      :- law_kind(L,ecclesiastical), outside(P).
+unbound_at(P,L,A) :- law_kind(L,ecclesiastical), age_at(P,A,Y), Y < 7.
+% @norm cic:96 | c. 96: by baptism one is incorporated into the Church of Christ and is constituted a person in it, with the duties and rights proper to Christians, insofar as they are in ecclesiastical communion and unless a lawfully issued sanction stands in the way | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann96-123_en.html
+incorporated(P) :- baptized_in(P,_).
+% @norm cic:205 | c. 205: those baptized are fully in the communion of the Catholic Church on this earth who are joined with Christ in its visible structure by the bonds of the profession of faith, the sacraments, and ecclesiastical governance | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann204-207_en.html
+% c. 751's offences break the bonds (heresy and apostasy the profession,
+% schism governance); no other delict does (the encoder's reading of the two).
+bond_broken(P,profession) :- c751_offence(P,heresy,_).
+bond_broken(P,profession) :- c751_offence(P,apostasy,_).
+bond_broken(P,governance) :- schismatic_act(P,_).
+full_communion(P) :- incorporated(P), in_catholic_church(P), not bond_broken(P,_).
+% @end
+info(incorporated(P))            :- communion_at_issue(P), incorporated(P).
+info(in_full_communion(P))       :- communion_at_issue(P), full_communion(P).
+info(bond_broken(P,B))           :- communion_at_issue(P), bond_broken(P,B).
+info(outside_the_church(P))      :- communion_at_issue(P), incorporated(P), not in_catholic_church(P).
+
 % ---------- Book VI: delicts -----------------------------------------------
 % Co-consecrators truly consecrate (Pius XII, Episcopalis consecrationis, 1944),
 % so "a Bishop who consecrates" includes them on the plain meaning.
@@ -241,13 +285,13 @@ consecrates(E,B) :- consecration(E,B,_,_).
 consecrates(E,B) :- co_consecrator(E,B).
 
 % @norm cic1983:1382 | c. 1382 (1983): consecration without pontifical mandate | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
-delict(B,n1382_1983,E) :- consecrates(E,B), event_date(E,T), not pontifical_mandate(E), norm_in_force(n1382_1983,T).
-delict(R,n1382_1983,E) :- consecration(E,_,R,T), not pontifical_mandate(E), norm_in_force(n1382_1983,T).
+delict(B,n1382_1983,E) :- consecrates(E,B), event_date(E,T), not pontifical_mandate(E), norm_in_force(n1382_1983,T), not outside(B).
+delict(R,n1382_1983,E) :- consecration(E,_,R,T), not pontifical_mandate(E), norm_in_force(n1382_1983,T), not outside(R).
 penalty(n1382_1983,excommunication).
 
 % @norm cic2021:1387 | c. 1387: consecrator and consecrated without pontifical mandate incur latae sententiae excommunication reserved to the Apostolic See | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
-delict(B,n1387,E) :- consecrates(E,B), event_date(E,T), not pontifical_mandate(E), norm_in_force(n1387,T).
-delict(R,n1387,E) :- consecration(E,_,R,T), not pontifical_mandate(E), norm_in_force(n1387,T).
+delict(B,n1387,E) :- consecrates(E,B), event_date(E,T), not pontifical_mandate(E), norm_in_force(n1387,T), not outside(B).
+delict(R,n1387,E) :- consecration(E,_,R,T), not pontifical_mandate(E), norm_in_force(n1387,T), not outside(R).
 penalty(n1387,excommunication).
 
 % @norm cic:751 | c. 751: schism is the refusal of submission to the Supreme Pontiff | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib3-cann747-755_en.html
@@ -256,14 +300,43 @@ penalty(n1387,excommunication).
 schismatic_act(P,E) :- consecrates(E,P), against_explicit_papal_will(E), read_for(c751,act_suffices,E), not not_of_kind(E,schism).
 schismatic_act(P,E) :- consecration(E,_,P,_), against_explicit_papal_will(E), read_for(c751,act_suffices,E), not not_of_kind(E,schism).
 
-% @norm cic2021:1364 | c. 1364 §1: the schismatic incurs latae sententiae excommunication | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
-delict(P,n1364,E) :- schismatic_act(P,E), event_date(E,T), norm_in_force(n1364,T).
-delict(P,n1364_1983,E) :- schismatic_act(P,E), event_date(E,T), norm_in_force(n1364_1983,T).
+% @norm cic:751h | c. 751: heresy is the obstinate denial or obstinate doubt after the reception of baptism of some truth which is to be believed by divine and catholic faith; apostasy is the total repudiation of the Christian faith | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib3-cann747-755_en.html
+% "To be believed by divine and catholic faith" is c. 750 §1's object, which
+% the authority graph joins to teaching by reference (binds/3, owed/2; B15):
+% no new link (TTC-COMMUNION). The obstinacy is the claim faith.lp reads as
+% pertinacity (II-II q. 11 a. 2 ad 3); apostasy's definition has none.
+owed_as(Q,V,O) :- owed(S,O), supports(S,Q,V).
+heresy_matter(E) :- professes(_,E,Q,W), owed_as(Q,V,divine_and_catholic_faith), V != W.
+heresy_matter(E) :- doubts(_,E,Q), owed_as(Q,_,divine_and_catholic_faith).
+c751_offence(P,heresy,E)   :- professes(P,E,_,_), heresy_matter(E), incorporated(P), interior(P,E,pertinacious).
+c751_offence(P,heresy,E)   :- doubts(P,E,_), heresy_matter(E), incorporated(P), interior(P,E,pertinacious).
+c751_offence(P,apostasy,E) :- repudiates(P,E,christian_faith), incorporated(P).
+
+% @norm cic2021:1364 | c. 1364 §1: an apostate from the faith, a heretic or a schismatic incurs a latae sententiae excommunication | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
+delict(P,n1364,E) :- schismatic_act(P,E), event_date(E,T), norm_in_force(n1364,T), not outside(P).
+delict(P,n1364_1983,E) :- schismatic_act(P,E), event_date(E,T), norm_in_force(n1364_1983,T), not outside(P).
+delict(P,n1364,E) :- c751_offence(P,_,E), event_date(E,T), norm_in_force(n1364,T), not outside(P).
+delict(P,n1364_1983,E) :- c751_offence(P,_,E), event_date(E,T), norm_in_force(n1364_1983,T), not outside(P).
 penalty(n1364,excommunication). penalty(n1364_1983,excommunication).
+
+% Rejection of teaching owed firm assent (c. 750 §2, from 1998) or religious
+% submission (c. 752), obstinately, warned and not retracting, apart from c. 1364.
+% Ferendae sententiae: a penalty to be imposed, never incurred.
+rejects(P,E,c752)   :- professes(P,E,Q,W), owed_as(Q,V,religious_submission), V != W.
+rejects(P,E,c750_2) :- professes(P,E,Q,W), owed_as(Q,V,firm_assent), V != W.
+obstinate_rejection(P,E,Of) :- rejects(P,E,Of), interior(P,E,pertinacious), warned(P,E,_),
+                               not retracted(P,E), not heresy_matter(E).
+% @norm cic1983:1371 | c. 1371 n. 1 (1983): one who, apart from the case of c. 1364 §1, teaches a doctrine condemned by the Roman Pontiff or an ecumenical council, or obstinately rejects the doctrine mentioned in c. 752, and does not retract when warned by the Apostolic See or the ordinary, is to be punished with a just penalty | https://www.iuscangreg.it/cic1983.php
+delict(P,n1371_1983,E) :- obstinate_rejection(P,E,c752), event_date(E,T), norm_in_force(n1371_1983,T), not outside(P).
+% @norm atf1998:1371 | c. 1371 n. 1 as amended by Ad tuendam fidem (18 May 1998): "or obstinately rejects the teachings mentioned in canon 750 § 2 or in canon 752" | https://www.vatican.va/content/john-paul-ii/en/motu_proprio/documents/hf_jp-ii_motu-proprio_30061998_ad-tuendam-fidem.html
+delict(P,n1371_1998,E) :- obstinate_rejection(P,E,_), event_date(E,T), norm_in_force(n1371_1998,T), not outside(P).
+% @norm cic2021:1365 | c. 1365: one who, apart from c. 1364 §1, teaches a doctrine condemned by the Roman Pontiff or an ecumenical council, or obstinately rejects the teaching of c. 750 §2 or c. 752, and does not retract when warned by the Apostolic See or the ordinary, is to be punished with a censure and deprivation of office | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
+delict(P,n1365,E) :- obstinate_rejection(P,E,_), event_date(E,T), norm_in_force(n1365,T), not outside(P).
+penalty(n1371_1983,just_penalty). penalty(n1371_1998,just_penalty). penalty(n1365,censure).
 
 % @temporal cic2021:1379
 % @norm cic2021:1379 | c. 1379 §1 n. 2: one who cannot validly absolve and attempts absolution incurs latae sententiae interdict (a cleric also suspension) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
-delict(P,n1379,A) :- absolution(A,P,_,T), not valid_absolution(A), norm_in_force(n1379,T).
+delict(P,n1379,A) :- absolution(A,P,_,T), not valid_absolution(A), norm_in_force(n1379,T), not outside(P).
 penalty(n1379,interdict).
 element_of(n1379,cannot_absolve).                 % the delict's matter: one who cannot validly absolve
 
@@ -281,8 +354,9 @@ rebutted(imputability(P,E)) :- appears_otherwise(P,E).
 imputed(P,N,E) :- delict(P,N,E), presumed(imputability(P,E)), actus_humanus(P,E),
                   not exempt(P,E), not unpunished_culpa(P,N,E).
 unpunished_culpa(P,N,E) :- delict(P,N,E), culpa(P,E), not punishes_culpa(N).
-incurred_at(P,N,E,T) :- imputed(P,N,E), event_date(E,TE), instant(T), TE <= T,
+incurred_at(P,N,E,T) :- imputed(P,N,E), latae_sententiae(N), event_date(E,TE), instant(T), TE <= T,
                         not remitted_at(P,N,E,T), not latae_excused(P,N,E).
+to_be_imposed(P,N,E) :- imputed(P,N,E), not latae_sententiae(N).
 presumed_incurred(P,N,E) :- incurred_at(P,N,E,T), eval_date(T).
 info(not_a_human_act(P,E)) :- delict(P,_,E), not actus_humanus(P,E).
 info(dolus(P,E))           :- delict(P,_,E), dolus(P,E).
@@ -418,6 +492,16 @@ info(absolution(A,valid,licit))   :- absolution(A,_,_,_), past(A), valid_absolut
 info(absolution(A,valid,illicit)) :- absolution(A,_,_,_), past(A), valid_absolution(A), not licit_absolution(A).
 info(absolution(A,invalid))       :- absolution(A,_,_,_), past(A), not valid_absolution(A).
 info(delict(P,N,E)) :- delict(P,N,E), past(E).
+info(to_be_imposed(P,N,E,K)) :- to_be_imposed(P,N,E), penalty(N,K), past(E).
+
+% @norm cic:1117 | c. 1117: the form must be observed if at least one of the parties was baptized in the Catholic Church or received into it (as amended by Omnium in mentem, 2009; until then, "and has not defected from it by a formal act"), without prejudice to c. 1127 §2 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
+promulgated(oim2009,20091026). vacatio_until(oim2009,20091026).   % names no date (c. 8 §1); the cases are dated clear of 2009-10
+defection_exempts(P,M) :- spouse(M,P), formal_defection(P,D), marriage(M,_,T), D <= T, in_force_from(oim2009,F), T < F.
+bound_to_form(P,M) :- spouse(M,P), not outside(P), not defection_exempts(P,M).
+% silence binds: the form is excused only where every recorded party is outside or exempt
+form_excused(M) :- spouse(M,_), not some_party_bound(M).
+some_party_bound(M) :- bound_to_form(_,M).
+form_binds(M) :- marriage(M,_,_), not form_excused(M).
 
 % @norm cic:1108 | c. 1108 §1 and c. 1111: the form requires assistance by the ordinary, the pastor, or a priest delegated by either; c. 144 §2 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
 delegated(P,M) :- marriage(M,P,T), delegation(_,O,P,M,TD), ordinary(O), TD <= T.
@@ -426,8 +510,9 @@ valid_form(M) :- marriage(M,P,T), delegated(P,M), not governance_invalid_at(P,T)
 valid_form(M) :- marriage(M,_,_), common_error(M).
 % @end
 info(marriage(M,valid_form))   :- marriage(M,_,_), past(M), valid_form(M).
-info(marriage(M,invalid_form)) :- marriage(M,_,_), past(M), not valid_form(M), not dispensed(cond(matrimony,canonical_form),M).
-info(marriage(M,form_dispensed)) :- marriage(M,_,_), past(M), not valid_form(M), dispensed(cond(matrimony,canonical_form),M).
+info(marriage(M,invalid_form)) :- marriage(M,_,_), past(M), form_binds(M), not valid_form(M), not dispensed(cond(matrimony,canonical_form),M).
+info(marriage(M,form_dispensed)) :- marriage(M,_,_), past(M), form_binds(M), not valid_form(M), dispensed(cond(matrimony,canonical_form),M).
+info(marriage(M,form_not_binding)) :- marriage(M,_,_), past(M), not form_binds(M).
 
 % @norm cic:1103 | c. 1103: a marriage is invalid if entered into because of force or grave fear from without, even when inflicted unintentionally, so that a person is compelled to choose marriage in order to be freed from it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1095-1107_en.html
 act_of(P,M) :- spouse(M,P).
@@ -456,7 +541,7 @@ info(to_be_conferred(R,K,How)) :- to_be_conferred(R,K,How).
 % (sacrament.lp), so a dispensation reaches only the one that is
 % ecclesiastical (c. 1127 §2).
 defect_of_marriage(M,consent) :- consent_vitiated(M).
-defect_of_marriage(M,canonical_form) :- marriage(M,_,_), not valid_form(M).
+defect_of_marriage(M,canonical_form) :- marriage(M,_,_), form_binds(M), not valid_form(M).
 unmet_in_marriage(M,C) :- defect_of_marriage(M,C), not dispensed(cond(matrimony,C),M).
 bond(M) :- marriage(M,_,_), not unmet_in_marriage(M,_).
 ratified(M) :- bond(M), not spouse_unbaptized(M).
@@ -491,7 +576,7 @@ info(forum_holds_null_where_bond_stands(M)) :- bond(M), nullity_sentence(S,M,_),
 % any reason" is the canon's own: no release by anyone lifts it.
 violation(seal_lifted(E,Why)) :- seal_lifted(E,Why).
 % @norm cic2021:1386 | c. 1386 §1: a confessor who directly violates the sacramental seal incurs a latae sententiae excommunication reserved to the Apostolic See | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
-delict(P,n1386,E) :- delict_act(P,n1386,E), event_date(E,T), norm_in_force(n1386,T).
+delict(P,n1386,E) :- delict_act(P,n1386,E), event_date(E,T), norm_in_force(n1386,T), not outside(P).
 penalty(n1386,excommunication).
 % @end
 

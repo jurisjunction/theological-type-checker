@@ -24,7 +24,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | moral | the morality of acts, sin, grace | done ([ttc-moral(7)](research/moral-preregistration.md)) |
 | christ | Christ's acts; the sacraments; the seal; presence by mode | done ([ttc-christ(7)](research/christ-preregistration.md)) |
 | moral amendment | verdicts and obligation: may, must, must not; social doctrine as tests | done ([ttc-precept(7)](research/precept-preregistration.md)) |
-| communion | faith and communion: notes, denials, bonds | predicted; **to stamp** ([ttc-communion(7)](research/communion-preregistration.md)) |
+| communion | rule 14; faith and communion: notes, denials, bonds | done ([ttc-communion(7)](research/communion-preregistration.md)) |
 | canon | the canon-law step | to predict |
 | liturgy | the liturgy as witness, rite and development | to predict |
 | last things | soteriology and eschatology | to predict |
@@ -33,20 +33,6 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
-
-### communion (predicted, to stamp)
-
-The notes of teaching read off the graph (c. 750 §§1–2, c. 752; the CDF's
-commentary of 1998); professions and their censures; heresy, apostasy and
-schism (c. 751; II-II qq. 5, 11, 12, 39); cc. 11, 96, 205; c. 1364;
-c. 1371 n. 1 (1983, 1998) and c. 1365 (2021); c. 1117 (1983, 2009); LG 14.
-The step begins with rule 14: tiers are computed from form and
-conditions, never taken on anyone's word (c. 749 §3). An audit of every
-source at tier 1 or 2; claims of the ordinary universal magisterium as
-sources of their own, the documents reporting them keeping their tier; a
-lower tier speaking of a higher, flagged. Found while writing: the CDF's
-commentary of 1998 classifies EV 57 as de fide (n. 11), a tier-3 source
-grading teaching above it.
 
 ### canon
 
@@ -202,6 +188,18 @@ from forms already existing" (SC 23). Three faces:
   among moralists; the typing could become a disputed fact.
 - **Social justice** (CCC 1928-1948) is still on the frontier: respect for
   the person, equality, solidarity (TTC-PRECEPT M3).
+- **The conditions of a claim.** Rule 14 leaves every claim of the
+  ordinary universal magisterium unshown: no evidence of LG 25's
+  conditions apart from the claimants. The 1991 consultation behind EV 57
+  and 62 (EV 5) is the first to look for.
+- **A default is not a note** (TTC-COMMUNION NT1): a case's stipulated
+  value excludes its contrary without teaching. And a constraint between
+  questions can exclude a contrary no note excludes (DP's intrinsic
+  wrongness and present necessity).
+- **Within tier 3, a dicastery below the pope's own acts** unless approved
+  in specific form: the weights lean so; the ranking is not yet explicit.
+- **c. 1127 §1** (marriage with an Eastern non-Catholic) and the formal act
+  of defection's own requirements (PCLT, 2006) are not encoded.
 - **Religious liberty.** The SSPX's own question: *Dignitatis humanae* 2
   against *Quanta cura* and the Syllabus (1864), whose force is claimed
   ex cathedra by some, and against *Exsurge Domine* (1520) prop. 33,

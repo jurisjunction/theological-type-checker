@@ -350,3 +350,63 @@ into force; c. 8 §1 applies, and the cases are dated clear of it.
 [ttc-precept(7)](precept-preregistration.md),
 [ttc-christ(7)](christ-preregistration.md),
 [ttc-canon(5)](../canon-law-layer.md), [ttc-roadmap(7)](../roadmap.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in 4942448, amended before
+the stamp in 355e103 (rule 14), stamped in 17fa692. Encoded in
+`icon_authority.lp` (rule 14: warrants, the audit, the claimed consensus
+as a source of its own, c. 749 §3, a lower tier speaking of a higher),
+`engine.py` (the preference by unshown claims), `icon_history.lp` (the
+warrants of every source at tier 1; LG 25 at tier 3; claimants; the parts
+`assent` and `commentary_communion`), `faith.lp` (new: notes, censures,
+pertinacity, apostasy, LG 14), `moral.lp` (a law binds the person in the
+act, c. 11), `canon_law.lp` (cc. 11, 96, 205; c. 751's heresy and
+apostasy; c. 1364; c. 1371 n. 1 in 1983 and 1998; c. 1365; c. 1117 in
+1983 and 2009; ferendae sententiae) and `canon_cases.lp`. Scenarios TC,
+NT, FD, CN, FC (24); a slow test of NT1 over the suite.
+
+| | Result |
+| --- | --- |
+| TC1 | Held (TC1). LG 25 was the one source without a warrant: re-typed at tier 3, owed religious submission. B15's expectation changed accordingly (stated in the suite). Trent's two chapters are warranted by their sessions' proems, checked against the text ("otherwise than as by this present decree is defined"; "than is in these decrees explained and defined"). The Apostles' Creed and the *Quicumque* are recorded as creeds received. Every other source at tier 1 shows its form; the audit runs over 18 parts. LG 25 at tier 1, and EV 57 entered ex cathedra without "defines", are refused. Not predicted: a claim entered without its claimant is refused too. |
+| TC2 | Held in part. EV is at tier 3 in every branch; its consensus is a source of its own, its grade computed both ways; branch statuses unchanged. But two checks changed, not one: DR5 (FC 84) as DP7, and in both the consensus *replaces* the document in the list of sources whose relaxation would reintegrate the shadow, rather than joining it. At tier 3 the document falls into the tension there (with *Dignitas infinita* read on its face; with *Amoris laetitia*) and no longer cleaves. The documents now weigh at tier 3 where they do not cleave (DP7, DR1, DR5–DR7, SD1b). |
+| TC3 | Held. None of the five has LG 25's conditions shown; no preferred branch rests on any; DP4, EC5, EC6, EC9 and B17 unchanged. With the conditions shown (a hypothetical part), the claim is no longer unshown. |
+| TC4 | Held. The commentary is flagged on EV 57, on *Apostolicae curae* and on tier 2's force; LG 25 and *Ad tuendam fidem* (B12's candidate) on tier 2's force. n. 11 treated as fixing is refused. |
+| NT1 | Held in part. Over every main branch of the 435 scenarios no note disagrees with the shadows. Two kinds of value fall outside the prediction: a value fixed by a case's default (65 instances: the hypothetical stipulations, and the canonical form's "not of the substance") has no note and no main contrary; and a contrary can be excluded, not shadowed, by a constraint between questions (the death penalty's: intrinsic wrongness excludes present necessity) or by a switch (`orders_fixed`), under an authentic note (11 instances). Branches already refused (69) and questions whose kind is left open (lex orandi) are not compared. A slow test pins the rest. |
+| NT2 | Held (NT2). |
+| NT3 | Held (NT3, NT3b). |
+| NT4 | Held (NT4). De fide where a claim holds at grade 1, definitive at 2, authentic without; no contrary under grade 1. DI3's checks pass unchanged; the precept scenarios gain the grade (their model counts by half again). |
+| NT5 | Held (NT5). |
+| FD1 | Held (FD1, FD1b). |
+| FD2 | Held (FD2). |
+| FD3 | Held (FD3). The test of rule 3 extended to the four new compositions passes. |
+| FD4 | Held (FD4). |
+| FD5 | Held (FD5, FD5b). |
+| CN1 | Held (CN1). c. 11 guards every delict, and the moral library: an ecclesiastical law binds neither the one outside nor a child under seven; a kind evil by its object binds both. The habitual lack of reason was already act.lp's. |
+| CN2 | Held (CN2). |
+| CN3 | Held (CN3). |
+| CN4 | False in its first clause. In 1997 c. 1371 n. 1 reaches the profession in every branch, whether *Apostolicae curae*'s claim holds or not: by rule 14 the document stays at tier 3 where the claimed consensus holds, so rejecting its teaching is rejecting a doctrine of c. 752 either way. The gap *Ad tuendam fidem* names is real only for a teaching given at tier 2 alone: a case written for it (a synthetic definitive teaching, no tier-3 document) is reached by no canon in 1997 and by the amended canon in 2000. The rest held: 2000 by the amended canon, 2022 by c. 1365, each text in its own years only; a penalty to be imposed, never incurred. |
+| CN5 | Held (CN5). |
+| FC1 | Held (FC1). One received into the Church is bound and in full communion. |
+| FC2 | Held (FC2). |
+| FC3 | Held (FC3). |
+| M1 | Held in part. B15, DP7 and NT4's branches changed as predicted; DR5 changed too (TC2). Outputs gained the flags (TC4) and the consensus in cleaving lists (TC2) across B, EC, DR, PR3, SX5, SX23 and SD1; no check. The Pauline case's marriage (SM10, SM10b, SM10c) now reports the form as not binding, its parties unbaptized and so outside: the TTC-CHRIST bug closed, against M1's "keep their form". SM6's one model changed (mode "one"; its check unaffected). The TTC-SCHOOLS tables did not change. |
+| M2 | Held after closing gaps. Each new statement was deleted in turn (34 in `icon_authority.lp`, 32 in `faith.lp`, 4 in `moral.lp`, 57 in `canon_law.lp`, 48 in `icon_history.lp`, 45 in `canon_cases.lp`). Closed on the way: a claim without a claimant refused; one note per value, the stronger (a value held at tiers 2 and 3); a pertinacious doubt, a formal heresy and a delict; the bond of profession broken by heresy and by apostasy; apostasy under the Code of 2021; one received into the Church, bound and in full communion; an unbaptized couple not bound to the form; c. 1371 n. 1's texts each in its own years; a teaching at tier 2 alone (above); a control for c. 11 (the same act binds once the person is received); LG 25's character; the commentary's n. 6 as a live shadow. What survives: near-miss fixtures that change nothing when deleted (the Creed without the Filioque; a doubt of definitive teaching; c. 11's outsider and child; a defection after 2009, which silence binds anyway), records documented but read by no rule (Florence 1439 and Trent 1551 in their parts, as before), and c. 750 §2's canon entered twice (in `tier2`, for B15, and in `assent`). CL1 and PR4 clean. |
+| M3 | Held. "I believe" and "We believe" leave the frontier; "One, holy, catholic and apostolic" and the first commandment move to rules: 41 units under rules, 9 under cases, 37 frontier. |
+
+### Not predicted
+
+- **DR5**, and the consensus replacing the document (TC2).
+- **The gap is in the assent, not the penalty** (CN4).
+- **Defaults and constraints** are not notes (NT1).
+- **Silence must bind a marriage with no recorded parties.** The first
+  encoding of c. 1117 asked for a party bound; SX21's marriages record
+  none and lost the form. The form is now excused only where every
+  recorded party is outside or exempt.
+- **A cycle in the norm graph through c. 11.** Reading the law's subjects
+  through the act (`act_of/2`, which c. 1321 derives from delicts) made
+  c. 11 feed itself; the subjects are now read without the act.
+- **Ferendae sententiae.** No delict before this step was punished by a
+  penalty to be imposed; `incurred_at` now asks for latae sententiae.
+- **c. 11 in the moral library.** A sin "on the claims" against an
+  ecclesiastical law now asks that the law bind the person.

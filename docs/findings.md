@@ -558,7 +558,48 @@ Predictions were stamped first
   those responsible, as proportion is the agent's; no rule derives them.
 - **A directive is not a principle** (SD4; CCC 2423).
 
-### 23. Method
+### 23. Tiers, faith and communion (TC, NT, FD, CN, FC)
+
+The step begins with rule 14: tiers are computed from form and conditions,
+never taken on anyone's word. Then the notes of teaching, the censures of
+professions, and the canons on faith and communion. Predictions were
+stamped first ([ttc-communion(7)](research/communion-preregistration.md)).
+
+- **One source had no warrant** (TC1). LG 25 sat at tier 1, though Vatican
+  II defines "only when the Council itself openly declares so" (1964).
+  Re-typed at tier 3, it is owed religious submission, and its statement
+  on the force of tier 2 is a lower tier speaking of a higher (TC4). Every
+  other source at tier 1 shows its form; Trent's doctrinal chapters, the
+  sessions' own declarations of what they define.
+- **A claimed consensus is not the document that reports it** (TC2).
+  *Evangelium vitae* stays at tier 3 in every branch; the consensus it
+  reports is a source of its own, its grade computed both ways. Where
+  the document falls into a tension at tier 3, the consensus alone cleaves
+  (DP7, DR5). No claim's conditions are shown apart from the claimant, so
+  no branch resting on one is preferred (c. 749 §3).
+- **The note is the shadow, read off** (NT1), in every main branch of the
+  suite, with two kinds of exception: a value fixed by a case's default
+  has no note, and a constraint between questions or a switch can exclude
+  a contrary that no note excludes.
+- **Censures are of propositions** (FD1–FD5). "From the Father alone" is
+  heretical; the Creed without the Filioque takes nothing. A denial of the
+  Immaculate Conception in 1850 takes nothing, in 1860 heresy. Formal
+  heresy, and faith held in no article, are composed on the claim of
+  pertinacity, which c. 751 reads as obstinacy.
+- **c. 11 makes the Orthodox theologian's profession no delict** (CN1,
+  CN2): heretical as a proposition, incorporated by baptism (c. 96), not in
+  full communion (c. 205), not bound by merely ecclesiastical law.
+- **The gap *Ad tuendam fidem* names is narrower than it says** (CN4). A
+  document reporting definitive teaching keeps its tier, so rejecting it
+  rejects teaching of c. 752: c. 1371 n. 1 reached it in 1997, the claim
+  holding or not. Only a teaching given at tier 2 alone fell through
+  before 1998.
+- **The commentary and the canon diverge** (FC2): "no longer in full
+  communion" by n. 6, in full communion by c. 205.
+- **c. 1117 binds the form only on a Catholic party** (CN5); the Pauline
+  case's unbaptized couple no longer needs it.
+
+### 24. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius
@@ -617,6 +658,10 @@ Predictions were stamped first
   J. Boyle, *The Thomist* 65 (2001)
 - Holy Office, responses of 1884, 1889 and 1902; Benedict XIV, *Vix
   pervenit* (1745); EV 56–57, 62; CDF, *Donum vitae* (1987)
+- Vatican I, *Pastor aeternus* ch. 4 (DH 3074); Vatican II, notification
+  of 16 November 1964; CDF, commentary on the *Professio fidei* (1998);
+  *Ad tuendam fidem* (1998); *Omnium in mentem* (2009); CIC cc. 11, 96,
+  205, 749 §3, 750–752, 1117, 1364, 1365, 1371
 
 ## BUGS
 

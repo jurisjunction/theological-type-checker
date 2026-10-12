@@ -22,7 +22,7 @@ import clingo
 
 LP_DIR = pathlib.Path(__file__).resolve().parent / "lp"
 FILES = ["kernel_core.lp", "kernel_analogy.lp", "icon_theory.lp", "icon_models.lp", "icon_tests.lp", "icon_metaphysics.lp", "schools.lp", "kernel_world.lp",
-         "icon_authority.lp", "icon_history.lp", "act.lp", "law.lp", "moral.lp", "grace.lp", "christ.lp", "sacrament.lp", "canon_law.lp", "canon_cases.lp", "pair.lp", "library.lp"]
+         "icon_authority.lp", "icon_history.lp", "act.lp", "law.lp", "moral.lp", "grace.lp", "christ.lp", "sacrament.lp", "faith.lp", "canon_law.lp", "canon_cases.lp", "pair.lp", "library.lp"]
 
 # School runtimes (docs/research/schools-preregistration.md): named lists of
 # parts, loaded whole. A scenario names one as the part "rt_<name>", or two for
@@ -236,11 +236,13 @@ def summarize_branches(models):
     branches = []
     for atoms in models:
         b = {"values": [], "status": None, "cleaved": [], "reint": [], "w": {3: 0, 4: 0, 5: 0},
-             "t2": False, "facts": [], "assume": []}
+             "t2": False, "facts": [], "assume": [], "unshown": 0}
         for a in atoms:
             name, args = split_args(a)
-            if name in ("read_as", "oum_holds", "assumed_fact"):
+            if name in ("read_as", "oum_holds", "assumed_fact", "graded"):
                 b["assume"].append(a)
+            if name == "unshown_claim":
+                b["unshown"] += 1
             if name == "holds":
                 b["values"].append(f"{args[0]}={args[1]}")
             elif name == "branch":
@@ -274,11 +276,17 @@ def classify(r, qv):
     return "shadow"
 
 
+def pref_key(b):
+    """the order of preference among main branches: first, no branch resting on
+    a claim whose conditions are not shown (c. 749 §3; rule 14); then weight"""
+    return (b.get("unshown", 0), b["w"][3], b["w"][4], b["w"][5])
+
+
 def preferred_value(r, question):
     mains = [b for b in r["branches"] if b["status"] == "main"]
     if not mains:
         return "no main branch"
-    key = lambda b: (b["w"][3], b["w"][4], b["w"][5])
+    key = pref_key
     best = min(key(b) for b in mains)
     winners = sorted({v for b in mains if key(b) == best for v in b["values"] if v.startswith(question + "=")})
     return winners[0].split("=", 1)[1] if len(winners) == 1 else "tie"
@@ -346,7 +354,7 @@ def summary(r, max_branches=30):
     out["in_every_branch"] = sorted(every)
     out["in_some_branches"] = sorted(some)
     order = {"main": 0, "live_shadow": 1, "counterfactual_shadow": 2, None: 3}
-    shown = sorted(bs, key=lambda b: (order.get(b["status"], 3), b["w"][3], b["w"][4], b["w"][5]))[:max_branches]
+    shown = sorted(bs, key=lambda b: (order.get(b["status"], 3),) + pref_key(b))[:max_branches]
     out["branches"] = [{
         "status": b["status"] or "n/a (no questions in this run)",
         "values": sorted(b["values"]),

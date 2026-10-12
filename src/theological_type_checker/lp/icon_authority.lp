@@ -28,9 +28,8 @@
 % ---------- Time and force -----------------------------------------
 asof(9999) :- not custom_asof.
 promoted_now(S) :- promoted(S,_,Y), asof(A), Y <= A.
-eff_tier(S,T)   :- promoted(S,T,Y), asof(A), Y <= A, not oum_holds(S).
-eff_tier(S,T)   :- source(S,T,_,_), not promoted_now(S), not oum_holds(S).
-eff_tier(S,K)   :- oum_holds(S), oum_claim(S,K).
+eff_tier(S,T)   :- promoted(S,T,Y), asof(A), Y <= A.
+eff_tier(S,T)   :- source(S,T,_,_), not promoted_now(S).
 withdrawn_now(S) :- withdrawn(S,Y), asof(A), Y <= A.        % a later act replaced the text
 in_force(S)     :- source(S,_,_,Y), asof(A), Y <= A, not relaxed(S), not withdrawn_now(S).
 
@@ -66,10 +65,48 @@ assumed_fact(false(unanimous(S,R))) :- consent_claim(S,R), in_force(S), not unan
 % The OUM has no formal act, so the claim that a teaching meets its
 % conditions always comes from someone. Unless a strictly higher-tier act
 % fixes it, it is an assumption the checker computes both ways.
+% Rule 14 (TTC-COMMUNION TC2): the consensus is a source of its own,
+% oum(S); the document S that reports it keeps its own tier. The claim's
+% grade (oum_claim(S,K): 1, proposed as revealed; 2, to be held
+% definitively) is computed both ways where more than one is claimed.
 oum_fixed(S) :- oum_fixed_by(S,F), in_force(F), eff_tier(F,1).
 { oum_holds(S) } :- oum_claim(S,_), in_force(S), not oum_fixed(S).
 oum_holds(S) :- oum_fixed(S).
+1 { oum_grade(S,K) : oum_claim(S,K) } 1 :- oum_holds(S).
+graded(S,K) :- oum_grade(S,K), oum_claim(S,K2), K2 != K.
+source(oum(S),K,truth,Y) :- oum_holds(S), oum_grade(S,K), source(S,_,_,Y).
+supports(oum(S),Q,V)     :- oum_holds(S), supports(S,Q,V).
 :- oum_holds(S), supports(S,Q,_), question_kind(Q,governance).   % definitive teaching is not discipline
+% c. 749 §3: "no doctrine is understood as defined infallibly unless this is
+% manifestly evident". LG 25's conditions, each shown by evidence apart from
+% the claimant's word (condition_shown/2); where any is not, the branch that
+% rests on the claim is never preferred (engine.pref_key).
+oum_condition(dispersed_in_communion;authentic_teaching;faith_or_morals;one_position_definitive).
+oum_unmet(S)        :- oum_claim(S,_), oum_condition(C), not condition_shown(S,C).
+unshown_claim(S)    :- oum_holds(S), oum_unmet(S).
+violation(claim_without_claimant(S)) :- oum_claim(S,_), not oum_claimant(S,_).   % rule 14: entered with its claimant
+
+% ---------- Rule 14: a tier is a finding about form and conditions ---------
+% A source at tier 1 or 2 needs a warrant: a papal definition with the
+% conditions of Pastor aeternus (DH 3074), a council's canon, definition,
+% creed or declaration of its own scope, a doctrinal chapter its session
+% binds, a creed received (a claim of reception, recorded), or the claimed
+% consensus. Synthetic test sources carry a hypothetical warrant.
+ec_condition(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church).
+ec_unmet(S)  :- papal_form(S,ex_cathedra), ec_condition(C), not condition_shown(S,C).
+warranted(S) :- papal_form(S,ex_cathedra), not ec_unmet(S).
+defining_act(canon;definition;creed;scope).
+warranted(S) :- conciliar_act(S,K), defining_act(K).
+warranted(S) :- conciliar_act(S,chapter), session_defines(S).
+warranted(S) :- received_creed(S).
+warranted(oum(S)) :- oum_holds(S).
+warranted(S) :- hypothetical_warrant(S).
+violation(tier_without_warrant(S,T)) :- in_force(S), source(S,T,_,_), T >= 1, T <= 2, not warranted(S).
+% Any statement about the tier or grade of a teaching is a claim (claims_tier/3):
+% flagged when a lower tier speaks of a higher, refused when treated as fixing.
+info(lower_speaks_of_higher(C,S,K)) :- claims_tier(C,S,K), in_force(C), eff_tier(C,T), T > K.
+info(lower_speaks_of_higher(S,M,K)) :- meta_supports(S,M), in_force(S), eff_tier(S,T), meta_target(M,K), T > K.
+violation(self_elevation(C,S)) :- treated_as_fixing(C,S), claims_tier(C,S,K), eff_tier(C,T), T >= K.
 
 % ---------- Branches -------------------------------------------------
 1 { holds(Q,V) : value(Q,V) } 1 :- question(Q).
@@ -231,6 +268,8 @@ weight(T,N) :- weight_tier(T), question(_), N = #sum{ P,S,X : disagrees(S,T,X), 
 #show holds/2.
 #show read_as/2.
 #show oum_holds/1.
+#show graded/2.
+#show unshown_claim/1.
 #show branch/1.
 #show cleaved_by/1.
 #show reintegrates_if_relaxed/1.

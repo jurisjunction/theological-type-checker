@@ -35,6 +35,8 @@
 % @input teaching_type/2 | teaching_type(Source, principle | criterion | directive) (CCC 2423)
 % @input supports/3 | from the authority graph
 % @input classification/3 | from the authority graph
+% @input unbound/2 | canon_law.lp (c. 11): an ecclesiastical law does not bind the person
+% @input unbound_at/3 | canon_law.lp (c. 11): an ecclesiastical law does not bind the person in the act (under seven)
 
 % ---------- The sources of morality (I-II q. 18 aa. 2-4; CCC 1750-1756) -----
 % The object's kind is teaching; it is said of kinds, never of a person.
@@ -45,6 +47,11 @@ grave_by_matter(K) :- of_kind(K,grave_matter).          % CCC 1858
 % binds. A law contrary to a higher law does not bind (law.lp; q. 96 a. 4).
 sinful_kind(K) :- evil_by_object(K).
 sinful_kind(K) :- forbids(L,K), not does_not_bind(L).
+% For this person in this act: a merely ecclesiastical law binds only its
+% subjects (c. 11, TTC-COMMUNION CN1); divine and natural law bind all.
+binds_for(P,A,K) :- act_of(P,A), kind_of_act(A,K), evil_by_object(K).
+binds_for(P,A,K) :- act_of(P,A), kind_of_act(A,K), forbids(L,K), not does_not_bind(L),
+                    not unbound(P,L), not unbound_at(P,L,A).
 
 % ---------- Mortal sin, on the claims (q. 72 a. 5; RP 17; CCC 1857-1859) -----
 % Grave matter, full knowledge, deliberate consent. The first is teaching
@@ -52,11 +59,11 @@ sinful_kind(K) :- forbids(L,K), not does_not_bind(L).
 % composes "mortal, if the claims are true"; it never says a person sinned.
 full_knowledge(P,A)     :- interior(P,A,full_knowledge).
 deliberate_consent(P,A) :- interior(P,A,deliberate_consent).
-mortal_on_the_claims(P,A) :- actus_humanus(P,A), kind_of_act(A,K), sinful_kind(K), grave_by_matter(K),
+mortal_on_the_claims(P,A) :- actus_humanus(P,A), kind_of_act(A,K), binds_for(P,A,K), grave_by_matter(K),
                              full_knowledge(P,A), deliberate_consent(P,A).
 % Sin of either gravity, on the claims: an act of a sinful kind with consent
 % claimed (CCC 1862 for venial sin). TTC-CHRIST CH2 reads it.
-sin_on_the_claims(P,A) :- actus_humanus(P,A), kind_of_act(A,K), sinful_kind(K), deliberate_consent(P,A).
+sin_on_the_claims(P,A) :- actus_humanus(P,A), kind_of_act(A,K), binds_for(P,A,K), deliberate_consent(P,A).
 
 % ---------- Double effect (II-II q. 64 a. 7; CCC 2263-2265) ------------------
 % Two conditions are outward and computed: the object is not evil, and the

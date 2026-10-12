@@ -10,7 +10,8 @@ import pathlib
 import re
 import sys
 
-from .engine import classify, lint, preferred_value, solve
+from . import engine as E
+from .engine import classify, lint, pref_key, preferred_value, solve
 
 # ---------- expectation helpers: each returns (ok, short description) ----
 def clean(r):
@@ -322,7 +323,7 @@ def prefers_atom(atom):
         mains = [b for b in r["branches"] if b["status"] == "main"]
         if not mains:
             return False, "no main branch"
-        key = lambda b: (b["w"][3], b["w"][4], b["w"][5])
+        key = pref_key
         best = min(key(b) for b in mains)
         top = [b for b in mains if key(b) == best]
         ok = all(atom in b["assume"] for b in top)
@@ -357,7 +358,8 @@ scen("DP6", "case", "As of 2025, Dignitas Infinita read circumstantially", DP + 
 scen("DP7", "case", "As of 2025, DI on its face, Innocent III taken as definitive", DP + ["ccc_circumstantial", "di_intrinsic", "oum_dh795"],
      [cls("q(dp_principle)=permitted", "settled"), tension("q(dp_principle)", False),
       branch_of("q(dp_principle)=intrinsically_wrong", "counterfactual_shadow", t2=True),
-      branch_of("q(dp_principle)=intrinsically_wrong", "live_shadow", t2=False, reint=["dh795"])],
+      # TTC-COMMUNION TC2 (rule 14): the claimed consensus is its own source; the profession keeps tier 3
+      branch_of("q(dp_principle)=intrinsically_wrong", "live_shadow", t2=False, reint=["oum(dh795)"])],
      "tier 2 settles it; DI's reading becomes a shadow", mode=B)
 
 RM = ["remarriage"]
@@ -383,7 +385,8 @@ scen("DR4", "case", "Same, counting every source", RM + ["typed_doctrinal", "no_
 scen("DR5", "case", "FC 84 taken as definitive (OUM)", RM + ["oum_fc84", "external_barred"],
      [cls("q(admission_internal)=only_if_continent", "settled"),
       branch_of("q(admission_internal)=possible_in_some_cases", "counterfactual_shadow", t2=True),
-      branch_of("q(admission_internal)=possible_in_some_cases", "live_shadow", t2=False, reint=["fc84"])],
+      # TTC-COMMUNION TC2 (rule 14): the claimed consensus is its own source; FC 84 keeps tier 3
+      branch_of("q(admission_internal)=possible_in_some_cases", "live_shadow", t2=False, reint=["oum(fc84)"])],
      "FC 84 settles it; Amoris a shadow", mode=B)
 scen("DR6", "case", "The checker assigning an interior", RM + ["cand_diagnose"],
      [any_branch_violation("diagnosis(p1,system)")], "non-diagnosis violation", mode=B)
@@ -397,7 +400,8 @@ scen("B17", "authority", "Interpretation breaks a tie between equally fitting re
      [prefers_atom("read_as(s_amb,r1)")], "the interpreted reading is preferred", mode=B)
 
 scen("B15", "authority", "Canon law binds to teaching by reference", ["tier2"],
-     [owed_everywhere("lg25,divine_and_catholic_faith", "definitive_d1,firm_assent",
+     # TTC-COMMUNION TC1 (rule 14): LG 25 defines nothing (notification of 16 Nov. 1964); tier 3, c. 752
+     [owed_everywhere("lg25,religious_submission", "definitive_d1,firm_assent",
                       "cdf_1998,religious_submission"), clean_branches],
      "each teaching act owed the assent its tier's canon attaches; no violations", mode=B)
 
@@ -2029,6 +2033,200 @@ scen("SD3", PC, "Just war", ["just_war"],
 scen("SD4", PC, "A directive cited as a principle", ["cand_directive_as_principle"],
      [all_branches_violation("directive_as_principle(ev56_rarity,execution)"), cls("q(execution_evil_by_object)=yes", "settled")],
      "refused (CCC 2423), though the directive, so cited, would settle the kind", mode=B)
+
+# ---------- Faith and communion (TTC-COMMUNION) ------------------------------
+# Rule 14 first: tiers are computed, never taken on anyone's word. Then the
+# notes read off the graph, the censures of professions, and the canons.
+CO = "communion"
+FIL = ["filioque", "assent", "professions_filioque"]
+ANG = ["ecumenism", "lattice", "assent", "professions_anglican"]
+
+def warrant_audit(_r):
+    """every part holding a source at tier 1 or 2 runs with no tier_without_warrant (candidates aside)"""
+    parts = set()
+    for f in sorted(E.LP_DIR.glob("*.lp")):
+        part = None
+        for line in f.read_text().split("\n"):
+            m = re.match(r"\s*#program\s+(\w+)", line)
+            if m:
+                part = m.group(1)
+                continue
+            code = re.sub(r"%.*", "", line)
+            if part and (re.search(r"\bsource\(\w+,[12],", code) or "oum_claim(" in code):
+                parts.add(part)
+    parts = sorted(p for p in parts if not p.startswith("cand_") and p != "atf_as_tier1")
+    bad = [(p, v) for p in parts for v in solve([p], "one")["violations"]
+           if v.startswith(("tier_without_warrant", "claim_without_claimant"))]
+    return bool(parts) and not bad, f"{len(parts)} parts warranted" if not bad else f"unwarranted: {bad}"
+
+def all_models_with(parts, preds, present=(), absent=(), some=()):
+    """over every model: each atom in present holds, none in absent; each in some holds in at least one"""
+    def chk(_r):
+        ms = solve(parts, "all", show=preds)["all_models"]
+        bad = ([a for a in present if not all(a in m for m in ms)] + [a for a in absent if any(a in m for m in ms)]
+               + [a for a in some if not any(a in m for m in ms)])
+        return bool(ms) and not bad, f"{len(ms)} models: as stated" if not bad else f"wrong: {bad}"
+    return chk
+
+def best_rest_on_no_claim(r):
+    """the preferred main branches rest on no claim whose conditions are unshown (c. 749 §3)"""
+    mains = [b for b in r["branches"] if b["status"] == "main"]
+    best = min(pref_key(b) for b in mains)
+    top = [b for b in mains if pref_key(b) == best]
+    ok = all(b["unshown"] == 0 for b in top) and any(b["unshown"] > 0 for b in mains)
+    return ok, f"{len(top)} preferred, none on an unshown claim; {sum(b['unshown'] > 0 for b in mains)} main on one" if ok else "a preferred branch rests on an unshown claim"
+
+GRADE1 = ("graded(ev57,1)", "graded(ev62,1)")
+
+def by_grade(r):
+    """NT4: de fide where a claim holds at grade 1, definitive where one holds at 2 and none at 1, authentic where none"""
+    bad = []
+    for b in r["branches"]:
+        if b["status"] != "main":
+            continue
+        g1 = any(a in b["assume"] for a in GRADE1)
+        g2 = any(a.startswith("oum_holds(ev") for a in b["assume"]) and not g1
+        want = "de_fide" if g1 else "definitive" if g2 else "authentic"
+        if f"info(note(q(direct_killing_of_innocent),yes,{want}))" not in b["facts"]:
+            bad.append(want)
+    excl = [b for b in r["branches"] if "q(direct_killing_of_innocent)=no" in b["values"]
+            and any(a in b["assume"] for a in GRADE1)]
+    return not bad and not excl, "each main branch noted by its grade; no contrary under grade 1" if not bad and not excl else f"wrong: {bad[:3]} {len(excl)}"
+
+scen("TC1", CO, "The audit: a tier needs a warrant", ["tier2", "assent"],
+     [warrant_audit, info_all("owed(lg25,religious_submission)"), info_none("owed(lg25,divine_and_catholic_faith)"),
+      lambda r: (all("violation(tier_without_warrant(lg25,1))" in b["facts"]
+                     for b in solve(["tier2", "cand_lg25_tier1"], "branches")["branches"]), "LG 25 at tier 1: refused"),
+      lambda r: ("tier_without_warrant(ev57_def,1)" in solve(["life_sources", "cand_ev57_ex_cathedra"], "one")["violations"],
+                 "EV 57 entered ex cathedra, \"defines\" not shown: refused"),
+      lambda r: ("claim_without_claimant(anon_doc)" in solve(["cand_claim_without_claimant"], "one")["violations"],
+                 "a claim with no claimant: refused"),
+      lambda r: (not any(v.startswith("tier_without_warrant") for v in solve(["life_sources", "cand_ev57_ex_cathedra"], "one",
+                                                                             facts="condition_shown(ev57_def,defines).")["violations"]),
+                 "with \"defines\" shown too, warranted"),
+      shown(["tier2"], ("frontier/2",), absent=("frontier(theology,teaching_without_character(lg25))",))],
+     "LG 25 defines nothing (1964): tier 3, owed religious submission; every other tier-1 source has its form", mode=B)
+scen("TC2", CO, "The consensus as its own source", ["life_sources"],
+     [all_models_with(["life_sources"], ("eff_tier/2", "graded/2", "source/4"),
+                      present=("eff_tier(ev57,3)", "eff_tier(ev62,3)"),
+                      absent=("eff_tier(ev57,1)", "eff_tier(ev57,2)", "eff_tier(ev62,1)", "eff_tier(ev62,2)"),
+                      some=("source(oum(ev57),1,truth,1995)", "source(oum(ev57),2,truth,1995)", "graded(ev62,1)", "graded(ev62,2)")),
+      cleaved_by_each("q(direct_killing_of_innocent)=no", "ev57", "ev62")],
+     "EV at tier 3 in every branch; the claimed consensus, its grade computed both ways", mode=B)
+scen("TC3", CO, "c. 749 §3: an unshown claim is never preferred", ["deathpenalty"],
+     [best_rest_on_no_claim,
+      shown(["deathpenalty", "oum_conditions_shown"], ("unshown_claim/1", "oum_holds/1"), absent=("unshown_claim(dh795)",),
+            facts=":- not oum_holds(dh795).")],
+     "the claim's branch is main, and never preferred; shown by independent evidence, it would be", mode=B)
+scen("TC4", CO, "A lower tier speaking of a higher", ["life_sources", "tier2"],
+     [info_all("lower_speaks_of_higher(cdf_1998,ev57,1)", "lower_speaks_of_higher(cdf_1998,t2_truth,2)",
+               "lower_speaks_of_higher(lg25,t2_truth,2)"),
+      lambda r: (all("violation(self_elevation(cdf_1998,ev57))" in b["facts"]
+                     for b in solve(["life_sources", "cand_n11_fixes"], "branches")["branches"]), "n. 11 treated as fixing: refused")],
+     "flagged; treated as fixing, refused", mode=B)
+scen("NT2", CO, "Scripture, proposed", ["defined_senses", "report_notes"],
+     [info_all("note(q(water_of_baptism),true_water,de_fide)", "note(q(jn20_23_power),forgiving_in_the_sacrament,de_fide)"),
+      lambda r: (not any(f.startswith("info(note(") for b in solve(["defined_senses", "senses_relaxed", "report_notes"], "branches")["branches"]
+                         for f in b["facts"]), "the readings alone: no note")],
+     "with Trent, de fide; the readings alone, no note", mode=B)
+scen("NT3", CO, "Dated notes: the Immaculate Conception", ["ic", "asof_1850", "report_notes"],
+     [info_none("note(q(ic)"),
+      lambda r: (all("info(note(q(ic),yes,authentic))" in b["facts"] for b in solve(["ic", "asof_1850", "ic_unprotected", "report_notes"], "branches")["branches"]
+                     if b["status"] == "main"), "without the protection, authentic"),
+      lambda r: (all("info(note(q(ic),yes,de_fide))" in b["facts"] for b in solve(["ic", "asof_1860", "report_notes"], "branches")["branches"]),
+                 "1860: de fide")],
+     "1850: none (Trent's protection); without it, authentic; 1860: de fide", mode=B)
+scen("NT3b", CO, "Dated notes: Anglican orders", ["ecumenism", "lattice", "report_notes"],
+     [in_branches("info(note(q(anglican_orders),invalid,definitive))", "main", assume=["oum_holds(ac1896)"]),
+      lambda r: (all("info(note(q(anglican_orders),invalid,authentic))" in b["facts"] for b in r["branches"]
+                     if b["status"] == "main" and "oum_holds(ac1896)" not in b["assume"]), "authentic where the claim fails")],
+     "definitive where the claim holds, authentic where it fails", mode=B)
+scen("NT4", CO, "Evangelium vitae at tier 3", ["life_sources", "report_notes"], [by_grade],
+     "de fide at grade 1, definitive at 2, authentic without the claim; EV never above tier 3", mode=B)
+scen("NT5", CO, "Erroneous or rash", ["prudential_case"],
+     [in_branches("info(censure(prof_pq,rash))", "main"), in_branches("info(censure(prof_eq,erroneous))", "main")],
+     "against a directive, rash; against a principle, erroneous", mode=B)
+scen("FD1", CO, "Censures", FIL,
+     [info_all("censure(prof_o,heretical)", "censure(prof_c,heretical)"), info_none("censure(prof_n,")],
+     "\"from the Father alone\" heretical; the Creed without the Filioque, nothing", mode=B)
+scen("FD1b", CO, "Censures: Anglican orders", ANG,
+     [in_branches("info(censure(prof_a97,contrary_to_definitive))", "main", assume=["oum_holds(ac1896)"]),
+      in_branches("info(censure(prof_a97,erroneous))", "main", assume=["oum_holds(ac1896)"], present=False),
+      lambda r: (all("info(censure(prof_a97,erroneous))" in b["facts"] for b in r["branches"]
+                     if b["status"] == "main" and "oum_holds(ac1896)" not in b["assume"]), "erroneous where the claim fails")],
+     "contrary to definitive doctrine where the claim holds, erroneous where not", mode=B)
+scen("FD2", CO, "Before the definition", ["ic", "asof_1850", "professions_ic"],
+     [info_none("censure(prof_ic"),
+      lambda r: (all("info(censure(prof_ic,heretical))" in b["facts"] for b in solve(["ic", "asof_1860", "professions_ic"], "branches")["branches"]),
+                 "1860: heretical")],
+     "1850: no censure; 1860: heretical (q. 11 a. 2 ad 3)", mode=B)
+scen("FD3", CO, "Formal heresy on the claims", FIL,
+     [only_with("info(formal_heresy_on_the_claims(theo_c,prof_c))", "assumed_fact(interior(theo_c,prof_c,pertinacious))"),
+      only_with("info(faith_in_no_article_on_the_claims(theo_c))", "assumed_fact(interior(theo_c,prof_c,pertinacious))"),
+      info_none("formal_heresy_on_the_claims(theo_o"), info_all("formal_heresy_on_the_claims(theo_q,doubt_q)")],
+     "where pertinacity is claimed; never of the Orthodox theologian, of whom nothing is claimed", mode=B)
+scen("FD4", CO, "Doubt", FIL + ["professions_anglican", "ecumenism", "lattice"],
+     [info_all("censure(doubt_q,heretical)"), info_none("censure(doubt_r", "doubt_r,")],
+     "a doubt of de fide teaching heretical; of definitive or authentic teaching, nothing, and no canon", mode=B)
+scen("FD5", CO, "Three offences", FIL + ["apostasy_case"],
+     [info_all("apostasy_act(rep_x)", "delict(apost_x,n1364_1983,rep_x)", "delict(apost_y,n1364,rep_y)",
+               "bond_broken(apost_x,profession)"), info_none("apostasy_act(prof_"),
+      lambda r: (all(any(f.startswith("violation(apostasy_without_repudiation(") for f in b["facts"])
+                     for b in solve(FIL + ["cand_apostasy_by_count"], "branches")["branches"]), "apostasy by count: refused")],
+     "apostasy by repudiation only; heresies counted as apostasy refused", mode=B)
+scen("FD5b", CO, "A schismatic act carries no censure of heresy", ["sspx", "lattice"],
+     [info_none("censure(")], "schism is against submission, not an article", mode=B)
+scen("CN1", CO, "c. 11: who is bound", ["moral_cases", "outside_moral"],
+     [shown(["moral_cases", "outside_moral"], ("info/1",), "info(mortal_on_the_claims(m_out,act_out2))",
+            absent=("info(mortal_on_the_claims(m_out,act_out))", "info(mortal_on_the_claims(child_s,act_s7))")),
+      shown(["moral_cases", "outside_moral"], ("sin_on_the_claims/2",), "sin_on_the_claims(m_out,act_out2)", "sin_on_the_claims(m3,act_m3)",
+            absent=("sin_on_the_claims(m_out,act_out)", "sin_on_the_claims(child_s,act_s7)")),
+      shown(["moral_cases", "outside_moral"], ("info/1",), "info(mortal_on_the_claims(m_out,act_out))", facts="received_into(m_out).")],
+     "an ecclesiastical law binds neither the one outside nor the child under seven; natural law binds all")
+scen("CN2", CO, "Heresy, c. 1364", FIL,
+     [only_with("info(delict(theo_c,n1364_1983,prof_c))", "assumed_fact(interior(theo_c,prof_c,pertinacious))"),
+      info_none("delict(theo_o,"), info_all("delict(theo_q,n1364_1983,doubt_q)")],
+     "the Catholic's, where obstinacy is claimed; a pertinacious doubt likewise; the Orthodox theologian's, none (c. 11)", mode=B)
+scen("CN3", CO, "Two computations, one answer", FIL,
+     [lambda r: (sorted(a[len("heresy_matter("):-1] for a in solve(FIL, "one", show=("heresy_matter/1",))["atoms"] if a.startswith("heresy_matter("))
+                 == sorted(f[len("info(censure("):-len(",heretical))")] for f in r["branches"][0]["facts"] if f.endswith(",heretical))")),
+                 "c. 751's matter and the censure agree")],
+     "the note and c. 750 §1 agree on every profession under the Code", mode=B)
+scen("CN4", CO, "c. 1371 n. 1 (1983, 1998), c. 1365 (2021)", ANG,
+     [in_branches("info(delict(theo_a,n1371_1983,prof_a97))"), in_branches("info(delict(theo_a,n1371_1998,prof_a00))"),
+      in_branches("info(delict(theo_a,n1365,prof_a22))"), in_branches("info(to_be_imposed(theo_a,n1365,prof_a22,censure))"),
+      info_none("presumed_incurred(theo_a", "delict(theo_a,n1371_1983,prof_a00)", "delict(theo_a,n1371_1998,prof_a97)",
+                "delict(theo_a,n1371_1998,prof_a22)"),
+      lambda r: (sorted({f for b in solve(["tier2", "assent", "professions_definitive"], "branches")["branches"] if b["status"] == "main"
+                         for f in b["facts"] if f.startswith("info(delict(theo_t")}) == ["info(delict(theo_t,n1371_1998,prof_t00))"],
+                 "taught only at tier 2: 1997 no canon, 2000 the amended canon (the gap Ad tuendam fidem names)")],
+     "1997: c. 1371 n. 1 reaches it in every branch (the document stays tier 3); 2000 and 2022 likewise; imposed, never incurred",
+     mode=B)
+scen("CN5", CO, "c. 1117: who is bound to the form", ["marriages_c1117"],
+     [shown(["marriages_c1117"], ("bond/1", "ratified/1", "info/1"), "bond(m_lu)", "ratified(m_lu)", "bond(m_def08)",
+            "info(marriage(m_mix,invalid_form))", "info(marriage(m_def11,invalid_form))", "info(marriage(m_lu,form_not_binding))",
+            absent=("bond(m_mix)", "bond(m_def11)")),
+      shown(["marriage_cases"], ("info/1",), "info(marriage(m_pauline,form_not_binding))", absent=("info(marriage(m_rc,form_not_binding))",))],
+     "two baptized non-Catholics: valid, ratified; a Catholic without the form: invalid; a formal act, before 2009 only")
+scen("FC1", CO, "c. 96 and c. 205", FIL,
+     [info_all("in_full_communion(theo_n)", "in_full_communion(theo_rc)", "incorporated(theo_o)", "outside_the_church(theo_o)"),
+      info_none("in_full_communion(theo_o)"),
+      only_with("info(bond_broken(theo_c,profession))", "assumed_fact(interior(theo_c,prof_c,pertinacious))"),
+      lambda r: (all(f"info(in_full_communion({p}))" in b["facts"] for b in solve(["seal", "seal_case", "communion_asked"], "branches")["branches"]
+                     for p in ("conf_j", "conf_k")), "the confessors, excommunicated or not, in full communion"),
+      lambda r: (all(f"info(bond_broken({p},governance))" in b["facts"]
+                     for b in solve(["sspx", "lattice", "communion_asked"], "branches")["branches"] if b["status"] == "main"
+                     for p in ("lefebvre", "fellay", "galarreta")), "1988: the bond of governance broken in every main branch")],
+     "the Orthodox theologian incorporated, not in full communion; no delict but c. 751's breaks a bond", mode=B)
+scen("FC2", CO, "The commentary and the canon diverge", ANG + ["commentary_communion"],
+     [in_branches("info(in_full_communion(theo_a))"), cls("q(definitive_denial_breaks_communion)=no", "shadow"),
+      only_with("info(no_longer_in_full_communion_by_teaching(theo_a,prof_a97))", "oum_holds(ac1896)"),
+      in_branches("no_longer_in_full_communion_by_teaching", values=["q(definitive_denial_breaks_communion)=no"], present=False)],
+     "in full communion by c. 205 in every branch; no longer, by the commentary, where its teaching and the claim hold", mode=B)
+scen("FC3", CO, "LG 14: in body, not in heart", ["lg14_case"],
+     [only_with("info(fully_incorporated_on_the_claims(fid_l))", "assumed_fact(interior(fid_l,state,in_grace))"),
+      only_with("info(in_body_not_in_heart_on_the_claims(fid_l))", "assumed_fact(false(interior(fid_l,state,in_grace)))")],
+     "on the claim of grace, both ways", mode=B)
 
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):

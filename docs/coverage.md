@@ -18,15 +18,15 @@ a test checks the file is current and every scenario named exists.
 
 ## SUMMARY
 
-Of 87 units: 37 touched by rules, 11 by cases only,
-39 frontier. A unit counts as touched if one rule reaches
+Of 87 units: 41 touched by rules, 9 by cases only,
+37 frontier. A unit counts as touched if one rule reaches
 it, so this measures reach, not depth. The rule files cite
-22 of the Catechism's 2,865 paragraphs by number (the column
+23 of the Catechism's 2,865 paragraphs by number (the column
 "Cited"). The Prologue (1–25) is frontier.
 
 ## PART ONE: THE PROFESSION OF FAITH
 
-36 units: 16 under rules, 7 under cases only, 13 frontier.
+36 units: 19 under rules, 6 under cases only, 11 frontier.
 
 | CCC | Unit | Status | Cited | Scenarios | The base holds |
 | --- | --- | --- | --- | --- | --- |
@@ -34,8 +34,8 @@ it, so this measures reach, not depth. The rule files cite
 | 51–73 | The revelation of God | frontier |  |  |  |
 | 74–100 | The transmission of divine revelation | rules |  | CS2, CS2b, CS4, B14 | tier 0 read only through its readings; the teaching office; the tiers |
 | 101–141 | Sacred Scripture | rules |  | CS2, CS2c, CS3, CS3b | inerrancy; senses defined; the analogy of faith |
-| 144–165 | I believe | frontier |  |  |  |
-| 166–184 | We believe | frontier |  |  |  |
+| 144–165 | I believe | rules |  | NT3, FD2, FD3 | the note de fide; heresy only after the definition; one article denied, none held by faith |
+| 166–184 | We believe | rules | 1 | NT2, NT4, TC1 | what the Church proposes as revealed (CCC 182); tiers computed, not asserted |
 | 185–197 | The creeds | rules |  | CR1, CR1b, CR1d | the creeds at tier 1, dated |
 | 199–231 | I believe in God | rules |  | TH0, K5 | the attributes as defined; no demiurge |
 | 232–267 | The Father | rules |  | M1, FQ1, RT1, TH20 | the processions, one principle, distinction by relation |
@@ -58,7 +58,7 @@ it, so this measures reach, not depth. The rule files cite
 | 687–747 | I believe in the Holy Spirit | rules |  | FQ1, RT1, CR1 | the procession of the Spirit |
 | 751–780 | The Church in God's plan | frontier |  |  |  |
 | 781–810 | People of God, Body of Christ, Temple of the Spirit | frontier |  |  |  |
-| 811–870 | One, holy, catholic and apostolic | case | 1 | EC1, EC6, EC9, EC10 | subsistit in; membership and communion; 'outside the Church' |
+| 811–870 | One, holy, catholic and apostolic | rules | 1 | FC1, FC2, EC1, EC6, EC9, EC10 | incorporation (c. 96) and full communion (c. 205); subsistit in; 'outside the Church' |
 | 871–945 | Hierarchy, laity, consecrated life | rules |  | B10, B12, B14 | the teaching office's tiers and forms (LG 25) |
 | 946–962 | The communion of saints | frontier |  |  |  |
 | 963–975 | Mary, Mother of Christ, Mother of the Church | rules |  | CM3, CH2b | the Assumption; Mary without actual sin |
@@ -89,7 +89,7 @@ it, so this measures reach, not depth. The rule files cite
 
 ## PART THREE: LIFE IN CHRIST
 
-24 units: 13 under rules, 1 under cases only, 10 frontier.
+24 units: 14 under rules, 0 under cases only, 10 frontier.
 
 | CCC | Unit | Status | Cited | Scenarios | The base holds |
 | --- | --- | --- | --- | --- | --- |
@@ -107,7 +107,7 @@ it, so this measures reach, not depth. The rule files cite
 | 1950–1986 | The moral law | rules |  | LW1, LW4, LW7, LW7b, OB1, OB2 | eternal, natural, divine and human law; affirmative precepts |
 | 1987–2029 | Grace and justification | rules | 1 | GR1, GR2, GR3, GR4, GR5, GR6, B6 | necessity, cooperation, efficacy, resisted grace |
 | 2030–2051 | The Church, mother and teacher | rules |  | B10, B12, DR3 | the magisterium in morals |
-| 2084–2141 | The first commandment | case |  | SX8 | dissent from Dignitatis humanae, not schism |
+| 2084–2141 | The first commandment | rules |  | FD1, FD5, CN2, SX8 | heresy, apostasy and schism (CCC 2089; c. 751); dissent, not schism |
 | 2142–2167 | The second commandment | frontier |  |  |  |
 | 2168–2195 | The third commandment | frontier |  |  |  |
 | 2197–2257 | The fourth commandment | frontier |  |  |  |

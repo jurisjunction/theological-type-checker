@@ -500,3 +500,77 @@ prudential(force_2,(lasting_grave_damage;other_means_ineffective;prospects_of_su
 
 #program usury_case.                % HYPOTHETICAL: load with usury_two_questions
 act_of(lender_u,loan_u). kind_of_act(loan_u,profit_from_loan_as_such).            % gain from the loan itself
+
+% ---------- Faith and communion (TTC-COMMUNION), all HYPOTHETICAL ---------------
+#program professions_ic.            % HYPOTHETICAL: the Immaculate Conception denied; load with ic and a date
+professes(theo_d,prof_ic,q(ic),no).
+
+#program professions_filioque.      % HYPOTHETICAL: load with filioque and assent
+today(20261010).
+baptized_in(theo_o,orthodox_church). communion_at_issue(theo_o).                  % baptized and living outside
+professes(theo_o,prof_o,q(spirit_origin),father_alone). act_date(prof_o,20200301).
+baptized_in(theo_c,catholic). communion_at_issue(theo_c).
+professes(theo_c,prof_c,q(spirit_origin),father_alone). act_date(prof_c,20200302).
+disputed(interior(theo_c,prof_c,pertinacious)).
+baptized_in(theo_n,catholic). communion_at_issue(theo_n).                          % the Creed without the Filioque
+professes(theo_n,prof_n,q(monarchy),father_principle_without_principle). act_date(prof_n,20200303).
+baptized_in(theo_rc,orthodox_church). received_into(theo_rc). communion_at_issue(theo_rc).   % received into the Catholic Church
+baptized_in(theo_q,catholic). doubts(theo_q,doubt_q,q(spirit_origin)). act_date(doubt_q,20200304).
+interior(theo_q,doubt_q,pertinacious).
+
+#program professions_anglican.      % HYPOTHETICAL: Anglican orders professed valid, warned, not retracted; load with ecumenism and assent
+today(20261010).
+baptized_in(theo_a,catholic). communion_at_issue(theo_a).
+professes(theo_a,(prof_a97;prof_a00;prof_a22),q(anglican_orders),valid).
+act_date(prof_a97,19970601). act_date(prof_a00,20000601). act_date(prof_a22,20220601).
+warned(theo_a,(prof_a97;prof_a00;prof_a22),ordinary).
+interior(theo_a,(prof_a97;prof_a00;prof_a22),pertinacious).                         % obstinacy claimed
+baptized_in(theo_r,catholic). doubts(theo_r,doubt_r,q(anglican_orders)). act_date(doubt_r,20200101).
+interior(theo_r,doubt_r,pertinacious). warned(theo_r,doubt_r,ordinary).
+
+#program apostasy_case.             % HYPOTHETICAL
+today(20261010).
+baptized_in(apost_x,catholic). communion_at_issue(apost_x).
+repudiates(apost_x,rep_x,christian_faith). act_date(rep_x,20200101).
+baptized_in(apost_y,catholic). repudiates(apost_y,rep_y,christian_faith). act_date(rep_y,20220601).   % under the Code of 2021
+
+#program professions_definitive.    % HYPOTHETICAL: teaching held only at tier 2 (load with tier2 and assent)
+today(20261010).
+baptized_in(theo_t,catholic).
+professes(theo_t,(prof_t97;prof_t00),q(d1),no). act_date(prof_t97,19970601). act_date(prof_t00,20000601).
+warned(theo_t,(prof_t97;prof_t00),ordinary). interior(theo_t,(prof_t97;prof_t00),pertinacious).
+
+#program cand_apostasy_by_count.    % heresies counted as apostasy (load with filioque, assent, professions_filioque)
+apostasy_act(E) :- professes(_,E,_,_), censure(E,heretical).
+
+#program outside_moral.             % HYPOTHETICAL: c. 11 and the moral library (load with moral_cases)
+baptized_in(m_out,lutheran).
+act_of(m_out,act_out). kind_of_act(act_out,k_bound).                               % forbidden by an ecclesiastical law
+act_of(m_out,act_out2). kind_of_act(act_out2,k_grave).                             % evil by its object
+interior(m_out,(act_out;act_out2),(full_knowledge;deliberate_consent)).
+act_of(child_s,act_s7). kind_of_act(act_s7,k_bound). age_at(child_s,act_s7,6).
+interior(child_s,act_s7,(full_knowledge;deliberate_consent)).
+
+#program prudential_case.           % HYPOTHETICAL: authentic teaching of the prudential order, and of principle
+question(q(pq)). question_kind(q(pq),doctrinal). value(q(pq),(yes;no)).
+source(dir_s,3,truth,2000). character(dir_s,letter). teaching_type(dir_s,directive). supports(dir_s,q(pq),yes).
+question(q(eq)). question_kind(q(eq),doctrinal). value(q(eq),(yes;no)).
+source(prin_s,3,truth,2000). character(prin_s,letter). supports(prin_s,q(eq),yes).
+professes(theo_p,prof_pq,q(pq),no). professes(theo_p,prof_eq,q(eq),no).
+
+#program marriages_c1117.           % HYPOTHETICAL: who is bound to the form (c. 1117)
+today(20261010).
+marriage(m_lu,minister_l,20200610). spouse(m_lu,(lu_a;lu_b)). baptized_in((lu_a;lu_b),lutheran).   % two baptized non-Catholics
+marriage(m_mix,minister_l,20200611). spouse(m_mix,(cat_m;lu_c)). baptized_in(cat_m,catholic). baptized_in(lu_c,lutheran).
+marriage(m_def08,minister_l,20080612). spouse(m_def08,(def_p;lu_d)). baptized_in(lu_d,lutheran).
+baptized_in(def_p,catholic). formal_defection(def_p,20050101).                    % left by a formal act, 2005
+marriage(m_def11,minister_l,20110612). spouse(m_def11,(def_q;lu_e)). baptized_in(lu_e,lutheran).
+baptized_in(def_q,catholic). formal_defection(def_q,20050101).
+
+#program communion_asked.           % HYPOTHETICAL: who is in full communion (load with sspx, lattice, or with seal, seal_case)
+communion_at_issue((lefebvre;fellay;galarreta;conf_j;conf_k)).
+baptized_in((lefebvre;fellay;galarreta;conf_j;conf_k),catholic).
+
+#program lg14_case.                 % HYPOTHETICAL: full communion, and grace claimed both ways
+baptized_in(fid_l,catholic). communion_at_issue(fid_l).
+disputed(interior(fid_l,state,in_grace)).

@@ -287,14 +287,16 @@ def test_equity_is_never_computed():
 # none is derived from outward facts alone.
 PERSON_STATE = {"full_knowledge", "deliberate_consent", "mortal_on_the_claims", "evil_unintended",
                 "proportionate", "double_effect", "in_grace", "not_to_receive",
-                "sin_on_the_claims", "fruit_on_the_claims"}     # TTC-CHRIST; reborn_on_the_deposit is the deposit's (SA9)
+                "sin_on_the_claims", "fruit_on_the_claims",     # TTC-CHRIST; reborn_on_the_deposit is the deposit's (SA9)
+                "formal_heresy_on_the_claims", "faith_in_no_article_on_the_claims",          # TTC-COMMUNION FD3
+                "fully_incorporated_on_the_claims", "in_body_not_in_heart_on_the_claims"}    # FC3
 CLAIMS = {"interior", "due_defence"} | PERSON_STATE
 
 
 def test_person_state_rests_on_claims():
     import re
     bad = []
-    for name in ("moral.lp", "grace.lp", "christ.lp", "sacrament.lp", "canon_law.lp"):
+    for name in ("moral.lp", "grace.lp", "christ.lp", "sacrament.lp", "faith.lp", "canon_law.lp"):
         code = re.sub(r"%.*", "", (engine.LP_DIR / name).read_text())
         for st in re.split(r"(?<=\.)\s", code):
             st = " ".join(st.split())
@@ -429,3 +431,46 @@ def test_coverage_names_only_existing_scenarios():
 def test_coverage_doc_is_current():
     from theological_type_checker import coverage
     assert coverage.DOC.read_text() == coverage.report(), "run: python -m theological_type_checker.coverage --write"
+
+
+# TTC-COMMUNION FD3, CN2: pertinacity (c. 751's obstinacy) is a claim. No rule
+# derives interior(_,_,pertinacious); both layers read the one claim.
+def test_pertinacity_is_one_claim():
+    import re
+    readers = sorted({f for f, st in _heads_and_bodies() if "interior(P,E,pertinacious)" in st})
+    assert readers == ["canon_law.lp", "faith.lp"], readers
+
+
+def _heads_and_bodies():
+    import re
+    out = []
+    for f in sorted(engine.LP_DIR.glob("*.lp")):
+        code = re.sub(r"%.*", "", f.read_text())
+        for st in re.split(r"(?<=\.)\s", code):
+            out.append((f.name, " ".join(st.split())))
+    return out
+
+
+# TTC-COMMUNION TC2 (rule 14): no rule raises a source's own tier; a claimed
+# consensus is a source of its own. eff_tier/2 is derived only from source/4
+# and promoted/3.
+def test_no_claim_raises_its_document():
+    derived = [st for f, st in _heads("eff_tier")]
+    assert derived == ["eff_tier(S,T) :- promoted(S,T,Y), asof(A), Y <= A.",
+                       "eff_tier(S,T) :- source(S,T,_,_), not promoted_now(S)."], derived
+
+
+# TTC-COMMUNION NT1: the note is the shadow, read off, in every scenario.
+@pytest.mark.skipif(not os.environ.get("TTC_SLOW"), reason="slow: set TTC_SLOW=1")
+def test_notes_agree_with_shadows():
+    from theological_type_checker import notes_check
+    bad = {s["id"]: b for s in suite.S if not s.get("facts") for b in [notes_check.check(list(s["parts"]))] if b}
+    assert not bad, bad
+
+
+# NT1's finding: a value fixed by a default has no note, and its contrary is
+# not main: a case's stipulation is not teaching. Pinned on the moral cases.
+def test_a_default_is_not_a_note():
+    from theological_type_checker import notes_check
+    assert notes_check.check(["moral_cases"]) == []
+    assert ("default", "q(k_grave)", "yes") in notes_check.check(["moral_cases"], with_defaults=True)

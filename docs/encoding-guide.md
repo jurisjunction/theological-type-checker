@@ -84,6 +84,20 @@ side, juridical facts on the canon side.
 | `teaching_type(S,T)` (`principle`, `criterion`, `directive`) | Social teaching typed (CCC 2423). A directive cited as fixing what is evil by its object is refused. |
 | *output* `verdict(A,may,G)`, `verdict(A,must_not,G)`, `obligation(P,K)` | Verdicts are said of acts. Must not: by its object, or by a denied circumstance. May: by double effect on the claims, or on the judgment. An act lacking a claim gets no verdict. |
 
+### Tiers, faith, communion
+
+| Fact | Meaning |
+| --- | --- |
+| `conciliar_act(S,K)` (`canon`, `definition`, `creed`, `scope`, `chapter`), `session_defines(S)`, `received_creed(S)` | Rule 14: a source at tier 1 or 2 needs a warrant: a council's own defining act, a chapter its session binds, or a creed received (a claim of reception). Otherwise `tier_without_warrant`. |
+| `papal_form(S,ex_cathedra)`, `condition_shown(S,C)` | A papal definition, with the conditions of Pastor aeternus shown: `pastor_of_all`, `apostolic_authority`, `defines`, `faith_or_morals`, `whole_church`. |
+| `oum_claim(S,K)`, `oum_claimant(S,C)` | A claim of the ordinary universal magisterium. The consensus is a source of its own, `oum(S)`, at grade K (both, where the claimant states none); S keeps its tier. Without LG 25's conditions shown (`condition_shown/2`), never preferred (c. 749 §3). |
+| `claims_tier(C,S,K)`, `treated_as_fixing(C,S)` | A statement about a tier: flagged when a lower tier speaks of a higher; refused when treated as fixing. |
+| `professes(P,E,Q,V)`, `doubts(P,E,Q)`, `repudiates(P,E,christian_faith)` | Outward professions. The censure follows the note contradicted: heretical, contrary to definitive doctrine, erroneous, or rash (against a directive). A doubt is censured only against de fide teaching. Omission is not denial. |
+| `interior(P,E,pertinacious)` | Pertinacity, which is c. 751's obstinacy: a claim. Formal heresy, and faith held in no article, are composed on it. |
+| `baptized_in(P,C)`, `received_into(P)`, `formal_defection(P,D)`, `communion_at_issue(P)` | cc. 11, 96, 205, 1117: who is bound by ecclesiastical law, incorporated, in full communion, bound to the form. A case's silence binds. |
+| `warned(P,E,By)`, `retracted(P,E)` | c. 1371 n. 1 (1983; 1998) and c. 1365 (2021): obstinate rejection after a warning; a penalty to be imposed, never incurred. |
+| parts `assent`, `report_notes` | cc. 750 §§1–2 and 752, by reference; every note, reported. |
+
 ### Christ, presence, the sacraments
 
 | Fact | Meaning |
