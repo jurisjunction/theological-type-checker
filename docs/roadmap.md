@@ -132,7 +132,9 @@ from forms already existing" (SC 23). Three faces:
     or long;
   - the evidence: documents, catechisms, consultations (EV 5's of 1991),
     each with its provenance. The claimant's own document never shows a
-    condition (c. 749 §3).
+    condition (c. 749 §3). Records counted by independence on the graph
+    of who cites whom, not by number (CANDIDATE THEORIES, the whole seen
+    at the end).
 
   Here the usual direction reverses. An empirical finding settles no
   doctrine, but it can leave a condition unshown, and with it the claimed
@@ -317,6 +319,49 @@ To run on the system. None enters the kernel.
   God changing history only with creatures' consent (ST I q. 25 a. 4; no
   norm over God). True underneath: consent in the order of grace, Mary's
   *fiat* (ST III q. 30 a. 1) and free cooperation (DH 1554).
+- **The whole seen at the end** (development as unfolding). The consent
+  of the whole people, "from the Bishops down to the last of the lay
+  faithful" (LG 12), of every church (LG 23) and every time, the dead
+  included, is seen whole only at the end (1 Cor 13:12): "the Church
+  constantly moves forward toward the fullness of divine truth until the
+  words of God reach their complete fulfillment in her" (DV 8). A claim
+  of the ordinary universal magisterium made now is about a slice, a
+  moment or a prefix, and reads an open world as closed: no dissent found
+  is not consent. Indefectibility joins slice and whole: "Ecclesia
+  universalis non potest errare, quia spiritu sancto gubernatur" (II-II
+  q. 1 a. 9 s.c.; Augustine, *securus iudicat orbis terrarum*, *C. ep.
+  Parm.* III.4.24). No truly universal slice contradicts the whole. LG 12
+  also has the sense of faith exercised "under the guidance of the sacred
+  teaching authority": the people's witness does not stand apart from the
+  bishops'. The figure is decoherence: the global state stays pure, each
+  local view sees a definite branch, and the coherence is in correlations
+  no part holds.
+  - Unitary evolution is the closed deposit: no new revelation (DH 3070;
+    *Lamentabili* 21, DH 3421, refused).
+  - Records are definitions: irreversible, "ex sese, non autem ex
+    consensu Ecclesiae, irreformabiles" (DH 3074); growth "in eodem
+    dogmate, eodem sensu eademque sententia" (Vincent, DH 3020).
+  - Heresy is a partial trace taken as the whole (*hairesis*, a choosing).
+  - The end is the whole seen, not decoherence reversed: nothing is
+    undone (the branching history above).
+  - **The measure: independent records.** An outcome is objective when
+    recorded redundantly in many independent fragments (Zurek, "Quantum
+    Darwinism", *Nature Physics* 5, 2009). Witnesses citing witnesses
+    form a graph without cycles; a claim's independent records are the
+    witnesses that reach it by disjoint paths (by Menger's theorem, the
+    fewest sources whose removal leaves it without record), the
+    claimant's own document never among them (c. 749 §3). A thousand
+    catechisms quoting one catechism are one record. The empirical step's
+    threshold becomes a derivation, not a head count.
+  - **The test: the Arian crisis.** "Ingemuit totus orbis, et Arianum se
+    esse miratus est" (Jerome, *Adv. Lucif.* 19, on Rimini, 359); "the
+    body of the episcopate was unfaithful to its commission, while the
+    body of the laity was faithful to its baptism" (Newman, *On Consulting
+    the Faithful in Matters of Doctrine*, 1859). A slice of bishops at one
+    moment (LG 25 as encoded) reads 359 wrong; the whole people, or a
+    window across time, reads it right. To check: whether the measure
+    alone catches Rimini, its bishops signing one formula from Sirmium
+    under the emperor's pressure, one record rather than four hundred.
 
 ## SETTLED IN CONVERSATION
 
