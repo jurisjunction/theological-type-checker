@@ -98,7 +98,9 @@ See [ttc(1)](../README.md).
 ## SECURITY
 
 Snippets are data and rules. `#script`, `#include`, `#program`, `#end` and
-`@`-terms are refused. Runs are capped by model count and time.
+`@`-terms are refused. Runs are capped by model count and time. A
+snippet's rules can write conclusions (a tier, a theorem) as well as
+premises; nothing refuses that yet ([ttc-l(7)](research/l-preregistration.md)).
 
 The server writes only inside `$TTC_HOME`, and only through `save_*` and
 `mark_consulted`. Network access is limited to the library lookups, and to
@@ -120,4 +122,6 @@ and reading the note as one is `collective_declaration`.
 ## BUGS
 
 The server trusts the model to encode honestly. The model trusts the person
-to check the encoding. Nobody trusts the weights.
+to check the encoding. Nobody trusts the weights. `ttc://grammar` is the
+checker's word about itself: a claim, never evidence that it is right, and
+nothing in the rule base reads it.

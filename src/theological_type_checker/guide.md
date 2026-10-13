@@ -80,7 +80,7 @@ side, juridical facts on the canon side.
 | `permitted_only_if(K,C)`, `prudential(A,C)`, `denied(C)` | A kind permitted only where conditions hold (the death penalty, just war). Each condition is the judgment of those responsible (CCC 2309): supplied, never computed. The theological side may deny one today. |
 | `commands(L,K,O)`, `occasion(P,O)` | An affirmative precept: "must" only where its occasion is supplied. One that commands what is evil by its object is refused. |
 | `teaching_type(S,T)` (`principle`, `criterion`, `directive`) | Social teaching typed (CCC 2423). A directive cited as fixing what is evil by its object is refused. |
-| *output* `verdict(A,may,G)`, `verdict(A,must_not,G)`, `obligation(P,K)` | Verdicts are said of acts. Must not: by its object, or by a denied circumstance. May: by double effect on the claims, or on the judgment. An act lacking a claim gets no verdict. |
+| *output* `info(verdict(A,may,G))`, `info(verdict(A,must_not,G))`, `info(obligation(P,K))` | Verdicts are said of acts. Must not: by its object, or by a denied circumstance. May: by double effect on the claims, or on the judgment. An act lacking a claim gets no verdict. |
 
 ### Tiers, faith, communion
 
@@ -319,4 +319,8 @@ not testing: `:- not read_as(s,r).`
 
 ## BUGS
 
-The facts are only as honest as whoever wrote them.
+The facts are only as honest as whoever wrote them. A snippet can write a
+conclusion (`eff_tier(S,1)`, `theorem(X)`, a constraint on `holds/2`) as
+easily as a premise, and the checker cannot yet tell them apart: read a
+result with the facts that produced it. `ttc://grammar` is the checker's
+word about itself: a claim, never evidence that it is right.

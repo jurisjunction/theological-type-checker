@@ -2,6 +2,7 @@
 summary's schema, unknown slots as warnings, refusals as data, key-sorted
 results and the grammar resource (TTC-LLM-REQUESTS 2, 5 and 8)."""
 import json
+import re
 
 import pytest
 
@@ -127,26 +128,45 @@ def test_the_grammar_is_read_off_the_checker():
     assert set(g["refusal"]["fields"]) == set(engine.REFUSAL_FIELDS)
     assert set(g["slots"]) <= set(g["vocabulary"])
     assert g["vocabulary"]["source/4"]["read"] and g["vocabulary"]["violation/1"]["shown"]
+    assert "claim" in g["caveat"]
 
 
-def test_the_gate_accepts_exactly_the_grammars_vocabulary():
-    pytest.importorskip("mcp")
-    from theological_type_checker import server
-    g = server.grammar()
-    facts = []
-    for sig in g["vocabulary"]:
-        name, n = sig.rsplit("/", 1)
-        facts.append(name + ("(" + ",".join(["c"] * int(n)) + ")" if int(n) else "") + ".")
-    assert engine.unknown_slots(" ".join(facts)) == []
-    assert engine.unknown_slots("not_in_the_grammar(c).") == ["unknown_slot(not_in_the_grammar/1)"]
+def _top_args(s):
+    out, depth, cur = [], 0, ""
+    for ch in s:
+        depth += ch in "(["
+        depth -= ch in ")]"
+        if ch == "," and depth == 0:
+            out.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    out.append(cur)
+    return [x for x in out if x.strip()]
+
+
+def test_every_predicate_the_guide_documents_is_in_the_base():
+    # Checked against the guide, which a person wrote, not against anything
+    # the checker says about itself: a test of the vocabulary by its own
+    # function could not fail for the reason that matters.
+    guide = (engine.LP_DIR.parent / "guide.md").read_text().split("## WARNINGS AND REFUSALS")[0]
+    documented = set()
+    for line in guide.splitlines():
+        if line.startswith("| ") and not line.startswith("| ---"):
+            for m in re.finditer(r"`([a-z_][a-z0-9_]*)(?:\(([^`]*)\)|/(\d+))`", line.split(" | ")[0]):
+                name, args, n = m.groups()
+                documented.add((name, len(_top_args(args)) if args is not None else int(n)))
+    v = engine.vocabulary()
+    assert len(documented) > 250
+    assert sorted(documented - (v["heads"] | v["reads"] | v["shown"] | v["tagged"])) == []
+    assert engine.unknown_slots("not_in_the_base(c).") == ["unknown_slot(not_in_the_base/1)"]
 
 
 def test_the_version_the_server_reports_is_the_packages():
     import pathlib
-    import tomllib
     from theological_type_checker import __version__
-    pyproject = pathlib.Path(__file__).resolve().parent.parent / "pyproject.toml"
-    assert __version__ == tomllib.loads(pyproject.read_text())["project"]["version"]
+    pyproject = (pathlib.Path(__file__).resolve().parent.parent / "pyproject.toml").read_text()
+    assert __version__ == re.search(r'^version = "([^"]+)"$', pyproject, re.M).group(1)   # no tomllib on 3.10
 
 
 def test_on_the_wire_a_result_is_key_sorted_and_a_refusal_is_bare_json():

@@ -551,6 +551,10 @@ def rules_resource(file: str) -> str:
     return texts[file]
 
 
+GRAMMAR_CAVEAT = ("The checker's word about itself: a claim, never evidence that it is right. "
+                  "Nothing in the rule base reads it.")
+
+
 def grammar() -> dict:
     """What the checker declares about itself, read off the rule files and
     the server: the summary's schema; the slots the @input tags declare,
@@ -578,6 +582,7 @@ def grammar() -> dict:
     tools = {t.name: {"description": inspect.cleandoc(t.description or ""), "parameters": t.parameters}
              for t in server._tool_manager.list_tools()}
     return engine.stable({
+        "caveat": GRAMMAR_CAVEAT,
         "schema": engine.SCHEMA,
         "version": __version__,
         "slots": slots,
@@ -592,8 +597,9 @@ def grammar() -> dict:
 
 
 @server.resource("ttc://grammar", name="grammar", mime_type="application/json",
-                 description="What the checker declares about itself: slots, vocabulary, parts, runtimes, "
-                             "tools, refusals and the summary's schema, as compact key-sorted JSON.")
+                 description="What the checker says about itself: slots, vocabulary, parts, runtimes, "
+                             "tools, refusals and the summary's schema, as compact key-sorted JSON. "
+                             "A claim, never evidence that the checker is right.")
 def grammar_resource() -> str:
     return engine.dumps(grammar())
 
