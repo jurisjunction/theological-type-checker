@@ -29,7 +29,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | saeculum | one library for time: the Church's computation (cc. 8 §1, 97, 200–203), one calendar, reception dated, the order and the measures | done ([ttc-saeculum(7)](research/saeculum-preregistration.md)) |
 | cceo | the Eastern Code: a second canon layer, chosen by ascription; who is bound; the minister of confirmation | done ([ttc-cceo(7)](research/cceo-preregistration.md)) |
 | sources | documents as layers in time: the codes (1917, 1983, 1990) and every act that changed them; law outside the codes; acts of executive power; the general norms as the edges; authorship, an attribution a claim; the Filioque's Latin witnesses | done ([ttc-sources(7)](research/sources-preregistration.md)) |
-| liturgy | the liturgy as witness, rite and development | to predict |
+| liturgy | the liturgy as witness, rite and development; one book, two sources; the substance kept, the rest law; rites in time | predicted ([ttc-liturgy(7)](research/liturgy-preregistration.md)), to stamp |
 | last things | soteriology and eschatology | to predict |
 | empirical | science | to predict |
 | L | a language for libraries, compiled to clingo | after empirical, before the churches |
@@ -197,6 +197,16 @@ Dicastery's clause disputed (TTC-PENAL N5). This step generalizes it.
 
 ### liturgy
 
+Predicted in [ttc-liturgy(7)](research/liturgy-preregistration.md): the
+prayer a witness that weighs and never fixes (*Mediator Dei* 48), the act
+that gives the book governance; a change to the substance refused, the
+porrection of the instruments dated (*Sacramentum ordinis*); c. 846 §1;
+the Roman Missal's editions as documents descending in an order, not a
+line; the Indiculus's two attributions. The liturgy as evidence for the
+ordinary universal magisterium, showing three of LG 25's conditions and
+never the fourth; Vincent's "ubique, semper, ab omnibus" as a measure,
+never a verdict; what binds kept apart from what lasts.
+
 The liturgy is "more than" a rite plus positive law, and the Church says
 how: "made up of immutable elements divinely instituted, and of elements
 subject to change" (SC 21); new forms "should in some way grow organically
@@ -241,6 +251,18 @@ from forms already existing" (SC 23). Three faces:
 - The kernel already allows this: its order of events has no cycles but
   need not be a line, and it holds no theory of time
   (`causes_precede` is a part).
+- **What lasts.** Law and teaching say what binds; what is carried to the
+  end is another axis (TTC-LITURGY). "We will find them again, but freed
+  of stain, burnished and transfigured" (GS 39); the nations bring their
+  glory and honour into the city (Rev 21:24–26); "the visible universe,
+  then, is itself destined to be transformed" (CCC 1047). Two candidates to
+  refuse: the world annihilated, nothing of it carried over; and the world
+  kept without transfiguration, stains and all. Which things love carries
+  is interior and never computed (rule 3): the saints' love of a chant, a
+  hymn, a window gives it no authority now and is not the checker's to
+  weigh. The human being as priest of creation, offering it back ("fruit
+  of the earth and work of human hands"), may run on top as a theory, as
+  the Grammar of the Icon does.
 
 ### empirical
 
@@ -397,6 +419,13 @@ world of sense, and every element holds of a body over time.
   A Church in the proper sense, or an ecclesial community (DI 17; the
   responses of 2007, qq. 4–5), is then derived by `church_proper/1` from
   the elements shown, never taken from anyone's list.
+- **The graph of celebrations.** Every sacrament celebrated is an event
+  in the order with persons on it, and the rites are joined through those
+  who celebrate and receive in them: an Eastern Catholic in a Latin
+  parish, a priest of two rites, the Ordinariate. Apostolic succession is
+  that graph restricted to ordinations. It is also where LG 12's agreement
+  "ab Episcopis usque ad extremos laicos fideles" would be counted, which
+  the liturgy step only measures by extent (TTC-LITURGY LW9).
 - **Intention is never computed** (rule 3). *Apostolicae curae* judges
   intention only "in so far as it is manifested externally" (n. 33): the
   rite is the outward sign. The CDF's response on the baptism of the
