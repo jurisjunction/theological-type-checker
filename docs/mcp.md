@@ -75,6 +75,22 @@ Inside the repository, `.mcp.json` registers it for the project.
 | `type_check_text` | Check a text. |
 | `review_rule_change` | Judge a change by the fix method. |
 
+### Resources
+
+| Resource | Holds |
+| --- | --- |
+| `ttc://guide` | The encoding manual. |
+| `ttc://rules/{file}` | One rule file. |
+| `ttc://grammar` | What the checker declares about itself: slots and their tags, the vocabulary, outputs, parts, runtimes, tools and their arguments, the refusal's fields and gates, the summary's schema. |
+
+## RESULTS
+
+Every tool's result has its keys sorted, on stdio and in process alike;
+`engine.dumps` gives the compact form. `check` carries `schema` and
+`warnings` ([ttc-encoding(5)](encoding-guide.md), WARNINGS AND REFUSALS).
+A refusal is a tool error whose text is one compact JSON object: `gate`,
+`where`, `line`, `column`, `predicate`, `text`, `message`.
+
 ## ENVIRONMENT
 
 See [ttc(1)](../README.md).

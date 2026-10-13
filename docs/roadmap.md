@@ -427,6 +427,28 @@ L first: runtime inheritance and the three combinators only.
   tier, date and declared input slots keep being found after the fact.
   As slots on the metaclass, the layer test (a higher layer writes into a
   lower one only through declared slots) becomes a compile error.
+- **What a reader of the checker needs** (TTC-LLM-REQUESTS, from the
+  tool that trains on the checker's output). Done before L: unknown slots
+  as warnings, refusals as data, the summary's `schema`, key-sorted
+  results, `ttc://grammar` from today's tags. Designed into L's
+  predictions:
+  - **Typed slots.** Each argument's sort and domain on the declaration
+    (`S:source T:tier(0..5) F:{truth,juridical,protective}`), enforced:
+    an argument outside its domain is a violation, as `untyped_presence`
+    is now.
+  - **One declaration per slot,** in the file of its layer. Today a slot
+    is tagged in several files, with several texts; the layer read off
+    the declaring file replaces `server.THEOLOGY_ONLY` and `CANON_ONLY`.
+  - **Switches name their case** (`% @of sspx`), so a held-out set
+    survives a rename.
+  - **A `say` template per slot,** so the English beside a fact is the
+    checker's.
+  - **An info atom for every interior supplied**
+    (`info(interior_supplied(P,A,X))`), so the non-diagnosis reminder
+    comes from the oracle (rule 3).
+  - **Scenarios as data** (status, present, preferred), converted as each
+    is touched; the Python helpers stay for the rest.
+  - **Ground once, solve many,** if generation needs the speed.
 
 ### churches
 

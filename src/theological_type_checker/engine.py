@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import contextlib
 import contextvars
+import hashlib
 import json
 import os
 import pathlib
@@ -19,6 +20,7 @@ import re
 from typing import Iterable
 
 import clingo
+from clingo import ast as _ast
 
 LP_DIR = pathlib.Path(__file__).resolve().parent / "lp"
 FILES = ["kernel_core.lp", "kernel_analogy.lp", "icon_theory.lp", "icon_models.lp", "icon_tests.lp", "icon_metaphysics.lp", "schools.lp", "kernel_world.lp",
@@ -59,8 +61,55 @@ _ADD: contextvars.ContextVar[str] = contextvars.ContextVar("ttc_add", default=""
 _REMOVE: contextvars.ContextVar[tuple] = contextvars.ContextVar("ttc_remove", default=())
 
 
+SCHEMA = 1     # the shape of check's summary; raised whenever the shape changes
+
+REFUSAL_FIELDS = ("refused", "gate", "where", "line", "column", "predicate", "text", "message")
+REFUSAL_GATES = {
+    "parts": "a part or runtime the base does not have",
+    "snippet": "a directive a snippet may not use, or a snippet too long",
+    "removal": "a line to remove that matches no line, or more than one",
+    "parse": "clingo cannot parse the text",
+    "ground": "clingo cannot ground the text (most often an unsafe variable)",
+    "layer": "a fact on the wrong side of a case (house rule 1)",
+    "input": "an argument the tool cannot take",
+}
+
+
 class SnippetError(ValueError):
-    """A caller-supplied snippet uses a directive that is not allowed."""
+    """A run refused before it is solved. The fields say where: the gate (one
+    of REFUSAL_GATES); the text refused (facts, add_rules, remove_lines,
+    parts, or a side of a case); the line and column in it; the predicate
+    of the statement there, when it can be read; the line itself; and the
+    message."""
+
+    def __init__(self, message, gate="snippet", where=None, line=None, column=None, predicate=None, text=None):
+        super().__init__(message)
+        self.message, self.gate, self.where = message, gate, where
+        self.line, self.column, self.predicate, self.text = line, column, predicate, text
+
+    def as_dict(self) -> dict:
+        return {"refused": True, "gate": self.gate, "where": self.where, "line": self.line,
+                "column": self.column, "predicate": self.predicate, "text": self.text, "message": self.message}
+
+
+def stable(obj):
+    """The same object with every mapping's keys in sorted order, so that it
+    serialises the same way on every path (the stdio server, in process)."""
+    if isinstance(obj, dict):
+        return {k: stable(obj[k]) for k in sorted(obj, key=str)}
+    if isinstance(obj, (list, tuple)):
+        return [stable(x) for x in obj]
+    return obj
+
+
+def dumps(obj) -> str:
+    """Compact, key-sorted JSON: the canonical form of a result."""
+    return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
+def _line_of(text: str, n: int | None) -> str | None:
+    lines = (text or "").splitlines()
+    return lines[n - 1] if n and 0 < n <= len(lines) else None
 
 
 # clingo can embed Python (#script) and read files (#include); a snippet
@@ -69,13 +118,16 @@ _FORBIDDEN = re.compile(r"#\s*(script|include|program|end)\b|@[A-Za-z_]", re.I)
 MAX_SNIPPET = 100_000
 
 
-def check_snippet(text: str) -> str:
+def check_snippet(text: str, where: str = "facts") -> str:
     text = text or ""
     if len(text) > MAX_SNIPPET:
-        raise SnippetError(f"snippet longer than {MAX_SNIPPET} characters")
-    m = _FORBIDDEN.search(re.sub(r"%.*", "", text))
+        raise SnippetError(f"snippet longer than {MAX_SNIPPET} characters", "snippet", where)
+    code = re.sub(r"%.*", "", text)
+    m = _FORBIDDEN.search(code)
     if m:
-        raise SnippetError(f"directive not allowed in a snippet: {m.group(0)!r}")
+        line = code.count("\n", 0, m.start()) + 1
+        raise SnippetError(f"directive not allowed in a snippet: {m.group(0)!r}", "snippet", where, line,
+                           m.start() - (code.rfind("\n", 0, m.start()) + 1) + 1, None, _line_of(text, line))
     return text
 
 
@@ -115,7 +167,8 @@ def base_texts() -> dict[str, str]:
     for needle in _REMOVE.get():
         hits = [(f, i) for f, t in texts.items() for i, line in enumerate(t.splitlines()) if needle in line]
         if len(hits) != 1:
-            raise SnippetError(f"removal must match exactly one line, matched {len(hits)}: {needle!r}")
+            raise SnippetError(f"removal must match exactly one line, matched {len(hits)}: {needle!r}",
+                               "removal", "remove_lines", text=needle)
         f, i = hits[0]
         lines = texts[f].splitlines()
         lines[i] = "% removed by rule_change: " + lines[i]
@@ -126,7 +179,7 @@ def base_texts() -> dict[str, str]:
 @contextlib.contextmanager
 def rule_change(add: str = "", remove: Iterable[str] = ()):
     """Temporarily add rules to, or comment lines out of, the rule base."""
-    t1 = _ADD.set(check_snippet(add))
+    t1 = _ADD.set(check_snippet(add, "add_rules"))
     t2 = _REMOVE.set(tuple(remove))
     try:
         base_texts()                       # validate removals up front
@@ -145,6 +198,171 @@ def known_parts() -> dict[str, str]:
     return out
 
 
+# ---------- the grammar: predicates as clingo's own parser reads them ---------
+_LOC = re.compile(r"<(?:block|string)>:(\d+):(\d+)(?:-[\d:]+)?: (?:error|info|warning): (.*)", re.S)
+_HEAD_TEXT = re.compile(r"^\s*(?:not\s+)?([a-z_]\w*)\s*(?:\(([^()]*(?:\([^()]*\)[^()]*)*)\))?\s*(?:[.:]|$)")
+
+
+def _sig(term):
+    t = term.ast_type
+    if t == _ast.ASTType.Function:
+        return (term.name, len(term.arguments)) if term.name else None
+    if t == _ast.ASTType.SymbolicTerm and term.symbol.type == clingo.SymbolType.Function:
+        return (term.symbol.name, len(term.symbol.arguments))
+    if t == _ast.ASTType.UnaryOperation:
+        return _sig(term.argument)
+    if t == _ast.ASTType.Pool and len(term.arguments):
+        return _sig(term.arguments[0])
+    return None
+
+
+def _walk(node, mode, out, order):
+    if not isinstance(node, _ast.AST):
+        if isinstance(node, (str, int)) or node is None:
+            return
+        for n in node:                      # a sequence of nodes
+            _walk(n, mode, out, order)
+        return
+    t = node.ast_type
+    if t == _ast.ASTType.SymbolicAtom:
+        s = _sig(node.symbol)
+        if s:
+            out[mode].add(s)
+            order.append(s)
+        return
+    if t == _ast.ASTType.ConditionalLiteral and mode == "heads":
+        _walk(node.literal, "heads", out, order)
+        _walk(node.condition, "reads", out, order)
+        return
+    for k in node.child_keys:
+        _walk(getattr(node, k), mode, out, order)
+
+
+def _parse_error(text, where, logs):
+    """A SnippetError at the parse gate from clingo's messages."""
+    msgs = [m for m in logs if "error" in m]
+    m = _LOC.match(msgs[0].strip()) if msgs else None
+    line, col = (int(m.group(1)), int(m.group(2))) if m else (None, None)
+    src = _line_of(text, line)
+    h = _HEAD_TEXT.match(src or "")
+    pred = None
+    if h:
+        args = h.group(2)
+        pred = f"{h.group(1)}/{len(_split_args_top(args)) if args is not None else 0}"
+    detail = " | ".join(x.strip() for x in msgs[:5]) or "syntax error"
+    return SnippetError(f"clingo could not parse the {where}: {detail}", "parse", where, line, col, pred, src)
+
+
+def _split_args_top(s):
+    out, depth, cur = [], 0, ""
+    for ch in s:
+        depth += ch in "({["
+        depth -= ch in ")}]"
+        if ch == "," and depth == 0:
+            out.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    out.append(cur)
+    return [x for x in out if x.strip()]
+
+
+def signatures(text: str, where: str = "facts") -> dict:
+    """The predicates a program text writes (heads), reads (bodies and
+    conditions) and shows, as (name, arity), read by clingo's own parser;
+    those written by a rule with a body (derived); and, for each line on
+    which a statement begins, the first predicate of that statement. A text
+    clingo cannot parse is refused at the parse gate."""
+    out = {"heads": set(), "reads": set(), "shown": set(), "derived": set(), "at_line": {}}
+    logs = []
+
+    def on_statement(st):
+        t = st.ast_type
+        order = []
+        if t == _ast.ASTType.Rule:
+            local = {"heads": set(), "reads": set()}
+            _walk(st.head, "heads", local, order)
+            _walk(st.body, "reads", local, order)
+            out["heads"] |= local["heads"]
+            out["reads"] |= local["reads"]
+            if len(st.body):
+                out["derived"] |= local["heads"]
+        elif t == _ast.ASTType.ShowSignature:
+            out["shown"].add((st.name, st.arity))
+        elif t == _ast.ASTType.External:
+            _walk(st.atom, "heads", out, order)
+            _walk(st.body, "reads", out, order)
+        elif t in (_ast.ASTType.Program, _ast.ASTType.Definition, _ast.ASTType.Comment):
+            return
+        else:
+            _walk(st, "reads", out, order)
+        if order:
+            out["at_line"].setdefault(st.location.begin.line, "%s/%d" % order[0])
+
+    try:
+        _ast.parse_string(text or "", on_statement, logger=lambda code, msg: logs.append(msg))
+    except RuntimeError:
+        raise _parse_error(text, where, logs) from None
+    return out
+
+
+_VOCAB: dict[str, dict] = {}
+_TAG_INPUT = re.compile(r"^%\s*@input\s+(\w+)/(\d+)\s*\|\s*(.*)$", re.M)
+
+
+def vocabulary(texts: dict[str, str] | None = None) -> dict:
+    """Every predicate of the base (with the fix method's added rules): what
+    it writes, reads, derives and shows, and the slots its @input tags
+    declare. A snippet predicate outside it is an unknown slot."""
+    texts = dict(texts if texts is not None else base_texts())
+    if _ADD.get():
+        texts["add_rules"] = _ADD.get()
+    key = hashlib.sha256(json.dumps(sorted(texts.items())).encode()).hexdigest()
+    if key not in _VOCAB:
+        v = {"heads": set(), "reads": set(), "shown": set(), "derived": set(), "tagged": set()}
+        for f, t in texts.items():
+            s = signatures(t, f)
+            for k in ("heads", "reads", "shown", "derived"):
+                v[k] |= s[k]
+            v["tagged"] |= {(m.group(1), int(m.group(2))) for m in _TAG_INPUT.finditer(t)}
+        if len(_VOCAB) > 8:
+            _VOCAB.clear()
+        _VOCAB[key] = v
+    return _VOCAB[key]
+
+
+def unknown_slots(facts: str, sigs: dict | None = None) -> list[str]:
+    """unknown_slot(name/arity) for each predicate of a snippet that the base
+    neither writes, reads, shows nor declares, unless the snippet both writes
+    and reads it (a helper of its own). Usually a misspelling or a wrong
+    arity: the run goes on, and the fact does nothing."""
+    s = sigs if sigs is not None else signatures(facts)
+    v = vocabulary()
+    known = v["heads"] | v["reads"] | v["shown"] | v["tagged"]
+    own = s["heads"] & (s["reads"] | s["shown"])
+    found = (s["heads"] | s["reads"] | s["shown"]) - known - own
+    return [f"unknown_slot({n}/{a})" for n, a in sorted(found)]
+
+
+def _ground_error(logs, facts, extra, exc):
+    """A SnippetError at the ground gate. The base grounds alone, so the error
+    lies in the facts (program user) or in the fix method's added rules."""
+    errors = [m.strip() for m in logs if "error" in m.lower()] or [str(exc)]
+    first = errors[0]
+    where = "facts" if "#inc_user" in first or not extra else "add_rules"
+    text = facts if where == "facts" else extra
+    m = _LOC.match(first)
+    line, col = (int(m.group(1)), int(m.group(2))) if m else (None, None)
+    pred = None
+    if line:
+        try:
+            pred = signatures(text, where)["at_line"].get(line)
+        except SnippetError:
+            pass
+    return SnippetError("clingo could not ground the program: " + " | ".join(errors[:5]), "ground", where,
+                        line, col, pred, _line_of(text, line))
+
+
 def solve(parts, mode="one", facts="", max_models=0, timeout=None, show=()):
     """Ground the base plus `parts` (and an optional snippet) and solve.
 
@@ -154,15 +372,18 @@ def solve(parts, mode="one", facts="", max_models=0, timeout=None, show=()):
     parts = list(parts)
     unknown = [p for p in parts if p not in known_parts() and not is_runtime(p)]
     if unknown:
-        raise SnippetError(f"unknown part(s): {', '.join(unknown)}")
+        raise SnippetError(f"unknown part(s): {', '.join(unknown)}", "parts", "parts", text=", ".join(unknown))
     facts = check_snippet(facts)
+    extra = _ADD.get()
+    if extra:
+        signatures(extra, "add_rules")          # refused at the parse gate, with its line
+    warnings = unknown_slots(facts) if facts else []
     nmodels = {"one": [], "all": [f"--models={max_models}"], "branches": [f"--models={max_models}"],
                "opt": ["--opt-mode=opt"]}[mode]
     logs = []
     ctl = clingo.Control(nmodels, logger=lambda code, msg: logs.append(msg))
     for f, text in base_texts().items():
         ctl.add("base", [], text)
-    extra = _ADD.get()
     if extra:
         ctl.add("base", [], extra)
     if show:
@@ -172,9 +393,8 @@ def solve(parts, mode="one", facts="", max_models=0, timeout=None, show=()):
             ctl.add("user", [], facts)
         ctl.ground([("base", [])] + [(p, []) for p in expand_runtimes(parts)] + ([("user", [])] if facts else []))
     except RuntimeError as exc:
-        errors = [m.strip() for m in logs if "error" in m.lower()] or [str(exc)]
-        raise SnippetError("clingo could not ground the program: " + " | ".join(errors[:5])) from None
-    out = {"models": 0, "atoms": [], "cost": None, "all_models": [], "truncated": False}
+        raise _ground_error(logs, facts, extra, exc) from None
+    out = {"models": 0, "atoms": [], "cost": None, "all_models": [], "truncated": False, "warnings": warnings}
 
     def on_model(m):
         out["models"] += 1
@@ -327,10 +547,11 @@ def summary(r, max_branches=30):
     """A readable digest of a branches run: per question=value status, what holds
     in every branch or only some, and the branches themselves."""
     bs = r.get("branches") or []
-    out = {"satisfiable": r["sat"], "stable_models": r["models"], "truncated": r["truncated"]}
+    out = {"schema": SCHEMA, "satisfiable": r["sat"], "stable_models": r["models"], "truncated": r["truncated"],
+           "warnings": list(r.get("warnings", []))}
     if not r["sat"]:
         out["note"] = "No stable model: the facts are inconsistent with a hard constraint (often a tier-1 text or a fixed reading)."
-        return out
+        return stable(out)
     qvals = {}
     for b in bs:
         for v in b["values"]:
@@ -367,7 +588,7 @@ def summary(r, max_branches=30):
     out["branches_total"] = len(bs)
     if r.get("cost"):
         out["optimization_cost"] = r["cost"]
-    return out
+    return stable(out)
 
 
 

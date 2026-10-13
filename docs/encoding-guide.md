@@ -273,6 +273,33 @@ See [ttc-empirica(7)](research/empirica-preregistration.md).
 A value is *settled* if every main branch has it, *open* if some do, a
 *shadow* if only shadows do, *excluded* if none do.
 
+## WARNINGS AND REFUSALS
+
+`check` returns `schema`, the summary's shape (raised when the shape
+changes), and `warnings`:
+
+| Warning | Meaning |
+| --- | --- |
+| `unknown_slot(Name/Arity)` | The base neither writes, reads, shows nor declares the predicate, and your facts do not both write and read it. A misspelling or a wrong arity, usually. The fact does nothing. |
+
+A refused run returns one JSON object: `refused`, `gate`, `where` (`facts`,
+`add_rules`, `remove_lines`, `parts`, or a side of a case), `line`,
+`column`, `predicate`, `text` (the line), `message`.
+
+| Gate | Refuses |
+| --- | --- |
+| `parts` | A part or runtime the base does not have. |
+| `snippet` | A directive (RESTRICTIONS), or a snippet too long. |
+| `parse` | Text clingo cannot parse. |
+| `ground` | Text clingo cannot ground; an unsafe variable, usually. |
+| `removal` | A line to remove that matches none, or several. |
+| `layer` | A fact on the wrong side of a case (THE PAIR). |
+| `input` | An argument the tool cannot take. |
+
+Results come with their keys sorted. `ttc://grammar` holds the slots with
+their tags, the vocabulary the warning reads, the parts, the runtimes,
+the tools and the schema.
+
 ## EXAMPLES
 
 ```prolog

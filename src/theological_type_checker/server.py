@@ -14,6 +14,7 @@ import re
 
 from mcp.server.mcpserver import MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
+from mcp_types import CallToolResult, TextContent
 
 import hashlib
 import json
@@ -94,28 +95,52 @@ def _run(parts, facts, max_models, timeout_s, optimize=False):
     return engine.run_checked(parts, facts, max_models, timeout_s, optimize)
 
 
+def _refusal(exc) -> ToolError:
+    """A refusal as data: the error's text is the compact JSON of its fields
+    (engine.REFUSAL_FIELDS), the same on every path."""
+    if not isinstance(exc, engine.SnippetError):
+        exc = engine.SnippetError(str(exc), "input")
+    return ToolError(engine.dumps(exc.as_dict()))
+
+
 def _friendly(fn):
-    """Report input problems (bad parts, bad snippets) to the model as tool errors."""
+    """Report input problems (bad parts, bad snippets) to the model as
+    structured refusals, and every result with its keys sorted."""
     @functools.wraps(fn)
     def wrapper(*args, **kwargs):
         try:
-            return fn(*args, **kwargs)
+            return engine.stable(fn(*args, **kwargs))
         except (engine.SnippetError, ValueError) as exc:
-            raise ToolError(str(exc)) from None
+            raise _refusal(exc) from None
     return wrapper
 
 
+def _tool(fn):
+    """Register a tool. Called in process it raises a refusal as ToolError;
+    over the wire the refusal is the call's error result, and its text is
+    the same JSON, with nothing before it."""
+    friendly = _friendly(fn)
+
+    @functools.wraps(fn)
+    def wire(*args, **kwargs):
+        try:
+            return friendly(*args, **kwargs)
+        except ToolError as exc:
+            return CallToolResult(content=[TextContent(type="text", text=str(exc))], is_error=True)
+
+    server.tool()(wire)
+    return friendly
+
+
 # ---------- tools ---------------------------------------------------------
-@server.tool()
-@_friendly
+@_tool
 def guide() -> str:
     """The encoding manual: the fact vocabulary, the output atoms, how to read
     a result, and the workflow. Read it before writing any facts."""
     return GUIDE
 
 
-@server.tool()
-@_friendly
+@_tool
 def list_parts(kind: str | None = None) -> list[dict]:
     """List the #program parts you can switch on in a run.
 
@@ -141,8 +166,7 @@ def list_parts(kind: str | None = None) -> list[dict]:
     return rows
 
 
-@server.tool()
-@_friendly
+@_tool
 def read_part(name: str) -> str:
     """The source of one #program part, or of a whole rule file (e.g.
     'icon_authority.lp'). Use it to model a new case on an existing one."""
@@ -158,8 +182,7 @@ def read_part(name: str) -> str:
     return f"% from {f}\n{block}"
 
 
-@server.tool()
-@_friendly
+@_tool
 def check(parts: list[str], facts: str = "", max_branches: int = 30, max_models: int = 20000,
           timeout_s: float = 60.0, optimize: bool = False) -> dict:
     """Run the checker on the named parts plus your own facts.
@@ -174,13 +197,12 @@ def check(parts: list[str], facts: str = "", max_branches: int = 30, max_models:
     """
     r = _run(parts, facts, max_models, timeout_s, optimize)
     if optimize:
-        return {"satisfiable": r["sat"], "optimal_cost": r["cost"], "atoms": r["atoms"],
-                "violations": r["violations"], "truncated": r["truncated"]}
+        return {"schema": engine.SCHEMA, "satisfiable": r["sat"], "optimal_cost": r["cost"], "atoms": r["atoms"],
+                "violations": r["violations"], "truncated": r["truncated"], "warnings": r["warnings"]}
     return engine.summary(r, max_branches)
 
 
-@server.tool()
-@_friendly
+@_tool
 def compare(parts_a: list[str], parts_b: list[str], facts_a: str = "", facts_b: str = "") -> dict:
     """Run two configurations and report only what differs: the status of
     each question=value, the preferred values, and the violations or notes
@@ -197,11 +219,11 @@ def compare(parts_a: list[str], parts_b: list[str], facts_a: str = "", facts_b: 
     diff["every_branch_added"] = sorted(eb - ea)
     diff["every_branch_removed"] = sorted(ea - eb)
     diff["stable_models"] = {"a": a.get("stable_models"), "b": b.get("stable_models")}
+    diff["warnings"] = {"a": a["warnings"], "b": b["warnings"]}
     return diff
 
 
-@server.tool()
-@_friendly
+@_tool
 def run_suite(ids: list[str] | None = None) -> dict:
     """Run the regression suite (or the scenarios whose id starts with one of
     `ids`, e.g. ["SX", "DR"]). Every scenario states what it expects and what
@@ -236,8 +258,7 @@ def _definition(sid: str) -> dict:
             "expected": s["expected"], "source": body, "checks_defined_as": helpers}
 
 
-@server.tool()
-@_friendly
+@_tool
 def read_test(id: str) -> dict:
     """One regression test: its parts, mode, what it expects, and the source of
     its checks in suite.py. Open every test a change turns red before deciding
@@ -262,8 +283,7 @@ def _baseline():
     return _BASELINE[key]
 
 
-@server.tool()
-@_friendly
+@_tool
 def fix_method(add_rules: str = "", remove_lines: list[str] | None = None) -> dict:
     """The fix method: change the rule base, rerun the whole suite, and report
     what the change gains and loses.
@@ -289,8 +309,7 @@ def fix_method(add_rules: str = "", remove_lines: list[str] | None = None) -> di
             "next": RED_IS_A_FINDING if newly_failing else None}
 
 
-@server.tool()
-@_friendly
+@_tool
 def lint(rules: str = "") -> dict:
     """Static analogy check: flag any rule (in the base, or in `rules`) whose
     body mixes divine- and creature-sorted predicates without going through
@@ -301,8 +320,7 @@ def lint(rules: str = "") -> dict:
 
 
 # ---------- the norm graph -----------------------------------------------------
-@server.tool()
-@_friendly
+@_tool
 def norm_graph(focus: str | None = None, format: str = "mermaid") -> str | dict:
     """The canon-law layer as a graph: which norms feed which. Each norm is a
     tagged block of rules (`% @norm cic2021:1387 | ... | source`). Use
@@ -314,8 +332,7 @@ def norm_graph(focus: str | None = None, format: str = "mermaid") -> str | dict:
     return norms.mermaid(focus=focus)
 
 
-@server.tool()
-@_friendly
+@_tool
 def norm_check() -> dict:
     """Check the canon-law layer: vicious cycles (norms that depend on each
     other in a loop), temporal loops (recursion over later acts, allowed),
@@ -348,8 +365,7 @@ def _home():
     return home
 
 
-@server.tool()
-@_friendly
+@_tool
 def flywheel_status(run_tests: bool = False) -> dict:
     """What the personal layer holds and what to do next: personal rule and
     case files, personal regression scenarios, the canon-law frontier
@@ -371,8 +387,7 @@ def flywheel_status(run_tests: bool = False) -> dict:
     return out
 
 
-@server.tool()
-@_friendly
+@_tool
 def save_rules(name: str, rules: str, force: bool = False, reasons: dict[str, str] | None = None) -> dict:
     """Save rules to the personal layer ($TTC_HOME/rules/<name>.lp), after
     running the whole suite with them. If any test that passed now fails, the
@@ -407,14 +422,20 @@ CANON_ONLY = ("consecration(", "co_consecrator(", "decree(", "declares(", "heard
 
 def _layer_lint(text, forbidden, layer):
     code = re.sub(r"%.*", "", text)
-    hits = sorted({f.rstrip("(") for f in forbidden if re.search(r"(?<![\w])" + re.escape(f), code)})
-    if hits:
-        raise ValueError(f"the {layer} side may not contain {', '.join(hits)}: "
-                         "theology goes in `theology`, canon law in `canon` (house rule 1)")
+    found = [(m.start(), f.rstrip("(")) for f in forbidden
+             for m in [re.search(r"(?<![\w])" + re.escape(f), code)] if m]
+    if found:
+        hits = sorted({name for _, name in found})
+        first, name = min(found)
+        line = code.count("\n", 0, first) + 1
+        pred = engine.signatures(text, layer)["at_line"].get(line)
+        pred = pred if pred and pred.startswith(name + "/") else name
+        raise engine.SnippetError(f"the {layer} side may not contain {', '.join(hits)}: "
+                                  "theology goes in `theology`, canon law in `canon` (house rule 1)",
+                                  "layer", layer, line, None, pred, engine._line_of(text, line))
 
 
-@server.tool()
-@_friendly
+@_tool
 def save_case(part: str, theology: str = "", canon: str = "", note: str = "") -> dict:
     """Save a case to the personal layer as an ordered pair, theology first and
     canon law second, both under `#program <part>.` in
@@ -432,8 +453,8 @@ def save_case(part: str, theology: str = "", canon: str = "", note: str = "") ->
         raise ValueError(f"part {part!r} already exists in the base; choose another name")
     if not (theology.strip() or canon.strip()):
         raise ValueError("give the theology side, the canon side, or both")
-    engine.check_snippet(theology)
-    engine.check_snippet(canon)
+    engine.check_snippet(theology, "theology")
+    engine.check_snippet(canon, "canon")
     _layer_lint(theology, CANON_ONLY, "theology")
     _layer_lint(canon, THEOLOGY_ONLY, "canon")
     home = _home()
@@ -450,8 +471,7 @@ def save_case(part: str, theology: str = "", canon: str = "", note: str = "") ->
     return {"saved": str(path), "check": engine.summary(r, 5)}
 
 
-@server.tool()
-@_friendly
+@_tool
 def save_scenario(id: str, name: str, parts: list[str], expect: list[dict], facts: str = "",
                   expected: str = "") -> dict:
     """Record a verified result as a regression test in
@@ -482,8 +502,7 @@ def save_scenario(id: str, name: str, parts: list[str], expect: list[dict], fact
 
 
 # ---------- the library: physical copies -------------------------------------
-@server.tool()
-@_friendly
+@_tool
 def library_fetch_list(parts: list[str] | None = None, near: str | None = None, per_item: int = 3,
                        include_reading: bool = True, format: str = "markdown") -> str | dict:
     """A fetch list of physical copies: works the encoded sources are read in
@@ -501,8 +520,7 @@ def library_fetch_list(parts: list[str] | None = None, near: str | None = None, 
     return library.to_markdown(rep)
 
 
-@server.tool()
-@_friendly
+@_tool
 def mark_consulted(source: str, note: str) -> dict:
     """Record that a source has been checked against the original (edition,
     page, date) in the personal layer. It then drops off the fetch list. The
@@ -531,6 +549,53 @@ def rules_resource(file: str) -> str:
     if file not in texts:
         raise ValueError(f"no such file; files are: {', '.join(texts)}")
     return texts[file]
+
+
+def grammar() -> dict:
+    """What the checker declares about itself, read off the rule files and
+    the server: the summary's schema; the slots the @input tags declare,
+    each with every tag (file and text) and the longest text as its
+    meaning; the vocabulary (every
+    predicate of the base, and what the base does with it: the gate's
+    known set); the outputs; the parts; the runtimes; the tools with their
+    arguments; the refusal's fields and gates; the warnings."""
+    texts = engine.base_texts()
+    tags = {}
+    for f, t in texts.items():
+        for m in engine._TAG_INPUT.finditer(t):
+            tags.setdefault(f"{m.group(1)}/{m.group(2)}", []).append((f, " ".join(m.group(3).split())))
+    slots = {sig: {"meaning": max((d for _, d in rows), key=len),
+                   "tags": [{"file": f, "meaning": d} for f, d in rows]} for sig, rows in tags.items()}
+    v = engine.vocabulary()
+    every = v["heads"] | v["reads"] | v["shown"] | v["tagged"]
+    vocab = {f"{n}/{a}": {"written": (n, a) in v["heads"], "read": (n, a) in v["reads"],
+                          "derived": (n, a) in v["derived"], "shown": (n, a) in v["shown"],
+                          "tagged": (n, a) in v["tagged"]} for n, a in every}
+    parts = {}
+    for name, (f, comment, block) in _part_blocks().items():
+        parts[name] = {"file": f, "kind": _kind(name, f, block), "note": comment,
+                       "questions": sorted(set(re.findall(r"question\((q\([^)]*\)+)\)", block)))}
+    tools = {t.name: {"description": inspect.cleandoc(t.description or ""), "parameters": t.parameters}
+             for t in server._tool_manager.list_tools()}
+    return engine.stable({
+        "schema": engine.SCHEMA,
+        "version": __version__,
+        "slots": slots,
+        "vocabulary": vocab,
+        "outputs": sorted(f"{n}/{a}" for n, a in v["shown"]),
+        "parts": parts,
+        "runtimes": {k: list(ps) for k, ps in engine.RUNTIMES.items()},
+        "tools": tools,
+        "refusal": {"fields": list(engine.REFUSAL_FIELDS), "gates": dict(engine.REFUSAL_GATES)},
+        "warnings": {"unknown_slot": inspect.cleandoc(engine.unknown_slots.__doc__)},
+    })
+
+
+@server.resource("ttc://grammar", name="grammar", mime_type="application/json",
+                 description="What the checker declares about itself: slots, vocabulary, parts, runtimes, "
+                             "tools, refusals and the summary's schema, as compact key-sorted JSON.")
+def grammar_resource() -> str:
+    return engine.dumps(grammar())
 
 
 @server.prompt()

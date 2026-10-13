@@ -5,4 +5,4 @@ Grammar of the Icon) and an authority graph over magisterial and
 theological sources. ``engine`` solves it; ``suite`` is the regression
 suite; ``server`` exposes both to a language model over MCP.
 """
-__version__ = "0.3.0"
+__version__ = "0.4.0"
