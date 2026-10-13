@@ -26,7 +26,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | moral amendment | verdicts and obligation: may, must, must not; social doctrine as tests | done ([ttc-precept(7)](research/precept-preregistration.md)) |
 | communion | rule 14; faith and communion: notes, denials, bonds | done ([ttc-communion(7)](research/communion-preregistration.md)) |
 | canon | abortion, c. 1399, c. 1752, the Dicastery's clause; form and object; fictions of law | done ([ttc-penal(7)](research/penal-preregistration.md)) |
-| saeculum | one library for time: the Church's computation (cc. 8 §1, 97, 200–203), one calendar, reception dated, the order and the measures | predicted ([ttc-saeculum(7)](research/saeculum-preregistration.md)), to stamp |
+| saeculum | one library for time: the Church's computation (cc. 8 §1, 97, 200–203), one calendar, reception dated, the order and the measures | done ([ttc-saeculum(7)](research/saeculum-preregistration.md)) |
 | cceo | the Eastern Code: a second canon layer, chosen by ascription | to predict |
 | liturgy | the liturgy as witness, rite and development | to predict |
 | last things | soteriology and eschatology | to predict |
@@ -42,22 +42,17 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 One library for time: Augustine's *saeculum*, the time of the two cities
 before the end. It comes before the cceo step, whose dates need c. 8
 §1's months (*De concordia inter Codices*), and before the last things,
-which type duration by measure. Predicted in
-[ttc-saeculum(7)](research/saeculum-preregistration.md). Today time is
-scattered. The canon layer counts days (`YYYYMMDD`), the authority layer
-years, joined by one bridge (`asof*10000+1231`); the kernel orders events
-and holds no theory of time.
+which type duration by measure. Done
+([ttc-saeculum(7)](research/saeculum-preregistration.md)): `saeculum.lp`
+holds the calendar, one clock, the measures and the bounds; c. 8 §1,
+c. 97 §1 and c. 203 are computed in the canon layer; reception is a dated
+claim. Left:
 
-- **The Church's computation of time** (cc. 200–203): a day of 24 hours, a
-  month of 30 days unless the calendar is meant, the first day not
-  counted; c. 8 §1's three months, which TTC-PENAL entered by hand
-  (`vacatio_until/2`).
-- **One calendar for every layer:** years and days, intervals, "in force
-  from ... until", what "now" is (`today/1`, `asof`), reception dated (the
-  *Quicumque*'s repair).
-- **The measures:** time, the measure of motion (ST I q. 10 aa. 4–6); the
-  *aevum*; eternity. The last things' duration typed by measure is built
-  on them, and the empirical step and the churches run under it.
+- The issues of AAS 80 (1988) and 90 (1998), to replace three spans with
+  dates.
+- Useful time (c. 201 §2) and the month of thirty days (c. 202 §1), when a
+  canon needs them; Julian dates before 1582.
+- The "now" as an antichain, causal sets (CANDIDATE THEORIES).
 
 ### cceo
 
@@ -177,6 +172,52 @@ from forms already existing" (SC 23). Three faces:
   DH 902); the unity of other organisms is a school's.
 - Interpretations of quantum mechanics as runtimes, tested against one
   soul as the form of one body and one judgment (DH 902, 1000).
+- **What counts as one human being: twins.** How many persons there are
+  is a fact about souls that no observation settles. It is never computed
+  (rule 3): it enters as a disputed fact, both ways.
+  - *Monozygotic twinning* (up to about day 14), the classic objection to
+    ensoulment at conception. Three readings as runtimes: the first human
+    being continues and a second begins (budding); the first ceases and
+    two begin (fission); no person before twinning ends (delayed
+    hominization, a school's reading). A fourth: one soul, its body the
+    union of two organisms apart in space. The kernel world already has
+    both shapes (`gen(budding, …)`, `gen(fission, …)`). Refused on every
+    reading: one soul divided, since the soul is simple; a second soul
+    from anything but God, since each is created immediately (*Humani
+    generis* 36, DH 3896). The embryo is to be treated as a person from
+    conception (*Donum vitae* I.1), and the moment of ensoulment is not
+    defined. The fourth reading meets four tests, each a fact about the
+    twins' outward acts and the Church's practice, none about an interior:
+    the twins choose contrary things at once, and one soul has one will
+    (wills follow natures, Constantinople III, DH 556; ST III q. 18 a. 1);
+    one twin dies and the other lives, and a person dies once (Heb 9:27)
+    and is judged at death (DH 1000); the Church baptizes each, and baptism
+    is not repeated (Trent, DH 1609); each marries, and a prior bond
+    invalidates (c. 1085). Thomas's annulose animals, one soul actually
+    and many potentially, live on in each piece because their souls are
+    material; the human soul is not divided with matter (ST I q. 76 a. 2;
+    the locus on annulose animals to verify).
+  - *Conjoined twins* (dicephalic parapagus, two heads on one trunk;
+    craniopagus, joined at the head): one person or two. The law already
+    computed both ways: the Code of 1917, c. 748, in doubt whether one or
+    several, baptized one absolutely and the others conditionally (to
+    verify). The Code of 1983 drops the canon; c. 869 remains.
+  - *One intellect, two brains*: not ill-typed on its face, since the
+    intellect is the soul's power and the brain serves the bodily powers
+    (the cogitative power, CANDIDATE THEORIES). Two intellects in one soul
+    are ill-typed. Two persons whose bodies are intermingled is the other
+    reading of the same facts. One soul is the form of one body (Vienne,
+    DH 902).
+  - *Whose matter.* A body, strictly, is matter informed by one soul (one
+    substantial form, ST I q. 76 a. 4). Two persons are two bodies however
+    intermingled; a shared organ is informed by one soul or divided, never
+    by both, and which is not observable. It enters as a disputed fact.
+  - *The generative power and marriage.* The generative power is a power
+    of each soul (ST I q. 78 a. 2). Where generative organs are shared,
+    marriage meets it: consent (c. 1057), unity (c. 1056), impotence
+    (c. 1084), consummation "in a human manner" (c. 1061 §1), and the
+    other twin's body in the conjugal act. To compute on the disputed fact
+    of whose the organs are, both ways, never on anyone's interior.
 - **The ordinary universal magisterium is a claim about witnesses.**
   *Dei Filius* 3 names it (DH 3011) without conditions; its conditions are
   stated only at tier 3 (LG 25). It has no act, no date, no roll and no
@@ -369,9 +410,16 @@ CCC 1883). The checker need not hold everything.
   `allowed/2` from a school. The kernel declares no `@input` slots yet.
 - **The layer inventory** (`docs/layers.md`) predates the creed step;
   rerun `tools/layer_evidence.py`.
-- **Reception has no date.** A creed typed tier 1 by reception needs a
-  date the checker can use; the *Quicumque*'s decides the Filioque's
-  history (CR1b).
+- **Reception is a claim about witnesses** (TTC-SAECULUM, done in part).
+  It is dated and claimed, and never preferred unless an act at tier 1
+  hands the creed on. Its conditions (whose use, how widespread, from when)
+  are the ordinary universal magisterium's question, for the empirical
+  step. The Apostles' Creed's claimed year is its text's (CCC 194 gives
+  none).
+- **The Filioque's Latin witnesses before 1100.** As of 1100 the record's
+  only weight is Photius (886), so the preferred branch is "from the
+  Father alone" (CR1b). Augustine (*De Trinitate* XV), the councils of
+  Toledo, and the Western liturgy's creed are not entered.
 - **Attribution is a claim too.** The *Supplementum* of the *Summa* was
   compiled after Thomas's death, traditionally by Reginald of Piperno,
   from his early commentary on Book IV of the Sentences (c. 1252–56).

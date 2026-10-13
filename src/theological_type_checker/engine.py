@@ -22,7 +22,7 @@ import clingo
 
 LP_DIR = pathlib.Path(__file__).resolve().parent / "lp"
 FILES = ["kernel_core.lp", "kernel_analogy.lp", "icon_theory.lp", "icon_models.lp", "icon_tests.lp", "icon_metaphysics.lp", "schools.lp", "kernel_world.lp",
-         "icon_authority.lp", "icon_history.lp", "act.lp", "law.lp", "moral.lp", "grace.lp", "christ.lp", "sacrament.lp", "faith.lp", "canon_law.lp", "canon_cases.lp", "pair.lp", "library.lp"]
+         "icon_authority.lp", "icon_history.lp", "act.lp", "law.lp", "moral.lp", "grace.lp", "christ.lp", "sacrament.lp", "faith.lp", "canon_law.lp", "canon_cases.lp", "pair.lp", "library.lp", "saeculum.lp"]
 
 # School runtimes (docs/research/schools-preregistration.md): named lists of
 # parts, loaded whole. A scenario names one as the part "rt_<name>", or two for

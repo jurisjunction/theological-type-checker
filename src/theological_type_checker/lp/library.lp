@@ -28,10 +28,12 @@ work(antonianum_76, "Cross, Richard", "Where Angels Fear to Tread: Duns Scotus a
 work(summa_leonina, "Thomas Aquinas", "Summa theologiae", "Leonine ed.", 1888).
 work(aas, "Holy See", "Acta Apostolicae Sedis", "Città del Vaticano", 1909).
 work(cic1983, "Holy See", "Codex Iuris Canonici (1983; Book VI as revised 2021)", "Città del Vaticano: LEV", 1983).
+work(schaff_herzog, "Jackson, S. M. (ed.)", "The New Schaff-Herzog Encyclopedia of Religious Knowledge", "New York: Funk and Wagnalls", 1908).
 
 online(summa_leonina, "https://www.corpusthomisticum.org/sth0000.html").
 online(aas, "https://www.vatican.va/archive/aas/index_sp.htm").
 online(cic1983, "https://www.iuscangreg.it/cic1983.php").
+online(schaff_herzog, "https://www.ccel.org/ccel/schaff/encyc01.html").
 
 % where the encoded sources are read
 cites_work(scotus, scotus_vat, "Ordinatio III d.3 q.1").
@@ -48,6 +50,10 @@ cites_work(trent_1563, dh43, "DH 1807").
 cites_work(trent_1551, dh43, "DH 1661").
 cites_work(lg25, gasser_relatio, "relatio of 11 July 1870").
 cites_work(ed1988, aas, "AAS 80 (1988) 1495-1498").
+cites_work(pclt1988, aas, "AAS 80 (1988) 1818-1819").
+cites_work(atf1998, aas, "AAS 90 (1998) 457-461").
+cites_work(oim2009, aas, "AAS 102 (2010) 8-10, issue of 8 January 2010").
+cites_work(quicumque, schaff_herzog, "vol. I, s.v. Athanasian Creed: its reception").   % TTC-SAECULUM RC1
 cites_work(ad_sanctam_1656, bullarium_taur, "Alexander VII, Ad sanctam beati Petri sedem (16 October 1656)").   % TTC-PENAL FO2: the clauses DH 2010-2012 abridges
 
 % research the theory still owes (docs/research/warrants-and-prior-art.md)
@@ -58,6 +64,7 @@ to_read(scola_2005, "verify quotations taken from reviews").
 to_read(przywara_2014, "analogia entis: the bridge design against its classic statement").
 to_read(horan_2014, "Scotus and univocity: findings section 1").
 to_read(antonianum_76, "Scotus and univocity: findings section 1").
+to_read(aas, "AAS 80 (1988) and 90 (1998): the dates of the issues carrying Ecclesia Dei, the response on c. 1398 and Ad tuendam fidem (c. 8 §1; TTC-SAECULUM CT3)").
 
 to_fetch(W,verify(S,L)) :- cites_work(S,W,L), not consulted(S), not online(W,_).
 to_fetch(W,read(Why))   :- to_read(W,Why), not online(W,_).

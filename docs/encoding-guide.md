@@ -88,7 +88,8 @@ side, juridical facts on the canon side.
 
 | Fact | Meaning |
 | --- | --- |
-| `conciliar_act(S,K)` (`canon`, `definition`, `creed`, `scope`, `chapter`), `session_defines(S)`, `received_creed(S)` | Rule 14: a source at tier 1 or 2 needs a warrant: a council's own defining act, a chapter its session binds, or a creed received (a claim of reception). Otherwise `tier_without_warrant`. |
+| `conciliar_act(S,K)` (`canon`, `definition`, `creed`, `scope`, `chapter`), `session_defines(S)` | Rule 14: a source at tier 1 or 2 needs a warrant: a council's own defining act, a chapter its session binds, or a creed received (below). Otherwise `tier_without_warrant`. |
+| `reception_claim(S,C,Year)`, `reception_fixed_by(S,F)` | A creed received: a claim, with its claimant C and the year from which it claims reception. From that year computed both ways, never preferred, unless an act F at tier 1 in force hands the creed on. Not received, not in force. The undated `received_creed(S)` is refused. |
 | `papal_form(S,ex_cathedra)`, `condition_shown(S,C)`, `object_of(S,O)` | A papal definition, with the conditions of Pastor aeternus shown: `pastor_of_all`, `apostolic_authority`, `defines`, `faith_or_morals`, `whole_church`. The form says that it defines; the object gives the grade: `revealed`, tier 1; `connected` (a dogmatic fact), tier 2. |
 | `papal_form(S,definitive_declaration)` | A declaration that a teaching is to be held definitively, defining nothing: its own tier, 3, with an `oum_claim` whose claimant is its author, or `declaration_without_claim`. |
 | `silent(P,E,Q)` | An outward silence: no censure, and no assent. Assent is interior and never computed (Vineam Domini). |
@@ -125,7 +126,7 @@ side, juridical facts on the canon side.
 | `danger_of_death/2`, `just_cause_request/3`, `common_error/1` | cc. 976, 1335 §2, 144. |
 | `communion/3`, `situation/2`, `situation_kind/2`, `manifest/1`, `persisting/1`, `confession_impossible/2` | cc. 912, 915, 916: c. 916 is the internal forum, computed both ways; c. 915 branches on the reading of "manifest grave sin". |
 | `asserts(T,Claim,Date)` | A text's claim, checked act by act. |
-| `juridic_act(J,P)`, `spouse(M,P)`, `age_at(P,A,Years)` | A juridic act (c. 124); a party to a marriage; an agent's age. |
+| `juridic_act(J,P)`, `spouse(M,P)`, `born(P,Date)`, `age_at(P,A,Years)` | A juridic act (c. 124); a party to a marriage; a birth date, from which ages are computed (c. 97 §1, c. 203: on the birthday the year is not yet completed); or an age given. |
 | `interior(P,A,Claim)` | What a case claims of the agent's knowledge, will or freedom: `ignorance(Of,Kind)`, `error(…)`, `fear(Grade,Origin,How)`, `violence`, `reason(…)`, `passion(…)`, `necessity`, `deliberate`, `negligence`, … Never derived; read by the human-act library (`act.lp`). |
 | `disputed(F)` | Computed both ways: `heard/2`, `common_error/1`, `appears_otherwise/2`, `interior/3`. |
 | `authentic_reading(C,R,Act)` | The legislator's reading (c. 16 §1). Its reach: `interpretation_form(Act,F)` (F: `law` or `particular`), `particular_matter(Act,E)`, `promulgated(Act,Date)` (c. 16 §§2–3). |
@@ -136,7 +137,8 @@ side, juridical facts on the canon side.
 | `unbaptized(P)` | c. 842 §1: the other sacraments need baptism. |
 | `consummated(M)`, `dissolution(D,M,Kind,Date)`, `nullity_sentence(S,M,Date)`, `sentence_effective(S)`, `prohibited_to_marry(P)` | The bond: dissolved only where cc. 1142-1143 allow, never ratified and consummated (c. 1141); a sentence of nullity settles the forum, never the fact (cc. 1643, 1682 §1). |
 | `delict_act(P,N,Act)`, `act_date(Act,Date)` | A delict that need not be a consecration, absolution or marriage (e.g. c. 1386 §1, the seal). |
-| `declaratory(Act)`, `vacatio_until(Act,Date)` | c. 16 §2: an interpretation in the form of law reaches acts from its force (c. 8 §1), earlier ones only if declaratory (c. 9). |
+| `aas_issue(L,Date)`, `aas_volume(L,Year,Given)`, `vacatio_set(L,Date)` | c. 8 §1: in force on the day of the same number three months after the issue's date (the first of the next month where it lacks the day); an issue unread gives a span, inside which a date is computed both ways; a law naming its own date keeps it. |
+| `declaratory(Act)` | c. 16 §2: an interpretation in the form of law reaches acts from its force (c. 8 §1), earlier ones only if declaratory (c. 9). |
 | `procures(P,A)`, `unborn(E)`, `by_expulsion(A)`, `attempted_only(A)` | c. 1397 §2 (c. 1398 before 2021): the matter is the library's direct killing of an innocent, unborn, completed; the reading of 1988 extends it to any killing from conception, from 1988. An attempt is not the delict (c. 1328 §1). |
 | `assists(P,A)`, `necessary_assistance(P,A)` | c. 1329 §2: a necessary accomplice incurs a latae sententiae penalty; one not necessary may be punished. |
 | `cleric(P)`; the clause `age_clause(D,N)` with `issuer(D,A)` | c. 1398 §1 n. 1 and the Dicastery's art. 6 n. 1: the error about the age disregarded where the clause is papal law; refused as a dicastery's decree; flagged where the act is lawful apart from the age. |
@@ -156,6 +158,19 @@ another's (c. 1329) is tagged `% @recursive id`. See [ttc-canon(5)](canon-law-la
 | `premise(N,Q,V)` | Norm N presupposes V on Q. Applied where Q holds otherwise: violation. |
 
 Law never answers a doctrinal question (`teaching_from_law`).
+
+## TIME
+
+| Fact | Meaning |
+| --- | --- |
+| `today(Date)`, the `asof_Y` parts | The one clock (`now/1`): a day given, or the last day of an asof year. With a day, the authority graph is read as of its year; with neither, every source entered. |
+| `next(E1,E2)`, `happens_at(E,Point)` | The order of events, partial; dates are measures laid on it. |
+| `date_claim(E,Year)` | A year laid on an event of the order. The return and the judgment take none (`end_dated`), and nothing measured follows the return (`end_past`); nothing precedes creation (`before_the_beginning`). |
+| `measured_by(X,M)`, `without_beginning(X)` | Claims about duration. Eternity is God's alone (`eternal_with_beginning`); every creature began (`creature_without_beginning`). A procession in God, or God's act, placed in the order is refused (`procession_in_time`, `divine_act_in_time`). |
+
+What interprets, cites or claims about an act comes after it
+(`measure_against_order`); an act dated in both layers carries one year
+(`dates_disagree`). See [ttc-saeculum(7)](research/saeculum-preregistration.md).
 
 ## LIBRARY
 

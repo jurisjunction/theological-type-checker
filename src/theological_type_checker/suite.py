@@ -1273,6 +1273,21 @@ scen("LW9", LW, "Revocation in doubt (c. 21)", ["law_cases"],
 CR = "creed"
 CREED = ["trinity", "creed", "os_virginal", "ic"]
 
+def preferred_assume(parts, a):
+    """every preferred main branch (c. 749 §3, then weight) carries the assumption a"""
+    def chk(_r):
+        mains = [b for b in solve(parts, "branches")["branches"] if b["status"] == "main"]
+        best = min(pref_key(b) for b in mains)
+        top = [b for b in mains if pref_key(b) == best]
+        return all(a in b["assume"] for b in top), f"preferred: {[b['assume'] for b in top][:2]}"
+    return chk
+
+def assumed_none_in(parts, sub):
+    def chk(_r):
+        hit = sorted({a for b in solve(parts, "branches")["branches"] for a in b["assume"] if sub in a})
+        return not hit, "; ".join(hit) or f"no branch assumes {sub}"
+    return chk
+
 def assumed_none(sub):
     def chk(r):
         hit = sorted({a for b in r["branches"] for a in b["assume"] if sub in a})
@@ -1349,9 +1364,24 @@ scen("CS4b", CR, "The same as of 1600", ["jn6", "asof_1600"],
 scen("CR1", CR, "The creeds with the two councils removed", ["trinity", "filioque", "councils_relaxed", "creeds"],
      [cls("q(spirit_origin)=father_alone", "excluded")],
      "finding: the Quicumque and Lateran IV settle the Filioque without Lyons II and Florence (FQ19 opens it)", mode=B)
+# TTC-SAECULUM RC2: this expectation changed. It was "excluded": typed by its
+# composition (c. 500), the Quicumque settled the Filioque before Lyons II,
+# its reception undated and unclaimed. Reception is now a dated claim with
+# its claimant (rule 14), computed both ways and never preferred, since no
+# act at tier 1 hands the creed on (Florence's decree for the Armenians, 1439,
+# does, at tier 3). As of 1100 "from the Father alone" is open: excluded only
+# where the Quicumque is received. On the record the preferred branch is the
+# Father alone, by Photius's weight (886); the record has no Latin witness
+# to the Filioque before 1100 (roadmap).
+QR, QNR = "assumed_fact(received(quicumque))", "assumed_fact(false(received(quicumque)))"
 scen("CR1b", CR, "The creeds as of 1100", ["trinity", "filioque", "creeds", "asof_1100"],
-     [cls("q(spirit_origin)=father_alone", "excluded")],
-     "finding: typed by its composition (c. 500), the Quicumque settles the Filioque before Lyons II; reception has no date", mode=B)
+     [cls("q(spirit_origin)=father_alone", "open"),
+      lambda r: (all(QNR in b["assume"] for b in r["branches"] if "q(spirit_origin)=father_alone" in b["values"])
+                 and any(QR in b["assume"] for b in r["branches"])
+                 and not any(QR in b["assume"] and "q(spirit_origin)=father_alone" in b["values"] for b in r["branches"]),
+                 "the Father alone only where the Quicumque is not received"),
+      prefers("q(spirit_origin)", "father_alone")],
+     "finding (RC2): the Quicumque's reception a claim, never preferred; open as of 1100, the record's weight Photius's", mode=B)
 scen("CR1c", CR, "Paul VI's Credo is tier 3 by its form", ["creeds"],
      [eff_tier_is("credo_1968", 3, ["creeds"]), eff_tier_is("quicumque", 1, ["creeds"]),
       eff_tier_is("apostles_creed", 1, ["creeds"]), eff_tier_is("nicene_creed", 1, ["creeds"]),
@@ -2468,6 +2498,96 @@ scen("FL4", PN, "The Society's refusal: a position, not an offence", SX,
                                     show=("juridic_person/1", "group/1", "holds/2"))["all_models"]),
                  "recognized (HYPOTHETICAL): a juridic person; otherwise a group")],
      "a group without canonical status: an offence is said only of a person", mode=B)
+
+# ---------- The saeculum: one library for time (TTC-SAECULUM) -----------
+SAE = "saeculum"
+FORCE = ("in_force_from/2",)
+scen("CT1", SAE, "c. 8 §1 from the issue: Omnium in mentem", ["defection_2010", "on_0407"],
+     [info_all("info(marriage(m_r,form_not_binding))"),
+      shown(["defection_2010", "on_0408"], ("info/1",), "info(marriage(m_r,invalid_form))",
+            absent=("info(marriage(m_r,form_not_binding))",)),
+      shown(["defection_2010"], FORCE, "in_force_from(oim2009,20100408)", "in_force_from(code1983,19831127)",
+            "in_force_from(pgd2021,20211208)"),
+      shown(["pclt_confirmed"], FORCE, "in_force_from(pclt2000,20000624)")],
+     "issue of 8 January 2010, in force 8 April 2010: the day before, the defection frees from the form; that day, not. "
+     "A law that names its own date keeps it", mode=B)
+scen("CT2", SAE, "The month that lacks the day", ["issues_november"],
+     [shown(["issues_november"], FORCE, "in_force_from(law_a,20240229)", "in_force_from(law_b,20240301)",
+            "in_force_from(law_c,20230301)", "in_force_from(law_d,20231201)")],
+     "29 November 2023: 29 February 2024; 30 November 2023: 1 March 2024; 29 November 2022: 1 March 2023 (c. 203 §2)")
+scen("CT3", SAE, "An unread issue: force inside its span both ways", ["tier2", "assent", "professions_definitive", "rejection_1998"],
+     [in_branches("info(delict(theo_t,n1371_1998,prof_t98))", "main", assume=["assumed_fact(force_by(atf1998,19981201))"]),
+      in_branches("info(delict(theo_t,n1371_1998,prof_t98))", "main", assume=["assumed_fact(false(force_by(atf1998,19981201)))"],
+                  present=False),
+      in_branches("info(delict(theo_t,n1371_1998,prof_t00))", "main"),
+      lambda r: (not any("assumed_fact(force_by(atf1998,19981201))" in b["assume"]
+                         and "assumed_fact(false(force_by(atf1998,19990201)))" in b["assume"] for b in r["branches"])
+                 and any("assumed_fact(force_by(atf1998,19990201))" in b["assume"]
+                         and "assumed_fact(false(force_by(atf1998,19981201)))" in b["assume"] for b in r["branches"]),
+                 "in force from a day inside the span, then in force after it"),
+      assumed_none_in(["tier2", "assent", "professions_definitive"], "force_by("),
+      shown(["sspx"], ("force_window/3",), "force_window(ed1988,19881002,19890331)",
+            "force_window(pclt1988,19880823,19890331)", "force_window(atf1998,19980818,19990331)")],
+     "1 December 1998: the amended c. 1371 n. 1 in one branch, none in the other; the base's cases fall outside every span", mode=B)
+scen("CT4", SAE, "Ages from birth dates", ABC + ["ages_c97"],
+     [in_branches("info(exempt(m_b16,ab_b16))", "main"), in_branches("info(mitigated(m_a16,ab_a16,minor))", "main"),
+      in_branches("info(mitigated(m_f28,ab_f28,minor))", "main"), in_branches("info(presumed_incurred(m_f01,n1397))", "main"),
+      info_none("exempt(m_a16,", "mitigated(m_f01,", "exempt(m_f01,", "presumed_incurred(m_b16,", "presumed_incurred(m_a16,",
+                "presumed_incurred(m_f28,")],
+     "on the sixteenth birthday not yet sixteen (c. 1323 n. 1); the day after, tempered; born 29 February, a minor "
+     "on 28 February 2026, an adult on 1 March (c. 97 §1, c. 203)", mode=B)
+scen("CA1", SAE, "One clock", ["cand_total_ban", "today_20261010"],
+     [shown(["cand_total_ban", "today_20261010"], ("in_force/1", "asof/1", "now/1"), "asof(2026)", "now(20261010)",
+            absent=("in_force(total_ban)", "asof(9999)")),
+      shown(["cand_total_ban"], ("in_force/1", "asof/1"), "in_force(total_ban)", "asof(9999)"),
+      shown(["today_20261010", "asof_2010"], ("now/1", "asof/1"), "now(20101231)", "asof(2010)", absent=("now(20261010)",))],
+     "a day given: the graph read as of its year; an asof year: its last day; no clock: every source entered")
+scen("CA2", SAE, "One act, one date", ["cand_dates_disagree"],
+     [has("dates_disagree(act_d,2001,20000505)"),
+      shown(["sspx"], ("violation/1", "promulgated/2"), "promulgated(ed1988,19880702)", absent=("violation(dates_disagree(ed1988,1988,19880702))",))],
+     "refused: one act given two years; Ecclesia Dei agrees with itself")
+scen("RC1", SAE, "Reception: a dated claim, fixed only at tier 1", ["creeds", "reception_fixed_hyp"],
+     [branches_n(2), assumed_none("received(quicumque)"),
+      preferred_assume(["trinity", "filioque", "councils_relaxed", "creeds"], QNR),
+      lambda r: (not any(f.startswith("violation(tier_without_warrant") for b in
+                         solve(["trinity", "filioque", "councils_relaxed", "creeds"], "branches")["branches"] for f in b["facts"]),
+                 "received, a creed is warranted"),
+      lambda r: (solve(["creeds", "reception_fixed_hyp", "asof_1250"], "branches")["models"] == 4,
+                 "as of 1250, before the act at tier 1: both ways"),
+      shown(["creeds"], ("in_force/1",), facts="asof(600). custom_asof.", absent=("in_force(quicumque)",)),
+      shown(["creeds", "cand_reception_unclaimed"], ("violation/1",), "violation(reception_without_claimant(quicumque))"),
+      info_any("handed_on_below_tier_1(quicumque,florence_armenians_1439)"),
+      shown(["creeds"], ("used_work/2", "to_fetch/2"), "used_work(schaff_herzog,quicumque)",
+            absent=('to_fetch(schaff_herzog,verify(quicumque,"vol. I, s.v. Athanasian Creed: its reception"))',))],
+     "fixed by an act at tier 1 (HYPOTHETICAL): no branch; before it, both ways; before the year claimed, not in force; "
+     "an undated, unclaimed reception refused; Florence (1439) a witness at tier 3", mode=B)
+scen("OR1", SAE, "Glosses dated before their texts", ["cand_dated_before"],
+     [has("measure_against_order(gloss_g,text_t)", "measure_against_order(gloss_i,text_i)",
+          "measure_against_order(gloss_c,text_c)", "measure_against_order(gloss_o,text_o)")],
+     "what cites, interprets, grades or claims for an act comes after it: refused")
+scen("OR2", SAE, "The end dated", CREED + ["cand_end_dated"],
+     [has("end_dated(return)", "end_dated(judgment)")], "\"of that day and hour no one knows\" (Mt 24:36): refused")
+scen("OR2b", SAE, "The end past", CREED + ["cand_end_past"],
+     [has("end_past(return,council_x)", "end_past(return,council_y)"), none_of("end_dated")], "\"the resurrection is past already\" (2 Tim 2:18): refused")
+scen("OR3", SAE, "An event before the beginning", CREED + ["cand_before_creation"],
+     [has("before_the_beginning(first_motion)")], "\"ab initio temporis\" (DH 800): refused")
+scen("OR4", SAE, "The order stays partial", CREED + ["cand_grace_unforeseen"],
+     [clean], "a second path to Mary's conception: well formed")
+scen("MD1", SAE, "The measures typed", ["world"],
+     [clean, shown(["world"], ("measure/2",), "measure(god,eternity)", "measure(gabriel,aevum)", "measure(peter,time)",
+                   "measure(stone,time)", absent=("measure(god,time)", "measure(gabriel,time)", "measure(peter,aevum)"))],
+     "eternity for God; the aevum for angels (Thomas's); time for bodily creatures")
+scen("MD2", SAE, "The Son's begetting placed in the order", CREED + ["cand_generation_dated"],
+     [has("procession_in_time(begetting)", "procession_in_time(spiration)"),
+      shown(["trinity", "cand_arian"], ("violation/1",), "violation(eternal_with_beginning(son))")],
+     "\"there was when he was not\" (DH 126): refused; Arius's Son, eternal with a beginning")
+scen("MD3", SAE, "Eternity said of a creature", ["world", "cand_world_eternal"],
+     [has("creature_without_beginning(world)"),
+      shown(["world", "cand_light_eternal"], ("violation/1",), "violation(eternal_with_beginning(light))")],
+     "a world without beginning, and light given eternity's mode: refused (DH 800)")
+scen("MD4", SAE, "God's decree dated", ["world"] + CREED + ["cand_decree_dated"],
+     [has("divine_act_in_time(decree_of_election)", "divine_act_in_time(decree_of_mission)",
+          "divine_act_in_time(decree_of_end)")], "his act is not dated; its effects are (CCC 600): refused")
 
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):

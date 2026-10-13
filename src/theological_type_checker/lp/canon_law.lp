@@ -50,7 +50,10 @@
 % @input common_error/1 | c. 144: common error or positive and probable doubt about this act
 % @input appears_otherwise/2 | the external presumption of imputability is rebutted on the facts
 % @input promulgated/2 | promulgated(Act, Date): a law, or an authentic interpretation in the form of law, published (cc. 7-8, 16 §2)
-% @input vacatio_until/2 | vacatio_until(Law, Date): the law takes force on this date (c. 8 §1)
+% @input vacatio_set/2 | vacatio_set(Law, Date): the law names its own date of force (c. 8 §1, another vacatio)
+% @input aas_issue/2 | aas_issue(Law, Date): the date the issue of the Acta Apostolicae Sedis carrying the law bears (c. 8 §1)
+% @input aas_volume/3 | aas_volume(Law, Year, Given): the issue unread; its volume's year and the date the act was given
+% @input born/2 | born(Person, Date): a birth date (c. 97, with c. 203)
 % @input enacted_by/2 | enacted_by(Body, Law): a body of norms enacted by this law
 % @input part_of/2 | part_of(Norm, Body)
 % @input interpretation_form/2 | interpretation_form(Act, law | particular): an authentic interpretation's form (c. 16 §§2-3)
@@ -69,7 +72,7 @@
 % @input dispensation/3 | dispensation(Act, Law, X): a dispensation from Law for X
 % @input defines_essentials/1 | the law defines what essentially constitutes an institute or juridic act (c. 86)
 % @input doubtful_revocation/2 | doubtful_revocation(Later, Earlier): whether the later revokes the earlier is in doubt
-% @input age_at/3 | age_at(Person, Act, Years): the agent's age when the act was placed
+% @input age_at/3 | age_at(Person, Act, Years): the agent's age when the act was placed, where no birth date is given
 % @input juridic_act/2 | juridic_act(Act, Person): a juridic act placed by the person (c. 124)
 % @input spouse/2 | spouse(Marriage, Person): one who gave consent to the marriage
 % @input claims_necessity/2 | the agent publicly claims a state of necessity for the act
@@ -116,12 +119,17 @@ event_date(E,T) :- consecration(E,_,_,T).
 event_date(A,T) :- absolution(A,_,_,T).
 event_date(M,T) :- marriage(M,_,T).
 event_date(E,T) :- act_date(E,T).
-eval_date(T) :- today(T), not custom_asof.
-eval_date(T) :- custom_asof, asof(Y), T = Y*10000 + 1231.
+eval_date(T) :- now(T).                         % the one clock (saeculum.lp)
 past(E) :- event_date(E,TE), eval_date(T), TE <= T.
 % the instants at which status is computed: each act's date, and the evaluation date
 instant(T) :- event_date(_,T).
 instant(T) :- eval_date(T).
+% what the law asks of the calendar (c. 203): c. 8 §1's three months from
+% an issue, or from each end of an unread issue's span; and completed years
+months_asked(D,3)             :- aas_issue(_,D).
+months_asked(G,3)             :- aas_volume(_,_,G).
+months_asked(Y*10000+1231,3)  :- aas_volume(_,Y,_).
+years_asked(B,T)              :- born(_,B), event_date(_,T), B <= T.
 issued(D) :- decree(D,_,TD), eval_date(T), TD <= T.
 asserted(S,X) :- asserts(S,X,TS), eval_date(T), TS <= T.
 % c. 965: only a priest absolves; a bishop has the priesthood
@@ -155,8 +163,8 @@ assumed_fact(F)      :- disputed(F), F = appears_otherwise(P,E), appears_otherwi
 assumed_fact(false(F)) :- disputed(F), F = appears_otherwise(P,E), not appears_otherwise(P,E).
 
 % The penal norms, the bodies they belong to, and the laws that enacted them.
-promulgated(code1983,19830125). vacatio_until(code1983,19831127).   % Sacrae disciplinae leges
-promulgated(pgd2021,20210601).  vacatio_until(pgd2021,20211208).    % Pascite gregem Dei: Book VI revised
+promulgated(code1983,19830125). vacatio_set(code1983,19831127).     % Sacrae disciplinae leges: the First Sunday of Advent
+promulgated(pgd2021,20210601).  vacatio_set(pgd2021,20211208).      % Pascite gregem Dei, art. 2: Book VI revised
 enacted_by(book6_1983,code1983). enacted_by(book6_2021,pgd2021).
 part_of(n1382_1983,book6_1983). part_of(n1364_1983,book6_1983).
 part_of(n1387,book6_2021). part_of(n1364,book6_2021). part_of(n1379,book6_2021). part_of(n1386,book6_2021).
@@ -174,12 +182,11 @@ penal_use(abortion).
 needs_reading(abortion,A) :- killing_of_unborn(A), event_date(A,_).
 applies_reading(pclt1988,abortion,killing). issuer(pclt1988,john_paul_ii). authority(john_paul_ii,4).
 interpretation_form(pclt1988,law).
-promulgated(pclt1988,19880523). vacatio_until(pclt1988,19880523).   % c. 8 §1's months run from AAS 80 (1988); the cases are dated clear of 1988-89
+promulgated(pclt1988,19880523). aas_volume(pclt1988,1988,19880523).  % AAS 80 (1988) 1818-1819, the issue's date unread (c. 8 §1)
 % c. 1371 n. 1: the Code's text until Ad tuendam fidem, the amended text until Pascite gregem Dei
-promulgated(atf1998,19980518). vacatio_until(atf1998,19980518).   % names no date (c. 8 §1); the cases are dated clear of 1998
+promulgated(atf1998,19980518). aas_volume(atf1998,1998,19980518).   % names no date; AAS 90 (1998) 457-461, the issue's date unread (c. 8 §1)
 enacted_by(c1371_text_1983,code1983). enacted_by(c1371_text_1998,atf1998).
 part_of(n1371_1983,c1371_text_1983). part_of(n1371_1998,c1371_text_1998).
-norm_in_force(N,T) :- norm(N,F,U), event_date(_,T), F <= T, T < U.
 % c. 751: one act, or a lasting state? Its reading decides schism.
 reading_option(c751,act_suffices). reading_option(c751,lasting_state).
 narrower(lasting_state,act_suffices).
@@ -195,11 +202,46 @@ disputed(excluded_reading(c915,subjective)) :- needs_reading(c915,_).
 needs_reading(c915,S) :- situation(_,S), manifest(S), persisting(S).
 
 % ---------- Book I: general norms ------------------------------------------
-% @norm cic:7 | c. 7: a law is established when it is promulgated; c. 8 §1: it takes force when its vacatio ends | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
-in_force_from(L,T) :- promulgated(L,_), vacatio_until(L,T).
-norm(N,F,U)        :- part_of(N,B), enacted_by(B,L), in_force_from(L,F), reorders(L2,B), in_force_from(L2,U).
-norm(N,F,99991231) :- part_of(N,B), enacted_by(B,L), in_force_from(L,F), not reordered(B).
-reordered(B) :- reorders(_,B).
+% @norm cic:7 | c. 7: a law is established when it is promulgated; c. 8 §1: universal laws are promulgated in the Acta Apostolicae Sedis and take force only after three months have elapsed from the date of that issue, unless they bind at once from the nature of the matter or the law sets a shorter or longer vacatio | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+% The issue's date counts as a whole day (c. 203 §1, its beginning the
+% day's): the months end at the close of the day before the day of the same
+% number, and the law binds from that day. So a canonist computes Omnium in
+% mentem, issue of 8 January 2010, in force 8 April 2010 (TTC-SAECULUM CT1).
+in_force_from(L,T) :- promulgated(L,_), vacatio_set(L,T).
+in_force_from(L,T) :- aas_issue(L,D), not vacatio_set(L,_), same_number_after(D,3,T).
+% An issue unread lies between the act's own date and its volume's last
+% day; force, between three months after each. Inside that span the date
+% is a fact not fixed by the record, computed both ways (rule 2; CT3).
+force_window(L,T1,T2) :- aas_volume(L,Y,G), not aas_issue(L,_), not vacatio_set(L,_),
+                         same_number_after(G,3,T1), same_number_after(Y*10000+1231,3,T2).
+has_force_date(L) :- in_force_from(L,_).
+has_force_date(L) :- force_window(L,_,_).
+force_at(L,T) :- in_force_from(L,F), instant(T), F <= T.
+force_at(L,T) :- force_window(L,_,T2), instant(T), T2 <= T.
+{ force_at(L,T) } :- force_window(L,T1,T2), instant(T), T1 <= T, T < T2.
+:- force_at(L,T), instant(T2), T < T2, not force_at(L,T2).      % once in force, in force after
+assumed_fact(force_by(L,T))        :- force_window(L,T1,T2), instant(T), T1 <= T, T < T2, force_at(L,T).
+assumed_fact(false(force_by(L,T))) :- force_window(L,T1,T2), instant(T), T1 <= T, T < T2, not force_at(L,T).
+norm_in_force(N,T) :- part_of(N,B), enacted_by(B,L), force_at(L,T), event_date(_,T), not abrogated_at(B,T).
+abrogated_at(B,T)  :- reorders(L2,B), force_at(L2,T).
+
+% @norm cic:203 | cc. 200-203: time is computed by these canons unless the law provides otherwise; a day is 24 hours from midnight, continuous months and years as in the calendar (c. 202); the day a quo is not counted unless its beginning coincides with the beginning of the day; a term of months or years ends at the close of the last day of the same number or, if the month lacks it, of the last day of the month (c. 203) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann200-203_en.html
+% The day of the same number N calendar months after D; where the month
+% lacks it, its term closes with the month and the next day is the first.
+cal_year(Y2) :- months_asked(D,N), Y2 = D/10000 + ((D/100)\100 - 1 + N)/12.
+same_number_after(D,N,R) :- months_asked(D,N), M2 = (D/100)\100 - 1 + N, Y2 = D/10000 + M2/12, M3 = M2\12 + 1,
+                            days_in(Y2,M3,L), D\100 <= L, R = Y2*10000 + M3*100 + D\100.
+same_number_after(D,N,R) :- months_asked(D,N), M2 = (D/100)\100 - 1 + N, Y2 = D/10000 + M2/12, M3 = M2\12 + 1,
+                            days_in(Y2,M3,L), D\100 > L, R = Y2*10000 + (M3+1)*100 + 1.   % never December, which lacks no day
+% Years completed at a date: the day of birth is not counted (birth does
+% not begin with the day), and a year closes with the day of the same
+% number; on the birthday itself it is not yet completed. One born on 29
+% February completes a year in a common year at the close of 28 February.
+completed_years(B,T,N) :- years_asked(B,T), T\10000 <= B\10000, N = T/10000 - B/10000 - 1.
+completed_years(B,T,N) :- years_asked(B,T), T\10000 >  B\10000, N = T/10000 - B/10000.
+
+% @norm cic:97 | c. 97 §1: one who has completed the eighteenth year of age is an adult; below this age, a minor; ages are counted under c. 203 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann96-123_en.html
+age_at(P,A,N) :- born(P,B), event_date(A,T), completed_years(B,T,N).
 
 % @norm cic:20 | c. 20: a later law abrogates or derogates from an earlier one if it says so, is directly contrary to it, or completely reorders its matter | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 reorders(pgd2021,book6_1983).
@@ -217,15 +259,15 @@ interpretation_form(A,particular) :- authentic_reading(_,_,A), not interpretatio
 % (c. 9). A lasting situation with no date of its own is judged now.
 % (TTC-PENAL AB8: the dates were recorded, never compared.)
 dated(E) :- event_date(E,_).
-reaches_act(A,E) :- in_force_from(A,F), needs_reading(_,E), event_date(E,T), F <= T.
-reaches_act(A,E) :- in_force_from(A,F), needs_reading(_,E), not dated(E), eval_date(T), F <= T.
-reaches_act(A,E) :- in_force_from(A,_), needs_reading(_,E), not dated(E), not has_eval_date.   % no clock: the present
+reaches_act(A,E) :- force_at(A,T), needs_reading(_,E), event_date(E,T).
+reaches_act(A,E) :- force_at(A,T), needs_reading(_,E), not dated(E), eval_date(T).
+reaches_act(A,E) :- has_force_date(A), needs_reading(_,E), not dated(E), not has_eval_date.   % no clock: the present
 has_eval_date :- eval_date(_).
 reaches_act(A,E) :- declaratory(A), needs_reading(_,E).
 reading_binds(N,R,E) :- authentic_reading(N,R,A), interpretation_form(A,law), needs_reading(N,E), reaches_act(A,E).
 reading_binds(N,R,E) :- authentic_reading(N,R,A), interpretation_form(A,particular), particular_matter(A,E), needs_reading(N,E).
 info(not_retroactive(A,E)) :- authentic_reading(N,_,A), interpretation_form(A,law), needs_reading(N,E), not reaches_act(A,E).
-violation(interpretation_without_force(A)) :- authentic_reading(_,_,A), interpretation_form(A,law), not in_force_from(A,_).
+violation(interpretation_without_force(A)) :- authentic_reading(_,_,A), interpretation_form(A,law), not has_force_date(A).
 authentically_read(N,E) :- reading_binds(N,_,E).
 read_for(N,R,E) :- reading_binds(N,R,E).
 
@@ -579,8 +621,8 @@ info(delict(P,N,E)) :- delict(P,N,E), past(E).
 info(to_be_imposed(P,N,E,K)) :- to_be_imposed(P,N,E), penalty(N,K), past(E).
 
 % @norm cic:1117 | c. 1117: the form must be observed if at least one of the parties was baptized in the Catholic Church or received into it (as amended by Omnium in mentem, 2009; until then, "and has not defected from it by a formal act"), without prejudice to c. 1127 §2 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
-promulgated(oim2009,20091026). vacatio_until(oim2009,20091026).   % names no date (c. 8 §1); the cases are dated clear of 2009-10
-defection_exempts(P,M) :- spouse(M,P), formal_defection(P,D), marriage(M,_,T), D <= T, in_force_from(oim2009,F), T < F.
+promulgated(oim2009,20091026). aas_issue(oim2009,20100108).   % names no date; AAS 102 (2010) 8-10, issue of 8 January 2010 (c. 8 §1)
+defection_exempts(P,M) :- spouse(M,P), formal_defection(P,D), marriage(M,_,T), D <= T, has_force_date(oim2009), not force_at(oim2009,T).
 bound_to_form(P,M) :- spouse(M,P), not outside(P), not defection_exempts(P,M).
 % silence binds: the form is excused only where every recorded party is outside or exempt
 form_excused(M) :- spouse(M,_), not some_party_bound(M).

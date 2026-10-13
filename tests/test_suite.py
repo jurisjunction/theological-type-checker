@@ -179,7 +179,8 @@ def test_monopatrism_changes_only_the_processions():
     # RT excluded: its scenarios load whole runtimes; switching monopatrism under one tests nothing here
     # CR excluded: the creed loads the Trinity, and monopatrism changes its processions by design (TTC-CREED)
     # CX excluded for the same reason: the christ group loads the creed (TTC-CHRIST)
-    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT, suite.CR, suite.MR, suite.CX)
+    # SAE excluded for the same reason: its order and measure cases load the creed (TTC-SAECULUM, stated in its scoring)
+    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT, suite.CR, suite.MR, suite.CX, suite.SAE)
                and _outcome(s) != _outcome(s, ["monopatrism"])}
     assert changed == FILIOQUE_DEPENDENT
 
@@ -516,3 +517,57 @@ def test_scenario_ids_are_unique():
     dup = [k for k, n in Counter(s["id"] for s in suite.S).items() if n > 1]
     assert not dup, dup
 
+
+# TTC-SAECULUM CT1-CT4: the force of a law is computed from its issue (c. 8
+# §1), never typed; the calendar's counts and ages under c. 203.
+import re
+from theological_type_checker.engine import solve
+
+
+def test_force_is_computed_not_typed():
+    texts = engine.base_texts()
+    assert not any("vacatio_until" in txt for txt in texts.values())
+    code = "\n".join(line.split("%")[0] for f in ("canon_law.lp", "canon_cases.lp") for line in texts[f].splitlines())
+    laws = set(re.findall(r"\bpromulgated\(([a-z]\w*),", code))
+    dated = set(re.findall(r"\b(?:vacatio_set|aas_issue|aas_volume)\(([a-z]\w*),", code))
+    assert laws <= dated, laws - dated
+
+
+def _force(facts):
+    return set(solve([], "one", facts=facts, show=("in_force_from/2",))["atoms"])
+
+
+def test_calendar_counts():
+    got = _force("aas_issue(c1,18991129). aas_issue(c2,19991129). aas_issue(c3,20231031). aas_issue(c4,20231115). "
+                 "aas_issue(c5,20230531).")
+    assert {"in_force_from(c1,19000301)", "in_force_from(c2,20000229)", "in_force_from(c3,20240131)",
+            "in_force_from(c4,20240215)", "in_force_from(c5,20230831)"} <= got, got
+
+
+def test_completed_years():
+    atoms = set(solve([], "one", facts="born(p,20080229). act_date(a1,20240229). act_date(a2,20240301). "
+                      "act_date(a3,20250228). act_date(a4,20250301). act_date(a5,20071231).",
+                      show=("age_at/3",))["atoms"])
+    want = {"age_at(p,a1,15)", "age_at(p,a2,16)", "age_at(p,a3,16)", "age_at(p,a4,17)"}
+    assert want <= atoms and not any(a.startswith("age_at(p,a5,") for a in atoms), atoms
+
+
+def test_no_case_of_the_base_inside_a_span():
+    for parts in (["sspx"], ["life_sources", "abortion", "abortion_canon"], ["marriages_c1117"]):
+        hit = {a for b in solve(parts, "branches")["branches"] for a in b["assume"] if "force_by(" in a}
+        assert not hit, (parts, hit)
+
+
+def test_the_saeculum_reads_no_interior():
+    txt = engine.base_texts()["saeculum.lp"]
+    assert "interior(" not in txt and "imputab" not in txt
+
+
+
+# The library names only works it declares (TTC-SAECULUM: a new work, the
+# New Schaff-Herzog, cited for the Quicumque's reception).
+def test_library_names_declared_works():
+    code = "\n".join(line.split("%")[0] for line in engine.base_texts()["library.lp"].splitlines())
+    declared = set(re.findall(r"^work\((\w+),", code, re.M))
+    named = set(re.findall(r"\b(?:cites_work\(\w+, *|online\(|to_read\()([a-z]\w*)", code))
+    assert named <= declared, named - declared

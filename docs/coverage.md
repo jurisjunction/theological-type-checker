@@ -18,15 +18,15 @@ a test checks the file is current and every scenario named exists.
 
 ## SUMMARY
 
-Of 87 units: 42 touched by rules, 9 by cases only,
+Of 87 units: 44 touched by rules, 7 by cases only,
 36 frontier. A unit counts as touched if one rule reaches
 it, so this measures reach, not depth. The rule files cite
-26 of the Catechism's 2,865 paragraphs by number (the column
+30 of the Catechism's 2,865 paragraphs by number (the column
 "Cited"). The Prologue (1–25) is frontier.
 
 ## PART ONE: THE PROFESSION OF FAITH
 
-36 units: 19 under rules, 6 under cases only, 11 frontier.
+36 units: 21 under rules, 4 under cases only, 11 frontier.
 
 | CCC | Unit | Status | Cited | Scenarios | The base holds |
 | --- | --- | --- | --- | --- | --- |
@@ -36,7 +36,7 @@ it, so this measures reach, not depth. The rule files cite
 | 101–141 | Sacred Scripture | rules |  | CS2, CS2c, CS3, CS3b | inerrancy; senses defined; the analogy of faith |
 | 144–165 | I believe | rules |  | NT3, FD2, FD3 | the note de fide; heresy only after the definition; one article denied, none held by faith |
 | 166–184 | We believe | rules | 1 | NT2, NT4, TC1 | what the Church proposes as revealed (CCC 182); tiers computed, not asserted |
-| 185–197 | The creeds | rules |  | CR1, CR1b, CR1d | the creeds at tier 1, dated |
+| 185–197 | The creeds | rules | 1 | CR1, CR1b, CR1d | the creeds at tier 1, dated |
 | 199–231 | I believe in God | rules |  | TH0, K5 | the attributes as defined; no demiurge |
 | 232–267 | The Father | rules |  | M1, FQ1, RT1, TH20 | the processions, one principle, distinction by relation |
 | 268–278 | The Almighty | frontier |  |  |  |
@@ -49,12 +49,12 @@ it, so this measures reach, not depth. The rule files cite
 | 484–511 | Conceived by the Holy Spirit, born of the Virgin Mary | rules |  | CM1b, CS3, B5, CE1d | ever-virgin; the Immaculate Conception's history |
 | 512–570 | The mysteries of Christ's life | frontier |  |  |  |
 | 574–594 | Jesus and Israel | frontier |  |  |  |
-| 595–623 | Jesus died crucified | case |  | CE0, CE2 | the economy's order; merits foreseen |
+| 595–623 | Jesus died crucified | rules | 1 | CE0, CE2, MD4 | the economy's order; merits foreseen; God's act not dated, its effects are (CCC 600) |
 | 624–630 | Jesus Christ was buried | case |  | CE0 | the economy's order |
 | 632–637 | Christ descended into hell | case |  | CE0 | the economy's order |
 | 638–658 | On the third day he rose from the dead | case |  | CE0, CE3 | risen after he died |
 | 659–667 | He ascended into heaven and is seated at the right hand | rules |  | PM1, PM2 | at the right hand by the natural mode |
-| 668–682 | He will come again to judge the living and the dead | case |  | CE0 | return and judgment in the order of events |
+| 668–682 | He will come again to judge the living and the dead | rules | 1 | CE0, OR2, OR2b | return and judgment in the order; the end neither dated nor past (CCC 673, 1040) |
 | 687–747 | I believe in the Holy Spirit | rules |  | FQ1, RT1, CR1 | the procession of the Spirit |
 | 751–780 | The Church in God's plan | frontier |  |  |  |
 | 781–810 | People of God, Body of Christ, Temple of the Spirit | frontier |  |  |  |
@@ -64,7 +64,7 @@ it, so this measures reach, not depth. The rule files cite
 | 963–975 | Mary, Mother of Christ, Mother of the Church | rules |  | CM3, CH2b | the Assumption; Mary without actual sin |
 | 976–987 | The forgiveness of sins | case |  | CS2 | Jn 20:23 read sacramentally |
 | 988–1019 | The resurrection of the body | frontier |  |  |  |
-| 1020–1060 | Life everlasting | frontier |  |  |  |
+| 1020–1060 | Life everlasting | frontier | 1 |  |  |
 | 1061–1065 | Amen | frontier |  |  |  |
 
 ## PART TWO: THE CELEBRATION OF THE CHRISTIAN MYSTERY

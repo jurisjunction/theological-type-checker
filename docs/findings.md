@@ -644,7 +644,37 @@ Predictions were stamped first ([ttc-penal(7)](research/penal-preregistration.md
 - **The norm graph** needed a second kind of benign loop, recursion over
   persons (c. 1329), and pushed data out of the norms that read it.
 
-### 25. Method
+### 25. The saeculum: one library for time (CT, CA, RC, OR, MD)
+
+Predictions were stamped first ([ttc-saeculum(7)](research/saeculum-preregistration.md)).
+
+- **Force is computed, not typed** (CT1–CT3). c. 8 §1 runs from the
+  issue's date to the day of the same number three months on (c. 203);
+  *Omnium in mentem* binds from 8 April 2010, as a canonist computes it.
+  Four laws had been entered in force on the day they were signed. Where
+  an issue's date is unread, force lies in a span, and a date inside it is
+  computed both ways: a fact the record does not fix. No case in the base
+  fell inside, and no canon output changed.
+- **Ages from birth dates** (CT4). On the sixteenth birthday sixteen is not
+  yet completed; one born on 29 February is a minor until the close of
+  28 February.
+- **One clock** (CA). A day given reads the authority graph as of its year,
+  not as of 9999; nothing in the suite depended on the difference.
+- **Reception is a claim** (RC). Typed by its composition, the *Quicumque*
+  had settled the Filioque before Lyons II. Dated and claimed, computed
+  both ways and never preferred, it leaves "from the Father alone" open as
+  of 1100 (CR1b changed). Florence hands it on to the Armenians in 1439,
+  but in a summary that defines nothing: a witness at tier 3. On the record
+  the preferred branch as of 1100 is the Father alone, by Photius's
+  weight: the record has no Latin witness to the Filioque before 1100.
+- **The order first** (OR, MD). Calendars are measures on an order of
+  events. Refused: a date for the return, an event after it or before
+  creation, a gloss dated before its text, a procession in God placed in
+  time, God's decree dated, eternity said of a creature (the world without
+  beginning; light, for its zero proper time). Arius's Son is now refused
+  on time as well: eternal, with a beginning (K7).
+
+### 26. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

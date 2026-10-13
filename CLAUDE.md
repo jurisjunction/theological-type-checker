@@ -15,7 +15,7 @@ This is a deterministic checker for theological and canonical claims
 | the Grammar of the Icon (one theory) | `icon_theory.lp`, `icon_models.lp`, `icon_tests.lp` |
 | schools (runtimes, readings, switches) | `schools.lp`, `icon_metaphysics.lp` |
 | authority (teaching) | `icon_authority.lp`, `icon_history.lp` |
-| libraries: the human act, law, morality and sin, grace, Christ, the sacraments, faith | `act.lp`, `law.lp`, `moral.lp`, `grace.lp`, `christ.lp`, `sacrament.lp`, `faith.lp` |
+| libraries: the human act, law, morality and sin, grace, Christ, the sacraments, faith, time | `act.lp`, `law.lp`, `moral.lp`, `grace.lp`, `christ.lp`, `sacrament.lp`, `faith.lp`, `saeculum.lp` |
 | canon (law) | `canon_law.lp`, `canon_cases.lp` |
 | pair, frontier | `pair.lp` |
 | library | `library.lp` |

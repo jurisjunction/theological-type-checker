@@ -56,7 +56,17 @@ exists, and no penalty is incurred.
 
 Each act is judged on its own date. A 2026 revocation does not reach a 2018
 absolution. Norms carry the dates they are in force: c. 1382 (1983) until
-8 December 2021, c. 1387 after. "Now" is `today/1`, or an `asof_YYYY` part.
+8 December 2021, c. 1387 after. "Now" is the one clock of `saeculum.lp`:
+`today/1`, or the last day of an `asof_YYYY` part.
+
+A law's force is computed, not typed (c. 8 §1 with c. 203): on the day of
+the same number three calendar months after its issue of the *Acta
+Apostolicae Sedis*, or the first day of the next month where that month
+lacks the day; *Omnium in mentem*, issue of 8 January 2010, binds from
+8 April 2010. A law that names its own date keeps it (the Code of 1983,
+*Pascite gregem Dei*). Where the issue's date is unread, force lies in a
+span; a date inside it is computed both ways. Ages come from birth dates
+(c. 97 §1, c. 203): on the birthday the year is not yet completed.
 
 An authentic interpretation in the form of law reaches the acts placed from
 its force (c. 8 §1), and an earlier act only where it is declaratory
@@ -76,7 +86,7 @@ admits.
 
 | Canon | What it does here |
 | --- | --- |
-| 7–8, 20 | Dates in force, from promulgation, the vacatio and a reordering law. |
+| 7–8, 20, 203 | Dates in force: computed from the issue (c. 8 §1, c. 203), or a date the law names; abrogation by a reordering law. |
 | 16 §§1–3 | An authentic interpretation binds generally as law, a particular matter otherwise. |
 | 17 | A disputed reading branches; the supreme legislator's law is read in harmony with a higher law. |
 | 18 | Penal terms take the strictest admissible reading. |
@@ -144,7 +154,7 @@ wrong.
 
 | Area | Canons |
 | --- | --- |
-| general | 7, 8 §1; 9; 14; 16 §§1–3 (with the dates of §2); 17; 18; 19; 20; 21; 85, 86; 135 §2; 333 §3; grants until competently revoked |
+| general | 7, 8 §1 (computed); 9; 14; 16 §§1–3 (with the dates of §2); 17; 18; 19; 20; 21; 85, 86; 97 §1; 135 §2; 200–203; 333 §3; grants until competently revoked |
 | persons | 11; 96; 113–120 (physical and juridic persons, moral persons by divine ordinance); 205 |
 | delicts | 751 with 1364 §1 (and 1983); 1371 n. 1 (1983, 1998); 1365; 1382 (1983); 1387; 1379 §1 n. 2; 1386 §1; 1398 (1983) and 1397 §2, with the interpretation of 1988; 1398 §1 n. 1 with the Dicastery's art. 6 n. 1 (2021); 1399 |
 | imputability | 1321 §§2–4; 1322; 1323; 1324 §1 nn. 1, 3, 4, 5, 8, 9, §3; 1325; 1328 §1; 1329 §2; 1355 |
@@ -167,3 +177,9 @@ Of the Dicastery for the Doctrine of the Faith's norms on reserved delicts
 favourable law after a change), c. 1328 §2, c. 1332 (interdict), c. 1352,
 and remission beyond c. 1355's dates (c. 1355 §2; *Misericordia et misera*
 12). The Eastern Code is not encoded: the canon layer is Latin.
+
+The issues of AAS 80 (1988) and 90 (1998) are unread: *Ecclesia Dei*, the
+response of 1988 and *Ad tuendam fidem* take force within spans. Useful
+time (c. 201 §2) and the month of thirty days (c. 202 §1) are not
+computed. Dates before 15 October 1582 are not converted from the Julian
+calendar.

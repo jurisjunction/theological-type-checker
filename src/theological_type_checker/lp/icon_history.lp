@@ -527,7 +527,22 @@ source(apostles_creed,1,truth,700).   % textus receptus (DH 30); the Old Roman C
 source(nicene_creed,1,truth,381).     % Constantinople I (DH 150): "proceeds from the Father"
 source(quicumque,1,truth,500).        % DH 75-76, 5th-6th c.; tier 1 by the Church's reception
 source(lateran_iv_1215,1,truth,1215). % Firmiter (DH 800-802)
-received_creed(apostles_creed). received_creed(quicumque).   % reception: a claim without a date (rule 14; roadmap)
+% Reception, dated, with its claimant (TTC-SAECULUM RC1). The Quicumque:
+% "from the Carolingian period ... began to be sung at prime every day
+% throughout the Western Church" (New Schaff-Herzog Encyclopedia, 1908,
+% "Athanasian Creed"; earlier, the synod of Autun, c. 670, bade the clergy
+% receive "the creed of bishop St. Athanasius"). The Apostles' Creed: "the
+% ancient baptismal symbol of the Church of Rome" (CCC 194), which gives no
+% year: the year entered is the textus receptus's (DH 30).
+reception_claim(quicumque,schaff_herzog_1908,800).
+reception_claim(apostles_creed,ccc_194,700).
+% Florence hands the Quicumque on to the Armenians, "that compendious rule
+% of the faith composed by most blessed Athanasius" (22 November 1439,
+% sixthly), in "a summary of the truth of the orthodox faith that the
+% Roman church professes": an instruction, no definition. A witness at
+% tier 3, so the reception stays a claim.
+source(florence_armenians_1439,3,truth,1439). character(florence_armenians_1439,conciliar_decree).
+reception_fixed_by(quicumque,florence_armenians_1439).
 conciliar_act(nicene_creed,creed). conciliar_act(lateran_iv_1215,creed).   % "Firmiter credimus et simpliciter confitemur"
 supports(quicumque,q(spirit_origin),father_and_son).         % "a Patre et Filio"
 supports(lateran_iv_1215,q(spirit_origin),father_and_son).   % "ab utroque pariter" (DH 800)
@@ -601,6 +616,10 @@ conciliar_act(trent_xxi_ch1,chapter). session_defines(trent_xxi_ch1).   % proem:
 
 % ablations: which act carries which value
 #program quicumque_relaxed.       relaxed(quicumque).
+#program cand_reception_unclaimed. % a creed typed received with no claimant and no date (the form before TTC-SAECULUM)
+received_creed(quicumque).
+#program reception_fixed_hyp.      % HYPOTHETICAL: an act at tier 1 handing the Quicumque on as a rule of faith in 1300 (RC1)
+source(def_r,1,truth,1300). hypothetical_warrant(def_r). reception_fixed_by(quicumque,def_r).
 #program creed_parts_relaxed.     relaxed(quicumque). relaxed(lateran_iv_1215).
 #program marian_council_relaxed.  relaxed(constantinople_ii_553).
 #program ic_definition_relaxed.   relaxed(ineffabilis_1854).

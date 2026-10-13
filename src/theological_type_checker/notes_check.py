@@ -16,8 +16,13 @@ from .engine import solve, split_args
 GRADES = {"de_fide", "definitive", "authentic"}
 
 
+# a creed's reception, claimed and computed both ways, is a claim of the same
+# kind as the ordinary universal magisterium's (TTC-SAECULUM RC1)
+RECEPTION = ("assumed_fact(received(", "assumed_fact(false(received(")
+
+
 def _world(b):
-    return (tuple(sorted(a for a in b["assume"] if a.startswith(("oum_holds(", "graded(", "read_as(")))), b["t2"])
+    return (tuple(sorted(a for a in b["assume"] if a.startswith(("oum_holds(", "graded(", "read_as(") + RECEPTION))), b["t2"])
 
 
 def _rest(b, q):
@@ -39,7 +44,7 @@ def facts(parts):
 
 
 def _plain(b):
-    return (tuple(sorted(a for a in b["assume"] if a.startswith(("oum_holds(", "graded(")))), b["t2"])
+    return (tuple(sorted(a for a in b["assume"] if a.startswith(("oum_holds(", "graded(") + RECEPTION))), b["t2"])
 
 
 def check(parts, with_defaults=False, categories=False):

@@ -25,8 +25,8 @@ authentic_reading(c751,act_suffices,ed1988) :- not c751_state_reading.
 % Given in the form of law (c. 16 §2), or as an act in a particular matter
 % (c. 16 §3)? Its form is disputed, and the checker computes both.
 disputed(interpretation_form(ed1988,law)).
-promulgated(ed1988,19880702).                                      % AAS 80 (1988)
-vacatio_until(ed1988,19880702).     % names no date (c. 8 §1); the acts are dated clear of 1988's months
+promulgated(ed1988,19880702).                                      % AAS 80 (1988) 1495-1498
+aas_volume(ed1988,1988,19880702).   % names no date (c. 8 §1); the issue's date unread: force from 2 October 1988 to 31 March 1989
 % In the form of law, does it only declare words of c. 751 certain in themselves
 % (retroactive, c. 16 §2)? Disputed with its form: computed both ways (TTC-PENAL AB9).
 disputed(declaratory(ed1988)).
@@ -287,7 +287,7 @@ formal_cause_essence.
 #program cand_jansenist.            % every interior grace efficacious, none resisted (Jansen)
 every_grace_efficacious.
 #program pclt_confirmed.            % HYPOTHETICAL: the 2000 declaration confirmed by pontifical authority and promulgated
-authority(pclt,4). interpretation_form(pclt2000,law). promulgated(pclt2000,20000624). vacatio_until(pclt2000,20000624).
+authority(pclt,4). interpretation_form(pclt2000,law). promulgated(pclt2000,20000624). vacatio_set(pclt2000,20000624).
 
 % ---------- Christ and the sacraments (TTC-CHRIST), all HYPOTHETICAL -------------
 #program christ_acts.               % HYPOTHETICAL: a human act of the incarnate, the divinity's instrument (load with creed)
@@ -667,3 +667,24 @@ act_of(state_x,act_x_s). kind_of_act(act_x_s,k_s). interior(state_x,act_x_s,deli
 #program cand_fiction_delict.       % a delict and its excommunication imputed to a juridic person (Romana ecclesia)
 today(20261010). juridic_person(college_c).
 delict_act(college_c,n1386,act_c). act_date(act_c,20230701).
+
+% ---------- The computation of time (TTC-SAECULUM), all HYPOTHETICAL ------
+#program defection_2010.            % HYPOTHETICAL: a Catholic who defected by a formal act marries a Lutheran (CT1; load with on_0407 or on_0408)
+today(20261010).
+baptized_in(def_r,catholic). formal_defection(def_r,20050101). baptized_in(lu_f,lutheran).
+#program on_0407.                   % the day before Omnium in mentem's force
+marriage(m_r,minister_l,20100407). spouse(m_r,(def_r;lu_f)).
+#program on_0408.                   % the day of it
+marriage(m_r,minister_l,20100408). spouse(m_r,(def_r;lu_f)).
+#program issues_november.           % HYPOTHETICAL: laws in issues of 29 and 30 November, before a leap year and a common one (CT2)
+aas_issue(law_a,20231129). aas_issue(law_b,20231130). aas_issue(law_c,20221129). aas_issue(law_d,20230831).
+#program rejection_1998.            % HYPOTHETICAL: a definitive teaching rejected twice inside Ad tuendam fidem's unread span (CT3; load with tier2, assent, professions_definitive)
+professes(theo_t,(prof_t98;prof_t99),q(d1),no). act_date(prof_t98,19981201). act_date(prof_t99,19990201).
+warned(theo_t,(prof_t98;prof_t99),ordinary). interior(theo_t,(prof_t98;prof_t99),pertinacious).
+#program ages_c97.                  % HYPOTHETICAL: ages from birth dates (CT4; load with life_sources, abortion, abortion_canon)
+procures(m_b16,ab_b16). born(m_b16,20070401). act_date(ab_b16,20230401).    % her sixteenth birthday
+procures(m_a16,ab_a16). born(m_a16,20070401). act_date(ab_a16,20230402).    % the day after
+procures(m_f28,ab_f28). born(m_f28,20080229). act_date(ab_f28,20260228).    % born on 29 February: eighteen not yet completed
+procures(m_f01,ab_f01). born(m_f01,20080229). act_date(ab_f01,20260301).    % an adult
+object_is((ab_b16;ab_a16;ab_f28;ab_f01),death_of_unborn).
+effect((ab_b16;ab_a16;ab_f28;ab_f01),death_of_unborn,evil).

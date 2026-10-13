@@ -316,3 +316,74 @@ the last things'.
 [ttc-penal(7)](penal-preregistration.md), [ttc-creed(7)](creed-preregistration.md),
 [ttc-communion(7)](communion-preregistration.md), [ttc-canon(5)](../canon-law-layer.md),
 [ttc-roadmap(7)](../roadmap.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in bc23021, stamped in
+4b8d31a. Encoded in `saeculum.lp` (new: the calendar, the clock, one act
+one date, the order, the bounds, the measures, the candidates),
+`canon_law.lp` (c. 8 §1 from the issue, spans, `force_at/2`; c. 203's
+counts; c. 97 §1), `icon_authority.lp` (reception), `icon_history.lp` (the
+claims; Florence's decree for the Armenians), `canon_cases.lp`,
+`library.lp`, `engine.py`, `schools.py`. Scenarios CT, CA, RC, OR, MD (16;
+478 in all).
+
+| | Result |
+| --- | --- |
+| CT1 | Held (CT1). *Omnium in mentem* binds from 8 April 2010: the same defector's marriage on 7 April is free of the form; on 8 April it is bound and, with no delegation, invalid in form. The Code of 1983, *Pascite gregem Dei* and the HYPOTHETICAL declaration of 2000 keep their own dates. |
+| CT2 | Held (CT2), and a test adds the centuries: an issue of 29 November 1899 binds from 1 March 1900 (a common year), of 29 November 1999 from 29 February 2000. |
+| CT3 | Held (CT3). The spans: *Ecclesia Dei*, 2 October 1988 to 31 March 1989; the response of 1988, 23 August 1988 to 31 March 1989; *Ad tuendam fidem*, 18 August 1998 to 31 March 1999. The rejection of 1 December 1998 is a delict under the amended canon in one branch, none in the other; no case of the base falls inside a span, and no canon output changed. |
+| CT4 | Held (CT4). |
+| CA1 | Held (CA1). With `today` the graph is read as of 2026; no output changed. |
+| CA2 | Held (CA2). |
+| CA3 | Held: CU1–CU8 unchanged. |
+| RC1 | Held (RC1). The *Quicumque*'s claim is the New Schaff-Herzog Encyclopedia's (1908): sung at Prime "throughout the Western Church" from the Carolingian period, entered as 800. The Apostles' Creed's claimant is CCC 194, which gives no year; the year entered is its text's (700), the encoder's, noted in the history. With an act at tier 1 handing the creed on (HYPOTHETICAL), no branch; before it, both ways; as of 600, the *Quicumque* is not in force. |
+| RC2 | Held (CR1b, changed and stated). As of 1100 both creeds' receptions are computed both ways (12 branches); "from the Father alone" is open, and absent from every branch where the *Quicumque* is received. |
+| RC3 | Held. No value changed. Models: CR1 1 to 4, CR1b 2 to 12, CR1d 1 to 2, CR1e 2 to 4, CM1b 4 to 16, CM1c 2 to 8; CR1c's one model records the claims. |
+| OR1 | Held (OR1). |
+| OR2 | Held (OR2, OR2b). |
+| OR3 | Held (OR3). |
+| OR4 | Held (OR4). |
+| MD1 | Held (MD1). |
+| MD2 | Held (MD2). |
+| MD3 | Held (MD3). |
+| MD4 | Held (MD4). |
+| M1 | Held. No earlier check changed but CR1b; one test's scope widened to leave out the new scenarios that load the creed (below). K7 and RT4 gained `eternal_with_beginning(son)` (their checks unchanged); the scenarios loading the creeds gained the reception branches; every output gained the New Schaff-Herzog in the library's display. The TTC-SCHOOLS tables did not change. |
+| M2 | Held after closing gaps. Each new statement was deleted in turn (50 in `saeculum.lp`, 41 in `canon_law.lp`, 16 in `canon_cases.lp`, 12 in `icon_authority.lp`, 6 in `icon_history.lp`, and the library's). Closed on the way: glosses dated before the texts they interpret, grade or claim for the ordinary universal magisterium (only *cites* had a case); a day laid on the judgment, and a dated source after the return; the spiration dated; God's decrees before an event and at a year; the preferred branch never resting on a reception, and a received creed warranted; two acts inside one span, so that force once begun lasts; one defector in two alternative marriages, where two defectors had made one premise idle. Unit tests kill two more: the leap rule for years divisible by 400 (2000), and a work cited but undeclared (a new test of the library). What survives: the laws' citations of the *Acta* (`cites_work/3` for acts that are not sources), records no rule reads, as *Ecclesia Dei*'s already was. CL1 and PR4 clean. |
+| M3 | Held: "Jesus died crucified" and "He will come again" move to rules (44 units under rules, 7 under cases, 36 frontier); the rule files cite CCC 600, 673, 1040, and 194 besides (30 paragraphs). |
+
+### Caveats, read
+
+- **Florence's decree for the Armenians** (22 November 1439) hands the
+  *Quicumque* on, "that compendious rule of the faith composed by most
+  blessed Athanasius", in "a summary of the truth of the orthodox faith
+  that the Roman church professes": no definition. The caveat's "if it
+  does, the reception is fixed from 1439" assumed an act at tier 1; RC1
+  asks one, and this is a witness at tier 3 (`handed_on_below_tier_1`).
+  The reception stays a claim in every year.
+- **The age's count** was not checked against a commentary on c. 97: still
+  the encoder's reading of c. 203, with the birthday tested.
+- **The *vacatio*'s count** is the canonist's, and agrees with *Omnium in
+  mentem*'s published date.
+
+### Not predicted
+
+- **The preferred branch as of 1100 is "from the Father alone"**, by
+  Photius's weight (886): the record has no Latin witness to the Filioque
+  before Anselm (1102). A gap in the record, now on the roadmap.
+- **Arius's Son is refused on time as well** (K7, RT4):
+  `eternal_with_beginning(son)`. DESCRIPTION's "no rule reads time in it"
+  no longer holds; K7's check did not change.
+- **December lacks no day.** The clause for a month after the last that
+  lacks the day could never fire; it was removed.
+- **A council's decree at tier 3 needs its character** (PR4).
+- **The order's cases load the creed**, so monopatrism changes their
+  processions: the test that monopatrism changes only the processions now
+  excludes the saeculum group, as it excludes the creed's and Christ's
+  (stated in the test).
+- **The library reads the kernel and the authority graph** through ten
+  declared slots, so the norm graph stays closed.
+- **The notes check compares like with like.** NT1's check groups branches
+  by the claims computed both ways; a creed's reception is now one of them,
+  so a branch where the *Quicumque* is received is compared only with
+  branches where it is too (`notes_check.py`).

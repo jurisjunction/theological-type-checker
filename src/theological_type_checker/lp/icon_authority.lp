@@ -26,12 +26,13 @@
 % ===================================================================
 
 % ---------- Time and force -----------------------------------------
-asof(9999) :- not custom_asof.
+% asof/1 comes from the one clock (saeculum.lp): an asof part, today's
+% year, or 9999 (every source entered) with no clock (TTC-SAECULUM CA1).
 promoted_now(S) :- promoted(S,_,Y), asof(A), Y <= A.
 eff_tier(S,T)   :- promoted(S,T,Y), asof(A), Y <= A.
 eff_tier(S,T)   :- source(S,T,_,_), not promoted_now(S).
 withdrawn_now(S) :- withdrawn(S,Y), asof(A), Y <= A.        % a later act replaced the text
-in_force(S)     :- source(S,_,_,Y), asof(A), Y <= A, not relaxed(S), not withdrawn_now(S).
+in_force(S)     :- source(S,_,_,Y), asof(A), Y <= A, not relaxed(S), not withdrawn_now(S), not awaiting_reception(S).
 
 % ---------- Ambiguous texts: one branch per reading -------------------
 % a source marked ambiguous but given no readings is a frontier item, not a contradiction
@@ -86,6 +87,25 @@ oum_unmet(S)        :- oum_claim(S,_), oum_condition(C), not condition_shown(S,C
 unshown_claim(S)    :- oum_holds(S), oum_unmet(S).
 violation(claim_without_claimant(S)) :- oum_claim(S,_), not oum_claimant(S,_).   % rule 14: entered with its claimant
 
+% ---------- A creed received: a dated claim (TTC-SAECULUM RC) ------------
+% Reception, like the ordinary universal magisterium, is a claim about
+% witnesses: entered with its claimant and the year from which it claims
+% the creed received (reception_claim/3). From that year it is computed
+% both ways, and the branch resting on it is never preferred (rule 14),
+% unless an act at tier 1 in force hands the creed on as a rule of faith
+% (reception_fixed_by/2). Not received, the text is not in force as the
+% Church's. An act below tier 1 that hands it on is a witness, recorded.
+reception_due(S)   :- reception_claim(S,_,Y), asof(A), Y <= A, source(S,_,_,_), not relaxed(S).
+reception_fixed(S) :- reception_fixed_by(S,F), in_force(F), eff_tier(F,1).
+{ received(S) } :- reception_due(S), not reception_fixed(S).
+received(S) :- reception_due(S), reception_fixed(S).
+awaiting_reception(S) :- reception_claim(S,_,_), not received(S).
+unshown_claim(reception(S))      :- received(S), not reception_fixed(S).
+assumed_fact(received(S))        :- received(S), not reception_fixed(S).
+assumed_fact(false(received(S))) :- reception_due(S), not received(S).
+info(handed_on_below_tier_1(S,F)) :- reception_fixed_by(S,F), in_force(F), not eff_tier(F,1), reception_due(S).
+violation(reception_without_claimant(S)) :- received_creed(S).   % undated, unclaimed: the old form, refused
+
 % ---------- Rule 14: a tier is a finding about form and conditions ---------
 % A source at tier 1 or 2 needs a warrant: a papal definition with the
 % conditions of Pastor aeternus (DH 3074), a council's canon, definition,
@@ -99,7 +119,7 @@ info(condition_unshown(S,C)) :- papal_form(S,ex_cathedra), ec_condition(C), not 
 defining_act(canon;definition;creed;scope).
 warranted(S) :- conciliar_act(S,K), defining_act(K).
 warranted(S) :- conciliar_act(S,chapter), session_defines(S).
-warranted(S) :- received_creed(S).
+warranted(S) :- received(S).
 warranted(oum(S)) :- oum_holds(S).
 warranted(S) :- hypothetical_warrant(S).
 violation(tier_without_warrant(S,T)) :- in_force(S), source(S,T,_,_), T >= 1, T <= 2, not warranted(S).
