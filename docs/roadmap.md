@@ -34,6 +34,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | empirical | the empirical kind: no tier settles it, a finding does, and a finding settles no doctrine; Galileo and the Big Bang; method and being; how many human beings | done ([ttc-empirica(7)](research/empirica-preregistration.md)) |
 | L | a language for libraries, compiled to clingo: declarations as metaclasses; runtimes by inheritance, three combinators, clashes refused; slots declared once, with sorts, domains, layers and sentences; parts naming their case; premises kept apart from conclusions | predicted ([ttc-l(7)](research/l-preregistration.md)), to stamp |
 | churches | other Churches and ecclesial communities: succession, sacraments, *subsistit in* | to predict, after L |
+| senses | the senses and the routes to words: sensibles typed, schemes by culture, the interior senses; words by hearing, sight, hand and touch; perception's claims as premises | to predict, after L |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
@@ -439,6 +440,20 @@ L first: runtime inheritance and the three combinators only.
   tier, date and declared input slots keep being found after the fact.
   As slots on the metaclass, the layer test (a higher layer writes into a
   lower one only through declared slots) becomes a compile error.
+- **The checker never vouches for itself.** A test that computes both
+  sides from one function cannot fail for the reason that matters; one
+  did (TTC-LLM-REQUESTS), until a second interpreter (Python 3.10 in CI)
+  and a text a person wrote (the guide) did what it could not. A system
+  that takes its own word as warrant proves anything (Löb, 1955; Curry,
+  1942). The shape is old: the sin against the Holy Spirit is called
+  unforgivable not because God cannot forgive it but because it shuts out
+  the means by which forgiveness comes (ST II-II q. 14 a. 3; CCC 1864),
+  and the Spirit convicts of sin from outside (Jn 16:8). So the checker's
+  word about itself is a claim, read by no rule; its evidence is the
+  suite's expectations, written by hand, the stamp, and every reader
+  outside it. A red test is a finding (rule 7): the capacity to be
+  convicted, kept. The form of the act is named; no one is said to have
+  committed it (rule 3).
 - **What a reader of the checker needs** (TTC-LLM-REQUESTS, from the
   tool that trains on the checker's output). Done before L: unknown slots
   as warnings, refusals as data, the summary's `schema`, key-sorted
@@ -574,6 +589,100 @@ CCC 1883). The checker need not hold everything.
   empirical library: it abstracts from sensible matter and motion (*Super
   Boetium De Trinitate* q. 5 a. 1). Its record is in the saeculum: who
   proved what and when, conjectures with their claimants.
+
+### the senses (after L)
+
+A library of the senses: what a perceiver may claim, typed by the
+classical account, so that a model reading images, sound or signing
+writes well-formed premises and never a conclusion. It needs L's sorts,
+schemes and `conclusion` gate.
+
+- **Three kinds of sensible** (*De anima* II.6; ST I q. 78 a. 3): proper
+  (colour to sight, sound to hearing), common (figure, number, motion,
+  rest, magnitude), incidental ("the son of Diares"). Sense is not
+  deceived about its proper object, only about the others (*De anima*
+  III.3; ST I q. 17 a. 2): a claim's kind is its type, and its strength.
+  Some things are no sensible at all: the species of the Eucharist are
+  seen, Christ's body by no bodily eye (ST III q. 76 a. 7). A model may
+  report `species_ceased/1`; never a presence.
+- **Three layers per sense.** Measurement (pixels, spectra, audio):
+  continuous, kept in another server, never in clingo. The sensible: a
+  typed fact on integer coordinates (CIELAB; cents, 1200 to the octave).
+  The name: a scheme's reading of a sensible ("blue", Japanese *ao*, the
+  rubrics' violet, a maqam's quarter tone, an Indian *śruti*), entered
+  with its scheme as claimant. A value on a boundary is read both ways.
+- **Schemes by culture, closed per scheme.** Colour lexicons differ by
+  language (Berlin and Kay, 1969; the World Color Survey); tuning systems
+  by tradition. A scheme is declared in L, with its source, and may
+  inherit as a runtime does; a culture is added as a scheme, not as code.
+  No world list of colours or notes.
+- **The interior senses** (ST I q. 78 a. 4): the common sense, which binds
+  what the senses deliver to one thing and perceives that we perceive
+  (*De anima* III.2); imagination, which keeps the forms in their order;
+  the cogitative power, which grasps this individual (where incidental
+  sensibles, and most error, live); memory, the past as past. Where sight
+  and hearing disagree (McGurk and MacDonald, 1976), the common sense
+  branches; it does not fuse in silence.
+- **Words through the scheme of each sense, never end to end.** Spoken
+  sounds are signs of the soul's affections, written marks of spoken
+  sounds; the signs differ between peoples, what they signify does not
+  (*De interpretatione* 1; Thomas, *Expositio Peryermenias* I lect. 2).
+  Four routes converge on a lexicon: the audible (sound, a phonology,
+  word forms); the graphic (marks, a script, word forms; through the
+  spoken word in an alphabet, directly in a logography, one character
+  read as different words in Chinese and Japanese); the manual (a sign
+  language's own phonology and lexicon); and touch (tactile signing,
+  Braille). A model writes the slots of its own rung only: a model of
+  the sense may not write words. Each scheme reads two ways where it can
+  ("I" or "we", a homophone, a homoglyph, a scribal abbreviation).
+- **Manual languages are primary, not secondary.** A sign language is a
+  language carried by sight, not a script. It is built of the visible's
+  common sensibles (Stokoe, 1960: handshape, location, movement; palm
+  orientation added later); colour carries nothing. Two hands and the
+  face articulate at once, and referents are placed in space and pointed
+  back to: tiers and loci, not a string. The face is grammar (raised brows
+  mark a yes/no question in ASL): read as an emotion it is both a breach of
+  rule 3 and a misreading. Not English through the hands: ASL descends
+  from French Sign Language, and ASL and BSL are not mutually
+  intelligible; translation is a reading between schemes. Manual
+  alphabets, notations (Stokoe, HamNoSys, SignWriting) and the monastic
+  sign lists kept under the rule of silence are schemes with claimants.
+- **Data structures.** The scheme graph: schemes as nodes, an edge from
+  the layer a scheme reads to the layer it writes, declared in L like
+  slots (`scheme phonology_en reads audible writes phoneme`) and checked
+  for cycles as the norm graph is. The annotation graph of each signal
+  (Bird and Liberman, 2001): nodes are times, arcs are units labelled by
+  layer, scheme and value, arcs spanning tiers where a sign ties both
+  hands and the face; paths are readings, and readings are branches.
+  Bindings across senses and pointing back are relations, not
+  derivations. Influence from above (the Ganong effect, McGurk) is never
+  an edge downward: the lower layer generates its readings, the higher
+  tests them, deleting paths without rewriting a fact, as a tier-1 source
+  deletes branches without touching the texts. The full graph stays in
+  the perception server; only alternatives that bear on a slot reach the
+  checker, as `disputed` where they are close.
+- **Rule 3 throughout.** What is seen and heard is outward; a passion is
+  interior, and c. 1324 §1 3° (grave heat of passion) takes it only as a
+  claim supplied. No model writes an emotion from a face, nor what a
+  speaker meant: the intention is presumed from the rite rightly used
+  (*Apostolicae curae* 33), never read from a recording.
+- **Where it meets the base.** Liturgical colours (GIRM 346) and chant (SC
+  116) as sensibles. Sacramental form: the CDF's response of 2020 held "We
+  baptize" invalid; a recording where "I" and "we" cannot be told apart
+  computes the doubt both ways, and conditional baptism follows. Consent
+  "in words or, if they cannot speak, through equivalent signs" (c. 1104
+  §2); confession through an interpreter (c. 990), who is bound to
+  secrecy (c. 983 §2); the imposition of hands as the matter of orders
+  (*Sacramentum ordinis*, 1947), a manual sensible feeding `matter_used/2`.
+  Manuscripts: letter forms read by a hand's script, abbreviations
+  expanded both ways, variants as the sources library's readings.
+- **Training.** Labels come from outside the checker (people,
+  instruments), never from its outputs: a model trained on the checker
+  and then feeding it agrees with it by construction (L, "the checker
+  never vouches for itself").
+- **To read.** Whether a sacramental form signed by the minister
+  suffices: no text known here settles it; to be entered disputed until
+  the sources are read.
 
 ## AMENDMENTS AND REPAIRS
 
