@@ -841,3 +841,9 @@ celebrated(bap_we,baptism,pr_w,inf_w).  act_date(bap_we,20210601).  form_used(ba
 celebrated(bap_alt,baptism,pr_w,inf_a). act_date(bap_alt,20210602). alters(bap_alt,closing_prayer).
 #program liturgical_books_hyp.      % HYPOTHETICAL: liturgical books changing a sacrament's conditions, even from the Apostolic See (RS1; load with sacrament_conditions)
 changes_condition(book_x,baptism,matter). changes_condition(book_y,matrimony,canonical_form).
+
+#program indulgence_grants.       % HYPOTHETICAL: partial indulgences granted in days, before and after Indulgentiarum doctrina (DU2, DU3)
+indulgence(g_1950,partial,19500601). in_days(g_1950,300).
+indulgence(g_1970,partial,19700601). in_days(g_1970,300).
+#program cand_days_in_purgatory.  % HYPOTHETICAL: the grant's days read as days in purgatory (DU2; load with indulgence_grants)
+days_read_as(g_1950,time_after_death).

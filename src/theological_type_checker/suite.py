@@ -3016,6 +3016,172 @@ scen("RD3", LIT, "The reform read as continuity or rupture", ["liturgy", "reform
       info_none("governance_read_as_teaching(tc2021,q(reform_1970))")],
      "continuity main; rupture a live shadow of Benedict XVI's letter; Traditionis custodes answers nothing on it", mode=B)
 
+# ---------- The last things (TTC-NOVISSIMA) ---------------------------------
+# Predictions committed first: docs/research/novissima-preregistration.md.
+NOV = "novissima"
+NVO = ["novissima_order"]
+NVT = NVO + ["novissima_theories"]
+ORDER_TODAY = [f"order_given({a},{b},{s})" for a, b, s in (
+    ("dying", "vision", "benedictus_deus_1336"), ("dying", "purification", "benedictus_deus_1336"),
+    ("purification", "vision", "benedictus_deus_1336"), ("dying", "hell", "benedictus_deus_1336"),
+    ("vision", "rising", "benedictus_deus_1336"), ("rising", "judgment", "benedictus_deus_1336"),
+    ("return", "rising", "lateran_iv_1215"), ("rising", "judgment", "lateran_iv_1215"),
+    ("dying", "purification", "florence_1439"), ("purification", "vision", "florence_1439"),
+    ("dying", "vision", "florence_1439"), ("dying", "hell", "florence_1439"))]
+
+def order_from_tier1(r):
+    srcs = {i.rsplit(",", 1)[1].rstrip(")") for i in r["info"] if i.startswith("order_given(")}
+    srcs |= {i.rsplit(",", 1)[1].rstrip(")") for i in r["info"] if i.startswith("without_end(")}
+    ok = srcs == {"benedictus_deus_1336", "lateran_iv_1215", "florence_1439"}
+    return ok, f"sources of the order: {', '.join(sorted(srcs))}"
+
+def viol_at(parts, present=(), absent=()):
+    """with these parts (an asof among them), these violations hold and these do not"""
+    def chk(_r):
+        v = solve(parts, "one")["violations"]
+        bad = [x for x in present if x not in v] + [x for x in absent if x in v]
+        return not bad, "as stated" if not bad else f"wrong: {bad}"
+    return chk
+
+def classified(parts, *pairs):
+    """classify each question=value as stated, with these parts"""
+    def chk(_r):
+        r = solve(parts, "branches")
+        got = [(qv, classify(r, qv)) for qv, _ in pairs]
+        return got == list(pairs), ", ".join(f"{qv}: {c}" for qv, c in got)
+    return chk
+
+scen("NV1", NOV, "The order after death, given", NVO,
+     [clean, lambda r: (all(o in r["info"] for o in ORDER_TODAY) and all(w in r["info"] for w in (
+          "without_end(hell,lateran_iv_1215)", "without_end(vision,lateran_iv_1215)", "without_end(vision,benedictus_deus_1336)")),
+          "each edge with its source"), order_from_tier1],
+     "dying before the vision, purification and hell; purification before the vision; the vision before rising; "
+     "the return before rising; rising before the judgment; the vision and hell without end: tier 1 only")
+scen("NV2", NOV, "Theories placed on the order", NVT,
+     [none_of("stage_unknown"), has("order_against_definition(cycles_t,vision,purification)", "end_of_the_endless(cycles_t,vision)"),
+      viol_at(NVT + ["cand_stage_unknown"], present=("stage_unknown(t_unknown,nirvana)", "stage_unknown(t_unknown,limbus)")),
+      has("order_against_definition(sleep_t,rising,vision)", "order_against_definition(rising_at_death_t,rising,return)",
+          "order_against_definition(total_death_t,rising,vision)", "soul_not_subsisting(total_death_t)",
+          "order_against_definition(vision_unpurified_t,vision,purification)"),
+      viol_at(NVT + ["asof_1300"], present=("order_against_definition(rising_at_death_t,rising,return)",),
+              absent=("order_against_definition(sleep_t,rising,vision)", "order_against_definition(total_death_t,rising,vision)",
+                      "soul_not_subsisting(total_death_t)", "order_against_definition(vision_unpurified_t,vision,purification)")),
+      viol_at(NVT + ["asof_1200"], absent=("order_against_definition(rising_at_death_t,rising,return)",)),
+      viol_at(NVT + ["asof_1500"], present=("order_against_definition(total_death_t,rising,vision)",),
+              absent=("soul_not_subsisting(total_death_t)",))],
+     "sleep from 1336; rising at death from 1215; total death from 1336 on the order and 1513 by Lateran V; "
+     "the vision before purification from 1336")
+scen("NV3", NOV, "One soul, one body", NVO + ["one_body"],
+     [has("soul_in_two_bodies(person_r)"), none_of("soul_in_two_bodies(person_l)"),
+      lambda r: ("raised_to_own_body(person_l)" in r["info"], "the raising reported, nothing refused")],
+     "reincarnation refused (DH 801, 1440; CCC 1013); a raising to the same body not")
+scen("NV4", NOV, "The end arriving early", CREED + ["marian"] + NVO + ["cand_rising_early"],
+     [info_all("end_early(mary)", "end_early(son)", "violation(rising_before_the_return(person_e))"),
+      info_none("end_past"),
+      lambda r: (not any("rising_before_the_return" in f for b in solve(CREED + ["marian"] + NVO + ["cand_rising_early", "asof_1200"],
+                                                                             "branches")["branches"] for f in b["facts"]),
+                 "as of 1200: not refused")],
+     "Mary's Assumption and Christ's resurrection the end early; another's rising before the return refused from 1215", mode=B)
+scen("NV5", NOV, "The end of punishment", ["creeds", "punishment_ends", "asof_1000"],
+     [cls("q(punishment_ends)=yes", "open"), prefers("q(punishment_ends)", "no"),
+      lambda r: (not any("q(punishment_ends)=yes" in b["values"] and "assumed_fact(received(quicumque))" in b["assume"]
+                         for b in r["branches"]) and not any("synod_543" in b["cleaved"] for b in r["branches"]),
+                 "never where the Quicumque is received; the synod cleaves nothing"),
+      classified(["creeds", "punishment_ends", "asof_1300"], ("q(punishment_ends)=yes", "excluded")),
+      viol_at(NVT, present=("end_of_the_endless(restoration_t,hell)",)),
+      viol_at(NVT + ["asof_1000"], absent=("end_of_the_endless(restoration_t,hell)",))],
+     "as of 1000 open, \"no\" preferred by the synod of 543's weight; from 1215 \"yes\" on no branch; "
+     "the restoration of all refused from 1215", mode=B)
+scen("JX1", NOV, "The vision deferred, as of 1332", ["vision_deferred", "asof_1332"],
+     [cls("q(vision_before_rising)=no", "settled"), reint_includes("q(vision_before_rising)=yes", "john_xxii_sermons"),
+      lambda r: (all(b["w"][5] == 1 for b in r["branches"] if "q(vision_before_rising)=no" in b["values"]), "Thomas weighs at tier 5")],
+     "the deferral main; the vision before the rising a live shadow of John XXII's sermons", mode=B)
+scen("JX2", NOV, "The vision deferred, as of 1335", ["vision_deferred", "asof_1335"],
+     [cls("q(vision_before_rising)=yes", "settled"), reint_includes("q(vision_before_rising)=no", "ne_super_his_1334"),
+      lambda r: (not any("john_xxii_sermons" in b["reint"] + b["cleaved"] for b in r["branches"]), "the sermons withdrawn")],
+     "the sermons withdrawn; the deferral a live shadow of Ne super his", mode=B)
+scen("JX3", NOV, "The vision deferred, from 1336", ["vision_deferred", "asof_1337"],
+     [cls("q(vision_before_rising)=no", "excluded"), clean_branches, info_none("condition_unshown(benedictus_deus_1336"),
+      classified(["vision_deferred", "asof_1440"], ("q(vision_before_rising)=yes", "settled"), ("q(vision_before_rising)=no", "excluded")),
+      classified(["vision_deferred", "asof_1440", "benedictus_deus_relaxed"], ("q(vision_before_rising)=no", "excluded")),
+      classified(["vision_deferred", "asof_1337", "benedictus_deus_relaxed"], ("q(vision_before_rising)=no", "shadow")),
+      viol_at(NVT + ["asof_1335"], absent=("order_against_definition(deferral_t,judgment,vision)",)),
+      viol_at(NVT + ["asof_1337"], present=("order_against_definition(deferral_t,judgment,vision)",))],
+     "on no branch (Benedictus Deus, tier 1, warranted by its words); Florence the same; the theory refused from 1336", mode=B)
+scen("DU1", NOV, "A calendar laid on what follows death", ["after_death_measured"],
+     [has("after_death_measured(purification,300,days)", "after_death_measured(vision,1000,years)",
+          "after_death_measured(hell,7,days)", "end_dated(rising)")],
+     "refused (Spe salvi 47); a year on the rising refused as the return's")
+scen("DU2", NOV, "The former days of indulgences", ["indulgence_grants"],
+     [clean, lambda r: ("days_of_canonical_penance(g_1950,300)" in r["info"], "a measure of canonical penance"),
+      viol_at(["indulgence_grants", "cand_days_in_purgatory"], present=("after_death_measured(purification,300,days)",))],
+     "the days a measure of canonical penance; read as days in purgatory, refused")
+scen("DU3", NOV, "Indulgentiarum doctrina in the canon layer", ["indulgence_grants", "asof_1968"],
+     [lambda r: ("indulgence_in_force(g_1950)" in r["info"] and "designated_in_days_against_norm_4(g_1970)" in r["info"]
+                 and "designated_in_days_against_norm_4(g_1950)" not in r["info"], "1950 in force; 1970 against norm 4"),
+      shown(["indulgence_grants", "asof_1970"], ("info/1",), "info(indulgence_null(g_1950))",
+            absent=("info(indulgence_in_force(g_1950))",)), none_of("after_death_measured")],
+     "the grant of 1950 in force as of 1968, null as of 1970; a grant in days in 1970 against norm 4")
+scen("DU4", NOV, "Thomas's measures for a soul after death", ["separated_souls"],
+     [clean, shown(["separated_souls"], ("measure/2",), "measure(soul_s,aevum)", "measure(soul_b,share_of_eternity)",
+                   absent=("measure(soul_s,time)", "measure(soul_s,eternity)")),
+      lambda r: ("share_in_eternity(soul_b)" in r["info"], "the vision a share in eternity"),
+      viol_at(["separated_souls", "cand_blessed_eternal"], present=("eternal_with_beginning(soul_b)",))],
+     "the aevum for its being, a share in eternity for the vision; eternity itself refused (DH 800)")
+scen("NS1", NOV, "No one placed in a state after death", ["canonization_hyp", "placed_after_death"],
+     [info_all("violation(state_after_death_placed(person_h,hell))", "violation(state_after_death_placed(person_p,purification))",
+               "violation(state_after_death_placed(person_g,glory))", "in_glory_by_the_act(saint_x,canonization_x)"),
+      info_none("state_after_death_placed(saint_x")],
+     "hell, purification, glory without an act: refused (rule 3; CCC 1861); glory by a canonization: the act's", mode=B)
+scen("NS2", NOV, "A canonization's tier from its formula", ["canonization_hyp"],
+     [info_none("tier_without_warrant", "tier_inconsistent_with_form", "condition_unshown"),
+      info_all("lower_speaks_of_higher(cdf_1998_commentary,canonization_x,2)"),
+      cls("q(in_glory(saint_x))=yes", "settled"), cls("q(in_glory(saint_x))=no", "shadow")],
+     "tier 2 by its form; the commentary a lower tier speaking of a higher; \"not in glory\" never main", mode=B)
+scen("NS3", NOV, "A beatification read as teaching", ["canonization_hyp", "beatification_hyp"],
+     [info_all("violation(governance_read_as_teaching(beatification_x,q(in_glory(saint_x))))")],
+     "a permission of cult: governance", mode=B)
+scen("NS4", NOV, "Hell's eternity settled, no one placed", ["creeds", "punishment_ends"],
+     [cls("q(punishment_ends)=no", "settled"), info_none("state_after_death_placed")],
+     "settled at tier 1; no rule derives a person's state after death (and a test)", mode=B)
+scen("WL1", NOV, "Nothing of this world carried over", CREED + ["marian", "cand_nothing_carried_over"],
+     [info_all("violation(glorified_annihilated(son))", "violation(glorified_annihilated(mary))")],
+     "refused for Christ's flesh and Mary's body", mode=B)
+scen("WL2", NOV, "The world at the end", ["world_at_the_end"],
+     [lambda r: ([b["values"] for b in r["branches"] if "read_as(rom8_19,sensible_creation)" in b["assume"]] ==
+                 [["q(world_at_the_end)=transformed"]], "the sensible creation: transformed alone"),
+      lambda r: (all(b["status"] == "live_shadow" and sorted(b["reint"]) == ["ccc_1047", "gs39"] for b in r["branches"]
+                     if any(v in b["values"] for v in ("q(world_at_the_end)=annihilated", "q(world_at_the_end)=unchanged")))
+                 and {v for b in r["branches"] if "read_as(rom8_19,human_creature)" in b["assume"] for v in b["values"]} ==
+                     {"q(world_at_the_end)=transformed", "q(world_at_the_end)=annihilated", "q(world_at_the_end)=unchanged"},
+                 "the human creature: annihilated and unchanged live shadows of GS 39 and CCC 1047"),
+      cls("q(world_at_the_end)=annihilated", "shadow"),
+      lambda r: (all(b["w"][5] == 2 for b in r["branches"] if "q(world_at_the_end)=transformed" in b["values"])
+                 and all(b["w"][4] == 1 for b in r["branches"] if "q(world_at_the_end)=transformed" not in b["values"]),
+                 "Gerhard and Quenstedt weigh at tier 5, Thomas at tier 4")],
+     "transformed; annihilation never main", mode=B)
+scen("WL3", NOV, "Plants and animals", ["plants_and_animals", "asof_2014"],
+     [cls("q(plants_and_animals_remain)=yes", "open"), cls("q(plants_and_animals_remain)=no", "open"),
+      prefers("q(plants_and_animals_remain)", "no"),
+      lambda r: (all(b["status"] == "live_shadow" and b["reint"] == ["laudato_si_2015"] for b in solve(["plants_and_animals"], "branches")["branches"]
+                     if "q(plants_and_animals_remain)=no" in b["values"]), "from 2015: \"no\" a live shadow of Laudato si'")],
+     "as of 2014 \"no\" preferred by Thomas; from 2015 a live shadow of Laudato si'", mode=B)
+scen("WL4", NOV, "What charity carries", ["lasts_by_charity", "cand_binding_by_love"],
+     [all_models_with(["lasts_by_charity", "cand_binding_by_love"], ("assumed_fact/1", "violation/1", "info/1"),
+                      present=("violation(binding_by_love(chant_x))",),
+                      some=("assumed_fact(carried(chant_x))", "assumed_fact(false(carried(chant_x)))",
+                            "info(carried_on_the_claim(chant_x))"))],
+     "a claim computed both ways, never derived; binding by love still refused", mode=B)
+scen("OS1", NOV, "One sacrifice in many times", CREED + ["one_sacrifice"],
+     [clean, lambda r: (all(i in r["info"] for i in ("one_sacrifice(mass_m)", "one_sacrifice(last_supper)")), "joined to the one passion"),
+      shown(CREED + ["one_sacrifice"], ("before/2",), "before(last_supper,passion)", absent=("before(passion,last_supper)",))],
+     "the Mass and the Last Supper joined to the passion; no second passion")
+scen("OS2", NOV, "A second immolation, a bare commemoration", CREED + ["one_sacrifice", "cand_second_immolation", "cand_bare_commemoration"],
+     [has("second_immolation(mass_m)", "bare_commemoration(mass_m)"),
+      viol_at(CREED + ["one_sacrifice", "cand_second_immolation", "cand_bare_commemoration", "asof_1500"],
+              absent=("second_immolation(mass_m)", "bare_commemoration(mass_m)"))],
+     "refused from 1562 (Trent, sess. XXII, cann. 3-4)")
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

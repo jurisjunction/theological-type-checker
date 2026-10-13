@@ -137,11 +137,15 @@
 % @input celebration_date/2 | sacrament.lp: the date of a celebration a case records
 % @input porrection/1 | the instruments were handed over in the ordination (Florence, Exultate Deo, DH 1326)
 % @input alters/2 | alters(E, Part): the minister added, omitted or altered a part of the rite that is not its form, on his own authority
+% @input indulgence/3 | indulgence(G, partial | plenary, Date): a grant of an indulgence
+% @input in_days/2 | in_days(G, N): the grant designates its partial indulgence in days (or their equivalent)
+% @input confirmed/2 | confirmed(G, Date): an older grant confirmed under Indulgentiarum doctrina's transitional norms
 
 event_date(E,T) :- consecration(E,_,_,T).
 event_date(A,T) :- absolution(A,_,_,T).
 event_date(M,T) :- marriage(M,_,T).
 event_date(E,T) :- act_date(E,T).
+event_date(G,T) :- indulgence(G,_,T).
 eval_date(T) :- now(T).                         % the one clock (saeculum.lp)
 past(E) :- event_date(E,TE), eval_date(T), TE <= T.
 % the instants at which status is computed: each act's date, and the evaluation date
@@ -866,6 +870,22 @@ to_be_conferred(R,K,absolutely)    :- celebration(E,K,_,R), imprints(K), not val
                                       not doubt_of_validity(E), not received(R,K).
 % @end
 info(to_be_conferred(R,K,How)) :- to_be_conferred(R,K,How).
+
+% ---------- Book IV: indulgences without days (TTC-NOVISSIMA DU3) -----------------
+% @norm id1967 | Paul VI, Indulgentiarum doctrina (1 January 1967; AAS 59 (1967) 5-24), norm 4: a partial indulgence is designated "nulla addita dierum vel annorum determinatione"; the new norms are valid three months from the constitution's publication in the Acta; indulgences not confirmed become null two years after the date of the constitution | https://www.vatican.va/content/paul-vi/la/apost_constitutions/documents/hf_p-vi_apc_01011967_indulgentiarum-doctrina.html
+% The norms take force by c. 8 §1's rule (the Code of 1917's c. 9 gave the
+% same three months). What the former days measured, and that nothing after
+% death is measured by them, is the theological side's (novissima.lp).
+promulgated(id1967,19670101). aas_issue(id1967,19670130).    % "An. et vol. LIX 30 Ianuarii 1967 N. 1"
+enacted_by(id1967_norms,id1967). part_of(n_id4,id1967_norms).
+lapse_date(id1967,19690101).                                  % "two years after the date of this constitution"
+designated_in_days(G) :- indulgence(G,partial,T), in_days(G,_), norm_in_force(n_id4,T).
+indulgence_null(G,T)  :- indulgence(G,_,TG), promulgated(id1967,TP), TG < TP, not confirmed(G,_),
+                         lapse_date(id1967,TL), instant(T), TL <= T.
+% @end
+info(designated_in_days_against_norm_4(G)) :- designated_in_days(G).
+info(indulgence_null(G))      :- indulgence_null(G,T), eval_date(T).
+info(indulgence_in_force(G))  :- indulgence(G,_,TG), eval_date(T), TG <= T, not indulgence_null(G,T).
 
 % ---------- Book IV: the bond of marriage (TTC-CHRIST SA10) ---------------------
 % @norm cic:1057 | c. 1057 §1: the consent of the parties, legitimately manifested between persons qualified by law, makes marriage; no human power is able to supply this consent | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html

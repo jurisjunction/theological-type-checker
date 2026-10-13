@@ -182,8 +182,9 @@ def test_monopatrism_changes_only_the_processions():
     # SAE excluded for the same reason: its order and measure cases load the creed (TTC-SAECULUM, stated in its scoring)
     # SRC excluded for the same reason: its Filioque witnesses load the Trinity (TTC-SOURCES, stated in its scoring)
     # LIT excluded for the same reason: Rome's creed (LO3) loads the Trinity (TTC-LITURGY, stated in its scoring)
+    # NOV excluded for the same reason: the end early, what lasts and the sacrifice load the creed (TTC-NOVISSIMA, stated in its scoring)
     changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT, suite.CR, suite.MR, suite.CX, suite.SAE,
-                                                              suite.SRC, suite.LIT)
+                                                              suite.SRC, suite.LIT, suite.NOV)
                and _outcome(s) != _outcome(s, ["monopatrism"])}
     assert changed == FILIOQUE_DEPENDENT
 
@@ -666,3 +667,14 @@ def test_no_rule_reads_love():
         if ":-" in st:
             body = st.split(":-", 1)[1]
             assert not re.search(r"\blov(e|ed|es|ing)\s*\(", body), (f, st)
+
+
+# TTC-NOVISSIMA NS4 (rule 3): no rule places a person in a state after death.
+# placed_in/2 is a case's input, refused or reported; a canonization is the
+# Church's act on the authority graph, never derived.
+def test_no_rule_derives_a_state_after_death():
+    for f, st in _heads_and_bodies():
+        if ":-" in st:
+            head = st.split(":-", 1)[0]
+            assert not re.search(r"\b(placed_in|in_hell|damned|in_glory|in_purgatory|saved)\s*\(", head), (f, st)
+            assert not re.search(r"\bholds\(q\(in_glory\(", head), (f, st)

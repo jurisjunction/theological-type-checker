@@ -507,3 +507,71 @@ encoded.
 [ttc-liturgy(7)](liturgy-preregistration.md), [ttc-saeculum(7)](saeculum-preregistration.md),
 [ttc-sources(7)](sources-preregistration.md), [ttc-creed(7)](creed-preregistration.md),
 [ttc-christ(7)](christ-preregistration.md), [ttc-roadmap(7)](../roadmap.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in 5a61dd2, stamped in
+356627c. Encoded in `novissima.lp` (new: the stages and the order given,
+theories placed on it, one soul one body, the end early, the measures after
+death, no one's state, what lasts), `sacrament.lp` (one sacrifice),
+`canon_law.lp` (*Indulgentiarum doctrina*, under `@norm id1967`),
+`icon_history.lp` (the order's sources; the vision deferred; the end of
+punishment; the world at the end; plants and animals; the HYPOTHETICAL
+parts), `canon_cases.lp`, `engine.py`. Scenarios NV, JX, DU, NS, WL, OS
+(22; 549 in all); no earlier expectation changed.
+
+| | Result |
+| --- | --- |
+| NV1 | Held (NV1): twelve edges, each with its source (Lateran IV, *Benedictus Deus*, Florence), and the vision and hell without end; no source below tier 1. |
+| NV2 | Held (NV2). Sleep: refused from 1336, not as of 1300. Rising at death: from 1215, not as of 1200. Total death: on the order from 1336 (refused as of 1500 on it alone), by Lateran V from 1513. The vision before purification: from 1336. |
+| NV3 | Held (NV3). |
+| NV4 | Held (NV4). |
+| NV5 | Held (NV5). As of 1000: "punishment ends" on two main branches, both where the *Quicumque* is not received; "no" preferred, the synod weighing 2 points; it cleaves nothing. |
+| JX1 | Held (JX1). The deferral main as of 1332, the vision a live shadow of the sermons; Thomas 1 point at tier 5. |
+| JX2 | Held (JX2). |
+| JX3 | Held (JX3): *Benedictus Deus* warranted by its words, its fifth condition shown by "ab omnibus fidelibus esse tenendas". |
+| DU1 | Held (DU1). |
+| DU2 | Held (DU2). |
+| DU3 | Held (DU3). The issue of the *Acta* read: 30 January 1967 ("An. et vol. LIX 30 Ianuarii 1967 N. 1"), so in force 30 April 1967. |
+| DU4 | Held (DU4). |
+| NS1 | Held (NS1). |
+| NS2 | Held (NS2): "not in glory" a live shadow, or a counterfactual one where tier-2 truth is assumed; never main. |
+| NS3 | Held (NS3). |
+| NS4 | Held (NS4), and a test (`test_no_rule_derives_a_state_after_death`). |
+| WL1 | Held (WL1). |
+| WL2 | Held (WL2). |
+| WL3 | Held (WL3). |
+| WL4 | Held (WL4). |
+| OS1 | Held (OS1). |
+| OS2 | Held (OS2). |
+| M1 | False in part. Beyond the 22 new scenarios, 53 earlier ones gained one line each: `info(end_early(son))` in the 50 that load the creed, `info(end_early(mary))` in the three that hold the Assumption (CS3, CM1b, CM3). No violation, branch or expectation changed. The TTC-SCHOOLS tables did not change; the group stays out of the stamped boot set, as every later group does. |
+| M2 | Held after closing gaps. Each new statement was deleted in turn (43 in `novissima.lp`, 4 in `sacrament.lp`, 9 in `canon_law.lp`, 3 in `canon_cases.lp`, 84 in `icon_history.lp`) against the scenarios that read them, and each survivor again. Closed on the way: the stages named, and a theory naming stages the order does not know (`stage_unknown`); a stage ended in another, placed on the order (the blessed falling again, to be purged anew); Florence's support for the vision, tested with *Benedictus Deus* relaxed (a new ablation part); the weights of Thomas, Gerhard and Quenstedt; the Last Supper before the passion; the share in eternity and what charity carries, reported. None survives. CL1 and PR4 clean. |
+| M3 | Held after one repair: both units move from frontier to rules, and the rule files cite CCC 966, 1013, 1022, 1023, 1031, 1035, 1037, 1047 and 1059 (51 paragraphs). "CCC 1013" was first wrapped across two comment lines and missed by the index (50); the comment was re-wrapped. |
+
+### Caveats, read
+
+- **Lateran IV's clause on punishment and glory** is entered from an
+  English translation; its Latin was not read. **DH 1743**'s Latin was
+  read (Schaff, *Creeds* II). *Laudato si'* 243 is still read only in
+  secondary sources.
+- ***Benedictus Deus*** read on vatican.va, whose Latin has misprints
+  ("nomine" for *homines*, "suius" for *suis*); the comments quote it with
+  the reading restored in brackets.
+- **The canonization** is dated 1990, before the commentary of 1998: a
+  claim about an act's grade comes after the act (TTC-SAECULUM OR1), and a
+  canonization pronounced after 1998 would have made the commentary's
+  claim one about a later act. The formula is today's.
+
+### Not predicted
+
+- **The end early, wherever the creed is.** `end_early/1` is reported in
+  every scenario that loads the creed, and wherever the Assumption is held
+  (M1): the rule's reach, not a fixture's.
+- **A candidate added.** The blessed falling again from the vision, to be
+  purged anew (the Origenist cycle of satiety and fall), was added to test
+  a rule: refused as ending what is without end from 1215 and against the
+  order from 1336.
+- **Four tests' scope.** NV4, WL1, OS1 and OS2 load the creed and change
+  under monopatrism, as the creed's groups do: the group is kept out of the
+  monopatrism test and of the stamped boot set. Nothing changes under the
+  Thomistic stack or encoding A of DH 1330.

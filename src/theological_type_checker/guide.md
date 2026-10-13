@@ -213,6 +213,23 @@ tier 3 or above: it fixes nothing). See [ttc-sources(7)](research/sources-prereg
 
 See [ttc-liturgy(7)](research/liturgy-preregistration.md).
 
+## THE LAST THINGS
+
+| Fact | Meaning |
+| --- | --- |
+| `gives_order(S,A,B)`, `without_end(X,S)` | The stages after death (`dying`, `purification`, `vision`, `hell`, `rising`, with the kernel's `return` and `judgment`) are kinds, not persons. An order between two stages holds while its source is in force at tier 1 (`order_given/3`), so the order is dated. |
+| `places(T,A,B)`, `ends_in(T,A,B)`, `denies_subsistence(T)` | A theory of what follows death, entered as the order it claims: refused against the order in force (`order_against_definition`), for ending a stage given without end (`end_of_the_endless`), or for denying the soul subsists once Lateran V is in force (`soul_not_subsisting`). |
+| `body_of(P,B)`, `raised(P)` | One soul, one body (DH 801, 1440): a soul given two bodies is refused (`soul_in_two_bodies`). A raising to the same body is reported, and no rule counts deaths. |
+| `rises_early(P)` | A bodily rising before the return, claimed of a person: refused (`rising_before_the_return`), save Christ, the firstfruits, and Mary on the branch of the Assumption (`end_early/1`). |
+| `duration_claim(X,N,Unit)`, `days_read_as(G,time_after_death)` | A duration in days or years laid on purification, the vision or hell: refused (`after_death_measured`). An indulgence's days (`in_days/2`) are reported as a measure of canonical penance. |
+| `separated_soul(X)` | A soul after death: measured by the aevum in its being (Thomas's); `measured_by(X,share_of_eternity)` for the vision, never eternity itself. |
+| `placed_in(P,State)` | A case placing a named person in hell, purification or glory: refused (`state_after_death_placed`; rule 3), save glory where a canonization in force says so (`in_glory_by_the_act`). A canonization is a source on `q(in_glory(P))`, its tier from its form. |
+| `nothing_carried_over` | Candidate only: refused for every glorified body of this world (`glorified_annihilated`). |
+| `lasts_claim(E,charity)` | That charity carries an element to the end: a claim, computed both ways, never derived. It binds nothing. |
+| `same_sacrifice(M,passion)`, `repeats(M,passion)`, `commemoration_only(M)` | A Mass joined to the one passion (`one_sacrifice/1`); a second immolation or a bare commemoration refused once Trent's canons are in force. |
+
+See [ttc-novissima(7)](research/novissima-preregistration.md).
+
 ## LIBRARY
 
 | Fact | Meaning |

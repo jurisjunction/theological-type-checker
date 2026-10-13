@@ -44,6 +44,12 @@
 % @input presence_requires/1 | a theory's claim: Christ is present only in this (candidate: use)
 % @input presence_as/1 | a theory's claim: Christ is present only as this (candidate: sign)
 % @input requires_of_minister/2 | a theory's claim: validity requires this of the minister (candidate: grace)
+% @input same_sacrifice/2 | same_sacrifice(Offering, passion): an offering joined to the one sacrifice of the cross
+% @input repeats/2 | candidate only: repeats(Offering, passion), the offering typed as a second immolation
+% @input commemoration_only/1 | candidate only: the offering typed as a bare commemoration
+% @input sacrifice_canons/1 | sacrifice_canons(Source): the canons on the sacrifice of the Mass
+% @input in_force/1 | icon_authority.lp
+% @input eff_tier/2 | icon_authority.lp
 
 % ---------- What a sacrament is (Trent, sess. VII, cann. 1, 8, DH 1601, 1608) --
 % Seven, instituted by Christ, acting ex opere operato. A celebration is
@@ -158,6 +164,19 @@ consecrated(H2) :- fragment_of(H2,H), consecrated(H).
 present(X,H,sacramental) :- consecrated(H), incarnate(X), not species_ceased(H).
 violation(presence_only_in_use(H)) :- presence_requires(use), consecrated(H), reserved(H).
 violation(presence_only_as_sign(H)) :- presence_as(sign), consecrated(H).
+
+% ---------- One sacrifice in many times (Trent, sess. XXII, DH 1740-1754) -------
+% "Una enim eademque est hostia, idem nunc offerens sacerdotum ministerio, qui
+% se ipsum tunc in cruce obtulit, sola offerendi ratione diversa" (ch. 2,
+% DH 1743). A Mass is an event of the order with its own date, joined to the
+% one passion; the Last Supper is joined to it before it (ch. 1, DH 1740). A
+% join, not an order edge: no second passion. Refused from the canons' date:
+% a second immolation (can. 4, DH 1754) and a bare commemoration (can. 3,
+% DH 1753) (TTC-NOVISSIMA OS).
+canons_on_the_sacrifice :- sacrifice_canons(S), in_force(S), eff_tier(S,1).
+info(one_sacrifice(M))   :- same_sacrifice(M,passion).
+violation(second_immolation(M))  :- repeats(M,passion), canons_on_the_sacrifice.
+violation(bare_commemoration(M)) :- commemoration_only(M), canons_on_the_sacrifice.
 
 % ---------- Reports, for the celebrations a case records ------------------------
 % The canons report their own acts (absolution, the form of marriage).

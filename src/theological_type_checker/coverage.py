@@ -151,6 +151,8 @@ COVER = {
     "1.2.3.a9p4": ("rules", ["B10", "B12", "B14"], "the teaching office's tiers and forms (LG 25)"),
     "1.2.3.a9p6": ("rules", ["CM3", "CH2b"], "the Assumption; Mary without actual sin"),
     "1.2.3.a10": ("case", ["CS2"], "Jn 20:23 read sacramentally"),
+    "1.2.3.a11": ("rules", ["NV2", "NV3", "NV4", "WL1"], "the rising at the return, by tier-1 sources in force; one soul, one body; the end early in Christ and Mary; nothing of this world annihilated (CCC 966, 1013)"),
+    "1.2.3.a12": ("rules", ["NV1", "JX3", "DU1", "NS1", "NS2", "WL2"], "the order after death given and dated; the vision before the rising (DH 1000); nothing after death measured by the calendar; no one's state computed; the world transformed (CCC 1022-1047)"),
     "2.1.1.a2": ("rules", ["SM4", "SM8", "SM6b"], "ex opere operato; the character; the fruit and disposition"),
     "2.1.2.a1": ("rules", ["LO1", "LO8", "LO9", "RS3", "RD1"], "one book, two sources: the prayer a witness that weighs and never fixes; three of LG 25's conditions, never the fourth; Vincent's measure; c. 846; the Missal's editions in an order (CCC 1124-1125)"),
     "2.1.2.a2": ("rules", ["LT5", "LT6", "AS1", "AS2"], "lex orandi typed as teaching or governance; the Churches sui iuris and their rites, ascription choosing the code"),

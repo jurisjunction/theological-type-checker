@@ -18,15 +18,15 @@ a test checks the file is current and every scenario named exists.
 
 ## SUMMARY
 
-Of 87 units: 46 touched by rules, 5 by cases only,
-36 frontier. A unit counts as touched if one rule reaches
+Of 87 units: 48 touched by rules, 5 by cases only,
+34 frontier. A unit counts as touched if one rule reaches
 it, so this measures reach, not depth. The rule files cite
-42 of the Catechism's 2,865 paragraphs by number (the column
+51 of the Catechism's 2,865 paragraphs by number (the column
 "Cited"). The Prologue (1–25) is frontier.
 
 ## PART ONE: THE PROFESSION OF FAITH
 
-36 units: 21 under rules, 4 under cases only, 11 frontier.
+36 units: 23 under rules, 4 under cases only, 9 frontier.
 
 | CCC | Unit | Status | Cited | Scenarios | The base holds |
 | --- | --- | --- | --- | --- | --- |
@@ -61,10 +61,10 @@ it, so this measures reach, not depth. The rule files cite
 | 811–870 | One, holy, catholic and apostolic | rules | 1 | FC1, FC2, EC1, EC6, EC9, EC10 | incorporation (c. 96) and full communion (c. 205); subsistit in; 'outside the Church' |
 | 871–945 | Hierarchy, laity, consecrated life | rules |  | B10, B12, B14 | the teaching office's tiers and forms (LG 25) |
 | 946–962 | The communion of saints | frontier |  |  |  |
-| 963–975 | Mary, Mother of Christ, Mother of the Church | rules |  | CM3, CH2b | the Assumption; Mary without actual sin |
+| 963–975 | Mary, Mother of Christ, Mother of the Church | rules | 1 | CM3, CH2b | the Assumption; Mary without actual sin |
 | 976–987 | The forgiveness of sins | case |  | CS2 | Jn 20:23 read sacramentally |
-| 988–1019 | The resurrection of the body | frontier |  |  |  |
-| 1020–1060 | Life everlasting | frontier | 1 |  |  |
+| 988–1019 | The resurrection of the body | rules | 1 | NV2, NV3, NV4, WL1 | the rising at the return, by tier-1 sources in force; one soul, one body; the end early in Christ and Mary; nothing of this world annihilated (CCC 966, 1013) |
+| 1020–1060 | Life everlasting | rules | 8 | NV1, JX3, DU1, NS1, NS2, WL2 | the order after death given and dated; the vision before the rising (DH 1000); nothing after death measured by the calendar; no one's state computed; the world transformed (CCC 1022-1047) |
 | 1061–1065 | Amen | frontier |  |  |  |
 
 ## PART TWO: THE CELEBRATION OF THE CHRISTIAN MYSTERY

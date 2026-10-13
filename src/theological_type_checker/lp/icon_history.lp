@@ -40,6 +40,16 @@ relaxed(grave_nimis). relaxed(trent_1546).
 #program asof_1950. asof(1950). custom_asof.
 #program asof_900.  asof(900).  custom_asof.
 #program asof_1500. asof(1500). custom_asof.
+#program asof_1000. asof(1000). custom_asof.
+#program asof_1200. asof(1200). custom_asof.
+#program asof_1300. asof(1300). custom_asof.
+#program asof_1332. asof(1332). custom_asof.
+#program asof_1335. asof(1335). custom_asof.
+#program asof_1337. asof(1337). custom_asof.
+#program asof_1440. asof(1440). custom_asof.
+#program asof_1968. asof(1968). custom_asof.
+#program asof_1970. asof(1970). custom_asof.
+#program asof_2014. asof(2014). custom_asof.
 
 % ---------- De auxiliis: a branch protected and never cleaved ---------
 #program auxiliis.
@@ -1048,3 +1058,196 @@ text_year((rite_p;rite_q),1500). derives_from(rite_p,rite_q). derives_from(rite_
 % answers a governance question, not this one.
 question(q(reform_1970)). question_kind(q(reform_1970),doctrinal). value(q(reform_1970),(continuity;rupture)).
 supports(bxvi_letter,q(reform_1970),continuity).
+
+% ---------- The last things (TTC-NOVISSIMA) ----------------------------------
+% The order after death is given by tier-1 sources in force (novissima.lp);
+% the parts load beside the records they speak to.
+#program novissima_order.         % the order after death, given (NV1-NV5, JX3)
+% Lateran IV, Firmiter (DH 801), as in creeds: "He will come at the end of
+% time to judge the living and the dead"; all "will rise with their own
+% bodies, which they now bear", to receive according to their deserts, "the
+% latter perpetual punishment with the devil, the former eternal glory with
+% Christ".
+source(lateran_iv_1215,1,truth,1215). conciliar_act(lateran_iv_1215,creed).
+gives_order(lateran_iv_1215,return,rising). gives_order(lateran_iv_1215,rising,judgment).
+without_end(hell,lateran_iv_1215). without_end(vision,lateran_iv_1215).
+general_rule_given(lateran_iv_1215). one_body_given(lateran_iv_1215).
+% Benedict XII, Benedictus Deus (29 January 1336; DH 1000-1002): "hac
+% imperpetuum valitura Constitutione, auctoritate apostolica diffinimus";
+% the souls "mox post mortem suam et purgationem praefatam in illis qui
+% purgatione huiusmodi indigebant, etiam ante resumptionem suorum corporum
+% et iudicium generale ... viderunt, vident et videbunt divinam essentiam",
+% "usque ad finale iudicium et extunc usque in sempiternum"; those in actual
+% mortal sin "mox post mortem suam ad Inferna descendunt"; "in die iudicii
+% omnes [homines] ante tribunal Christi cum suis corporibus comparebunt";
+% "ab omnibus fidelibus esse tenendas".
+source(benedictus_deus_1336,1,truth,1336). papal_form(benedictus_deus_1336,ex_cathedra).
+object_of(benedictus_deus_1336,revealed).
+condition_shown(benedictus_deus_1336,(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church)).
+gives_order(benedictus_deus_1336,dying,vision). gives_order(benedictus_deus_1336,dying,purification).
+gives_order(benedictus_deus_1336,purification,vision). gives_order(benedictus_deus_1336,dying,hell).
+gives_order(benedictus_deus_1336,vision,rising). gives_order(benedictus_deus_1336,rising,judgment).
+without_end(vision,benedictus_deus_1336).
+% Florence, Laetentur caeli (6 July 1439; DH 1304-1306), as in limbo: the
+% souls "penis purgatoriis post mortem purgari"; "in celum mox recipi et
+% intueri clare ipsum Deum trinum et unum, sicuti est"; "mox in infernum
+% descendere".
+source(florence_1439,1,truth,1439). conciliar_act(florence_1439,definition).
+gives_order(florence_1439,dying,purification). gives_order(florence_1439,purification,vision).
+gives_order(florence_1439,dying,vision). gives_order(florence_1439,dying,hell).
+% Lateran V, Apostolici regiminis (19 December 1513; DH 1440): those who
+% assert "the intellectual soul is mortal, or that it is only one among all
+% human beings" are condemned; it is immortal and multiplied "for the
+% enormous number of bodies into which it is infused individually".
+source(lateran_v_1513,1,truth,1513). conciliar_act(lateran_v_1513,definition).
+gives_subsistence(lateran_v_1513). one_body_given(lateran_v_1513).
+
+#program novissima_theories.      % HYPOTHETICAL: theories of what follows death, placed on the order (NV2, NV5, JX3; load with novissima_order)
+places(sleep_t,rising,vision).                                   % no vision before the rising
+places(rising_at_death_t,rising,return).                         % each rises at death, before the return
+places(total_death_t,rising,vision). denies_subsistence(total_death_t).   % nothing subsists; all re-created at the end
+places(vision_unpurified_t,vision,purification).                 % the vision before the purification one needs
+places(deferral_t,judgment,vision).                              % the vision only after the judgment
+ends_in(restoration_t,hell,vision).                              % hell ending in the vision of all
+ends_in(cycles_t,vision,purification).                           % the blessed falling again, to be purged anew
+#program cand_stage_unknown.      % HYPOTHETICAL: a theory naming stages the order does not know (NV2; load with novissima_theories)
+places(t_unknown,nirvana,dying). places(t_unknown,dying,limbus).
+
+#program one_body.                % HYPOTHETICAL: a soul given a second body; a raising (NV3; load with novissima_order)
+body_of(person_r,body_r1). body_of(person_r,body_r2).
+raised(person_l). body_of(person_l,body_l).                      % raised to his own body, to die again (Jn 11)
+
+#program cand_rising_early.       % HYPOTHETICAL: a bodily rising before the return, claimed of another (NV4)
+rises_early(person_e).
+
+#program punishment_ends.         % the end of punishment (NV5; load with creeds and an asof)
+question(q(punishment_ends)). question_kind(q(punishment_ends),doctrinal). value(q(punishment_ends),(yes;no)).
+% The synod of Constantinople (543), can. 9 against Origen (DH 411): anathema
+% to one who says "the punishment of demons and of impious men is only
+% temporary, and will one day have an end". A local synod under Mennas; the
+% adhesion of Vigilius, reported by Liberatus, is not entered.
+source(synod_543,3,truth,543). particular_council(synod_543). character(synod_543,conciliar_decree).
+supports(synod_543,q(punishment_ends),no).
+supports(quicumque,q(punishment_ends),no).          % "qui vero mala, in ignem aeternum" (DH 76)
+supports(lateran_iv_1215,q(punishment_ends),no).    % "perpetual punishment with the devil" (DH 801)
+
+#program vision_deferred.         % the vision before the rising: John XXII to Florence (JX; load with an asof)
+question(q(vision_before_rising)). question_kind(q(vision_before_rising),doctrinal).
+value(q(vision_before_rising),(yes;no)).
+% Thomas, ST I-II q. 4 a. 5: "the souls of the saints, separated from their
+% bodies, 'walk by sight,' seeing the Essence of God"; the contrary he calls
+% false.
+source(thomas_vision,5,truth,1271). promoted(thomas_vision,4,1567).
+supports(thomas_vision,q(vision_before_rising),yes).
+% John XXII, sermons at Avignon (1 November 1331 to 2 February 1332): the
+% vision of the divine essence only after the judgment. A pope's teaching in
+% homilies, at the tier of its form (rule 14). Withdrawn by his own act: in
+% consistory (3 January 1334) he revoked whatever in them was contrary to
+% Scripture and the faith, and Ne super his professes the contrary.
+source(john_xxii_sermons,3,truth,1331). papal_form(john_xxii_sermons,ordinary). character(john_xxii_sermons,homily).
+supports(john_xxii_sermons,q(vision_before_rising),no).
+withdrawn(john_xxii_sermons,1334).
+% Ne super his (3 December 1334; DH 990-991): "Fatemur siquidem et credimus,
+% quod animae purgatae separatae a corporibus ... vident Deum ... ac divinam
+% essentiam facie ad faciem clare, in quantum status et condicio compatitur
+% animae separatae."
+source(ne_super_his_1334,3,truth,1334). papal_form(ne_super_his_1334,ordinary). character(ne_super_his_1334,profession).
+supports(ne_super_his_1334,q(vision_before_rising),yes).
+source(benedictus_deus_1336,1,truth,1336). papal_form(benedictus_deus_1336,ex_cathedra).
+object_of(benedictus_deus_1336,revealed).
+condition_shown(benedictus_deus_1336,(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church)).
+supports(benedictus_deus_1336,q(vision_before_rising),yes).
+source(florence_1439,1,truth,1439). conciliar_act(florence_1439,definition).
+supports(florence_1439,q(vision_before_rising),yes).
+
+#program benedictus_deus_relaxed. % ablation: Benedictus Deus relaxed, Florence alone (JX3)
+relaxed(benedictus_deus_1336).
+
+#program after_death_measured.    % HYPOTHETICAL: durations laid on what follows death; a year on the rising (DU1)
+duration_claim(purification,300,days). duration_claim(vision,1000,years). duration_claim(hell,7,days).
+date_claim(rising,2100).
+
+#program separated_souls.         % HYPOTHETICAL: souls after death, Thomas's measures (DU4)
+% ST I q. 10 a. 5 ad 1: spiritual creatures, "quantum vero ad eorum esse
+% naturale, mensurantur aevo. Sed quantum ad visionem gloriae, participant
+% aeternitatem"; a. 6 obj. 3 names human souls among aeviternal things.
+separated_soul(soul_s). separated_soul(soul_b). measured_by(soul_b,share_of_eternity).
+#program cand_blessed_eternal.    % HYPOTHETICAL: the blessed measured by eternity itself (DU4; load with separated_souls)
+measured_by(soul_b,eternity).
+
+#program canonization_hyp.        % HYPOTHETICAL: a canonization in the words of the formula (NS1, NS2)
+% "Ad honorem Sanctae et Individuae Trinitatis, ad exaltationem fidei
+% catholicae et vitae christianae incrementum, auctoritate Domini nostri Iesu
+% Christi, beatorum Apostolorum Petri et Pauli ac Nostra ... Sanctum esse
+% decernimus et definimus, ac Sanctorum Catalogo adscribimus", to be venerated
+% "in universa Ecclesia": a papal definition of a fact connected with
+% revelation, tier 2 by its form. The CDF's commentary on the Professio fidei
+% (1998) n. 11 counts "the canonizations of saints (dogmatic facts)" among
+% truths to be held definitively: a claim of a lower tier about a higher.
+question(q(in_glory(saint_x))). question_kind(q(in_glory(saint_x)),doctrinal). value(q(in_glory(saint_x)),(yes;no)).
+source(canonization_x,2,truth,1990). papal_form(canonization_x,ex_cathedra). object_of(canonization_x,connected).
+condition_shown(canonization_x,(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church)).
+supports(canonization_x,q(in_glory(saint_x)),yes).
+source(cdf_1998_commentary,3,truth,1998). character(cdf_1998_commentary,commentary).
+claims_tier(cdf_1998_commentary,canonization_x,2).
+#program beatification_hyp.       % HYPOTHETICAL: a beatification typed as teaching on the same question (NS3; load with canonization_hyp)
+source(beatification_x,3,juridical,1985).
+supports(beatification_x,q(in_glory(saint_x)),yes).
+#program placed_after_death.      % HYPOTHETICAL: named persons placed in states after death by a case (NS1; load with canonization_hyp)
+placed_in(person_h,hell). placed_in(person_p,purification). placed_in(person_g,glory). placed_in(saint_x,glory).
+
+#program cand_nothing_carried_over.   % HYPOTHETICAL: nothing of this world carried over to the end (WL1; load with trinity, creed, marian)
+nothing_carried_over.
+
+#program world_at_the_end.        % the world at the end (WL2)
+question(q(world_at_the_end)). question_kind(q(world_at_the_end),doctrinal).
+value(q(world_at_the_end),(transformed;annihilated;unchanged)).
+% Rom 8:19-22, "creation itself would be set free from slavery to
+% corruption". "Creatura hic tripliciter accipi potest" (Thomas, Super Rom.
+% c. 8 lect. 4): the just, human nature, or "ipsa creatura sensibili", which
+% "quamdam novitatem gloriae consequetur". Augustine: "ipsa creatura, id est,
+% ipse homo" (De div. quaest. 83 q. 67). Read of the human creature, the text
+% says nothing of the world.
+source(rom8_19,0,truth,57). ambiguous(rom8_19). reading(rom8_19,(sensible_creation;human_creature)).
+reads(rom8_19,sensible_creation,q(world_at_the_end),transformed).
+source(gs39,3,truth,1965). character(gs39,conciliar_constitution).
+supports(gs39,q(world_at_the_end),transformed).      % "nec universi transformandi modum novimus"
+source(ccc_1047,3,truth,1992). character(ccc_1047,catechism).
+supports(ccc_1047,q(world_at_the_end),transformed).  % "destined to be transformed" (CCC 1047)
+% In IV Sent. d. 48 (Suppl. q. 91 a. 1): the world renewed, "non tamen
+% speciem variantem, sed addentem cuiusdam gloriae perfectionem".
+source(thomas_renewal,5,truth,1256). promoted(thomas_renewal,4,1567).
+supports(thomas_renewal,q(world_at_the_end),transformed).
+% Gerhard, Loci theologici XXX: "non nudam qualitatum alterationem, sed ipsius
+% substantiae abolitionem, adeoque totalem annihilationem", angels and men
+% excepted; Quenstedt likewise (Hodge, Systematic Theology III, iv §3).
+source(gerhard_loci,5,truth,1622). supports(gerhard_loci,q(world_at_the_end),annihilated).
+source(quenstedt_1685,5,truth,1685). supports(quenstedt_1685,q(world_at_the_end),annihilated).
+
+#program plants_and_animals.      % whether plants and animals remain (WL3; with an asof, or today)
+question(q(plants_and_animals_remain)). question_kind(q(plants_and_animals_remain),doctrinal).
+value(q(plants_and_animals_remain),(yes;no)).
+% In IV Sent. d. 48 (Suppl. q. 91 a. 5): "they will not remain in this
+% renewal". Laudato si' 243: "each creature, resplendently transfigured, will
+% take its rightful place".
+source(thomas_renewal,5,truth,1256). promoted(thomas_renewal,4,1567).
+supports(thomas_renewal,q(plants_and_animals_remain),no).
+source(laudato_si_2015,3,truth,2015). papal_form(laudato_si_2015,ordinary). character(laudato_si_2015,encyclical).
+supports(laudato_si_2015,q(plants_and_animals_remain),yes).
+
+#program lasts_by_charity.        % HYPOTHETICAL: an element claimed to last because charity carries it (WL4)
+lasts_claim(chant_x,charity).
+
+#program one_sacrifice.           % the Mass and the Last Supper joined to the one passion (OS1; load with trinity, creed)
+% Trent, sess. XXII (17 September 1562): at the Last Supper he "offered up to
+% God the Father His own body and blood" (ch. 1, DH 1740); "the victim is
+% one and the same ... the manner alone of offering being different" (ch. 2,
+% DH 1743); cann. 1, 3, 4 (DH 1751, 1753, 1754).
+source(trent_xxii_1562,1,truth,1562). conciliar_act(trent_xxii_1562,canon).
+sacrifice_canons(trent_xxii_1562).
+next(last_supper,passion).
+same_sacrifice(last_supper,passion). same_sacrifice(mass_m,passion). celebration_date(mass_m,20260405).
+#program cand_second_immolation.  % HYPOTHETICAL: the Mass typed as a second immolation (OS2)
+repeats(mass_m,passion).
+#program cand_bare_commemoration. % HYPOTHETICAL: the Mass typed as a bare commemoration (OS2)
+commemoration_only(mass_m).

@@ -147,6 +147,14 @@ porrection of the instruments; before it the requirement is a doubt the
 constitution itself refers to the Apostolic See, computed both ways, the
 order to be conferred conditionally (c. 845 §2).
 
+The last things (TTC-NOVISSIMA): *Indulgentiarum doctrina* (1967) is law,
+under its `@norm`. Its norms take force three months from their issue of
+the *Acta* (30 January 1967); a partial indulgence granted after it with
+days or years is designated against norm 4, and a grant of before the
+constitution not confirmed is null from 1 January 1969. What the former
+days measured, the canonical penance of the earth, and that nothing after
+death is measured by them, is the theological side's (`novissima.lp`).
+
 ## SOURCES
 
 [iuscangreg](https://www.iuscangreg.it/) (Faculty of Canon Law, Pontifical

@@ -30,7 +30,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | cceo | the Eastern Code: a second canon layer, chosen by ascription; who is bound; the minister of confirmation | done ([ttc-cceo(7)](research/cceo-preregistration.md)) |
 | sources | documents as layers in time: the codes (1917, 1983, 1990) and every act that changed them; law outside the codes; acts of executive power; the general norms as the edges; authorship, an attribution a claim; the Filioque's Latin witnesses | done ([ttc-sources(7)](research/sources-preregistration.md)) |
 | liturgy | the liturgy as witness, rite and development; one book, two sources; the substance kept, the rest law; rites in time | done ([ttc-liturgy(7)](research/liturgy-preregistration.md)) |
-| last things | the order after death given by definitions, never measured by the calendar; the vision deferred and defined; the end early; no one's state computed; what lasts; one sacrifice in many times | predicted ([ttc-novissima(7)](research/novissima-preregistration.md)), to stamp |
+| last things | the order after death given by definitions, never measured by the calendar; the vision deferred and defined; the end early; no one's state computed; what lasts; one sacrifice in many times | done ([ttc-novissima(7)](research/novissima-preregistration.md)) |
 | empirical | science | to predict |
 | L | a language for libraries, compiled to clingo | after empirical, before the churches |
 | churches | other Churches and ecclesial communities: succession, sacraments, *subsistit in* | to predict, after L |
@@ -240,7 +240,7 @@ from forms already existing" (SC 23). Three faces:
 
 ### last things
 
-Predicted in [ttc-novissima(7)](research/novissima-preregistration.md):
+Done ([ttc-novissima(7)](research/novissima-preregistration.md)):
 the stages after death an order of kinds, given by tier-1 sources in
 force (Lateran IV, *Benedictus Deus*, Florence, Lateran V), theories
 placed on it and refused by date; John XXII's deferral of the vision on
@@ -250,7 +250,13 @@ the end arriving early; nothing after death measured by the calendar
 canonization's tier from its formula; what lasts ("nothing of this world
 carried over" refused for Christ's flesh and Mary's body; plants and
 animals between Thomas and *Laudato si'*); the Mass joined to the one
-passion. The ideas below remain the notes they were.
+passion. Left: Lyons II's profession (DH 856–859); the fifteen anathemas
+of 553 and their ascription; the particular judgment as a stage; the
+glorified body's mode (CCC 645, or Thomas's place); Mt 27:52–53 and 2 Pet
+3:10–12 with their readings; the identity of the risen body by its matter
+or by the soul (Durandus); the descent to the dead of every earlier time
+(1 Pet 3:19); the theories of what love carries, to run on top. The ideas
+below remain the notes they were.
 
 - **Duration typed by measure**: time for bodies, *aevum* for angels and
   separated souls, eternity for God (ST I q. 10 a. 5).

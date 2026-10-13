@@ -771,7 +771,44 @@ Predictions were stamped first ([ttc-liturgy(7)](research/liturgy-preregistratio
   not a line; the reform read as continuity, rupture a live shadow of
   Benedict XVI's letter of 2007.
 
-### 29. Method
+### 29. The last things (NV, JX, DU, NS, WL, OS)
+
+Predictions were stamped first ([ttc-novissima(7)](research/novissima-preregistration.md)).
+
+- **An order given, and dated** (NV). What follows death is an order of
+  stage kinds, not persons, each link given by a tier-1 source in force:
+  Lateran IV, *Benedictus Deus*, Florence, Lateran V. A theory is refused
+  only by what is in force at its date: sleep until the rising from 1336,
+  rising at death from 1215, total death from 1336 on the order and from
+  1513 by Lateran V. One soul, one body: reincarnation refused, a raising
+  not. The end early: Christ the firstfruits, Mary on the branch of the
+  Assumption; another's rising before the return refused.
+- **A pope's error on the graph** (JX). As of 1332 John XXII's deferral of
+  the vision is main, his sermons at the tier of their form cleaving the
+  contrary; as of 1335, withdrawn by his own act, the deferral is a live
+  shadow of *Ne super his*; from 1336 it is on no branch. The end of
+  punishment: as of 1000 open, "no" preferred by the synod of 543's weight;
+  from 1215 settled.
+- **No calendar after death** (DU). A duration in days or years laid on
+  purification, the vision or hell is refused (*Spe salvi* 47); the former
+  days of indulgences measured canonical penance on earth.
+  *Indulgentiarum doctrina* is law in the canon layer, in force 30 April
+  1967. A soul after death carries Thomas's aevum; the blessed measured by
+  eternity itself are refused.
+- **No one's state computed** (NS). A named person placed in hell,
+  purification, or glory without the Church's act is refused (rule 3). A
+  canonization's tier 2 is computed from its formula; the 1998 commentary
+  is a lower tier speaking of a higher; a beatification is governance.
+- **What lasts** (WL). "Nothing of this world carried over" is refused for
+  Christ's flesh and Mary's body. The world transformed; annihilation a
+  live shadow on Augustine's reading of Rom 8, excluded on Thomas's third.
+  Plants and animals: "no" preferred as of 2014, a live shadow of
+  *Laudato si'* from 2015. What charity carries is a claim, never derived.
+- **One sacrifice in many times** (OS). The Mass and the Last Supper are
+  joined to the one passion, not ordered after it; a second immolation and
+  a bare commemoration are refused from 1562.
+
+### 30. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius
@@ -784,7 +821,8 @@ Predictions were stamped first ([ttc-liturgy(7)](research/liturgy-preregistratio
   layer, the library and the runtimes; 13 statements of the grammar core
   still fail it, down from 46 ([ttc-layers(7)](layers.md)).
 - **Non-diagnosis is a test.** No rule derives `interior/3`
-  (`test_interior_is_never_derived`).
+  (`test_interior_is_never_derived`), and none places a person in a state
+  after death (`test_no_rule_derives_a_state_after_death`).
 - **Non-diagnosis is a type rule.** The Dicastery's own return procedure
   (2026) states it.
 
