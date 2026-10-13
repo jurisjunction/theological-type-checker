@@ -28,7 +28,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | canon | abortion, c. 1399, c. 1752, the Dicastery's clause; form and object; fictions of law | done ([ttc-penal(7)](research/penal-preregistration.md)) |
 | saeculum | one library for time: the Church's computation (cc. 8 §1, 97, 200–203), one calendar, reception dated, the order and the measures | done ([ttc-saeculum(7)](research/saeculum-preregistration.md)) |
 | cceo | the Eastern Code: a second canon layer, chosen by ascription; who is bound; the minister of confirmation | done ([ttc-cceo(7)](research/cceo-preregistration.md)) |
-| sources | documents as layers in time: the codes (1917, 1983, 1990) and every act that changed them; law outside the codes; acts of executive power; the general norms as the edges | to predict, after cceo, before liturgy |
+| sources | documents as layers in time: the codes (1917, 1983, 1990) and every act that changed them; law outside the codes; acts of executive power; the general norms as the edges; authorship, an attribution a claim; the Filioque's Latin witnesses | predicted ([ttc-sources(7)](research/sources-preregistration.md)), to stamp |
 | liturgy | the liturgy as witness, rite and development | to predict |
 | last things | soteriology and eschatology | to predict |
 | empirical | science | to predict |
@@ -127,6 +127,12 @@ only the law differs (rule 1).
 
 ### sources
 
+Predicted in [ttc-sources(7)](research/sources-preregistration.md): the
+Code of 1917's form of marriage beside 1983's, read off at a date; c. 6
+§1 n. 1, c. 20 typed, c. 21 computed, cc. 29–30 and 33–34; collections
+private and authentic; authorship in a new library, `sources.lp`; the
+Filioque's Latin witnesses before 1100 (AMENDMENTS AND REPAIRS).
+
 Each document its own layer, as the two codes are, and the layers joined
 by the general norms. Today the canon layer holds a few bodies and texts
 (`enacted_by/2`, `part_of/2`, `reorders/2`: Book VI of 1983 and of 2021;
@@ -162,6 +168,30 @@ Dicastery's clause disputed (TTC-PENAL N5). This step generalizes it.
   *Praedicate evangelium*), particular law.
 - **L** may compile a document as a module: its imports the acts it
   presupposes, its exports the texts it gives.
+- **Collections, private and authentic.** An authentic collection's texts
+  have force from its promulgation (*Rex pacificus*, 1234); a private
+  collection's have their sources' authority (Gratian), unless custom
+  gives them force (cc. 23–28). The Code itself is authentic: its canons
+  have force from *Sacrae disciplinae leges*, not from their *fontes*,
+  which read them (c. 6 §2).
+- **Authorship.** Signed, anonymous, attributed. An attribution is a claim
+  with its claimant, computed both ways, never preferred unless shown
+  apart from the claimant, and refused by the order where a text draws on
+  what came after its claimed author. A name never raises a tier; an
+  anonymous text is never given a name. The pseudonymous left their mark
+  on both layers: the *Corpus Dionysiacum* and the *Liber de causis* in
+  theology, the Pseudo-Isidorian decretals and the Donation of
+  Constantine in law. The anonymous are a type of their own, the checker's own
+  (rule 13): *The Cloud of Unknowing*, the *Theologia Deutsch*, the
+  *Imitation*'s "non quaeras quis hoc dixerit". Rule 3 holds: no motive is
+  read, so no text is called forged.
+- **Left for later.** The norms on reserved delicts in their three texts;
+  *Ne temere* and the law before 1918; the Eastern general norms
+  (CCEO cc. 1488–1539); concordats, acquired rights and customs as edges
+  (cc. 3–5); Hebrews in Trent's list. Interpolations, injections into a
+  text rather than onto a name: a variant is a reading of the text (the
+  *Fides Damasi*'s "et Filio"; the Johannine Comma, with the Holy
+  Office's responses).
 
 ### liturgy
 
@@ -471,14 +501,16 @@ CCC 1883). The checker need not hold everything.
 - **The Filioque's Latin witnesses before 1100.** As of 1100 the record's
   only weight is Photius (886), so the preferred branch is "from the
   Father alone" (CR1b). Augustine (*De Trinitate* XV), the councils of
-  Toledo, and the Western liturgy's creed are not entered.
+  Toledo, and the Western liturgy's creed are not entered. Predicted in
+  TTC-SOURCES (FQ), the liturgy's creed left for the liturgy step.
 - **Attribution is a claim too.** The *Supplementum* of the *Summa* was
   compiled after Thomas's death, traditionally by Reginald of Piperno,
   from his early commentary on Book IV of the Sentences (c. 1252–56).
   Cite and date it by the commentary, as the seal's source already is
   (In IV Sent. d. 21 q. 3 a. 1); a citation of the Supplement alone is a
   frontier item. The article numbers of d. 48 behind Suppl. q. 91 are to
-  be checked against the text.
+  be checked against the text. The mechanism comes with the sources step
+  (TTC-SOURCES AU): authorship typed, an attribution a claim.
 - **Trent's protection outlives the definition** in the Immaculate
   Conception's data (CM1c).
 - **EV 56's judgment of today's circumstances** ("very rare, if not
