@@ -742,7 +742,36 @@ Predictions were stamped first ([ttc-sources(7)](research/sources-preregistratio
   (c. 752), and cleaves beside Paul VI's Credo where the councils are
   relaxed (CR1e): neither predicted.
 
-### 28. Method
+### 28. The liturgy: witness, rite and development (LO, RS, RD)
+
+Predictions were stamped first ([ttc-liturgy(7)](research/liturgy-preregistration.md)).
+
+- **One book, two sources** (LO1–LO3). The act that gives a book answers
+  governance questions; the prayer it holds is a witness that weighs and
+  cleaves nothing ("Lex credendi legem statuat supplicandi", *Mediator
+  Dei* 48), and nothing is owed to it as a teaching act. As of 1500 the
+  prayer of the feast of the Conception makes "yes" preferred, the
+  question still open; Rome's creed of 1014 weighs on the Filioque, while
+  the text sung in Rome is a governance question, "without" as of 900,
+  "with" as of 1100.
+- **Evidence for the ordinary universal magisterium** (LO8). A universal
+  prayer shows three of LG 25's conditions, never the fourth: a claim
+  resting on the liturgy alone is never preferred.
+- **A measure, never a verdict** (LO9). Vincent's "everywhere, always, by
+  all", counted and reported; a change by competent authority stands. An
+  element made binding because it is loved is refused, and no rule reads
+  love (LO10).
+- **The rite** (RS). A change to the substance is refused whatever the
+  authority; the porrection is dated by *Sacramentum ordinis*, the past a
+  doubt referred to the Apostolic See and an order to be conferred
+  conditionally; c. 846 §1 makes a changed form illicit as well as
+  invalid, and reached a consecration of the base with a prayer of
+  blessing for its form (SM6c), as not predicted.
+- **Development** (RD). The Roman Missal's editions descend in an order,
+  not a line; the reform read as continuity, rupture a live shadow of
+  Benedict XVI's letter of 2007.
+
+### 29. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

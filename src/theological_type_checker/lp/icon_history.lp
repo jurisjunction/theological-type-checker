@@ -38,6 +38,8 @@ relaxed(grave_nimis). relaxed(trent_1546).
 #program asof_1260. asof(1260). custom_asof.
 #program asof_1890. asof(1890). custom_asof.
 #program asof_1950. asof(1950). custom_asof.
+#program asof_900.  asof(900).  custom_asof.
+#program asof_1500. asof(1500). custom_asof.
 
 % ---------- De auxiliis: a branch protected and never cleaved ---------
 #program auxiliis.
@@ -964,3 +966,85 @@ anonymous(cloud_of_unknowing).
 author(cloud_of_unknowing,author_x).
 #program attribution_shown_hyp.   % HYPOTHETICAL: evidence apart from the claimants shows one attribution; a claimant's own word shows none (load with imitatio)
 shown_by(imitatio,thomas_a_kempis,evidence_x). shown_by(imitatio,gerson,early_editions).
+
+% ---------- The liturgy: witness and development (TTC-LITURGY) ---------------
+% One book, two sources: the act that gives it is governance; the prayer it
+% holds is a witness that weighs and never fixes (liturgy.lp). The parts load
+% beside the records they speak to.
+#program lex_orandi_ic.           % the prayer of the feast of the Conception (LW1, LW2; load with ic)
+% Sixtus IV, Cum praeexcelsa (27 February 1477), gave "formal permission and
+% encouragement to celebrate the feast"; the Office Sicut lilium, by Leonardo
+% Nogarolo, he approved in 1480. Its prayer: "O God, Who by the Immaculate
+% Conception of the Virgin, prepared a worthy dwelling place for thy Son".
+question(q(feast_of_the_conception)). question_kind(q(feast_of_the_conception),governance).
+value(q(feast_of_the_conception),(encouraged;not_encouraged)). default(q(feast_of_the_conception),not_encouraged).
+source(cum_praeexcelsa_1477,3,juridical,1477). papal_form(cum_praeexcelsa_1477,legislative).
+supports(cum_praeexcelsa_1477,q(feast_of_the_conception),encouraged).
+source(office_conception,3,truth,1480). character(office_conception,liturgy). liturgical_witness(office_conception).
+supports(office_conception,q(ic),yes).
+prayed_in(office_conception,latin). in_use_from(office_conception,1480). prayed_by(office_conception,(bishops;faithful)).
+
+#program lex_orandi_creed.        % Rome's creed (LW3; load with filioque)
+% Leo III refused to add the Filioque to the creed and had it engraved
+% without it on two silver shields at St Peter's (about 810); the creed was
+% first sung at Mass in Rome with it in 1014, at Henry II's coronation. The
+% text sung is governance; the creed prayed with the word is a witness.
+question(q(creed_text_rome)). question_kind(q(creed_text_rome),governance).
+value(q(creed_text_rome),(without_filioque;with_filioque)).
+source(leo_iii_810,3,juridical,810). papal_form(leo_iii_810,legislative).
+supports(leo_iii_810,q(creed_text_rome),without_filioque).
+source(benedict_viii_1014,3,juridical,1014). papal_form(benedict_viii_1014,legislative).
+supports(benedict_viii_1014,q(creed_text_rome),with_filioque).
+source(creed_rome_1014,3,truth,1014). character(creed_rome_1014,liturgy). liturgical_witness(creed_rome_1014).
+supports(creed_rome_1014,q(spirit_origin),father_and_son).
+prayed_in(creed_rome_1014,latin). in_use_from(creed_rome_1014,1014). prayed_by(creed_rome_1014,(bishops;faithful)).
+
+#program liturgy_oum_hyp.         % HYPOTHETICAL: a claim of the ordinary universal magisterium argued from a universal feast (LW8; load with ic)
+source(feast_universal,3,truth,1708). character(feast_universal,liturgy). liturgical_witness(feast_universal).
+universal_witness(feast_universal). supports(feast_universal,q(ic),yes).
+source(claim_1849,5,truth,1849). supports(claim_1849,q(ic),yes).
+oum_claim(claim_1849,1). oum_claimant(claim_1849,claim_1849). rests_on_liturgy(claim_1849,feast_universal).
+
+#program liturgy_change_hyp.      % HYPOTHETICAL: a long-kept element and a change to it by competent authority (LW9; with a clock)
+liturgical_witness(element_x). prayed_in(element_x,(latin;ukrainian;maronite)). in_use_from(element_x,800).
+prayed_by(element_x,(bishops;faithful)).
+liturgical_witness(element_y). prayed_in(element_y,latin). in_use_from(element_y,1975). prayed_by(element_y,bishops).
+changes(chg_x,element_x).
+
+#program cand_lex_orandi_fixes.   % a liturgy treated as settling a doctrine (LW4; load with ic, lex_orandi_ic)
+fixes(office_conception,q(ic)).
+
+#program cand_binding_by_love.    % an element typed as binding because it is loved (LW10)
+binds_because(chant_x,loved).
+
+#program indiculus.               % the axiom's source (LW7)
+% "Ut legem credendi lex statuat supplicandi" (DH 246). "For centuries"
+% affixed to Celestine I's letter to the bishops of Gaul; "most probably the
+% work of St. Prosper of Aquitaine" (Catholic Encyclopedia); "according to
+% Prosper of Aquitaine (5th cent.)" (CCC 1124). Mediator Dei 48 cites it as
+% "De gratia Dei «Indiculus»", naming no author.
+attribution(indiculus,celestine_i,collections). died(celestine_i,432).
+attribution(indiculus,prosper,ccc_1124). died(prosper,455).
+source(ccc_1124,3,truth,1992). character(ccc_1124,catechism).
+
+#program roman_missal.            % the Roman Missal's editions in an order, not a line (RD1)
+% Quo primum (1570); the typical edition of 1962 (decree of the Congregation
+% of Rites, 23 June 1962); Missale Romanum (1969, in force 30 November
+% 1969; the typical edition 1970), drawing also on the ancient sacramentaries;
+% the third typical edition (2002).
+text_year(missal_1570,1570). text_year(missal_1962,1962). text_year(missal_1970,1970). text_year(missal_2002,2002).
+text_year(sacramentarium_gelasianum,750).
+derives_from(missal_1962,missal_1570). derives_from(missal_1970,missal_1962).
+derives_from(missal_1970,sacramentarium_gelasianum). derives_from(missal_2002,missal_1970).
+#program cand_rite_from_later.    % a rite descending from a later one (RD2)
+derives_from(missal_1962,missal_2002).
+#program cand_rite_cycle.         % a rite descending from itself (RD2)
+text_year((rite_p;rite_q),1500). derives_from(rite_p,rite_q). derives_from(rite_q,rite_p).
+
+#program reform_1970.             % the reform read as continuity or rupture (RD3; load with liturgy)
+% "There is no contradiction between the two editions of the Roman Missal. In
+% the history of the liturgy there is growth and progress, but no rupture"
+% (Benedict XVI, letter to the bishops, 7 July 2007). Traditionis custodes
+% answers a governance question, not this one.
+question(q(reform_1970)). question_kind(q(reform_1970),doctrinal). value(q(reform_1970),(continuity;rupture)).
+supports(bxvi_letter,q(reform_1970),continuity).

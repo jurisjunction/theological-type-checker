@@ -181,8 +181,9 @@ def test_monopatrism_changes_only_the_processions():
     # CX excluded for the same reason: the christ group loads the creed (TTC-CHRIST)
     # SAE excluded for the same reason: its order and measure cases load the creed (TTC-SAECULUM, stated in its scoring)
     # SRC excluded for the same reason: its Filioque witnesses load the Trinity (TTC-SOURCES, stated in its scoring)
+    # LIT excluded for the same reason: Rome's creed (LO3) loads the Trinity (TTC-LITURGY, stated in its scoring)
     changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT, suite.CR, suite.MR, suite.CX, suite.SAE,
-                                                              suite.SRC)
+                                                              suite.SRC, suite.LIT)
                and _outcome(s) != _outcome(s, ["monopatrism"])}
     assert changed == FILIOQUE_DEPENDENT
 
@@ -196,6 +197,7 @@ THOMIST_STACK_CHANGES = {
     "FQ12", "FQ13", "FQ15",                         # Palamas's mind refused (Th. 21 as Thomas reads it)
     "AN4",                                          # deny by default: the persons undistinguished
     "FW1", "FW2", "FW3",                            # monopatrism again, under the Latin witnesses (TTC-SOURCES)
+    "LO3",                                          # monopatrism again, under Rome's creed (TTC-LITURGY)
 }
 
 
@@ -655,3 +657,12 @@ def test_a_void_decree_takes_no_force():
         assert atoms and not any(a.startswith("force_at(gd,") for m in atoms for a in m), route
         atoms = solve([], "all", facts=facts + " express_grant(gd).", show=("force_at/2",))["all_models"]
         assert any(a.startswith("force_at(gd,") for m in atoms for a in m), route
+
+
+# TTC-LITURGY LW10: love is interior (rule 3). No rule reads a predicate of
+# love; the only rule that names it refuses an element made binding by it.
+def test_no_rule_reads_love():
+    for f, st in _heads_and_bodies():
+        if ":-" in st:
+            body = st.split(":-", 1)[1]
+            assert not re.search(r"\blov(e|ed|es|ing)\s*\(", body), (f, st)

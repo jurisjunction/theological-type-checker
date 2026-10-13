@@ -134,6 +134,9 @@
 % @input collection/2 | collection(Body, private | authentic): a body gathering texts from other sources
 % @input attribution/3 | sources.lp: attribution(Text, Author, Claimant), a claim
 % @input attribution_refused/2 | sources.lp: the order refuses the attribution
+% @input celebration_date/2 | sacrament.lp: the date of a celebration a case records
+% @input porrection/1 | the instruments were handed over in the ordination (Florence, Exultate Deo, DH 1326)
+% @input alters/2 | alters(E, Part): the minister added, omitted or altered a part of the rite that is not its form, on his own authority
 
 event_date(E,T) :- consecration(E,_,_,T).
 event_date(A,T) :- absolution(A,_,_,T).
@@ -144,6 +147,7 @@ past(E) :- event_date(E,TE), eval_date(T), TE <= T.
 % the instants at which status is computed: each act's date, and the evaluation date
 instant(T) :- event_date(_,T).
 instant(T) :- eval_date(T).
+instant(T) :- celebration_date(_,T).                % a sacrament's date, for the laws that bear on its validity
 % what the law asks of the calendar (c. 203): c. 8 §1's three months from
 % an issue, or from each end of an unread issue's span; and completed years
 months_asked(D,3)             :- aas_issue(_,D).
@@ -827,12 +831,35 @@ info(marriage(M,invalid_consent)) :- consent_vitiated(M).
 defect(E,subject) :- celebration(E,K,_,R), K != baptism, unbaptized(R).
 % @norm cic:882 | c. 882: the ordinary minister of confirmation is a bishop; a presbyter provided with this faculty in virtue of universal law or the special grant of the competent authority also confers this sacrament validly (CCEO c. 696 §2: Eastern faithful receive it validly also from Latin presbyters, according to their faculties) | https://vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann879-958_en.html
 confirms_by_law_or_faculty(E) :- celebration(E,confirmation,P,_), priest(P), latin_faithful(P), faculty_to_confirm(P).
+% @norm so1947 | Pius XII, Sacramentum ordinis (30 November 1947; AAS 40 (1948) 5-7): the matter of the diaconate, priesthood and episcopate "eamque unam esse manuum impositionem" (n. 4); "statuimus instrumentorum traditionem saltem in posterum non esse necessariam ad ... validitatem"; if it was ever necessary for validity "ex Ecclesiae voluntate et praescripto", the Church can change and abrogate what she established (n. 3); its dispositions "vim retroactivam non habent; quod si dubium aliquod contingat, illud huic Apostolicae Sedi erit subiiciendum" | https://www.vatican.va/content/pius-xii/la/apost_constitutions/documents/hf_p-xii_apc_19471130_sacramentum-ordinis.html
+% It names no date of force: three months from the issue (c. 8 §1, as the
+% Code of 1917's c. 9). Before it, whether the porrection was required for
+% validity is a doubt its own words leave open and refer to the Apostolic
+% See: computed both ways (rule 2; TTC-LITURGY RS2).
+promulgated(so1947,19471130). aas_issue(so1947,19480128).   % "ACTA, vol. XV, n. 1. — 28-1-948"
+porrection_at_issue(E) :- celebration(E,orders(presbyterate),_,_), not porrection(E), celebration_date(E,T), not force_at(so1947,T).
+{ porrection_required(E) } :- porrection_at_issue(E).
+defect(E,porrection) :- porrection_required(E).
+assumed_fact(porrection_required(E))        :- porrection_required(E).
+assumed_fact(false(porrection_required(E))) :- porrection_at_issue(E), not porrection_required(E).
+% @norm cic:846 | c. 846 §1: in celebrating the sacraments the liturgical books approved by competent authority are to be observed faithfully; accordingly, no one is to add, omit, or alter anything in them on one's own authority ("nemo in iisdem quidpiam proprio marte addat, demat aut mutet"; SC 22 §3) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann834-878_en.html
+% Two laws, two outputs: a changed form also fails the sacrament
+% (sacrament.lp); every change is illicit (TTC-LITURGY RS3; CCC 1125).
+enacted_by(c846_text_1983,code1983). part_of(n846,c846_text_1983).
+altered_rite(E) :- form_used(E,F), celebration(E,K,_,_), not due_form(K,F).
+altered_rite(E) :- alters(E,_).
+illicit_change(P,E) :- altered_rite(E), celebration(E,_,P,_), event_date(E,T), norm_in_force(n846,T).
+% @end
+info(doubt_referred_to_apostolic_see(E)) :- porrection_at_issue(E).
+info(illicit_change(P,E)) :- illicit_change(P,E).
+
 % @norm cic:845 | c. 845 §1: baptism, confirmation and sacred ordination imprint a character and cannot be repeated; §2: if after diligent inquiry a prudent doubt remains whether they were conferred at all or validly, they are to be conferred conditionally | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann834-878_en.html
 % @stratum cic:845 divine
 % A doubt of fact about a condition of validity is a prudent doubt (§2). Where
 % the sacrament certainly failed, it is conferred absolutely.
 doubt_of_validity(E) :- celebration(E,K,_,_), imprints(K), disputed(form_used(E,_)).
 doubt_of_validity(E) :- celebration(E,K,_,_), imprints(K), disputed(matter_used(E,_)).
+doubt_of_validity(E) :- porrection_at_issue(E).           % a doubt the law left open (Sacramentum ordinis; TTC-LITURGY RS2)
 received(R,K) :- sacramental_character(R,K,_).
 to_be_conferred(R,K,conditionally) :- celebration(E,K,_,R), doubt_of_validity(E).
 to_be_conferred(R,K,absolutely)    :- celebration(E,K,_,R), imprints(K), not valid(E), not repeated(E),

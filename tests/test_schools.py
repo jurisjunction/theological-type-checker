@@ -73,8 +73,9 @@ def test_dh1330_deposit():
     # changes no violation under encoding A; CH3b and PM3b turn red there because they boot the Palamite
     # runtime, whose persons encoding A leaves undistinguished (as FQ19). The sources group (TTC-SOURCES),
     # later again, is left out too: encoding A changes FW1-FW3's violations as it does FQ19's, the
-    # Filioque's witnesses loading the Trinity.
-    scen = [s for s in suite.S if s["group"] not in (suite.RT, suite.CR, suite.MR, suite.CX, suite.SRC)]
+    # Filioque's witnesses loading the Trinity. So is the liturgy group (TTC-LITURGY): encoding A changes
+    # LO3's violations, Rome's creed loading the Trinity, and turns nothing red.
+    scen = [s for s in suite.S if s["group"] not in (suite.RT, suite.CR, suite.MR, suite.CX, suite.SRC, suite.LIT)]
     with encoding(True):
         a = {s["id"]: run(s) for s in scen}
     b = {s["id"]: run(s) for s in scen}

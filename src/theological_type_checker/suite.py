@@ -2916,6 +2916,106 @@ scen("FW3", SRC, "As of 440, the Fides Damasi", ["trinity", "filioque", "fides_d
                  "a pope's letter in form only on the branch of the claim")],
      "open on the preferred branches; a live shadow only on the branch of the claimed Damasus, never preferred", mode=B)
 
+# ---------- The liturgy: witness, rite, development (TTC-LITURGY) -------------
+# Predictions committed first: docs/research/liturgy-preregistration.md. The
+# predictions' LW are scenarios LO (the LW ids are the law group's).
+LIT = "liturgy"
+LOI = ["ic", "lex_orandi_ic", "asof_1500"]
+LOC = ["trinity", "filioque", "lex_orandi_creed"]
+
+def preferred_without(parts, assume_sub):
+    """every preferred main branch (c. 749 §3, then weight) is free of assumptions containing assume_sub"""
+    def chk(_r):
+        mains = [b for b in solve(parts, "branches")["branches"] if b["status"] == "main"]
+        best = min(pref_key(b) for b in mains)
+        top = [b for b in mains if pref_key(b) == best]
+        ok = bool(top) and not any(assume_sub in a for b in top for a in b["assume"])
+        return ok, f"preferred branches rest on no {assume_sub}" if ok else "a preferred branch rests on it"
+    return chk
+
+scen("LO1", LIT, "One book, two sources: the feast of the Conception", LOI,
+     [info_none("governance_read_as_teaching"),
+      lambda r: (all(b["w"][3] == 2 for b in r["branches"] if "q(ic)=no" in b["values"])
+                 and not any("office_conception" in b["cleaved"] for b in r["branches"]),
+                 "the prayer weighs at tier 3 against \"no\" and cleaves nothing"),
+      cls("q(feast_of_the_conception)=encouraged", "settled"), info_all("measure(office_conception,1,1480,all)")],
+     "the bull answers a governance question; the prayer weighs on the doctrinal one", mode=B)
+scen("LO2", LIT, "The Immaculate Conception as of 1500, with the prayer", LOI,
+     [cls("q(ic)=yes", "open"), prefers("q(ic)", "yes"),
+      lambda r: (preferred_value(solve(["ic", "asof_1500"], "branches"), "q(ic)") == "no", "without the prayer: \"no\"")],
+     "open, \"yes\" preferred by the prayer's weight where \"no\" was", mode=B)
+scen("LO3", LIT, "Rome's creed: the text sung and the prayer", LOC + ["asof_1100"],
+     [cls("q(creed_text_rome)=with_filioque", "settled"), cls("q(spirit_origin)=father_alone", "shadow"),
+      lambda r: (all(b["reint"] == ["leo_i_447"] or "benedict_viii_1014" in b["reint"]
+                     for b in r["branches"] if "q(spirit_origin)=father_alone" in b["values"])
+                 and all("creed_rome_1014" not in b["cleaved"] for b in r["branches"])
+                 and {b["w"][3] for b in r["branches"] if "q(spirit_origin)=father_alone" in b["values"]} ==
+                     {b["w"][3] + 2 for b in solve(["trinity", "filioque", "asof_1100"], "branches")["branches"]
+                      if "q(spirit_origin)=father_alone" in b["values"]},
+                 "a shadow of Leo I's letter alone; the creed weighs at tier 3 (2 points)"),
+      lambda r: (classify(solve(LOC + ["asof_900"], "branches"), "q(creed_text_rome)=without_filioque") == "settled",
+                 "as of 900: without"),
+      info_none("governance_read_as_teaching"), info_all("measure(creed_rome_1014,1,1014,all)")],
+     "\"without\" as of 900, \"with\" as of 1100: governance; the creed prayed weighs", mode=B)
+scen("LO4", LIT, "A liturgy treated as fixing a doctrine", LOI + ["cand_lex_orandi_fixes"],
+     [any_branch_violation("lex_orandi_as_fixing(office_conception,q(ic))")], "refused (Mediator Dei 48)", mode=B)
+scen("LO5", LIT, "Nothing owed to a prayer as such", ["ic", "lex_orandi_ic", "assent"],
+     [info_none("owed(office_conception"), info_any("owed(sollicitudo_1661,religious_submission)")],
+     "religious submission owed to a pope's teaching, not to a prayer", mode=B)
+scen("LO7", LIT, "The Indiculus: the axiom's source", ["indiculus"],
+     [branches_n(3), info_any("attribution_by_act(indiculus,prosper,ccc_1124)"),
+      claim_never_shown(["indiculus"], "indiculus", "celestine_i"), claim_never_shown(["indiculus"], "indiculus", "prosper")],
+     "Celestine I or Prosper, at most one; the preferred neither; the Catechism's word a claim", mode=B)
+scen("LO8", LIT, "A claim of the ordinary universal magisterium from a universal feast", ["ic", "liturgy_oum_hyp", "asof_1850"],
+     [shown(["ic", "liturgy_oum_hyp", "asof_1850"], ("condition_shown/2",), "condition_shown(claim_1849,dispersed_in_communion)",
+            "condition_shown(claim_1849,authentic_teaching)", "condition_shown(claim_1849,faith_or_morals)",
+            absent=("condition_shown(claim_1849,one_position_definitive)",)),
+      lambda r: (all(b["unshown"] >= 1 for b in r["branches"] if "oum_holds(claim_1849)" in b["assume"])
+                 and any("oum_holds(claim_1849)" in b["assume"] for b in r["branches"]), "resting on it: unshown"),
+      preferred_without(["ic", "liturgy_oum_hyp", "asof_1850"], "oum_holds(claim_1849)")],
+     "three of LG 25's conditions shown by the liturgy, never the fourth: never preferred", mode=B)
+scen("LO9", LIT, "Vincent's measure, never a verdict", ["liturgy_change_hyp", "today_20261010"],
+     [lambda r: (all(i in r["info"] for i in ("measure(element_x,3,800,all)", "years_in_use(element_x,1226)",
+                                            "change_to_long_use(chg_x,element_x,3,800)", "measure(element_y,1,1975,some)",
+                                            "years_in_use(element_y,51)"))
+                 and not r["violations"] and not any(i.startswith("change_to_long_use(chg_x,element_y") for i in r["info"]),
+                 "measured and reported; the change stands")],
+     "everywhere, always, by all: counted, reported, never a verdict")
+scen("LO10", LIT, "An element binding because it is loved", ["cand_binding_by_love"],
+     [has("binding_by_love(chant_x)")], "refused: love gives no authority")
+scen("RS1", LIT, "A liturgical book changes a sacrament's condition", ["sacrament_conditions", "liturgical_books_hyp"],
+     [any_branch_violation("change_to_substance(book_x,baptism,matter)"), info_all("change_stands(book_y,matrimony,canonical_form)"),
+      lambda r: (not any("change_to_substance(book_y" in f for b in r["branches"] for f in b["facts"]), "the form of marriage: the Church's")],
+     "the water of baptism kept, whatever the authority; the canonical form the Church's to change", mode=B)
+scen("RS2", LIT, "The matter of orders in time", ["orders_in_time"],
+     [branches_n(2),
+      all_models_with(["orders_in_time"], ("info/1",),
+                      present=("info(sacrament(ord_50,orders(presbyterate),valid))", "info(sacrament(ord_00p,orders(presbyterate),valid))",
+                               "info(doubt_referred_to_apostolic_see(ord_00))", "info(to_be_conferred(cand_00,orders(presbyterate),conditionally))"),
+                      some=("info(sacrament(ord_00,orders(presbyterate),valid))", "info(sacrament(ord_00,orders(presbyterate),invalid(porrection)))"),
+                      absent=("info(doubt_referred_to_apostolic_see(ord_50))", "info(doubt_referred_to_apostolic_see(ord_00p))")),
+      all_models_with(["orders_in_time"], ("assumed_fact/1",),
+                      some=("assumed_fact(porrection_required(ord_00))", "assumed_fact(false(porrection_required(ord_00)))"))],
+     "1950 valid; 1900 without the porrection both ways, the doubt referred, to be conferred conditionally", mode="all")
+scen("RS3", LIT, "c. 846 §1: a changed form, a changed prayer", ["we_baptize", "rite_changes"],
+     [in_branches("sacrament(bap_we,baptism,invalid(form))", "main"), info_all("illicit_change(pr_w,bap_we)", "illicit_change(pr_w,bap_alt)",
+                                                                                 "sacrament(bap_alt,baptism,valid)")],
+     "\"We baptize\": invalid and illicit; a changed prayer: valid and illicit", mode=B)
+scen("RD1", LIT, "The Roman Missal in an order, not a line", ["roman_missal"],
+     [lambda r: ([i for i in r["info"] if i.startswith("rite_of_many_parents")] == ["rite_of_many_parents(missal_1970)"]
+                 and not r["violations"], "the Missal of 1970 with two parents; no refusal"),
+      shown(["roman_missal"], ("year_of/2",), "year_of(sacramentarium_gelasianum,750)", "year_of(missal_1970,1970)")],
+     "1570, 1962, 1970 (and the ancient sacramentaries), 2002")
+scen("RD2", LIT, "A rite from a later one, a rite from itself", ["roman_missal", "cand_rite_from_later"],
+     [has("rite_from_later(missal_1962,missal_2002)", "rite_descends_from_itself(missal_1962)"),
+      shown(["cand_rite_cycle"], ("violation/1",), "violation(rite_descends_from_itself(rite_p))",
+            absent=("violation(rite_from_later(rite_p,rite_q))",))],
+     "refused by the order")
+scen("RD3", LIT, "The reform read as continuity or rupture", ["liturgy", "reform_1970"],
+     [cls("q(reform_1970)=rupture", "shadow"), reint_includes("q(reform_1970)=rupture", "bxvi_letter"),
+      info_none("governance_read_as_teaching(tc2021,q(reform_1970))")],
+     "continuity main; rupture a live shadow of Benedict XVI's letter; Traditionis custodes answers nothing on it", mode=B)
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

@@ -152,7 +152,7 @@ COVER = {
     "1.2.3.a9p6": ("rules", ["CM3", "CH2b"], "the Assumption; Mary without actual sin"),
     "1.2.3.a10": ("case", ["CS2"], "Jn 20:23 read sacramentally"),
     "2.1.1.a2": ("rules", ["SM4", "SM8", "SM6b"], "ex opere operato; the character; the fruit and disposition"),
-    "2.1.2.a1": ("case", ["LT3", "G1"], "liturgical law: the old Missal, translations"),
+    "2.1.2.a1": ("rules", ["LO1", "LO8", "LO9", "RS3", "RD1"], "one book, two sources: the prayer a witness that weighs and never fixes; three of LG 25's conditions, never the fourth; Vincent's measure; c. 846; the Missal's editions in an order (CCC 1124-1125)"),
     "2.1.2.a2": ("rules", ["LT5", "LT6", "AS1", "AS2"], "lex orandi typed as teaching or governance; the Churches sui iuris and their rites, ascription choosing the code"),
     "2.2.1.a1": ("rules", ["SM2", "SM5", "SM8", "SM9", "L2"], "matter, form, character, fruit, infants"),
     "2.2.1.a2": ("rules", ["SM6b", "CF1"], "the minister, a presbyter by law or faculty; the character"),

@@ -29,7 +29,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | saeculum | one library for time: the Church's computation (cc. 8 §1, 97, 200–203), one calendar, reception dated, the order and the measures | done ([ttc-saeculum(7)](research/saeculum-preregistration.md)) |
 | cceo | the Eastern Code: a second canon layer, chosen by ascription; who is bound; the minister of confirmation | done ([ttc-cceo(7)](research/cceo-preregistration.md)) |
 | sources | documents as layers in time: the codes (1917, 1983, 1990) and every act that changed them; law outside the codes; acts of executive power; the general norms as the edges; authorship, an attribution a claim; the Filioque's Latin witnesses | done ([ttc-sources(7)](research/sources-preregistration.md)) |
-| liturgy | the liturgy as witness, rite and development; one book, two sources; the substance kept, the rest law; rites in time | predicted ([ttc-liturgy(7)](research/liturgy-preregistration.md)), to stamp |
+| liturgy | the liturgy as witness, rite and development; one book, two sources; the substance kept, the rest law; rites in time | done ([ttc-liturgy(7)](research/liturgy-preregistration.md)) |
 | last things | soteriology and eschatology | to predict |
 | empirical | science | to predict |
 | L | a language for libraries, compiled to clingo | after empirical, before the churches |
@@ -197,7 +197,13 @@ Dicastery's clause disputed (TTC-PENAL N5). This step generalizes it.
 
 ### liturgy
 
-Predicted in [ttc-liturgy(7)](research/liturgy-preregistration.md): the
+Done ([ttc-liturgy(7)](research/liturgy-preregistration.md)). Left: the
+Byzantine Dormition as a witness on Mary's death; the porrection for the
+diaconate and the episcopate; liturgical laws and books as documents
+beside the Code (c. 2); c. 838's competences beyond translations; the
+Office of the Conception's later history (the Tridentine breviary before
+1863); the reform's "irreversibility" and other claims of grade about
+liturgical acts (rule 14). Predicted: the
 prayer a witness that weighs and never fixes (*Mediator Dei* 48), the act
 that gives the book governance; a change to the substance refused, the
 porrection of the instruments dated (*Sacramentum ordinis*); c. 846 §1;

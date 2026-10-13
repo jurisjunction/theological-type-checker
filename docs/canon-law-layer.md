@@ -139,6 +139,14 @@ promulgation (*Rex pacificus*, 1234), whatever their origin; a private
 collection's texts (Gratian) rest on their attribution, a claim the order
 may refuse (`sources.lp`), and custom is a route of its own.
 
+The liturgy (TTC-LITURGY): c. 846 §1 makes every change to a sacrament's
+rite on one's own authority illicit, and a changed form also fails the
+sacrament (`sacrament.lp`): two laws, two outputs. *Sacramentum ordinis*
+(in force 28 April 1948) frees the priesthood's validity from the
+porrection of the instruments; before it the requirement is a doubt the
+constitution itself refers to the Apostolic See, computed both ways, the
+order to be conferred conditionally (c. 845 §2).
+
 ## SOURCES
 
 [iuscangreg](https://www.iuscangreg.it/) (Faculty of Canon Law, Pontifical

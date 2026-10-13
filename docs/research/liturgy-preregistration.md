@@ -348,3 +348,68 @@ ordinations: the churches step.
 [ttc-sources(7)](sources-preregistration.md), [ttc-christ(7)](christ-preregistration.md),
 [ttc-creed(7)](creed-preregistration.md), [ttc-cceo(7)](cceo-preregistration.md),
 [ttc-canon(5)](../canon-law-layer.md), [ttc-roadmap(7)](../roadmap.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in 7e436eb, stamped in
+ce5fcc2. Encoded in `liturgy.lp` (new: the witness and the ordinary
+universal magisterium, the measure, the rite's substance, the rites'
+descent), `icon_authority.lp` (a liturgical witness cleaves nothing and is
+owed nothing; the character `liturgy`, 2 points), `canon_law.lp`
+(*Sacramentum ordinis*, dated; c. 846 §1), `icon_history.lp` (the prayer of
+the Conception; Rome's creed; the Indiculus; the Roman Missal; the reform's
+readings; the HYPOTHETICAL parts), `canon_cases.lp`, `engine.py`. Scenarios
+LO, RS, RD (15; 527 in all); no earlier expectation changed. The
+predictions' LW are scenarios LO (the LW ids are the law group's); LW6 is
+scored on the snapshot, and has no scenario of its own.
+
+| | Result |
+| --- | --- |
+| LW1 | Held (LO1). The bull (*Cum praeexcelsa*, 1477, juridical, tier 3) settles a governance question, the feast encouraged; the Office (*Sicut lilium*, approved, by one report, in 1480) weighs on the doctrinal one at tier 3, 2 points against "no", and cleaves nothing. Its prayer says "Immaculate Conception": it witnesses the doctrine, not only the feast. |
+| LW2 | Held (LO2). As of 1500, open; "yes" preferred; without the prayer, "no". B1–B5 unchanged. |
+| LW3 | Held (LO3). "From the Father alone" stays a live shadow of Leo I's letter as of 1100, the creed of 1014 weighing 2 points more against it and cleaving nothing; the text sung, governance: "without" as of 900, "with" as of 1100. |
+| LW4 | Held (LO4). |
+| LW5 | Held (LO5): religious submission owed to a pope's teaching beside it, nothing to the prayer. |
+| LW6 | Held: LT1–LT8 and G1–G4 unchanged (the snapshot). |
+| LW7 | Held (LO7). Three branches, the preferred neither; CCC 1124's word an attribution by an act, fixing nothing; no date known to the record refutes either. |
+| LW8 | Held (LO8). |
+| LW9 | Held (LO9). element_x: 3 Churches, from 800, by all, 1,226 years at 10 October 2026; element_y: 1 Church, from 1975, by some. The change stands; its measure is reported beside it. |
+| LW10 | Held (LO10), and a test: no rule's body reads a predicate of love. |
+| RS1 | Held (RS1). |
+| RS2 | Held (RS2), and more: the ordination of 1900 without the porrection is to be conferred conditionally (c. 845 §2). Not predicted; see below. *Sacramentum ordinis*'s issue of the *Acta* was read: 28 January 1948, so in force 28 April 1948. |
+| RS3 | Held (RS3). |
+| RD1 | Held (RD1). |
+| RD2 | Held (RD2). |
+| RD3 | Held (RD3). |
+| M1 | False in part. One output changed: SM6c, the consecration with a prayer of blessing for its form, now reports `illicit_change(bishop_o,e_o3)` beside its invalidity (c. 846 §1, by its own reach). Its expectation did not change. The TTC-SCHOOLS tables did not change; the group stays out of the stamped boot set, as every later group does. |
+| M2 | Held after closing gaps. Each new statement was deleted in turn (18 in `liturgy.lp`, 3 in `icon_authority.lp`, 14 in `canon_law.lp`, 8 in `canon_cases.lp`, 37 in `icon_history.lp`) against the scenarios that read them, and each survivor again. Closed on the way: the porrection's two assumptions, now required on their branches (RS2); the measure of the Office and of Rome's creed (LO1, LO3); the sacramentary's year, now shown (RD1). Removed as testing nothing: a priest in the changed-rite case (anyone baptizes). None survives. CL1 and PR4 clean. |
+| M3 | Held: "Celebrating the Church's liturgy" (CCC 1136–1199) moves from cases to rules; the rule files cite CCC 1124, 1125 and 1205 (42 paragraphs). |
+
+### Caveats, read
+
+- **The Office.** Its prayer is quoted in translation from a secondary
+  source ("O God, Who by the Immaculate Conception of the Virgin, prepared
+  a worthy dwelling place for thy Son"); the Latin and the bull approving
+  it were not read. Its date (1480) rests on one report; the encoding uses
+  it as the witness's date.
+- ***Sacramentum ordinis*.** The issue's date is read from the *Acta*'s
+  running head ("ACTA, vol. XV, n. 1. — 28-1-948"). The diaconate and the
+  episcopate wait, as stated.
+- **Rome's creed.** Leo III's refusal and Benedict VIII's change are
+  entered as legislative acts of the pope; neither is a document read here.
+
+### Not predicted
+
+- **To be conferred conditionally.** Where the porrection's requirement is
+  in doubt, the ordination of 1900 was at first to be conferred absolutely
+  on the branch that required it. A doubt the law leaves open is a prudent
+  doubt (c. 845 §2): the encoding makes it one, and the ordination is to be
+  conferred conditionally on both branches.
+- **Where the porrection sits.** METHOD put it in `sacrament.lp`. It sits
+  in `canon_law.lp`, under *Sacramentum ordinis*'s `@norm`: a condition set
+  by the Church's will, with a date of force, is law (rule 4).
+- **Four tests' scope.** LO3, Rome's creed, loads the Trinity: it changes
+  under monopatrism, the Thomistic stack and encoding A of DH 1330 (there
+  its violations only, nothing turning red), as FW1–FW3 do. The group is kept out
+  of the monopatrism test, of encoding A's and of the stamped boot set, as
+  every later group is, and LO3 is added to the Thomistic stack's list.

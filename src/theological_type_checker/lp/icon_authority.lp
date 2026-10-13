@@ -148,9 +148,14 @@ blocked(S,Q)   :- supports(S,Q,_), eff_tier(S,TS), protected(Q,TP), TS >= TP, TS
 % Bishops gathered in a particular council teach the faithful entrusted to
 % them (c. 753), not the whole Church (c. 752): their teaching weighs at its
 % tier and cleaves nothing (TTC-SOURCES FQ2).
+% A prayer is a witness, not a teaching act: "Lex credendi legem statuat
+% supplicandi" (Mediator Dei 48). It weighs at its tier and cleaves nothing
+% (TTC-LITURGY; liturgy.lp).
 % @input particular_council/1 | the source is a particular council's act (c. 753)
+% @input liturgical_witness/1 | liturgy.lp: the prayer a liturgical book holds
 cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), eff_tier(S,T), T >= 2, T <= 3,
-                   not source(S,_,protective,_), not blocked(S,Q), not nonmagisterial(S), not particular_council(S).
+                   not source(S,_,protective,_), not blocked(S,Q), not nonmagisterial(S), not particular_council(S),
+                   not liturgical_witness(S).
 cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), source(S,_,juridical,_), not blocked(S,Q).
 
 % conflicts among sources that could cleave
@@ -193,7 +198,7 @@ violation(invalid_lower_act(S,S2)) :- same_tier(S,S2,Q), question_kind(Q,K), lex
 % documents, from his frequent repetition of the same doctrine, or from
 % his manner of speaking". An interview is not a magisterial act.
 char_points(constitution,3). char_points(encyclical,3). char_points(conciliar_constitution,3).
-char_points(conciliar_decree,2). char_points(exhortation,2). char_points(declaration,2).
+char_points(conciliar_decree,2). char_points(exhortation,2). char_points(declaration,2). char_points(liturgy,2).
 char_points(instruction,2). char_points(catechism,2). char_points(apostolic_letter,2). char_points(profession,2).
 char_points(letter,1). char_points(address,1). char_points(homily,1). char_points(notification,1).
 char_points(responses,1). char_points(commentary,1).
@@ -278,7 +283,9 @@ violation(governance_read_as_teaching(S,M)) :- governance(S), meta_supports(S,M)
 % is taught at that tier (incorporation by reference)
 % A particular council's teaching is owed by the faithful entrusted to its
 % bishops (c. 753), not by all: not computed here (TTC-SOURCES).
-owed(S,O) :- in_force(S), not governance(S), eff_tier(S,T), binds(L,T,O), in_force(L), not particular_council(S).
+% Nor is anything owed to a prayer as a teaching act (TTC-LITURGY LW5).
+owed(S,O) :- in_force(S), not governance(S), eff_tier(S,T), binds(L,T,O), in_force(L), not particular_council(S),
+             not liturgical_witness(S).
 info(owed(S,O)) :- owed(S,O).
 
 % ---------- Labels -----------------------------------------------------

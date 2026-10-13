@@ -829,3 +829,15 @@ promulgated(prom_auth,12340905). vacatio_set(prom_auth,12340905). enacted_by(col
 attribution((dec_p;dec_a),pope_ii,the_collection). died(pope_ii,160).
 text_year(council_iv,325). text_year(witness_c,1628).
 draws_on((dec_p;dec_a),council_iv,witness_c).
+
+% ---------- The liturgy: the rite (TTC-LITURGY) ------------------------------
+#program orders_in_time.            % HYPOTHETICAL: ordinations to the priesthood with and without the porrection (RS2)
+bishop(bp_o).
+celebrated(ord_00,orders(presbyterate),bp_o,cand_00).   celebration_date(ord_00,19000601).
+celebrated(ord_00p,orders(presbyterate),bp_o,cand_00p). celebration_date(ord_00p,19000602). porrection(ord_00p).
+celebrated(ord_50,orders(presbyterate),bp_o,cand_50).   celebration_date(ord_50,19500601).
+#program rite_changes.              % HYPOTHETICAL: a changed form and a changed prayer (RS3; load with we_baptize; anyone baptizes)
+celebrated(bap_we,baptism,pr_w,inf_w).  act_date(bap_we,20210601).  form_used(bap_we,we_baptize).
+celebrated(bap_alt,baptism,pr_w,inf_a). act_date(bap_alt,20210602). alters(bap_alt,closing_prayer).
+#program liturgical_books_hyp.      % HYPOTHETICAL: liturgical books changing a sacrament's conditions, even from the Apostolic See (RS1; load with sacrament_conditions)
+changes_condition(book_x,baptism,matter). changes_condition(book_y,matrimony,canonical_form).

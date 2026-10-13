@@ -18,10 +18,10 @@ a test checks the file is current and every scenario named exists.
 
 ## SUMMARY
 
-Of 87 units: 45 touched by rules, 6 by cases only,
+Of 87 units: 46 touched by rules, 5 by cases only,
 36 frontier. A unit counts as touched if one rule reaches
 it, so this measures reach, not depth. The rule files cite
-39 of the Catechism's 2,865 paragraphs by number (the column
+42 of the Catechism's 2,865 paragraphs by number (the column
 "Cited"). The Prologue (1–25) is frontier.
 
 ## PART ONE: THE PROFESSION OF FAITH
@@ -69,14 +69,14 @@ it, so this measures reach, not depth. The rule files cite
 
 ## PART TWO: THE CELEBRATION OF THE CHRISTIAN MYSTERY
 
-13 units: 9 under rules, 1 under cases only, 3 frontier.
+13 units: 10 under rules, 0 under cases only, 3 frontier.
 
 | CCC | Unit | Status | Cited | Scenarios | The base holds |
 | --- | --- | --- | --- | --- | --- |
 | 1077–1112 | The liturgy, work of the Holy Trinity | frontier |  |  |  |
-| 1113–1134 | The paschal mystery in the Church's sacraments | rules |  | SM4, SM8, SM6b | ex opere operato; the character; the fruit and disposition |
-| 1136–1199 | Celebrating the Church's liturgy | case |  | LT3, G1 | liturgical law: the old Missal, translations |
-| 1200–1209 | Liturgical diversity and the unity of the mystery | rules | 1 | LT5, LT6, AS1, AS2 | lex orandi typed as teaching or governance; the Churches sui iuris and their rites, ascription choosing the code |
+| 1113–1134 | The paschal mystery in the Church's sacraments | rules | 2 | SM4, SM8, SM6b | ex opere operato; the character; the fruit and disposition |
+| 1136–1199 | Celebrating the Church's liturgy | rules |  | LO1, LO8, LO9, RS3, RD1 | one book, two sources: the prayer a witness that weighs and never fixes; three of LG 25's conditions, never the fourth; Vincent's measure; c. 846; the Missal's editions in an order (CCC 1124-1125) |
+| 1200–1209 | Liturgical diversity and the unity of the mystery | rules | 2 | LT5, LT6, AS1, AS2 | lex orandi typed as teaching or governance; the Churches sui iuris and their rites, ascription choosing the code |
 | 1213–1284 | Baptism | rules |  | SM2, SM5, SM8, SM9, L2 | matter, form, character, fruit, infants |
 | 1285–1321 | Confirmation | rules | 2 | SM6b, CF1 | the minister, a presbyter by law or faculty; the character |
 | 1322–1419 | The Eucharist | rules |  | PM1, PM4, PM6, MS3, MS5, CS4 | presence; cc. 915-916; Jn 6 |

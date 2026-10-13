@@ -197,6 +197,22 @@ refused attribution is a fact about dates. Shown: `without_a_name/1`,
 `attribution_refused/3`, `attribution_by_act/3` (a claim made by an act at
 tier 3 or above: it fixes nothing). See [ttc-sources(7)](research/sources-preregistration.md).
 
+## LITURGY
+
+| Fact | Meaning |
+| --- | --- |
+| `liturgical_witness(W)` with `source(W,T,truth,Y)`, `character(W,liturgy)` | The prayer a liturgical book holds: a witness at the tier of the authority that approves it. It weighs and cleaves nothing; nothing is owed to it as a teaching act. The act that gives the book is a separate source, juridical, answering governance questions. |
+| `fixes(W,Q)` | A liturgy treated as settling a doctrine: refused (`lex_orandi_as_fixing`; *Mediator Dei* 48). |
+| `rests_on_liturgy(Claim,W)`, `universal_witness(W)` | A claim of the ordinary universal magisterium argued from a universal prayer: it shows three of LG 25's conditions (dispersed in communion, authentic teaching, faith or morals), never "one position held as definitive". |
+| `prayed_in(W,Church)`, `in_use_from(W,Year)`, `prayed_by(W,bishops\|faithful)`, `changes(Act,W)` | Vincent's measure ("ubique, semper, ab omnibus"), reported (`measure/4`, `years_in_use/2`, `change_to_long_use/4`); it feeds no verdict. A change by competent authority stands. |
+| `changes_condition(Act,K,C)` | A liturgical book changing a sacrament's condition: refused where the condition is of the substance (`change_to_substance`), standing where it is the Church's (`change_stands`). |
+| `derives_from(Rite,Parent)` | Rites descend in an order, not a line: refused from a later rite (`rite_from_later`) or from itself (`rite_descends_from_itself`); `rite_of_many_parents` shown. |
+| `porrection(E)`, `celebration_date(E,Date)` | The porrection of the instruments at an ordination to the priesthood: not required from *Sacramentum ordinis* (28 April 1948); before it, required or not, computed both ways, the doubt referred to the Apostolic See and the order to be conferred conditionally (c. 845 §2). |
+| `alters(E,Part)` | c. 846 §1: a part of the rite added, omitted or altered on one's own authority, or a form not the book's: illicit (`illicit_change`); a changed form also fails the sacrament. |
+| `binds_because(E,loved)` | An element made binding because it is loved: refused (`binding_by_love`). Love is never read. |
+
+See [ttc-liturgy(7)](research/liturgy-preregistration.md).
+
 ## LIBRARY
 
 | Fact | Meaning |
