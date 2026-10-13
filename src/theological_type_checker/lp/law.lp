@@ -48,4 +48,15 @@ admissible(L,R) :- reading_option(L,R), not excluded_reading(L,R).
 
 % ---------- What a binding law reaches ------------------------------------
 % @input reaches/3 | reaches(Law, Reading, X): on this reading the law reaches the act or person X
-binds_on(L,X) :- read_for(L,R,_), reaches(L,R,X), not does_not_bind(L).
+% @input unbound/2 | canon_law.lp (c. 11): an ecclesiastical law does not bind the person
+% @input unbound_at/3 | canon_law.lp (c. 11): an ecclesiastical law does not bind the person in the act (under seven)
+% @input unbound_now/2 | canon_law.lp (c. 11 with c. 97): the person is under seven at the evaluation date
+% A merely ecclesiastical law binds only whom c. 11 binds: for a person, the
+% person's exemptions; for an act, its agent's, as binds_for/3 reads them in
+% the moral library (TTC-CCEO WB: the two libraries had disagreed). A divine
+% law has no such exemptions.
+binds_on(L,X) :- read_for(L,R,_), reaches(L,R,X), not does_not_bind(L), not exempt_from(X,L).
+exempt_from(X,L) :- unbound(X,L).
+exempt_from(X,L) :- unbound_now(X,L).
+exempt_from(A,L) :- act_of(P,A), unbound(P,L).
+exempt_from(A,L) :- act_of(P,A), unbound_at(P,L,A).

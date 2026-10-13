@@ -571,3 +571,56 @@ def test_library_names_declared_works():
     declared = set(re.findall(r"^work\((\w+),", code, re.M))
     named = set(re.findall(r"\b(?:cites_work\(\w+, *|online\(|to_read\()([a-z]\w*)", code))
     assert named <= declared, named - declared
+
+
+# TTC-CCEO WB2: the law library and the moral library agree on who a merely
+# ecclesiastical law binds (c. 11): for every act, binds_on/2 of the law
+# exactly where binds_for/3 of its agent.
+def test_libraries_agree_on_who_is_bound():
+    facts = ("today(20261010). law_kind(l_w,ecclesiastical). forbids(l_w,k_w). obliging(l_w). "
+             "reading_option(l_w,plain). needs_reading(l_w,all). "
+             "unbaptized(p_un). baptized_in(p_or,orthodox_church). baptized_in((p_ch;p_ok),catholic). "
+             "born(p_ch,20200101). born(p_ok,19900101). "
+             "act_of(p_un,a_un). act_of(p_or,a_or). act_of(p_ch,a_ch). act_of(p_ok,a_ok). "
+             "act_date((a_un;a_or;a_ok),20250101). act_date(a_ch,20250101). "
+             "kind_of_act((a_un;a_or;a_ch;a_ok),k_w). reaches(l_w,plain,(a_un;a_or;a_ch;a_ok)).")
+    atoms = set(solve([], "one", facts=facts, show=("binds_on/2", "binds_for/3"))["atoms"])
+    on = {a[len("binds_on(l_w,"):-1] for a in atoms if a.startswith("binds_on(l_w,")}
+    fr = {a.split(",")[1] for a in atoms if a.startswith("binds_for(") and a.endswith(",k_w)")}
+    assert on == fr == {"a_ok"}, (on, fr)
+
+
+# TTC-CCEO LK1: the layer test. Every Latin delict carries c. 1's gate; every
+# Eastern rule that binds a person reads the person's Eastern ascription.
+def test_the_codes_do_not_cross():
+    rules = [(f, st) for f, st in _heads_and_bodies() if f in ("canon_law.lp", "canon_cceo.lp")]
+    latin = [st for f, st in rules if f == "canon_law.lp" and st.startswith("delict(") and ":-" in st]
+    assert latin and all("not eastern_faithful(" in st for st in latin), [st for st in latin if "eastern_faithful" not in st]
+    eastern = [st for f, st in rules if f == "canon_cceo.lp"
+               and st.startswith(("eastern_delict(", "priest_required(", "liceity_only(", "confirms_by_law_or_faculty("))]
+    assert eastern and all("eastern_faithful(" in st for st in eastern), eastern
+
+
+# TTC-CCEO LK2: the strata of the Latin canons; the Eastern canons are all common.
+def test_strata_of_the_canons():
+    from theological_type_checker import norms
+    g = norms.graph()
+    typed = {n: v["stratum"] for n, v in g["norms"].items() if v["stratum"] != "common"}
+    assert typed == {"cic:1057": "divine", "cic:1141": "divine", "cic:842": "divine", "cic:845": "divine",
+                     "cic:333": "supreme"}, typed
+    # a divine canon reaches the faithful of both codes: none of its rules reads ascription
+    parsed = norms.parse()[2]
+    for n, f, st in parsed:
+        if n in typed:
+            assert "eastern_faithful" not in st and "latin_faithful" not in st, (n, st)
+
+
+# TTC-CCEO IM1: c. 8 §1 for a law promulgated outside the Acta. A date
+# between the earliest force from the Acta and three months from the other
+# publication makes the reading disputed, as a date after both does.
+def test_reading_of_c8_disputed_before_the_publications_date():
+    facts = ("promulgated_elsewhere(lx,20160916). aas_volume(lx,2016,20160531). act_date(ax,20161001).")
+    bs = solve([], "branches", facts=facts)["branches"]
+    got = {a for b in bs for a in b["assume"] if "c8_elsewhere,lx" in a}
+    assert got == {"assumed_fact(reading(c8_elsewhere,lx,from_acta))",
+                   "assumed_fact(reading(c8_elsewhere,lx,from_publication))"}, got

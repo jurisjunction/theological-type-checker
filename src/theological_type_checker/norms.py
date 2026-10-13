@@ -20,7 +20,10 @@ plus three checks:
 that a loop through it is recursion over time, not circularity, and
 ``% @recursive <id>`` marks a norm that defines one person's delict by
 another's (c. 1329, complicity), so that a loop through it is recursion over
-persons, not circularity.
+persons, not circularity, and ``% @stratum <id> divine|supreme`` types a
+norm that states divine law or the supreme authority's (TTC-CCEO): it binds
+the faithful of either code. A norm not so typed is common, its own code's
+merely ecclesiastical law.
 """
 from __future__ import annotations
 
@@ -35,6 +38,7 @@ TAG_NORM = re.compile(r"^%\s*@norm\s+(\S+)\s*\|\s*([^|]*?)\s*(?:\|\s*(\S+))?\s*$
 TAG_INPUT = re.compile(r"^%\s*@input\s+(\w+)/(\d+)\s*\|\s*(.*)$")
 TAG_END = re.compile(r"^%\s*@end\b")
 TAG_TEMPORAL = re.compile(r"^%\s*@(?:temporal|recursive)\s+(\S+)")
+TAG_STRATUM = re.compile(r"^%\s*@stratum\s+(\S+)\s+(divine|supreme|common)\b")
 
 
 def _split_top(s: str, sep: str = ","):
@@ -78,6 +82,7 @@ def parse(texts: dict[str, str] | None = None):
     """Parse every canon-law file: norms, their rules, inputs."""
     texts = texts if texts is not None else engine.base_texts()
     norms, inputs, rules, temporal = {}, {}, [], set()
+    strata = {}
     for f, text in texts.items():
         if "@norm" not in text and "@library" not in text:
             continue
@@ -96,6 +101,10 @@ def parse(texts: dict[str, str] | None = None):
             if m:
                 temporal.add(m.group(1))
                 continue
+            m = TAG_STRATUM.match(line.strip())
+            if m:
+                strata[m.group(1)] = m.group(2)
+                continue
             m = TAG_INPUT.match(line.strip())
             if m:
                 inputs[(m.group(1), int(m.group(2)))] = m.group(3).strip()
@@ -111,6 +120,8 @@ def parse(texts: dict[str, str] | None = None):
             if re.search(r"\.\s*$", code):
                 rules.append((current, f, stmt.strip()))
                 stmt = ""
+    for n in norms:
+        norms[n]["stratum"] = strata.get(n, "common")
     return norms, inputs, rules, temporal
 
 

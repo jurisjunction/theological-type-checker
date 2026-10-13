@@ -27,7 +27,8 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | communion | rule 14; faith and communion: notes, denials, bonds | done ([ttc-communion(7)](research/communion-preregistration.md)) |
 | canon | abortion, c. 1399, c. 1752, the Dicastery's clause; form and object; fictions of law | done ([ttc-penal(7)](research/penal-preregistration.md)) |
 | saeculum | one library for time: the Church's computation (cc. 8 §1, 97, 200–203), one calendar, reception dated, the order and the measures | done ([ttc-saeculum(7)](research/saeculum-preregistration.md)) |
-| cceo | the Eastern Code: a second canon layer, chosen by ascription; who is bound; the minister of confirmation | predicted ([ttc-cceo(7)](research/cceo-preregistration.md)), to stamp |
+| cceo | the Eastern Code: a second canon layer, chosen by ascription; who is bound; the minister of confirmation | done ([ttc-cceo(7)](research/cceo-preregistration.md)) |
+| sources | documents as layers in time: the codes (1917, 1983, 1990) and every act that changed them; law outside the codes; acts of executive power; the general norms as the edges | to predict, after cceo, before liturgy |
 | liturgy | the liturgy as witness, rite and development | to predict |
 | last things | soteriology and eschatology | to predict |
 | empirical | science | to predict |
@@ -56,9 +57,18 @@ claim. Left:
 
 ### cceo
 
-Predicted in [ttc-cceo(7)](research/cceo-preregistration.md), with two
-repairs: `binds_on/2` consults c. 11 as `binds_for/3` does (a run's
-finding), and a presbyter confirms validly by law or faculty.
+Done ([ttc-cceo(7)](research/cceo-preregistration.md)), with two repairs:
+`binds_on/2` consults c. 11 as `binds_for/3` does (a run's finding), and a
+presbyter confirms validly by law or faculty. Left: the Eastern canons on
+jurisdiction for marriage (cc. 829–830), faculties (c. 722), the penal age
+(c. 1413) and the Latin of cc. 1450 §2, 1459 §1 and 1490; until then the
+Latin rules stand in for the Eastern faithful there. Change of ascription
+and particular law. A disagreement in the literature before 2016 on
+whether c. 828 invalidated an Eastern Catholic's marriage blessed by a
+deacon (a doubt of law argued, and disputed), not encoded; as a disputed
+reading it would branch (rule 2). The texts in their years from
+iuscangreg's table of the Code's changes (`cceo_modifiche.php`), through
+*Mutua concordia* (29 August 2026).
 
 A second canon layer beside the Latin one, under the same discipline:
 binary, dated, each rule under `@norm` (iuscangreg's `cceo.php`; the
@@ -114,6 +124,44 @@ only the law differs (rule 1).
   TTC-COMMUNION's CN4 runs again on the Eastern side.
 - **Particular law** of each Church *sui iuris* sits below the common
   code and stays on the frontier until a case needs it.
+
+### sources
+
+Each document its own layer, as the two codes are, and the layers joined
+by the general norms. Today the canon layer holds a few bodies and texts
+(`enacted_by/2`, `part_of/2`, `reorders/2`: Book VI of 1983 and of 2021;
+c. 1371 n. 1 in its three texts), c. 135 §2, and the rank of the
+Dicastery's clause disputed (TTC-PENAL N5). This step generalizes it.
+
+- **A code at a date is a view, not a copy.** Each canon is a sequence of
+  texts, each entered by the act that gave it, with its force from the
+  saeculum (c. 8 §1); the Code of 1917, of 1983, of 1990, as each became
+  with every act, is read off at the date asked. As git: each act a
+  commit, a code at a date a checkout, an abrogation a deletion, a
+  harmonizing reading (c. 21) a merge without conflict, a contrary later
+  law a conflict that c. 20 resolves. The texts come from iuscangreg's
+  tables of changes, cited, as identifiers are resolved at fetch time
+  (rule 8).
+- ***Ius*, not only *lex*.** Every act typed by power (legislative,
+  executive, judicial: c. 135 §1), author and authority, form (a
+  dicastery's act approved *in forma specifica* or *communi*), and kind:
+  laws (c. 7), customs (cc. 23–28), general decrees, which are laws
+  (cc. 29–30), general executory decrees (cc. 31–33), instructions (c. 34),
+  statutes and rules of order (cc. 94–95), privileges and dispensations.
+- **The edges are the general norms.** The Code and other law (cc. 2–6;
+  CCEO cc. 2–6): the liturgical books stand unless contrary to the Code
+  (c. 2), concordats (c. 3), acquired rights (c. 4), customs (c. 5), the
+  former law abrogated and its canons read in its tradition (c. 6).
+  Later and earlier (cc. 20–21); executive acts never derogate laws and
+  cease with them (c. 33, c. 34 §§2–3); lower against higher (c. 135 §2);
+  the Eastern parallels (CCEO cc. 1488–1539). Each edge a rule, each
+  conflict a violation or, where the reading is disputed, a branch.
+- **Law outside the codes:** the norms on delicts reserved to the
+  Dicastery (2001, 2010, 2021), the liturgical books' law (the bridge to
+  the liturgy step), the Roman Curia's constitutions (*Pastor bonus*,
+  *Praedicate evangelium*), particular law.
+- **L** may compile a document as a module: its imports the acts it
+  presupposes, its exports the texts it gives.
 
 ### liturgy
 

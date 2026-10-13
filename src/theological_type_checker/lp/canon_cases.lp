@@ -688,3 +688,87 @@ procures(m_f28,ab_f28). born(m_f28,20080229). act_date(ab_f28,20260228).    % bo
 procures(m_f01,ab_f01). born(m_f01,20080229). act_date(ab_f01,20260301).    % an adult
 object_is((ab_b16;ab_a16;ab_f28;ab_f01),death_of_unborn).
 effect((ab_b16;ab_a16;ab_f28;ab_f01),death_of_unborn,evil).
+
+% ---------- The Eastern Code (TTC-CCEO), all HYPOTHETICAL --------------------
+#program eastern_consecration.      % HYPOTHETICAL: an Eastern bishop consecrates without a mandate; a Latin one likewise (AS3)
+today(20261010).
+bishop((bp_e;bp_f;bp_l;bp_m)). baptized_in((bp_e;bp_f;bp_l;bp_m),catholic). ascribed((bp_e;bp_f),ukrainian).
+consecration(e_east,bp_e,bp_f,20260801).
+consecration(e_lat,bp_l,bp_m,20260802).
+bishop(bp_g). baptized_in(bp_g,catholic). ascribed(bp_g,ukrainian).
+consecration(e_1990,bp_e,bp_g,19900801).                           % before the Eastern Code
+#program eastern_abortion.          % HYPOTHETICAL: an Eastern mother procures an abortion (EP1; load with life_sources, abortion, abortion_canon)
+procures(m_east,ab_east). baptized_in(m_east,catholic). ascribed(m_east,maronite). act_date(ab_east,20230501).
+object_is(ab_east,death_of_unborn). effect(ab_east,death_of_unborn,evil).
+procures(m_east,ab_east90). act_date(ab_east90,19900501).            % before the Eastern Code
+object_is(ab_east90,death_of_unborn). effect(ab_east90,death_of_unborn,evil).
+#program eastern_faith.             % HYPOTHETICAL: a defined truth denied by a Latin and by two Eastern Catholics (EP2; load with ic, assent)
+today(20261010).
+baptized_in((theo_l;theo_e;theo_w;theo_x),catholic). ascribed((theo_e;theo_w;theo_x),melkite).
+professes(theo_l,den_l,q(ic),no). act_date(den_l,20250301). interior(theo_l,den_l,pertinacious).
+professes(theo_e,den_e,q(ic),no). act_date(den_e,20250302). warned(theo_e,den_e,ordinary).
+professes(theo_w,den_w,q(ic),no). act_date(den_w,20250303).                                  % not warned
+professes(theo_x,den_x,q(ic),no). act_date(den_x,19900303). warned(theo_x,den_x,ordinary).   % before the Eastern Code
+doubts(theo_y,dub_y,q(ic)). act_date(dub_y,20250304). warned(theo_y,dub_y,ordinary).          % a doubt, warned
+repudiates(theo_z,rep_z,christian_faith). act_date(rep_z,20250305). warned(theo_z,rep_z,ordinary).   % apostasy, warned
+baptized_in((theo_y;theo_z),catholic). ascribed((theo_y;theo_z),melkite).
+repudiates(theo_z,rep_z90,christian_faith). act_date(rep_z90,19900306). warned(theo_z,rep_z90,ordinary).   % before the Eastern Code
+#program eastern_ascription.        % HYPOTHETICAL: children of a Latin and an Eastern parent (AS2)
+baptized_in((fa_1;mo_1;fa_2;mo_2;fa_3;mo_3;ch_1;ch_2;ch_3),catholic).
+ascribed((mo_1;mo_2;fa_3),ukrainian).
+father(ch_1,fa_1). mother(ch_1,mo_1). agreed(ch_1,latin).
+father(ch_2,fa_2). mother(ch_2,mo_2).
+father(ch_3,fa_3). mother(ch_3,mo_3).
+baptized_in((fa_4;mo_4;ch_4;fa_5;mo_5;ch_5),catholic). ascribed((mo_4;fa_5;mo_5),ukrainian).
+father(ch_4,fa_4). mother(ch_4,mo_4). agreed(ch_4,ukrainian).       % agreeing on the mother's Church
+father(ch_5,fa_5). mother(ch_5,mo_5).                               % both Eastern
+#program eastern_chrismation.       % HYPOTHETICAL: presbyters confirming across the codes (CF1-CF3)
+priest((pr_e;pr_l;pr_n)). baptized_in((pr_e;pr_l;pr_n),catholic). ascribed(pr_e,ukrainian). faculty_to_confirm(pr_l).
+baptized_in((inf_l;inf_e;inf_e2;ad_l;ad_l2),catholic). ascribed((inf_e;inf_e2),ukrainian).
+celebrated(chr_1,confirmation,pr_e,inf_l). celebration_date(chr_1,20260105).    % an Eastern presbyter, a Latin infant
+celebrated(chr_2,confirmation,pr_l,inf_e). celebration_date(chr_2,20260106).    % a Latin presbyter with the faculty, an Eastern infant
+celebrated(chr_3,confirmation,pr_n,inf_e2). celebration_date(chr_3,20260107).   % a Latin presbyter without it
+celebrated(chr_4,confirmation,pr_l,ad_l). celebration_date(chr_4,20260108).     % a Latin adult, with the faculty
+celebrated(chr_5,confirmation,pr_n,ad_l2). celebration_date(chr_5,20260109).    % without it
+#program cand_presbyter_ordinary.   % a presbyter typed as the ordinary minister of confirmation (DH 1630)
+typed_ordinary_minister(pr_l,confirmation).
+#program interritual_marriages.     % HYPOTHETICAL: marriages across the codes before a deacon and a priest (IM1-IM3)
+today(20261010). ordinary(ord_x). deacon(dcn_d). priest(pr_m).
+delegation(dl_d,ord_x,dcn_d,general,20100101). delegation(dl_p,ord_x,pr_m,general,20100101).
+baptized_in((l_1;e_1;l_2;e_2;l_3;e_3;l_4;l_5;e_4;e_5;e_6;e_7;e_8),catholic).
+ascribed((e_1;e_2;e_3;e_4;e_5;e_6;e_7;e_8),ukrainian). baptized_in((o_1;o_2;o_3),orthodox_church).
+marriage(im_15,dcn_d,20150601). spouse(im_15,(l_1;e_1)).     % a Latin and an Eastern Catholic, before a deacon
+marriage(im_16,dcn_d,20161220). spouse(im_16,(l_2;e_2)).
+marriage(im_18,dcn_d,20180601). spouse(im_18,(l_3;e_3)).
+marriage(lo_15,dcn_d,20150602). spouse(lo_15,(l_4;o_1)).     % a Latin Catholic and an Orthodox, before a deacon
+marriage(lo_18,dcn_d,20180602). spouse(lo_18,(l_5;o_2)).
+marriage(lo_16a,dcn_d,20161001). spouse(lo_16a,(l_6;o_4)).    % between the readings' dates: 1 October and 20 December 2016
+marriage(lo_16b,dcn_d,20161220). spouse(lo_16b,(l_7;o_5)).
+baptized_in((l_6;l_7),catholic). baptized_in((o_4;o_5),orthodox_church).
+priest(pr_o). deacon(dc_o). baptized_in((pr_o;dc_o;o_6;o_7),orthodox_church). baptized_in((l_8;l_9),catholic).
+marriage(lo_op,pr_o,20180607). spouse(lo_op,(l_8;o_6)).      % before an Orthodox priest, not delegated: valid (c. 1127 §1)
+marriage(lo_od,dc_o,20150607). spouse(lo_od,(l_9;o_7)).      % before an Orthodox deacon in 2015: a sacred minister
+priest(pr_u). deacon(dcn_u). baptized_in((l_10;l_11;l_12;e_12),catholic). ascribed(e_12,ukrainian).
+marriage(ce_p,pr_u,20180608). spouse(ce_p,(l_10;l_11)). disputed(common_error(ce_p)).   % c. 144 supplies the faculty
+marriage(ce_d,dcn_u,20180609). spouse(ce_d,(l_12;e_12)). disputed(common_error(ce_d)).  % but not the priesthood
+marriage(ee_d,dcn_d,20180603). spouse(ee_d,(e_4;e_5)).       % two Eastern Catholics, before a deacon
+marriage(ee_p,pr_m,20180604). spouse(ee_p,(e_6;e_7)).        % before a priest who assists and blesses
+marriage(eo_d,dcn_d,20180605). spouse(eo_d,(e_8;o_3)).       % an Eastern Catholic and an Orthodox, before a deacon
+#program who_is_bound.              % HYPOTHETICAL: a merely ecclesiastical law and a divine law reaching all (WB1-WB2)
+today(20261010).
+law_kind(l_eccl,ecclesiastical). obliging(l_eccl). reading_option(l_eccl,plain). needs_reading(l_eccl,all).
+law_kind(l_div,divine_positive). obliging(l_div). reading_option(l_div,plain). needs_reading(l_div,all).
+reaches((l_eccl;l_div),plain,(pagan_w;orth_w;child_w;cath_w;act_k6)).
+unbaptized(pagan_w). baptized_in(orth_w,orthodox_church).
+baptized_in(child_w,catholic). born(child_w,20210101).
+act_of(kid_w,act_k6). baptized_in(kid_w,catholic). born(kid_w,20190101). act_date(act_k6,20250601).
+act_of(pagan_w,act_pg). reaches((l_eccl;l_div),plain,act_pg).                                   % an act of the unbaptized
+#program eastern_bond.              % HYPOTHETICAL: an Eastern marriage consummated and "dissolved"; one entered under violence (LK3; load with interritual_marriages)
+consummated(ee_p). dissolution(ds_e,ee_p,civil_divorce,20200101).
+baptized_in((e_9;e_10),catholic). ascribed((e_9;e_10),ukrainian).
+marriage(ee_v,pr_m,20180606). spouse(ee_v,(e_9;e_10)). removes_voluntary(e_9,ee_v,violence).
+#program eastern_definitive.        % HYPOTHETICAL: an Eastern Catholic rejects a definitive teaching (EP4; load with tier2, assent)
+today(20261010).
+baptized_in(theo_d,catholic). ascribed(theo_d,ruthenian).
+professes(theo_d,(prof_d97;prof_d00),q(d1),no). act_date(prof_d97,19970601). act_date(prof_d00,20000601).
+warned(theo_d,(prof_d97;prof_d00),ordinary). interior(theo_d,(prof_d97;prof_d00),pertinacious).

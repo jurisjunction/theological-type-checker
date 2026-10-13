@@ -18,6 +18,13 @@ Nothing in this layer is weighed:
 The authority graph is for teaching. Using it for law is a type error.
 This layer was written after making that error once.
 
+Two codes, siblings: the Latin (`canon_law.lp`) and the Eastern
+(`canon_cceo.lp`). Ascription selects the code (c. 111 §1; CCEO c. 29 §1);
+silence ascribes a Catholic to the Latin Church. A canon of divine law or
+of the supreme authority is tagged `@stratum` and binds both; the rest is
+its own code's. Stated links reach across by name (CCEO c. 696 §1;
+cc. 1108 §3, 1127 §1). See [ttc-cceo(7)](research/cceo-preregistration.md).
+
 ## BRANCHING
 
 The layer branches in three cases only.
@@ -155,13 +162,14 @@ wrong.
 | Area | Canons |
 | --- | --- |
 | general | 7, 8 §1 (computed); 9; 14; 16 §§1–3 (with the dates of §2); 17; 18; 19; 20; 21; 85, 86; 97 §1; 135 §2; 200–203; 333 §3; grants until competently revoked |
-| persons | 11; 96; 113–120 (physical and juridic persons, moral persons by divine ordinance); 205 |
+| persons | 1; 11; 96; 111 §1 (2016); 113–120 (physical and juridic persons, moral persons by divine ordinance); 205 |
 | delicts | 751 with 1364 §1 (and 1983); 1371 n. 1 (1983, 1998); 1365; 1382 (1983); 1387; 1379 §1 n. 2; 1386 §1; 1398 (1983) and 1397 §2, with the interpretation of 1988; 1398 §1 n. 1 with the Dicastery's art. 6 n. 1 (2021); 1399 |
 | imputability | 1321 §§2–4; 1322; 1323; 1324 §1 nn. 1, 3, 4, 5, 8, 9, §3; 1325; 1328 §1; 1329 §2; 1355 |
 | juridic acts, consent | 125 §§1–2; 1103 |
 | procedure | 1717 §1; 1342 §1 with 1720 n. 1; 124 §2; 1353; 1752 |
 | effects | 1331 §1 n. 1, §2 n. 2; 1335 §2 |
-| sacraments | 966, 976, 144 §2; 1108 §1, 1111 |
+| sacraments | 882; 966, 976, 144 §2; 1108 §§1, 3, 1111, 1127 §1 (1983, 2016) |
+| Eastern Code | 696 §§1–2; 828; 834 §2; 1402; 1436 §§1–2 (1998); 1450 §2; 1459 §1 |
 
 ## SEE ALSO
 
@@ -176,7 +184,12 @@ Of the Dicastery for the Doctrine of the Faith's norms on reserved delicts
 (2021), only art. 6 n. 1 is encoded. Neither are c. 1313 (the more
 favourable law after a change), c. 1328 §2, c. 1332 (interdict), c. 1352,
 and remission beyond c. 1355's dates (c. 1355 §2; *Misericordia et misera*
-12). The Eastern Code is not encoded: the canon layer is Latin.
+12). Of the Eastern Code, a selection (ENCODED): its particular law,
+change of ascription, its own canons on jurisdiction for marriage
+(cc. 829–830), faculties to absolve (c. 722) and the penal age (c. 1413)
+are not encoded, and the Latin rules for these stand in for Eastern
+faithful (TTC-CCEO LK1). c. 1450 §2 and c. 1459 §1 are encoded from
+secondary sources, their Latin unread.
 
 The issues of AAS 80 (1988) and 90 (1998) are unread: *Ecclesia Dei*, the
 response of 1988 and *Ad tuendam fidem* take force within spans. Useful

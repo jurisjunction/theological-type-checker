@@ -2589,6 +2589,100 @@ scen("MD4", SAE, "God's decree dated", ["world"] + CREED + ["cand_decree_dated"]
      [has("divine_act_in_time(decree_of_election)", "divine_act_in_time(decree_of_mission)",
           "divine_act_in_time(decree_of_end)")], "his act is not dated; its effects are (CCC 600): refused")
 
+# ---------- The Eastern Code: a second canon layer (TTC-CCEO) -------------
+CC = "cceo"
+IMP = ["interritual_marriages"]
+scen("AS1", CC, "Silence ascribes to the Latin Church", ["sspx", "communion_asked"],
+     [shown(["sspx", "communion_asked"], ("latin_faithful/1", "eastern_faithful/1"), "latin_faithful(lefebvre)",
+            "latin_faithful(galarreta)", absent=("eastern_faithful(lefebvre)",))],
+     "a Catholic whose ascription is not recorded is Latin; the SSPX's outputs do not change")
+scen("AS2", CC, "A child's ascription", ["eastern_ascription"],
+     [info_all("info(ascribed_to(ch_1,latin))", "info(ascribed_to(ch_2,latin))", "info(ascribed_to(ch_3,ukrainian))",
+               "info(ascribed_to(ch_4,ukrainian))", "info(ascribed_to(ch_5,ukrainian))"),
+      shown(["eastern_ascription"], ("eastern_faithful/1", "latin_faithful/1"), "eastern_faithful(ch_3)", "eastern_faithful(ch_5)",
+            "latin_faithful(ch_1)", absent=("eastern_faithful(ch_1)", "latin_faithful(ch_3)"))],
+     "parents agreeing on the Latin Church: Latin; failing agreement, the father's Church (c. 111 §1; CCEO c. 29 §1)", mode=B)
+scen("AS3", CC, "An Eastern bishop consecrates without a mandate", ["eastern_consecration"],
+     [info_all("info(eastern_delict(bp_e,cceo1459_1,e_east))", "info(eastern_delict(bp_f,cceo1459_1,e_east))",
+               "info(to_be_imposed(bp_e,cceo1459_1,e_east,deposition))", "info(presumed_incurred(bp_l,n1387))",
+               "info(no_eastern_code_in_force(bp_e,e_1990))", "info(no_eastern_code_in_force(bp_g,e_1990))"),
+      info_none("info(delict(bp_e,", "info(delict(bp_f,", "presumed_incurred(bp_e,", "presumed_incurred(bp_f,",
+                "eastern_delict(bp_l,", "eastern_delict(bp_m,")],
+     "no c. 1387 delict and nothing incurred; deposition to be imposed (CCEO c. 1459 §1); the Latin bishop incurs c. 1387", mode=B)
+scen("EP1", CC, "An Eastern mother procures an abortion", ABC + ["eastern_abortion"],
+     [in_branches("info(eastern_delict(m_east,cceo1450_2,ab_east))", "main"),
+      in_branches("info(to_be_imposed(m_east,cceo1450_2,ab_east,excommunication))", "main"),
+      in_branches("info(verdict(ab_east,must_not,by_object(direct(killing_of_innocent))))", "main"),
+      in_branches("info(no_eastern_code_in_force(m_east,ab_east90))", "main"),
+      info_none("presumed_incurred(m_east,", "info(delict(m_east,")],
+     "imposed, never incurred (CCEO cc. 1450 §2, 1402); the act still \"must not\"", mode=B)
+scen("EP2", CC, "One denial, two codes", ["ic", "assent", "eastern_faith"],
+     [info_all("info(presumed_incurred(theo_l,n1364))", "info(eastern_delict(theo_e,cceo1436_1,den_e))",
+               "info(to_be_imposed(theo_e,cceo1436_1,den_e,major_excommunication))"),
+      info_all("info(eastern_delict(theo_y,cceo1436_1,dub_y))", "info(eastern_delict(theo_z,cceo1436_1,rep_z))"),
+      shown(["ic", "assent", "eastern_faith"], ("heresy_matter/1",), "heresy_matter(den_w)"),
+      info_none("delict(theo_w,", "eastern_delict(theo_w,", "info(delict(theo_e,", "presumed_incurred(theo_e",
+                "presumed_incurred(theo_z", "presumed_incurred(theo_y")],
+     "Latin: c. 1364 §1, incurred; Eastern: c. 1436 §1, imposed, only after a warning not heeded", mode=B)
+scen("EP3", CC, "Before the Eastern Code", ["ic", "assent", "eastern_faith"],
+     [info_all("info(no_eastern_code_in_force(theo_x,den_x))", "info(no_eastern_code_in_force(theo_z,rep_z90))"),
+      info_none("delict(theo_x,", "eastern_delict(theo_x,", "eastern_delict(theo_z,cceo1436_1,rep_z90)")],
+     "an Eastern act of 1990: reported, never computed under the Latin", mode=B)
+scen("EP4", CC, "Ad tuendam fidem on the Eastern side", ["tier2", "assent", "eastern_definitive"],
+     [in_branches("info(eastern_delict(theo_d,cceo1436_2,prof_d00))", "main"),
+      in_branches("info(to_be_imposed(theo_d,cceo1436_2,prof_d00,just_penalty))", "main"),
+      info_none("eastern_delict(theo_d,cceo1436_2,prof_d97)",
+      "info(delict(theo_d,")],
+     "1997 no Eastern delict; 2000 c. 1436 §2 as amended in 1998, a penalty to be imposed", mode=B)
+scen("IM1", CC, "A Latin and an Eastern Catholic before a deacon", IMP,
+     [info_all("info(marriage(im_15,invalid_form))", "info(marriage(im_16,invalid_form))", "info(marriage(im_18,invalid_form))",
+               "info(priest_required(im_15,cceo828))", "info(priest_required(im_18,cceo828))",
+               "info(priest_required(im_18,n1108_3))"),
+      info_none("priest_required(im_15,n1108_3)"),
+      shown(IMP, ("cleric/1",), "cleric(dcn_d)"),
+      branch_facts("assumed_fact(reading(c8_elsewhere,dc2016,from_acta))", every=False),
+      branch_facts("assumed_fact(reading(c8_elsewhere,dc2016,from_publication))", every=False),
+      in_branches("info(marriage(lo_16a,valid_form))", assume=["assumed_fact(reading(c8_elsewhere,dc2016,from_publication))"]),
+      in_branches("info(marriage(lo_16b,invalid_form))", assume=["assumed_fact(reading(c8_elsewhere,dc2016,from_publication))"]),
+      in_branches("info(marriage(lo_16a,valid_form))", assume=["assumed_fact(reading(c8_elsewhere,dc2016,from_acta))",
+                                                              "assumed_fact(false(force_by(dc2016,20161001)))"]),
+      in_branches("info(marriage(lo_16a,invalid_form))", assume=["assumed_fact(reading(c8_elsewhere,dc2016,from_acta))",
+                                                                "assumed_fact(force_by(dc2016,20161001))"])],
+     "invalid in every year: the Eastern party's own law asks a priest (CCEO c. 828) from 1991; c. 1108 §3's date "
+     "a disputed reading, computed both ways for late 2016", mode=B)
+scen("IM2", CC, "Two Eastern Catholics", IMP,
+     [info_all("info(marriage(ee_d,invalid_form))", "info(marriage(ee_p,valid_form))", "info(marriage(ce_d,invalid_form))"),
+      in_branches("info(marriage(ce_p,valid_form))", assume=["assumed_fact(common_error(ce_p))"]),
+      in_branches("info(marriage(ce_p,invalid_form))", assume=["assumed_fact(false(common_error(ce_p)))"])],
+     "before a deacon, invalid; before a priest who assists and blesses, valid (CCEO c. 828); common error supplies "
+     "the faculty (c. 144), never the priesthood", mode=B)
+scen("IM3", CC, "With an Orthodox party", IMP,
+     [info_all("info(marriage(lo_15,valid_form))", "info(marriage(lo_18,invalid_form))", "info(marriage(eo_d,invalid_form))",
+               "info(marriage(lo_15,form_for_liceity_only))", "info(marriage(eo_d,form_for_liceity_only))",
+               "info(marriage(lo_op,valid_form))", "info(marriage(lo_od,valid_form))")],
+     "the form for liceity only; a sacred minister in 2015, a priest from 2016 (c. 1127 §1); a priest always (CCEO c. 834 §2)", mode=B)
+scen("CF1", CC, "Confirmation across the codes", ["eastern_chrismation"],
+     [info_all("info(sacrament(chr_1,confirmation,valid))", "info(character_imprinted(inf_l,confirmation))",
+               "info(sacrament(chr_2,confirmation,valid))", "info(sacrament(chr_3,confirmation,invalid(minister)))",
+               "info(sacrament(chr_4,confirmation,valid))", "info(sacrament(chr_5,confirmation,invalid(minister)))"),
+      shown(["eastern_chrismation", "cand_presbyter_ordinary"], ("violation/1",), "violation(presbyter_as_ordinary_minister(pr_l))"),
+      shown(["eastern_chrismation"], ("eastern_faithful/1", "latin_faithful/1"), "eastern_faithful(inf_e)", "latin_faithful(inf_l)")],
+     "an Eastern presbyter for a Latin infant (CCEO c. 696 §1); a Latin presbyter with the faculty (c. 882; c. 696 §2), "
+     "without it invalid; the ordinary minister the bishop alone (DH 1630)", mode=B)
+scen("WB1", CC, "Who a merely ecclesiastical law binds", ["who_is_bound"],
+     [info_all("info(obliged(cath_w,l_eccl))", "info(obliged(pagan_w,l_div))", "info(obliged(orth_w,l_div))",
+               "info(obliged(child_w,l_div))", "info(obliged(act_k6,l_div))"),
+      info_all("info(obliged(act_pg,l_div))"),
+      info_none("obliged(pagan_w,l_eccl)", "obliged(orth_w,l_eccl)", "obliged(child_w,l_eccl)", "obliged(act_k6,l_eccl)",
+                "obliged(act_pg,l_eccl)")],
+     "c. 11 read by the law library: the unbaptized, one baptized outside, one under seven now, and an act placed "
+     "under seven are not bound; a divine law reaches them", mode=B)
+scen("LK3", CC, "An Eastern marriage under divine law", IMP + ["eastern_bond"],
+     [info_all("info(bond(ee_p))", "info(marriage(ee_v,invalid_consent))"),
+      shown(IMP + ["eastern_bond"], ("eastern_faithful/1",), "eastern_faithful(e_9)", "eastern_faithful(e_10)"),
+      info_any("violation(ratum_et_consummatum_dissolved(ds_e,ee_p))")],
+     "indissoluble (c. 1141) and made by consent (c. 1057): divine law, binding though no Latin common canon does", mode=B)
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

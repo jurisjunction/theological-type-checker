@@ -28,6 +28,8 @@
 % @input priest/1 | the canon layer's input
 % @input bishop/1 | the canon layer's input
 % @input faculty_met/1 | canon_law.lp (c. 966 §1, c. 976, c. 144): the faculty to absolve, or the Church's supply
+% @input confirms_by_law_or_faculty/1 | the canon layers (c. 882; CCEO c. 696): a presbyter confirms validly in this celebration
+% @input typed_ordinary_minister/2 | typed_ordinary_minister(P, Sacrament): a claim that P is the ordinary minister
 % @input of_kind/2 | from the theological side (pair.lp): in this branch the thing is classified so
 % @input not_of_kind/2 | from the theological side (pair.lp)
 % @input dispensed/2 | canon_law.lp (c. 85): dispensed(Law, X)
@@ -77,15 +79,25 @@ assumed_fact(false(matter_used(E,M))) :- disputed(matter_used(E,M)), not matter_
 % The minister's power. Baptism: anyone (Florence, DH 1315). The Eucharist
 % and absolution: a priest (Lateran IV, DH 802; Trent, sess. XIV, can. 10,
 % DH 1710); anointing, a priest (sess. XIV, can. 4 on extreme unction,
-% DH 1719). Confirmation: a bishop, the ordinary minister (DH 1318). Orders:
-% a bishop (c. 1012).
+% DH 1719). Confirmation: a bishop, the ordinary minister (DH 1318), and a
+% presbyter by law or faculty (TTC-CCEO CF): "a simple priest" has confirmed
+% "by dispensation of the Apostolic See" (DH 1318); in the East the priest
+% who baptizes ordinarily confers it at once (CCC 1312); in the Latin Rite
+% the bishop may concede the faculty to priests (CCC 1313). The faculty is
+% the canon layers' (c. 882; CCEO c. 696). Orders: a bishop (c. 1012).
 has_power(P,baptism)      :- celebration(_,baptism,P,_).
 has_power(P,eucharist)    :- priest(P).
 has_power(P,penance)      :- priest(P).
 has_power(P,anointing)    :- priest(P).
 has_power(P,confirmation) :- bishop(P).
 has_power(P,orders(G))    :- bishop(P), grade(G).
-defect(E,minister) :- celebration(E,K,P,_), not has_power(P,K).
+has_power_in(E) :- celebration(E,K,P,_), has_power(P,K).
+has_power_in(E) :- celebration(E,confirmation,P,_), priest(P), confirms_by_law_or_faculty(E).
+defect(E,minister) :- celebration(E,_,_,_), not has_power_in(E).
+% Refused at Trent: that "the ordinary minister of holy confirmation is not
+% the bishop alone, but any simple priest" (sess. VII, on confirmation,
+% can. 3, DH 1630).
+violation(presbyter_as_ordinary_minister(P)) :- typed_ordinary_minister(P,confirmation), priest(P), not bishop(P).
 % Intention is interior, so input. One who has "correctly and seriously"
 % used the due matter and form is presumed to intend what the Church does;
 % the presumption yields only to a contrary intention manifested outwardly

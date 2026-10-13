@@ -298,3 +298,84 @@ pastors, and Eastern liturgical law are frontier.
 [ttc-saeculum(7)](saeculum-preregistration.md), [ttc-penal(7)](penal-preregistration.md),
 [ttc-communion(7)](communion-preregistration.md), [ttc-law(7)](law-preregistration.md),
 [ttc-canon(5)](../canon-law-layer.md), [ttc-roadmap(7)](../roadmap.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in 9c9cdbe, stamped in
+b887297. Encoded in `canon_cceo.lp` (new: CCEO cc. 696, 828, 834 §2, 1402,
+1436 §§1–2, 1450 §2, 1459 §1), `canon_law.lp` (cc. 1 and 111 §1 with
+ascription and c. 1's gate on every Latin delict; c. 1108 §3, c. 1127 §1,
+c. 882; c. 8 §1 for a law promulgated elsewhere; ages at the evaluation
+date; five canons tagged by stratum), `law.lp` (who is bound),
+`sacrament.lp` (the minister of confirmation), `norms.py` (`@stratum`),
+`canon_cases.lp`, `engine.py`, `schools.py`. Scenarios AS, EP, IM, CF, WB,
+LK (13; 491 in all).
+
+| | Result |
+| --- | --- |
+| AS1 | Held (AS1). No earlier output changed. |
+| AS2 | Held (AS2). |
+| AS3 | Held (AS3). The Latin bishop who does the same incurs c. 1387. |
+| EP1 | Held (EP1). |
+| EP2 | Held (EP2). The Latin denial is c. 1364 §1, incurred, on the claim of pertinacity; the Eastern one c. 1436 §1, to be imposed, on the warning not heeded, with no claim of pertinacity read: the Eastern canon makes the obstinacy outward. Unwarned, no Eastern delict. |
+| EP3 | Held (EP3). |
+| EP4 | Held (EP4). |
+| IM1 | False in its first clause. The deacon's marriage of a Latin and an Eastern Catholic is invalid in 2015 too: the Eastern party's own law asks a priest's blessing from 1991 (CCEO c. 828), so c. 1108 §3 changed the Latin text, not the outcome. Invalid in 2018, as predicted. The disputed reading of c. 8 §1 branches for the marriage of 20 December 2016, as predicted, with the same outcome on every branch. Scored on the base's reading of c. 828; the literature disagreed on it before 2016 (below). |
+| IM2 | Held (IM2). |
+| IM3 | Held (IM3), and before ministers of the other Church: an Orthodox priest not delegated, in 2018, and an Orthodox deacon in 2015, both valid (the form for liceity only). |
+| CF1 | Held (CF1). |
+| CF2 | Held (CF1). |
+| CF3 | Held (CF1). SM6b unchanged. |
+| WB1 | Held (WB1). |
+| WB2 | Held: a test compares the two libraries act by act. |
+| WB3 | Held. |
+| LK1 | False in part. The test holds for what it reads: every Latin delict carries c. 1's gate, and every Eastern rule that binds a person reads Eastern ascription. But the Latin rules on the form's jurisdiction (cc. 1108 §1, 1111), on who is bound to the form (c. 1117) and on the faculty to absolve (c. 966) still fire for Eastern faithful, standing in for Eastern canons not encoded (cc. 829–830, 834 §1, 722). |
+| LK2 | Held: a test. |
+| LK3 | Held (LK3). |
+| M1 | Held. No earlier output changed (every scenario's atoms compared before and after); the TTC-SCHOOLS tables did not change. |
+| M2 | Held after closing gaps. Each new statement was deleted in turn (26 in `canon_cceo.lp`, 61 in `canon_law.lp`, 52 in `canon_cases.lp`, 4 in `sacrament.lp`, 5 in `law.lp`) against the scenarios that read them, and each survivor against the whole suite. Closed on the way: the Eastern heresy canon's doubt and apostasy; c. 1436 §2's penalty; each kind of Eastern act before 1991; an act of the unbaptized under a merely ecclesiastical law; marriages between and before the two readings' dates of force (a unit test); a child ascribed to the mother's Church by agreement, both parents Eastern, the child's ascription with effect; which code asks the priest, the Eastern alone before 2016 and both after; deacons as clerics; an Orthodox priest and deacon as the sacred minister; common error with the priest required, a gap older than this step (no marriage had tested c. 144's supply). None survives. CL1 and PR4 clean. |
+| M3 | Held: "Liturgical diversity and the unity of the mystery" moves to rules (45 units under rules, 6 under cases, 36 frontier); the rule files cite CCC 1203, 1312, 1313 and 1623 (34 paragraphs). |
+
+### Caveats, read
+
+- **Not read in Latin here**: CCEO c. 1490 (who is bound, the base reusing
+  c. 11's rule), c. 1413 (the penal age: not encoded), c. 1450 §2 (encoded
+  as "excommunication", imposed, its grade unread), c. 1459 §1 (deposition,
+  from secondary sources), c. 728 §2. c. 1436 §§1–2 read in *Ad tuendam
+  fidem*'s English (1998) and §1 in the Latin of 2023. cc. 696, 828 and
+  834 §2 read in English translation.
+- ***De concordia*'s date of force**: entered as a disputed reading; its
+  edition of *L'Osservatore Romano* dated 16 September 2016 on one
+  canonist's report.
+- **A disagreement in the literature over c. 828.** Before 2016 canonists
+  differed on whether c. 828, which speaks of the priest who assists and
+  blesses and has no "solus sacerdos valide" of its own, invalidated a
+  marriage of an Eastern Catholic blessed by a deacon, the common case
+  being a Latin and an Eastern Catholic before a Latin deacon. A doubt of
+  law was argued (so c. 1496, as c. 14, would leave the invalidating law
+  unurged) and itself disputed. Not encoded: the base reads c. 828 as
+  binding the Eastern party, and IM1 is scored on that reading. Encoded as
+  a disputed reading, it would branch for those marriages before
+  *De concordia*'s force (rule 2).
+- **The texts in their years.** iuscangreg's table of the Eastern Code's
+  changes records none to cc. 828–834 or 696 since 1990; c. 1450 is not
+  among the canons *Vocare peccatores* renewed, so its 1990 text stands;
+  c. 728 §2 (the reserved absolution of abortion) was abrogated by
+  *Misericordia et misera* (2016); *Mutua concordia* (29 August 2026)
+  changed cc. 106 and 126, outside this step.
+
+### Not predicted
+
+- **The deacon before 2016** (IM1, above).
+- **The SSPX part records no baptisms**, so its bishops are neither Latin
+  nor Eastern faithful; the gate reads them, by silence, as not Eastern.
+  AS1 is checked where the baptisms are recorded.
+- **c. 8 §1's disputed reading is its own choice**, not c. 17's: through
+  c. 17 the norm graph drew a cycle between cc. 7 and 17. And the Eastern
+  non-Catholic is typed with ascription, not with c. 1127, for the same
+  reason.
+- **Which code asks the priest** is now shown per marriage
+  (`info(priest_required/2)`): for the Latin and Eastern Catholics of
+  2015, the Eastern Code alone; from 2016, both.
+- **Deacons are clerics** (`cleric/1`), which c. 1398 §1 n. 1 reads; no case
+  changed.

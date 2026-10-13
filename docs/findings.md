@@ -674,7 +674,38 @@ Predictions were stamped first ([ttc-saeculum(7)](research/saeculum-preregistrat
   beginning; light, for its zero proper time). Arius's Son is now refused
   on time as well: eternal, with a beginning (K7).
 
-### 26. Method
+### 26. The Eastern Code: a second canon layer (AS, EP, IM, CF, WB, LK)
+
+Predictions were stamped first ([ttc-cceo(7)](research/cceo-preregistration.md)).
+
+- **Ascription selects the code** (AS). Silence ascribes a Catholic to the
+  Latin Church, so no earlier output changed. Every Latin delict now
+  carries c. 1's gate: an Eastern bishop consecrating without a mandate
+  commits no c. 1387 delict and incurs nothing; deposition is to be
+  imposed (CCEO c. 1459 §1).
+- **Imposed, never incurred** (EP). The same denial of a defined truth is
+  c. 1364's latae sententiae excommunication for a Latin Catholic, and for
+  an Eastern Catholic a major excommunication to be imposed only after a
+  warning not heeded (c. 1436 §1): the Eastern canon makes obstinacy
+  outward. *Ad tuendam fidem* runs on the Eastern side from its force.
+- **The deacon's marriage was invalid before 2016 too** (IM1, not as
+  predicted). A Latin and an Eastern Catholic before a Latin deacon: the
+  Eastern party's own law asks a priest's blessing (CCEO c. 828) from
+  1991, so *De concordia*'s c. 1108 §3 changed the Latin Code's text, not
+  the marriage's validity. Its own date of force stays a disputed reading
+  of c. 8 §1, computed both ways where it matters.
+- **Two repairs.** A presbyter confirms validly by law or faculty (an
+  Eastern presbyter for a Latin infant, CCEO c. 696 §1; c. 882), the
+  bishop alone the ordinary minister (DH 1630). The law library's
+  `binds_on/2` now reads c. 11 as the moral library does: the two agree.
+- **Strata.** Five Latin canons are typed: four divine (cc. 842 §1, 845 §1,
+  1057, 1141), one supreme (c. 333 §3). An Eastern marriage is
+  indissoluble and made by consent under them.
+- **The layer test holds for the delicts, not yet for all** (LK1). The
+  Latin rules on the form's jurisdiction, the faculties to absolve and
+  who is bound to the form stand in for Eastern canons not yet encoded.
+
+### 27. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

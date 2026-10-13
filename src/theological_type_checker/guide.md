@@ -142,11 +142,17 @@ side, juridical facts on the canon side.
 | `cleric(P)`; the clause `age_clause(D,N)` with `issuer(D,A)` | c. 1398 §1 n. 1 and the Dicastery's art. 6 n. 1: the error about the age disregarded where the clause is papal law; refused as a dicastery's decree; flagged where the act is lawful apart from the age. |
 | `special_gravity(Auth,A)`, `scandal_necessity(Auth,A)` | c. 1399: the authority's two judgments, supplied, never computed; a penalty to be imposed, besides the cases prescribed, on those c. 11 binds. |
 | `transfer(D,P,Date)` | c. 1752: the salvation of souls kept in view; no effect, no weight against the law. |
+| `ascribed(P,C)`, `father/2`, `mother/2`, `agreed(Child,C)` | The Church *sui iuris* that selects the code: recorded, or a child's computed (c. 111 §1; CCEO c. 29 §1). Silence ascribes a Catholic to the Latin Church. The Latin delicts do not reach the Eastern faithful (c. 1); the Eastern layer (`canon_cceo.lp`) imposes its penalties, never incurs them. |
+| `deacon(P)`, `baptized_in(P,orthodox_church)` | The form across the codes: a priest for an Eastern party (CCEO c. 828; c. 1108 §3 from 2016); with an Eastern non-Catholic, the form for liceity only (c. 1127 §1; CCEO c. 834 §2). |
+| `faculty_to_confirm(P)`, `typed_ordinary_minister(P,K)` | A presbyter confirms validly by law (an Eastern presbyter, CCEO c. 696 §1) or faculty (c. 882); the ordinary minister is the bishop alone (DH 1630). |
+| `promulgated_elsewhere(L,Date)` | A law promulgated outside the *Acta*: its three months from that publication or from the *Acta*, a disputed reading where they differ. |
 | `juridic_person(J)`, `group(J)`, `moral_person(J)`, `represents(P,J)` | cc. 113-118: only a physical person acts; a fiction acts through those who represent it and bears no interior, sin or delict. The Church and the Apostolic See are moral persons by divine ordinance. |
 
 A new canon goes under `% @norm id | citation | source`. New slots go under
 `% @input name/arity | meaning`. A norm that defines one person's delict by
-another's (c. 1329) is tagged `% @recursive id`. See [ttc-canon(5)](canon-law-layer.md).
+another's (c. 1329) is tagged `% @recursive id`; one that states divine law
+or the supreme authority's, `% @stratum id divine|supreme` (it binds both
+codes; untagged, a norm is its own code's). See [ttc-canon(5)](canon-law-layer.md).
 
 ## THE PAIR
 

@@ -103,6 +103,13 @@
 % @input seal_lifted/2 | seal_lifted(Act, Why): a candidate's claim that something released the confessor
 % @input baptized_in/2 | baptized_in(Person, catholic | Community): a baptism the case records, its validity presumed
 % @input received_into/1 | the person was received into the Catholic Church
+% @input ascribed/2 | ascribed(Person, Church): a recorded ascription to a Church sui iuris (latin, or an Eastern Church)
+% @input father/2 | father(Child, Father)
+% @input mother/2 | mother(Child, Mother)
+% @input agreed/2 | agreed(Child, Church): both parents agree that the child be baptized in that Church (c. 111 §1; CCEO c. 29 §1)
+% @input deacon/1 | a deacon
+% @input faculty_to_confirm/1 | a presbyter has the faculty to confirm, by universal law or special grant (c. 882)
+% @input promulgated_elsewhere/2 | promulgated_elsewhere(Law, Date): promulgated by another publication than the Acta (c. 8 §1)
 % @input formal_defection/2 | formal_defection(Person, Date): a formal act of defection (cc. 1086 §1, 1117, 1124, 1983-2009)
 % @input communion_at_issue/1 | the case asks after the person's communion
 % @input professes/4 | professes(Person, Act, Q, V): in the act the person publicly holds V on Q (faith.lp)
@@ -129,7 +136,9 @@ instant(T) :- eval_date(T).
 months_asked(D,3)             :- aas_issue(_,D).
 months_asked(G,3)             :- aas_volume(_,_,G).
 months_asked(Y*10000+1231,3)  :- aas_volume(_,Y,_).
+months_asked(D,3)             :- promulgated_elsewhere(_,D).
 years_asked(B,T)              :- born(_,B), event_date(_,T), B <= T.
+years_asked(B,T)              :- born(_,B), eval_date(T), B <= T.
 issued(D) :- decree(D,_,TD), eval_date(T), TD <= T.
 asserted(S,X) :- asserts(S,X,TS), eval_date(T), TS <= T.
 % c. 965: only a priest absolves; a bishop has the priesthood
@@ -161,6 +170,16 @@ assumed_fact(F)      :- disputed(F), F = common_error(A), common_error(A).
 assumed_fact(false(F)) :- disputed(F), F = common_error(A), not common_error(A).
 assumed_fact(F)      :- disputed(F), F = appears_otherwise(P,E), appears_otherwise(P,E).
 assumed_fact(false(F)) :- disputed(F), F = appears_otherwise(P,E), not appears_otherwise(P,E).
+
+% The Churches sui iuris a case may name (data; the list is not complete),
+% and the Eastern Churches not in full communion (TTC-CCEO).
+eastern_church((ukrainian;ruthenian;maronite;melkite;syro_malabar;syro_malankara;chaldean;coptic_catholic;romanian;armenian_catholic)).
+eastern_noncatholic_church((orthodox_church;oriental_orthodox_church)).
+% De concordia inter Codices (31 May 2016), promulgated in L'Osservatore Romano
+% (the edition of 16 September 2016), then in the Acta, AAS 108 (2016), the
+% issue unread. It names no date of force.
+promulgated(dc2016,20160531). promulgated_elsewhere(dc2016,20160916). aas_volume(dc2016,2016,20160531).
+enacted_by(c1108_3_text,dc2016). part_of(n1108_3,c1108_3_text).
 
 % The penal norms, the bodies they belong to, and the laws that enacted them.
 promulgated(code1983,19830125). vacatio_set(code1983,19831127).     % Sacrae disciplinae leges: the First Sunday of Advent
@@ -212,8 +231,22 @@ in_force_from(L,T) :- aas_issue(L,D), not vacatio_set(L,_), same_number_after(D,
 % An issue unread lies between the act's own date and its volume's last
 % day; force, between three months after each. Inside that span the date
 % is a fact not fixed by the record, computed both ways (rule 2; CT3).
-force_window(L,T1,T2) :- aas_volume(L,Y,G), not aas_issue(L,_), not vacatio_set(L,_),
+force_window(L,T1,T2) :- aas_volume(L,Y,G), not aas_issue(L,_), not vacatio_set(L,_), not in_force_from(L,_),
                          same_number_after(G,3,T1), same_number_after(Y*10000+1231,3,T2).
+% A law promulgated otherwise than in the Acta ("unless another manner of
+% promulgation has been prescribed"): its three months run from that
+% publication, or from the issue of the Acta? One canonist reads the first
+% (De concordia inter Codices, in force 16 December 2016); no authentic
+% interpretation settles it, so where the readings differ on a date the case
+% needs, the reading is disputed and computed both ways (rule 2; TTC-CCEO IM1).
+elsewhere_dates(L,TP,W1,W2) :- promulgated_elsewhere(L,D), aas_volume(L,Y,G), same_number_after(D,3,TP),
+                               same_number_after(G,3,W1), same_number_after(Y*10000+1231,3,W2).
+reading_needed_c8(L) :- elsewhere_dates(L,TP,_,W2), instant(T), TP <= T, T < W2.
+reading_needed_c8(L) :- elsewhere_dates(L,TP,W1,_), instant(T), W1 <= T, T < TP.
+{ from_acta(L) } :- reading_needed_c8(L).
+in_force_from(L,TP) :- elsewhere_dates(L,TP,_,_), not from_acta(L).
+assumed_fact(reading(c8_elsewhere,L,from_acta))        :- from_acta(L).
+assumed_fact(reading(c8_elsewhere,L,from_publication)) :- reading_needed_c8(L), not from_acta(L).
 has_force_date(L) :- in_force_from(L,_).
 has_force_date(L) :- force_window(L,_,_).
 force_at(L,T) :- in_force_from(L,F), instant(T), F <= T.
@@ -242,6 +275,7 @@ completed_years(B,T,N) :- years_asked(B,T), T\10000 >  B\10000, N = T/10000 - B/
 
 % @norm cic:97 | c. 97 §1: one who has completed the eighteenth year of age is an adult; below this age, a minor; ages are counted under c. 203 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann96-123_en.html
 age_at(P,A,N) :- born(P,B), event_date(A,T), completed_years(B,T,N).
+age_now(P,N)  :- born(P,B), eval_date(T), completed_years(B,T,N).
 
 % @norm cic:20 | c. 20: a later law abrogates or derogates from an earlier one if it says so, is directly contrary to it, or completely reorders its matter | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 reorders(pgd2021,book6_1983).
@@ -323,6 +357,7 @@ competent_revocation(R,G) :- revocation(R,G,_), issuer(R,A1), issuer(G,A2), auth
 violation(ineffective_revocation(R,G)) :- revocation(R,G,_), not competent_revocation(R,G).
 
 % @norm cic:333 | c. 333 §3: no appeal or recourse against a decision of the Roman Pontiff | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann330-367_en.html
+% @stratum cic:333 supreme
 papal_act(D) :- issuer(D,A), authority(A,4).
 
 % @norm cic:113 | c. 113: the Catholic Church and the Apostolic See have the character of a moral person by divine ordinance itself; in the Church, besides physical persons, there are juridic persons, subjects of obligations and rights which correspond to their nature; c. 114 §1: constituted by law or by decree; c. 118: represented by those whose competence is acknowledged; c. 120 §1: perpetual by nature | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann96-123_en.html
@@ -340,6 +375,27 @@ never_placed(J) :- juridic_act(J,P), removes_voluntary(P,J,violence).
 info(juridic_act(J,never_placed)) :- never_placed(J).
 info(juridic_act(J,rescindable))  :- juridic_act(J,P), actus_humanus(P,J), grave_fear(P,J), fear_unjust(P,J).
 
+% ---------- Book I: which code (TTC-CCEO) ----------------------------------
+% @norm cic:111 | c. 1: the canons of this Code regard only the Latin Church; c. 111 §1 (as amended by De concordia inter Codices, 2016): by baptism the child of parents who belong to the Latin Church is ascribed to it, or, if one does not, when both agree that the child be baptized in it; failing agreement, to the Church sui iuris of the father (so CCEO c. 29 §1 for a child under fourteen) | https://www.vatican.va/content/francesco/la/motu_proprio/documents/papa-francesco-motu-proprio_20160531_de-concordia-inter-codices.html
+% Ascription selects the code. A Catholic whose ascription the case does not
+% record is Latin: silence ascribes to the Latin Church, as c. 11 reads
+% silence as binding (a convention; every case of the base is Latin). Each
+% Latin delict carries the gate of c. 1 (not eastern_faithful).
+church_of(P,C)      :- ascribed(P,C).
+church_of(P,C)      :- child_ascribed(P,C), not ascribed(P,_).
+church_of(P,latin)  :- in_catholic_church(P), not ascribed(P,_), not child_ascribed(P,_).
+eastern_faithful(P) :- church_of(P,C), eastern_church(C), in_catholic_church(P).
+latin_faithful(P)   :- church_of(P,latin), in_catholic_church(P).
+parent_church(P,C)  :- father(P,F), church_of(F,C).
+parent_church(P,C)  :- mother(P,M), church_of(M,C).
+child_ascribed(P,C) :- father(P,F), mother(P,M), church_of(F,C), church_of(M,C).
+child_ascribed(P,C) :- father(P,F), mother(P,M), church_of(F,CF), church_of(M,CM), CF != CM, agreed(P,C), parent_church(P,C).
+child_ascribed(P,CF) :- father(P,F), mother(P,M), church_of(F,CF), church_of(M,CM), CF != CM, not agreed_any(P).
+agreed_any(P) :- agreed(P,_).
+eastern_noncatholic(P) :- baptized_in(P,C), eastern_noncatholic_church(C), not received_into(P).
+% @end
+info(ascribed_to(P,C)) :- child_ascribed(P,C).
+
 % ---------- Books I and II: who is bound; incorporation; communion (TTC-COMMUNION) ----
 % @norm cic:11 | c. 11: merely ecclesiastical laws bind those baptized in the Catholic Church or received into it, who have the sufficient use of reason and, unless the law expressly provides otherwise, have completed seven years of age | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 % Read negatively: a case's silence binds; what it records can exclude. The
@@ -350,6 +406,7 @@ outside(P) :- unbaptized(P).
 outside(P) :- baptized_in(P,C), C != catholic, not received_into(P).
 unbound(P,L)      :- law_kind(L,ecclesiastical), outside(P).
 unbound_at(P,L,A) :- law_kind(L,ecclesiastical), age_at(P,A,Y), Y < 7.
+unbound_now(P,L)  :- law_kind(L,ecclesiastical), age_now(P,Y), Y < 7.       % a person's age taken now (TTC-CCEO WB1)
 % @norm cic:96 | c. 96: by baptism one is incorporated into the Church of Christ and is constituted a person in it, with the duties and rights proper to Christians, insofar as they are in ecclesiastical communion and unless a lawfully issued sanction stands in the way | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann96-123_en.html
 incorporated(P) :- baptized_in(P,_).
 % @norm cic:205 | c. 205: those baptized are fully in the communion of the Catholic Church on this earth who are joined with Christ in its visible structure by the bonds of the profession of faith, the sacraments, and ecclesiastical governance | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann204-207_en.html
@@ -372,13 +429,13 @@ consecrates(E,B) :- consecration(E,B,_,_).
 consecrates(E,B) :- co_consecrator(E,B).
 
 % @norm cic1983:1382 | c. 1382 (1983): consecration without pontifical mandate | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
-delict(B,n1382_1983,E) :- consecrates(E,B), event_date(E,T), not pontifical_mandate(E), norm_in_force(n1382_1983,T), not outside(B).
-delict(R,n1382_1983,E) :- consecration(E,_,R,T), not pontifical_mandate(E), norm_in_force(n1382_1983,T), not outside(R).
+delict(B,n1382_1983,E) :- consecrates(E,B), event_date(E,T), not pontifical_mandate(E), norm_in_force(n1382_1983,T), not outside(B), not eastern_faithful(B).
+delict(R,n1382_1983,E) :- consecration(E,_,R,T), not pontifical_mandate(E), norm_in_force(n1382_1983,T), not outside(R), not eastern_faithful(R).
 penalty(n1382_1983,excommunication).
 
 % @norm cic2021:1387 | c. 1387: consecrator and consecrated without pontifical mandate incur latae sententiae excommunication reserved to the Apostolic See | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
-delict(B,n1387,E) :- consecrates(E,B), event_date(E,T), not pontifical_mandate(E), norm_in_force(n1387,T), not outside(B).
-delict(R,n1387,E) :- consecration(E,_,R,T), not pontifical_mandate(E), norm_in_force(n1387,T), not outside(R).
+delict(B,n1387,E) :- consecrates(E,B), event_date(E,T), not pontifical_mandate(E), norm_in_force(n1387,T), not outside(B), not eastern_faithful(B).
+delict(R,n1387,E) :- consecration(E,_,R,T), not pontifical_mandate(E), norm_in_force(n1387,T), not outside(R), not eastern_faithful(R).
 penalty(n1387,excommunication).
 
 % @norm cic:751 | c. 751: schism is the refusal of submission to the Supreme Pontiff | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib3-cann747-755_en.html
@@ -400,10 +457,10 @@ c751_offence(P,heresy,E)   :- doubts(P,E,_), heresy_matter(E), incorporated(P), 
 c751_offence(P,apostasy,E) :- repudiates(P,E,christian_faith), incorporated(P).
 
 % @norm cic2021:1364 | c. 1364 §1: an apostate from the faith, a heretic or a schismatic incurs a latae sententiae excommunication | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
-delict(P,n1364,E) :- schismatic_act(P,E), event_date(E,T), norm_in_force(n1364,T), not outside(P).
-delict(P,n1364_1983,E) :- schismatic_act(P,E), event_date(E,T), norm_in_force(n1364_1983,T), not outside(P).
-delict(P,n1364,E) :- c751_offence(P,_,E), event_date(E,T), norm_in_force(n1364,T), not outside(P).
-delict(P,n1364_1983,E) :- c751_offence(P,_,E), event_date(E,T), norm_in_force(n1364_1983,T), not outside(P).
+delict(P,n1364,E) :- schismatic_act(P,E), event_date(E,T), norm_in_force(n1364,T), not outside(P), not eastern_faithful(P).
+delict(P,n1364_1983,E) :- schismatic_act(P,E), event_date(E,T), norm_in_force(n1364_1983,T), not outside(P), not eastern_faithful(P).
+delict(P,n1364,E) :- c751_offence(P,_,E), event_date(E,T), norm_in_force(n1364,T), not outside(P), not eastern_faithful(P).
+delict(P,n1364_1983,E) :- c751_offence(P,_,E), event_date(E,T), norm_in_force(n1364_1983,T), not outside(P), not eastern_faithful(P).
 penalty(n1364,excommunication). penalty(n1364_1983,excommunication).
 
 % Rejection of teaching owed firm assent (c. 750 §2, from 1998) or religious
@@ -414,16 +471,16 @@ rejects(P,E,c750_2) :- professes(P,E,Q,W), owed_as(Q,V,firm_assent), V != W.
 obstinate_rejection(P,E,Of) :- rejects(P,E,Of), interior(P,E,pertinacious), warned(P,E,_),
                                not retracted(P,E), not heresy_matter(E).
 % @norm cic1983:1371 | c. 1371 n. 1 (1983): one who, apart from the case of c. 1364 §1, teaches a doctrine condemned by the Roman Pontiff or an ecumenical council, or obstinately rejects the doctrine mentioned in c. 752, and does not retract when warned by the Apostolic See or the ordinary, is to be punished with a just penalty | https://www.iuscangreg.it/cic1983.php
-delict(P,n1371_1983,E) :- obstinate_rejection(P,E,c752), event_date(E,T), norm_in_force(n1371_1983,T), not outside(P).
+delict(P,n1371_1983,E) :- obstinate_rejection(P,E,c752), event_date(E,T), norm_in_force(n1371_1983,T), not outside(P), not eastern_faithful(P).
 % @norm atf1998:1371 | c. 1371 n. 1 as amended by Ad tuendam fidem (18 May 1998): "or obstinately rejects the teachings mentioned in canon 750 § 2 or in canon 752" | https://www.vatican.va/content/john-paul-ii/en/motu_proprio/documents/hf_jp-ii_motu-proprio_30061998_ad-tuendam-fidem.html
-delict(P,n1371_1998,E) :- obstinate_rejection(P,E,_), event_date(E,T), norm_in_force(n1371_1998,T), not outside(P).
+delict(P,n1371_1998,E) :- obstinate_rejection(P,E,_), event_date(E,T), norm_in_force(n1371_1998,T), not outside(P), not eastern_faithful(P).
 % @norm cic2021:1365 | c. 1365: one who, apart from c. 1364 §1, teaches a doctrine condemned by the Roman Pontiff or an ecumenical council, or obstinately rejects the teaching of c. 750 §2 or c. 752, and does not retract when warned by the Apostolic See or the ordinary, is to be punished with a censure and deprivation of office | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
-delict(P,n1365,E) :- obstinate_rejection(P,E,_), event_date(E,T), norm_in_force(n1365,T), not outside(P).
+delict(P,n1365,E) :- obstinate_rejection(P,E,_), event_date(E,T), norm_in_force(n1365,T), not outside(P), not eastern_faithful(P).
 penalty(n1371_1983,just_penalty). penalty(n1371_1998,just_penalty). penalty(n1365,censure).
 
 % @temporal cic2021:1379
 % @norm cic2021:1379 | c. 1379 §1 n. 2: one who cannot validly absolve and attempts absolution incurs latae sententiae interdict (a cleric also suspension) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
-delict(P,n1379,A) :- absolution(A,P,_,T), not valid_absolution(A), norm_in_force(n1379,T), not outside(P).
+delict(P,n1379,A) :- absolution(A,P,_,T), not valid_absolution(A), norm_in_force(n1379,T), not outside(P), not eastern_faithful(P).
 penalty(n1379,interdict).
 element_of(n1379,cannot_absolve).                 % the delict's matter: one who cannot validly absolve
 
@@ -442,11 +499,11 @@ abortion_matter(A) :- killing_of_unborn(A), read_for(abortion,killing,A).
 abortion_matter(A) :- killing_of_unborn(A), read_for(abortion,expulsion,A), by_expulsion(A).
 % @norm cic1983:1398 | c. 1398 (1983): one who procures an abortion, the effect following, incurs a latae sententiae excommunication | https://www.iuscangreg.it/cic1983.php
 delict(P,n1398_1983,A) :- procures(P,A), abortion_matter(A), not attempted_only(A), event_date(A,T),
-                          norm_in_force(n1398_1983,T), not outside(P).
+                          norm_in_force(n1398_1983,T), not outside(P), not eastern_faithful(P).
 penalty(n1398_1983,excommunication).
 % @norm cic2021:1397 | c. 1397 §2: a person who actually procures an abortion incurs a latae sententiae excommunication | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
 delict(P,n1397,A) :- procures(P,A), abortion_matter(A), not attempted_only(A), event_date(A,T),
-                     norm_in_force(n1397,T), not outside(P).
+                     norm_in_force(n1397,T), not outside(P), not eastern_faithful(P).
 penalty(n1397,excommunication).
 % @norm cic2021:1328 | c. 1328 §1: one who in furtherance of an offence did or omitted something but did not complete it is not bound by the penalty prescribed for the completed offence, unless the law provides otherwise (the same in 1983) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
 info(attempt_not_the_delict(P,A)) :- procures(P,A), attempted_only(A), killing_of_unborn(A).
@@ -454,9 +511,9 @@ info(attempt_not_the_delict(P,A)) :- procures(P,A), attempted_only(A), killing_o
 % @norm cic2021:1329 | c. 1329 §2: accomplices not named in the law incur a latae sententiae penalty if without their assistance the delict would not have been committed and the penalty can affect them; otherwise they can be punished by ferendae sententiae penalties (the same in 1983) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
 % @input assists/2 | assists(Person, Act): the person gives assistance to another's delict
 % @input necessary_assistance/2 | without the person's assistance the delict would not have been committed (outward; computed both ways when disputed)
-delict(P,N,A) :- assists(P,A), necessary_assistance(P,A), delict(Q,N,A), Q != P, latae_sententiae(N), not outside(P).
+delict(P,N,A) :- assists(P,A), necessary_assistance(P,A), delict(Q,N,A), Q != P, latae_sententiae(N), not outside(P), not eastern_faithful(P).
 info(accomplice_may_be_punished(P,N,A)) :- assists(P,A), not necessary_assistance(P,A), delict(Q,N,A), Q != P,
-                                           latae_sententiae(N), not outside(P).
+                                           latae_sententiae(N), not outside(P), not eastern_faithful(P).
 % @end
 info(abortion_reading(A,R)) :- read_for(abortion,R,A).
 
@@ -632,13 +689,26 @@ form_binds(M) :- marriage(M,_,_), not form_excused(M).
 % @norm cic:1108 | c. 1108 §1 and c. 1111: the form requires assistance by the ordinary, the pastor, or a priest delegated by either; c. 144 §2 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
 delegated(P,M) :- marriage(M,P,T), delegation(_,O,P,M,TD), ordinary(O), TD <= T.
 delegated(P,M) :- marriage(M,P,T), delegation(_,O,P,general,TD), ordinary(O), TD <= T.
-valid_form(M) :- marriage(M,P,T), delegated(P,M), not governance_invalid_at(P,T).
-valid_form(M) :- marriage(M,_,_), common_error(M).
+valid_form(M) :- marriage(M,P,T), delegated(P,M), not governance_invalid_at(P,T), not lacks_priest(M).
+valid_form(M) :- marriage(M,_,_), common_error(M), not lacks_priest(M).
+priest_required(M) :- priest_required_by(M,_).
+lacks_priest(M) :- priest_required(M), marriage(M,A,_), not priest(A).
+% @norm dc2016:1108 | c. 1108 §3 (De concordia inter Codices, 2016): only a priest validly assists at a marriage between Eastern parties, or between a Latin party and an Eastern party, Catholic or not; c. 1111 §1: delegation to priests and deacons, without prejudice to c. 1108 §3 | https://www.vatican.va/content/francesco/la/motu_proprio/documents/papa-francesco-motu-proprio_20160531_de-concordia-inter-codices.html
+eastern_party(M) :- spouse(M,P), eastern_faithful(P).
+eastern_party(M) :- spouse(M,P), eastern_noncatholic(P).
+priest_required_by(M,n1108_3) :- marriage(M,_,T), spouse(M,P), latin_faithful(P), eastern_party(M), norm_in_force(n1108_3,T).
+% @norm cic:1127 | c. 1127 §1: in a mixed marriage the form of c. 1108 is observed; but if the Catholic party marries a non-Catholic of an Eastern rite, the canonical form binds for liceity only, and validity requires the intervention of a sacred minister (from 2016, "interventus sacerdotis"), other requirements of law observed | https://www.vatican.va/content/francesco/la/motu_proprio/documents/papa-francesco-motu-proprio_20160531_de-concordia-inter-codices.html
+liceity_only(M) :- spouse(M,P), latin_faithful(P), spouse(M,Q), eastern_noncatholic(Q).
+valid_form(M) :- liceity_only(M), marriage(M,A,_), sacred_minister(A), not lacks_priest(M).
+sacred_minister(A) :- priest(A).
+sacred_minister(A) :- deacon(A).
 % @end
 info(marriage(M,valid_form))   :- marriage(M,_,_), past(M), valid_form(M).
 info(marriage(M,invalid_form)) :- marriage(M,_,_), past(M), form_binds(M), not valid_form(M), not dispensed(cond(matrimony,canonical_form),M).
 info(marriage(M,form_dispensed)) :- marriage(M,_,_), past(M), form_binds(M), not valid_form(M), dispensed(cond(matrimony,canonical_form),M).
 info(marriage(M,form_not_binding)) :- marriage(M,_,_), past(M), not form_binds(M).
+info(marriage(M,form_for_liceity_only)) :- liceity_only(M), past(M).
+info(priest_required(M,N)) :- priest_required_by(M,N), past(M).
 
 % @norm cic:1103 | c. 1103: a marriage is invalid if entered into because of force or grave fear from without, even when inflicted unintentionally, so that a person is compelled to choose marriage in order to be freed from it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1095-1107_en.html
 act_of(P,M) :- spouse(M,P).
@@ -648,8 +718,12 @@ info(marriage(M,invalid_consent)) :- consent_vitiated(M).
 
 % ---------- Book IV: the sacraments, through sacrament.lp (TTC-CHRIST) ---------
 % @norm cic:842 | c. 842 §1: a person who has not received baptism cannot be admitted validly to the other sacraments | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann834-878_en.html
+% @stratum cic:842 divine
 defect(E,subject) :- celebration(E,K,_,R), K != baptism, unbaptized(R).
+% @norm cic:882 | c. 882: the ordinary minister of confirmation is a bishop; a presbyter provided with this faculty in virtue of universal law or the special grant of the competent authority also confers this sacrament validly (CCEO c. 696 §2: Eastern faithful receive it validly also from Latin presbyters, according to their faculties) | https://vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann879-958_en.html
+confirms_by_law_or_faculty(E) :- celebration(E,confirmation,P,_), priest(P), latin_faithful(P), faculty_to_confirm(P).
 % @norm cic:845 | c. 845 §1: baptism, confirmation and sacred ordination imprint a character and cannot be repeated; §2: if after diligent inquiry a prudent doubt remains whether they were conferred at all or validly, they are to be conferred conditionally | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann834-878_en.html
+% @stratum cic:845 divine
 % A doubt of fact about a condition of validity is a prudent doubt (§2). Where
 % the sacrament certainly failed, it is conferred absolutely.
 doubt_of_validity(E) :- celebration(E,K,_,_), imprints(K), disputed(form_used(E,_)).
@@ -663,6 +737,7 @@ info(to_be_conferred(R,K,How)) :- to_be_conferred(R,K,How).
 
 % ---------- Book IV: the bond of marriage (TTC-CHRIST SA10) ---------------------
 % @norm cic:1057 | c. 1057 §1: the consent of the parties, legitimately manifested between persons qualified by law, makes marriage; no human power is able to supply this consent | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
+% @stratum cic:1057 divine
 % Consent and the canonical form are conditions typed by their law
 % (sacrament.lp), so a dispensation reaches only the one that is
 % ecclesiastical (c. 1127 §2).
@@ -673,6 +748,7 @@ bond(M) :- marriage(M,_,_), not unmet_in_marriage(M,_).
 ratified(M) :- bond(M), not spouse_unbaptized(M).
 spouse_unbaptized(M) :- spouse(M,P), unbaptized(P).
 % @norm cic:1141 | c. 1141: a marriage that is ratum et consummatum can be dissolved by no human power and by no cause, except death | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
+% @stratum cic:1141 divine
 violation(ratum_et_consummatum_dissolved(D,M)) :- dissolution(D,M,_,_), ratified(M), consummated(M).
 % @norm cic:1142 | c. 1142: a non-consummated marriage between baptized persons, or between a baptized and a non-baptized party, can be dissolved by the Roman Pontiff for a just cause | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
 dissolved(M,D) :- dissolution(D,M,non_consummation,_), bond(M), not consummated(M), issuer(D,A), authority(A,4).
@@ -702,14 +778,15 @@ info(forum_holds_null_where_bond_stands(M)) :- bond(M), nullity_sentence(S,M,_),
 % any reason" is the canon's own: no release by anyone lifts it.
 violation(seal_lifted(E,Why)) :- seal_lifted(E,Why).
 % @norm cic2021:1386 | c. 1386 §1: a confessor who directly violates the sacramental seal incurs a latae sententiae excommunication reserved to the Apostolic See | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
-delict(P,n1386,E) :- delict_act(P,n1386,E), event_date(E,T), norm_in_force(n1386,T), not outside(P).
+delict(P,n1386,E) :- delict_act(P,n1386,E), event_date(E,T), norm_in_force(n1386,T), not outside(P), not eastern_faithful(P).
 penalty(n1386,excommunication).
 
 % ---------- Book VI: the cleric and the minor; the Dicastery's clause (TTC-ACT N1-N5) ----
 % @input cleric/1 | a cleric (deacon, priest or bishop)
 % @norm cic2021:1398 | c. 1398 §1 n. 1: a cleric who commits an offence against the sixth commandment of the Decalogue with a minor is to be punished with deprivation of office and other just penalties, not excluding dismissal from the clerical state | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
 cleric(P) :- priest(P).
-delict(P,n1398_1,E) :- delict_act(P,n1398_1,E), cleric(P), event_date(E,T), norm_in_force(n1398_1,T), not outside(P).
+cleric(P) :- deacon(P).
+delict(P,n1398_1,E) :- delict_act(P,n1398_1,E), cleric(P), event_date(E,T), norm_in_force(n1398_1,T), not outside(P), not eastern_faithful(P).
 penalty(n1398_1,deprivation).
 element_of(n1398_1,minor).                        % the delict's matter: with a minor
 % @norm sst2021:6 | Norms on delicts reserved to the Dicastery for the Doctrine of the Faith (11 October 2021), art. 6 n. 1: in the delict of c. 1398 §1 n. 1, ignorance or error on the part of the cleric regarding the age of the minor does not constitute an extenuating or exonerating circumstance; art. 29: the canons on delicts and penalties of each Code apply with the norms | https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_con_cfaith_doc_20211011_norme-delittiriservati-cfaith_en.html
@@ -734,7 +811,7 @@ info(error_disregarded(P,N,E)) :- delict(P,N,E), disregarded(N,Of), ignorance(P,
 external_violation(P,A) :- binds_for(P,A,K), kind_of_act(A,K).
 named_delict(P,A) :- delict(P,N,A), N != n1399.
 delict(P,n1399,A) :- external_violation(P,A), special_gravity(_,A), scandal_necessity(_,A), event_date(A,T),
-                     norm_in_force(n1399,T), not outside(P), not named_delict(P,A).
+                     norm_in_force(n1399,T), not outside(P), not eastern_faithful(P), not named_delict(P,A).
 penalty(n1399,just_penalty).
 % @end
 
