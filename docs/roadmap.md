@@ -27,7 +27,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | communion | rule 14; faith and communion: notes, denials, bonds | done ([ttc-communion(7)](research/communion-preregistration.md)) |
 | canon | abortion, c. 1399, c. 1752, the Dicastery's clause; form and object; fictions of law | done ([ttc-penal(7)](research/penal-preregistration.md)) |
 | saeculum | one library for time: the Church's computation (cc. 8 §1, 97, 200–203), one calendar, reception dated, the order and the measures | done ([ttc-saeculum(7)](research/saeculum-preregistration.md)) |
-| cceo | the Eastern Code: a second canon layer, chosen by ascription | to predict |
+| cceo | the Eastern Code: a second canon layer, chosen by ascription; who is bound; the minister of confirmation | predicted ([ttc-cceo(7)](research/cceo-preregistration.md)), to stamp |
 | liturgy | the liturgy as witness, rite and development | to predict |
 | last things | soteriology and eschatology | to predict |
 | empirical | science | to predict |
@@ -55,6 +55,10 @@ claim. Left:
 - The "now" as an antichain, causal sets (CANDIDATE THEORIES).
 
 ### cceo
+
+Predicted in [ttc-cceo(7)](research/cceo-preregistration.md), with two
+repairs: `binds_on/2` consults c. 11 as `binds_for/3` does (a run's
+finding), and a presbyter confirms validly by law or faculty.
 
 A second canon layer beside the Latin one, under the same discipline:
 binary, dated, each rule under `@norm` (iuscangreg's `cceo.php`; the
@@ -652,7 +656,31 @@ To run on the system. None enters the kernel.
     of eternity, "the whole, simultaneous and perfect possession of
     unending life" (Boethius; ST I q. 10 a. 1): light is a creature with a
     path, and to give it eternity's mode would be the kernel's refused
-    confusion of the creature with God.
+    confusion of the creature with God (refused since TTC-SAECULUM, MD3).
+  - **Mass as the clock.** Light gives the order; mass gives the measure.
+    The causal order fixes the geometry up to its scale, and what is
+    massless keeps no time: a clock needs mass (Penrose, *Cycles of Time*,
+    2010), and a world of massless things has order without measure. So
+    the saeculum's design, order first and measures laid on it, is the
+    physics' too: time numbering motion "by before and after" (ST I q. 10
+    a. 1) needs something that moves below the speed of light.
+  - **Gravity in the checker: the order as dynamical.** The checker
+    branches over a fixed order: models split on readings, claims and
+    facts, while `before/2` is the same in every branch, as quantum
+    mechanics evolves against a fixed causal background. Gravity makes the
+    background itself dynamical, and quantum gravity asks how the order
+    itself might branch (indefinite causal order: Oreshkov, Costa and
+    Brukner, 2012). The candidate: `before/2` computed per branch among
+    creaturely events, around a fixed spine the deposit gives (he died,
+    then rose, once: `economy_out_of_order`).
+  - **Weight as love, not fatigue.** Gravity read as tiredness, or as
+    freedom inhibited, says of bodies what is said of persons: a crossing
+    of sorts, licensed only through a bridge with modes. Augustine builds
+    that bridge the other way: "Pondus meum amor meus; eo feror, quocumque
+    feror" (*Confessions* XIII.9). A body's weight carries it to its place
+    and rest; love carries the soul to its own. Weight as a desire for
+    one's place, rest as an end: an analogy of proportion, and the reading
+    this candidate takes.
 - **The whole seen at the end** (development as unfolding). The consent
   of the whole people, "from the Bishops down to the last of the lay
   faithful" (LG 12), of every church (LG 23) and every time, the dead
