@@ -26,9 +26,9 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | moral amendment | verdicts and obligation: may, must, must not; social doctrine as tests | done ([ttc-precept(7)](research/precept-preregistration.md)) |
 | communion | rule 14; faith and communion: notes, denials, bonds | done ([ttc-communion(7)](research/communion-preregistration.md)) |
 | canon | abortion, c. 1399, c. 1752, the Dicastery's clause; form and object; fictions of law | done ([ttc-penal(7)](research/penal-preregistration.md)) |
+| saeculum | one library for time: the Church's computation (cc. 8 §1, 97, 200–203), one calendar, reception dated, the order and the measures | predicted ([ttc-saeculum(7)](research/saeculum-preregistration.md)), to stamp |
 | cceo | the Eastern Code: a second canon layer, chosen by ascription | to predict |
 | liturgy | the liturgy as witness, rite and development | to predict |
-| saeculum | one library for time: the Church's computation (cc. 200–203), one calendar, the measures | to predict, before the last things |
 | last things | soteriology and eschatology | to predict |
 | empirical | science | to predict |
 | L | a language for libraries, compiled to clingo | after empirical, before the churches |
@@ -36,6 +36,28 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
+
+### saeculum
+
+One library for time: Augustine's *saeculum*, the time of the two cities
+before the end. It comes before the cceo step, whose dates need c. 8
+§1's months (*De concordia inter Codices*), and before the last things,
+which type duration by measure. Predicted in
+[ttc-saeculum(7)](research/saeculum-preregistration.md). Today time is
+scattered. The canon layer counts days (`YYYYMMDD`), the authority layer
+years, joined by one bridge (`asof*10000+1231`); the kernel orders events
+and holds no theory of time.
+
+- **The Church's computation of time** (cc. 200–203): a day of 24 hours, a
+  month of 30 days unless the calendar is meant, the first day not
+  counted; c. 8 §1's three months, which TTC-PENAL entered by hand
+  (`vacatio_until/2`).
+- **One calendar for every layer:** years and days, intervals, "in force
+  from ... until", what "now" is (`today/1`, `asof`), reception dated (the
+  *Quicumque*'s repair).
+- **The measures:** time, the measure of motion (ST I q. 10 aa. 4–6); the
+  *aevum*; eternity. The last things' duration typed by measure is built
+  on them, and the empirical step and the churches run under it.
 
 ### cceo
 
@@ -120,24 +142,6 @@ from forms already existing" (SC 23). Three faces:
 - The bridge to the last things: in the earthly liturgy "we take part in a
   foretaste of that heavenly liturgy" (SC 8); the Mass is the one
   sacrifice offered in a different manner (DH 1743).
-
-### saeculum
-
-One library for time: Augustine's *saeculum*, the time of the two cities
-before the end. Today time is scattered. The canon layer counts days
-(`YYYYMMDD`), the authority layer years, joined by one bridge
-(`asof*10000+1231`); the kernel orders events and holds no theory of time.
-
-- **The Church's computation of time** (cc. 200–203): a day of 24 hours, a
-  month of 30 days unless the calendar is meant, the first day not
-  counted; c. 8 §1's three months, which TTC-PENAL entered by hand
-  (`vacatio_until/2`).
-- **One calendar for every layer:** years and days, intervals, "in force
-  from ... until", what "now" is (`today/1`, `asof`), reception dated (the
-  *Quicumque*'s repair).
-- **The measures:** time, the measure of motion (ST I q. 10 aa. 4–6); the
-  *aevum*; eternity. The last things' duration typed by measure is built
-  on them, and the empirical step and the churches run under it.
 
 ### last things
 
