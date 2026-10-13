@@ -155,6 +155,12 @@ constitution not confirmed is null from 1 January 1969. What the former
 days measured, the canonical penance of the earth, and that nothing after
 death is measured by them, is the theological side's (`novissima.lp`).
 
+The empirical (TTC-EMPIRICA): CIC 1917 c. 748, among the Code of 1917's
+texts, computed a doubt without deciding it: where it is doubted whether one
+human being or several are born, one is baptized absolutely and the rest
+conditionally. The Code of 1983 has no such canon; the number stays a
+disputed fact on the theological side (`empirica.lp`).
+
 ## SOURCES
 
 [iuscangreg](https://www.iuscangreg.it/) (Faculty of Canon Law, Pontifical

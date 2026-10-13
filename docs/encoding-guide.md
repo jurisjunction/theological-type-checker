@@ -232,6 +232,21 @@ See [ttc-liturgy(7)](research/liturgy-preregistration.md).
 
 See [ttc-novissima(7)](research/novissima-preregistration.md).
 
+## THE EMPIRICAL
+
+| Fact | Meaning |
+| --- | --- |
+| `question_kind(Q,empirical)` | A question the sciences answer. No source deletes, cleaves or weighs on it. An act at tiers 1 to 3 supporting a value on it is refused (`act_answers_a_fact`); a censure of heresy or of error in faith laid on it is refused (`fact_censured_as_heresy`, `fact_censured_in_faith`). |
+| `finding(F,Q,V,Year)` | A finding: from its year it fixes an empirical question (`fixed_by_finding/3`), a later finding superseding an earlier; a reading of Scripture reading the contrary is then on no branch. Laid on a doctrinal question it is refused (`finding_on_a_doctrine`). |
+| `rests_on_finding(S,Q,F)` | A teaching act resting a doctrinal value on a finding: refused (`doctrine_rests_on_finding`), the doctrine's value unchanged. |
+| `consent_claimant(Text,C)` | Who claims the Fathers' consent. A consent claimed on a text not of faith or morals fixes nothing and is reported (`consent_outside_faith_and_morals/2`). |
+| `method(F,division)`, `nothing_but(C,W,F)`, `about_the_parts(C,W,F)` | Method never answers being: "nothing but" from a finding by division refused (`nothing_but_from_division`), for a human being also by the soul as form (`against_the_soul_as_form`, Vienne); a claim about the parts reported. |
+| `twinning(E,A,B)` | A twinning read four ways (budding, fission, delayed, one soul), a disputed fact: `human_beings_after/2` on each branch, never derived; `treated_as_a_person/1` on all. |
+| `contrary_acts_at_once/2`, `died_while_other_lived/2`, `baptized_each/2`, `married_each/2` | Outward tests and the Church's practice: each refuses the one-soul reading. `divides_the_soul(E)` is refused on every reading. |
+| `doubt_one_or_more(E,Date)`, `born_together(E,C)` | Conjoined twins: under CIC 1917 c. 748 one baptized absolutely, the rest conditionally (`to_be_baptized/2`); after 1983 no canon answers. Whether one human being or several is computed both ways. |
+
+See [ttc-empirica(7)](research/empirica-preregistration.md).
+
 ## LIBRARY
 
 | Fact | Meaning |

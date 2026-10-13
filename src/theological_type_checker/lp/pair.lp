@@ -35,6 +35,7 @@ frontier(theology,cited_not_encoded(S2,S)) :- reaffirms(S,S2), not source(S2,_,_
 frontier(theology,cited_not_encoded(S1,S)) :- interprets(S,S1,_), not source(S1,_,_,_).
 has_support(Q) :- supports(_,Q,_).
 has_support(Q) :- reads(_,_,Q,_).
+has_support(Q) :- finding(_,Q,_,_).        % an empirical question answered by the sciences (TTC-EMPIRICA)
 frontier(theology,question_without_sources(Q)) :- question(Q), not has_support(Q), not default(Q,_).
 has_reading(S) :- reading(S,_).
 frontier(theology,ambiguous_without_readings(S)) :- ambiguous(S), not has_reading(S).

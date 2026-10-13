@@ -50,6 +50,14 @@ relaxed(grave_nimis). relaxed(trent_1546).
 #program asof_1968. asof(1968). custom_asof.
 #program asof_1970. asof(1970). custom_asof.
 #program asof_2014. asof(2014). custom_asof.
+#program asof_1616. asof(1616). custom_asof.
+#program asof_1633. asof(1633). custom_asof.
+#program asof_1700. asof(1700). custom_asof.
+#program asof_1730. asof(1730). custom_asof.
+#program asof_1800. asof(1800). custom_asof.
+#program asof_1830. asof(1830). custom_asof.
+#program asof_1925. asof(1925). custom_asof.
+#program asof_2000. asof(2000). custom_asof.
 
 % ---------- De auxiliis: a branch protected and never cleaved ---------
 #program auxiliis.
@@ -1251,3 +1259,100 @@ same_sacrifice(last_supper,passion). same_sacrifice(mass_m,passion). celebration
 repeats(mass_m,passion).
 #program cand_bare_commemoration. % HYPOTHETICAL: the Mass typed as a bare commemoration (OS2)
 commemoration_only(mass_m).
+
+% ---------- The empirical kind (TTC-EMPIRICA) ---------------------------------
+% A question the sciences answer: no tier settles it, a finding does, and a
+% finding settles no doctrine (empirica.lp).
+#program empirical_kind_hyp.      % HYPOTHETICAL: an act at tier 1 on an empirical question (EM1)
+question(q(x_fact)). question_kind(q(x_fact),empirical). value(q(x_fact),(a;b)).
+source(def_e,1,truth,1700). hypothetical_warrant(def_e). supports(def_e,q(x_fact),a).
+source(dec_e,3,truth,1800). character(dec_e,instruction). supports(dec_e,q(x_fact),b).   % and one at tier 3 for the other
+#program cand_consent_unclaimed.  % HYPOTHETICAL: the Fathers' consent claimed on a text outside faith and morals, by no one named (EM1)
+source(text_u,0,truth,100). ambiguous(text_u). reading(text_u,(r1;r2)). consent_claim(text_u,r1).
+#program findings_hyp.            % HYPOTHETICAL: an earlier finding and a later one (EM2; load with empirical_kind_hyp)
+finding(f_early,q(x_fact),a,1900). finding(f_late,q(x_fact),b,1950).
+#program cand_finding_on_doctrine.   % HYPOTHETICAL: a finding laid on a doctrinal question (EM3; load with beginning)
+finding(f_doctrine,q(world_began),no,2000).
+
+#program galileo.                 % the earth's motion: 1616, 1633, 1729, 1820 (GL)
+question(q(earth_moves)). question_kind(q(earth_moves),empirical). value(q(earth_moves),(yes;no)).
+question(q(sun_at_rest)). question_kind(q(sun_at_rest),empirical). value(q(sun_at_rest),(yes;no)).
+% Josh 10:12-13, "And the sun stood still": described "in popular language
+% and according to external appearances" (NAB, note), or read as astronomy.
+% The book's date is not at issue; it is entered before every act here.
+source(josh10_12,0,truth,-600). ambiguous(josh10_12). reading(josh10_12,(by_appearances;astronomical)).
+reads(josh10_12,astronomical,q(earth_moves),no).
+% The censure of 24 February 1616, by the Holy Office's theologians,
+% unpublished: the sun at rest at the centre "stultam et absurdam in
+% Philosophia; et formaliter haereticam, quatenus contradicit expresse
+% sententiis sacrae scripturae ... secundum communem expositionem, et sensum,
+% Sanctorum Patrum et Theologorum doctorum"; the earth's motion "ad minus
+% esse in fide erroneam" (Pagano, 2009). It claims the Fathers' consent for
+% the astronomical reading, on a text not of faith or morals (DH 1507).
+source(censure_1616,5,truth,1616).
+supports(censure_1616,q(sun_at_rest),no). supports(censure_1616,q(earth_moves),no).
+censures_as_heresy(censure_1616,q(sun_at_rest),yes). censures_in_faith(censure_1616,q(earth_moves),yes).
+consent_claim(josh10_12,astronomical). consent_claimant(josh10_12,censure_1616).
+% The decree of the Congregation of the Index (5 March 1616), published by
+% the pope's order: "falsam illam doctrinam Pithagoricam, divinaeque
+% scripturae omnino adversantem"; Copernicus "suspendendos esse donec
+% corrigantur". Its form disputed: disciplinary ("this tribunal being
+% absolutely incompetent to make a dogmatic decree", Catholic Encyclopedia)
+% or doctrinal (Fantoli). Read both ways.
+question(q(copernicus_may_be_read)). question_kind(q(copernicus_may_be_read),governance).
+value(q(copernicus_may_be_read),(yes;no)).
+source(index_1616,3,juridical,1616). dicastery(index_1616).
+ambiguous(index_1616). reading(index_1616,(disciplinary;doctrinal)).
+reads(index_1616,disciplinary,q(copernicus_may_be_read),no). reads(index_1616,doctrinal,q(copernicus_may_be_read),no).
+reads(index_1616,doctrinal,q(earth_moves),no).
+% The sentence of 22 June 1633 (seven cardinals, Inquisitors General): an
+% opinion held "dopo esser stata dichiarata e diffinita per contraria alla
+% Sacra Scrittura". Its word on the act of 1616, a claim of grade, treated
+% as fixing. Nothing about the person judged is entered (rule 3).
+source(sentence_1633,3,juridical,1633). dicastery(sentence_1633).
+claims_tier(sentence_1633,index_1616,1). treated_as_fixing(sentence_1633,index_1616).
+% The Holy Office, 16 August 1820: "no obstacles exist for those who sustain
+% Copernicus' affirmation regarding the earth's movement in the manner in
+% which it is affirmed today" (Brandmuller and Greipl, 1992).
+source(holy_office_1820,3,juridical,1820). dicastery(holy_office_1820).
+supports(holy_office_1820,q(copernicus_may_be_read),yes).
+% The findings: Bradley's aberration of starlight (Phil. Trans. 406, 1729),
+% Bessel's parallax (1838), Foucault's pendulum (1851).
+finding(bradley_1729,q(earth_moves),yes,1729). finding(bessel_1838,q(earth_moves),yes,1838).
+finding(foucault_1851,q(earth_moves),yes,1851).
+
+#program beginning.               % the world's beginning and the expanding universe (CB; EM3)
+% Lateran IV (DH 800): God "simul ab initio temporis utramque de nihilo
+% condidit creaturam".
+question(q(world_began)). question_kind(q(world_began),doctrinal). value(q(world_began),(yes;no)).
+source(lateran_iv_1215,1,truth,1215). conciliar_act(lateran_iv_1215,creed).
+supports(lateran_iv_1215,q(world_began),yes).
+% Pius XII, "Un'ora" (22 November 1951): science has indicated the cosmos's
+% "beginning in time", "Creation, therefore, in time, and therefore, a
+% Creator; and consequently, God!"; though "the facts verified up to now are
+% not arguments of absolute proof of creation in time".
+source(pius_xii_1951,3,truth,1951). papal_form(pius_xii_1951,ordinary). character(pius_xii_1951,address).
+supports(pius_xii_1951,q(world_began),yes). rests_on_finding(pius_xii_1951,q(world_began),expansion_1929).
+question(q(universe_expanding)). question_kind(q(universe_expanding),empirical). value(q(universe_expanding),(yes;no)).
+finding(expansion_1929,q(universe_expanding),yes,1929).          % Lemaitre (1927), Hubble (1929)
+question(q(age_of_universe)). question_kind(q(age_of_universe),empirical).
+value(q(age_of_universe),(about_13_8_gyr;otherwise)).
+finding(planck_2018,q(age_of_universe),about_13_8_gyr,2018).      % Planck 2018 results VI
+
+#program method_being.            % "nothing but" from a finding by division (MB1; load with world)
+question(q(bodies_of_cells)). question_kind(q(bodies_of_cells),empirical). value(q(bodies_of_cells),(yes;no)).
+finding(cell_theory_1839,q(bodies_of_cells),yes,1839). method(cell_theory_1839,division).   % Schwann (1839)
+% Vienne (1312, DH 902): "quod anima rationalis seu intellectiva non sit forma
+% corporis humani per se et essentialiter, tamquam haereticus sit censendus".
+source(vienne_1312,1,truth,1312). conciliar_act(vienne_1312,definition). form_of_the_body_given(vienne_1312).
+nothing_but(claim_h,peter,cell_theory_1839). nothing_but(claim_l,lion,cell_theory_1839).
+about_the_parts(claim_p,peter,cell_theory_1839).
+
+#program twinning.                % HYPOTHETICAL: a monozygotic twinning (TW1)
+twinning(e_z,tw_a,tw_b).
+#program twin_tests.              % HYPOTHETICAL: the four outward tests and the Church's practice (TW2; load with twinning)
+contrary_acts_at_once(tw_a,tw_b). died_while_other_lived(tw_a,tw_b). baptized_each(tw_a,tw_b). married_each(tw_a,tw_b).
+#program cand_soul_divided.       % HYPOTHETICAL: the embryo's soul divided between the twins (TW3)
+divides_the_soul(e_z).
+#program cand_soul_from_twin.     % HYPOTHETICAL: a twin's soul given by the other twin (TW3)
+created_person(tw_a;tw_b). being(tw_a,tw_b).

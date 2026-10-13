@@ -140,12 +140,15 @@
 % @input indulgence/3 | indulgence(G, partial | plenary, Date): a grant of an indulgence
 % @input in_days/2 | in_days(G, N): the grant designates its partial indulgence in days (or their equivalent)
 % @input confirmed/2 | confirmed(G, Date): an older grant confirmed under Indulgentiarum doctrina's transitional norms
+% @input doubt_one_or_more/2 | doubt_one_or_more(E, Date): a birth at which it is doubted whether one human being or several (CIC 1917 c. 748)
+% @input born_together/2 | born_together(E, Child): a child of that birth, as the record names it
 
 event_date(E,T) :- consecration(E,_,_,T).
 event_date(A,T) :- absolution(A,_,_,T).
 event_date(M,T) :- marriage(M,_,T).
 event_date(E,T) :- act_date(E,T).
 event_date(G,T) :- indulgence(G,_,T).
+event_date(E,T) :- doubt_one_or_more(E,T).
 eval_date(T) :- now(T).                         % the one clock (saeculum.lp)
 past(E) :- event_date(E,TE), eval_date(T), TE <= T.
 % the instants at which status is computed: each act's date, and the evaluation date
@@ -886,6 +889,19 @@ indulgence_null(G,T)  :- indulgence(G,_,TG), promulgated(id1967,TP), TG < TP, no
 info(designated_in_days_against_norm_4(G)) :- designated_in_days(G).
 info(indulgence_null(G))      :- indulgence_null(G,T), eval_date(T).
 info(indulgence_in_force(G))  :- indulgence(G,_,TG), eval_date(T), TG <= T, not indulgence_null(G,T).
+
+% ---------- Book III of 1917: one human being or several (TTC-EMPIRICA TW4) ----------
+% @norm cic1917:748 | CIC 1917 c. 748: "Monstra et ostenta semper baptizentur saltem sub conditione; in dubio autem unusne an plures sint homines, unus absolute baptizetur, ceteri sub conditione"; abrogated with the Code of 1917 by CIC 1983 c. 6 §1 n. 1 | https://www.iuscangreg.it/cic1917.php
+% The law computed the doubt both ways without deciding it. The canon names
+% no one: the first the record names is baptized absolutely. The Code of
+% 1983 has no such canon.
+enacted_by(c748_text_1917,code1917). part_of(n748_1917,c748_text_1917).
+c748_doubt(E) :- doubt_one_or_more(E,T), norm_in_force(n748_1917,T).
+named_later(E,C) :- born_together(E,C), born_together(E,C0), C0 < C.
+baptize_1917(C,absolutely)    :- c748_doubt(E), born_together(E,C), not named_later(E,C).
+baptize_1917(C,conditionally) :- c748_doubt(E), born_together(E,C), named_later(E,C).
+% @end
+info(to_be_baptized(C,How)) :- baptize_1917(C,How).
 
 % ---------- Book IV: the bond of marriage (TTC-CHRIST SA10) ---------------------
 % @norm cic:1057 | c. 1057 §1: the consent of the parties, legitimately manifested between persons qualified by law, makes marriage; no human power is able to supply this consent | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html

@@ -34,6 +34,11 @@ eff_tier(S,T)   :- source(S,T,_,_), not promoted_now(S).
 withdrawn_now(S) :- withdrawn(S,Y), asof(A), Y <= A.        % a later act replaced the text
 in_force(S)     :- source(S,_,_,Y), asof(A), Y <= A, not relaxed(S), not withdrawn_now(S), not awaiting_reception(S).
 
+% ---------- The empirical kind (TTC-EMPIRICA) --------------------------
+% A question the sciences answer: no tier deletes, cleaves or weighs on it.
+% Findings fix it from their year (empirica.lp).
+empirical_q(Q) :- question_kind(Q,empirical).
+
 % ---------- Ambiguous texts: one branch per reading -------------------
 % a source marked ambiguous but given no readings is a frontier item, not a contradiction
 readable(S) :- reading(S,_).
@@ -127,7 +132,8 @@ violation(tier_without_warrant(S,T)) :- in_force(S), source(S,T,_,_), T >= 1, T 
 % flagged when a lower tier speaks of a higher, refused when treated as fixing.
 info(lower_speaks_of_higher(C,S,K)) :- claims_tier(C,S,K), in_force(C), eff_tier(C,T), T > K.
 info(lower_speaks_of_higher(S,M,K)) :- meta_supports(S,M), in_force(S), eff_tier(S,T), meta_target(M,K), T > K.
-violation(self_elevation(C,S)) :- treated_as_fixing(C,S), claims_tier(C,S,K), eff_tier(C,T), T >= K.
+% A claim is refused from its date: before it is made it fixes nothing (TTC-EMPIRICA GL2).
+violation(self_elevation(C,S)) :- treated_as_fixing(C,S), claims_tier(C,S,K), in_force(C), eff_tier(C,T), T >= K.
 
 % ---------- Branches -------------------------------------------------
 1 { holds(Q,V) : value(Q,V) } 1 :- question(Q).
@@ -138,7 +144,7 @@ supported(Q,V) :- in_force(S), supports(S,Q,V).
 :- holds(Q,V), default(Q,D), V != D, not supported(Q,V).
 
 % tier 1 truth deletes contrary branches
-:- holds(Q,V), in_force(S), eff_tier(S,1), source(S,_,truth,_), supports(S,Q,W), W != V.
+:- holds(Q,V), in_force(S), eff_tier(S,1), source(S,_,truth,_), supports(S,Q,W), W != V, not empirical_q(Q).
 
 % ---------- Protection -----------------------------------------------
 protected(Q,T) :- in_force(P), source(P,_,protective,_), eff_tier(P,T), protects(P,Q).
@@ -155,8 +161,8 @@ blocked(S,Q)   :- supports(S,Q,_), eff_tier(S,TS), protected(Q,TP), TS >= TP, TS
 % @input liturgical_witness/1 | liturgy.lp: the prayer a liturgical book holds
 cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), eff_tier(S,T), T >= 2, T <= 3,
                    not source(S,_,protective,_), not blocked(S,Q), not nonmagisterial(S), not particular_council(S),
-                   not liturgical_witness(S).
-cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), source(S,_,juridical,_), not blocked(S,Q).
+                   not liturgical_witness(S), not empirical_q(Q).
+cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), source(S,_,juridical,_), not blocked(S,Q), not empirical_q(Q).
 
 % conflicts among sources that could cleave
 contrary(S1,S2,Q) :- cleave_raw(S1,Q), cleave_raw(S2,Q), supports(S1,Q,V1), supports(S2,Q,V2), V1 != V2.
@@ -165,7 +171,7 @@ outranked(S,Q)    :- contrary(S,S2,Q), eff_tier(S,T), eff_tier(S2,T2), T2 < T.
 outranked(S,Q)    :- cleave_raw(S,Q), supports(S,Q,V), in_force(T1), eff_tier(T1,1),
                      source(T1,_,truth,_), supports(T1,Q,W), W != V.
 info(against_tier1(S,Q)) :- in_force(S), supports(S,Q,W), holds(Q,V), W != V, S != T1,
-                            in_force(T1), eff_tier(T1,1), source(T1,_,truth,_), supports(T1,Q,V).
+                            in_force(T1), eff_tier(T1,1), source(T1,_,truth,_), supports(T1,Q,V), not empirical_q(Q).
 % a governance act cannot bind a successor of equal authority (par in parem non habet imperium)
 violation(successor_bound(S)) :- treated_as_binding_successors(S), governance(S).
 same_tier(S,S2,Q) :- contrary(S,S2,Q), eff_tier(S,T), eff_tier(S2,T).
@@ -305,7 +311,7 @@ dependent(S,Q) :- cites(S,S2), supports(S,Q,V), supports(S2,Q,V), in_force(S2), 
 % a reaffirmation is a new act of teaching and adds weight; the flat ablation treats it as a citation
 dependent(S,Q) :- reaffirms(S,S2), supports(S,Q,V), supports(S2,Q,V), in_force(S2), flat_weight, not count_all.
 disagrees(S,T,Q) :- in_force(S), source(S,_,truth,_), eff_tier(S,T), T >= 3,
-                    supports(S,Q,W), holds(Q,V), W != V, not can_cleave(S,Q), not dependent(S,Q).
+                    supports(S,Q,W), holds(Q,V), W != V, not can_cleave(S,Q), not dependent(S,Q), not empirical_q(Q).
 disagrees(S,T,reading(S1)) :- interprets(S,S1,R), in_force(S), eff_tier(S,T), read_as(S1,R2), R2 != R.
 weight_tier(3..5).
 weight(T,N) :- weight_tier(T), question(_), N = #sum{ P,S,X : disagrees(S,T,X), pts(S,P) }.

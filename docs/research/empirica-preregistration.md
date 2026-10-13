@@ -354,3 +354,58 @@ is recorded where given, and required nowhere yet.
 [ttc-novissima(7)](novissima-preregistration.md), [ttc-sources(7)](sources-preregistration.md),
 [ttc-saeculum(7)](saeculum-preregistration.md), [ttc-creed(7)](creed-preregistration.md),
 [ttc-communion(7)](communion-preregistration.md), [ttc-roadmap(7)](../roadmap.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in 3d86712, stamped in
+bb7c93a. Encoded in `empirica.lp` (new: the empirical kind, findings, the
+consent outside faith and morals, method and being, how many human beings),
+`icon_authority.lp` (the empirical kind kept out of deletion, cleaving,
+weight and the report against tier 1; a claim treated as fixing refused from
+its date), `pair.lp` (a question a finding answers has a source),
+`canon_law.lp` (CIC 1917 c. 748), `icon_history.lp`, `canon_cases.lp`,
+`engine.py`. Scenarios EM, GL, CB, MB, TW (14; 563 in all); no earlier
+expectation changed.
+
+| | Result |
+| --- | --- |
+| EM1 | Held (EM1), with an act at tier 3 added for the other value: both branches main, nothing cleaved, no weight, both acts refused. |
+| EM2 | Held (EM2): open as of 1850, the earlier finding as of 1925, the later today. |
+| EM3 | Held (EM3). |
+| GL1 | Held (GL1). 48 branches: Joshua's two readings, the decree's two, the consent both ways, the two facts and the governance question. The censure is refused twice: the sun at rest censured as heresy (`fact_censured_as_heresy`), the earth's motion as error in faith (`fact_censured_in_faith`), the 1616 propositions entered as two empirical questions. |
+| GL2 | Held (GL2), after one repair: the rule refusing a claim treated as fixing had no date and refused the sentence of 1633 as of 1616 too. It now reads its claimant in force; no earlier output changed. |
+| GL3 | Held (GL3). Today the latest finding (Foucault, 1851) is the one reported. |
+| GL4 | Held (GL4). |
+| CB1 | Held (CB1). |
+| CB2 | Held (CB2). |
+| MB1 | Held (MB1). |
+| TW1 | Held (TW1). |
+| TW2 | Held (TW2). |
+| TW3 | Held (TW3). |
+| TW4 | Held (TW4). |
+| M1 | Held: no earlier scenario's atoms changed (549 compared; 14 new). The TTC-SCHOOLS tables did not change; the group stays out of the stamped boot set, as every later group does. |
+| M2 | Held after closing gaps. Each new statement was deleted in turn (36 in `empirica.lp`, 1 in `pair.lp`, 7 in `canon_law.lp`, 2 in `canon_cases.lp`, 43 in `icon_history.lp`) and each new conjunct of `icon_authority.lp` removed (6), against the scenarios that read them, and each survivor again. Closed on the way: the censure's second refusal; the consent claimed by no one named (a new HYPOTHETICAL text); the latest finding reported; the beginning excluded, not only settled; the expansion and the cells fixed by their findings; an act at tier 3 on an empirical question, which tests that nothing cleaves and nothing is reported against tier 1; the decree cleaving nothing on the fact, on either reading. The censure's supports, which deletion left green, keep its questions sourced (PR4). None survives. CL1 and PR4 clean. |
+| M3 | Held: no unit changes status; the rule files cite CCC 159, 366 and 2274 (54 paragraphs). |
+
+### Caveats, read
+
+- **c. 748 of 1917** read in two transcriptions that agree; iuscangreg was
+  not reachable and stays the cited home of the text.
+- **The documents of 1616 and 1633** read in Pagano's edition through
+  Graney, in Finocchiaro's translation and on Wikisource (Favaro); the act
+  of 1820 through inters.org (Brandmüller and Greipl); the decree of 1822
+  not read. Pius XII's address in the Pontifical Academy's English.
+- **The age of the universe** is entered as a value, "about 13.8 billion
+  years"; Planck's figure was not read from the paper.
+- **The sun's own motion** (Herschel, 1783) is not entered: the question of
+  the sun at rest stays open, refused only in its censure.
+
+### Not predicted
+
+- **A claim is refused from its date.** `self_elevation` read no date; it
+  now reads its claimant in force (GL2). No earlier scenario changed.
+- **The frontier counts a finding.** A question answered only by findings
+  had no source for PR4; `pair.lp` now counts a finding as its source.
+- **Two questions for 1616.** The censure qualified two propositions
+  differently (heresy; error in faith); they are entered as two empirical
+  questions, with two refusals.

@@ -847,3 +847,7 @@ indulgence(g_1950,partial,19500601). in_days(g_1950,300).
 indulgence(g_1970,partial,19700601). in_days(g_1970,300).
 #program cand_days_in_purgatory.  % HYPOTHETICAL: the grant's days read as days in purgatory (DU2; load with indulgence_grants)
 days_read_as(g_1950,time_after_death).
+
+#program conjoined_twins.         % HYPOTHETICAL: conjoined twins, the doubt whether one or two recorded, born in 1950 and in 2000 (TW4)
+doubt_one_or_more(cj_1950,19500301). born_together(cj_1950,(cj_a;cj_b)).
+doubt_one_or_more(cj_2000,20000301). born_together(cj_2000,(cj_c;cj_d)).

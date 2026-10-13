@@ -31,7 +31,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | sources | documents as layers in time: the codes (1917, 1983, 1990) and every act that changed them; law outside the codes; acts of executive power; the general norms as the edges; authorship, an attribution a claim; the Filioque's Latin witnesses | done ([ttc-sources(7)](research/sources-preregistration.md)) |
 | liturgy | the liturgy as witness, rite and development; one book, two sources; the substance kept, the rest law; rites in time | done ([ttc-liturgy(7)](research/liturgy-preregistration.md)) |
 | last things | the order after death given by definitions, never measured by the calendar; the vision deferred and defined; the end early; no one's state computed; what lasts; one sacrifice in many times | done ([ttc-novissima(7)](research/novissima-preregistration.md)) |
-| empirical | the empirical kind: no tier settles it, a finding does, and a finding settles no doctrine; Galileo and the Big Bang; method and being; how many human beings | predicted ([ttc-empirica(7)](research/empirica-preregistration.md)), to stamp |
+| empirical | the empirical kind: no tier settles it, a finding does, and a finding settles no doctrine; Galileo and the Big Bang; method and being; how many human beings | done ([ttc-empirica(7)](research/empirica-preregistration.md)) |
 | L | a language for libraries, compiled to clingo | after empirical, before the churches |
 | churches | other Churches and ecclesial communities: succession, sacraments, *subsistit in* | to predict, after L |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
@@ -290,14 +290,19 @@ below remain the notes they were.
 
 ### empirical
 
-Predicted in [ttc-empirica(7)](research/empirica-preregistration.md):
+Done ([ttc-empirica(7)](research/empirica-preregistration.md)):
 the empirical kind of question, kept out of deletion, cleaving and weight,
 fixed by findings from their year; Galileo (the censure and the Index
 decree of 1616, the sentence of 1633, Bradley's finding of 1729) and
 Pius XII's address of 1951 as the two directions of one error; method
 never answers being; a twinning read four ways, the one-soul reading
 refused by four outward tests; CIC 1917 c. 748. Thomas's annulose
-animals are in *Summa contra Gentiles* II c. 86, not ST I q. 76 a. 8. The
+animals are in *Summa contra Gentiles* II c. 86, not ST I q. 76 a. 8.
+Left: the readings of quantum mechanics as runtimes; one intellect and two
+brains; whose matter a shared organ is; the generative power and marriage
+in conjoined twins; the ordinary universal magisterium as a claim about
+witnesses (window, threshold, mode, evidence); "nothing but" in the other
+direction; the sun's own motion; a claimant required of every consent. The
 notes below remain.
 
 - An empirical kind of question. No tier of teaching settles one (the

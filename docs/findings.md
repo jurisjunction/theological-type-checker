@@ -808,7 +808,33 @@ Predictions were stamped first ([ttc-novissima(7)](research/novissima-preregistr
   joined to the one passion, not ordered after it; a second immolation and
   a bare commemoration are refused from 1562.
 
-### 30. Method
+### 30. The empirical kind; how many human beings (EM, GL, CB, MB, TW)
+
+Predictions were stamped first ([ttc-empirica(7)](research/empirica-preregistration.md)).
+
+- **No tier settles a fact** (EM). On an empirical question nothing deletes,
+  cleaves or weighs; an act at tiers 1 to 3 answering one is refused. A
+  finding fixes it from its year, a later one superseding an earlier, and
+  settles no doctrine.
+- **Galileo, dated** (GL). As of 1616 the earth's motion is open; the
+  Fathers' consent claimed for Josh 10:12–13 fixes nothing outside faith
+  and morals; the censure is refused for laying heresy and error in faith on
+  a fact; the Index decree, read both ways, is refused only as doctrine. The
+  sentence of 1633 treats the decree as "defined": a lower tier treated as
+  fixing, refused, and only from its date. Bradley's finding (1729) settles
+  the fact, and the astronomical reading of Joshua leaves every branch.
+- **The other direction** (CB). Pius XII's argument from the expansion to
+  creation in time is refused; the beginning stays settled by Lateran IV,
+  and the age of the universe answers no doctrine.
+- **Method and being** (MB). "Nothing but" from a finding by division is
+  refused; for a human being also by the soul as form (DH 902).
+- **How many human beings** (TW). A twinning read four ways, a disputed
+  fact; the one-soul reading refused by four outward tests and the Church's
+  practice; a divided soul and a soul from a creature refused on every
+  reading; the embryo treated as a person on all. CIC 1917 c. 748 computed
+  the doubt without deciding it.
+
+### 31. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

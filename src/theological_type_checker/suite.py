@@ -3182,6 +3182,103 @@ scen("OS2", NOV, "A second immolation, a bare commemoration", CREED + ["one_sacr
               absent=("second_immolation(mass_m)", "bare_commemoration(mass_m)"))],
      "refused from 1562 (Trent, sess. XXII, cann. 3-4)")
 
+# ---------- The empirical kind; how many human beings (TTC-EMPIRICA) ------------
+# Predictions committed first: docs/research/empirica-preregistration.md.
+EMP = "empirica"
+GAL = ["galileo"]
+
+def facts_on(parts, sub):
+    """the branches of these parts, split by whether sub is among their assumptions"""
+    bs = solve(parts, "branches")["branches"]
+    return [b for b in bs if any(sub in a for a in b["assume"])], [b for b in bs if not any(sub in a for a in b["assume"])]
+
+scen("EM1", EMP, "An act at tier 1 on an empirical question", ["empirical_kind_hyp"],
+     [cls("q(x_fact)=a", "open"), cls("q(x_fact)=b", "open"), prefers("q(x_fact)", "tie"),
+      lambda r: (all(b["status"] == "main" and not b["cleaved"] and b["w"] == {3: 0, 4: 0, 5: 0} for b in r["branches"]),
+                 "nothing cleaves, no weight"),
+      info_all("violation(act_answers_a_fact(def_e,q(x_fact)))", "violation(act_answers_a_fact(dec_e,q(x_fact)))"),
+      info_none("against_tier1"),
+      shown(["cand_consent_unclaimed"], ("info/1",), "info(consent_outside_faith_and_morals(text_u,unclaimed))")],
+     "both branches stand, nothing cleaves; the acts at tiers 1 and 3 refused", mode=B)
+scen("EM2", EMP, "A finding fixes the question from its year", ["empirical_kind_hyp", "findings_hyp"],
+     [cls("q(x_fact)=b", "settled"), cls("q(x_fact)=a", "excluded"),
+      classified(["empirical_kind_hyp", "findings_hyp", "asof_1925"], ("q(x_fact)=a", "settled"), ("q(x_fact)=b", "excluded")),
+      classified(["empirical_kind_hyp", "findings_hyp", "asof_1850"], ("q(x_fact)=a", "open"), ("q(x_fact)=b", "open"))],
+     "not before its year; a later finding supersedes an earlier", mode=B)
+scen("EM3", EMP, "A finding on a doctrinal question", ["beginning", "cand_finding_on_doctrine"],
+     [info_all("violation(finding_on_a_doctrine(f_doctrine,q(world_began)))"), cls("q(world_began)=yes", "settled")],
+     "refused; the doctrine unchanged", mode=B)
+scen("GL1", EMP, "Galileo, as of 1616", GAL + ["asof_1616"],
+     [cls("q(earth_moves)=yes", "open"), cls("q(earth_moves)=no", "open"), prefers("q(earth_moves)", "tie"),
+      info_all("consent_outside_faith_and_morals(josh10_12,censure_1616)",
+               "violation(fact_censured_as_heresy(censure_1616,q(sun_at_rest)))",
+               "violation(fact_censured_in_faith(censure_1616,q(earth_moves)))"),
+      info_none("consent_outside_faith_and_morals(josh10_12,unclaimed)"),
+      lambda r: (all(b["status"] == "main" for b in r["branches"] if "q(copernicus_may_be_read)=no" in b["values"]),
+                 "the decree cleaves nothing on the fact, on either reading"),
+      lambda r: (all(any("act_answers_a_fact(index_1616,q(earth_moves))" in f for f in b["facts"]) ==
+                     ("read_as(index_1616,doctrinal)" in b["assume"]) for b in r["branches"])
+                 and any("read_as(josh10_12,astronomical)" in b["assume"] for b in r["branches"]),
+                 "the Index decree refused read as doctrinal, not as disciplinary; Joshua read both ways"),
+      info_none("self_elevation")],
+     "open; the consent outside faith and morals; the censure refused; the decree refused on the doctrinal reading", mode=B)
+scen("GL2", EMP, "The sentence of 1633", GAL + ["asof_1633"],
+     [info_all("violation(self_elevation(sentence_1633,index_1616))", "lower_speaks_of_higher(sentence_1633,index_1616,1)")],
+     "\"dichiarata e diffinita\": a lower tier treated as fixing, refused", mode=B)
+scen("GL3", EMP, "Galileo, as of 1730", GAL + ["asof_1730"],
+     [cls("q(earth_moves)=yes", "settled"), info_all("fixed_by_finding(q(earth_moves),yes,bradley_1729)"),
+      lambda r: (not any("read_as(josh10_12,astronomical)" in b["assume"] for b in r["branches"]), "the astronomical reading on no branch"),
+      shown(GAL, ("info/1",), "info(fixed_by_finding(q(earth_moves),yes,foucault_1851))",
+            absent=("info(fixed_by_finding(q(earth_moves),yes,bradley_1729))",))],
+     "settled by Bradley's finding; the astronomical reading of Josh 10:12-13 on no branch", mode=B)
+scen("GL4", EMP, "Whether Copernicus may be read", GAL + ["asof_1700"],
+     [cls("q(copernicus_may_be_read)=no", "settled"), reint_includes("q(copernicus_may_be_read)=yes", "index_1616"),
+      classified(GAL + ["asof_1830"], ("q(copernicus_may_be_read)=yes", "settled"), ("q(copernicus_may_be_read)=no", "shadow"))],
+     "governance: no as of 1700, yes as of 1830 (the act of 1820)", mode=B)
+scen("CB1", EMP, "The beginning and the expansion", ["beginning"],
+     [cls("q(world_began)=yes", "settled"), cls("q(world_began)=no", "excluded"),
+      info_all("violation(doctrine_rests_on_finding(pius_xii_1951,q(world_began),expansion_1929))",
+               "fixed_by_finding(q(universe_expanding),yes,expansion_1929)")],
+     "settled at tier 1 (DH 800); the argument from the expansion refused", mode=B)
+scen("CB2", EMP, "The age of the universe", ["beginning"],
+     [cls("q(age_of_universe)=about_13_8_gyr", "settled"),
+      classified(["beginning", "asof_2000"], ("q(age_of_universe)=about_13_8_gyr", "open")),
+      lambda r: (sorted({f for b in r["branches"] for f in b["facts"] if f.startswith("violation(")}) ==
+                 ["violation(doctrine_rests_on_finding(pius_xii_1951,q(world_began),expansion_1929))"], "no refusal follows from the age")],
+     "settled by the finding of 2018, open as of 2000; it answers no doctrinal question", mode=B)
+scen("MB1", EMP, "Method never answers being", ["world", "method_being"],
+     [has("nothing_but_from_division(claim_h,peter)", "against_the_soul_as_form(claim_h,peter)", "nothing_but_from_division(claim_l,lion)"),
+      none_of("against_the_soul_as_form(claim_l"), lambda r: ("about_the_parts(claim_p,peter)" in r["info"]
+                 and "fixed_by_finding(q(bodies_of_cells),yes,cell_theory_1839)" in r["info"], "a claim about the parts stands")],
+     "a human being nothing but cells: refused twice; a lion: once; the parts: reported")
+scen("TW1", EMP, "A twinning read four ways", ["twinning"],
+     [branches_n(4),
+      lambda r: (sorted((a, f) for b in r["branches"] for a in b["assume"] for f in b["facts"] if f.startswith("info(human_beings_after")) ==
+                 sorted([("assumed_fact(twin_reading(e_z,budding))", "info(human_beings_after(e_z,2))"),
+                         ("assumed_fact(twin_reading(e_z,delayed))", "info(human_beings_after(e_z,2))"),
+                         ("assumed_fact(twin_reading(e_z,fission))", "info(human_beings_after(e_z,2))"),
+                         ("assumed_fact(twin_reading(e_z,one_soul))", "info(human_beings_after(e_z,1))")]),
+                 "two, two, two, one; never derived"),
+      info_all("treated_as_a_person(e_z)"), clean_branches],
+     "budding, fission, delayed, one soul; the embryo treated as a person on each", mode=B)
+scen("TW2", EMP, "The one-soul reading against four outward tests", ["twinning", "twin_tests"],
+     [in_branches("one_will_two_contrary_acts(e_z)", assume=("assumed_fact(twin_reading(e_z,one_soul))",)),
+      in_branches("one_person_dead_and_alive(e_z)", assume=("assumed_fact(twin_reading(e_z,one_soul))",)),
+      in_branches("baptism_repeated_by_the_church(e_z)", assume=("assumed_fact(twin_reading(e_z,one_soul))",)),
+      in_branches("two_bonds_one_person(e_z)", assume=("assumed_fact(twin_reading(e_z,one_soul))",)),
+      lambda r: (all(not any(f.startswith("violation(") for f in b["facts"]) for b in r["branches"]
+                     if "assumed_fact(twin_reading(e_z,one_soul))" not in b["assume"]), "the other readings untouched")],
+     "refused four ways (DH 556; Heb 9:27; DH 1609; c. 1085)", mode=B)
+scen("TW3", EMP, "Refused on every reading", ["twinning", "cand_soul_divided", "cand_soul_from_twin"],
+     [info_all("violation(soul_divided(e_z))", "violation(being_from_non_god(tw_a,tw_b))")],
+     "the soul divided (DH 1440); a soul from a creature (A1; Humani generis 36)", mode=B)
+scen("TW4", EMP, "Conjoined twins, 1950 and 2000", ["conjoined_twins"],
+     [branches_n(4), info_all("to_be_baptized(cj_a,absolutely)", "to_be_baptized(cj_b,conditionally)"),
+      info_none("to_be_baptized(cj_c", "to_be_baptized(cj_d"),
+      all_models_with(["conjoined_twins"], ("assumed_fact/1",),
+                      some=("assumed_fact(one_human_being(cj_2000))", "assumed_fact(false(one_human_being(cj_2000)))"))],
+     "c. 748 of 1917 in 1950; in 2000 no canon answers, the number both ways", mode=B)
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")
