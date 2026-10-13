@@ -386,3 +386,89 @@ December 1315, his death from early 1316.
 [ttc-saeculum(7)](saeculum-preregistration.md), [ttc-cceo(7)](cceo-preregistration.md),
 [ttc-communion(7)](communion-preregistration.md), [ttc-creed(7)](creed-preregistration.md),
 [ttc-canon(5)](../canon-law-layer.md), [ttc-roadmap(7)](../roadmap.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in 83ebca4, stamped in
+8a295cd. Encoded in `sources.lp` (new: authorship), `canon_law.lp` (the
+Code of 1917's form, cc. 1094 and 1099, with Pius XII's change; the form of
+1983 read through its texts; c. 6 §1 n. 1; c. 20 typed; c. 21; cc. 29–30,
+33–34; collections), `canon_cceo.lp` (c. 834 §2 dated), `icon_authority.lp`
+(particular councils), `icon_history.lp` (the Filioque's Latin witnesses;
+the authorship parts), `canon_cases.lp`, `engine.py`. Scenarios TX, GN, CO,
+AU, FW (21; 512 in all); CR1b, FQ19, FQ20 and LW9 changed, each with its
+reason in `suite.py`. The predictions' FQ are scenarios FW and CR1b (the
+FQ ids were taken).
+
+| | Result |
+| --- | --- |
+| TX1 | Held (TX1). A priest delegated in 1950 assists validly, one not delegated invalidly. |
+| TX2 | Held (TX2). |
+| TX3 | Held (TX3), and each condition of the clause needed: one not raised outside, one marrying a Catholic, one born of Catholics, all bound in 1948. |
+| TX4 | Held (TX4): `no_text_in_force`, and the bond, at issue, not computed. |
+| TX5 | Held (TX5): over every marriage of the base, one code each, the date's. |
+| TX6 | Held: no marriage case's output changed. |
+| GN1 | Held (GN1). |
+| GN2 | Held (GN2). |
+| GN3 | Held (LW9, its expectation extended, as stated). |
+| GN4 | Held (GN4): in force on 15 July 2021, ceased on the 16th. |
+| GN5 | Held (GN5). The executory decree whose law was revoked ceases with it (c. 33 §2). A provision has no route by which it could change a law's reach: an exemption would be a derogation, which c. 34 §2 forbids. |
+| GN6 | Held (GN6), by every route of c. 8 §1 (a unit test). |
+| CO1 | Held (CO1). As of 1600, before the witness, the private collection's text rests on its attribution. |
+| AU1 | Held (AU1). |
+| AU2 | Held (AU2). |
+| AU3 | Held (AU3): refused from 1964; as of 1950 both ways, never preferred. |
+| AU4 | Held (AU4). |
+| AU5 | Held (AU5). Evidence apart from every claimant would show one attribution, and a claimant's own word shows none (HYPOTHETICAL, `attribution_shown_hyp`). |
+| AU6 | Held in part. The Cloud is shown without a name on both of the Corpus's branches, and an author entered for it without a claim is refused. Its citation of "Saint Denis" is entered as a claim of the Corpus's attribution, not as a dependence: no date can refute a dependence on an older text, so the fact tested nothing. |
+| AU7 | Held: a test. |
+| AU8 | Held (AU8). |
+| FQ1 | Held (CR1b, changed as stated). |
+| FQ2 | Held (FW2). |
+| FQ3 | Held (FW3). Without a name exactly where Damasus is not its author; a pope's letter in form only on the branch of the claim. |
+| FQ4 | Held (FW1). |
+| FQ5 | False in part. FQ19 and FQ20 changed as stated; FQ18, CR1 and CR1d did not. CR1e changed: with the two councils and the creeds' parts relaxed, Leo I's letter cleaves beside Paul VI's Credo. The communion scenarios changed too (M1). |
+| M1 | False in part. Beyond CR1b, FQ19, FQ20 and LW9: CR1e (FQ5), and seven communion scenarios (FD1, FD3, FD4, FD5, CN2, CN3, FC1), where Leo I's letter is now owed religious submission (c. 752, by reference). The TTC-SCHOOLS tables did not change; the step's scenarios stay out of the stamped boot set, as every later group's do. |
+| M2 | Held after closing gaps. Each new statement was deleted in turn (19 in `sources.lp`, 62 in `canon_law.lp`, 47 in `canon_cases.lp`, 42 in `icon_history.lp`, 2 in `icon_authority.lp`, 2 in `canon_cceo.lp`) against the scenarios that read them, and each survivor again. Closed on the way: each witness on the monarchy, by the weights; each claimant and each witness of the Corpus, now shown (`attribution_claimed/3`; the refusal names its witness); the *Fides Damasi*'s form and its want of a name on their branches; an attribution shown by evidence apart from its claimants; a witness that is a source (Thomas's commentary); the bodies of void decrees, now reported (`text_of_void_decree/2`); the 1915 marriage's bond at issue. Removed as testing nothing: the baptisms of parties whose silence already binds, a second clock in `revocation_dated`, three years no rule read, the Cloud's dependence (AU6). None survives. CL1 and PR4 clean. |
+| M3 | Held: no unit changes status; the rule files cite CCC 105, 106, 120, 247 and 248 (39 paragraphs). |
+
+### Caveats, read
+
+- **The Code of 1917.** c. 1094 is quoted from a canonist's citation;
+  c. 1099 §1 n. 1 read in *Annales Canonici* 16 (2020) 2, n. 4 ("Omnes in
+  catholica Ecclesia baptizati et ad eam ex haeresi aut schismate conversi,
+  licet sive hi sive illi ab eadem postea defecerint, quoties inter se
+  matrimonium ineunt"); c. 1099 §2 in a second canonist. c. 1095 §2,
+  c. 1096 §1 and Pius XII's operative words were not read: TX1 rests on
+  c. 1094's "sacerdote ab alterutro delegato". Not encoded: c. 1099 §1 n. 3
+  (Eastern faithful marrying Latins), the supply of jurisdiction in common
+  error (1917 c. 209) at a marriage, *Ne temere* (1908).
+- **The Filioque's witnesses.** DH 284, 525 and 527 read in translation;
+  Toledo III's profession in the critical text. Leo IX (1053) and
+  Toledo IV are not entered.
+- ***Universae Ecclesiae*** is dated by its own date (30 April 2011); it
+  was published on 13 May. *Summorum Pontificum*'s revocation by direct
+  contrariety is the encoder's reading, entered as a fact.
+
+### Not predicted
+
+- **Leo I's letter is owed religious submission** (c. 752) in the
+  communion scenarios: a pope's authentic teaching at tier 3. The Toledan
+  councils are not: a particular council's teaching is owed by the
+  faithful entrusted to its bishops (c. 753), which the base does not
+  compute, so the encoding keeps them out of what all owe. A rule, added
+  in `icon_authority.lp`.
+- **CCEO c. 834 §2 dated.** The Eastern rule on the form for liceity only
+  now reads the Eastern Code's force, as TX's principle asks; no output
+  changed.
+- **Thomas's commentary on the *Liber de causis*** is a source of the
+  record (tier 5, a Doctor's from 1567), the witness dated by its year.
+- **The decretal's attribution is refused in both collections** (CO1); in
+  the authentic one the refusal changes nothing, as predicted, but it is
+  reported.
+- **Four tests' scope.** The notes check (NT1) groups branches by
+  attribution claims as it does by reception: a claim splits the worlds
+  compared. FW1–FW3 change under monopatrism, the Thomistic stack and
+  encoding A of DH 1330, as FQ19 does: the group is kept out of the
+  monopatrism test and of encoding A's, as the creed's groups are, and the
+  three are added to the Thomistic stack's list.

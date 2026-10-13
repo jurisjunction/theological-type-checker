@@ -21,7 +21,7 @@ a test checks the file is current and every scenario named exists.
 Of 87 units: 45 touched by rules, 6 by cases only,
 36 frontier. A unit counts as touched if one rule reaches
 it, so this measures reach, not depth. The rule files cite
-34 of the Catechism's 2,865 paragraphs by number (the column
+39 of the Catechism's 2,865 paragraphs by number (the column
 "Cited"). The Prologue (1–25) is frontier.
 
 ## PART ONE: THE PROFESSION OF FAITH
@@ -33,12 +33,12 @@ it, so this measures reach, not depth. The rule files cite
 | 27–49 | Man's capacity for God | frontier |  |  |  |
 | 51–73 | The revelation of God | frontier |  |  |  |
 | 74–100 | The transmission of divine revelation | rules |  | CS2, CS2b, CS4, B14 | tier 0 read only through its readings; the teaching office; the tiers |
-| 101–141 | Sacred Scripture | rules |  | CS2, CS2c, CS3, CS3b | inerrancy; senses defined; the analogy of faith |
+| 101–141 | Sacred Scripture | rules | 3 | CS2, CS2c, CS3, CS3b | inerrancy; senses defined; the analogy of faith |
 | 144–165 | I believe | rules |  | NT3, FD2, FD3 | the note de fide; heresy only after the definition; one article denied, none held by faith |
 | 166–184 | We believe | rules | 1 | NT2, NT4, TC1 | what the Church proposes as revealed (CCC 182); tiers computed, not asserted |
 | 185–197 | The creeds | rules | 1 | CR1, CR1b, CR1d | the creeds at tier 1, dated |
 | 199–231 | I believe in God | rules |  | TH0, K5 | the attributes as defined; no demiurge |
-| 232–267 | The Father | rules |  | M1, FQ1, RT1, TH20 | the processions, one principle, distinction by relation |
+| 232–267 | The Father | rules | 2 | M1, FQ1, RT1, TH20 | the processions, one principle, distinction by relation |
 | 268–278 | The Almighty | frontier |  |  |  |
 | 279–324 | The Creator | rules |  | K1, K5, RT2, B6 | being from God alone; creatures act; de auxiliis protected |
 | 325–354 | Heaven and earth | rules | 1 | K1, K10, K12 | angels as created persons |

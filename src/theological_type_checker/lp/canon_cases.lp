@@ -772,3 +772,60 @@ today(20261010).
 baptized_in(theo_d,catholic). ascribed(theo_d,ruthenian).
 professes(theo_d,(prof_d97;prof_d00),q(d1),no). act_date(prof_d97,19970601). act_date(prof_d00,20000601).
 warned(theo_d,(prof_d97;prof_d00),ordinary). interior(theo_d,(prof_d97;prof_d00),pertinacious).
+
+% ---------- Documents as layers in time (TTC-SOURCES) ------------------------
+#program forms_in_time.             % HYPOTHETICAL: the form of marriage under the code of each date (TX1-TX5)
+today(20261010). ordinary(ord_t). deacon(dcn_t). priest(pr_t).   % the parties' silence: Latin Catholics, bound
+% TX1: a deacon delegated, in 1950 and 1990; a priest delegated, and one not, in 1950
+marriage(tx_d50,dcn_t,19500610). spouse(tx_d50,(tx_a;tx_b)). delegation(dl_d50,ord_t,dcn_t,tx_d50,19500601).
+marriage(tx_d90,dcn_t,19900610). spouse(tx_d90,(tx_c;tx_d)). delegation(dl_d90,ord_t,dcn_t,tx_d90,19900601).
+marriage(tx_p50,pr_t,19500611). spouse(tx_p50,(tx_e;tx_f)). delegation(dl_p50,ord_t,pr_t,tx_p50,19500601).
+marriage(tx_u50,pr_t,19500612). spouse(tx_u50,(tx_g;tx_h)).
+% TX2: one who left the Church by a formal act marries a Lutheran before a minister
+baptized_in((tx_l1;tx_l2;tx_l3),catholic). baptized_in((tx_m1;tx_m2;tx_m3),lutheran).
+formal_defection(tx_l1,19450101). formal_defection(tx_l2,19850101). formal_defection(tx_l3,20050101).
+marriage(tx_l50,min_t,19500613). spouse(tx_l50,(tx_l1;tx_m1)).
+marriage(tx_l90,min_t,19900613). spouse(tx_l90,(tx_l2;tx_m2)).
+marriage(tx_l11,min_t,20110613). spouse(tx_l11,(tx_l3;tx_m3)).
+% TX3: born of non-Catholics, baptized Catholic, raised outside, marrying a Lutheran
+baptized_in((tx_n1;tx_n2;tx_n3;tx_n4;tx_n5),catholic). baptized_in((tx_o1;tx_o2;tx_o3;tx_o4),lutheran).
+born_of_noncatholics((tx_n1;tx_n2;tx_n3;tx_n4)). raised_outside((tx_n1;tx_n2;tx_n4;tx_n5)).
+marriage(tx_n48,min_t,19480613). spouse(tx_n48,(tx_n1;tx_o1)).
+marriage(tx_n50,min_t,19500614). spouse(tx_n50,(tx_n2;tx_o2)).
+marriage(tx_r48,min_t,19480615). spouse(tx_r48,(tx_n3;tx_o3)).   % not raised outside: bound
+marriage(tx_q48,min_t,19480616). spouse(tx_q48,(tx_n4;tx_n5)).   % marrying a Catholic: bound
+marriage(tx_s48,min_t,19480617). spouse(tx_s48,(tx_n5;tx_o4)).   % raised outside, born of Catholics: bound
+% TX4: a marriage of 1915, before any encoded text
+marriage(tx_15,pr_t,19150615). spouse(tx_15,(tx_j;tx_k)). delegation(dl_15,ord_t,pr_t,tx_15,19150601).
+dissolution(dx_15,tx_15,civil_divorce,19200101).                   % the bond at issue: not computed
+#program documents_in_time.         % the force of documents at a date (GN1, GN4; with today)
+doc_at_issue((form_text_1917;c1099_2_clause_1917;sp_text;ue2011)).
+#program revocation_dated.          % HYPOTHETICAL: c. 21 with dates (GN3; load with law_cases, whose clock it reads)
+promulgated(l_old_x,19900101). vacatio_set(l_old_x,19900101). enacted_by((b_old_x;b_old_y;b_old_z;b_old_w),l_old_x).
+promulgated(l_new_x,20000101). vacatio_set(l_new_x,20000101).
+reorders(l_new_x,(b_old_x;b_old_y)). doubtful_revocation(l_new_x,b_old_x).
+directly_contrary(l_new_x,(b_old_z;b_old_w)). doubtful_revocation(l_new_x,b_old_z).
+doc_at_issue((b_old_x;b_old_y;b_old_z;b_old_w)).
+#program executive_acts.            % HYPOTHETICAL: instructions, executory decrees and general decrees (GN5, GN6)
+today(20100101).
+promulgated(l_exec,20000101). vacatio_set(l_exec,20000101). enacted_by(b_exec,l_exec).
+act_kind(instr_x,instruction). executes(instr_x,l_exec). effective_from(instr_x,20050101).
+provision(instr_x,(p_ok;p_bad)). contrary_provision(p_bad,l_exec).
+promulgated(l_gone,20000101). vacatio_set(l_gone,20000101). enacted_by(b_gone,l_gone).
+promulgated(l_rev,20080101). vacatio_set(l_rev,20080101). revokes(l_rev,b_gone,expressly).
+act_kind(ged_x,general_executory_decree). executes(ged_x,l_exec). effective_from(ged_x,20050101).
+act_kind(ged_y,general_executory_decree). executes(ged_y,l_gone). effective_from(ged_y,20050101).
+act_kind((gd_void;gd_void2;gd_void3;gd_grant;gd_leg),general_decree).
+executive_power_only((gd_void;gd_void2;gd_void3;gd_grant)). express_grant(gd_grant).
+promulgated((gd_void;gd_void2;gd_void3;gd_grant;gd_leg),20050101).
+vacatio_set((gd_void;gd_leg),20050101). aas_issue((gd_void2;gd_grant),20050201). aas_volume(gd_void3,2005,20050101).
+enacted_by(b_gd_void,gd_void). enacted_by(b_gd_void2,gd_void2). enacted_by(b_gd_void3,gd_void3).
+enacted_by(b_gd_grant,gd_grant). enacted_by(b_gd_leg,gd_leg).
+doc_at_issue((b_exec;instr_x;ged_x;ged_y;b_gd_void;b_gd_void2;b_gd_void3;b_gd_grant;b_gd_leg)).
+#program collections_hyp.           % HYPOTHETICAL: a decretal ascribed to a second-century pope that quotes a fourth-century council (CO1)
+collection(coll_private,private). collection(coll_auth,authentic).
+part_of(dec_p,coll_private). part_of(dec_a,coll_auth).
+promulgated(prom_auth,12340905). vacatio_set(prom_auth,12340905). enacted_by(coll_auth,prom_auth).
+attribution((dec_p;dec_a),pope_ii,the_collection). died(pope_ii,160).
+text_year(council_iv,325). text_year(witness_c,1628).
+draws_on((dec_p;dec_a),council_iv,witness_c).

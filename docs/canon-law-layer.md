@@ -75,6 +75,14 @@ lacks the day; *Omnium in mentem*, issue of 8 January 2010, binds from
 span; a date inside it is computed both ways. Ages come from birth dates
 (c. 97 §1, c. 203): on the birthday the year is not yet completed.
 
+A code at a date is a view (TTC-SOURCES). Each body of texts is entered by
+the act that gave it; a rule fires only under the text in force at the
+event's date. The form of marriage is read from the Code of 1917
+(cc. 1094, 1099) from 19 May 1918, and from the Code of 1983 from
+27 November 1983, when c. 6 §1 n. 1 abrogates the older Code; before 1918
+no encoded text governs it, and nothing is computed (`no_text_in_force`).
+The other matters stay undated: their events are 1983 or later.
+
 An authentic interpretation in the form of law reaches the acts placed from
 its force (c. 8 §1), and an earlier act only where it is declaratory
 (c. 16 §2): laws regard the future (c. 9). The response of 1988 on abortion
@@ -93,13 +101,16 @@ admits.
 
 | Canon | What it does here |
 | --- | --- |
-| 7–8, 20, 203 | Dates in force: computed from the issue (c. 8 §1, c. 203), or a date the law names; abrogation by a reordering law. |
+| 6 §1 n. 1 | The Code of 1917 abrogated, expressly, when the Code of 1983 takes force. |
+| 7–8, 20, 203 | Dates in force: computed from the issue (c. 8 §1, c. 203), or a date the law names. A later law revokes an earlier body in one of c. 20's three ways, each a fact: expressly, by direct contrariety, by completely reordering its matter. |
 | 16 §§1–3 | An authentic interpretation binds generally as law, a particular matter otherwise. |
 | 17 | A disputed reading branches; the supreme legislator's law is read in harmony with a higher law. |
 | 18 | Penal terms take the strictest admissible reading. |
 | 14 | In a doubt of law, an obliging or invalidating law reaches only what every reading reaches; in a doubt of fact the ordinary may dispense. |
 | 19 | A lacuna takes an equitable rule as input, never in a penal matter. |
-| 21 | Revocation in doubt is not presumed. |
+| 21 | Revocation in doubt is not presumed: the earlier text stays in force, and nothing branches. |
+| 29–30 | A general decree is a law; given by executive power alone without an express grant, void and without force. |
+| 33–34 | A general executory decree or an instruction derogates from no law; a provision contrary to a law lacks all force; it ceases with the law it executes (*Universae Ecclesiae*, 16 July 2021). |
 | 85–86 | Only a merely ecclesiastical law, not defining what constitutes an act, is dispensed. |
 
 ## SYNTAX
@@ -122,6 +133,11 @@ penalty(n1387,excommunication).
 
 Real facts go in case files. Hypothetical facts go in switch programs,
 marked `HYPOTHETICAL`.
+
+Collections: an authentic collection's texts have force from its
+promulgation (*Rex pacificus*, 1234), whatever their origin; a private
+collection's texts (Gratian) rest on their attribution, a claim the order
+may refuse (`sources.lp`), and custom is a route of its own.
 
 ## SOURCES
 

@@ -28,7 +28,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | canon | abortion, c. 1399, c. 1752, the Dicastery's clause; form and object; fictions of law | done ([ttc-penal(7)](research/penal-preregistration.md)) |
 | saeculum | one library for time: the Church's computation (cc. 8 §1, 97, 200–203), one calendar, reception dated, the order and the measures | done ([ttc-saeculum(7)](research/saeculum-preregistration.md)) |
 | cceo | the Eastern Code: a second canon layer, chosen by ascription; who is bound; the minister of confirmation | done ([ttc-cceo(7)](research/cceo-preregistration.md)) |
-| sources | documents as layers in time: the codes (1917, 1983, 1990) and every act that changed them; law outside the codes; acts of executive power; the general norms as the edges; authorship, an attribution a claim; the Filioque's Latin witnesses | predicted ([ttc-sources(7)](research/sources-preregistration.md)), to stamp |
+| sources | documents as layers in time: the codes (1917, 1983, 1990) and every act that changed them; law outside the codes; acts of executive power; the general norms as the edges; authorship, an attribution a claim; the Filioque's Latin witnesses | done ([ttc-sources(7)](research/sources-preregistration.md)) |
 | liturgy | the liturgy as witness, rite and development | to predict |
 | last things | soteriology and eschatology | to predict |
 | empirical | science | to predict |
@@ -127,11 +127,13 @@ only the law differs (rule 1).
 
 ### sources
 
-Predicted in [ttc-sources(7)](research/sources-preregistration.md): the
-Code of 1917's form of marriage beside 1983's, read off at a date; c. 6
-§1 n. 1, c. 20 typed, c. 21 computed, cc. 29–30 and 33–34; collections
-private and authentic; authorship in a new library, `sources.lp`; the
-Filioque's Latin witnesses before 1100 (AMENDMENTS AND REPAIRS).
+Done ([ttc-sources(7)](research/sources-preregistration.md)): the Code of
+1917's form of marriage beside 1983's, read off at a date; c. 6 §1 n. 1,
+c. 20 typed, c. 21 computed, cc. 29–30 and 33–34; collections private and
+authentic; authorship in a new library, `sources.lp`; the Filioque's Latin
+witnesses before 1100. Left: every other matter of the canon layer still
+fires at any date (its events are 1983 or later); a particular council's
+teaching owed by its own faithful (c. 753), not computed; the rest below.
 
 Each document its own layer, as the two codes are, and the layers joined
 by the general norms. Today the canon layer holds a few bodies and texts
@@ -501,16 +503,19 @@ CCC 1883). The checker need not hold everything.
 - **The Filioque's Latin witnesses before 1100.** As of 1100 the record's
   only weight is Photius (886), so the preferred branch is "from the
   Father alone" (CR1b). Augustine (*De Trinitate* XV), the councils of
-  Toledo, and the Western liturgy's creed are not entered. Predicted in
-  TTC-SOURCES (FQ), the liturgy's creed left for the liturgy step.
+  Toledo, and the Western liturgy's creed are not entered. Done in
+  TTC-SOURCES (FQ): Leo I's letter cleaves as of 1100; the liturgy's creed
+  left for the liturgy step, Leo IX's profession (1053) and Toledo IV
+  until their texts are read.
 - **Attribution is a claim too.** The *Supplementum* of the *Summa* was
   compiled after Thomas's death, traditionally by Reginald of Piperno,
   from his early commentary on Book IV of the Sentences (c. 1252–56).
   Cite and date it by the commentary, as the seal's source already is
   (In IV Sent. d. 21 q. 3 a. 1); a citation of the Supplement alone is a
   frontier item. The article numbers of d. 48 behind Suppl. q. 91 are to
-  be checked against the text. The mechanism comes with the sources step
-  (TTC-SOURCES AU): authorship typed, an attribution a claim.
+  be checked against the text. The mechanism is built (TTC-SOURCES AU):
+  authorship typed, an attribution a claim; the Supplement not yet
+  entered.
 - **Trent's protection outlives the definition** in the Immaculate
   Conception's data (CM1c).
 - **EV 56's judgment of today's circumstances** ("very rare, if not

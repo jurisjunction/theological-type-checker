@@ -871,13 +871,26 @@ scen("FQ18", FQ, "Authority: Lyons II and Florence", ["trinity", "filioque"],
       cls("q(monarchy)=father_principle_without_principle", "settled"), cls("q(monarchy)=denied", "excluded"),
       clean_branches],
      "settled at tier 1; the monarchy settled with it", mode=B)
+def shadow_with(qv, sub):
+    """among live shadows holding qv, sub is in every one"""
+    def chk(r):
+        bs = [b for b in r["branches"] if b["status"] == "live_shadow" and qv in b["values"]]
+        ok = bool(bs) and all(any(sub in f for f in b["facts"]) for b in bs)
+        return ok, f"{qv} (live shadow): {sub} {'present' if ok else 'absent'}"
+    return chk
+
+# TTC-SOURCES FQ5: these two expectations changed. Without the two councils
+# "from the Father alone" was open; with Leo I's letter (447) entered it is a
+# live shadow that reintegrates if the letter is relaxed. The grammar's checks
+# read the same branch, now a shadow.
 scen("FQ19", FQ, "Authority: the two councils removed", ["trinity", "filioque", "councils_relaxed"],
-     [cls("q(spirit_origin)=father_and_son", "open"), cls("q(spirit_origin)=father_alone", "open"),
-      main_with("q(spirit_origin)=father_alone", "principle_of(spirit,father)"), clean_branches],
-     "open; both branches typecheck", mode=B)
+     [cls("q(spirit_origin)=father_and_son", "settled"), cls("q(spirit_origin)=father_alone", "shadow"),
+      reint_includes("q(spirit_origin)=father_alone", "leo_i_447"),
+      shadow_with("q(spirit_origin)=father_alone", "principle_of(spirit,father)"), clean_branches],
+     "a live shadow of Leo I's letter; both branches typecheck", mode=B)
 scen("FQ20", FQ, "Authority: councils removed, distinction by opposition",
      ["trinity", "filioque", "councils_relaxed", "distinction_opposition"],
-     [main_with("q(spirit_origin)=father_alone", "persons_not_distinguished(son,spirit)"),
+     [shadow_with("q(spirit_origin)=father_alone", "persons_not_distinguished(son,spirit)"),
       main_with("q(spirit_origin)=father_and_son", "violation(", present=False)],
      "the father-alone branch fails to distinguish Son and Spirit", mode=B)
 
@@ -1266,8 +1279,17 @@ scen("LW10", LW, "Who falls under which code", SX,
       main_with("q(act2026_schismatic)=yes", "delict(schreiber,n1364,", where=ED_LAW)],
      "1988 under the 1983 Code (c. 1382), 2026 under Book VI as revised (c. 1387): the dates come from promulgation "
      "(cc. 7-8) and the reordering (c. 20); consecrator and consecrated alike under c. 751", mode=B)
-scen("LW9", LW, "Revocation in doubt (c. 21)", ["law_cases"],
-     [info_all("revocation_not_presumed(l_new,l_old)")], "not presumed", mode=B)
+# TTC-SOURCES GN3: this scenario gained the computation. It read c. 21 as an
+# info line only; with dated texts (revocation_dated) a doubtful revocation
+# leaves the earlier text in force, a certain one revokes it, and nothing
+# branches.
+scen("LW9", LW, "Revocation in doubt (c. 21)", ["law_cases", "revocation_dated"],
+     [info_all("revocation_not_presumed(l_new,l_old)", "revocation_not_presumed(l_new_x,b_old_x)",
+               "text_in_force(b_old_x)", "text_in_force(b_old_z)", "text_revoked(b_old_y,l_new_x,reorders)",
+               "text_revoked(b_old_w,l_new_x,contrary)"),
+      info_none("text_in_force(b_old_y)", "text_in_force(b_old_w)", "text_revoked(b_old_x", "text_revoked(b_old_z"),
+      lambda r: (r["models"] == solve(["law_cases"], "branches")["models"], "no branch added by the doubt")],
+     "not presumed: the earlier text stays in force, and nothing branches", mode=B)
 
 # ---------- The deposit as the creeds profess it (TTC-CREED) ---------------
 CR = "creed"
@@ -1374,14 +1396,22 @@ scen("CR1", CR, "The creeds with the two councils removed", ["trinity", "filioqu
 # Father alone, by Photius's weight (886); the record has no Latin witness
 # to the Filioque before 1100 (roadmap).
 QR, QNR = "assumed_fact(received(quicumque))", "assumed_fact(false(received(quicumque)))"
+# TTC-SOURCES FQ1: this expectation changed again. It was "open, the Father
+# alone preferred", Photius's weight the record's only. With the Latin
+# witnesses before 1100 entered, Leo I's letter (447, DH 284), at tier 3,
+# cleaves: "from the Father alone" is a live shadow that reintegrates if the
+# letter is relaxed, and "from the Father and the Son" is settled in the main
+# branches, against Photius's weight at tier 5. The gap was the record's.
 scen("CR1b", CR, "The creeds as of 1100", ["trinity", "filioque", "creeds", "asof_1100"],
-     [cls("q(spirit_origin)=father_alone", "open"),
+     [cls("q(spirit_origin)=father_alone", "shadow"), cls("q(spirit_origin)=father_and_son", "settled"),
+      reint_includes("q(spirit_origin)=father_alone", "leo_i_447"),
       lambda r: (all(QNR in b["assume"] for b in r["branches"] if "q(spirit_origin)=father_alone" in b["values"])
                  and any(QR in b["assume"] for b in r["branches"])
                  and not any(QR in b["assume"] and "q(spirit_origin)=father_alone" in b["values"] for b in r["branches"]),
                  "the Father alone only where the Quicumque is not received"),
-      prefers("q(spirit_origin)", "father_alone")],
-     "finding (RC2): the Quicumque's reception a claim, never preferred; open as of 1100, the record's weight Photius's", mode=B)
+      lambda r: (all(b["w"][5] >= 1 for b in r["branches"] if b["status"] == "main"), "Photius weighs against the main branches"),
+      prefers("q(spirit_origin)", "father_and_son")],
+     "finding (RC2, TTC-SOURCES FQ1): a live shadow of Leo I's letter as of 1100; Photius weighs at tier 5", mode=B)
 scen("CR1c", CR, "Paul VI's Credo is tier 3 by its form", ["creeds"],
      [eff_tier_is("credo_1968", 3, ["creeds"]), eff_tier_is("quicumque", 1, ["creeds"]),
       eff_tier_is("apostles_creed", 1, ["creeds"]), eff_tier_is("nicene_creed", 1, ["creeds"]),
@@ -2682,6 +2712,209 @@ scen("LK3", CC, "An Eastern marriage under divine law", IMP + ["eastern_bond"],
       shown(IMP + ["eastern_bond"], ("eastern_faithful/1",), "eastern_faithful(e_9)", "eastern_faithful(e_10)"),
       info_any("violation(ratum_et_consummatum_dissolved(ds_e,ee_p))")],
      "indissoluble (c. 1141) and made by consent (c. 1057): divine law, binding though no Latin common canon does", mode=B)
+
+# ---------- Documents as layers in time (TTC-SOURCES) -------------------------
+# Predictions committed first: docs/research/sources-preregistration.md. A
+# code at a date is a view; the general norms are the edges; an attribution
+# is a claim. Scenario ids FW are the predictions' FQ (the FQ ids are taken).
+SRC = "sources"
+FT = ["forms_in_time"]
+DIT = ["documents_in_time"]
+
+def one_code_at_a_time(*partsets):
+    """each marriage under one code's form, the code of its date: 1917 from 19 May 1918, 1983 from 27 November 1983"""
+    def chk(_r):
+        bad, n = [], 0
+        for ps in partsets:
+            atoms = solve(ps, "one", show=("form_code/2", "event_date/2"))["atoms"]
+            dates = {E.split_args(a)[1][0]: int(E.split_args(a)[1][1]) for a in atoms if a.startswith("event_date(")}
+            codes = {}
+            for a in atoms:
+                if a.startswith("form_code("):
+                    m, c = E.split_args(a)[1]
+                    codes.setdefault(m, []).append(c)
+            for m, cs in codes.items():
+                d = dates[m]
+                want = "cic1983" if d >= 19831127 else "cic1917" if d >= 19180519 else None
+                n += 1
+                if cs != [want]:
+                    bad.append((m, cs))
+        return bool(n) and not bad, f"{n} marriages, one code each, the date's" if not bad else f"wrong: {bad}"
+    return chk
+
+def claim_never_shown(parts, text, author):
+    """in every model where the attribution holds, it rests on an unshown claim; and some model holds it"""
+    def chk(_r):
+        ms = solve(parts, "all", show=("attributed/2", "unshown_claim/1"))["all_models"]
+        att, un = f"attributed({text},{author})", f"unshown_claim(attribution({text},{author}))"
+        hold = [m for m in ms if att in m]
+        ok = bool(hold) and all(un in m for m in hold) and len(hold) < len(ms)
+        return ok, f"{len(hold)} of {len(ms)} models hold it, each on an unshown claim" if ok else "not as stated"
+    return chk
+
+def tiers_by_form(*partsets):
+    """a name never raises a tier: every source's tier is the same in every model, the Fides Damasi's aside"""
+    def chk(_r):
+        moved = set()
+        for ps in partsets:
+            ms = solve(ps, "all", show=("eff_tier/2",))["all_models"]
+            tiers = {}
+            for m in ms:
+                for a in m:
+                    if a.startswith("eff_tier("):
+                        s, t = E.split_args(a)[1]
+                        tiers.setdefault(s, set()).add(t)
+            moved |= {s for s, ts in tiers.items() if len(ts) > 1}
+        return moved == {"fides_damasi"}, f"tier moves with a name: {sorted(moved) or 'none'}"
+    return chk
+
+scen("TX1", SRC, "A deacon delegated, in 1950 and 1990", FT,
+     [info_all("info(marriage(tx_d50,invalid_form))", "info(marriage(tx_d90,valid_form))",
+               "info(marriage(tx_p50,valid_form))", "info(marriage(tx_u50,invalid_form))")],
+     "1917 (c. 1094): only a priest is delegated; 1983 (cc. 1108 §1, 1111 §1): a deacon too", mode=B)
+scen("TX2", SRC, "One who left the Church, at three dates", FT,
+     [info_all("info(marriage(tx_l50,invalid_form))", "info(marriage(tx_l90,form_not_binding))",
+               "info(marriage(tx_l11,invalid_form))")],
+     "bound in 1950 (1917 c. 1099 §1, \"licet ... defecerint\"); not after a formal act in 1990 (c. 1117 as of 1983); bound in 2011", mode=B)
+scen("TX3", SRC, "Born of non-Catholics, raised outside", FT,
+     [info_all("info(marriage(tx_n48,form_not_binding))", "info(marriage(tx_n50,invalid_form))",
+               "info(marriage(tx_r48,invalid_form))", "info(marriage(tx_q48,invalid_form))", "info(marriage(tx_s48,invalid_form))")],
+     "not bound in 1948 (c. 1099 §2), bound from 1 January 1949 (Pius XII); each condition of the clause needed", mode=B)
+scen("TX4", SRC, "A marriage of 1915", FT,
+     [info_all("info(no_text_in_force(tx_15,form))"), info_none("info(marriage(tx_15,", "no_bond(tx_15)"),
+      shown(FT, ("bond/1", "form_code/2", "at_issue/1"), "bond(tx_p50)", "at_issue(tx_15)",
+            absent=("bond(tx_15)", "form_code(tx_15,cic1917)", "form_code(tx_15,cic1983)"))],
+     "no encoded text governs its form: reported, never computed, its bond at issue and not computed", mode=B)
+scen("TX5", SRC, "One code's form at a time", FT,
+     [one_code_at_a_time(FT, ["interritual_marriages"], ["defection_2010", "on_0407"], ["marriage_cases"], ["marriages_c1117"], ["sspx", "hyp_delegation"])],
+     "the 1917 form until 26 November 1983, the 1983 form from the 27th; never both")
+scen("GN1", SRC, "The Code of 1917 abrogated (c. 6 §1 n. 1)", DIT + ["today_20261010"],
+     [shown(DIT, ("info/1",), "info(text_in_force(form_text_1917))", "info(text_revoked(c1099_2_clause_1917,pxii1948,expressly))",
+            facts="today(19500101).", absent=("info(text_revoked(form_text_1917,code1983,expressly))",)),
+      shown(DIT, ("info/1",), "info(text_revoked(form_text_1917,code1983,expressly))", facts="today(19900101).",
+            absent=("info(text_in_force(form_text_1917))",))],
+     "in force in 1950, Pius XII's clause struck; abrogated expressly from 27 November 1983")
+scen("GN2", SRC, "c. 20 typed: three ways", ["today_20261010"],
+     [shown(["today_20261010"], ("revokes/3",), "revokes(pgd2021,book6_1983,reorders)", "revokes(pgd2021,c1371_text_1998,reorders)",
+            "revokes(atf1998,c1371_text_1983,expressly)", "revokes(oim2009,c1117_text_1983,expressly)",
+            "revokes(pxii1948,c1099_2_clause_1917,expressly)", "revokes(code1983,form_text_1917,expressly)",
+            "revokes(tc2021,sp_text,contrary)")],
+     "each revocation by its way: expressly, directly contrary, completely reordering")
+scen("GN4", SRC, "An instruction ceases with its law (c. 34 §3)", DIT + ["today_20261010"],
+     [shown(DIT, ("info/1",), "info(act_in_force(ue2011))", "info(text_in_force(sp_text))", facts="today(20150101).",
+            absent=("info(ceased_with_law(ue2011,sp2007))",)),
+      shown(DIT, ("info/1",), "info(ceased_with_law(ue2011,sp2007))", "info(text_revoked(sp_text,tc2021,contrary))",
+            facts="today(20220101).", absent=("info(act_in_force(ue2011))",)),
+      shown(DIT, ("info/1",), "info(act_in_force(ue2011))", facts="today(20210715).", absent=("info(ceased_with_law(ue2011,sp2007))",)),
+      shown(DIT, ("info/1",), "info(ceased_with_law(ue2011,sp2007))", facts="today(20210716).")],
+     "Universae Ecclesiae in force in 2015; it ceases on 16 July 2021 with Summorum Pontificum, by c. 34 §3 alone")
+scen("GN5", SRC, "Executive acts below the law (cc. 33-34)", ["executive_acts"],
+     [lambda r: (all(i in r["info"] for i in ("act_in_force(instr_x)", "act_in_force(ged_x)", "provision_in_force(p_ok)",
+                                            "provision_without_force(p_bad,l_exec)", "text_in_force(b_exec)",
+                                            "ceased_with_law(ged_y,l_gone)"))
+                 and "provision_in_force(p_bad)" not in r["info"] and "act_in_force(ged_y)" not in r["info"],
+                 "the contrary provision without force, the law intact; the executory decree gone with its law")],
+     "a provision contrary to a law lacks all force; an executory decree ceases with its law (c. 33 §2)")
+scen("GN6", SRC, "A general decree by executive power (cc. 29-30)", ["executive_acts"],
+     [has("general_decree_without_power(gd_void)", "general_decree_without_power(gd_void2)", "general_decree_without_power(gd_void3)"),
+      none_of("general_decree_without_power(gd_grant)", "general_decree_without_power(gd_leg)"),
+      lambda r: (all(i in r["info"] for i in ("text_of_void_decree(b_gd_void,gd_void)", "text_of_void_decree(b_gd_void2,gd_void2)",
+                                            "text_of_void_decree(b_gd_void3,gd_void3)"))
+                 and not any(i.startswith(("text_of_void_decree(b_gd_grant", "text_of_void_decree(b_gd_leg")) for i in r["info"]),
+                 "the bodies of the void decrees reported"),
+      lambda r: (all(i in r["info"] for i in ("text_in_force(b_gd_grant)", "text_in_force(b_gd_leg)"))
+                 and not any(i.startswith(("text_in_force(b_gd_void", "text_revoked(b_gd_void")) for i in r["info"]),
+                 "void without the grant, a law with it")],
+     "without an express grant, void and without force; with it, a law in force by c. 8 §1")
+scen("CO1", SRC, "A decretal ascribed to a second-century pope", ["collections_hyp"],
+     [lambda r: (all(i in r["info"] for i in ("attribution_refused(dec_p,pope_ii,council_iv,witness_c)", "attribution_refused(dec_a,pope_ii,council_iv,witness_c)",
+                                            "without_force_of_its_own(dec_p,coll_private)", "force_from_promulgation(dec_a,prom_auth)"))
+                 and not any(i.startswith("force_rests_on_attribution") for i in r["info"]),
+                 "private: no force of its own; authentic: force from promulgation, the attribution refused in both"),
+      shown(["collections_hyp"], ("info/1",), "info(force_rests_on_attribution(dec_p,pope_ii))", facts="asof(1600). custom_asof.",
+            absent=("info(without_force_of_its_own(dec_p,coll_private))",))],
+     "the order refuses the attribution; in the private collection the text has no force of its own")
+scen("AU1", SRC, "The Corpus Dionysiacum", ["pseudo_dionysius", "asof_1890"],
+     [all_models_with(["pseudo_dionysius"], ("attributed/2", "info/1", "eff_tier/2"),
+                      present=("info(attribution_refused(dionysius_corpus,dionysius_areopagite,proclus_dms,koch_1895))",
+                               "info(attribution_refused(dionysius_corpus,dionysius_areopagite,proclus_dms,stiglmayr_1895))",
+                               "info(attribution_claimed(dionysius_corpus,dionysius_areopagite,dionysius_corpus))",
+                               "info(attribution_claimed(dionysius_corpus,dionysius_areopagite,cloud_of_unknowing))",
+                               "eff_tier(dionysius_corpus,5)"),
+                      absent=("attributed(dionysius_corpus,dionysius_areopagite)",)),
+      all_models_with(["pseudo_dionysius", "asof_1890"], ("attributed/2", "info/1", "eff_tier/2"),
+                      present=("eff_tier(dionysius_corpus,5)",), some=("attributed(dionysius_corpus,dionysius_areopagite)",),
+                      absent=("info(attribution_refused(dionysius_corpus,dionysius_areopagite,proclus_dms,koch_1895))",)),
+      claim_never_shown(["pseudo_dionysius", "asof_1890"], "dionysius_corpus", "dionysius_areopagite")],
+     "both ways as of 1890, refused from 1895 (Koch, Stiglmayr: Proclus); tier 5 on every branch", mode="all")
+scen("AU2", SRC, "The Liber de causis", ["de_causis", "asof_1260"],
+     [all_models_with(["de_causis"], ("attributed/2", "info/1"), present=("info(attribution_refused(liber_de_causis,aristotle,proclus_et,thomas_de_causis))",),
+                      absent=("attributed(liber_de_causis,aristotle)",)),
+      claim_never_shown(["de_causis", "asof_1260"], "liber_de_causis", "aristotle")],
+     "both ways as of 1260; refused from 1272 (Thomas: Proclus's Elements)", mode="all")
+scen("AU3", SRC, "The Quicumque's name", ["creeds", "quicumque_author"],
+     [all_models_with(["creeds", "quicumque_author"], ("attributed/2", "info/1", "eff_tier/2"),
+                      present=("info(attribution_refused(quicumque,athanasius,augustine_dt15,kelly_1964))", "eff_tier(quicumque,1)",
+                               "info(attribution_by_act(quicumque,athanasius,florence_armenians_1439))"),
+                      absent=("attributed(quicumque,athanasius)",)),
+      lambda r: (solve(["creeds"], "branches")["models"] == r["models"] == 4, "the reception's branches alone"),
+      claim_never_shown(["creeds", "quicumque_author", "asof_1950"], "quicumque", "athanasius")],
+     "refused from 1964 (Kelly: Augustine's terms); its tier rests on reception; Florence's words a claim that fixes nothing", mode="all")
+scen("AU4", SRC, "The pseudo-Lullian Testamentum", ["pseudo_lull"],
+     [all_models_with(["pseudo_lull"], ("attributed/2", "info/1", "violation/1"),
+                      present=("info(attribution_refused(testamentum,llull,self_dated(1332)))",),
+                      absent=("attributed(testamentum,llull)", "violation(signed_and_anonymous(ars_brevis))")),
+      shown(["pseudo_lull"], ("violation/1",), "violation(signed_and_anonymous(ars_brevis))", facts="anonymous(ars_brevis).")],
+     "dated 1332 by its colophon, Llull dead in 1316: refused; the Ars brevis signed, not at issue", mode="all")
+scen("AU5", SRC, "The Imitation of Christ", ["imitatio"],
+     [branches_n(3),
+      all_models_with(["imitatio"], ("attributed/2", "info/1"),
+                      some=("attributed(imitatio,thomas_a_kempis)", "attributed(imitatio,gerson)", "info(without_a_name(imitatio))")),
+      claim_never_shown(["imitatio"], "imitatio", "thomas_a_kempis"), claim_never_shown(["imitatio"], "imitatio", "gerson"),
+      all_models_with(["imitatio", "attribution_shown_hyp"], ("attributed/2", "unshown_claim/1", "info/1"),
+                      present=("attributed(imitatio,thomas_a_kempis)",),
+                      absent=("attributed(imitatio,gerson)", "unshown_claim(attribution(imitatio,thomas_a_kempis))",
+                              "info(without_a_name(imitatio))")),
+      lambda r: (solve(["imitatio", "attribution_shown_hyp"], "all")["models"] == 1, "shown: one branch")],
+     "at most one author; three branches, the preferred neither", mode="all")
+scen("AU6", SRC, "The Cloud of Unknowing", ["cloud", "pseudo_dionysius", "asof_1890"],
+     [all_models_with(["cloud", "pseudo_dionysius", "asof_1890"], ("info/1", "violation/1"), present=("info(without_a_name(cloud_of_unknowing))",),
+                      absent=("violation(",)),
+      shown(["cloud", "cand_author_filled"], ("violation/1",), "violation(author_without_claim(cloud_of_unknowing,author_x))")],
+     "anonymous, shown as such on both of the Corpus's branches; an author entered without a claim refused", mode="all")
+scen("AU8", SRC, "A name never raises a tier", ["fides_damasi"],
+     [tiers_by_form(["trinity", "filioque", "fides_damasi"], ["pseudo_dionysius", "asof_1890"], ["creeds", "quicumque_author", "asof_1950"],
+                    ["imitatio"], ["de_causis", "asof_1260"])],
+     "every source keeps its tier on every branch; the Fides Damasi changes form with its claimed author, a pope", mode="all")
+scen("FW1", SRC, "The monarchy as of 1100", ["trinity", "filioque", "creeds", "asof_1100"],
+     [cls("q(monarchy)=father_principle_without_principle", "open"), prefers("q(monarchy)", "father_principle_without_principle"),
+      lambda r: (all(b["w"] == ({3: 2, 4: 0, 5: 3} if "q(monarchy)=denied" in b["values"] else {3: 0, 4: 0, 5: 1})
+                     for b in r["branches"] if b["status"] == "main"),
+                 "against the monarchy denied: Toledo XI at tier 3 (2), Augustine and Photius at tier 5 (with Photius on the Filioque, 3)")],
+     "open, the Father principle without principle preferred by Augustine's, Photius's and Toledo XI's weight", mode=B)
+scen("FW2", SRC, "Particular councils weigh and do not cleave (c. 753)", ["trinity", "filioque", "councils_relaxed"],
+     [lambda r: (all(not any(c.startswith("toledo") for c in b["cleaved"]) for b in r["branches"]), "no Toledan council cleaves"),
+      reint_includes("q(spirit_origin)=father_alone", "leo_i_447"),
+      lambda r: (all(b["w"][3] >= 4 for b in r["branches"] if "q(spirit_origin)=father_alone" in b["values"]),
+                 "Toledo III and XI weigh at tier 3 against the Father alone")],
+     "Toledo III and XI weigh at tier 3; only Leo I's letter cleaves", mode=B)
+scen("FW3", SRC, "As of 440, the Fides Damasi", ["trinity", "filioque", "fides_damasi", "asof_440"],
+     [cls("q(spirit_origin)=father_alone", "open"), prefers("q(spirit_origin)", "father_and_son"),
+      lambda r: (all("assumed_fact(attributed(fides_damasi,damasus))" in b["assume"]
+                     for b in r["branches"] if "q(spirit_origin)=father_alone" in b["values"] and b["status"] == "live_shadow")
+                 and any(b["status"] == "live_shadow" for b in r["branches"]),
+                 "a shadow only where the attribution to Damasus holds"),
+      lambda r: (all("assumed_fact(false(attributed(fides_damasi,damasus)))" in b["assume"]
+                     for b in r["branches"] if b["status"] == "main" and b["unshown"] == 0), "the preferred rest on no attribution"),
+      lambda r: (all(any("without_a_name(fides_damasi)" in f for f in b["facts"]) ==
+                     ("assumed_fact(false(attributed(fides_damasi,damasus)))" in b["assume"]) for b in r["branches"]),
+                 "without a name exactly where Damasus is not its author"),
+      lambda r: (all(("papal_form(fides_damasi,ordinary)" in m and "character(fides_damasi,letter)" in m) ==
+                     ("attributed(fides_damasi,damasus)" in m)
+                     for m in solve(["trinity", "filioque", "fides_damasi", "asof_440"], "all",
+                                    show=("papal_form/2", "character/2", "attributed/2"))["all_models"]),
+                 "a pope's letter in form only on the branch of the claim")],
+     "open on the preferred branches; a live shadow only on the branch of the claimed Damasus, never preferred", mode=B)
 
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):

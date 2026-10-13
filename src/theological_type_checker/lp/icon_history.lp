@@ -34,6 +34,10 @@ relaxed(grave_nimis). relaxed(trent_1546).
 #program asof_1600. asof(1600). custom_asof.
 #program asof_1850. asof(1850). custom_asof.
 #program asof_1860. asof(1860). custom_asof.
+#program asof_440.  asof(440).  custom_asof.
+#program asof_1260. asof(1260). custom_asof.
+#program asof_1890. asof(1890). custom_asof.
+#program asof_1950. asof(1950). custom_asof.
 
 % ---------- De auxiliis: a branch protected and never cleaved ---------
 #program auxiliis.
@@ -477,6 +481,26 @@ source(aquinas_q36,5,truth,1268). promoted(aquinas_q36,4,1567). supports(aquinas
 source(photius,5,truth,886).  supports(photius,q(spirit_origin),father_alone).          % Mystagogia
 source(gregory_cyprus,5,truth,1285). supports(gregory_cyprus,q(spirit_origin),father_alone).   % Tomus
 source(palamas,5,truth,1350). supports(palamas,q(spirit_origin),father_alone).          % Capita 150, 36
+% The Latin witnesses before 1100 (TTC-SOURCES FQ), each at its tier by form.
+% Augustine, De Trinitate XV.26.47: "spiritus sanctus de patre principaliter,
+% et ipso sine ullo intervallo temporis dante, communiter de utroque procedit"
+% (and XV.17.29, "Ideo autem addidi, principaliter"): the Filioque, and the
+% monarchy with it.
+source(augustine_dt15,5,truth,420). promoted(augustine_dt15,4,1298).
+supports(augustine_dt15,q(spirit_origin),father_and_son).
+% Leo I, Quam laudabiliter (21 July 447, DH 284), a pope's letter: "Pope St.
+% Leo I ... had already confessed it dogmatically in 447" (CCC 247), read as a
+% doctrinal act, not a claim of tier.
+source(leo_i_447,3,truth,447). papal_form(leo_i_447,ordinary). character(leo_i_447,letter).
+supports(leo_i_447,q(spirit_origin),father_and_son).
+% Particular councils (c. 753): Toledo III (589, DH 470), Reccared's profession,
+% "Spiritusque sanctus confitendus a nobis et praedicandus est a patre et filio
+% procedere", and its anathema (the creed's own text reads "ex patre
+% procedentem"); Toledo XI (675), "proceeding from both" (DH 527).
+source(toledo_iii_589,3,truth,589). character(toledo_iii_589,conciliar_decree). particular_council(toledo_iii_589).
+supports(toledo_iii_589,q(spirit_origin),father_and_son).
+source(toledo_xi_675,3,truth,675). character(toledo_xi_675,conciliar_decree). particular_council(toledo_xi_675).
+supports(toledo_xi_675,q(spirit_origin),father_and_son).
 % The monarchy is a separate question; both sides affirm it.
 question(q(monarchy)). question_kind(q(monarchy),doctrinal).
 value(q(monarchy),father_principle_without_principle). value(q(monarchy),denied).
@@ -484,6 +508,13 @@ source(florence_1442,1,truth,1442). supports(florence_1442,q(monarchy),father_pr
 conciliar_act(florence_1442,creed).   % Cantate Domino: "firmiter credit, profitetur et praedicat"
 source(pcpcu_1995,3,truth,1995). character(pcpcu_1995,commentary).
 supports(pcpcu_1995,q(monarchy),father_principle_without_principle).   % L'Osservatore Romano, 20 Sept 1995
+% Both sides before 1100: Augustine's "principaliter"; Photius, the Spirit
+% "proceeds from the Father, Who is the first cause" (Mystagogia 43); Toledo XI,
+% the Father "the source and origin of the whole Godhead" (DH 525). The East
+% "expresses the Father's character as first origin of the Spirit" (CCC 248).
+supports(augustine_dt15,q(monarchy),father_principle_without_principle).
+supports(photius,q(monarchy),father_principle_without_principle).
+supports(toledo_xi_675,q(monarchy),father_principle_without_principle).
 monopatrism :- holds(q(spirit_origin),father_alone).             % into the core grammar
 
 #program councils_relaxed.        % ablation: the two councils removed from the graph
@@ -858,3 +889,78 @@ value(q(execution_evil_by_object),(yes;no)).
 classification(q(execution_evil_by_object),execution,evil_by_object).
 source(ev56_rarity,3,truth,1995). papal_form(ev56_rarity,ordinary). teaching_type(ev56_rarity,directive).   % "very rare, if not practically non-existent"
 supports(ev56_rarity,q(execution_evil_by_object),yes).
+
+% ---------- Authorship (TTC-SOURCES AU, FQ3) ----------------------------------
+% Signed, anonymous, attributed (sources.lp). An attribution is a claim,
+% refused where the order refutes it; a dependence counts from its witness.
+#program fides_damasi.            % the Fides Damasi (DH 71-72): "de Patre et Filio procedentem"
+% "Of uncertain author and time; in Gaul about 500 (?)" (Denzinger). Its title
+% gives it to Pope Damasus (d. 384): on that branch a pope's letter of about
+% 380, at tier 3; otherwise an anonymous creed of about 500, at tier 5.
+anonymous(fides_damasi).
+attribution(fides_damasi,damasus,fides_title). died(damasus,384).
+source(fides_damasi,3,truth,380)   :- attributed(fides_damasi,damasus).
+papal_form(fides_damasi,ordinary)  :- attributed(fides_damasi,damasus).
+character(fides_damasi,letter)     :- attributed(fides_damasi,damasus).
+source(fides_damasi,5,truth,500)   :- not attributed(fides_damasi,damasus).
+supports(fides_damasi,q(spirit_origin),father_and_son).
+
+#program pseudo_dionysius.        % the Corpus Dionysiacum and Proclus (AU1)
+% Its author calls himself the Areopagite, Paul's convert (Acts 17:34), dead
+% within the first century on any account. The Cloud of Unknowing names him:
+% "Saint Denis said" (ch. 70). Divine Names IV draws on Proclus's De malorum
+% subsistentia (H. Koch, Philologus 54; J. Stiglmayr, Historisches Jahrbuch 16,
+% 253-273; both 1895).
+source(dionysius_corpus,5,truth,500).
+attribution(dionysius_corpus,dionysius_areopagite,dionysius_corpus).
+attribution(dionysius_corpus,dionysius_areopagite,cloud_of_unknowing).
+died(dionysius_areopagite,100).
+text_year(proclus_dms,470).                     % Proclus died in 485
+draws_on(dionysius_corpus,proclus_dms,koch_1895). text_year(koch_1895,1895).
+draws_on(dionysius_corpus,proclus_dms,stiglmayr_1895). text_year(stiglmayr_1895,1895).
+
+#program de_causis.               % the Liber de causis (AU2)
+% Read as Aristotle's in the Latin schools; drawn from Proclus's Elements of
+% Theology, as Thomas saw from Moerbeke's Latin of 1268 (Super librum De causis,
+% prooemium, 1272). An Arabic work of the ninth century. Thomas's commentary
+% is a source of the record, dated by its year.
+attribution(liber_de_causis,aristotle,latin_schools). died(aristotle,-322).
+text_year(proclus_et,470).
+source(thomas_de_causis,5,truth,1272). promoted(thomas_de_causis,4,1567).
+draws_on(liber_de_causis,proclus_et,thomas_de_causis).
+
+#program quicumque_author.        % the Quicumque's name (AU3; load with creeds)
+% "The creed of bishop St. Athanasius" (the synod of Autun, c. 670); "composed
+% by most blessed Athanasius" (Florence to the Armenians, 1439). It uses the
+% terms of Augustine's De Trinitate (J. N. D. Kelly, The Athanasian Creed, 1964).
+% Its tier rests on its reception, a claim of its own, not on the name.
+attribution(quicumque,athanasius,autun_670). attribution(quicumque,athanasius,florence_armenians_1439).
+died(athanasius,373).
+text_year(augustine_dt15,420).
+draws_on(quicumque,augustine_dt15,kelly_1964). text_year(kelly_1964,1964).
+
+#program pseudo_lull.             % the alchemical Testamentum and the Ars brevis (AU4)
+% The Testamentum's colophon: written in London, 1332 (Oxford, Corpus Christi
+% College MS 244); given to Ramon Llull by the century's end. Llull died early
+% in 1316; the Ars brevis (Pisa, 1308) is his, signed.
+self_dated(testamentum,1332).
+attribution(testamentum,llull,later_manuscripts). died(llull,1316).
+signed(ars_brevis,llull). text_year(ars_brevis,1308).
+
+#program imitatio.                % the Imitation of Christ (AU5)
+% Thomas à Kempis's autograph of 1441, "per manus fratris Th. Kempensis"
+% (Brussels, KBR ms. 5855-61); early printed editions gave it to Jean Gerson.
+anonymous(imitatio).
+attribution(imitatio,thomas_a_kempis,autograph_1441). died(thomas_a_kempis,1471).
+attribution(imitatio,gerson,early_editions). died(gerson,1429).
+
+#program cloud.                   % The Cloud of Unknowing (AU6)
+% English, fourteenth century; "Nothing is known of him" (Underhill). It cites
+% "Saint Denis", whose name it takes as the Corpus's author: a claimant of the
+% Corpus's attribution (pseudo_dionysius). It draws on nothing a date refutes.
+anonymous(cloud_of_unknowing).
+
+#program cand_author_filled.      % an author entered for an anonymous text without a claim
+author(cloud_of_unknowing,author_x).
+#program attribution_shown_hyp.   % HYPOTHETICAL: evidence apart from the claimants shows one attribution; a claimant's own word shows none (load with imitatio)
+shown_by(imitatio,thomas_a_kempis,evidence_x). shown_by(imitatio,gerson,early_editions).

@@ -148,6 +148,10 @@ side, juridical facts on the canon side.
 | `deacon(P)`, `baptized_in(P,orthodox_church)` | The form across the codes: a priest for an Eastern party (CCEO c. 828; c. 1108 §3 from 2016); with an Eastern non-Catholic, the form for liceity only (c. 1127 §1; CCEO c. 834 §2). |
 | `faculty_to_confirm(P)`, `typed_ordinary_minister(P,K)` | A presbyter confirms validly by law (an Eastern presbyter, CCEO c. 696 §1) or faculty (c. 882); the ordinary minister is the bishop alone (DH 1630). |
 | `promulgated_elsewhere(L,Date)` | A law promulgated outside the *Acta*: its three months from that publication or from the *Acta*, a disputed reading where they differ. |
+| `enacted_by(B,L)`, `part_of(N,B)`, `revokes(L2,B,Way)`, `reorders(L2,B)`, `directly_contrary(L2,B)`, `doubtful_revocation(L2,B)` | A code at a date is a view: each body of texts enacted by its act, and a rule fires only under the text in force at the event's date. c. 20's three ways (`expressly`, `contrary`, `reorders`); a doubtful revocation is not presumed (c. 21): the earlier text stays in force, and nothing branches. The Code of 1917 is abrogated by c. 6 §1 n. 1; the form of marriage is read from it until 26 November 1983, and no text governs a marriage before 19 May 1918 (`no_text_in_force`). |
+| `born_of_noncatholics(P)`, `raised_outside(P)` | CIC 1917 c. 1099 §2: not bound to the form, marrying a non-Catholic, until 31 December 1948. |
+| `act_kind(A,K)`, `executes(A,L)`, `effective_from(A,Date)`, `executive_power_only(D)`, `express_grant(D)`, `provision(A,P)`, `contrary_provision(P,L)`, `doc_at_issue(X)` | Executive acts (cc. 29–34). A general decree is a law (c. 29), void without legislative power or an express grant (c. 30). A general executory decree or an instruction derogates from no law; a provision contrary to one lacks all force; it ceases with the law it executes (cc. 33–34). `doc_at_issue` asks for a body's or an act's force at the evaluation date. |
+| `collection(B,private)`, `collection(B,authentic)` | An authentic collection's texts have force from its promulgation, whatever their origin; a private collection's rest on their attribution (`attribution/3`, below). |
 | `juridic_person(J)`, `group(J)`, `moral_person(J)`, `represents(P,J)` | cc. 113-118: only a physical person acts; a fiction acts through those who represent it and bears no interior, sin or delict. The Church and the Apostolic See are moral persons by divine ordinance. |
 
 A new canon goes under `% @norm id | citation | source`. New slots go under
@@ -177,6 +181,23 @@ Law never answers a doctrinal question (`teaching_from_law`).
 What interprets, cites or claims about an act comes after it
 (`measure_against_order`); an act dated in both layers carries one year
 (`dates_disagree`). See [ttc-saeculum(7)](research/saeculum-preregistration.md).
+
+## AUTHORSHIP
+
+| Fact | Meaning |
+| --- | --- |
+| `signed(S,A)`, `anonymous(S)` | The text bears its author's name, or none. Both at once is refused (`signed_and_anonymous`). A source with neither is not at issue. |
+| `attribution(S,A,Claimant)` | A claim that A wrote S, with its claimant (the text itself may be one). Computed both ways (`attributed/2`), never preferred, unless `shown_by(S,A,E)` gives evidence apart from every claimant. Competing claims: one author at most. |
+| `died(A,Y)`, `self_dated(S,Y)`, `draws_on(S,S1,Witness)`, `text_year(X,Y)` | The order refuses an attribution where the text dates itself, or draws on a text, after the claimed author's death. A dependence counts from its witness's year. |
+| `author(S,A)` | An author entered for an anonymous text without a claim: refused (`author_without_claim`). |
+| `particular_council(S)` | A particular council's teaching (c. 753) weighs at its tier and cleaves nothing; it is owed by its own faithful, not computed. |
+
+A name never raises a tier: a text's tier is its form's. Where a claimed
+author's office gives the text a form (a pope's letter), enter that source
+on the branch of the claim (`... :- attributed(S,A).`). No motive is read: a
+refused attribution is a fact about dates. Shown: `without_a_name/1`,
+`attribution_refused/3`, `attribution_by_act/3` (a claim made by an act at
+tier 3 or above: it fixes nothing). See [ttc-sources(7)](research/sources-preregistration.md).
 
 ## LIBRARY
 

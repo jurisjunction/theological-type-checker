@@ -145,8 +145,12 @@ protected(Q,T) :- in_force(P), source(P,_,protective,_), eff_tier(P,T), protects
 blocked(S,Q)   :- supports(S,Q,_), eff_tier(S,TS), protected(Q,TP), TS >= TP, TS > 1.
 
 % ---------- Cleaving ---------------------------------------------------
+% Bishops gathered in a particular council teach the faithful entrusted to
+% them (c. 753), not the whole Church (c. 752): their teaching weighs at its
+% tier and cleaves nothing (TTC-SOURCES FQ2).
+% @input particular_council/1 | the source is a particular council's act (c. 753)
 cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), eff_tier(S,T), T >= 2, T <= 3,
-                   not source(S,_,protective,_), not blocked(S,Q), not nonmagisterial(S).
+                   not source(S,_,protective,_), not blocked(S,Q), not nonmagisterial(S), not particular_council(S).
 cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), source(S,_,juridical,_), not blocked(S,Q).
 
 % conflicts among sources that could cleave
@@ -272,7 +276,9 @@ violation(governance_read_as_teaching(S,Q)) :- governance(S), supports(S,Q,_), q
 violation(governance_read_as_teaching(S,M)) :- governance(S), meta_supports(S,M).
 % binds(Law, Tier, Obligation): the law attaches an obligation to whatever
 % is taught at that tier (incorporation by reference)
-owed(S,O) :- in_force(S), not governance(S), eff_tier(S,T), binds(L,T,O), in_force(L).
+% A particular council's teaching is owed by the faithful entrusted to its
+% bishops (c. 753), not by all: not computed here (TTC-SOURCES).
+owed(S,O) :- in_force(S), not governance(S), eff_tier(S,T), binds(L,T,O), in_force(L), not particular_council(S).
 info(owed(S,O)) :- owed(S,O).
 
 % ---------- Labels -----------------------------------------------------

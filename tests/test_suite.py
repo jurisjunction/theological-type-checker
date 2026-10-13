@@ -180,7 +180,9 @@ def test_monopatrism_changes_only_the_processions():
     # CR excluded: the creed loads the Trinity, and monopatrism changes its processions by design (TTC-CREED)
     # CX excluded for the same reason: the christ group loads the creed (TTC-CHRIST)
     # SAE excluded for the same reason: its order and measure cases load the creed (TTC-SAECULUM, stated in its scoring)
-    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT, suite.CR, suite.MR, suite.CX, suite.SAE)
+    # SRC excluded for the same reason: its Filioque witnesses load the Trinity (TTC-SOURCES, stated in its scoring)
+    changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT, suite.CR, suite.MR, suite.CX, suite.SAE,
+                                                              suite.SRC)
                and _outcome(s) != _outcome(s, ["monopatrism"])}
     assert changed == FILIOQUE_DEPENDENT
 
@@ -193,6 +195,7 @@ THOMIST_STACK_CHANGES = {
     "FQ1", "FQ3", "FQ7", "FQ8", "FQ19",             # monopatrism: Thomist simplicity decides it
     "FQ12", "FQ13", "FQ15",                         # Palamas's mind refused (Th. 21 as Thomas reads it)
     "AN4",                                          # deny by default: the persons undistinguished
+    "FW1", "FW2", "FW3",                            # monopatrism again, under the Latin witnesses (TTC-SOURCES)
 }
 
 
@@ -624,3 +627,31 @@ def test_reading_of_c8_disputed_before_the_publications_date():
     got = {a for b in bs for a in b["assume"] if "c8_elsewhere,lx" in a}
     assert got == {"assumed_fact(reading(c8_elsewhere,lx,from_acta))",
                    "assumed_fact(reading(c8_elsewhere,lx,from_publication))"}, got
+
+
+# TTC-SOURCES AU7: a refused attribution is a fact about dates. No rule names
+# a motive (rule 3): no forgery, fraud or deceit, in any rule file's code.
+def test_no_motive_is_read():
+    for f, txt in engine.base_texts().items():
+        code = "\n".join(line.split("%")[0] for line in txt.splitlines()).lower()
+        assert not re.search(r"\bforge|fraud|deceit|deceiv|counterfeit", code), f
+
+
+# TTC-SOURCES TX: a rule of the form fires only under the text in force at
+# the marriage's date. Every rule deriving the form's outcome names its code.
+def test_the_form_reads_its_code():
+    rules = [st for f, st in _heads_and_bodies() if f == "canon_law.lp"
+             and st.startswith(("valid_form(", "bound_to_form(", "liceity_only(")) and ":-" in st]
+    assert rules and all(any(c in st for c in ("form_1983(", "form_1917(", "liceity_only(")) for st in rules), rules
+
+
+# TTC-SOURCES GN6: a void general decree has no force by any route of c. 8 §1.
+def test_a_void_decree_takes_no_force():
+    for route in ("vacatio_set(gd,20050101).", "aas_issue(gd,20050201).", "aas_volume(gd,2005,20050101).",
+                  "promulgated_elsewhere(gd,20050101). aas_volume(gd,2005,20050101)."):
+        facts = ("act_kind(gd,general_decree). executive_power_only(gd). promulgated(gd,20050101). " + route +
+                 " act_date(ax,20100101).")
+        atoms = solve([], "all", facts=facts, show=("force_at/2",))["all_models"]
+        assert atoms and not any(a.startswith("force_at(gd,") for m in atoms for a in m), route
+        atoms = solve([], "all", facts=facts + " express_grant(gd).", show=("force_at/2",))["all_models"]
+        assert any(a.startswith("force_at(gd,") for m in atoms for a in m), route

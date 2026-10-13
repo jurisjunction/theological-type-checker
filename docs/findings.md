@@ -705,7 +705,44 @@ Predictions were stamped first ([ttc-cceo(7)](research/cceo-preregistration.md))
   Latin rules on the form's jurisdiction, the faculties to absolve and
   who is bound to the form stand in for Eastern canons not yet encoded.
 
-### 27. Method
+### 27. Documents as layers in time; authorship (TX, GN, CO, AU, FW)
+
+Predictions were stamped first ([ttc-sources(7)](research/sources-preregistration.md)).
+
+- **A code at a date is a view** (TX). The form of marriage is read from
+  the Code of 1917 until 26 November 1983 and from the Code of 1983 after:
+  a deacon delegated in 1950 assists invalidly, in 1990 validly; one who
+  left the Church is bound in 1950 ("licet ... defecerint"), not in 1990
+  after a formal act, bound again in 2011; Pius XII's change of 1948 binds
+  from 1949. Before 1918 no encoded text governs a marriage, and nothing
+  is computed. Before this step a marriage of 1950 was judged by the Code
+  of 1983.
+- **The general norms are the edges** (GN). c. 6 §1 n. 1 ends the 1917
+  Code; c. 20's three ways are typed; c. 21 settles its own doubt, so a
+  doubtful revocation leaves the earlier text in force and nothing
+  branches. An instruction ceases with its law: *Universae Ecclesiae* on
+  16 July 2021, computed from *Summorum Pontificum*'s revocation alone
+  (c. 34 §3). A dicastery's general decree without a grant is void by
+  every route of c. 8 §1 (c. 30).
+- **Collections** (CO). In a private collection a text's force rests on
+  its attribution; in an authentic one, on the promulgation.
+- **An attribution is a claim** (AU). Computed both ways, never
+  preferred, refused by the order: the *Corpus Dionysiacum* from 1895,
+  the *Liber de causis* from 1272, the *Quicumque*'s name from 1964, the
+  pseudo-Lullian *Testamentum* by its own colophon. A dependence counts
+  from its witness, so as of 1890 the Areopagite is still computed both
+  ways. No tier moved with a name, save the *Fides Damasi*'s, whose
+  claimed author is a pope. The anonymous are shown, and never named. No
+  rule reads a motive.
+- **The Filioque before 1100** (FW, CR1b). With Leo I's letter of 447
+  entered, "from the Father alone" is a live shadow as of 1100, not the
+  preferred branch: the earlier answer was the record's gap. Particular
+  councils (Toledo III, XI) weigh and cleave nothing (c. 753). Leo I's
+  letter is now owed religious submission in the communion scenarios
+  (c. 752), and cleaves beside Paul VI's Credo where the councils are
+  relaxed (CR1e): neither predicted.
+
+### 28. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

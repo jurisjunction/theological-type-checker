@@ -28,7 +28,7 @@
 % The Code and the texts that changed it.
 promulgated(cceo1990,19901018). vacatio_set(cceo1990,19911001).    % Sacri canones
 enacted_by(cceo_text_1990,cceo1990).
-part_of((cceo1459_1;cceo1436_1;cceo1450_2;cceo828),cceo_text_1990).
+part_of((cceo1459_1;cceo1436_1;cceo1450_2;cceo828;cceo834),cceo_text_1990).
 enacted_by(cceo1436_2_text_1998,atf1998). part_of(cceo1436_2,cceo1436_2_text_1998).
 
 % ---------- Sacraments -------------------------------------------------------
@@ -39,7 +39,7 @@ confirms_by_law_or_faculty(E) :- celebration(E,confirmation,P,_), priest(P), eas
 priest_required_by(M,cceo828) :- marriage(M,_,T), spouse(M,P), eastern_faithful(P), norm_in_force(cceo828,T).
 
 % @norm cceo:834 | c. 834 §2: if a Catholic party ascribed to an Eastern Church marries one who belongs to an Eastern non-Catholic Church, the form is to be observed only for liceity; for validity the blessing of a priest is required, other requirements of law observed | https://www.vatican.va/content/john-paul-ii/la/apost_constitutions/documents/hf_jp-ii_apc_19901018_index-codex-can-eccl-orient.pdf
-liceity_only(M) :- spouse(M,P), eastern_faithful(P), spouse(M,Q), eastern_noncatholic(Q).
+liceity_only(M) :- spouse(M,P), eastern_faithful(P), spouse(M,Q), eastern_noncatholic(Q), marriage(M,_,T), norm_in_force(cceo834,T).
 
 % ---------- Penal sanctions (Title XXVII) -----------------------------------
 % @norm cceo:1459 | c. 1459 §1: bishops who without a mandate of the competent authority ordained someone a bishop, and the one who received the ordination from them, are to be punished with deposition (unchanged by Vocare peccatores, 2023) | https://www.vatican.va/content/john-paul-ii/la/apost_constitutions/documents/hf_jp-ii_apc_19901018_index-codex-can-eccl-orient.pdf

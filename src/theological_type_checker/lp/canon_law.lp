@@ -121,6 +121,19 @@
 % @input supports/3 | from the authority graph
 % @input law_kind/2 | law.lp: the kind of a law
 % @input interior/3 | act.lp: a claim about the agent (here, pertinacious)
+% @input born_of_noncatholics/1 | born of non-Catholic parents (CIC 1917 c. 1099 §2)
+% @input raised_outside/1 | from infancy grew up in heresy, schism, unbelief or no religion (CIC 1917 c. 1099 §2)
+% @input act_kind/2 | act_kind(Act, general_decree | general_executory_decree | instruction): the kind of an act (cc. 29, 31, 34)
+% @input executes/2 | executes(Act, Law): the executive act was given to apply or clarify this law (cc. 31-34)
+% @input effective_from/2 | effective_from(Act, Date): the date from which an executive act takes effect
+% @input executive_power_only/1 | the act's issuer has executive power alone (c. 30)
+% @input express_grant/1 | the competent legislator expressly granted the power to issue this general decree, its conditions observed (c. 30)
+% @input provision/2 | provision(Act, P): a provision of an executive act
+% @input contrary_provision/2 | contrary_provision(P, Law): the provision cannot be reconciled with the law (a juridical finding; cc. 33 §1, 34 §2)
+% @input doc_at_issue/1 | the case asks after the force of this body of texts or act
+% @input collection/2 | collection(Body, private | authentic): a body gathering texts from other sources
+% @input attribution/3 | sources.lp: attribution(Text, Author, Claimant), a claim
+% @input attribution_refused/2 | sources.lp: the order refuses the attribution
 
 event_date(E,T) :- consecration(E,_,_,T).
 event_date(A,T) :- absolution(A,_,_,T).
@@ -181,6 +194,30 @@ eastern_noncatholic_church((orthodox_church;oriental_orthodox_church)).
 promulgated(dc2016,20160531). promulgated_elsewhere(dc2016,20160916). aas_volume(dc2016,2016,20160531).
 enacted_by(c1108_3_text,dc2016). part_of(n1108_3,c1108_3_text).
 
+% The form of marriage in its texts (TTC-SOURCES TX). The Code of 1917, given on
+% Pentecost, 27 May 1917 (Providentissima Mater Ecclesia), binding "a die
+% decima nona mensis Maii anni millesimi nongentesimi duodevicesimi" (AAS 9/II):
+% c. 1094 (the form) and c. 1099 (who is bound). Pius XII struck the clause of
+% c. 1099 §2 on those born of non-Catholics (motu proprio Decretum Ne temere,
+% 1 August 1948; AAS 40 (1948) 305-306), from 1 January 1949.
+promulgated(code1917,19170527). vacatio_set(code1917,19180519).
+enacted_by(form_text_1917,code1917). part_of(n1094_1917,form_text_1917).
+enacted_by(c1099_2_clause_1917,code1917). part_of(n1099_2_1917,c1099_2_clause_1917).
+promulgated(pxii1948,19480801). vacatio_set(pxii1948,19490101).
+% The Code of 1983: c. 1108 §1 with c. 1111; c. 1117 with its clause on formal
+% defection until Omnium in mentem.
+enacted_by(form_text_1983,code1983). part_of(n1108_1,form_text_1983).
+enacted_by(c1117_text_1983,code1983). part_of(n1117_1983,c1117_text_1983).
+
+% An instruction and the law it executes (TTC-SOURCES GN4). Summorum Pontificum
+% (7 July 2007), "observed from the fourteenth day of September"; Universae
+% Ecclesiae (30 April 2011), "hanc Instructionem edit, ad normam canonis 34"
+% (n. 12); Traditionis custodes (16 July 2021), promulgated in L'Osservatore
+% Romano, "eodem die vim obtinentes".
+promulgated(sp2007,20070707). vacatio_set(sp2007,20070914). enacted_by(sp_text,sp2007).
+act_kind(ue2011,instruction). executes(ue2011,sp2007). effective_from(ue2011,20110430).
+promulgated(tc2021,20210716). vacatio_set(tc2021,20210716).
+
 % The penal norms, the bodies they belong to, and the laws that enacted them.
 promulgated(code1983,19830125). vacatio_set(code1983,19831127).     % Sacrae disciplinae leges: the First Sunday of Advent
 promulgated(pgd2021,20210601).  vacatio_set(pgd2021,20211208).      % Pascite gregem Dei, art. 2: Book VI revised
@@ -226,12 +263,12 @@ needs_reading(c915,S) :- situation(_,S), manifest(S), persisting(S).
 % day's): the months end at the close of the day before the day of the same
 % number, and the law binds from that day. So a canonist computes Omnium in
 % mentem, issue of 8 January 2010, in force 8 April 2010 (TTC-SAECULUM CT1).
-in_force_from(L,T) :- promulgated(L,_), vacatio_set(L,T).
-in_force_from(L,T) :- aas_issue(L,D), not vacatio_set(L,_), same_number_after(D,3,T).
+in_force_from(L,T) :- promulgated(L,_), vacatio_set(L,T), not void_decree(L).
+in_force_from(L,T) :- aas_issue(L,D), not vacatio_set(L,_), same_number_after(D,3,T), not void_decree(L).
 % An issue unread lies between the act's own date and its volume's last
 % day; force, between three months after each. Inside that span the date
 % is a fact not fixed by the record, computed both ways (rule 2; CT3).
-force_window(L,T1,T2) :- aas_volume(L,Y,G), not aas_issue(L,_), not vacatio_set(L,_), not in_force_from(L,_),
+force_window(L,T1,T2) :- aas_volume(L,Y,G), not aas_issue(L,_), not vacatio_set(L,_), not in_force_from(L,_), not void_decree(L),
                          same_number_after(G,3,T1), same_number_after(Y*10000+1231,3,T2).
 % A law promulgated otherwise than in the Acta ("unless another manner of
 % promulgation has been prescribed"): its three months run from that
@@ -239,7 +276,7 @@ force_window(L,T1,T2) :- aas_volume(L,Y,G), not aas_issue(L,_), not vacatio_set(
 % (De concordia inter Codices, in force 16 December 2016); no authentic
 % interpretation settles it, so where the readings differ on a date the case
 % needs, the reading is disputed and computed both ways (rule 2; TTC-CCEO IM1).
-elsewhere_dates(L,TP,W1,W2) :- promulgated_elsewhere(L,D), aas_volume(L,Y,G), same_number_after(D,3,TP),
+elsewhere_dates(L,TP,W1,W2) :- promulgated_elsewhere(L,D), aas_volume(L,Y,G), same_number_after(D,3,TP), not void_decree(L),
                                same_number_after(G,3,W1), same_number_after(Y*10000+1231,3,W2).
 reading_needed_c8(L) :- elsewhere_dates(L,TP,_,W2), instant(T), TP <= T, T < W2.
 reading_needed_c8(L) :- elsewhere_dates(L,TP,W1,_), instant(T), W1 <= T, T < TP.
@@ -256,7 +293,7 @@ force_at(L,T) :- force_window(L,_,T2), instant(T), T2 <= T.
 assumed_fact(force_by(L,T))        :- force_window(L,T1,T2), instant(T), T1 <= T, T < T2, force_at(L,T).
 assumed_fact(false(force_by(L,T))) :- force_window(L,T1,T2), instant(T), T1 <= T, T < T2, not force_at(L,T).
 norm_in_force(N,T) :- part_of(N,B), enacted_by(B,L), force_at(L,T), event_date(_,T), not abrogated_at(B,T).
-abrogated_at(B,T)  :- reorders(L2,B), force_at(L2,T).
+abrogated_at(B,T)  :- revokes(L2,B,_), force_at(L2,T).
 
 % @norm cic:203 | cc. 200-203: time is computed by these canons unless the law provides otherwise; a day is 24 hours from midnight, continuous months and years as in the calendar (c. 202); the day a quo is not counted unless its beginning coincides with the beginning of the day; a term of months or years ends at the close of the last day of the same number or, if the month lacks it, of the last day of the month (c. 203) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann200-203_en.html
 % The day of the same number N calendar months after D; where the month
@@ -277,12 +314,60 @@ completed_years(B,T,N) :- years_asked(B,T), T\10000 >  B\10000, N = T/10000 - B/
 age_at(P,A,N) :- born(P,B), event_date(A,T), completed_years(B,T,N).
 age_now(P,N)  :- born(P,B), eval_date(T), completed_years(B,T,N).
 
-% @norm cic:20 | c. 20: a later law abrogates or derogates from an earlier one if it says so, is directly contrary to it, or completely reorders its matter | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
-reorders(pgd2021,book6_1983).
-reorders(atf1998,c1371_text_1983). reorders(pgd2021,c1371_text_1998).
+% @norm cic:6 | c. 6 §1: when this Code takes force, the following are abrogated: 1° the Code of Canon Law promulgated in 1917; 2° other universal or particular laws contrary to its prescripts, unless other provision is expressly made for particular laws; 3° universal or particular penal laws of the Apostolic See not contained in it; 4° other universal disciplinary laws on matter it completely reorders; §2: insofar as they repeat former law, its canons are assessed also in accord with canonical tradition | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann1-6_en.html
+revokes(code1983,B,expressly) :- enacted_by(B,code1917).
 
-% @norm cic:21 | c. 21: in doubt the revocation of a pre-existing law is not presumed; later laws are harmonized with earlier ones | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+% @norm cic:20 | c. 20: a later law abrogates or derogates from an earlier one if it says so expressly, is directly contrary to it, or completely reorders the entire matter of the earlier law | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+% @input directly_contrary/2 | directly_contrary(Later, Body): the later law and the body cannot both stand (a juridical finding)
+% Three ways, one fact each (TTC-SOURCES GN2). A way open to doubt yields to
+% c. 21: in doubt the revocation is not presumed, so the earlier text stays in
+% force and nothing branches.
+revokes(L2,B,reorders) :- reorders(L2,B), not doubtful_revocation(L2,B).
+revokes(L2,B,contrary) :- directly_contrary(L2,B), not doubtful_revocation(L2,B).
+reorders(pgd2021,book6_1983).                                       % Pascite gregem Dei: Book VI anew
+reorders(pgd2021,c1371_text_1998).
+revokes(atf1998,c1371_text_1983,expressly).                         % Ad tuendam fidem: c. 1371 n. 1 to read so
+revokes(oim2009,c1117_text_1983,expressly).                         % Omnium in mentem: the clause on formal defection removed
+revokes(pxii1948,c1099_2_clause_1917,expressly).                    % Decretum Ne temere (1948)
+directly_contrary(tc2021,sp_text).   % art. 1 of each: "the unique expression of the lex orandi" against an extraordinary one
+
+% @norm cic:21 | c. 21: in doubt the revocation of a pre-existing law is not presumed, but later laws are related to earlier ones and, insofar as possible, harmonized with them | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 info(revocation_not_presumed(L2,L)) :- doubtful_revocation(L2,L).
+
+% @norm cic:29 | c. 29: general decrees, by which a competent legislator issues common prescripts for a community capable of receiving law, are laws properly speaking, governed by the canons on laws; c. 30: one who possesses only executive power cannot issue such a decree unless, in particular cases, a competent legislator has expressly granted it and the conditions of the grant are observed | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann29-34_en.html
+% A general decree is a law and takes force by c. 8 §1; given by executive
+% power alone without the grant, it is void and takes none (TTC-SOURCES GN6).
+void_decree(D) :- act_kind(D,general_decree), executive_power_only(D), not express_grant(D).
+violation(general_decree_without_power(D)) :- void_decree(D).
+
+% @norm cic:33 | c. 33 §1: general executory decrees do not derogate from laws, and their prescripts contrary to laws lack all force; §2: they cease with the cessation of the law for whose execution they were given; c. 34 §2: the ordinances of instructions do not derogate from laws, and those that cannot be reconciled with them lack all force; §3: instructions cease also by the cessation of the law for whose clarification or execution they were given | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann29-34_en.html
+% An executive act stands below the law it executes: in force from its date
+% while the law stands, a provision contrary to a law without force (GN4, GN5).
+executive_act(A) :- act_kind(A,general_executory_decree).
+executive_act(A) :- act_kind(A,instruction).
+law_ceased(L,T)    :- enacted_by(B,L), abrogated_at(B,T).
+exec_ceased(A,T)   :- executive_act(A), executes(A,L), law_ceased(L,T).
+exec_in_force(A,T) :- executive_act(A), effective_from(A,D), instant(T), D <= T, not exec_ceased(A,T).
+provision_in_force(P,T) :- provision(A,P), exec_in_force(A,T), not contrary_provision(P,_).
+
+% @norm collections | Gregory IX, Rex pacificus (5 September 1234): "ut hac tantum compilatione universi utantur in iudiciis et in scholis": an authentic collection's texts have force from its promulgation, whatever their origin; a private collection's texts (Gratian's Decretum, never recognized as an official collection) have their sources' authority and no more; custom is a route of its own (cc. 23-28) | https://www.iuscangreg.it/diritto_anteriore.php
+% A text's force in a private collection rests on its attribution, a claim
+% (sources.lp); refused by the order, the text has no force of its own. In an
+% authentic collection the attribution changes nothing (TTC-SOURCES CO1).
+from_promulgation(N,L)          :- part_of(N,B), collection(B,authentic), enacted_by(B,L).
+rests_on_attribution(N,A)       :- part_of(N,B), collection(B,private), attribution(N,A,_), not attribution_refused(N,A).
+without_force_of_its_own(N,B)   :- part_of(N,B), collection(B,private), attribution(N,A,_), attribution_refused(N,A).
+% @end
+info(force_from_promulgation(N,L))    :- from_promulgation(N,L).
+info(force_rests_on_attribution(N,A)) :- rests_on_attribution(N,A).
+info(without_force_of_its_own(N,B))   :- without_force_of_its_own(N,B).
+info(text_in_force(B))  :- doc_at_issue(B), enacted_by(B,L), eval_date(T), force_at(L,T), not abrogated_at(B,T).
+info(text_of_void_decree(B,D)) :- doc_at_issue(B), enacted_by(B,D), void_decree(D).
+info(text_revoked(B,L2,W)) :- doc_at_issue(B), revokes(L2,B,W), eval_date(T), force_at(L2,T).
+info(act_in_force(A))   :- doc_at_issue(A), exec_in_force(A,T), eval_date(T).
+info(ceased_with_law(A,L)) :- doc_at_issue(A), executes(A,L), exec_ceased(A,T), eval_date(T).
+info(provision_in_force(P))   :- provision(A,P), doc_at_issue(A), provision_in_force(P,T), eval_date(T).
+info(provision_without_force(P,L)) :- provision(A,P), executive_act(A), contrary_provision(P,L).
 
 % @norm cic:16 | c. 16 §§1-3: the legislator interprets authentically; in the form of law the interpretation has the force of law and must be promulgated; if it only declares words certain in themselves it is retroactive, if it restricts, extends or explains a doubtful law it is not; in a sentence or an administrative act in a particular matter it binds only the persons and matters for which it was given; with c. 9: laws regard the future, not the past, unless they expressly provide for the past | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 % @input declaratory/1 | c. 16 §2: the interpretation only declares words of the law certain in themselves (so retroactive)
@@ -679,18 +764,26 @@ info(to_be_imposed(P,N,E,K)) :- to_be_imposed(P,N,E), penalty(N,K), past(E).
 
 % @norm cic:1117 | c. 1117: the form must be observed if at least one of the parties was baptized in the Catholic Church or received into it (as amended by Omnium in mentem, 2009; until then, "and has not defected from it by a formal act"), without prejudice to c. 1127 §2 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
 promulgated(oim2009,20091026). aas_issue(oim2009,20100108).   % names no date; AAS 102 (2010) 8-10, issue of 8 January 2010 (c. 8 §1)
-defection_exempts(P,M) :- spouse(M,P), formal_defection(P,D), marriage(M,_,T), D <= T, has_force_date(oim2009), not force_at(oim2009,T).
-bound_to_form(P,M) :- spouse(M,P), not outside(P), not defection_exempts(P,M).
+% Until Omnium in mentem the text of 1983 exempted one who had defected by a
+% formal act: one matter in three texts, read off at the date (TTC-SOURCES TX2).
+defection_exempts(P,M) :- spouse(M,P), formal_defection(P,D), marriage(M,_,T), D <= T, norm_in_force(n1117_1983,T).
+bound_to_form(P,M) :- form_1983(M), spouse(M,P), not outside(P), not defection_exempts(P,M).
+% the code whose form governs the marriage: one at a time (TTC-SOURCES TX5)
+form_code(M,cic1983) :- form_1983(M).
+form_code(M,cic1917) :- form_1917(M).
 % silence binds: the form is excused only where every recorded party is outside or exempt
-form_excused(M) :- spouse(M,_), not some_party_bound(M).
+form_excused(M) :- form_code(M,_), spouse(M,_), not some_party_bound(M).
 some_party_bound(M) :- bound_to_form(_,M).
-form_binds(M) :- marriage(M,_,_), not form_excused(M).
+form_binds(M) :- form_code(M,_), not form_excused(M).
 
 % @norm cic:1108 | c. 1108 §1 and c. 1111: the form requires assistance by the ordinary, the pastor, or a priest delegated by either; c. 144 §2 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
+% A rule of the layer fires only under the text in force at the event's date
+% (TTC-SOURCES TX): the form of 1983 from 27 November 1983.
+form_1983(M) :- marriage(M,_,T), norm_in_force(n1108_1,T).
 delegated(P,M) :- marriage(M,P,T), delegation(_,O,P,M,TD), ordinary(O), TD <= T.
 delegated(P,M) :- marriage(M,P,T), delegation(_,O,P,general,TD), ordinary(O), TD <= T.
-valid_form(M) :- marriage(M,P,T), delegated(P,M), not governance_invalid_at(P,T), not lacks_priest(M).
-valid_form(M) :- marriage(M,_,_), common_error(M), not lacks_priest(M).
+valid_form(M) :- form_1983(M), marriage(M,P,T), delegated(P,M), not governance_invalid_at(P,T), not lacks_priest(M).
+valid_form(M) :- form_1983(M), common_error(M), not lacks_priest(M).
 priest_required(M) :- priest_required_by(M,_).
 lacks_priest(M) :- priest_required(M), marriage(M,A,_), not priest(A).
 % @norm dc2016:1108 | c. 1108 §3 (De concordia inter Codices, 2016): only a priest validly assists at a marriage between Eastern parties, or between a Latin party and an Eastern party, Catholic or not; c. 1111 §1: delegation to priests and deacons, without prejudice to c. 1108 §3 | https://www.vatican.va/content/francesco/la/motu_proprio/documents/papa-francesco-motu-proprio_20160531_de-concordia-inter-codices.html
@@ -698,15 +791,27 @@ eastern_party(M) :- spouse(M,P), eastern_faithful(P).
 eastern_party(M) :- spouse(M,P), eastern_noncatholic(P).
 priest_required_by(M,n1108_3) :- marriage(M,_,T), spouse(M,P), latin_faithful(P), eastern_party(M), norm_in_force(n1108_3,T).
 % @norm cic:1127 | c. 1127 §1: in a mixed marriage the form of c. 1108 is observed; but if the Catholic party marries a non-Catholic of an Eastern rite, the canonical form binds for liceity only, and validity requires the intervention of a sacred minister (from 2016, "interventus sacerdotis"), other requirements of law observed | https://www.vatican.va/content/francesco/la/motu_proprio/documents/papa-francesco-motu-proprio_20160531_de-concordia-inter-codices.html
-liceity_only(M) :- spouse(M,P), latin_faithful(P), spouse(M,Q), eastern_noncatholic(Q).
+liceity_only(M) :- form_1983(M), spouse(M,P), latin_faithful(P), spouse(M,Q), eastern_noncatholic(Q).
 valid_form(M) :- liceity_only(M), marriage(M,A,_), sacred_minister(A), not lacks_priest(M).
 sacred_minister(A) :- priest(A).
 sacred_minister(A) :- deacon(A).
+% @norm cic1917:1094 | CIC 1917 c. 1094: "Ea tantum matrimonia valida sunt quae contrahuntur coram parocho, vel loci Ordinario, vel sacerdote ab alterutro delegato et duobus saltem testibus"; abrogated with the Code of 1917 by CIC 1983 c. 6 §1 n. 1 | https://www.iuscangreg.it/cic1917.php
+% From 19 May 1918 to 26 November 1983. A priest is delegated, never a deacon
+% (TTC-SOURCES TX1).
+form_1917(M) :- marriage(M,_,T), norm_in_force(n1094_1917,T).
+valid_form(M) :- form_1917(M), marriage(M,P,_), delegated(P,M), priest(P).
+% @norm cic1917:1099 | CIC 1917 c. 1099 §1: bound to the form are "omnes in catholica Ecclesia baptizati et ad eam ex haeresi aut schismate conversi, licet sive hi sive illi ab eadem postea defecerint", marrying among themselves (n. 1) or non-Catholics (n. 2); §2: not bound, "item ab acatholicis nati, etsi in Ecclesia catholica baptizati, qui ab infantili aetate in haeresi vel schismate aut infidelitate vel sine ulla religione adoleverunt, quoties cum parte acatholica contraxerint", a clause Pius XII struck from 1 January 1949 | https://www.iuscangreg.it/cic1917.php
+% One who left the Church is still bound; one born of non-Catholics and raised
+% outside was not, until 1949 (TX2, TX3).
+bound_to_form(P,M) :- form_1917(M), spouse(M,P), not outside(P), not exempt_1917(P,M).
+exempt_1917(P,M) :- spouse(M,P), born_of_noncatholics(P), raised_outside(P), spouse(M,Q), outside(Q),
+                    marriage(M,_,T), norm_in_force(n1099_2_1917,T).
 % @end
 info(marriage(M,valid_form))   :- marriage(M,_,_), past(M), valid_form(M).
 info(marriage(M,invalid_form)) :- marriage(M,_,_), past(M), form_binds(M), not valid_form(M), not dispensed(cond(matrimony,canonical_form),M).
 info(marriage(M,form_dispensed)) :- marriage(M,_,_), past(M), form_binds(M), not valid_form(M), dispensed(cond(matrimony,canonical_form),M).
-info(marriage(M,form_not_binding)) :- marriage(M,_,_), past(M), not form_binds(M).
+info(marriage(M,form_not_binding)) :- form_code(M,_), past(M), not form_binds(M).
+info(no_text_in_force(M,form)) :- form_unread(M), past(M).
 info(marriage(M,form_for_liceity_only)) :- liceity_only(M), past(M).
 info(priest_required(M,N)) :- priest_required_by(M,N), past(M).
 
@@ -744,7 +849,10 @@ info(to_be_conferred(R,K,How)) :- to_be_conferred(R,K,How).
 defect_of_marriage(M,consent) :- consent_vitiated(M).
 defect_of_marriage(M,canonical_form) :- marriage(M,_,_), form_binds(M), not valid_form(M).
 unmet_in_marriage(M,C) :- defect_of_marriage(M,C), not dispensed(cond(matrimony,C),M).
-bond(M) :- marriage(M,_,_), not unmet_in_marriage(M,_).
+% No encoded text governs the form of a marriage before 19 May 1918: its bond
+% is not computed (TTC-SOURCES TX4).
+form_unread(M) :- marriage(M,_,_), not form_code(M,_).
+bond(M) :- marriage(M,_,_), not unmet_in_marriage(M,_), not form_unread(M).
 ratified(M) :- bond(M), not spouse_unbaptized(M).
 spouse_unbaptized(M) :- spouse(M,P), unbaptized(P).
 % @norm cic:1141 | c. 1141: a marriage that is ratum et consummatum can be dissolved by no human power and by no cause, except death | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
@@ -765,7 +873,7 @@ never_res_iudicata(M) :- nullity_sentence(_,M,_).
 at_issue(M) :- dissolution(_,M,_,_).
 at_issue(M) :- nullity_sentence(_,M,_).
 info(bond(M))    :- at_issue(M), bond(M).
-info(no_bond(M)) :- at_issue(M), marriage(M,_,_), not bond(M).
+info(no_bond(M)) :- at_issue(M), marriage(M,_,_), not bond(M), not form_unread(M).
 info(dissolved(M,D)) :- dissolved(M,D).
 info(free_to_marry(P)) :- free_to_marry(P).
 info(never_res_iudicata(M)) :- never_res_iudicata(M).
