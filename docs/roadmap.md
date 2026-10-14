@@ -35,7 +35,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | L | a language for libraries, compiled to clingo: declarations as metaclasses; runtimes by inheritance, three combinators, clashes refused; slots declared once, with sorts, domains, layers and sentences; parts naming their case; premises kept apart from conclusions | done ([ttc-l(7)](research/l-preregistration.md)) |
 | churches | other Churches and ecclesial communities: succession, sacraments, *subsistit in* | to predict, after L |
 | senses | the senses and the routes to words: sensibles typed, schemes by culture, the interior senses; words by hearing, sight, hand and touch; perception's claims as premises | to predict, after L |
-| language | a word type-checked: its form, under its language's scheme at its date, by any route (heard, signed, written, touched); its sense; its lineage. Languages in time as a DAG, etymology a partial trace through it; each language encodable, none required | to predict, after the senses |
+| language | one word, many encodings: a form type-checked under its encoding at its date, by any route (heard, signed, written, touched), as a sign of the word; the encodings in time as a DAG, etymology a partial trace of forms through it; the word itself outside time; each encoding encodable, none required | to predict, after the senses |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
@@ -738,45 +738,111 @@ schemes and `conclusion` gate.
 ### language (after the senses)
 
 The rung above the senses: not all of human language, but the ability to
-type-check a word in any language someone enters, whatever the route it
+type-check a word in any encoding someone enters, whatever the route it
 came by.
 
-- **A word, typed.** A form (a phoneme string, a sign's handshape,
+- **One word, many encodings.** What has a history is the encoding: a
+  tongue, a script, a signed language, a Braille code. The word it
+  carries has none. The word in the heart is neither Greek nor Latin nor
+  of any tongue (Augustine, *De Trinitate* XV.10.19); spoken sounds are
+  signs of it, and the signs differ between peoples while what they
+  signify does not (*De interpretatione* 1; ST I q. 34 a. 1, the inner
+  word and the spoken). The mind's word is an image of the Word that is
+  outside time (Jn 1:1; *De Trinitate* XV.11.20). So the word is no node of
+  the DAG in time: it takes no date, no parent there and no place in the
+  order, as the base already refuses a procession or God's act placed in
+  time (TTC-SAECULUM). Dates, descent and drift belong to forms.
+- **The word is articulated, not one token.** One Word, "full of the
+  living reasons" of all things (Augustine, *De Trinitate* VI.10.11), by
+  which the Father speaks himself and every creature (ST I q. 34 a. 3);
+  many ideas in one mind, distinct by reason (ST I q. 15 a. 2). Its
+  articulation is a DAG of its own, ordered by reason and not by time:
+  what is defined after what defines it, the composed after the simple,
+  never a cycle (a definition through what it defines), and a concept of
+  more than one parent where it has more than one genus of sense. So two
+  DAGs: the order of reason, which definition traces and the checker's
+  sorts, slots and rules approximate; and the order of time, in which
+  encodings descend, which etymology traces. A lexicon maps the second
+  onto the first. The checker is itself an encoding: made, partial, with
+  a history in time (its commits), aiming at an order it does not
+  constitute.
+- **A part is no whole.** Division is an operation on a whole, and it
+  makes no whole: a substance is not composed of substances present in it
+  in act (*Metaphysics* VII.13, 1039a3-7); the parts of animals are
+  potencies (VII.16, 1040b5-10); an eye that cannot see is an eye only in
+  name (*De anima* II.1, 412b20-22). So `part` is never a sort: it is a
+  relation to a whole, typed by that whole. A segment of a form (a
+  phoneme, a morpheme, a stroke, a span) is read only within the reading
+  of its whole, which is why the lines' solver chooses whole call trees
+  and never scores a span alone; a finding by division says nothing of
+  what the whole is (the base refuses "nothing but" from division,
+  TTC-EMPIRICA). The checker's own `#program` parts are never run alone:
+  every run is the base with them.
+
+- **A form, typed.** A form (a phoneme string, a sign's handshape,
   location and movement, a written string, a Braille cell) under its
-  language's scheme at a date; a sense from that language's lexicon; a
-  lineage. It is ill-formed where the form is not one the scheme admits
-  at that date, where the sense is one the lexicon does not give, or
-  where the lineage breaks the order of time. A well-formed word is not
-  thereby the right word: the checker refuses, it does not affirm.
-- **Each language encodable, none required.** A language is declared
+  encoding at a date; the word it is read as, from that encoding's
+  lexicon; its lineage. It is ill-formed where the form is not one the
+  encoding admits at that date, where the reading is one the lexicon does
+  not give, or where the lineage breaks the order of time. A well-formed
+  form is not thereby the right word: the checker refuses, it does not
+  affirm.
+- **Each encoding encodable, none required.** An encoding is declared
   in L as the senses step declares a scheme: its forms, its lexicon,
   their sources (a dictionary, a grammar, a corpus) as claimants, closed
-  per language where its sources close it. A language not entered is not
-  wrong; it is absent, and a word of it is an unknown slot, not a
+  per encoding where its sources close it. An encoding not entered is not
+  wrong; it is absent, and a form of it is an unknown slot, not a
   violation.
-- **Languages as a DAG.** Varieties are nodes in time, edges are
+- **Encodings as a DAG.** Varieties are nodes in time, edges are
   descent: Latin to Old French to French; Old English and Norman French
   both to Middle English; LSF and local signing to ASL; a creole with two
   parents. A tree is refused for the reason the rites are an order, not a
-  line (`derives_from/2`, `rite_of_many_parents`). A language inherits as
+  line (`derives_from/2`, `rite_of_many_parents`). An encoding inherits as
   a runtime does: `add` a borrowing, `exclude` a loss, `alter` a sound
   change (Grimm's law alters *p* to *f*). Two parents that disagree
   clash, and the child says which it took: contact is declared, never
   linearized.
-- **Etymology is a partial trace.** A word's lineage is a path through
-  the DAG, each step attested (a dated text) or reconstructed. A
+- **Etymology is a partial trace.** A form's lineage is a path through
+  the DAG, each step attested (a dated text) or reconstructed: a history
+  of the sign, never of the word signified. A
   reconstruction is a claim with its claimant (a handbook), computed
   both ways where scholars differ, never preferred to an attested form,
   as an attribution is never preferred to evidence apart from its
-  claimant. A lineage that dates a word before its parent, or derives
+  claimant. A lineage that dates a form before its parent, or derives
   it from a form attested only later, is refused, as an attribution is
   refused by its dates (TTC-SOURCES). Gaps stay gaps: nothing is filled
   in to make a path whole.
-- **Where it meets the base.** Sacramental forms are words of a
-  language at a date ("ego te baptizo", "we baptize"); a translation of a
-  form is a reading between schemes, checked against the form's
+- **Where it meets the base.** Sacramental forms are forms of an
+  encoding at a date ("ego te baptizo", "we baptize"); a translation is
+  the one word read in another encoding, checked against the form's
   substance (TTC-LITURGY). The Latin of a canon read against its
   vernacular. The senses deliver the form; this step types it.
+- **Wiring: recursive lines, composed by a solver.** Reading a text into
+  facts is split into small models, one per line of the target: each
+  reads every span of the input (a tree of regions built by rule:
+  sentence, clause, "that …", "if …", "to …") and returns a reading: how
+  strongly its line is present (an amplitude, learned), the arguments it
+  fills itself (who, when, polarity: by rule, where rules hold), and
+  calls to other lines for the arguments it cannot fill, each call typed
+  by the argument's sort. The calls carry the nesting that a bank of
+  detectors loses ("he said he would never leave" against "he never said
+  he would leave"), and recurse to atoms. A solver chooses, among the
+  well-typed call trees, the one with the most evidence; the tree is
+  lowered to facts, the facts are a snippet the checker runs, and its
+  refusal is a compile error. Each line's `say` decompiles the result to
+  plain statements, for the round trip.
+- **L is the type system.** The lines are L's slots, their calls its
+  argument sorts (TY), the round trip its sentences (SY). The solver can
+  be clingo itself: a choice over candidate readings, the sorts as
+  constraints, `#maximize` over the amplitudes. What the lines write
+  passes the gate only as premises (CG), so a line for a conclusion
+  cannot exist, and an argument outside its closed sort is a violation.
+- **Rule 3 in the lines.** A line may find that a text claims an interior
+  ("she said she knew"); it enters that claim with its claimant, never an
+  interior read from the words, and the checker names each one (IS).
+- **Training, line by line.** Each line is trained on its own, the
+  solver supplying span labels by explaining answers people encoded (hard
+  EM). The answers come from people, never from the checker's verdicts.
 - **Typed checks, not rewards.** A reward is a number on an output: it
   says how much, not where or why, and a model trained toward it learns
   the number. A check returns where (the gate, the slot, the line), why
