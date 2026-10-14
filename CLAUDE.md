@@ -40,7 +40,13 @@ ttc-library ic --near 41.90,12.45
 ttc-coverage --write
 ttc-l build
 ttc-l check
+tools/sync
 ```
+
+GitHub is the hub. Unfinished work goes on a branch pushed there, never
+left uncommitted in a folder. `tools/sync`, run on the person's machine
+(where the Radicle key is), brings `main` from GitHub and pushes it to
+Radicle; it changes nothing if the folder is not clean.
 
 The personal layer is `$TTC_HOME` (default `~/.ttc` if present). Tests run
 with it disabled.

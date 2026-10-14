@@ -35,9 +35,13 @@ curl -sSLf https://radicle.dev/install | sh
 rad auth                       # alias: a pseudonym; keep the passphrase safe
 rad node start
 cd theological-type-checker && rad init      # public; default branch main
-git push rad main              # thereafter: git push rad
+git push rad main              # the first time
 rad sync status                # which nodes hold it
 ```
+
+Thereafter `tools/sync`: it brings `main` from GitHub, the hub, and pushes
+it to Radicle, and changes nothing if the folder holds work not committed,
+the branch is not `main`, or `main` holds commits GitHub lacks.
 
 Published: `rad:z9REkMbmisawZ51TYM8PxU9FK3jZ`, seeded by `iris.radicle.network`,
 `rosa.radicle.network` and `seed.pipapo.org` (11 October 2026). To get

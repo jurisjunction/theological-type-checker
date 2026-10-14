@@ -1,0 +1,46 @@
+#!/bin/sh
+# Bring main from GitHub, the hub, and hand it to Radicle. Run on the
+# person's own machine, where the Radicle key is.
+#
+#   tools/sync
+#
+# It changes nothing, and says why, if the folder has changes not
+# committed (tracked or untracked), if the branch is not main, or if main
+# holds commits GitHub lacks. Unfinished work waits on a branch pushed to
+# GitHub, never in the folder. Otherwise: fetch, fast-forward main, push to
+# the remote `rad`.
+set -eu
+cd "$(git rev-parse --show-toplevel)"
+
+branch=$(git symbolic-ref --quiet --short HEAD || echo "a detached HEAD")
+if [ "$branch" != main ]; then
+    echo "sync: on $branch, not main. Run: git switch main" >&2
+    exit 1
+fi
+if [ -n "$(git status --porcelain)" ]; then
+    echo "sync: the folder has changes not committed:" >&2
+    git status --short >&2
+    echo "Put them on a branch first:" >&2
+    echo "  git switch -c pc/<topic> && git add -A && git commit -m '...' && git push -u origin pc/<topic>" >&2
+    exit 1
+fi
+if ! git remote get-url rad >/dev/null 2>&1; then
+    echo "sync: no remote named rad (docs/archive.md, COMMANDS)" >&2
+    exit 1
+fi
+
+before=$(git rev-parse HEAD)
+git fetch --quiet origin main
+if ! git merge-base --is-ancestor HEAD origin/main; then
+    echo "sync: main has commits GitHub lacks. Push them, or move them to a branch:" >&2
+    git log --oneline origin/main..HEAD >&2
+    exit 1
+fi
+git merge --quiet --ff-only origin/main
+after=$(git rev-parse HEAD)
+git push rad main
+if [ "$before" = "$after" ]; then
+    echo "sync: main at $(git rev-parse --short HEAD), as on GitHub; Radicle has it"
+else
+    echo "sync: main $(git rev-parse --short "$before")..$(git rev-parse --short "$after"), from GitHub to Radicle"
+fi
