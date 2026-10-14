@@ -8,13 +8,23 @@
 
 ```
 ttc-mcp
+ttc-mcp --http [--host addr] [--port n] [--writers]
+ttc-mcp --new-token name
 ```
 
 ## DESCRIPTION
 
-**ttc-mcp** serves the checker over stdio. The model reads the texts and
-records every interpretive choice as a fact. The server computes the
-consequences. The person reads both.
+**ttc-mcp** serves the checker over stdio, or with `--http` over Streamable
+HTTP behind a secret URL. The model reads the texts and records every
+interpretive choice as a fact. The server computes the consequences. The
+person reads both.
+
+| Option | Does |
+| --- | --- |
+| `--http` | Serve HTTP at `/<token>/mcp`. Every other path is a 404. |
+| `--host`, `--port` | Where to listen. Default `127.0.0.1`, `8765`. |
+| `--writers` | With `--http`, also serve the tools that write. Off by default. |
+| `--new-token name` | Mint a token for one client, print its URL once, exit. |
 
 ## INSTALLATION
 
@@ -33,7 +43,51 @@ Inside the repository, `.mcp.json` registers it for the project.
 { "mcpServers": { "theological-type-checker": { "command": "ttc-mcp", "args": [] } } }
 ```
 
+## REMOTE USE
+
+A hosted client calls from its vendor's servers, not from the person's
+machine, so the server must be reachable from the internet. The URL is the
+key: add it to the client as a server with no authentication.
+
+```
+ttc-mcp --new-token claude
+ttc-mcp --http
+```
+
+One token per client. The file keeps each token's hash under the client's
+name. To revoke a client, delete its line; no restart is needed. The log
+names the client on every request and never the URL.
+
+Over HTTP the server offers only the tools that read. Every client shares
+one personal layer, so a save by one would change the answers of all; the
+`save_*` tools and `mark_consulted` stay on the person's own machine, over
+stdio. `--writers` serves them anyway, and says so in the log.
+
+In a container, which can write to one folder only:
+
+```
+docker build -t ttc-mcp .
+docker run -d --name ttc-mcp --restart unless-stopped \
+    -p 127.0.0.1:8765:8765 -v "$HOME/ttc-mcp:/data" \
+    -e TTC_MCP_URL=https://box.example.ts.net \
+    --read-only --cap-drop ALL --security-opt no-new-privileges ttc-mcp
+docker exec ttc-mcp ttc-mcp --new-token claude
+```
+
+Published with Tailscale Funnel, which ends TLS and forwards to the port:
+
+```
+tailscale funnel --bg 8765
+```
+
+The server keeps no session, so a restart loses nothing.
+
 ## TOOLS
+
+Each tool declares whether it writes. The `save_*` tools and
+`mark_consulted` write; `save_rules` and `save_case` can replace a file;
+`library_fetch_list` reaches the network. The rest only read. A client
+uses this to decide when to ask the person first.
 
 ### Reading
 
@@ -85,7 +139,7 @@ Inside the repository, `.mcp.json` registers it for the project.
 
 ## RESULTS
 
-Every tool's result has its keys sorted, on stdio and in process alike;
+Every tool's result has its keys sorted, on the wire and in process alike;
 `engine.dumps` gives the compact form. `check` carries `schema` and
 `warnings` ([ttc-encoding(5)](encoding-guide.md), WARNINGS AND REFUSALS).
 A refusal is a tool error whose text is one compact JSON object: `gate`,
@@ -106,6 +160,14 @@ The server writes only inside `$TTC_HOME`, and only through `save_*` and
 `mark_consulted`. Network access is limited to the library lookups, and to
 those services only.
 
+Over HTTP the URL is the only credential. Whoever holds it can call every
+tool the server offers: by default those that read; with `--writers`,
+those that write as well, into the one personal layer every client reads.
+It does not expire. The tokens file
+(`$TTC_MCP_TOKENS`) holds hashes, mode 600, and belongs outside
+`$TTC_HOME`. Keep `$TTC_HOME` under version control on the host: a write
+can then be seen and undone.
+
 ## EXAMPLES
 
 > Here is a paragraph claiming the 2026 decree excommunicated every SSPX
@@ -120,6 +182,9 @@ and reading the note as one is `collective_declaration`.
 [ttc(1)](../README.md), [ttc-flywheel(7)](flywheel.md), [ttc-library(1)](library.md)
 
 ## BUGS
+
+`run_suite`, `fix_method` and `save_rules` run the whole suite, which takes
+minutes. A far client may give up first; the run goes on without it.
 
 The server trusts the model to encode honestly. The model trusts the person
 to check the encoding. Nobody trusts the weights. `ttc://grammar` is the

@@ -180,3 +180,69 @@ def test_on_the_wire_a_result_is_key_sorted_and_a_refusal_is_bare_json():
     assert bad.is_error
     d = json.loads(bad.content[0].text)
     assert (d["gate"], d["line"], d["column"]) == ("parse", 2, 5)
+
+
+# ---------- over HTTP: what a far client is told, and the gate ------------------
+def test_every_tool_says_whether_it_writes():
+    pytest.importorskip("mcp")
+    import inspect
+    import anyio
+    from theological_type_checker import server
+    hints = {t.name: t.annotations for t in anyio.run(server.server.list_tools)}
+    assert all(None not in (a.read_only_hint, a.destructive_hint, a.open_world_hint) for a in hints.values())
+    writers = {n for n, a in hints.items() if not a.read_only_hint}
+    assert writers == {"save_rules", "save_case", "save_scenario", "mark_consulted"}
+    opens_home = re.compile(r"(?<!\w)_home\(\)")                     # the one way a tool gets a folder to write in
+    assert writers == {n for n in hints if opens_home.search(inspect.getsource(getattr(server, n)))}
+    assert {n for n, a in hints.items() if a.destructive_hint} == {"save_rules", "save_case"}
+    assert {n for n, a in hints.items() if a.open_world_hint} == {"library_fetch_list"}
+
+
+def test_only_a_minted_path_reaches_the_server(tmp_path):
+    pytest.importorskip("mcp")
+    import anyio
+    from theological_type_checker import server
+    tokens = tmp_path / "tokens"
+    path = f"/{server.new_token('one', tokens)}/mcp"
+    assert path[1:-4] not in tokens.read_text() and oct(tokens.stat().st_mode)[-3:] == "600"   # the hash only
+    reached = []
+
+    async def inner(scope, receive, send):
+        reached.append(scope["path"])
+
+    gate = server.SecretPath(inner, tokens)
+
+    def status(p):
+        sent = []
+
+        async def call():
+            async def send(m):
+                sent.append(m)
+            await gate({"type": "http", "method": "POST", "path": p}, None, send)
+        anyio.run(call)
+        return sent[0]["status"] if sent else "passed on"
+
+    assert [status(p) for p in ("/", "/mcp", "/" + "A" * 43 + "/mcp", path[:-4] + "/other", path + "/")] == [404] * 5
+    assert reached == []
+    assert status(path) == "passed on" and reached == ["/mcp"]       # the server never sees the token
+    with pytest.raises(ValueError):
+        server.new_token("one", tokens)                              # one token per name
+    tokens.write_text("")
+    assert status(path) == 404                                       # a deleted line is revoked at once
+
+
+def test_over_http_only_the_tools_that_read_are_served_unless_asked():
+    # option 1: one personal layer is shared by every far client
+    pytest.importorskip("mcp")
+    import anyio
+    from theological_type_checker import server
+    every = {t.name for t in anyio.run(server.server.list_tools)}
+    read_only = {t.name for t in anyio.run(server.server_read_only.list_tools)}
+    assert server.WRITERS == {"save_rules", "save_case", "save_scenario", "mark_consulted"}
+    assert read_only == every - server.WRITERS
+    assert server.http_server() is server.server_read_only and server.http_server(writers=True) is server.server
+    assert "save_rules" not in server.server_read_only.instructions and "save_rules" in server.server.instructions
+    for listing in ("list_resources", "list_resource_templates", "list_prompts"):
+        names = [sorted(str(getattr(x, "uri_template", None) or getattr(x, "uri", None) or x.name)
+                        for x in anyio.run(getattr(srv, listing))) for srv in (server.server, server.server_read_only)]
+        assert names[0] == names[1] and names[0]

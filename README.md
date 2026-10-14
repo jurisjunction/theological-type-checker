@@ -64,6 +64,8 @@ Requires Python 3.10 and clingo, which is installed automatically.
 | `TTC_LOCATION` | `lat,lon` for distance to libraries. Never sent anywhere. |
 | `TTC_HELD_IN` | Narrows holdings to a country (`US`) or state (`US-NY`). |
 | `OCLC_CLIENT_ID`, `OCLC_CLIENT_SECRET` | WorldCat Search API credentials. Without them, links only. |
+| `TTC_MCP_TOKENS` | Token hashes for `ttc-mcp --http`. Default `~/.config/ttc-mcp/tokens`. |
+| `TTC_MCP_URL` | Public address of the server, printed before each new token's path. |
 
 ## FILES
 
@@ -72,6 +74,7 @@ Requires Python 3.10 and clingo, which is installed automatically.
 | `src/theological_type_checker/lp/` | The rule base. |
 | `~/.ttc/rules/*.lp` | Personal rules and cases. |
 | `~/.ttc/scenarios.json` | Personal regression tests. |
+| `~/.config/ttc-mcp/tokens` | One line per remote client: name, hash of its token. |
 
 ## EXAMPLES
 

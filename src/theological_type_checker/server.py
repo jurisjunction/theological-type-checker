@@ -3,18 +3,23 @@
 The model does the interpretive work (reading a text, deciding what it
 claims, at what tier, in what form). The checker does the mechanical work
 (what follows, what conflicts, what each branch rests on). Run with
-``ttc-mcp`` (stdio) and register it with any MCP client.
+``ttc-mcp`` (stdio) and register it with any MCP client, or with
+``ttc-mcp --http`` behind a secret URL for the clients that call from afar.
 """
 from __future__ import annotations
 
+import argparse
 import functools
 import inspect
+import logging
+import os
 import pathlib
 import re
+import secrets
 
 from mcp.server.mcpserver import MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
-from mcp_types import CallToolResult, TextContent
+from mcp_types import CallToolResult, TextContent, ToolAnnotations
 
 import hashlib
 import json
@@ -47,8 +52,25 @@ Never compute anyone's interior. The checker shows that a claim is
 ill-formed. It does not show that a well-formed claim is true.
 """
 
+# Over HTTP, by default, the server offers only the tools that read: one
+# personal layer is shared by every client, so a save by one would change
+# the answers of all. The tools that write stay on the person's own machine
+# (stdio), or are served over HTTP only with `--writers`.
+INSTRUCTIONS_READ_ONLY = INSTRUCTIONS.replace("""It grows with use: `flywheel_status` shows the frontier (theology, canon,
+library); `save_rules`, `save_case` (theology, then canon), `save_scenario`
+and `mark_consulted` record what the person has confirmed;
+`library_fetch_list` gives the books still owed, nearest library first.""",
+"""Over this connection the checker only reads. `flywheel_status` shows the
+frontier (theology, canon, library); `library_fetch_list` gives the books
+still owed, nearest library first. What the person confirms is saved on the
+person's own machine, not from here.""")
+assert INSTRUCTIONS_READ_ONLY != INSTRUCTIONS
+
 server = MCPServer(name="theological-type-checker", title="Theological Type Checker",
                    instructions=INSTRUCTIONS, version=__version__)
+server_read_only = MCPServer(name="theological-type-checker", title="Theological Type Checker",
+                             instructions=INSTRUCTIONS_READ_ONLY, version=__version__)
+WRITERS: set[str] = set()         # the tools served over HTTP only with --writers
 
 
 # ---------- helpers -----------------------------------------------------
@@ -115,10 +137,17 @@ def _friendly(fn):
     return wrapper
 
 
-def _tool(fn):
+def _tool(fn=None, *, writes=False, overwrites=False, open_world=False):
     """Register a tool. Called in process it raises a refusal as ToolError;
     over the wire the refusal is the call's error result, and its text is
-    the same JSON, with nothing before it."""
+    the same JSON, with nothing before it.
+
+    A tool only reads unless it says otherwise: writes (to the personal
+    layer), overwrites (can replace a file already there), open_world
+    (reaches the network). A client that is told nothing asks the person
+    before every call."""
+    if fn is None:
+        return functools.partial(_tool, writes=writes, overwrites=overwrites, open_world=open_world)
     friendly = _friendly(fn)
 
     @functools.wraps(fn)
@@ -128,8 +157,32 @@ def _tool(fn):
         except ToolError as exc:
             return CallToolResult(content=[TextContent(type="text", text=str(exc))], is_error=True)
 
-    server.tool()(wire)
+    annotations = ToolAnnotations(read_only_hint=not writes, destructive_hint=overwrites,
+                                  open_world_hint=open_world)
+    server.tool(annotations=annotations)(wire)
+    if writes:
+        WRITERS.add(fn.__name__)
+    else:
+        server_read_only.tool(annotations=annotations)(wire)
     return friendly
+
+
+def _resource(*args, **kwargs):
+    """A resource, on both servers."""
+    def register(fn):
+        for s in (server, server_read_only):
+            s.resource(*args, **kwargs)(fn)
+        return fn
+    return register
+
+
+def _prompt():
+    """A prompt, on both servers."""
+    def register(fn):
+        for s in (server, server_read_only):
+            s.prompt()(fn)
+        return fn
+    return register
 
 
 # ---------- tools ---------------------------------------------------------
@@ -387,7 +440,7 @@ def flywheel_status(run_tests: bool = False) -> dict:
     return out
 
 
-@_tool
+@_tool(writes=True, overwrites=True)
 def save_rules(name: str, rules: str, force: bool = False, reasons: dict[str, str] | None = None) -> dict:
     """Save rules to the personal layer ($TTC_HOME/rules/<name>.lp), after
     running the whole suite with them. If any test that passed now fails, the
@@ -435,7 +488,7 @@ def _layer_lint(text, forbidden, layer):
                                   "layer", layer, line, None, pred, engine._line_of(text, line))
 
 
-@_tool
+@_tool(writes=True, overwrites=True)
 def save_case(part: str, theology: str = "", canon: str = "", note: str = "") -> dict:
     """Save a case to the personal layer as an ordered pair, theology first and
     canon law second, both under `#program <part>.` in
@@ -471,7 +524,7 @@ def save_case(part: str, theology: str = "", canon: str = "", note: str = "") ->
     return {"saved": str(path), "check": engine.summary(r, 5)}
 
 
-@_tool
+@_tool(writes=True)
 def save_scenario(id: str, name: str, parts: list[str], expect: list[dict], facts: str = "",
                   expected: str = "") -> dict:
     """Record a verified result as a regression test in
@@ -502,7 +555,7 @@ def save_scenario(id: str, name: str, parts: list[str], expect: list[dict], fact
 
 
 # ---------- the library: physical copies -------------------------------------
-@_tool
+@_tool(open_world=True)
 def library_fetch_list(parts: list[str] | None = None, near: str | None = None, per_item: int = 3,
                        include_reading: bool = True, format: str = "markdown") -> str | dict:
     """A fetch list of physical copies: works the encoded sources are read in
@@ -520,7 +573,7 @@ def library_fetch_list(parts: list[str] | None = None, near: str | None = None, 
     return library.to_markdown(rep)
 
 
-@_tool
+@_tool(writes=True)
 def mark_consulted(source: str, note: str) -> dict:
     """Record that a source has been checked against the original (edition,
     page, date) in the personal layer. It then drops off the fetch list. The
@@ -536,13 +589,13 @@ def mark_consulted(source: str, note: str) -> dict:
 
 
 # ---------- resources and prompts --------------------------------------------
-@server.resource("ttc://guide", name="guide", mime_type="text/markdown",
+@_resource("ttc://guide", name="guide", mime_type="text/markdown",
                  description="The encoding manual.")
 def guide_resource() -> str:
     return GUIDE
 
 
-@server.resource("ttc://rules/{file}", name="rules", mime_type="text/plain",
+@_resource("ttc://rules/{file}", name="rules", mime_type="text/plain",
                  description="One rule file of the base, e.g. kernel_core.lp.")
 def rules_resource(file: str) -> str:
     texts = engine.base_texts()
@@ -596,7 +649,7 @@ def grammar() -> dict:
     })
 
 
-@server.resource("ttc://grammar", name="grammar", mime_type="application/json",
+@_resource("ttc://grammar", name="grammar", mime_type="application/json",
                  description="What the checker says about itself: slots, vocabulary, parts, runtimes, "
                              "tools, refusals and the summary's schema, as compact key-sorted JSON. "
                              "A claim, never evidence that the checker is right.")
@@ -604,7 +657,7 @@ def grammar_resource() -> str:
     return engine.dumps(grammar())
 
 
-@server.prompt()
+@_prompt()
 def type_check_text(text: str, context: str = "") -> str:
     """Type-check a theological or canonical text against the authority graph."""
     return f"""Type-check the following text with the theological-type-checker tools.
@@ -633,7 +686,7 @@ Text:
 """
 
 
-@server.prompt()
+@_prompt()
 def review_rule_change(proposal: str) -> str:
     """Evaluate a proposed change to the theory with the fix method."""
     return f"""A change to the rule base has been proposed:
@@ -648,8 +701,129 @@ adopting it only if it gains without loss, or if every loss is argued for.
 """
 
 
-def main():
-    server.run()
+# ---------- over HTTP: one secret URL per client -------------------------------
+log = logging.getLogger("ttc-mcp")
+
+
+def tokens_file() -> pathlib.Path:
+    """Where the tokens' hashes are kept: $TTC_MCP_TOKENS, else
+    ~/.config/ttc-mcp/tokens. Never inside $TTC_HOME: that folder is the
+    person's work, to be copied and versioned, and this file is the lock."""
+    v = os.environ.get("TTC_MCP_TOKENS")
+    return pathlib.Path(v or "~/.config/ttc-mcp/tokens").expanduser()
+
+
+def _digest(token: str) -> str:
+    return hashlib.sha256(token.encode()).hexdigest()
+
+
+def read_tokens(path: pathlib.Path) -> dict[str, str]:
+    """hash -> client name, from lines of `name hash`. No file, no tokens."""
+    try:
+        lines = path.read_text().splitlines()
+    except OSError:
+        return {}
+    rows = [l.split() for l in lines if l.strip() and not l.lstrip().startswith("#")]
+    return {r[1]: r[0] for r in rows if len(r) == 2}
+
+
+def new_token(name: str, path: pathlib.Path | None = None) -> str:
+    """Mint a token for one client and record its hash under `name`. The
+    token is returned once and kept nowhere. To revoke it, delete its line."""
+    if not _NAME.match(name):
+        raise ValueError("name must be lowercase letters, digits and underscores")
+    path = path or tokens_file()
+    if name in read_tokens(path).values():
+        raise ValueError(f"a token named {name!r} exists; delete its line in {path} to replace it")
+    token = secrets.token_urlsafe(32)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.touch(mode=0o600)
+    with path.open("a") as f:
+        f.write(f"{name} {_digest(token)}\n")
+    return token
+
+
+class SecretPath:
+    """The gate in front of the server: /<token>/mcp reaches it as /mcp, and
+    every other path is a 404 that says nothing. The address is the key, so
+    it works with any client that takes a URL and no login. The file is read
+    again whenever it changes: a deleted line is revoked at once."""
+
+    def __init__(self, app, path: pathlib.Path):
+        self.app, self.path, self._seen, self._tokens = app, path, None, {}
+
+    def client(self, token: str) -> str | None:
+        try:
+            st = self.path.stat()
+            seen = (st.st_mtime_ns, st.st_size)
+        except OSError:
+            seen = None
+        if seen != self._seen:
+            self._tokens, self._seen = read_tokens(self.path), seen
+        return self._tokens.get(_digest(token))
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":                      # lifespan: the server's own start and stop
+            return await self.app(scope, receive, send)
+        token, _, rest = scope["path"].lstrip("/").partition("/")
+        name = self.client(token) if rest == "mcp" else None
+        if name is None:
+            await send({"type": "http.response.start", "status": 404,
+                        "headers": [(b"content-type", b"text/plain; charset=utf-8")]})
+            return await send({"type": "http.response.body", "body": b"Not Found\n"})
+        log.info("%s %s", name, scope["method"])         # the client's name, never its path
+        await self.app(dict(scope, path="/mcp", raw_path=b"/mcp"), receive, send)
+
+
+def http_server(writers: bool = False) -> MCPServer:
+    """The server HTTP serves: the tools that read, or with `writers` all."""
+    return server if writers else server_read_only
+
+
+def http_app(path: pathlib.Path | None = None, writers: bool = False):
+    """The server as an ASGI app behind the gate. Stateless, so a restart
+    loses no session. The SDK's Host check is off: it guards a local server
+    against a browser, and here no request arrives without the token."""
+    from mcp.server.transport_security import TransportSecuritySettings
+    inner = http_server(writers).streamable_http_app(
+        stateless_http=True,
+        transport_security=TransportSecuritySettings(enable_dns_rebinding_protection=False))
+    return SecretPath(inner, path or tokens_file())
+
+
+def serve_http(host: str, port: int, writers: bool = False):
+    import uvicorn
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(message)s", force=True)
+    logging.getLogger("mcp").setLevel(logging.WARNING)   # else one line per request about a session that is not kept
+    path = tokens_file()
+    if not read_tokens(path):
+        log.warning("no tokens in %s: every request is a 404 until `ttc-mcp --new-token NAME`", path)
+    if writers:
+        log.warning("serving the tools that write (%s): a save by any client changes every client's answers",
+                    ", ".join(sorted(WRITERS)))
+    uvicorn.run(http_app(path, writers), host=host, port=port, access_log=False)   # the access log would print the token
+
+
+def main(argv=None):
+    p = argparse.ArgumentParser(prog="ttc-mcp", description="The checker as an MCP server: over stdio, "
+                                "or over HTTP behind a secret URL.")
+    p.add_argument("--http", action="store_true", help="serve Streamable HTTP at /<token>/mcp instead of stdio")
+    p.add_argument("--host", default="127.0.0.1", help="address to bind with --http (default %(default)s)")
+    p.add_argument("--port", type=int, default=8765, help="port to bind with --http (default %(default)s)")
+    p.add_argument("--writers", action="store_true", help="with --http, also serve the tools that write to the "
+                   "personal layer (off by default: one layer is shared by every client)")
+    p.add_argument("--new-token", metavar="NAME", help="mint a token for one client, print its URL once "
+                   "(after $TTC_MCP_URL, if set), and exit")
+    a = p.parse_args(argv)
+    if a.new_token:
+        try:
+            print(f"{os.environ.get('TTC_MCP_URL', '').rstrip('/')}/{new_token(a.new_token)}/mcp")
+        except ValueError as exc:
+            p.error(str(exc))
+    elif a.http:
+        serve_http(a.host, a.port, a.writers)
+    else:
+        server.run()
 
 
 if __name__ == "__main__":

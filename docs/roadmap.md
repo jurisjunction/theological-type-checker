@@ -590,6 +590,42 @@ CCC 1883). The checker need not hold everything.
   Boetium De Trinitate* q. 5 a. 1). Its record is in the saeculum: who
   proved what and when, conjectures with their claimants.
 
+### the flywheel shared (with the remote server)
+
+`ttc-mcp --http` serves hosted clients behind one secret URL each, and by
+default only the tools that read: every client shares one personal layer,
+so a save by one would change the answers of all. The writers come back
+when a save can wait for the person.
+
+- **Saves are commits, main is the person's.** The personal layer is a git
+  repository; each client writes on its own branch (`flywheel/<record>`),
+  a save one commit, its author the client's record and its message the
+  model's stated source. The gates stay (the suite, the layer lint, L's
+  `conclusion` gate). A client's runs read main and its own branch; only
+  the person merges into main, after reading the diff. Revert, branch and
+  merge are git's; a commit history is a DAG. Other people's servers are
+  peers: their branches arrive as Radicle patches, and the delegate
+  decides. The merge is the witness from outside that a passing suite
+  cannot be (the checker never vouches for itself); the DAG shows the
+  self-vouching case, one author saving a rule and the scenario it makes
+  pass.
+- **A register, not an account.** Each person who joins gets a record, as
+  in a baptismal register (cc. 535, 877): an id, a pseudonym, the records
+  of those who admitted them (minister and sponsors, cc. 872-874), the
+  date, the hash of their token, and for those who send patches a public
+  key. Sponsors are recorded before those they sponsor, so the register is
+  a DAG with the person keeping it at the root. Nothing is erased: a
+  revocation is a note in the margin of the record (c. 535 §2), and a
+  sponsor's later trouble flags those they admitted for review, never
+  revokes them. A certificate is a signed extract anyone can verify. The
+  checker can check the register (order, no cycles, notes not deletions,
+  sponsors' conditions); it is data about people, not the checker's word
+  about itself.
+- **Caution.** A register of who takes part in a theology project is
+  information about religious life, a special category of personal data
+  (GDPR Art. 9). Records are pseudonymous: no names, no addresses (rule
+  13).
+
 ### the senses (after L)
 
 A library of the senses: what a perceiver may claim, typed by the
