@@ -766,6 +766,19 @@ came by.
   onto the first. The checker is itself an encoding: made, partial, with
   a history in time (its commits), aiming at an order it does not
   constitute.
+- **Learning a tongue is a trace over the word divided.** No one is born
+  with a word formed: the intellect begins with no species of its own
+  (ST I q. 84 a. 3), but with the light that forms them (the agent
+  intellect, q. 79 a. 3) and the first principles, known as soon as
+  their terms are grasped (ST I-II q. 51 a. 1). That light, and the
+  order of reason it reads, is the one language every child is born
+  into; a tongue is how one encoding divides it, and each divides it
+  differently (Japanese *ao* across blue and green; a word's value is its
+  place in its tongue's division, Saussure). Learning a tongue is a trace
+  over that division, partial and typed like etymology: a learner's
+  lexicon maps forms onto nodes of the order of reason, gaps left gaps.
+  Babel is the division of encodings (Gen 11:1-9); at Pentecost each heard
+  the one word "in his own tongue" (Acts 2:6), the many kept, not undone.
 - **A part is no whole.** Division is an operation on a whole, and it
   makes no whole: a substance is not composed of substances present in it
   in act (*Metaphysics* VII.13, 1039a3-7); the parts of animals are
