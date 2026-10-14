@@ -46,6 +46,7 @@ jobs:
           echo "$COMMIT" | grep -Eqx '[0-9a-f]{40}' || { echo "a full commit hash, please" >&2; exit 1; }
           tools/stamp "$COMMIT" > /dev/null
           echo "$COMMIT" > "$RUNNER_TEMP/stamped"
+          echo by_hand > "$RUNNER_TEMP/kind"
       - name: Upgrade pending stamps
         if: github.event_name == 'schedule'
         run: |
@@ -57,6 +58,7 @@ jobs:
           git diff --cached --quiet && exit 0
           if [ -s "$RUNNER_TEMP/stamped" ]; then
             subject="Stamp the predictions"
+            [ -f "$RUNNER_TEMP/kind" ] && subject="Stamp a commit by hand"
             body=$(while read -r c; do echo "$c $(git log -1 --format=%s "$c")"; done < "$RUNNER_TEMP/stamped")
           else
             subject="Upgrade the stamps Bitcoin now holds"

@@ -29,19 +29,10 @@ FILES = ["kernel_core.lp", "kernel_analogy.lp", "icon_theory.lp", "icon_models.l
 # School runtimes (docs/research/schools-preregistration.md): named lists of
 # parts, loaded whole. A scenario names one as the part "rt_<name>", or two for
 # a pair; naming none runs it on "default". "rt_bare" loads no runtime at all.
-RUNTIMES = {
-    "bare": [],
-    "default": ["classical", "one_power"],
-    "thomist": ["classical", "one_power", "th01", "th03", "th04", "th05", "th06", "th21", "th22", "th24",
-                "simplicity_thomist", "attributes_by_reason", "mixed_relations", "transcendentals",
-                "holds_premotion", "one_place_circumscribed"],
-    "scotist": ["classical", "one_power", "simplicity_scotist", "attributes_formal", "univocity_of_concept",
-                "scotus_esse", "mixed_relations", "transcendentals"],
-    "suarezian": ["classical", "one_power", "simplicity_thomist", "attributes_by_reason", "suarez_esse",
-                  "mixed_relations", "transcendentals", "holds_concurrence"],
-    "palamite": ["classical", "simplicity_palamite", "palamite_energies", "monopatrism", "no_divine_contraction",
-                 "grace_uncreated"],
-}
+# Declared in L (l/schools.l: `runtime`, by inheritance; TTC-L, RU) and
+# compiled to runtimes.json, which is read here.
+RUNTIMES: dict[str, list[str]] = json.loads(
+    (pathlib.Path(__file__).resolve().parent / "runtimes.json").read_text())["runtimes"]
 
 
 def is_runtime(part: str) -> bool:

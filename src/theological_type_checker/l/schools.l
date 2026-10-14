@@ -1,5 +1,30 @@
 layer schools
 
+-- The runtimes (TTC-SCHOOLS; TTC-L, RU). Each is a school's parts loaded
+-- whole; compiled to runtimes.json, which the engine reads.
+runtime bare
+
+runtime default
+  add classical, one_power
+
+runtime thomist extends default
+  add th01, th03, th04, th05, th06, th21, th22, th24
+  add simplicity_thomist, attributes_by_reason, mixed_relations, transcendentals
+  add holds_premotion, one_place_circumscribed
+
+runtime scotist extends default
+  add simplicity_scotist, attributes_formal, univocity_of_concept, scotus_esse
+  add mixed_relations, transcendentals
+
+runtime suarezian extends default
+  add simplicity_thomist, attributes_by_reason, suarez_esse, mixed_relations
+  add transcendentals, holds_concurrence
+
+runtime palamite extends default
+  exclude one_power
+  add simplicity_palamite, palamite_energies, monopatrism, no_divine_contraction
+  add grace_uncreated
+
 ```clingo
 % ===================================================================
 %  School runtimes: the parts the four runtimes share or add. A runtime

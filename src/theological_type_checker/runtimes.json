@@ -1,0 +1,236 @@
+{
+ "runtimes": {
+  "bare": [],
+  "default": [
+   "classical",
+   "one_power"
+  ],
+  "thomist": [
+   "classical",
+   "one_power",
+   "th01",
+   "th03",
+   "th04",
+   "th05",
+   "th06",
+   "th21",
+   "th22",
+   "th24",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "mixed_relations",
+   "transcendentals",
+   "holds_premotion",
+   "one_place_circumscribed"
+  ],
+  "scotist": [
+   "classical",
+   "one_power",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse",
+   "mixed_relations",
+   "transcendentals"
+  ],
+  "suarezian": [
+   "classical",
+   "one_power",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence"
+  ],
+  "palamite": [
+   "classical",
+   "simplicity_palamite",
+   "palamite_energies",
+   "monopatrism",
+   "no_divine_contraction",
+   "grace_uncreated"
+  ]
+ },
+ "declared": {
+  "bare": {
+   "extends": [],
+   "file": "schools.l",
+   "ops": []
+  },
+  "default": {
+   "extends": [],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "classical"
+    ],
+    [
+     "add",
+     "one_power"
+    ]
+   ]
+  },
+  "thomist": {
+   "extends": [
+    "default"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "th01"
+    ],
+    [
+     "add",
+     "th03"
+    ],
+    [
+     "add",
+     "th04"
+    ],
+    [
+     "add",
+     "th05"
+    ],
+    [
+     "add",
+     "th06"
+    ],
+    [
+     "add",
+     "th21"
+    ],
+    [
+     "add",
+     "th22"
+    ],
+    [
+     "add",
+     "th24"
+    ],
+    [
+     "add",
+     "simplicity_thomist"
+    ],
+    [
+     "add",
+     "attributes_by_reason"
+    ],
+    [
+     "add",
+     "mixed_relations"
+    ],
+    [
+     "add",
+     "transcendentals"
+    ],
+    [
+     "add",
+     "holds_premotion"
+    ],
+    [
+     "add",
+     "one_place_circumscribed"
+    ]
+   ]
+  },
+  "scotist": {
+   "extends": [
+    "default"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "simplicity_scotist"
+    ],
+    [
+     "add",
+     "attributes_formal"
+    ],
+    [
+     "add",
+     "univocity_of_concept"
+    ],
+    [
+     "add",
+     "scotus_esse"
+    ],
+    [
+     "add",
+     "mixed_relations"
+    ],
+    [
+     "add",
+     "transcendentals"
+    ]
+   ]
+  },
+  "suarezian": {
+   "extends": [
+    "default"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "simplicity_thomist"
+    ],
+    [
+     "add",
+     "attributes_by_reason"
+    ],
+    [
+     "add",
+     "suarez_esse"
+    ],
+    [
+     "add",
+     "mixed_relations"
+    ],
+    [
+     "add",
+     "transcendentals"
+    ],
+    [
+     "add",
+     "holds_concurrence"
+    ]
+   ]
+  },
+  "palamite": {
+   "extends": [
+    "default"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "one_power"
+    ],
+    [
+     "add",
+     "simplicity_palamite"
+    ],
+    [
+     "add",
+     "palamite_energies"
+    ],
+    [
+     "add",
+     "monopatrism"
+    ],
+    [
+     "add",
+     "no_divine_contraction"
+    ],
+    [
+     "add",
+     "grace_uncreated"
+    ]
+   ]
+  }
+ }
+}

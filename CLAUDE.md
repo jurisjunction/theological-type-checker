@@ -25,7 +25,9 @@ then `ttc-l build`; never edit a rule file by hand (`ttc-l check` fails):
 
 The suite is `suite.py`, the server is `server.py`, the fetch lists are
 `library.py`, the norm graph is `norms.py`, the compiler is `lang.py`. The runtimes are
-`engine.RUNTIMES`; their boot and pair tables are `schools.py`.
+declared in `l/schools.l` (`runtime`, by inheritance) and compiled to
+`runtimes.json`, which `engine.RUNTIMES` reads; their boot and pair tables
+are `schools.py`.
 
 ## COMMANDS
 

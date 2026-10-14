@@ -22,6 +22,7 @@ import sys
 HERE = pathlib.Path(__file__).resolve().parent
 L_DIR = HERE / "l"
 LP_DIR = HERE / "lp"
+RUNTIMES_JSON = HERE / "runtimes.json"
 
 FENCE_OPEN = "```clingo"
 FENCE_CLOSE = "```"
@@ -233,6 +234,60 @@ class Part(Decl):
         self.name = None                  # read from the fence
 
 
+class Runtime(Decl):
+    """A school's parts, loaded whole: a set, kept in the order of first
+    mention. `extends` takes one or more parents; `add` appends, `exclude`
+    removes, `alter X -> Y` puts Y where X was. A runtime records what it
+    excludes, and inherits the record. Compiles to runtimes.json, not to a
+    rule file."""
+    keyword = "runtime"
+    attributes = ("add", "exclude", "alter")
+
+    def parse(self, head):
+        m = re.match(rf"^({NAME})(?: extends ({NAME}(?:, {NAME})*))?$", head)
+        if not m:
+            raise LError(self.where, self.line, "expected `runtime name [extends parent, ...]`")
+        self.name = m.group(1)
+        self.parents = m.group(2).split(", ") if m.group(2) else []
+        self.ops: list[tuple] = []
+
+    def attribute(self, key, value, line):
+        if key not in self.attributes:
+            raise LError(self.where, line, f"`runtime` has no attribute `{key}`")
+        if key == "alter":
+            m = re.match(rf"^({NAME}) -> ({NAME})$", value.strip())
+            if not m:
+                raise LError(self.where, line, "expected `alter part -> part`")
+            self.ops.append(("alter", m.group(1), m.group(2), line))
+            return
+        names = [n.strip() for n in value.split(",")]
+        if not names or not all(re.match(rf"^{NAME}$", n) for n in names):
+            raise LError(self.where, line, f"expected `{key} part, part, ...`")
+        self.ops += [(key, n, None, line) for n in names]
+
+    def source(self):
+        lines = [f"runtime {self.name}" + (f" extends {', '.join(self.parents)}" if self.parents else "")]
+        group: list[str] = []
+
+        def flush(kind):
+            if group:
+                lines.append(f"  {kind} {', '.join(group)}")
+                group.clear()
+        last = None
+        for kind, a, b, _ in self.ops:
+            if kind == "alter":
+                flush(last)
+                lines.append(f"  alter {a} -> {b}")
+                last = None
+                continue
+            if kind != last:
+                flush(last)
+            group.append(a)
+            last = kind
+        flush(last)
+        return lines
+
+
 class Fence:
     """Raw clingo, copied byte for byte."""
 
@@ -320,6 +375,77 @@ def parse(text: str, name: str = "<l>") -> Source:
     return Source(name, items)
 
 
+def compile_runtimes(srcs: dict[str, Source]) -> dict:
+    """The runtimes, each a list of parts, with what each declares. A part a
+    runtime names must exist; a parent must be declared, with no cycle; two
+    parents that disagree on a part (one has it, the other excludes it) are
+    a clash, refused until the child says `add`, `exclude` or `alter` for
+    it. No order between parents decides."""
+    decls = [d for src in srcs.values() for d in src.decls(Runtime)]
+    by_name: dict[str, Runtime] = {}
+    for d in decls:
+        if d.name in by_name:
+            raise LError(d.where, d.line, f"runtime {d.name} declared twice")
+        by_name[d.name] = d
+    parts = {d.name for src in srcs.values() for d in src.decls(Part)}
+    done: dict[str, tuple[list, set]] = {}
+
+    def resolve(name, trail=()):
+        if name in done:
+            return done[name]
+        d = by_name.get(name)
+        if d is None:
+            raise LError(trail[-1].where if trail else "runtimes", trail[-1].line if trail else None,
+                         f"no runtime named {name}")
+        if d in trail:
+            raise LError(d.where, d.line, "runtimes extend each other in a cycle: "
+                         + " -> ".join(t.name for t in trail + (d,)))
+        inherited = [resolve(p, trail + (d,)) for p in d.parents]
+        mentioned = {a for _, a, _, _ in d.ops} | {b for k, _, b, _ in d.ops if k == "alter"}
+        for i, (has_i, _) in enumerate(inherited):
+            for j, (_, excl_j) in enumerate(inherited):
+                for part in sorted(set(has_i) & excl_j):
+                    if i != j and part not in mentioned:
+                        raise LError(d.where, d.line, f"runtime {d.name}: its parents {d.parents[i]} and "
+                                     f"{d.parents[j]} clash on {part} (one has it, the other excludes it); "
+                                     f"say `add {part}`, `exclude {part}` or `alter {part} -> ...`")
+        have = list(dict.fromkeys(p for has, _ in inherited for p in has))
+        excluded = set().union(*(e for _, e in inherited)) if inherited else set()
+        for kind, a, b, line in d.ops:
+            for name_ in (a, b):
+                if name_ and name_ not in parts:
+                    raise LError(d.where, line, f"runtime {d.name}: no part named {name_}")
+            if kind == "add":
+                if a not in have:
+                    have.append(a)
+                excluded.discard(a)
+            elif kind == "exclude":
+                if a in have:
+                    have.remove(a)
+                excluded.add(a)
+            else:
+                if a not in have:
+                    raise LError(d.where, line, f"runtime {d.name}: cannot alter {a}, which it does not have")
+                if b in have:
+                    raise LError(d.where, line, f"runtime {d.name}: cannot alter {a} -> {b}, it already has {b}")
+                have[have.index(a)] = b
+                excluded.add(a)
+                excluded.discard(b)
+        done[name] = (have, excluded)
+        return done[name]
+
+    out = {"runtimes": {}, "declared": {}}
+    for d in decls:
+        out["runtimes"][d.name] = resolve(d.name)[0]
+        out["declared"][d.name] = {"extends": d.parents, "file": d.where,
+                                   "ops": [[k, a] if k != "alter" else [k, a, b] for k, a, b, _ in d.ops]}
+    return out
+
+
+def runtimes_text(compiled: dict) -> str:
+    return json.dumps(compiled, indent=1, ensure_ascii=False) + "\n"
+
+
 def sources(l_dir: pathlib.Path = L_DIR) -> dict[str, Source]:
     """Every .l file, by the name of the rule file it compiles to."""
     out = {}
@@ -333,13 +459,18 @@ def build(l_dir: pathlib.Path = L_DIR) -> dict[str, str]:
     return {name: src.compile() for name, src in sources(l_dir).items()}
 
 
-def check(l_dir: pathlib.Path = L_DIR, lp_dir: pathlib.Path = LP_DIR) -> list[str]:
-    """The rule files that differ from what their sources compile to, and
-    any rule file with no source."""
-    built = build(l_dir)
+def check(l_dir: pathlib.Path = L_DIR, lp_dir: pathlib.Path = LP_DIR,
+          runtimes_json: pathlib.Path = RUNTIMES_JSON) -> list[str]:
+    """The compiled files that differ from what their sources compile to
+    (the rule files and runtimes.json), and any rule file with no source."""
+    srcs = sources(l_dir)
+    built = {name: src.compile() for name, src in srcs.items()}
     bad = [name for name, text in built.items()
            if not (lp_dir / name).is_file() or (lp_dir / name).read_text() != text]
     bad += [f.name for f in sorted(lp_dir.glob("*.lp")) if f.name not in built]
+    rt = runtimes_text(compile_runtimes(srcs))
+    if not runtimes_json.is_file() or runtimes_json.read_text() != rt:
+        bad.append(runtimes_json.name)
     return sorted(bad)
 
 
@@ -351,17 +482,19 @@ def main(argv=None):
     a = ap.parse_args(argv)
     try:
         if a.command == "build":
-            for name, text in build(a.l).items():
-                p = a.lp / name
+            srcs = sources(a.l)
+            outputs = {a.lp / name: src.compile() for name, src in srcs.items()}
+            outputs[RUNTIMES_JSON] = runtimes_text(compile_runtimes(srcs))
+            for p, text in outputs.items():
                 if not p.is_file() or p.read_text() != text:
                     p.write_text(text)
-                    print(f"wrote {name}")
+                    print(f"wrote {p.name}")
             return 0
         bad = check(a.l, a.lp)
         for name in bad:
             print(f"differs from its source: {name}")
         if not bad:
-            print(f"{len(build(a.l))} rule files, each as its source compiles")
+            print(f"{len(build(a.l))} rule files and the runtimes, each as its source compiles")
         return 1 if bad else 0
     except LError as exc:
         print(f"refused: {exc}", file=sys.stderr)

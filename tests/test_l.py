@@ -110,3 +110,86 @@ def test_a_fence_is_copied_byte_for_byte():
 def test_l_refuses(text, why):
     with pytest.raises(lang.LError, match=re.escape(why)):
         lang.parse(text, "bad.l").compile()
+
+
+# ---------- RU: runtimes by inheritance --------------------------------------
+# The runtimes as engine.py held them by hand before L (at 3fc3601): the
+# expectation is that table, not anything the compiler computes.
+HAND_WRITTEN = {
+    "bare": [],
+    "default": ["classical", "one_power"],
+    "thomist": ["classical", "one_power", "th01", "th03", "th04", "th05", "th06", "th21", "th22", "th24",
+                "simplicity_thomist", "attributes_by_reason", "mixed_relations", "transcendentals",
+                "holds_premotion", "one_place_circumscribed"],
+    "scotist": ["classical", "one_power", "simplicity_scotist", "attributes_formal", "univocity_of_concept",
+                "scotus_esse", "mixed_relations", "transcendentals"],
+    "suarezian": ["classical", "one_power", "simplicity_thomist", "attributes_by_reason", "suarez_esse",
+                  "mixed_relations", "transcendentals", "holds_concurrence"],
+    "palamite": ["classical", "simplicity_palamite", "palamite_energies", "monopatrism", "no_divine_contraction",
+                 "grace_uncreated"],
+}
+
+
+def test_the_runtimes_compile_to_the_hand_written_lists():
+    # RU1: order included; the engine reads what L compiles
+    compiled = lang.compile_runtimes(lang.sources())
+    assert compiled["runtimes"] == HAND_WRITTEN and list(compiled["runtimes"]) == list(HAND_WRITTEN)
+    assert engine.RUNTIMES == HAND_WRITTEN
+    assert compiled["declared"]["palamite"] == {"extends": ["default"], "file": "schools.l", "ops": [
+        ["exclude", "one_power"], ["add", "simplicity_palamite"], ["add", "palamite_energies"],
+        ["add", "monopatrism"], ["add", "no_divine_contraction"], ["add", "grace_uncreated"]]}
+
+
+PARTS = "".join(f"part switch\n```clingo\n#program {p}.\n```\n" for p in ("a", "b", "c", "d"))
+
+
+def _runtimes(decls):
+    return lang.compile_runtimes({"x.lp": lang.parse("layer schools\n" + PARTS + decls, "x.l")})["runtimes"]
+
+
+def test_alter_puts_its_part_in_place():
+    # RU2
+    rt = _runtimes("runtime base\n  add a, b, c\nruntime variant extends base\n  alter b -> d\n")
+    assert rt["variant"] == ["a", "d", "c"]
+
+
+@pytest.mark.parametrize("parents", ["one, two", "two, one"])
+def test_a_clash_between_parents_is_refused_whichever_comes_first(parents):
+    # RU3: one parent has b, the other excludes it; no parent order decides
+    decls = ("runtime one\n  add a, b\nruntime two extends one\n  exclude b\n  add c\n"
+             f"runtime child extends {parents}\n")
+    with pytest.raises(lang.LError, match="clash on b"):
+        _runtimes(decls)
+
+
+@pytest.mark.parametrize("combinator,expect", [
+    ("  add b\n", ["a", "b", "c"]),
+    ("  exclude b\n", ["a", "c"]),
+    ("  alter b -> d\n", ["a", "d", "c"]),
+])
+def test_the_childs_combinator_settles_a_clash(combinator, expect):
+    # RU3: the child says what it wants of the part, and it compiles
+    decls = ("runtime one\n  add a, b\nruntime two extends one\n  exclude b\n  add c\n"
+             f"runtime child extends one, two\n{combinator}")
+    assert _runtimes(decls)["child"] == expect
+
+
+@pytest.mark.parametrize("decls,why", [
+    ("runtime r\n  add nowhere\n", "no part named nowhere"),                                  # RU4
+    ("runtime r extends ghost\n", "no runtime named ghost"),
+    ("runtime r extends s\nruntime s extends r\n", "in a cycle"),
+    ("runtime r\n  add a\nruntime r\n", "declared twice"),
+    ("runtime r\n  alter b -> c\n", "does not have"),
+    ("runtime r\n  add a, b\n  alter a -> b\n", "already has b"),
+    ("runtime r\n  add a\n  alter a to b\n", "expected `alter part -> part`"),
+    ("runtime r\n  include a\n", "no attribute `include`"),
+])
+def test_a_runtime_l_refuses(decls, why):
+    with pytest.raises(lang.LError, match=re.escape(why)):
+        _runtimes(decls)
+
+
+def test_a_hand_edit_to_the_runtimes_fails_the_check(tmp_path):
+    rj = tmp_path / "runtimes.json"
+    rj.write_text(lang.RUNTIMES_JSON.read_text().replace('"th24",\n', "", 1))
+    assert lang.check(lang.L_DIR, lang.LP_DIR, rj) == ["runtimes.json"]

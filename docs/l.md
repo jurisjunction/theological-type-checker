@@ -38,16 +38,24 @@ Edit the `.l` file, then build. Never edit a rule file by hand.
 | `norm id \| citation \| url` | `% @norm id \| citation \| url` | A canon, with its source (house rule 4). |
 | `end`, `temporal id`, `recursive id`, `stratum id divine\|supreme\|common` | `% @end`, `% @temporal id`, … | As norms.py reads them. |
 | `part model\|case\|switch\|candidate\|date\|search [of case]` | nothing | The kind of the `#program` block below, and its case. |
+| `runtime name [extends parent, ...]` + `add p, ...`, `exclude p, ...`, `alter p -> q` | `runtimes.json` | A school's parts, loaded whole, by inheritance. |
 | ```` ```clingo ```` … ```` ``` ```` | its lines | Raw clingo. |
 
 Attributes are indented two spaces under their declaration. Strings are
-quoted, with JSON's escapes. Lines beginning `--` are comments of L's and
+quoted, with JSON's escapes.
+
+A runtime is a set of parts, kept in the order of first mention. `add`
+appends, `exclude` removes, `alter p -> q` puts `q` where `p` was; a
+runtime records what it excludes and inherits the record. Two parents
+**clash** on a part one has and the other excludes; the child must then
+say `add`, `exclude` or `alter` for it, or it does not compile. No order
+between parents decides. A part a runtime names must exist. Lines beginning `--` are comments of L's and
 are not compiled.
 
 ## EXIT STATUS
 
-0 when the base is as its sources compile; 1 when a rule file differs or
-has no source; 2 when a source is refused (the file, the line and why).
+0 when the base is as its sources compile; 1 when a rule file or
+`runtimes.json` differs, or a rule file has no source; 2 when a source is refused (the file, the line and why).
 
 ## EXAMPLES
 
@@ -74,6 +82,9 @@ question(q(earth_moves)). question_kind(q(earth_moves),empirical).
 
 `src/theological_type_checker/lp/*.lp`
 : the compiled rule base.
+
+`src/theological_type_checker/runtimes.json`
+: the compiled runtimes, read by the engine.
 
 `tools/lp2l`
 : the converter that wrote the first sources from the hand-written base

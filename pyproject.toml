@@ -38,4 +38,4 @@ Repository = "https://radicle.network/nodes/iris.radicle.network/rad:z9REkMbmisa
 where = ["src"]
 
 [tool.setuptools.package-data]
-theological_type_checker = ["lp/*.lp", "l/*.l", "guide.md"]
+theological_type_checker = ["lp/*.lp", "l/*.l", "runtimes.json", "guide.md"]
