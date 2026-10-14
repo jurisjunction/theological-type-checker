@@ -416,7 +416,7 @@ the commit that adds its row.
 | SY1 | Held: every slot has a `say` naming each argument once, written by hand (425); a test renders each with its arguments and finds no name left. No rule file changed. |
 | M1 (OF, SY) | Held: no rule file changed byte for byte, so no output did. |
 | IS1 | Held: `act.l` names every `interior/3` supplied, and every one disputed, in every branch (two rules, each with a test that fails without it). In the snapshot the only change is these atoms, in 83 scenarios: the 80 whose parts supply or dispute an interior, and three of `c915_case` (MS3, MS5, MS5b), where c. 916 itself disputes one. No rule reads the atom (a test); nothing about the interior is derived. |
-| M1 (IS) | Held: only the atoms IS1 predicted. |
+| M1 (IS) | Held: only the atoms IS1 predicted. One test went red, FD4 (rule 7): it asked that no atom name `doubt_r`, meaning no censure and no canon, and the new atom names the pertinacity the case claims for it. The name is left aside; the check is otherwise as it was. |
 
 ### The slot, amended (SO1; rule 7)
 

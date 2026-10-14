@@ -486,9 +486,9 @@ def info_any(*subs):
         return ok, f"present: {', '.join(subs)}" if ok else "absent"
     return chk
 
-def info_none(*subs):
+def info_none(*subs, apart=()):
     def chk(r):
-        hit = sorted({f for b in r["branches"] for f in b["facts"] for s in subs if s in f})
+        hit = sorted({f for b in r["branches"] for f in b["facts"] for s in subs if s in f and not f.startswith(apart)})
         return not hit, "; ".join(hit) or f"none of: {', '.join(subs)}"
     return chk
 
@@ -2227,8 +2227,12 @@ scen("FD3", CO, "Formal heresy on the claims", FIL,
       only_with("info(faith_in_no_article_on_the_claims(theo_c))", "assumed_fact(interior(theo_c,prof_c,pertinacious))"),
       info_none("formal_heresy_on_the_claims(theo_o"), info_all("formal_heresy_on_the_claims(theo_q,doubt_q)")],
      "where pertinacity is claimed; never of the Orthodox theologian, of whom nothing is claimed", mode=B)
+# TTC-L IS1 (rule 7): the case's claim of pertinacity on doubt_r is now named in every branch,
+# info(interior_supplied(theo_r,doubt_r,pertinacious)); FD4 still asks that no censure and no canon
+# reach doubt_r, so that name is left aside.
 scen("FD4", CO, "Doubt", FIL + ["professions_anglican", "ecumenism", "lattice"],
-     [info_all("censure(doubt_q,heretical)"), info_none("censure(doubt_r", "doubt_r,")],
+     [info_all("censure(doubt_q,heretical)"),
+      info_none("censure(doubt_r", "doubt_r,", apart=("info(interior_supplied(",))],
      "a doubt of de fide teaching heretical; of definitive or authentic teaching, nothing, and no canon", mode=B)
 scen("FD5", CO, "Three offences", FIL + ["apostasy_case"],
      [info_all("apostasy_act(rep_x)", "delict(apost_x,n1364_1983,rep_x)", "delict(apost_y,n1364,rep_y)",
