@@ -1,5 +1,19 @@
 layer libraries
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort date
+  means "a day, YYYYMMDD"
+
+sort grade
+  means "a grade of orders"
+
+sort host
+  means "a host, or a part of one"
+
+sort rite_part
+  means "a part of a rite: its matter, its form, or another element"
+
 ```clingo
 % ===================================================================
 %  The sacraments: a standard library (TTC-CHRIST(7)).
@@ -27,47 +41,47 @@ library
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot due_form/2
+slot due_form(K: sacrament, F: rite_part)
   means "due_form(K, F): the form due to sacrament K"
 
-slot grade/1
+slot grade(G: grade)
   means "grade(G): a grade of orders"
 
-slot celebrated/4
+slot celebrated(E: act, Sacrament: sacrament, Minister: person, Recipient: person)
   means "celebrated(E, Sacrament, Minister, Recipient): a celebration a case records (outward)"
 
-slot celebration_date/2
+slot celebration_date(E: act, Date: date)
   means "celebration_date(E, Date)"
 
 use absolution/4 "the canon layer's input"
 
 use consecration/4 "the canon layer's input"
 
-slot matter_used/2
+slot matter_used(E: act, M: rite_part)
   means "matter_used(E, M): the matter, where a case records it"
 
-slot form_used/2
+slot form_used(E: act, F: rite_part)
   means "form_used(E, F): the form, where a case records it"
 
-slot simulated/1
+slot simulated(E: act)
   means "the rite was performed in jest or on a stage: an outward fact"
 
-slot contrary_intention_manifested/1
+slot contrary_intention_manifested(E: act)
   means "a contrary intention manifested outwardly (Apostolicae curae 33)"
 
-slot conditional/1
+slot conditional(E: act)
   means "the celebration was conferred conditionally (c. 845 §2)"
 
 use priest/1 "the canon layer's input"
 
-slot bishop/1
+slot bishop(P: person)
   means "the canon layer's input"
 
 use faculty_met/1 "canon_law.lp (c. 966 §1, c. 976, c. 144): the faculty to absolve, or the Church's supply"
 
 use confirms_by_law_or_faculty/1 "the canon layers (c. 882; CCEO c. 696): a presbyter confirms validly in this celebration"
 
-slot typed_ordinary_minister/2
+slot typed_ordinary_minister(P: person, Sacrament: sacrament)
   means "typed_ordinary_minister(P, Sacrament): a claim that P is the ordinary minister"
 
 use of_kind/2 "from the theological side (pair.lp): in this branch the thing is classified so"
@@ -78,43 +92,43 @@ use dispensed/2 "canon_law.lp (c. 85): dispensed(Law, X)"
 
 use interior/3 "act.lp: a claim, supplied or computed both ways"
 
-slot age_at/3
+slot age_at(Person: person, Act: act, Years: number)
   means "age_at(Person, Act, Years)"
 
 use incarnate/1 "the kernel"
 
-slot host_of/2
+slot host_of(E: act, H: host)
   means "host_of(E, H): a host consecrated in the celebration E"
 
-slot fragment_of/2
+slot fragment_of(H2: host, H: host)
   means "fragment_of(H2, H): a part of the species, separated"
 
-slot reserved/1
+slot reserved(H: host)
   means "the host is kept after the celebration"
 
-slot species_ceased/1
+slot species_ceased(H: host)
   means "the species no longer remain"
 
 use disputed/1 "a fact whose truth is disputed"
 
-slot presence_requires/1
+slot presence_requires(X: category)
   means "a theory's claim: Christ is present only in this (candidate: use)"
 
-slot presence_as/1
+slot presence_as(X: category)
   means "a theory's claim: Christ is present only as this (candidate: sign)"
 
 use requires_of_minister/2 "a theory's claim: validity requires this of the minister (candidate: grace)"
 
-slot same_sacrifice/2
+slot same_sacrifice(Offering: act, Of: act)
   means "same_sacrifice(Offering, passion): an offering joined to the one sacrifice of the cross"
 
-slot repeats/2
+slot repeats(Offering: act, Of: act)
   means "candidate only: repeats(Offering, passion), the offering typed as a second immolation"
 
-slot commemoration_only/1
+slot commemoration_only(M: act)
   means "candidate only: the offering typed as a bare commemoration"
 
-slot sacrifice_canons/1
+slot sacrifice_canons(Source: source)
   means "sacrifice_canons(Source): the canons on the sacrifice of the Mass"
 
 use in_force/1 "icon_authority.lp"

@@ -27,7 +27,7 @@ layer pair
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot premise/3
+slot premise(N: norm, Q: question, V: value)
   means "premise(N, Q, V): norm N presupposes V on Q"
 
 slot uncoupled/0

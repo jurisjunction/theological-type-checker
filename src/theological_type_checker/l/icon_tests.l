@@ -1,5 +1,13 @@
 layer theory
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort node
+  means "a point of a pattern a search maps"
+
+sort origin_kind
+  means "a kind of origin or procession"
+
 ```clingo
 % ===================================================================
 %  Stress tests. Each #program is either a candidate rule (a position
@@ -11,46 +19,46 @@ layer theory
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot c_edge/3
+slot c_edge(A: node, B: node, K: origin_kind)
   means "c_edge(A, B, K): an edge of kind K in the created pattern searched for an image"
 
-slot c_ind/1
+slot c_ind(X: node)
   means "c_ind(X): an individual of the created pattern"
 
-slot c_person/1
+slot c_person(X: node)
   means "c_person(X): a person of the created pattern"
 
-slot d_ind/1
+slot d_ind(X: node)
   means "d_ind(X): an individual of the divine pattern"
 
-slot d_person/1
+slot d_person(X: node)
   means "d_person(X): a person of the divine pattern"
 
-slot exercises_reason/2
+slot exercises_reason(X: entity, S: category)
   means "exercises_reason(X, S): X exercises reason at stage S"
 
-slot fam_o/3
+slot fam_o(A: node, B: node, K: origin_kind)
   means "fam_o(A, B, K): an origin of kind K in the family pattern"
 
 slot ignore_kinds/0
   means "the kinds of origin ignored in the search (a switch)"
 
-slot intense/2
+slot intense(X: entity, Y: entity)
   means "intense(X, Y): the friendship of X and Y claimed intense"
 
-slot kind_bridge/2
+slot kind_bridge(K1: origin_kind, K2: origin_kind)
   means "kind_bridge(K1, K2): a procession of kind K1 imaged by a created kind K2"
 
-slot married/1
+slot married(X: entity)
   means "married(X): X is married"
 
-slot src/1
+slot src(X: node)
   means "src(X): a point of the source pattern of the search"
 
-slot stage/2
+slot stage(X: entity, S: category)
   means "stage(X, S): X at the stage of life S"
 
-slot tgt/1
+slot tgt(X: node)
   means "tgt(X): a point of the target pattern of the search"
 
 ```clingo

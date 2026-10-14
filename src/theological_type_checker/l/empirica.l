@@ -1,5 +1,10 @@
 layer libraries
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort finding
+  means "a finding of the sciences"
+
 ```clingo
 % ===================================================================
 %  The empirical kind; how many human beings (TTC-EMPIRICA)
@@ -50,55 +55,55 @@ library
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot twin_reading_kind/1
+slot twin_reading_kind(R: reading)
   means "twin_reading_kind(R): a reading of a twinning (budding, fission, delayed, one soul)"
 
-slot finding/4
+slot finding(F: finding, Q: question, V: value, Year: year)
   means "finding(F, Q, V, Year): a finding of the sciences on a question, by its year"
 
-slot method/2
+slot method(F: finding, M: category)
   means "method(F, division): how a finding was reached, where a claim rests on it"
 
-slot censures_as_heresy/3
+slot censures_as_heresy(S: source, Q: question, V: value)
   means "censures_as_heresy(S, Q, V): the source censures value V of Q as heretical"
 
-slot censures_in_faith/3
+slot censures_in_faith(S: source, Q: question, V: value)
   means "censures_in_faith(S, Q, V): the source censures value V of Q as erroneous in faith"
 
-slot rests_on_finding/3
+slot rests_on_finding(S: source, Q: question, F: finding)
   means "rests_on_finding(S, Q, F): a source rests its value on Q on the finding F"
 
-slot consent_claimant/2
+slot consent_claimant(Text: source, C: claimant)
   means "consent_claimant(Text, C): who claims the Fathers' unanimous consent on the text"
 
-slot nothing_but/3
+slot nothing_but(Claim: claim, Whole: entity, F: finding)
   means "nothing_but(Claim, Whole, F): a claim that the whole is nothing but its parts, resting on F"
 
-slot about_the_parts/3
+slot about_the_parts(Claim: claim, Whole: entity, F: finding)
   means "about_the_parts(Claim, Whole, F): a claim about the parts, resting on F"
 
-slot form_of_the_body_given/1
+slot form_of_the_body_given(S: source)
   means "the source defines the rational soul the form of the human body (Vienne, DH 902)"
 
-slot twinning/3
+slot twinning(E: event, A: person, B: person)
   means "twinning(E, A, B): an embryo E becomes the twins A and B"
 
-slot contrary_acts_at_once/2
+slot contrary_acts_at_once(A: person, B: person)
   means "contrary_acts_at_once(A, B): the twins do contrary things at once, outwardly"
 
-slot died_while_other_lived/2
+slot died_while_other_lived(A: person, B: person)
   means "died_while_other_lived(A, B): A died and B lived on"
 
-slot baptized_each/2
+slot baptized_each(A: person, B: person)
   means "baptized_each(A, B): the Church baptized each of them absolutely"
 
-slot married_each/2
+slot married_each(A: person, B: person)
   means "married_each(A, B): each married, admitted by the Church"
 
-slot divides_the_soul/1
+slot divides_the_soul(E: event)
   means "candidate only: the soul of E divided between the twins"
 
-slot doubt_one_or_more/2
+slot doubt_one_or_more(E: event, Date: date)
   means "canon_law.lp: a birth at which it is doubted whether one human being or several"
 
 use question_kind/2 "icon_authority.lp"

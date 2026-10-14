@@ -1,5 +1,13 @@
 layer libraries
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort stage
+  means "a stage or state after death"
+
+sort theory
+  means "a theory of what follows death"
+
 ```clingo
 % ===================================================================
 %  The last things (TTC-NOVISSIMA)
@@ -49,70 +57,70 @@ library
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot after_death/1
+slot after_death(X: stage)
   means "after_death(X): a stage after death (purification, vision, hell)"
 
-slot calendar_unit/1
+slot calendar_unit(U: category)
   means "calendar_unit(U): a unit of the calendar (days, years)"
 
-slot stage/1
+slot stage(X: stage)
   means "stage(X): a stage after death the order knows"
 
-slot state_after_death/1
+slot state_after_death(X: stage)
   means "state_after_death(X): hell, purification or glory"
 
-slot gives_order/3
+slot gives_order(Source: source, A: stage, B: stage)
   means "gives_order(Source, A, B): the source gives stage A before stage B"
 
-slot without_end/2
+slot without_end(Stage: stage, Source: source)
   means "without_end(Stage, Source): the source gives the stage without end"
 
-slot places/3
+slot places(Theory: theory, A: stage, B: stage)
   means "places(Theory, A, B): a theory of what follows death places stage A before stage B"
 
-slot ends_in/3
+slot ends_in(Theory: theory, A: stage, B: stage)
   means "ends_in(Theory, A, B): a theory ends stage A in stage B"
 
-slot denies_subsistence/1
+slot denies_subsistence(T: theory)
   means "a theory: no soul subsists after death"
 
-slot gives_subsistence/1
+slot gives_subsistence(Source: source)
   means "gives_subsistence(Source): the source defines the intellective soul immortal"
 
-slot body_of/2
+slot body_of(Person: person, Body: entity)
   means "body_of(Person, Body): a body the person's soul informs, as a case records it"
 
-slot one_body_given/1
+slot one_body_given(Source: source)
   means "one_body_given(Source): the source gives each soul its own body, the one it now bears"
 
-slot raised/1
+slot raised(P: person)
   means "a person raised to earthly life, a raising (Jn 11)"
 
-slot rises_early/1
+slot rises_early(P: person)
   means "a bodily rising before the return, claimed of a person"
 
-slot general_rule_given/1
+slot general_rule_given(Source: source)
   means "general_rule_given(Source): the source gives the rising of bodies at the return"
 
-slot duration_claim/3
+slot duration_claim(Stage: stage, N: number, Unit: category)
   means "duration_claim(Stage, N, Unit): a duration laid on a stage after death"
 
-slot in_days/2
+slot in_days(Grant: act, N: number)
   means "canon_law.lp: in_days(Grant, N), an indulgence designated in days"
 
-slot days_read_as/2
+slot days_read_as(Grant: act, Measure: category)
   means "days_read_as(Grant, time_after_death): a grant's days read as a duration after death"
 
-slot separated_soul/1
+slot separated_soul(X: entity)
   means "a human soul after death, entered as such"
 
-slot placed_in/2
+slot placed_in(Person: person, State: stage)
   means "placed_in(Person, hell | purification | glory): a case places a named person in a state after death"
 
 slot nothing_carried_over/0
   means "candidate only: nothing of this world carried over to the end"
 
-slot lasts_claim/2
+slot lasts_claim(Element: rite_part, Ground: ground)
   means "lasts_claim(Element, charity): a claim that charity carries the element to the end"
 
 use in_force/1 "icon_authority.lp"

@@ -14,10 +14,10 @@ layer kernel
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot caused_by/2
+slot caused_by(E: event, C: event)
   means "caused_by(E, C): the event E is caused by C"
 
-slot happens_at/2
+slot happens_at(E: event, Point: event)
   means "happens_at(E, Point): an event placed at a point of the order"
 
 part switch

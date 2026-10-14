@@ -1,5 +1,25 @@
 layer libraries
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort teaching_type {principle, criterion, directive}
+  means "social teaching typed (CCC 2423)"
+
+sort valence {good, evil}
+  means "an effect's valence"
+
+sort circumstance
+  means "a circumstance of an act, or an element of a delict's matter"
+
+sort class
+  means "what a classification says a thing is, or a class of persons"
+
+sort effect
+  means "an effect of an act"
+
+sort kind
+  means "a kind of act"
+
 ```clingo
 % ===================================================================
 %  The morality of acts and sin: a standard library (TTC-MORAL(7)).
@@ -23,7 +43,7 @@ library
 
 ```
 
-slot kind_of_act/2
+slot kind_of_act(Act: act, Kind: kind)
   means "kind_of_act(Act, Kind): the kind of act a case says its act is (an outward fact)"
 
 use of_kind/2 "from the theological side (pair.lp): in this branch the kind is classified so"
@@ -36,46 +56,46 @@ use actus_humanus/2 "act.lp: an act from knowledge and deliberate will"
 
 use due_defence/2 "act.lp: the claim of legitimate defence with due moderation"
 
-slot forbids/2
+slot forbids(Law: law, Kind: kind)
   means "forbids(Law, Kind): a law forbids acts of this kind"
 
 use does_not_bind/1 "law.lp: a law contrary to a higher law does not bind"
 
-slot effect/3
+slot effect(Act: act, Effect: effect, V: valence)
   means "effect(Act, Effect, good | evil): an effect of the act (outward)"
 
-slot means/3
+slot means(Act: act, E1: effect, E2: effect)
   means "means(Act, E1, E2): the effect E1 is the means to E2 (outward)"
 
 use holds/2 "from the authority graph: the value a branch holds (q(direct_by))"
 
-slot object_is/2
+slot object_is(Act: act, E: effect)
   means "object_is(Act, E): the act consists in bringing about E (outward)"
 
-slot evil_kind_of/2
+slot evil_kind_of(E: effect, K: kind)
   means "evil_kind_of(E, K): an evil effect of this kind (e.g. killing_of_innocent)"
 
-slot prudential/2
+slot prudential(Act: act, Condition: condition)
   means "prudential(Act, Condition): the judgment of those responsible that a condition is met (CCC 2309); supplied, never computed"
 
-slot permitted_only_if/2
+slot permitted_only_if(Kind: kind, Condition: condition)
   means "permitted_only_if(Kind, Condition): acts of the kind are permitted only where the condition is met"
 
-slot denied/1
+slot denied(Condition: condition)
   means "denied(Condition): the theological side holds that the condition is not met today"
 
-slot commands/3
+slot commands(Law: law, Kind: kind, Occasion: circumstance)
   means "commands(Law, Kind, Occasion): an affirmative precept commands acts of the kind on the occasion"
 
-slot occasion/2
+slot occasion(Person: person, Occasion: circumstance)
   means "occasion(Person, Occasion): the occasion holds for the person"
 
-slot teaching_type/2
+slot teaching_type(S: source, T: teaching_type)
   means "teaching_type(Source, principle | criterion | directive) (CCC 2423)"
 
 use supports/3 "from the authority graph"
 
-slot classification/3
+slot classification(Q: question, E: entity, K: class)
   means "from the authority graph"
 
 use unbound/2 "canon_law.lp (c. 11): an ecclesiastical law does not bind the person"

@@ -189,3 +189,8 @@ info(character_imprinted(R,K))  :- sacramental_character(R,K,E), celebrated(E,_,
 info(fruit_on_the_claims(R,E))  :- fruit_on_the_claims(R,E).
 info(reborn_on_the_deposit(R,E)) :- reborn_on_the_deposit(R,E).
 info(present(X,H,sacramental))  :- present(X,H,sacramental), consecrated(H).
+
+% ---------- domains (L) ---------------------------------------------
+violation(outside_domain(due_form,1,K)) :- due_form(K,_), not in_sort(sacrament,K).
+violation(outside_domain(celebrated,2,Sacrament)) :- celebrated(_,Sacrament,_,_), not in_sort(sacrament,Sacrament).
+violation(outside_domain(typed_ordinary_minister,2,Sacrament)) :- typed_ordinary_minister(_,Sacrament), not in_sort(sacrament,Sacrament).

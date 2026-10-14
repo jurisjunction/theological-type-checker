@@ -26,7 +26,7 @@ use act_of/2 "who placed the act"
 
 use in_nature/2 "in_nature(Act, Nature): the nature by which the person places the act"
 
-slot instrument_of/2
+slot instrument_of(HumanAct: act, DivineAct: act)
   means "instrument_of(HumanAct, DivineAct): the human act as the divinity's instrument"
 
 use incarnate/1 "the kernel"

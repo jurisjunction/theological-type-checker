@@ -112,7 +112,7 @@ compiled text.
 | `act_of(P,A)`, `in_nature(A,K)`, `instrument_of(A,D)` | An act of a person, by a nature. The incarnate places a human act by the nature assumed, on a runtime that grants it an operation; one act in both natures is refused (DH 557). |
 | `classification(Q,P,without_actual_sin)` | The theological side says a person is without sin; claims composing a sin of that person are refused. Christ's is the kernel's (DH 301). |
 | `present(X,Place,Mode)` | Presence, typed by mode. The deposit's: `natural`, `sacramental`, `immensity`; Thomas's: `circumscriptive`, `definitive`. No rule compares two modes. Whether one body is circumscribed in two places is a runtime's. |
-| `celebrated(E,K,Minister,Recipient)`, `celebration_date(E,D)` | A sacrament celebrated: K is `baptism`, `confirmation`, `eucharist`, `penance`, `anointing`, `orders(G)`. Absolutions and consecrations are routed from the canon layer. |
+| `celebrated(E,K,Minister,Recipient)`, `celebration_date(E,D)` | A sacrament celebrated: K is `baptism`, `confirmation`, `eucharist`, `penance`, `anointing`, `orders(G)`; `matrimony` names the sacrament where a condition of it is at issue (a marriage is `marriage/3`, canon). Absolutions and consecrations are routed from the canon layer. |
 | `matter_used(E,M)`, `form_used(E,F)`, `contrary_intention_manifested(E)`, `simulated(E)`, `conditional(E)` | A recorded defect fails a condition; the intention is presumed from the rite rightly used (Apostolicae curae 33). |
 | `classification(Q,cond(K,C),of_substance)`, `classification(Q,form(K,F),valid_form)`, `classification(Q,L,of_divine_law)` | Which conditions are of the substance, which forms are valid, which laws are divine: teaching. A condition's law then decides whether it can be dispensed. |
 | `interior(R,E,no_obstacle)`, `age_at(R,E,Y)` | The fruit is composed on the claim; for an infant, "reborn" on the deposit (DH 1514). Neither is a state of grace. |
@@ -271,6 +271,7 @@ See [ttc-empirica(7)](research/empirica-preregistration.md).
 | `read_as/2`, `oum_holds/1`, `t2_truth`, `assumed_fact/1` | What it assumes. |
 | `weight(T,N)` | Disagreement at tier T. A preference, not a verdict. |
 | `violation(X)` | A rule is broken. Ask whether the rule or the text is wrong. |
+| `violation(outside_domain(Slot,N,V))` | Argument N of a slot holds V, outside its sort: a tier, a force, a character, a nature, a mode of presence, … (ttc-l(1)). |
 | `info(X)` | Noted. |
 | `frontier(Layer,X)` | Still to encode or read. |
 

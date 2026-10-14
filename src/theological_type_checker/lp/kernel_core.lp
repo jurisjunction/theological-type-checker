@@ -279,3 +279,13 @@ verdict(S,well_typed)          :- welltyped(S), not needs_q(S).
 #show theorem/1.
 #show verdict/2.
 #show info/1.
+
+% ---------- domains (L) ---------------------------------------------
+in_sort(presence_mode,(natural;sacramental;immensity;circumscriptive;definitive)).
+in_sort(nature,(hum;div)).
+violation(outside_domain(bodily,1,M)) :- bodily(M), not in_sort(presence_mode,M).
+violation(outside_domain(changes_in,2,K)) :- changes_in(_,K), not in_sort(nature,K).
+violation(outside_domain(in_nature,2,K)) :- in_nature(_,K), not in_sort(nature,K).
+violation(outside_domain(pred_nature,2,K)) :- pred_nature(_,K), not in_sort(nature,K).
+violation(outside_domain(presence_mode,1,M)) :- presence_mode(M), not in_sort(presence_mode,M).
+violation(outside_domain(present,3,Mode)) :- present(_,_,Mode), not in_sort(presence_mode,Mode).

@@ -1,5 +1,19 @@
 layer authority
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort sacrament {baptism, confirmation, eucharist, penance, anointing, orders(episcopate), orders(presbyterate), orders(diaconate), matrimony}
+  means "a sacrament, orders by its grade"
+
+sort church
+  means "a Church or ecclesial community"
+
+sort condition
+  means "a condition: of a permission, or of a sacrament"
+
+sort ground
+  means "a ground or reason a claim gives"
+
 ```clingo
 % ===================================================================
 %  Authority data: historical backtests and worked cases.
@@ -12,46 +26,46 @@ layer authority
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot attends/2
+slot attends(P: person, X: entity)
   means "attends(P, X): P attends X, an outward fact (never adherence)"
 
-slot bond_kind/1
+slot bond_kind(B: category)
   means "bond_kind(B): a bond of communion (LG 14; UR 3)"
 
-slot community/1
+slot community(C: church)
   means "community(C): a community whose bonds of communion are compared"
 
-slot condition_in_question/2
+slot condition_in_question(K: sacrament, C: condition)
   means "condition_in_question(K, C): asked whether condition C is of the substance of sacrament K"
 
-slot confessed/1
+slot confessed(P: person)
   means "confessed(P): P has confessed, an outward fact"
 
-slot continent/1
+slot continent(P: person)
   means "continent(P): P lives in continence (FC 84)"
 
-slot declared_by_authority/1
+slot declared_by_authority(P: person)
   means "declared_by_authority(P): P's adherence declared by competent authority"
 
-slot internal_forum_actor/1
+slot internal_forum_actor(A: person)
   means "internal_forum_actor(A): one who acts in the internal forum (a confessor)"
 
-slot irregular_union/1
+slot irregular_union(P: person)
   means "irregular_union(P): P lives in an irregular union, an outward fact"
 
-slot refuses/2
+slot refuses(X: person, T: source)
   means "refuses(X, T): X publicly refuses the teaching T"
 
-slot schism_basis/1
+slot schism_basis(B: ground)
   means "schism_basis(B): a ground c. 751 gives for schism"
 
-slot separated_body/1
+slot separated_body(C: church)
   means "separated_body(C): a community separated from full communion"
 
-slot silent/3
+slot silent(Person: person, Act: act, Q: question)
   means "silent(Person, Act, Q): an outward silence on the question"
 
-slot teaching_tier/2
+slot teaching_tier(T: source, K: tier)
   means "teaching_tier(T, K): the tier of the teaching T"
 
 slot theses_directive/0

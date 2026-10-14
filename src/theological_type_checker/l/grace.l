@@ -1,5 +1,10 @@
 layer libraries
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort grace
+  means "a grace, by its name"
+
 ```clingo
 % ===================================================================
 %  Grace: a standard library (TTC-MORAL(7)).
@@ -34,18 +39,18 @@ use read_as/2 "from the authority graph: the reading a branch takes of an ambigu
 
 use holds_reading/2 "a runtime's reading (schools.lp)"
 
-slot salutary/2
+slot salutary(P: person, A: act)
   means "salutary(P, A): an act ordered to salvation (faith, hope, love, repentance)"
 
-slot beginning_of_faith/2
+slot beginning_of_faith(P: person, A: act)
   means "beginning_of_faith(P, A): the first assent of faith"
 
 use justification/2 "justification(P, A): the act in which P, moved by grace, assents to justification"
 
-slot moved_by/3
+slot moved_by(P: person, A: act, G: grace)
   means "moved_by(P, A, G): grace G moves P in the act A"
 
-slot efficacious/1
+slot efficacious(G: grace)
   means "efficacious(G): grace that in fact achieves its effect"
 
 slot grace_uncreated/0

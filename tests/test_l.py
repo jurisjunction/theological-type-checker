@@ -247,7 +247,7 @@ def test_every_slot_is_declared_once():
     # case enters: one no rule derives, or one the guide gives to enter though
     # a rule also derives it (source/4, interior/3). Declared twice fails.
     reads, derived = _base_reads_and_derives()
-    want = (reads - derived) | ((_guide_inputs() | GUIDE_PROSE) & reads)
+    want = (reads - derived - lang.GENERATED) | ((_guide_inputs() | GUIDE_PROSE) & reads)
     assert set(lang.slots(lang.sources())) == want
 
 
@@ -260,28 +260,42 @@ ROUTED = {("consecration", 4): "canon_law.l", ("absolution", 4): "canon_law.l"}
 def test_each_slot_is_declared_in_the_lowest_layer_that_reads_it():
     srcs = lang.sources()
     order = sorted(srcs, key=lambda f: (lang.LAYERS.index(srcs[f].layer), engine.FILES.index(f)))
-    reads_in = {f: engine.signatures(srcs[f].compile(), f)["reads"] for f in srcs}
+    texts = lang.compiled(srcs, domains=False)
+    reads_in = {f: engine.signatures(texts[f], f)["reads"] for f in srcs}
     for sig, d in lang.slots(srcs).items():
         lowest = next(f for f in order if sig in reads_in[f])
         assert d.where == ROUTED.get(sig, lowest[:-3] + ".l"), sig
 
 
+READ_P = '```clingo\nq :- p(1).\n```\n'
+SORT_S = 'sort s\n  means "m"\n'
+SLOT_P = 'slot p(X: s)\n  means "m"\n'
+
+
 @pytest.mark.parametrize("files,why", [
-    ({"a.lp": 'layer kernel\nslot p/1\n  means "m"\n```clingo\nq :- p(1).\n```\n',
-      "b.lp": 'layer theory\nslot p/1\n  means "m"\n'}, "declared already (a.l:2)"),
-    ({"a.lp": 'layer kernel\nslot p/1\n  means "m"\n```clingo\nq.\n```\n'}, "slot p/1: no rule reads it"),
-    ({"a.lp": 'layer kernel\nuse r/1 "x"\n```clingo\nq :- p(1).\n```\n'}, "use r/1: no file declares or derives it"),
+    ({"a.lp": 'layer kernel\n' + SORT_S + SLOT_P + READ_P,
+      "b.lp": 'layer theory\n' + SLOT_P}, "declared already (a.l:4)"),
+    ({"a.lp": 'layer kernel\n' + SORT_S + SLOT_P + '```clingo\nq.\n```\n'}, "slot p/1: no rule reads it"),
+    ({"a.lp": 'layer kernel\nuse r/1 "x"\n' + READ_P}, "use r/1: no file declares or derives it"),
+    # TY1: every argument has a sort, declared once, used, and not above its slot
+    ({"a.lp": 'layer kernel\nslot p/1\n  means "m"\n' + READ_P}, "slot p/1: its arguments have no sorts"),
+    ({"a.lp": 'layer kernel\n' + SLOT_P + READ_P}, "slot p/1: no sort named s"),
+    ({"a.lp": 'layer kernel\n' + SORT_S + SLOT_P + READ_P, "b.lp": 'layer theory\n' + SORT_S},
+     "sort s is declared already (a.l:2)"),
+    ({"a.lp": 'layer kernel\n' + SORT_S + 'sort t\n' + SLOT_P + READ_P}, "sort t: no slot uses it"),
+    ({"a.lp": 'layer kernel\n' + SLOT_P + READ_P, "b.lp": 'layer theory\n' + SORT_S},
+     "slot p/1: sort s is declared in a higher layer (b.l)"),
 ])
 def test_the_slots_l_refuses(files, why):
-    # SO3 and the one slot per predicate
+    # SO3, the one slot per predicate, and TY1
     srcs = {n: lang.parse(t, n[:-3] + ".l") for n, t in files.items()}
     with pytest.raises(lang.LError, match=re.escape(why)):
         lang.validate(srcs)
 
 
 def test_a_use_of_a_derived_predicate_and_a_slot_read_compile():
-    lang.validate({"a.lp": lang.parse('layer kernel\nslot p/1\n  means "m"\nuse q/0 "derived here"\n'
-                                      '```clingo\nq :- p(1).\n```\n', "a.l")})
+    lang.validate({"a.lp": lang.parse('layer kernel\n' + SORT_S + SLOT_P + 'use q/0 "derived here"\n' + READ_P,
+                                      "a.l")})
 
 
 def test_a_part_is_a_case_where_it_states_its_questions():
@@ -357,3 +371,169 @@ def test_the_clocks_slot_is_not_an_unused_input():
     from theological_type_checker import norms
     assert ("custom_asof", 0) in lang.slots(lang.sources())
     assert norms.check()["unused_inputs"] == []
+
+
+# ---------- TY: sorts and domains ------------------------------------------
+TYPED = '''layer authority
+
+sort force {truth, juridical, protective}
+  means "a source's force"
+sort tier 0..5
+  means "a tier"
+sort source
+  means "a source"
+
+slot source(S: source, T: tier, F: force, Y: source)
+  means "source(S, T, F, Y)"
+
+part case
+```clingo
+#program demo.
+source(s,3,truth,y).
+```
+'''
+
+
+def test_a_closed_sort_compiles_to_its_domain():
+    out = lang.parse(TYPED, "t.l").compile()
+    assert out.endswith("\n% ---------- domains (L) " + "-" * 45 + "\n#program base.\n"
+                        "in_sort(force,(truth;juridical;protective)).\nin_sort(tier,0..5).\n"
+                        "violation(outside_domain(source,2,T)) :- source(_,T,_,_), not in_sort(tier,T).\n"
+                        "violation(outside_domain(source,3,F)) :- source(_,_,F,_), not in_sort(force,F).\n")
+    src = lang.parse(TYPED, "t.l")
+    assert lang.parse(src.text(), "t.l").compile() == out
+
+
+@pytest.mark.parametrize("decl,why", [
+    ("sort s {a, a}\n", "a value given twice"),
+    ("sort s {a, B}\n", "not a value: B"),
+    ("sort s a..b\n", "expected {values} or a range"),
+    ("slot p(x: s)\n", "expected `Arg: sort`"),
+    ("slot p(X s)\n", "expected `Arg: sort`"),
+])
+def test_a_sort_l_refuses(decl, why):
+    with pytest.raises(lang.LError, match=re.escape(why)):
+        lang.parse("layer kernel\n" + decl, "bad.l")
+
+
+def test_each_sort_is_declared_in_the_lowest_layer_whose_slots_use_it():
+    # TY1
+    srcs = lang.sources()
+    order = sorted(srcs, key=lambda f: (lang.LAYERS.index(srcs[f].layer), engine.FILES.index(f)))
+    users = {}
+    for d in lang.slots(srcs).values():
+        for _, sort in d.args or []:
+            users.setdefault(sort, set()).add(d.where[:-2] + ".lp")
+    for name, s in lang.all_sorts(srcs).items():
+        assert s.where == next(f for f in order if f in users[name])[:-3] + ".l", name
+
+
+# The closed sorts, from the guide's tables (TTC-L, Domains): pasted.
+CLOSED = {"tier", "force", "question_kind", "papal_form", "character", "conciliar_act", "shown_condition",
+          "object", "presence_mode", "nature", "sacrament", "teaching_type", "valence"}
+
+
+def _domain_args():
+    srcs = lang.sources()
+    sorts = lang.all_sorts(srcs)
+    return sorts, [(d, i, sorts[s]) for d in lang.slots(srcs).values()
+                   for i, (_, s) in enumerate(d.args or []) if sorts[s].closed]
+
+
+def _inside(sort):
+    return str(sort.range[0]) if sort.range else sort.values[0]
+
+
+def _fact(d, i, value, sorts_of):
+    args = [_inside(sorts_of[j]) if j in sorts_of else "x" for j in range(d.arity)]
+    args[i] = value
+    return f"{d.name}({','.join(args)})."
+
+
+def test_the_closed_sorts_are_the_guides():
+    sorts, _ = _domain_args()
+    assert {n for n, s in sorts.items() if s.closed} == CLOSED
+
+
+def test_a_value_outside_its_sort_is_a_violation_and_one_inside_is_not():
+    # TY2, M3: every generated domain rule, through a snippet, at once
+    sorts, args = _domain_args()
+    closed_at = {}
+    for d, i, s in args:
+        closed_at.setdefault(d.sig, {})[i] = s
+    outside = [_fact(d, i, "out_of_sort", closed_at[d.sig]) for d, i, _ in args]
+    want = {f"violation(outside_domain({d.name},{i + 1},out_of_sort))" for d, i, _ in args}
+    r = engine.solve([], "one", facts="\n".join(outside))
+    assert {a for a in r["atoms"] if "outside_domain" in a} == want
+    inside = [_fact(d, i, _inside(s), closed_at[d.sig]) for d, i, s in args]
+    r = engine.solve([], "one", facts="\n".join(inside))
+    assert r["sat"] and not [a for a in r["atoms"] if "outside_domain" in a]
+    assert {s.name for _, _, s in args} == CLOSED          # a test per closed sort
+
+
+# TY3: the one fact of the base outside its sort, after scoring: a candidate
+# that enters a mode no one knows, to be refused (untyped_presence).
+OUTSIDE = {("present", 3, "located", "cand_mode_unknown")}
+
+
+def test_no_fact_of_the_base_is_outside_its_sort_but_a_candidates():
+    from clingo import ast
+    sorts, args = _domain_args()
+    closed = {(d.sig, i): s for d, i, s in args}
+    found = set()
+    for f, src in lang.sources().items():
+        part = None
+        for item in src.items:
+            if isinstance(item, lang.Part):
+                part = item.name
+            if not isinstance(item, lang.Fence):
+                continue
+
+            def on(st, part=part):
+                if st.ast_type != ast.ASTType.Rule:
+                    return
+
+                def walk(n):
+                    if isinstance(n, ast.AST):
+                        if n.ast_type == ast.ASTType.SymbolicAtom and n.symbol.ast_type == ast.ASTType.Function:
+                            sig = (n.symbol.name, len(n.symbol.arguments))
+                            for i, a in enumerate(n.symbol.arguments):
+                                s = closed.get((sig, i))
+                                text = str(a)
+                                if not s or text[:1].isupper() or text == "_" or ".." in text:
+                                    continue
+                                for v in (text[1:-1].split(";") if text.startswith("(") else [text]):
+                                    inside = (s.range[0] <= int(v) <= s.range[1]) if s.range else v in s.values
+                                    if not inside:
+                                        found.add((sig[0], i + 1, v, part))
+                        for k in n.child_keys:
+                            walk(getattr(n, k))
+                    elif isinstance(n, (list, tuple)):
+                        for x in n:
+                            walk(x)
+                walk(st.head)
+            ast.parse_string("\n".join(item.lines), on)
+    assert found == OUTSIDE
+
+
+def test_nothing_reads_the_domains_but_the_domain_rules():
+    # SR1: no rule body reads outside_domain; only the domain rules read in_sort/2
+    from clingo import ast
+    srcs = lang.sources()
+    for f, text in lang.compiled(srcs).items():
+        generated = text.split(lang.DOMAINS_HEADER)[1] if lang.DOMAINS_HEADER in text else ""
+        own = text.split(lang.DOMAINS_HEADER)[0]
+        bodies = []
+        ast.parse_string(own, lambda st: bodies.append(" ".join(str(b) for b in st.body))
+                         if st.ast_type == ast.ASTType.Rule else None)
+        assert not [b for b in bodies if "outside_domain" in b or "in_sort(" in b], f
+        rules = [line for line in generated.splitlines() if ":-" in line]
+        assert all(re.match(r"^violation\(outside_domain\(\w+,\d+,\w+\)\) :- \w+\([^)]*\), not in_sort\(\w+,\w+\)\.$",
+                            r) for r in rules), f
+
+
+def test_the_gate_knows_no_more_than_before():
+    # TY4: in_sort/2 is L's, not a case's; the summary's schema stays 1
+    assert engine.unknown_slots("in_sort(force,bogus).") == ["unknown_slot(in_sort/2)"]
+    assert engine.unknown_slots("source(s,3,truth,2000).") == []
+    assert engine.SCHEMA == 1

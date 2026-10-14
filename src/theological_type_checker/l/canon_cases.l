@@ -815,7 +815,7 @@ part switch
 ```clingo
 #program ectopic.                   % HYPOTHETICAL: the damaged tube removed; the embryo removed; its growth stopped by a drug
 act_of(doctor_e,tube_out). kind_of_act(tube_out,salpingectomy).
-effect(tube_out,mother_saved,good). effect(tube_out,tube_removed,neutral). means(tube_out,tube_removed,mother_saved).
+effect(tube_out,mother_saved,good). means(tube_out,tube_removed,mother_saved).   % the means: no valence entered, so not evil (TTC-L TY3)
 effect(tube_out,death_of_embryo_s,evil). evil_kind_of(death_of_embryo_s,killing_of_innocent).
 interior(doctor_e,tube_out,evil_unintended). interior(doctor_e,tube_out,proportionate_reason).
 act_of(doctor_t,embryo_out). kind_of_act(embryo_out,extraction_of_ectopic_fetus).   % salpingostomy

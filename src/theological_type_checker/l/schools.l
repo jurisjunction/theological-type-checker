@@ -1,5 +1,10 @@
 layer schools
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort person
+  means "a person a case names, physical or juridic, or a group"
+
 -- The runtimes (TTC-SCHOOLS; TTC-L, RU). Each is a school's parts loaded
 -- whole; compiled to runtimes.json, which the engine reads.
 runtime bare
@@ -38,16 +43,16 @@ runtime palamite extends default
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot foreseen/2
+slot foreseen(E: event, C: event)
   means "foreseen(E, C): E caused by C as foreseen (merits foreseen)"
 
-slot justification/2
+slot justification(P: person, A: act)
   means "justification(P, A): the act in which P, moved by grace, assents to justification"
 
-slot univocal_concept/1
+slot univocal_concept(F: perfection)
   means "univocal_concept(F): F a concept said univocally of God and creatures (Scotus)"
 
-slot virginally_conceived/1
+slot virginally_conceived(X: entity)
   means "virginally_conceived(X): X conceived by the Holy Spirit, not by propagation"
 
 part switch

@@ -32,7 +32,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | liturgy | the liturgy as witness, rite and development; one book, two sources; the substance kept, the rest law; rites in time | done ([ttc-liturgy(7)](research/liturgy-preregistration.md)) |
 | last things | the order after death given by definitions, never measured by the calendar; the vision deferred and defined; the end early; no one's state computed; what lasts; one sacrifice in many times | done ([ttc-novissima(7)](research/novissima-preregistration.md)) |
 | empirical | the empirical kind: no tier settles it, a finding does, and a finding settles no doctrine; Galileo and the Big Bang; method and being; how many human beings | done ([ttc-empirica(7)](research/empirica-preregistration.md)) |
-| L | a language for libraries, compiled to clingo: declarations as metaclasses; runtimes by inheritance, three combinators, clashes refused; slots declared once, with sorts, domains, layers and sentences; parts naming their case; premises kept apart from conclusions | in progress: regeneration, runtimes, slots and layers done ([ttc-l(7)](research/l-preregistration.md)) |
+| L | a language for libraries, compiled to clingo: declarations as metaclasses; runtimes by inheritance, three combinators, clashes refused; slots declared once, with sorts, domains, layers and sentences; parts naming their case; premises kept apart from conclusions | in progress: regeneration, runtimes, slots, layers and sorts done ([ttc-l(7)](research/l-preregistration.md)) |
 | churches | other Churches and ecclesial communities: succession, sacraments, *subsistit in* | to predict, after L |
 | senses | the senses and the routes to words: sensibles typed, schemes by culture, the interior senses; words by hearing, sight, hand and touch; perception's claims as premises | to predict, after L |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
@@ -407,7 +407,8 @@ The notes below remain.
 
 Done: the base regenerated from L byte for byte; the runtimes by
 inheritance; 425 slots declared once, each with its side, which
-`save_case` reads (the hand lists are gone). Found on the way (SCORING):
+`save_case` reads (the hand lists are gone); every argument sorted, the
+guide's 13 closed sorts enforced (`outside_domain`). Found on the way (SCORING):
 a slot is what a case enters, so the guide's inputs that a rule also
 derives (`source/4`, `interior/3`) are slots; the libraries' slots go on
 either side; and 22 parts of `canon_cases.l` enter theology (hypothetical
@@ -472,7 +473,7 @@ L first: runtime inheritance and the three combinators only.
   - **Typed slots.** Each argument's sort and domain on the declaration
     (`S:source T:tier(0..5) F:{truth,juridical,protective}`), enforced:
     an argument outside its domain is a violation, as `untyped_presence`
-    is now.
+    is now. Done (L, TY).
   - **One declaration per slot,** in the file of its layer. Done (L, SO
     and LY): the side read off the declaring file replaced
     `server.THEOLOGY_ONLY` and `CANON_ONLY`.

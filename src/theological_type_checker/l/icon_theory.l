@@ -1,5 +1,10 @@
 layer theory
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort number
+  means "a count"
+
 ```clingo
 % ===================================================================
 %  The Grammar of the Icon: one theory, running on the kernel.
@@ -19,40 +24,40 @@ layer theory
 slot a9_universal/0
   means "the old reading of A9: every person is bridal, welcomed or not (a switch)"
 
-slot band/1
+slot band(L: category)
   means "band(L): a level at which a finite nature cannot generate alone"
 
-slot bridegroom/1
+slot bridegroom(C: entity)
   means "bridegroom(C): C is the bridegroom"
 
-slot capable_closing/2
+slot capable_closing(X: entity, Y: entity)
   means "capable_closing(X, Y): X and Y capable of the closing act (c. 1084)"
 
-slot closed_in_act/3
+slot closed_in_act(A: act, X: entity, Y: entity)
   means "closed_in_act(A, X, Y): X and Y closed in the act A"
 
-slot consent/2
+slot consent(X: entity, Y: entity)
   means "consent(X, Y): X consents to Y"
 
-slot level/2
+slot level(X: entity, L: category)
   means "level(X, L): X's level in the order of natures"
 
-slot obligate_sexual/1
+slot obligate_sexual(K: category)
   means "obligate_sexual(K): a kind that generates only by two"
 
-slot performs/4
+slot performs(A: act, X: entity, Y: entity, M: category)
   means "performs(A, X, Y, M): in act A, X and Y perform the motif M"
 
-slot proposed_bond/2
+slot proposed_bond(X: entity, Y: entity)
   means "proposed_bond(X, Y): a bond between X and Y put forward"
 
-slot self_gift_measure/2
+slot self_gift_measure(V: category, M: number)
   means "self_gift_measure(V, M): a measure M laid on the gift of self in state V"
 
-slot total/2
+slot total(X: entity, Y: entity)
   means "total(X, Y): X gives himself wholly to Y"
 
-slot uses/1
+slot uses(T: category)
   means "uses(T): the theory T is loaded (the Grammar of the Icon)"
 
 ```clingo

@@ -1,5 +1,10 @@
 layer libraries
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort rite
+  means "a rite, by its book"
+
 ```clingo
 % ===================================================================
 %  The liturgy: witness, rite and development (TTC-LITURGY)
@@ -49,39 +54,39 @@ library
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot liturgy_shows/1
+slot liturgy_shows(C: shown_condition)
   means "liturgy_shows(C): a condition of LG 25 a universal prayer shows"
 
 use liturgical_witness/1 "the prayer a liturgical book holds, entered as a witness (a source)"
 
-slot fixes/2
+slot fixes(Witness: source, Q: question)
   means "candidate only: fixes(Witness, Q), a liturgy treated as settling a doctrinal question"
 
-slot rests_on_liturgy/2
+slot rests_on_liturgy(Claim: source, Witness: source)
   means "rests_on_liturgy(Claim, Witness): a claim of the ordinary universal magisterium argued from a prayer"
 
-slot universal_witness/1
+slot universal_witness(W: source)
   means "the prayer is in the books of the universal Church, approved by bishops in communion with the Roman Pontiff"
 
-slot prayed_in/2
+slot prayed_in(Witness: source, Church: church)
   means "prayed_in(Witness, Church): a Church that prays it"
 
-slot in_use_from/2
+slot in_use_from(Witness: source, Year: year)
   means "in_use_from(Witness, Year)"
 
-slot prayed_by/2
+slot prayed_by(Witness: source, Who: category)
   means "prayed_by(Witness, bishops | faithful)"
 
-slot changes/2
+slot changes(Act: act, Witness: source)
   means "changes(Act, Witness): a change by competent authority to a prayed element"
 
-slot changes_condition/3
+slot changes_condition(Act: source, Sacrament: sacrament, Condition: condition)
   means "changes_condition(Act, Sacrament, Condition): a liturgical book changes a condition of a sacrament"
 
-slot derives_from/2
+slot derives_from(Rite: rite, Parent: rite)
   means "derives_from(Rite, Parent): a rite descending from another"
 
-slot binds_because/2
+slot binds_because(Element: rite_part, Ground: ground)
   means "candidate only: binds_because(Element, Ground), an element typed as binding on this ground"
 
 use oum_claim/2 "icon_authority.lp"

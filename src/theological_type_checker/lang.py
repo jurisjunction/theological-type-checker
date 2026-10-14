@@ -27,6 +27,11 @@ RUNTIMES_JSON = HERE / "runtimes.json"
 
 FENCE_OPEN = "```clingo"
 FENCE_CLOSE = "```"
+DOMAINS_HEADER = "% ---------- domains (L) " + "-" * 45
+
+# What L itself writes into the base, never a case: the closed sorts'
+# values, read only by the domain rules (SR1).
+GENERATED = {("in_sort", 2)}
 
 # Layers, lowest first (TTC-L, THE LANGUAGE). A slot is declared in the
 # lowest layer whose rules read it; sides for a case follow the layer. The
@@ -132,10 +137,23 @@ class Slot(Decl):
     attributes = ("means", "say")
 
     def parse(self, head):
+        """`name/n`, or typed: `name(A: sort, B: sort)` (TY). A typed slot's
+        arguments are clingo variables, each with a sort."""
+        self.args: list[tuple[str, str]] | None = None
         m = SIG.match(head)
+        if m:
+            self.name, self.arity = m.group(1), int(m.group(2))
+            return
+        m = re.match(rf"^({NAME})\((.+)\)$", head)
         if not m:
-            raise LError(self.where, self.line, f"expected name/arity, got {head!r}")
-        self.name, self.arity = m.group(1), int(m.group(2))
+            raise LError(self.where, self.line, f"expected name/arity or name(Arg: sort, ...), got {head!r}")
+        self.name, args = m.group(1), []
+        for part in m.group(2).split(","):
+            a = re.match(rf"^\s*([A-Z][A-Za-z0-9_]*)\s*:\s*({NAME})\s*$", part)
+            if not a:
+                raise LError(self.where, self.line, f"expected `Arg: sort`, got {part.strip()!r}")
+            args.append((a.group(1), a.group(2)))
+        self.args, self.arity = args, len(args)
 
     @property
     def sig(self):
@@ -145,6 +163,80 @@ class Slot(Decl):
         if "means" not in self.attrs:
             raise LError(self.where, self.line, f"slot {self.name}/{self.arity} has no `means`")
         return [f"% @input {self.name}/{self.arity} | {self.attrs['means']}"]
+
+    def source(self):
+        lines = super().source()
+        if self.args:
+            lines[0] = f"slot {self.name}(" + ", ".join(f"{a}: {s}" for a, s in self.args) + ")"
+        return lines
+
+
+class Sort(Decl):
+    """A sort of slot argument (TY): open (`sort source`, named and served,
+    not enforced), or closed, by values (`sort force {truth, juridical}`) or
+    by a range (`sort tier 0..5`). A closed sort compiles to `in_sort/2`
+    facts, and each slot argument of it to one rule, in the domains section
+    at the end of the file (`Source.compile`). Declared once, in the lowest
+    layer whose slots use it."""
+    keyword = "sort"
+    attributes = ("means",)
+
+    def parse(self, head):
+        m = re.match(rf"^({NAME})(?:\s+(.*))?$", head)
+        if not m:
+            raise LError(self.where, self.line, "expected `sort name`, `sort name {a, b}` or `sort name 0..5`")
+        self.name, rest = m.group(1), (m.group(2) or "").strip()
+        self.values: list[str] | None = None
+        self.range: tuple[int, int] | None = None
+        if not rest:
+            return
+        r = re.match(r"^(-?\d+)\.\.(-?\d+)$", rest)
+        if r:
+            self.range = (int(r.group(1)), int(r.group(2)))
+            return
+        if not (rest.startswith("{") and rest.endswith("}")):
+            raise LError(self.where, self.line, f"sort {self.name}: expected {{values}} or a range, got {rest!r}")
+        values = [v.strip() for v in _split_top(rest[1:-1])]
+        term = re.compile(rf"^(?:-?\d+|{NAME}(?:\((?:{NAME}|-?\d+)(?:,\s*(?:{NAME}|-?\d+))*\))?)$")
+        bad = [v for v in values if not term.match(v)]
+        if not values or bad:
+            raise LError(self.where, self.line, f"sort {self.name}: not a value: {', '.join(bad) or '(none)'}")
+        if len(set(values)) != len(values):
+            raise LError(self.where, self.line, f"sort {self.name}: a value given twice")
+        self.values = values
+
+    @property
+    def closed(self):
+        return self.values is not None or self.range is not None
+
+    def in_sort(self) -> str:
+        if self.range:
+            return f"in_sort({self.name},{self.range[0]}..{self.range[1]})."
+        if len(self.values) == 1:
+            return f"in_sort({self.name},{self.values[0]})."
+        return f"in_sort({self.name},({';'.join(self.values)}))."
+
+    def source(self):
+        lines = [f"sort {self.name}"]
+        if self.range:
+            lines[0] += f" {self.range[0]}..{self.range[1]}"
+        elif self.values:
+            lines[0] += " {" + ", ".join(self.values) + "}"
+        return lines + [f"  {k} {_quote(v)}" for k, v in self.attrs.items()]
+
+
+def _split_top(s: str) -> list[str]:
+    out, depth, cur = [], 0, ""
+    for ch in s:
+        depth += ch in "({["
+        depth -= ch in ")}]"
+        if ch == "," and depth == 0:
+            out.append(cur)
+            cur = ""
+        else:
+            cur += ch
+    out.append(cur)
+    return [x for x in out if x.strip()]
 
 
 class Use(Decl):
@@ -335,9 +427,33 @@ class Source:
     def decls(self, kind):
         return [d for d in self.items if isinstance(d, kind)]
 
-    def compile(self) -> str:
+    def compile(self, sorts: dict[str, Sort] | None = None, domains: bool = True) -> str:
+        """The rule file. With `sorts` (every sort of the base, by name), a
+        typed slot's arguments of a closed sort are checked against it in the
+        domains section; without, only this file's sorts are known."""
         lines = [line for item in self.items for line in item.render()]
+        if domains:
+            lines += self.domains(sorts if sorts is not None else {s.name: s for s in self.decls(Sort)})
         return "\n".join(lines) + "\n"
+
+    def domains(self, sorts: dict[str, Sort]) -> list[str]:
+        """The domains section (TY): `in_sort/2` for each closed sort declared
+        here, and for each argument of a closed sort, one rule naming the
+        slot, the argument's position and the value. Under `#program base`
+        where the file has parts."""
+        body = [s.in_sort() for s in self.decls(Sort) if s.closed]
+        for d in self.decls(Slot):
+            for i, (var, sort) in enumerate(d.args or []):
+                if sort not in sorts:
+                    raise LError(self.name, d.line, f"slot {d.name}/{d.arity}: no sort named {sort}")
+                if sorts[sort].closed:
+                    pattern = ",".join(var if j == i else "_" for j in range(d.arity))
+                    body.append(f"violation(outside_domain({d.name},{i + 1},{var})) :- "
+                                f"{d.name}({pattern}), not in_sort({sort},{var}).")
+        if not body:
+            return []
+        head = ["", DOMAINS_HEADER] + (["#program base."] if self.decls(Part) else [])
+        return head + body
 
     def text(self) -> str:
         """The source as L writes it."""
@@ -462,25 +578,61 @@ def slots(srcs: dict[str, Source]) -> dict[tuple[str, int], Slot]:
                 first = out[d.sig]
                 raise LError(d.where, d.line, f"slot {d.name}/{d.arity} is declared already "
                              f"({first.where}:{first.line}); say `use` here")
-            d.side = SIDE[src.layer]
+            d.layer, d.side = src.layer, SIDE[src.layer]
             out[d.sig] = d
     return out
+
+
+def all_sorts(srcs: dict[str, Source]) -> dict[str, Sort]:
+    """Every sort, by name. A sort declared twice is refused."""
+    out: dict[str, Sort] = {}
+    for src in srcs.values():
+        for s in src.decls(Sort):
+            if s.name in out:
+                first = out[s.name]
+                raise LError(s.where, s.line, f"sort {s.name} is declared already ({first.where}:{first.line})")
+            s.layer = src.layer
+            out[s.name] = s
+    return out
+
+
+def compiled(srcs: dict[str, Source], domains: bool = True) -> dict[str, str]:
+    """Each rule file, compiled with every sort of the base known."""
+    sorts = all_sorts(srcs)
+    return {name: src.compile(sorts, domains) for name, src in srcs.items()}
 
 
 def validate(srcs: dict[str, Source]) -> None:
     """What the declarations say against the rules the fences hold, read by
     clingo's own parser: every slot is read by some rule, and every `use`
-    names a predicate some file declares or derives (SO3)."""
+    names a predicate some file declares or derives (SO3). Every argument
+    of a slot has a sort; a sort is used, by slots of its layer or above
+    (TY1)."""
     from . import engine
     declared = slots(srcs)
+    sorts = all_sorts(srcs)
     reads, derived = set(), set()
-    for name, src in srcs.items():
-        s = engine.signatures(src.compile(), name)
+    for name, text in compiled(srcs, domains=False).items():
+        s = engine.signatures(text, name)
         reads |= s["reads"]
         derived |= s["derived"]
+    used: set[str] = set()
     for d in declared.values():
         if d.sig not in reads:
             raise LError(d.where, d.line, f"slot {d.name}/{d.arity}: no rule reads it")
+        if d.arity and d.args is None:
+            raise LError(d.where, d.line, f"slot {d.name}/{d.arity}: its arguments have no sorts; "
+                         f"write `slot {d.name}(Arg: sort, ...)`")
+        for _, sort in d.args or []:
+            if sort not in sorts:
+                raise LError(d.where, d.line, f"slot {d.name}/{d.arity}: no sort named {sort}")
+            if LAYERS.index(sorts[sort].layer) > LAYERS.index(d.layer):
+                raise LError(d.where, d.line, f"slot {d.name}/{d.arity}: sort {sort} is declared in a higher "
+                             f"layer ({sorts[sort].where})")
+            used.add(sort)
+    for s in sorts.values():
+        if s.name not in used:
+            raise LError(s.where, s.line, f"sort {s.name}: no slot uses it")
     for src in srcs.values():
         for u in src.decls(Use):
             if u.sig not in declared and u.sig not in derived:
@@ -508,7 +660,7 @@ def sources(l_dir: pathlib.Path = L_DIR) -> dict[str, Source]:
 
 def build(l_dir: pathlib.Path = L_DIR) -> dict[str, str]:
     """The compiled rule files, by name."""
-    return {name: src.compile() for name, src in sources(l_dir).items()}
+    return compiled(sources(l_dir))
 
 
 def check(l_dir: pathlib.Path = L_DIR, lp_dir: pathlib.Path = LP_DIR,
@@ -517,7 +669,7 @@ def check(l_dir: pathlib.Path = L_DIR, lp_dir: pathlib.Path = LP_DIR,
     (the rule files and runtimes.json), and any rule file with no source."""
     srcs = sources(l_dir)
     validate(srcs)
-    built = {name: src.compile() for name, src in srcs.items()}
+    built = compiled(srcs)
     bad = [name for name, text in built.items()
            if not (lp_dir / name).is_file() or (lp_dir / name).read_text() != text]
     bad += [f.name for f in sorted(lp_dir.glob("*.lp")) if f.name not in built]
@@ -537,7 +689,7 @@ def main(argv=None):
         if a.command == "build":
             srcs = sources(a.l)
             validate(srcs)
-            outputs = {a.lp / name: src.compile() for name, src in srcs.items()}
+            outputs = {a.lp / name: text for name, text in compiled(srcs).items()}
             outputs[RUNTIMES_JSON] = runtimes_text(compile_runtimes(srcs))
             for p, text in outputs.items():
                 if not p.is_file() or p.read_text() != text:

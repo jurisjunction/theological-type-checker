@@ -1,5 +1,13 @@
 layer libraries
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort canon
+  means "a canon of a code, as cited"
+
+sort law
+  means "a law, an act of law, or a body of texts"
+
 ```clingo
 % ===================================================================
 %  Law: a standard library for canon law (TTC-LAW(7)).
@@ -26,15 +34,15 @@ library
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot kind_rank/2
+slot kind_rank(K: category, R: rank)
   means "kind_rank(K, R): the rank of a kind of law"
 
-slot law_kind/2
+slot law_kind(Law: law, Kind: category)
   means "law_kind(Law, Kind): eternal, natural, divine_positive, ecclesiastical, civil"
 
 use of_kind/2 "from the theological side (pair.lp): in this branch the thing is classified as of this kind"
 
-slot reading_option/2
+slot reading_option(Law: canon, Reading: reading)
   means "reading_option(Law, Reading): a reading the words admit (c. 17)"
 
 use narrower/2 "narrower(R1, R2): reading R1 reaches less than R2"
@@ -70,7 +78,7 @@ admissible(L,R) :- reading_option(L,R), not excluded_reading(L,R).
 % ---------- What a binding law reaches ------------------------------------
 ```
 
-slot reaches/3
+slot reaches(Law: law, Reading: reading, X: entity)
   means "reaches(Law, Reading, X): on this reading the law reaches the act or person X"
 
 use unbound/2 "canon_law.lp (c. 11): an ecclesiastical law does not bind the person"

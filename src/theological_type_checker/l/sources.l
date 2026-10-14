@@ -37,31 +37,31 @@ library
 
 ```
 
-slot signed/2
+slot signed(Text: source, Author: person)
   means "signed(Text, Author): the text bears its author's name, and nothing disputes it"
 
-slot anonymous/1
+slot anonymous(S: source)
   means "the text names no author"
 
-slot attribution/3
+slot attribution(Text: source, Author: person, Claimant: claimant)
   means "attribution(Text, Author, Claimant): a claim that Author wrote the text"
 
-slot died/2
+slot died(Author: person, Year: year)
   means "died(Author, Year)"
 
-slot self_dated/2
+slot self_dated(Text: source, Year: year)
   means "self_dated(Text, Year): the text dates itself (a colophon)"
 
-slot draws_on/3
+slot draws_on(Text: source, Earlier: source, Witness: source)
   means "draws_on(Text, Earlier, Witness): the text draws on Earlier, as Witness shows"
 
-slot text_year/2
+slot text_year(X: source, Year: year)
   means "text_year(X, Year): the year of a text or witness, as the record has it"
 
-slot author/2
+slot author(Text: source, Author: person)
   means "author(Text, Author): an author entered for a text without a claim"
 
-slot shown_by/3
+slot shown_by(Text: source, Author: person, Evidence: source)
   means "shown_by(Text, Author, Evidence): evidence that the author wrote the text"
 
 use source/4 "icon_authority.lp"

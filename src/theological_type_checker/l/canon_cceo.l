@@ -28,7 +28,7 @@ layer canon
 
 ```
 
-slot competent_mandate/1
+slot competent_mandate(E: act)
   means "the episcopal ordination had the mandate of the competent authority (c. 1459 §1)"
 
 ```clingo

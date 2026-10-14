@@ -33,7 +33,8 @@ Edit the `.l` file, then build. Never edit a rule file by hand.
 | --- | --- | --- |
 | `layer kernel\|theory\|schools\|authority\|libraries\|canon\|pair\|library` | nothing | The file's layer, first line of every source. |
 | `library` | `%  @library  (…)` | norms.py counts the file's predicates as defined. |
-| `slot name/n` + `means "…"` | `% @input name/n \| …` | A predicate a case enters: one the base reads and no rule derives, or one the guide gives to enter though a rule derives it (`source/4`, `interior/3`). Declared once, in the lowest layer that reads it; absolutions and consecrations in the canon layer, which a library reads. |
+| `sort name`, `sort name {a, b, …}`, `sort name lo..hi` + `means "…"` | the domains section | A sort of slot argument: open (named, not enforced) or closed, by values or a range. Declared once, in the lowest layer whose slots use it. |
+| `slot name(A: sort, …)` (`name/0` with no arguments) + `means "…"` | `% @input name/n \| …` | A predicate a case enters: one the base reads and no rule derives, or one the guide gives to enter though a rule derives it (`source/4`, `interior/3`). Declared once, in the lowest layer that reads it; absolutions and consecrations in the canon layer, which a library reads. |
 | `use name/n "…"` | `% @input name/n \| …` | Read here; declared or derived elsewhere. |
 | `norm id \| citation \| url` | `% @norm id \| citation \| url` | A canon, with its source (house rule 4). |
 | `end`, `temporal id`, `recursive id`, `stratum id divine\|supreme\|common` | `% @end`, `% @temporal id`, … | As norms.py reads them. |
@@ -57,6 +58,19 @@ schools, authority), canon (canon, pair), either (libraries, library).
 slot no rule reads, and a `use` of a predicate no file declares or
 derives do not compile.
 
+Every argument of a slot has a sort. A closed sort compiles to
+`in_sort/2` facts in its file, and each slot argument of it to one rule
+in the slot's file, at its end, under `% ---------- domains (L)` (and
+`#program base.` where the file has parts):
+
+```
+violation(outside_domain(source,3,F)) :- source(_,_,F,_), not in_sort(force,F).
+```
+
+Nothing else reads `in_sort/2`, and no rule reads `outside_domain`. An
+argument of no sort, a sort no slot uses, a sort declared twice, or one
+declared above a slot that uses it does not compile.
+
 Lines beginning `--` are comments of L's and are not compiled.
 
 ## EXIT STATUS
@@ -72,7 +86,10 @@ layer libraries
 
 library
 
-slot finding/4
+sort finding
+  means "a finding of the sciences"
+
+slot finding(F: finding, Q: question, V: value, Year: year)
   means "finding(F, Q, V, Year): a finding of the sciences on a question, by its year"
 use in_force/1 "icon_authority.lp"
 

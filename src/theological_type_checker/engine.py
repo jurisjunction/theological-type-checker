@@ -329,7 +329,9 @@ def unknown_slots(facts: str, sigs: dict | None = None) -> list[str]:
     arity: the run goes on, and the fact does nothing."""
     s = sigs if sigs is not None else signatures(facts)
     v = vocabulary()
-    known = v["heads"] | v["reads"] | v["shown"] | v["tagged"]
+    # what L itself writes (the closed sorts' values) is no slot of a case's
+    from .lang import GENERATED
+    known = (v["heads"] | v["reads"] | v["shown"] | v["tagged"]) - GENERATED
     own = s["heads"] & (s["reads"] | s["shown"])
     found = (s["heads"] | s["reads"] | s["shown"]) - known - own
     return [f"unknown_slot({n}/{a})" for n, a in sorted(found)]

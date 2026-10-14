@@ -134,3 +134,9 @@ info(obligation(P,K))       :- must(P,K,_).
 info(mortal_on_the_claims(P,A)) :- mortal_on_the_claims(P,A).
 info(double_effect(P,A))        :- double_effect(P,A).
 info(licit_on_the_claims(P,A))  :- licit_on_the_claims(P,A).
+
+% ---------- domains (L) ---------------------------------------------
+in_sort(teaching_type,(principle;criterion;directive)).
+in_sort(valence,(good;evil)).
+violation(outside_domain(effect,3,V)) :- effect(_,_,V), not in_sort(valence,V).
+violation(outside_domain(teaching_type,2,T)) :- teaching_type(_,T), not in_sort(teaching_type,T).

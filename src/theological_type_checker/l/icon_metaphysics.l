@@ -15,13 +15,13 @@ layer schools
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot attribute/1
+slot attribute(A: perfection)
   means "attribute(A): a divine attribute (wisdom, goodness, power)"
 
-slot constitutive/1
+slot constitutive(R: relation)
   means "constitutive(R): the relation R constitutes its subject"
 
-slot creaturely_only/1
+slot creaturely_only(P: perfection)
   means "creaturely_only(P): a predicate said of creatures only"
 
 slot esse_not_really_distinct/0
@@ -36,16 +36,16 @@ slot love_object_reading/0
 slot mixed_relations/0
   means "God's relations to creatures are of reason only (a school's)"
 
-slot predicamental/1
+slot predicamental(R: relation)
   means "predicamental(R): the relation R is predicamental"
 
-slot rests_in/2
+slot rests_in(C: node, W: node)
   means "rests_in(C, W): love C rests in W"
 
-slot said_of_god/1
+slot said_of_god(P: perfection)
   means "said_of_god(P): the perfection P said of God"
 
-slot transcendental/1
+slot transcendental(T: perfection)
   means "transcendental(T): a transcendental (goodness, truth, unity)"
 
 slot transcendental_relation/0

@@ -394,3 +394,37 @@ weight(T,N) :- weight_tier(T), question(_), N = #sum{ P,S,X : disagrees(S,T,X), 
 #show reintegrates_if_relaxed/1.
 #show weight/2.
 #show t2_truth/0.
+
+% ---------- domains (L) ---------------------------------------------
+in_sort(tier,0..5).
+in_sort(force,(truth;juridical;protective)).
+in_sort(question_kind,(doctrinal;governance;juridical;empirical)).
+in_sort(papal_form,(ex_cathedra;definitive_declaration;legislative;ordinary)).
+in_sort(character,(constitution;encyclical;conciliar_constitution;conciliar_decree;exhortation;declaration;instruction;catechism;apostolic_letter;profession;letter;address;homily;notification;responses;commentary;interview;liturgy)).
+in_sort(conciliar_act,(canon;definition;creed;scope;chapter)).
+in_sort(shown_condition,(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church;dispersed_in_communion;authentic_teaching;one_position_definitive)).
+in_sort(object,(revealed;connected)).
+violation(outside_domain(binds,2,T)) :- binds(_,T,_), not in_sort(tier,T).
+violation(outside_domain(char_points,1,K)) :- char_points(K,_), not in_sort(character,K).
+violation(outside_domain(character,2,K)) :- character(_,K), not in_sort(character,K).
+violation(outside_domain(claims_tier,3,K)) :- claims_tier(_,_,K), not in_sort(tier,K).
+violation(outside_domain(conciliar_act,2,K)) :- conciliar_act(_,K), not in_sort(conciliar_act,K).
+violation(outside_domain(condition_shown,2,C)) :- condition_shown(_,C), not in_sort(shown_condition,C).
+violation(outside_domain(defining_act,1,K)) :- defining_act(K), not in_sort(conciliar_act,K).
+violation(outside_domain(defining_form,1,F)) :- defining_form(F), not in_sort(papal_form,F).
+violation(outside_domain(ec_condition,1,C)) :- ec_condition(C), not in_sort(shown_condition,C).
+violation(outside_domain(form_tier,1,F)) :- form_tier(F,_), not in_sort(papal_form,F).
+violation(outside_domain(form_tier,2,T)) :- form_tier(_,T), not in_sort(tier,T).
+violation(outside_domain(lex_posterior_kind,1,K)) :- lex_posterior_kind(K), not in_sort(question_kind,K).
+violation(outside_domain(meta_target,2,T)) :- meta_target(_,T), not in_sort(tier,T).
+violation(outside_domain(object_tier,1,O)) :- object_tier(O,_), not in_sort(object,O).
+violation(outside_domain(object_tier,2,T)) :- object_tier(_,T), not in_sort(tier,T).
+violation(outside_domain(oum_claim,2,K)) :- oum_claim(_,K), not in_sort(tier,K).
+violation(outside_domain(oum_condition,1,C)) :- oum_condition(C), not in_sort(shown_condition,C).
+violation(outside_domain(papal_form,2,F)) :- papal_form(_,F), not in_sort(papal_form,F).
+violation(outside_domain(promoted,2,T)) :- promoted(_,T,_), not in_sort(tier,T).
+violation(outside_domain(question_kind,2,K)) :- question_kind(_,K), not in_sort(question_kind,K).
+violation(outside_domain(source,2,T)) :- source(_,T,_,_), not in_sort(tier,T).
+violation(outside_domain(source,3,F)) :- source(_,_,F,_), not in_sort(force,F).
+violation(outside_domain(weight_tier,1,T)) :- weight_tier(T), not in_sort(tier,T).
+violation(outside_domain(object_of,2,O)) :- object_of(_,O), not in_sort(object,O).

@@ -1,5 +1,46 @@
 layer kernel
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort presence_mode {natural, sacramental, immensity, circumscriptive, definitive}
+  means "a mode of presence: the deposit's and Thomas's"
+
+sort nature {hum, div}
+  means "a nature in which an act or a change is said"
+
+sort act
+  means "an act or event a case records: a celebration, a decree, a marriage, a delict"
+
+sort category
+  means "a constant from a short list, the guide's or the rules'"
+
+sort claim
+  means "a claim or argument, by its name"
+
+sort entity
+  means "an individual or thing a fact names: a person, a creature, an event"
+
+sort event
+  means "an event in the order of time"
+
+sort place
+  means "a place"
+
+sort predicate
+  means "a predicate of the kernel's predication"
+
+sort relation
+  means "a kind of relation"
+
+sort school
+  means "a school, or its reading of a divine attribute"
+
+sort sentence
+  means "a sentence of the kernel's predication"
+
+sort term
+  means "a term of a sentence"
+
 ```clingo
 % ===================================================================
 %  The kernel: what every school needs to state its disagreements, and
@@ -19,100 +60,100 @@ layer kernel
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot absorbed/1
+slot absorbed(X: entity)
   means "absorbed(X): X's humanity said absorbed into the divinity (Eutyches)"
 
-slot acton/2
+slot acton(X: entity, Y: entity)
   means "acton(X, Y): X acts on the thing Y (relation d)"
 
-slot allowed/2
+slot allowed(R: school, K: category)
   means "allowed(R, K): the reading R of simplicity admits distinctions of kind K in God"
 
-slot angel/1
+slot angel(X: entity)
   means "angel(X): X is an angel, a spiritual created person (DH 800)"
 
-slot bodily/1
+slot bodily(M: presence_mode)
   means "bodily(M): a mode of presence that is bodily (natural, sacramental)"
 
-slot changes_in/2
+slot changes_in(X: entity, K: nature)
   means "changes_in(X, K): a change said of X in nature K (hum or div)"
 
-slot claims/5
+slot claims(C: claim, P: predicate, X: entity, Y: entity, R: relation)
   means "claims(C, P, X, Y, R): claim C that X is P (receptive or donative) toward Y in relation R"
 
-slot conjoined/2
+slot conjoined(Y: entity, X: entity)
   means "conjoined(Y, X): Y joined to X as another subject (Nestorius)"
 
-slot denies/2
+slot denies(X: entity, P: category)
   means "denies(X, P): a claim that X lacks P (a human will, a human operation)"
 
-slot descends_from/2
+slot descends_from(P: entity, Adam: entity)
   means "descends_from(P, adam): P descends from Adam by generation"
 
-slot distinguishes/4
+slot distinguishes(C: claim, P: predicate, A: entity, B: entity)
   means "distinguishes(C, P, A, B): claim C that the predicate P distinguishes A from B"
 
-slot god/1
+slot god(G: entity)
   means "god(G): G is God"
 
-slot immutability/1
+slot immutability(R: school)
   means "immutability(R): God's immutability, as R reads it"
 
-slot in_nature/2
+slot in_nature(A: act, K: nature)
   means "in_nature(A, K): the nature K (hum or div) in which the act A is placed"
 
-slot inanimate/1
+slot inanimate(X: entity)
   means "inanimate(X): a creature that merely is"
 
-slot incarnate/1
+slot incarnate(X: entity)
   means "incarnate(X): X is the Son incarnate: divine, of a human nature"
 
-slot lacks/2
+slot lacks(X: entity, P: category)
   means "lacks(X, P): a claim that X lacks P (a rational soul)"
 
-slot next/2
+slot next(E1: event, E2: event)
   means "next(E1, E2): E2 follows E1 in the order of events"
 
-slot organism/1
+slot organism(X: entity)
   means "organism(X): a living creature"
 
-slot pred_nature/2
+slot pred_nature(P: predicate, K: nature)
   means "pred_nature(P, K): the predicate P belongs to nature K"
 
-slot presence_mode/1
+slot presence_mode(M: presence_mode)
   means "presence_mode(M): a mode of presence known (the kernel's, a library's)"
 
-slot present/3
+slot present(X: entity, Place: place, Mode: presence_mode)
   means "present(X, Place, Mode): a presence, typed by mode"
 
-slot qualified/1
+slot qualified(S: sentence)
   means "qualified(S): the sentence S carries its qualification (as man)"
 
-slot reltype/1
+slot reltype(R: relation)
   means "reltype(R): a kind of relation the kernel knows"
 
-slot retype/2
+slot retype(X: entity, Y: entity)
   means "retype(X, Y): the edge from X to Y retyped (the rescue stress test)"
 
-slot says_unary/3
+slot says_unary(C: claim, P: predicate, X: entity)
   means "says_unary(C, P, X): claim C says P of X alone"
 
-slot sentence/3
+slot sentence(S: sentence, T: term, P: predicate)
   means "sentence(S, T, P): the sentence S predicates P of the term T"
 
-slot simplicity/1
+slot simplicity(R: school)
   means "simplicity(R): God's simplicity, as R reads it"
 
-slot sort/2
+slot sort(X: entity, S: category)
   means "sort(X, S): X typed of sort S"
 
-slot term_sort/2
+slot term_sort(T: term, K: category)
   means "term_sort(T, S): the term T names a suppositum or a nature"
 
-slot unary_name/1
+slot unary_name(P: predicate)
   means "unary_name(P): a predicate said of persons one at a time"
 
-slot unsafe_unqualified/1
+slot unsafe_unqualified(P: predicate)
   means "unsafe_unqualified(P): the predicate P needs a qualification when said of Christ"
 
 ```clingo

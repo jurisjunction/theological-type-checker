@@ -1,5 +1,19 @@
 layer canon
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort legal_matter
+  means "a matter of law (c. 19)"
+
+sort norm
+  means "a canon of the rule base, by its id"
+
+sort penalty
+  means "a penalty or censure"
+
+sort situation
+  means "an outward situation of a person (c. 915)"
+
 ```clingo
 % ===================================================================
 %  Canon law as rules: binary, dated, and graphed.
@@ -27,40 +41,40 @@ layer canon
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot age_clause/2
+slot age_clause(D: law, N: norm)
   means "age_clause(D, N): D's clause that the error about the age does not excuse from delict N (c. 1398 §1 n. 1; art. 6 n. 1)"
 
-slot censure_barring/1
+slot censure_barring(K: penalty)
   means "censure_barring(K): a censure that bars from Holy Communion (c. 915)"
 
-slot eastern_church/1
+slot eastern_church(C: church)
   means "eastern_church(C): an Eastern Church sui iuris in full communion"
 
-slot eastern_noncatholic_church/1
+slot eastern_noncatholic_church(C: church)
   means "eastern_noncatholic_church(C): an Eastern Church not in full communion"
 
-slot element_of/2
+slot element_of(N: norm, C: circumstance)
   means "element_of(N, C): C is an element of the matter of delict N"
 
-slot excusing/1
+slot excusing(C: circumstance)
   means "excusing(C): a circumstance that exempts when believed invincibly (c. 1323 n. 7)"
 
-slot lapse_date/2
+slot lapse_date(L: law, Date: date)
   means "lapse_date(L, Date): the date a law lapses by its own terms"
 
-slot latae_sententiae/1
+slot latae_sententiae(N: norm)
   means "latae_sententiae(N): the penalty of delict N is incurred by the act (c. 1314)"
 
-slot narrower/2
+slot narrower(R1: reading, R2: reading)
   means "narrower(R1, R2): reading R1 reaches less than R2"
 
-slot penalty/2
+slot penalty(N: norm, K: penalty)
   means "penalty(N, K): the penalty of delict N"
 
-slot reorders/2
+slot reorders(L2: law, B: law)
   means "reorders(L2, B): L2 reorders the whole matter of B (c. 20)"
 
-slot revokes/3
+slot revokes(L2: law, B: law, Way: category)
   means "revokes(L2, B, Way): L2 revokes B expressly, by contrary law, or by reordering (c. 20)"
 
 ```clingo
@@ -72,193 +86,193 @@ use priest/1 "a priest"
 
 use bishop/1 "a bishop"
 
-slot in_class/2
+slot in_class(Person: person, Class: class)
   means "in_class(Person, Class): e.g. the clergy of a society"
 
-slot consecration/4
+slot consecration(Event: act, PrincipalConsecrator: person, Consecrated: person, Date: date)
   means "consecration(Event, PrincipalConsecrator, Consecrated, Date)"
 
-slot co_consecrator/2
+slot co_consecrator(Event: act, Bishop: person)
   means "co_consecrator(Event, Bishop)"
 
-slot pontifical_mandate/1
+slot pontifical_mandate(E: act)
   means "the consecration had a pontifical mandate"
 
-slot against_explicit_papal_will/1
+slot against_explicit_papal_will(A: act)
   means "the act was done against the pope's expressed will"
 
-slot decree/3
+slot decree(Decree: act, Issuer: authority, Date: date)
   means "decree(Decree, Issuer, Date)"
 
-slot declares/3
+slot declares(Decree: act, Person: person, Norm: norm)
   means "declares(Decree, Person, Norm): names a person and declares a penalty"
 
-slot heard/2
+slot heard(D: act, P: person)
   means "c. 1720 n. 1: accused informed of accusation and proofs, able to defend"
 
-slot summoned_absent/2
+slot summoned_absent(D: act, P: person)
   means "duly summoned and failed to appear"
 
-slot recourse/3
+slot recourse(Decree: act, Person: person, Date: date)
   means "recourse(Decree, Person, Date)"
 
-slot recourse_decided/2
+slot recourse_decided(Decree: act, Date: date)
   means "recourse_decided(Decree, Date)"
 
-slot recourse_upheld/1
+slot recourse_upheld(Decree: act)
   means "the decree was annulled on recourse"
 
-slot remission/4
+slot remission(Act: act, Person: person, Norm: norm, Date: date)
   means "remission(Act, Person, Norm, Date): a censure remitted"
 
-slot issuer/2
+slot issuer(Act: act, Authority: authority)
   means "issuer(Act, Authority)"
 
-slot authority/2
+slot authority(A: authority, Rank: rank)
   means "authority(A, Rank): 4 pope (or by papal mandate/approval), 3 dicastery, 1 ordinary"
 
-slot grant/5
+slot grant(G: act, Issuer: person, Faculty: category, Class: class, Date: date)
   means "grant(G, Issuer, Faculty, Class, Date)"
 
-slot permission/4
+slot permission(P: act, Issuer: authority, Class: class, Date: date)
   means "permission(P, Issuer, Class, Date): ordinaries may delegate for this class"
 
-slot revocation/3
+slot revocation(Act: act, Grant: act, Date: date)
   means "revocation(Act, Grant, Date): an act purporting to revoke a grant"
 
-slot absolution/4
+slot absolution(A: act, Priest: person, Penitent: person, Date: date)
   means "absolution(A, Priest, Penitent, Date)"
 
-slot marriage/3
+slot marriage(M: act, AssistingPriest: person, Date: date)
   means "marriage(M, AssistingPriest, Date)"
 
-slot delegation/5
+slot delegation(D: act, Ordinary: person, Priest: person, Scope: act, Date: date)
   means "delegation(D, Ordinary, Priest, MarriageOrGeneral, Date)"
 
-slot ordinary/1
+slot ordinary(P: person)
   means "a local ordinary"
 
-slot danger_of_death/2
+slot danger_of_death(Penitent: person, Date: date)
   means "danger_of_death(Penitent, Date)"
 
-slot just_cause_request/3
+slot just_cause_request(Penitent: person, Priest: person, Date: date)
   means "just_cause_request(Penitent, Priest, Date)"
 
-slot common_error/1
+slot common_error(A: act)
   means "c. 144: common error or positive and probable doubt about this act"
 
-slot appears_otherwise/2
+slot appears_otherwise(P: person, A: act)
   means "the external presumption of imputability is rebutted on the facts"
 
 use promulgated/2 "promulgated(Act, Date): a law, or an authentic interpretation in the form of law, published (cc. 7-8, 16 §2)"
 
-slot vacatio_set/2
+slot vacatio_set(Law: law, Date: date)
   means "vacatio_set(Law, Date): the law names its own date of force (c. 8 §1, another vacatio)"
 
-slot aas_issue/2
+slot aas_issue(Law: law, Date: date)
   means "aas_issue(Law, Date): the date the issue of the Acta Apostolicae Sedis carrying the law bears (c. 8 §1)"
 
-slot aas_volume/3
+slot aas_volume(Law: law, Year: year, Given: date)
   means "aas_volume(Law, Year, Given): the issue unread; its volume's year and the date the act was given"
 
-slot born/2
+slot born(Person: person, Date: date)
   means "born(Person, Date): a birth date (c. 97, with c. 203)"
 
-slot enacted_by/2
+slot enacted_by(Body: law, Law: law)
   means "enacted_by(Body, Law): a body of norms enacted by this law"
 
-slot part_of/2
+slot part_of(Norm: canon, Body: law)
   means "part_of(Norm, Body)"
 
-slot interpretation_form/2
+slot interpretation_form(Act: act, Form: category)
   means "interpretation_form(Act, law | particular): an authentic interpretation's form (c. 16 §§2-3)"
 
-slot particular_matter/2
+slot particular_matter(Act: act, Event: act)
   means "particular_matter(Act, Event): the matter an act in a particular matter concerns (c. 16 §3)"
 
-slot applies_reading/3
+slot applies_reading(Act: act, Canon: canon, Reading: reading)
   means "applies_reading(Act, Canon, Reading): an act that applies this reading of a canon"
 
-slot needs_reading/2
+slot needs_reading(Law: canon, Context: entity)
   means "needs_reading(Law, Context): the law's reading decides something here"
 
-slot legislator/2
+slot legislator(Law: law, Authority: authority)
   means "legislator(Law, Authority)"
 
-slot contrary_to_law/2
+slot contrary_to_law(L: law, H: law)
   means "contrary_to_law(L, H): a juridical finding that human law L contradicts human law H"
 
-slot invalidating/1
+slot invalidating(L: law)
   means "an invalidating or disqualifying law (c. 10)"
 
-slot obliging/1
+slot obliging(L: law)
   means "a law that imposes an obligation"
 
-slot permits/1
+slot permits(L: law)
   means "a law that grants a permission"
 
-slot fact_for/3
+slot fact_for(Law: law, X: entity, Fact: fact)
   means "fact_for(Law, X, Fact): whether the law reaches X turns on this fact"
 
-slot lacuna/1
+slot lacuna(Matter: legal_matter)
   means "lacuna(Matter): no custom and no express prescript (c. 19)"
 
-slot penal_matter/1
+slot penal_matter(Matter: legal_matter)
   means "the matter is penal"
 
-slot equity_rule/2
+slot equity_rule(Matter: legal_matter, Rule: category)
   means "equity_rule(Matter, Rule): a rule drawn by c. 19's means; supplied, never computed"
 
-slot dispensation/3
+slot dispensation(Act: act, Law: law, X: entity)
   means "dispensation(Act, Law, X): a dispensation from Law for X"
 
-slot defines_essentials/1
+slot defines_essentials(L: law)
   means "the law defines what essentially constitutes an institute or juridic act (c. 86)"
 
-slot doubtful_revocation/2
+slot doubtful_revocation(Later: law, Earlier: law)
   means "doubtful_revocation(Later, Earlier): whether the later revokes the earlier is in doubt"
 
 use age_at/3 "age_at(Person, Act, Years): the agent's age when the act was placed, where no birth date is given"
 
-slot juridic_act/2
+slot juridic_act(Act: act, Person: person)
   means "juridic_act(Act, Person): a juridic act placed by the person (c. 124)"
 
-slot spouse/2
+slot spouse(Marriage: act, Person: person)
   means "spouse(Marriage, Person): one who gave consent to the marriage"
 
 use claims_necessity/2 "the agent publicly claims a state of necessity for the act"
 
-slot asserts/3
+slot asserts(Text: source, Claim: claim, Date: date)
   means "asserts(Text, Claim, Date): a text's claim about the juridical situation"
 
 use disputed/1 "a fact whose truth is disputed"
 
 use today/1 "the evaluation date when no asof is given"
 
-slot authentic_reading/3
+slot authentic_reading(Canon: canon, Reading: reading, Act: act)
   means "authentic_reading(Canon, Reading, Act): the legislator's own reading (c. 16 §1)"
 
 use of_kind/2 "from the theological side (pair.lp): in this branch the event is classified as of this kind"
 
-slot punishes_culpa/1
+slot punishes_culpa(N: norm)
   means "c. 1321 §3: the law punishes this delict also when committed by culpability"
 
-slot communion/3
+slot communion(C: act, Person: person, Date: date)
   means "communion(C, Person, Date): holy communion received, or sought"
 
-slot situation/2
+slot situation(Person: person, S: situation)
   means "situation(Person, S): an outward situation of the person"
 
-slot situation_kind/2
+slot situation_kind(S: situation, Kind: kind)
   means "situation_kind(S, Kind): the kind of act or state the situation is"
 
-slot manifest/1
+slot manifest(S: situation)
   means "manifest(S): the situation is publicly known"
 
-slot persisting/1
+slot persisting(S: situation)
   means "persisting(S): the situation endures and is not ended"
 
-slot confession_impossible/2
+slot confession_impossible(P: person, C: act)
   means "confession_impossible(P, C): a grave reason, and no opportunity to confess (c. 916)"
 
 use grave_by_matter/1 "moral.lp: a kind grave by its matter, from the theological side"
@@ -267,67 +281,67 @@ use not_of_kind/2 "from the theological side (pair.lp): in this branch the event
 
 use notoriety_substitutes/2 "candidate only: notoriety treated as the hearing"
 
-slot treated_as_declaring/2
+slot treated_as_declaring(Text: source, Class: class)
   means "candidate only: a text's class statement treated as a declaration"
 
-slot unbaptized/1
+slot unbaptized(P: person)
   means "the person is recorded as not baptized (c. 842 §1)"
 
-slot dissolution/4
+slot dissolution(D: act, Marriage: act, Way: category, Date: date)
   means "dissolution(D, Marriage, non_consummation | favour_of_faith | Other, Date): an act that dissolves a bond"
 
-slot consummated/1
+slot consummated(M: act)
   means "the marriage was consummated (c. 1061 §1)"
 
-slot nullity_sentence/3
+slot nullity_sentence(S: act, Marriage: act, Date: date)
   means "nullity_sentence(S, Marriage, Date): a sentence declaring a marriage null"
 
-slot sentence_effective/1
+slot sentence_effective(S: act)
   means "the sentence has become effective (c. 1679)"
 
-slot prohibited_to_marry/1
+slot prohibited_to_marry(P: person)
   means "a prohibition attached to the sentence or set by the local ordinary (c. 1682 §1)"
 
-slot delict_act/3
+slot delict_act(Person: person, Norm: norm, Act: act)
   means "delict_act(Person, Norm, Act): an external violation of the norm, as a case records it (a delict that need not be a consecration, absolution or marriage)"
 
-slot act_date/2
+slot act_date(Act: act, Date: date)
   means "act_date(Act, Date): the date of an act a case records"
 
-slot seal_lifted/2
+slot seal_lifted(Act: act, Why: ground)
   means "seal_lifted(Act, Why): a candidate's claim that something released the confessor"
 
-slot baptized_in/2
+slot baptized_in(Person: person, Church: church)
   means "baptized_in(Person, catholic | Community): a baptism the case records, its validity presumed"
 
-slot received_into/1
+slot received_into(P: person)
   means "the person was received into the Catholic Church"
 
-slot ascribed/2
+slot ascribed(Person: person, Church: church)
   means "ascribed(Person, Church): a recorded ascription to a Church sui iuris (latin, or an Eastern Church)"
 
-slot father/2
+slot father(Child: person, Father: person)
   means "father(Child, Father)"
 
-slot mother/2
+slot mother(Child: person, Mother: person)
   means "mother(Child, Mother)"
 
-slot agreed/2
+slot agreed(Child: person, Church: church)
   means "agreed(Child, Church): both parents agree that the child be baptized in that Church (c. 111 §1; CCEO c. 29 §1)"
 
-slot deacon/1
+slot deacon(P: person)
   means "a deacon"
 
-slot faculty_to_confirm/1
+slot faculty_to_confirm(P: person)
   means "a presbyter has the faculty to confirm, by universal law or special grant (c. 882)"
 
-slot promulgated_elsewhere/2
+slot promulgated_elsewhere(Law: law, Date: date)
   means "promulgated_elsewhere(Law, Date): promulgated by another publication than the Acta (c. 8 §1)"
 
-slot formal_defection/2
+slot formal_defection(Person: person, Date: date)
   means "formal_defection(Person, Date): a formal act of defection (cc. 1086 §1, 1117, 1124, 1983-2009)"
 
-slot communion_at_issue/1
+slot communion_at_issue(P: person)
   means "the case asks after the person's communion"
 
 use professes/4 "professes(Person, Act, Q, V): in the act the person publicly holds V on Q (faith.lp)"
@@ -336,10 +350,10 @@ use doubts/3 "doubts(Person, Act, Q): in the act the person publicly doubts the 
 
 use repudiates/3 "repudiates(Person, Act, christian_faith): an outward repudiation of the faith as a whole"
 
-slot warned/3
+slot warned(Person: person, Act: act, By: category)
   means "warned(Person, Act, apostolic_see | ordinary): a warning given about the act"
 
-slot retracted/2
+slot retracted(Person: person, Act: act)
   means "retracted(Person, Act)"
 
 use owed/2 "from the authority graph: the assent a canon attaches to a teaching act by reference (cc. 750, 752)"
@@ -350,37 +364,37 @@ use law_kind/2 "law.lp: the kind of a law"
 
 use interior/3 "act.lp: a claim about the agent (here, pertinacious)"
 
-slot born_of_noncatholics/1
+slot born_of_noncatholics(P: person)
   means "born of non-Catholic parents (CIC 1917 c. 1099 §2)"
 
-slot raised_outside/1
+slot raised_outside(P: person)
   means "from infancy grew up in heresy, schism, unbelief or no religion (CIC 1917 c. 1099 §2)"
 
-slot act_kind/2
+slot act_kind(Act: act, K: category)
   means "act_kind(Act, general_decree | general_executory_decree | instruction): the kind of an act (cc. 29, 31, 34)"
 
-slot executes/2
+slot executes(Act: act, Law: law)
   means "executes(Act, Law): the executive act was given to apply or clarify this law (cc. 31-34)"
 
-slot effective_from/2
+slot effective_from(Act: act, Date: date)
   means "effective_from(Act, Date): the date from which an executive act takes effect"
 
-slot executive_power_only/1
+slot executive_power_only(Act: act)
   means "the act's issuer has executive power alone (c. 30)"
 
-slot express_grant/1
+slot express_grant(Act: act)
   means "the competent legislator expressly granted the power to issue this general decree, its conditions observed (c. 30)"
 
-slot provision/2
+slot provision(Act: act, P: act)
   means "provision(Act, P): a provision of an executive act"
 
-slot contrary_provision/2
+slot contrary_provision(P: act, Law: law)
   means "contrary_provision(P, Law): the provision cannot be reconciled with the law (a juridical finding; cc. 33 §1, 34 §2)"
 
-slot doc_at_issue/1
+slot doc_at_issue(X: law)
   means "the case asks after the force of this body of texts or act"
 
-slot collection/2
+slot collection(Body: law, Kind: category)
   means "collection(Body, private | authentic): a body gathering texts from other sources"
 
 use attribution/3 "sources.lp: attribution(Text, Author, Claimant), a claim"
@@ -389,23 +403,23 @@ use attribution_refused/2 "sources.lp: the order refuses the attribution"
 
 use celebration_date/2 "sacrament.lp: the date of a celebration a case records"
 
-slot porrection/1
+slot porrection(E: act)
   means "the instruments were handed over in the ordination (Florence, Exultate Deo, DH 1326)"
 
-slot alters/2
+slot alters(E: act, Part: rite_part)
   means "alters(E, Part): the minister added, omitted or altered a part of the rite that is not its form, on his own authority"
 
-slot indulgence/3
+slot indulgence(G: act, Kind: category, Date: date)
   means "indulgence(G, partial | plenary, Date): a grant of an indulgence"
 
 use in_days/2 "in_days(G, N): the grant designates its partial indulgence in days (or their equivalent)"
 
-slot confirmed/2
+slot confirmed(G: act, Date: date)
   means "confirmed(G, Date): an older grant confirmed under Indulgentiarum doctrina's transitional norms"
 
 use doubt_one_or_more/2 "doubt_one_or_more(E, Date): a birth at which it is doubted whether one human being or several (CIC 1917 c. 748)"
 
-slot born_together/2
+slot born_together(E: event, Child: person)
   means "born_together(E, Child): a child of that birth, as the record names it"
 
 ```clingo
@@ -615,7 +629,7 @@ revokes(code1983,B,expressly) :- enacted_by(B,code1917).
 
 norm cic:20 | c. 20: a later law abrogates or derogates from an earlier one if it says so expressly, is directly contrary to it, or completely reorders the entire matter of the earlier law | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 
-slot directly_contrary/2
+slot directly_contrary(Later: law, Body: law)
   means "directly_contrary(Later, Body): the later law and the body cannot both stand (a juridical finding)"
 
 ```clingo
@@ -693,7 +707,7 @@ info(provision_without_force(P,L)) :- provision(A,P), executive_act(A), contrary
 
 norm cic:16 | c. 16 §§1-3: the legislator interprets authentically; in the form of law the interpretation has the force of law and must be promulgated; if it only declares words certain in themselves it is retroactive, if it restricts, extends or explains a doubtful law it is not; in a sentence or an administrative act in a particular matter it binds only the persons and matters for which it was given; with c. 9: laws regard the future, not the past, unless they expressly provide for the past | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 
-slot declaratory/1
+slot declaratory(A: act)
   means "c. 16 §2: the interpretation only declares words of the law certain in themselves (so retroactive)"
 
 ```clingo
@@ -733,10 +747,10 @@ excluded_reading(L,R) :- reading_contrary(L,R,H), higher(H,L), supreme_law(L).
 
 norm cic:18 | c. 18: laws which establish a penalty, restrict the free exercise of rights, or contain an exception are subject to strict interpretation | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 
-slot penal_use/1
+slot penal_use(L: canon)
   means "the law's terms set a penalty (or make an exception)"
 
-slot restricts_rights/1
+slot restricts_rights(L: canon)
   means "the law restricts the free exercise of a right"
 
 ```clingo
@@ -1007,16 +1021,16 @@ element_of(n1379,cannot_absolve).                 % the delict's matter: one who
 % keeps no kind of its own (CCC 2272: "a crime against human life").
 ```
 
-slot procures/2
+slot procures(Person: person, Act: act)
   means "procures(Person, Act): the person procures the act (one who seeks it as well as one who performs it)"
 
-slot unborn/1
+slot unborn(E: effect)
   means "unborn(E): the evil effect E is the death of one not yet born, from conception"
 
-slot by_expulsion/1
+slot by_expulsion(A: act)
   means "by_expulsion(A): the act kills by expelling the immature fetus (outward)"
 
-slot attempted_only/1
+slot attempted_only(A: act)
   means "attempted_only(A): the act was attempted and its effect did not follow (c. 1328)"
 
 use evil_kind_of/2 "moral.lp: an evil effect of this kind"
@@ -1055,10 +1069,10 @@ recursive cic2021:1329
 
 norm cic2021:1329 | c. 1329 §2: accomplices not named in the law incur a latae sententiae penalty if without their assistance the delict would not have been committed and the penalty can affect them; otherwise they can be punished by ferendae sententiae penalties (the same in 1983) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
 
-slot assists/2
+slot assists(Person: person, Act: act)
   means "assists(Person, Act): the person gives assistance to another's delict"
 
-slot necessary_assistance/2
+slot necessary_assistance(P: person, A: act)
   means "without the person's assistance the delict would not have been committed (outward; computed both ways when disputed)"
 
 ```clingo
@@ -1602,7 +1616,7 @@ penalty(n1386,excommunication).
 % ---------- Book VI: the cleric and the minor; the Dicastery's clause (TTC-ACT N1-N5) ----
 ```
 
-slot cleric/1
+slot cleric(P: person)
   means "a cleric (deacon, priest or bishop)"
 
 norm cic2021:1398 | c. 1398 §1 n. 1: a cleric who commits an offence against the sixth commandment of the Decalogue with a minor is to be punished with deprivation of office and other just penalties, not excluding dismissal from the clerical state | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
@@ -1632,10 +1646,10 @@ info(error_disregarded(P,N,E)) :- delict(P,N,E), disregarded(N,Of), ignorance(P,
 % ---------- Book VI: the general norm (TTC-PENAL GP) ----------------------------
 ```
 
-slot special_gravity/2
+slot special_gravity(Authority: person, Act: act)
   means "special_gravity(Authority, Act): the competent authority's judgment that the violation's special gravity requires punishment (supplied, never computed)"
 
-slot scandal_necessity/2
+slot scandal_necessity(Authority: person, Act: act)
   means "scandal_necessity(Authority, Act): the authority's judgment that necessity demands that scandals be prevented or repaired (supplied, never computed)"
 
 norm cic2021:1399 | c. 1399: besides the cases prescribed in this or in other laws, the external violation of divine or canon law can be punished, and with a just penalty, only when the special gravity of the violation requires it and necessity demands that scandals be prevented or repaired | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
@@ -1658,10 +1672,10 @@ end
 % ---------- Book VII: the last canon (TTC-PENAL SA) ------------------------------
 ```
 
-slot transfer/3
+slot transfer(Decree: act, Pastor: person, Date: date)
   means "transfer(Decree, Pastor, Date): a decree transferring a pastor (cc. 1748-1752)"
 
-slot sets_aside/3
+slot sets_aside(Text: source, Norm: norm, Ground: ground)
   means "candidate only: sets_aside(Text, Norm, Ground): a text treats a penalty the law attaches as not incurred, on this ground"
 
 norm cic:1752 | c. 1752: in cases of transfer the prescripts of c. 1747 are to be applied, canonical equity is to be observed, and the salvation of souls, which must always be the supreme law in the Church, is to be kept before one's eyes | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib7-cann1732-1752_en.html

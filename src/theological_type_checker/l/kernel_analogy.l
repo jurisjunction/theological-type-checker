@@ -1,5 +1,10 @@
 layer kernel
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort perfection
+  means "a perfection or predicate said by analogy"
+
 ```clingo
 % ===================================================================
 %  Analogy (A11): nothing crosses the Creator-creature line except
@@ -19,13 +24,13 @@ layer kernel
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot drop_bridge/1
+slot drop_bridge(F: perfection)
   means "drop_bridge(F): the bridge F withdrawn (an ablation)"
 
-slot univocal_mode/2
+slot univocal_mode(F: perfection, M: category)
   means "univocal_mode(F, M): F said in one mode M of God and of creatures"
 
-slot unlicensed/2
+slot unlicensed(F: perfection, S: category)
   means "unlicensed(F, S): the predicate F denied its license in domain S"
 
 ```clingo

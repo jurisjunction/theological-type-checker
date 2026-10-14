@@ -385,8 +385,8 @@ beyond those this step touches.
 ## SCORING
 
 Appended stage by stage. Predictions committed in e69e70a, stamped in
-4357243. Stage 1 (RG) is 3fc3601, stage 2 (RU) 0b7ad94; stage 3 (SO, LY)
-the commit that adds these rows.
+4357243. Stage 1 (RG) is 3fc3601, stage 2 (RU) 0b7ad94, stage 3 (SO, LY)
+2796019; stage 4 (TY) the commit that adds its rows.
 
 | | Result |
 | --- | --- |
@@ -405,6 +405,11 @@ the commit that adds these rows.
 | M1 | Held through RG, RU, SO and LY: no scenario's atoms changed. |
 | M2 | Held: 87 norms, 315 edges; CL1 and PR4 clean. `custom_asof/0`, now declared in `saeculum.l`, showed as an unused input: norms.py does not read the clock's predicates (`BUILTIN`), and now counts none of them unused (a test). |
 | M4 | Held after each stage: the suite and the schools' tables. |
+| TY1 | Held: every argument of the 407 slots with arguments has a sort. 65 sorts, each declared once in the lowest layer whose slots use it (a test): the 13 closed, 52 open. |
+| TY2 | Held: one test enters a value outside its sort for each of the 40 domain rules, through a snippet, and finds each `outside_domain`; inside, none. All 13 closed sorts. |
+| TY3 | In part. Five facts outside, in the range; but in four slots, not three, and none of `character/2`. Four scored (below); one remains, a candidate's. |
+| TY4 | Held: `unknown_slot` warns on `in_sort/2` as before; `schema` stays 1. |
+| M1 (TY) | Held: one atom added, `violation(outside_domain(present,3,located))` in PM1b, the candidate TY3 leaves. |
 
 ### The slot, amended (SO1; rule 7)
 
@@ -481,3 +486,29 @@ CG scores it.
 - **A red test, stated** (rule 7): `ttc://grammar` lists `source/4`'s tags
   with `icon_authority.lp` first, its slot's new tag; the expectation was
   the three cross-references.
+
+### Sorts (TY)
+
+- **Five facts outside** (TY3). Matrimony as a sacrament, three times
+  (`condition_in_question/2`, twice, in `sacrament_conditions`;
+  `changes_condition/3` in `liturgical_books_hyp`): the guide's list was
+  `celebrated/4`'s, and the rules read `cond(matrimony,…)`. The sort is
+  widened, and the guide says so. `effect(tube_out,tube_removed,neutral)`
+  in `ectopic`: no rule reads `neutral`. The fact is retyped (rule 7): its
+  valence is dropped, so the means is not evil by the closed world, as
+  before; no output changed. `present(son,place_d,located)` in
+  `cand_mode_unknown`: a candidate entered to be refused
+  (`untyped_presence`). It is neither widened nor retyped; it is refused
+  twice, and a test lists it.
+- **Open sorts are declared too.** THE LANGUAGE named open sorts and did
+  not say they were declared. Each is, once, with a meaning, so a
+  misspelled sort does not compile. The guide's other short lists (kinds
+  of law, forms of interpretation, collections, ways of revocation,
+  dissolution, indulgences) stay open, under `category`, as the
+  predictions did not name them.
+- **The domains of a file with parts** are compiled under `#program
+  base.`, or the last part would hold them.
+- **`in_sort/2` is L's.** It is read and never derived, so by SO1's rule
+  it would be a slot; it is what L writes, never a case, and SO1's test
+  leaves it out. The gate warns on it (TY4); CG is to refuse it.
+- **SR1, for the domains, holds now**: a test reads every rule body.

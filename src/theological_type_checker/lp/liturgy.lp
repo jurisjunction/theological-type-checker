@@ -89,3 +89,7 @@ info(rite_of_many_parents(R)) :- derives_from(R,P1), derives_from(R,P2), P1 < P2
 
 % ---------- What binds and what lasts --------------------------------------
 violation(binding_by_love(E)) :- binds_because(E,loved).
+
+% ---------- domains (L) ---------------------------------------------
+violation(outside_domain(liturgy_shows,1,C)) :- liturgy_shows(C), not in_sort(shown_condition,C).
+violation(outside_domain(changes_condition,2,Sacrament)) :- changes_condition(_,Sacrament,_), not in_sort(sacrament,Sacrament).

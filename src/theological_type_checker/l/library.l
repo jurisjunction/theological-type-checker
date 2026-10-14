@@ -1,5 +1,13 @@
 layer library
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort string
+  means "a quoted string"
+
+sort work
+  means "a book in the library"
+
 ```clingo
 % ===================================================================
 %  Library: where each source is found in print, and what to fetch.
@@ -19,16 +27,16 @@ layer library
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot cites_work/3
+slot cites_work(S: source, W: work, Locator: string)
   means "cites_work(S, W, Locator): where source S is read, in work W"
 
-slot consulted/1
+slot consulted(S: source)
   means "consulted(S): the citation of S checked against print"
 
-slot online/2
+slot online(W: work, URL: string)
   means "online(W, URL): a reliable text of W online"
 
-slot to_read/2
+slot to_read(W: work, Why: string)
   means "to_read(W, Why): research owed on W"
 
 ```clingo

@@ -1372,3 +1372,9 @@ contrary_acts_at_once(tw_a,tw_b). died_while_other_lived(tw_a,tw_b). baptized_ea
 divides_the_soul(e_z).
 #program cand_soul_from_twin.     % HYPOTHETICAL: a twin's soul given by the other twin (TW3)
 created_person(tw_a;tw_b). being(tw_a,tw_b).
+
+% ---------- domains (L) ---------------------------------------------
+#program base.
+in_sort(sacrament,(baptism;confirmation;eucharist;penance;anointing;orders(episcopate);orders(presbyterate);orders(diaconate);matrimony)).
+violation(outside_domain(condition_in_question,1,K)) :- condition_in_question(K,_), not in_sort(sacrament,K).
+violation(outside_domain(teaching_tier,2,K)) :- teaching_tier(_,K), not in_sort(tier,K).

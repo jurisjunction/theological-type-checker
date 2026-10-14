@@ -110,3 +110,7 @@ info(silence_without_censure(P,Q)) :- silent(P,_,Q).
 
 #program report_notes.            % every note, for the test of NT1
 info(note(Q,V,G)) :- note(Q,V,T), grade_name(T,G).
+
+% ---------- domains (L) ---------------------------------------------
+#program base.
+violation(outside_domain(grade_name,1,T)) :- grade_name(T,_), not in_sort(tier,T).

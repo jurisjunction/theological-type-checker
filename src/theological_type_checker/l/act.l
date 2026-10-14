@@ -1,5 +1,13 @@
 layer libraries
 
+-- Sorts first used in this layer (TTC-L, TY): closed, then open
+
+sort fact
+  means "a fact, as a term"
+
+sort interior
+  means "a claim about an agent's knowledge, will or freedom"
+
 ```clingo
 % ===================================================================
 %  The human act: a standard library for canon law (TTC-ACT(7)).
@@ -28,13 +36,13 @@ library
 
 -- Slots this layer reads first (TTC-L, SO): what a case enters
 
-slot act_of/2
+slot act_of(P: person, A: act)
   means "act_of(P, A): P placed the act A"
 
-slot disputed/1
+slot disputed(F: fact)
   means "disputed(F): the fact F is disputed: computed both ways"
 
-slot gross/1
+slot gross(K: category)
   means "gross(K): a gross kind of ignorance (crass, supine, affected)"
 
 use acts/1 "from the runtime (schools.lp, classical): creatures act"
@@ -47,7 +55,7 @@ use divine/1 "from the kernel's sorts"
 
 use god/1 "from the kernel's sorts"
 
-slot interior/3
+slot interior(Person: person, Act: act, Element: interior)
   means "interior(Person, Act, Element): a claim about the agent's knowledge, will or freedom in the act; supplied, never derived"
 
 ```clingo
@@ -77,16 +85,16 @@ agent(P,A)   :- act_of(P,A), in_nature(A,hum), operates(P,hum).
 % personal sins" (CCC 1869; RP 16): said by analogy, never of the collective.
 ```
 
-slot juridic_person/1
+slot juridic_person(P: person)
   means "cc. 113 §2, 114: a subject of obligations and rights by law or decree (of the Church or of a civil order)"
 
-slot moral_person/1
+slot moral_person(P: person)
   means "c. 113 §1: a moral person by divine ordinance (the Catholic Church, the Apostolic See)"
 
-slot group/1
+slot group(P: person)
   means "a name for persons with no status in law"
 
-slot represents/2
+slot represents(Person: person, J: person)
   means "represents(Person, J): c. 118, who acts in its name"
 
 ```clingo
