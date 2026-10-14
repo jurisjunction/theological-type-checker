@@ -634,3 +634,20 @@ def test_cases_and_sentences_change_no_rule_file():
             if isinstance(item, lang.Slot):
                 item.attrs.pop("say", None)
     assert lang.compiled(srcs) == before
+
+
+# ---------- IS: interiors supplied ------------------------------------------
+def test_every_interior_supplied_or_disputed_is_named_in_every_branch():
+    # IS1: a name, never a finding (rule 3)
+    facts = ("act_of(p,a). interior(p,a,deliberate). disputed(interior(p,a,full_knowledge)).\n"
+             "act_of(q,b).")
+    r = engine.solve([], "branches", facts=facts)
+    assert len(r["all_models"]) == 2
+    for m in r["all_models"]:
+        named = {a for a in m if a.startswith("info(interior_supplied(")}
+        assert named == {"info(interior_supplied(p,a,deliberate))", "info(interior_supplied(p,a,full_knowledge))"}
+
+
+def test_no_rule_reads_the_interiors_named():
+    for f, text in lang.compiled(lang.sources()).items():
+        assert not re.search(r":-[^.]*interior_supplied", text), f

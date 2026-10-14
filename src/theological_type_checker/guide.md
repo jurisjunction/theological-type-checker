@@ -271,6 +271,7 @@ See [ttc-empirica(7)](research/empirica-preregistration.md).
 | `violation(X)` | A rule is broken. Ask whether the rule or the text is wrong. |
 | `violation(outside_domain(Slot,N,V))` | Argument N of a slot holds V, outside its sort: a tier, a force, a character, a nature, a mode of presence, … (ttc-l(1)). |
 | `info(X)` | Noted. |
+| `info(interior_supplied(P,A,X))` | An interior a case supplied or disputed, named in every branch: a claim, never a finding (rule 3). |
 | `frontier(Layer,X)` | Still to encode or read. |
 
 A value is *settled* if every main branch has it, *open* if some do, a

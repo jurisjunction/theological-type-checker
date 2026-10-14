@@ -66,6 +66,11 @@ slot interior(Person: person, Act: act, Element: interior)
 { interior(P,A,X) } :- disputed(interior(P,A,X)).
 assumed_fact(interior(P,A,X))        :- disputed(interior(P,A,X)), interior(P,A,X).
 assumed_fact(false(interior(P,A,X))) :- disputed(interior(P,A,X)), not interior(P,A,X).
+% Every interior a case supplies, or disputes, is named in every branch
+% (TTC-L IS): the reader sees what was claimed of the agent. A name, never a
+% finding; no rule reads it (rule 3).
+info(interior_supplied(P,A,X)) :- interior(P,A,X).
+info(interior_supplied(P,A,X)) :- disputed(interior(P,A,X)).
 
 % ---------- Agents -----------------------------------------------------
 % The person acts; the nature is that by which (ST III q. 19 a. 1). A

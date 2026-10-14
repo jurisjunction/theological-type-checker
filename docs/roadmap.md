@@ -32,7 +32,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | liturgy | the liturgy as witness, rite and development; one book, two sources; the substance kept, the rest law; rites in time | done ([ttc-liturgy(7)](research/liturgy-preregistration.md)) |
 | last things | the order after death given by definitions, never measured by the calendar; the vision deferred and defined; the end early; no one's state computed; what lasts; one sacrifice in many times | done ([ttc-novissima(7)](research/novissima-preregistration.md)) |
 | empirical | the empirical kind: no tier settles it, a finding does, and a finding settles no doctrine; Galileo and the Big Bang; method and being; how many human beings | done ([ttc-empirica(7)](research/empirica-preregistration.md)) |
-| L | a language for libraries, compiled to clingo: declarations as metaclasses; runtimes by inheritance, three combinators, clashes refused; slots declared once, with sorts, domains, layers and sentences; parts naming their case; premises kept apart from conclusions | in progress: regeneration, runtimes, slots, layers, sorts, cases and sentences done ([ttc-l(7)](research/l-preregistration.md)) |
+| L | a language for libraries, compiled to clingo: declarations as metaclasses; runtimes by inheritance, three combinators, clashes refused; slots declared once, with sorts, domains, layers and sentences; parts naming their case; premises kept apart from conclusions | in progress: regeneration, runtimes, slots, layers, sorts, cases, sentences and interiors done ([ttc-l(7)](research/l-preregistration.md)) |
 | churches | other Churches and ecclesial communities: succession, sacraments, *subsistit in* | to predict, after L |
 | senses | the senses and the routes to words: sensibles typed, schemes by culture, the interior senses; words by hearing, sight, hand and touch; perception's claims as premises | to predict, after L |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
@@ -484,7 +484,7 @@ L first: runtime inheritance and the three combinators only.
     checker's. Done (L, SY).
   - **An info atom for every interior supplied**
     (`info(interior_supplied(P,A,X))`), so the non-diagnosis reminder
-    comes from the oracle (rule 3).
+    comes from the oracle (rule 3). Done (L, IS).
   - **Scenarios as data** (status, present, preferred), converted as each
     is touched; the Python helpers stay for the rest.
   - **Ground once, solve many,** if generation needs the speed.

@@ -386,8 +386,8 @@ beyond those this step touches.
 
 Appended stage by stage. Predictions committed in e69e70a, stamped in
 4357243. Stage 1 (RG) is 3fc3601, stage 2 (RU) 0b7ad94, stage 3 (SO, LY)
-2796019, stage 4 (TY) 567c741; stage 5 (OF, SY) the commit that adds its
-rows.
+2796019, stage 4 (TY) 567c741, stage 5 (OF, SY) d2cf622; stage 6 (IS)
+the commit that adds its row.
 
 | | Result |
 | --- | --- |
@@ -415,6 +415,8 @@ rows.
 | OF2 | Held: no rule file changed (a test strips `of` and compiles). The grammar serves it at M5. |
 | SY1 | Held: every slot has a `say` naming each argument once, written by hand (425); a test renders each with its arguments and finds no name left. No rule file changed. |
 | M1 (OF, SY) | Held: no rule file changed byte for byte, so no output did. |
+| IS1 | Held: `act.l` names every `interior/3` supplied, and every one disputed, in every branch (two rules, each with a test that fails without it). In the snapshot the only change is these atoms, in 83 scenarios: the 80 whose parts supply or dispute an interior, and three of `c915_case` (MS3, MS5, MS5b), where c. 916 itself disputes one. No rule reads the atom (a test); nothing about the interior is derived. |
+| M1 (IS) | Held: only the atoms IS1 predicted. |
 
 ### The slot, amended (SO1; rule 7)
 
