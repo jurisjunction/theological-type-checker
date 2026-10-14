@@ -54,9 +54,12 @@ git URL of the repository (a Radicle seed's, if it serves git over
 HTTPS; GitHub's is private). Repeat after each release. Each archived revision gets a
 SWHID (`swh:1:rev:...`), derived from its content, which names it forever.
 
-**OpenTimestamps.** Stamp a commit: `tools/stamp`. The stamp is a hash in
-the Bitcoin chain, so it reveals nothing and proves the commit existed no
-later than its block. A few hours later, `ots upgrade` completes it.
+**OpenTimestamps.** The stamp is a hash in the Bitcoin chain, so it
+reveals nothing and proves the commit existed no later than its block,
+whoever ran the command. Predictions are stamped on GitHub: the stamp
+Action stamps each commit whose subject begins `Predictions for` when it
+reaches `main`, commits the proof, and upgrades pending stamps daily. Any
+other commit, by hand, or with the Action's `commit` input:
 
 ```
 uv tool install opentimestamps-client
@@ -86,6 +89,8 @@ browse URL above.
 | `CITATION.cff` | how to cite, if anyone wishes to |
 | `stamps/` | OpenTimestamps proofs, one per stamped commit |
 | `tools/stamp` | stamps a commit |
+| `tools/stamp-pushed` | stamps the predictions commits in a pushed range |
+| `.github/workflows/stamp.yml` | the stamp Action: on each push to `main`, and daily |
 
 ## CAVEATS
 

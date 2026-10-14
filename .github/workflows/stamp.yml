@@ -1,0 +1,73 @@
+# Stamps every predictions commit pushed to main (house rule 12) with
+# OpenTimestamps, and commits the proof. The proof is a hash in the Bitcoin
+# chain: it says the commit existed by a block's time, whoever ran the
+# command. Daily, it upgrades pending stamps once Bitcoin holds them.
+# Pushes made with GITHUB_TOKEN start no other workflow, so this never
+# triggers itself.
+name: stamp
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: "A commit to stamp by hand (its full hash)"
+        required: false
+        default: ""
+permissions:
+  contents: write
+concurrency:
+  group: stamp
+  cancel-in-progress: false
+jobs:
+  stamp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet opentimestamps-client
+      - name: Stamp the predictions commits pushed
+        if: github.event_name == 'push'
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: tools/stamp-pushed "$BEFORE" "$AFTER" > "$RUNNER_TEMP/stamped"
+      - name: Stamp one commit by hand
+        if: github.event_name == 'workflow_dispatch' && inputs.commit != ''
+        env:
+          COMMIT: ${{ inputs.commit }}
+        run: |
+          echo "$COMMIT" | grep -Eqx '[0-9a-f]{40}' || { echo "a full commit hash, please" >&2; exit 1; }
+          tools/stamp "$COMMIT" > /dev/null
+          echo "$COMMIT" > "$RUNNER_TEMP/stamped"
+      - name: Upgrade pending stamps
+        if: github.event_name == 'schedule'
+        run: |
+          for f in stamps/*.ots; do ots upgrade "$f" > /dev/null 2>&1 || true; done
+          rm -f stamps/*.bak
+      - name: Commit and push the proofs
+        run: |
+          git add stamps
+          git diff --cached --quiet && exit 0
+          if [ -s "$RUNNER_TEMP/stamped" ]; then
+            subject="Stamp the predictions"
+            body=$(while read -r c; do echo "$c $(git log -1 --format=%s "$c")"; done < "$RUNNER_TEMP/stamped")
+          else
+            subject="Upgrade the stamps Bitcoin now holds"
+            body="ots upgrade, run daily."
+          fi
+          export TZ=UTC
+          git config user.name "Ora pro me, peccatore"
+          git config user.email "noreply@users.noreply.github.com"
+          git commit -q -m "$subject" -m "$body" -m "Ora pro me, peccatore"
+          for i in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main
+          done
+          exit 1

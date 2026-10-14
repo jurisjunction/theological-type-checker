@@ -1,12 +1,14 @@
 """tools/sync: main from GitHub to Radicle, and nothing when the folder is
 not clean (run against throwaway repositories standing in for both)."""
+import os
 import pathlib
 import shutil
 import subprocess
 
 import pytest
 
-SYNC = pathlib.Path(__file__).resolve().parent.parent / "tools" / "sync"
+TOOLS = pathlib.Path(__file__).resolve().parent.parent / "tools"
+SYNC = TOOLS / "sync"
 ID = ["-c", "user.name=t", "-c", "user.email=t@example.org"]
 
 
@@ -63,3 +65,34 @@ def test_sync_changes_nothing_unless_the_folder_is_clean(repos, make_unclean, wh
     assert subprocess.run(["git", "rev-parse", "--verify", "-q", "main"], cwd=rad, capture_output=True).returncode != 0
     if why != "commits GitHub lacks":
         assert git(work, "rev-parse", "HEAD") == before
+
+
+# ---------- tools/stamp-pushed: what the stamp Action stamps ------------------
+def test_only_predictions_commits_are_stamped_and_each_once(tmp_path):
+    if not shutil.which("git"):
+        pytest.skip("no git")
+    bin_ = tmp_path / "bin"
+    bin_.mkdir()
+    ots = bin_ / "ots"                                   # a stand-in: no network in tests
+    ots.write_text('#!/bin/sh\n[ "$1" = stamp ] && cp "$2" "$2.ots"\n')
+    ots.chmod(0o755)
+    repo = tmp_path / "repo"
+    git(tmp_path, "init", "-q", "-b", "main", str(repo))
+    shas = []
+    for subject in ("first", "Predictions for a step (TTC-X)", "The step encoded", "Stamp the predictions"):
+        git(repo, "commit", "-q", "--allow-empty", "-m", subject)
+        shas.append(git(repo, "rev-parse", "HEAD"))
+    env = {**os.environ, "PATH": f"{bin_}:{os.environ['PATH']}"}
+
+    def run(before, after="HEAD"):
+        r = subprocess.run(["sh", str(TOOLS / "stamp-pushed"), before, after], cwd=repo, env=env,
+                           capture_output=True, text=True)
+        assert r.returncode == 0, r.stderr
+        return r.stdout.split()
+
+    assert run(shas[0]) == [shas[1]]
+    assert (repo / "stamps" / f"{shas[1]}.txt").read_text().strip() == shas[1]
+    assert (repo / "stamps" / f"{shas[1]}.txt.ots").exists()
+    assert run(shas[0]) == []                             # stamped once
+    assert run("0" * 40) == []                            # a first push looks back, and finds it stamped
+    assert sorted(p.name for p in (repo / "stamps").iterdir()) == [f"{shas[1]}.txt", f"{shas[1]}.txt.ots"]

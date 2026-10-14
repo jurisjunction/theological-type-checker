@@ -48,6 +48,13 @@ left uncommitted in a folder. `tools/sync`, run on the person's machine
 (where the Radicle key is), brings `main` from GitHub and pushes it to
 Radicle; it changes nothing if the folder is not clean.
 
+Stamping (rule 12) happens on GitHub: a commit whose subject begins
+`Predictions for` is stamped when it reaches `main`, and the proof is
+committed by the stamp Action (`.github/workflows/stamp.yml`, which runs
+`tools/stamp-pushed`). Begin encoding once that commit is in. Daily, the
+Action upgrades pending stamps once Bitcoin holds them. Do not stamp a
+predictions commit by hand as well.
+
 The personal layer is `$TTC_HOME` (default `~/.ttc` if present). Tests run
 with it disabled.
 

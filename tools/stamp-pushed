@@ -1,0 +1,29 @@
+#!/bin/sh
+# Stamp every predictions commit in a pushed range that has no stamp yet
+# (house rule 12), as the stamp Action does on each push to main.
+#
+#   tools/stamp-pushed <before> <after>
+#
+# A predictions commit is one whose subject begins "Predictions for". With
+# no usable <before> (a first push), the last 50 commits are looked at.
+# Prints each commit stamped, one per line; nothing if there is none.
+set -eu
+here=$(cd "$(dirname "$0")" && pwd)
+cd "$(git rev-parse --show-toplevel)"
+before=${1:-}
+after=${2:?usage: tools/stamp-pushed <before> <after>}
+
+if [ -n "$before" ] && git cat-file -e "$before^{commit}" 2>/dev/null; then
+    commits=$(git log --format=%H "$before..$after")
+else
+    commits=$(git log --format=%H -n 50 "$after")
+fi
+for c in $commits; do
+    case "$(git log -1 --format=%s "$c")" in
+        "Predictions for"*) ;;
+        *) continue ;;
+    esac
+    [ -e "stamps/$c.txt.ots" ] && continue
+    "$here/stamp" "$c" >/dev/null
+    echo "$c"
+done
