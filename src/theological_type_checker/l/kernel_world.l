@@ -16,9 +16,11 @@ layer kernel
 
 slot caused_by(E: event, C: event)
   means "caused_by(E, C): the event E is caused by C"
+  say "{E} is caused by {C}"
 
 slot happens_at(E: event, Point: event)
   means "happens_at(E, Point): an event placed at a point of the order"
+  say "{E} happens at {Point}"
 
 part switch
 
@@ -299,7 +301,7 @@ part candidate
 next(resurrection,death).
 ```
 
-part candidate
+part candidate of defined_senses
 
 ```clingo
 #program cand_scripture_raw.      % a text of Scripture entered with no readings (TTC-CREED)

@@ -28,6 +28,7 @@ library
 
 slot grade_name(T: tier, N: category)
   means "grade_name(T, N): the name of the note at tier T"
+  say "the note at tier {T} is {N}"
 
 use holds/2 "from the authority graph"
 
@@ -47,12 +48,15 @@ use teaching_type/2 "teaching_type(Source, principle | criterion | directive) (C
 
 slot professes(Person: person, Act: act, Q: question, V: value)
   means "professes(Person, Act, Q, V): in the act the person publicly holds V on Q (outward)"
+  say "in {Act}, {Person} publicly holds {V} on {Q}"
 
 slot doubts(Person: person, Act: act, Q: question)
   means "doubts(Person, Act, Q): in the act the person publicly doubts the question (outward)"
+  say "in the act {Act}, {Person} publicly doubts {Q}"
 
 slot repudiates(Person: person, Act: act, Of: category)
   means "repudiates(Person, Act, christian_faith): an outward repudiation of the faith as a whole"
+  say "in {Act}, {Person} repudiates {Of}"
 
 use interior/3 "act.lp: a claim about the agent; pertinacious is one"
 

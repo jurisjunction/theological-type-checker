@@ -29,15 +29,19 @@ sort work
 
 slot cites_work(S: source, W: work, Locator: string)
   means "cites_work(S, W, Locator): where source S is read, in work W"
+  say "{S} is read in {W}, at {Locator}"
 
 slot consulted(S: source)
   means "consulted(S): the citation of S checked against print"
+  say "the citation of {S} is checked against print"
 
 slot online(W: work, URL: string)
   means "online(W, URL): a reliable text of W online"
+  say "{W} is online at {URL}"
 
 slot to_read(W: work, Why: string)
   means "to_read(W, Why): research owed on W"
+  say "research is owed on {W}: {Why}"
 
 ```clingo
 

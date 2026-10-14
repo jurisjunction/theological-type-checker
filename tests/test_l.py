@@ -269,7 +269,7 @@ def test_each_slot_is_declared_in_the_lowest_layer_that_reads_it():
 
 READ_P = '```clingo\nq :- p(1).\n```\n'
 SORT_S = 'sort s\n  means "m"\n'
-SLOT_P = 'slot p(X: s)\n  means "m"\n'
+SLOT_P = 'slot p(X: s)\n  means "m"\n  say "{X} is p"\n'
 
 
 @pytest.mark.parametrize("files,why", [
@@ -537,3 +537,100 @@ def test_the_gate_knows_no_more_than_before():
     assert engine.unknown_slots("in_sort(force,bogus).") == ["unknown_slot(in_sort/2)"]
     assert engine.unknown_slots("source(s,3,truth,2000).") == []
     assert engine.SCHEMA == 1
+
+
+# ---------- OF, SY: parts and their cases; sentences ------------------------
+def _p_with(say):
+    return {"a.lp": lang.parse('layer kernel\n' + SORT_S + 'slot p(X: s, Y: s)\n  means "m"\n' + say
+                               + '```clingo\nq :- p(1,2).\n```\n', "a.l")}
+
+
+@pytest.mark.parametrize("say,why", [
+    ("", "slot p/2 has no `say`"),
+    ('  say "{X} is p of {Z}"\n', "`say` names no argument Z"),
+    ('  say "{X} is p of {X}"\n', "`say` names X twice"),
+    ('  say "{X} is p"\n', "`say` names Y never"),
+])
+def test_a_sentence_l_refuses(say, why):
+    with pytest.raises(lang.LError, match=re.escape(why)):
+        lang.validate(_p_with(say))
+
+
+def test_every_slot_says_each_argument_once():
+    # SY1: every template rendered with its arguments leaves no name unfilled
+    for d in lang.slots(lang.sources()).values():
+        values = [f"<{a.lower()}>" for a, _ in d.args or []]
+        out = lang.say(d, values)
+        assert "{" not in out and "}" not in out, (d.name, out)
+        assert all(out.count(v) == 1 for v in values), (d.name, out)
+    src = lang.slots(lang.sources())[("source", 4)]
+    assert lang.say(src, ["enc_x", "3", "truth", "1990"]) == "enc_x is a source at tier 3, of force truth, from 1990"
+
+
+CASES_OF = """layer authority
+part case
+```clingo
+#program c.
+question(q(c)).
+```
+part switch of c
+```clingo
+#program s.
+```
+"""
+
+
+@pytest.mark.parametrize("text,why", [
+    (CASES_OF.replace("part switch of c", "part switch of nowhere"), "`of nowhere` names no case"),
+    (CASES_OF + "part model of c\n```clingo\n#program m.\n```\n", "only a switch or a candidate names its case"),
+])
+def test_of_l_refuses(text, why):
+    lang.validate({"a.lp": lang.parse(CASES_OF, "a.l")})
+    with pytest.raises(lang.LError, match=re.escape(why)):
+        lang.validate({"a.lp": lang.parse(text, "a.l")})
+
+
+def _questions(text, stated=False):
+    from clingo import ast
+    out = set()
+
+    def on(st):
+        if st.ast_type == ast.ASTType.Rule:
+            s = str(st.head) if stated else str(st.head) + " " + " ".join(map(str, st.body))
+            out.update(re.findall(r"\bquestion\(q\(([a-z_]\w*)" if stated else r"\bq\(([a-z_]\w*)", s))
+    ast.parse_string(text, on)
+    return out
+
+
+def test_a_part_of_a_case_names_only_its_questions():
+    # OF1: every q(...) term in a part `of C` is a question C states, or one
+    # no case states
+    srcs = lang.sources()
+    parts = [(f, it, "\n".join(src.items[i + 1].lines)) for f, src in srcs.items()
+             for i, it in enumerate(src.items) if isinstance(it, lang.Part)]
+    states = {}
+    for f, it, text in parts:
+        if it.kind == "case":
+            for q in _questions(text, stated=True):
+                states.setdefault(q, set()).add(it.name)
+    with_of = [(f, it, text) for f, it, text in parts if it.of]
+    assert 100 <= len(with_of) <= 250
+    for f, it, text in with_of:
+        for q in _questions(text):
+            assert it.of in states.get(q, {it.of}), (it.name, it.of, q)
+    named = {it.name: it.of for _, it, _ in with_of}
+    assert [named.get(p) for p in ("recourse_decided_2026", "ccc_intrinsic", "trolley", "cand_monothelite")] == [
+        "sspx", "deathpenalty", "life_sources", None]
+
+
+def test_cases_and_sentences_change_no_rule_file():
+    # OF2, SY1: `of` and `say` compile into no rule file
+    srcs = lang.sources()
+    before = lang.compiled(srcs)
+    for src in srcs.values():
+        for item in src.items:
+            if isinstance(item, lang.Part):
+                item.of = None
+            if isinstance(item, lang.Slot):
+                item.attrs.pop("say", None)
+    assert lang.compiled(srcs) == before

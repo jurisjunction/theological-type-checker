@@ -57,54 +57,71 @@ library
 
 slot twin_reading_kind(R: reading)
   means "twin_reading_kind(R): a reading of a twinning (budding, fission, delayed, one soul)"
+  say "{R} is a reading of a twinning"
 
 slot finding(F: finding, Q: question, V: value, Year: year)
   means "finding(F, Q, V, Year): a finding of the sciences on a question, by its year"
+  say "from {Year}, the finding {F} holds {V} on {Q}"
 
 slot method(F: finding, M: category)
   means "method(F, division): how a finding was reached, where a claim rests on it"
+  say "the finding {F} was reached by {M}"
 
 slot censures_as_heresy(S: source, Q: question, V: value)
   means "censures_as_heresy(S, Q, V): the source censures value V of Q as heretical"
+  say "{S} censures {V} on {Q} as heretical"
 
 slot censures_in_faith(S: source, Q: question, V: value)
   means "censures_in_faith(S, Q, V): the source censures value V of Q as erroneous in faith"
+  say "{S} censures {V} on {Q} as erroneous in faith"
 
 slot rests_on_finding(S: source, Q: question, F: finding)
   means "rests_on_finding(S, Q, F): a source rests its value on Q on the finding F"
+  say "{S} rests its value on {Q} on the finding {F}"
 
 slot consent_claimant(Text: source, C: claimant)
   means "consent_claimant(Text, C): who claims the Fathers' unanimous consent on the text"
+  say "{C} claims the Fathers' unanimous consent on {Text}"
 
 slot nothing_but(Claim: claim, Whole: entity, F: finding)
   means "nothing_but(Claim, Whole, F): a claim that the whole is nothing but its parts, resting on F"
+  say "{Claim} says {Whole} is nothing but its parts, resting on {F}"
 
 slot about_the_parts(Claim: claim, Whole: entity, F: finding)
   means "about_the_parts(Claim, Whole, F): a claim about the parts, resting on F"
+  say "{Claim} is a claim about the parts of {Whole}, resting on {F}"
 
 slot form_of_the_body_given(S: source)
   means "the source defines the rational soul the form of the human body (Vienne, DH 902)"
+  say "{S} defines the rational soul the form of the body"
 
 slot twinning(E: event, A: person, B: person)
   means "twinning(E, A, B): an embryo E becomes the twins A and B"
+  say "the embryo {E} becomes the twins {A} and {B}"
 
 slot contrary_acts_at_once(A: person, B: person)
   means "contrary_acts_at_once(A, B): the twins do contrary things at once, outwardly"
+  say "{A} and {B} do contrary things at once"
 
 slot died_while_other_lived(A: person, B: person)
   means "died_while_other_lived(A, B): A died and B lived on"
+  say "{A} died and {B} lived on"
 
 slot baptized_each(A: person, B: person)
   means "baptized_each(A, B): the Church baptized each of them absolutely"
+  say "the Church baptized each of {A} and {B}"
 
 slot married_each(A: person, B: person)
   means "married_each(A, B): each married, admitted by the Church"
+  say "the Church admitted each of {A} and {B} to marriage"
 
 slot divides_the_soul(E: event)
   means "candidate only: the soul of E divided between the twins"
+  say "the soul of {E} is said divided between the twins"
 
 slot doubt_one_or_more(E: event, Date: date)
   means "canon_law.lp: a birth at which it is doubted whether one human being or several"
+  say "at the birth {E}, on {Date}, it is doubted whether one human being was born or several"
 
 use question_kind/2 "icon_authority.lp"
 

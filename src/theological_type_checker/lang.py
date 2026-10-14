@@ -633,10 +633,41 @@ def validate(srcs: dict[str, Source]) -> None:
     for s in sorts.values():
         if s.name not in used:
             raise LError(s.where, s.line, f"sort {s.name}: no slot uses it")
+    for d in declared.values():
+        check_say(d)
+    case_parts = {p.name for src in srcs.values() for p in src.decls(Part) if p.kind == "case"}
+    for src in srcs.values():
+        for p in src.decls(Part):
+            if p.of and (p.kind not in ("switch", "candidate") or p.of not in case_parts):
+                raise LError(p.where, p.line, f"part {p.name}: `of {p.of}` names no case"
+                             if p.of not in case_parts else f"part {p.name}: only a switch or a candidate names its case")
     for src in srcs.values():
         for u in src.decls(Use):
             if u.sig not in declared and u.sig not in derived:
                 raise LError(u.where, u.line, f"use {u.name}/{u.arity}: no file declares or derives it")
+
+
+def check_say(d: Slot) -> None:
+    """SY: a slot's `say` names each of its arguments once, and nothing else."""
+    if "say" not in d.attrs:
+        raise LError(d.where, d.line, f"slot {d.name}/{d.arity} has no `say`")
+    names = re.findall(r"\{([^{}]*)\}", d.attrs["say"])
+    args = [a for a, _ in d.args or []]
+    unknown = [n for n in names if n not in args]
+    if unknown:
+        raise LError(d.where, d.line, f"slot {d.name}/{d.arity}: `say` names no argument {unknown[0]}")
+    for a in args:
+        if names.count(a) != 1:
+            raise LError(d.where, d.line, f"slot {d.name}/{d.arity}: `say` names {a} "
+                         f"{'twice' if names.count(a) > 1 else 'never'}")
+
+
+def say(d: Slot, values: list[str]) -> str:
+    """The slot's sentence, its arguments filled in."""
+    out = d.attrs["say"]
+    for (a, _), v in zip(d.args or [], values):
+        out = out.replace("{" + a + "}", v)
+    return out
 
 
 _SIDES: dict = {}

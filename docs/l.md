@@ -34,11 +34,11 @@ Edit the `.l` file, then build. Never edit a rule file by hand.
 | `layer kernel\|theory\|schools\|authority\|libraries\|canon\|pair\|library` | nothing | The file's layer, first line of every source. |
 | `library` | `%  @library  (…)` | norms.py counts the file's predicates as defined. |
 | `sort name`, `sort name {a, b, …}`, `sort name lo..hi` + `means "…"` | the domains section | A sort of slot argument: open (named, not enforced) or closed, by values or a range. Declared once, in the lowest layer whose slots use it. |
-| `slot name(A: sort, …)` (`name/0` with no arguments) + `means "…"` | `% @input name/n \| …` | A predicate a case enters: one the base reads and no rule derives, or one the guide gives to enter though a rule derives it (`source/4`, `interior/3`). Declared once, in the lowest layer that reads it; absolutions and consecrations in the canon layer, which a library reads. |
+| `slot name(A: sort, …)` (`name/0` with no arguments) + `means "…"` + `say "…"` | `% @input name/n \| …` | A predicate a case enters: one the base reads and no rule derives, or one the guide gives to enter though a rule derives it (`source/4`, `interior/3`). Declared once, in the lowest layer that reads it; absolutions and consecrations in the canon layer, which a library reads. |
 | `use name/n "…"` | `% @input name/n \| …` | Read here; declared or derived elsewhere. |
 | `norm id \| citation \| url` | `% @norm id \| citation \| url` | A canon, with its source (house rule 4). |
 | `end`, `temporal id`, `recursive id`, `stratum id divine\|supreme\|common` | `% @end`, `% @temporal id`, … | As norms.py reads them. |
-| `part model\|case\|switch\|candidate\|date\|search [of case]` | nothing | The kind of the `#program` block below, and its case. A case states its questions (`question/1`), or is the canon half of one, by its name; a switch is loaded with a case or a model to change it. |
+| `part model\|case\|switch\|candidate\|date\|search [of case]` | nothing | The kind of the `#program` block below, and its case. A case states its questions (`question/1`), or is the canon half of one, by its name; a switch is loaded with a case or a model to change it. A switch or candidate names the case whose matter it changes or tests with `of`; one of a model, a school or the creed names none. |
 | `runtime name [extends parent, ...]` + `add p, ...`, `exclude p, ...`, `alter p -> q` | `runtimes.json` | A school's parts, loaded whole, by inheritance. |
 | ```` ```clingo ```` … ```` ``` ```` | its lines | Raw clingo. |
 
@@ -71,6 +71,11 @@ Nothing else reads `in_sort/2`, and no rule reads `outside_domain`. An
 argument of no sort, a sort no slot uses, a sort declared twice, or one
 declared above a slot that uses it does not compile.
 
+A slot's `say` is its sentence, each argument named once in braces
+(`"{S} is a source at tier {T}, of force {F}, from {Y}"`). A `say` naming
+an argument twice, never, or one the slot lacks, and an `of` naming no
+case, do not compile. `say` and `of` reach no rule file.
+
 Lines beginning `--` are comments of L's and are not compiled.
 
 ## EXIT STATUS
@@ -91,6 +96,7 @@ sort finding
 
 slot finding(F: finding, Q: question, V: value, Year: year)
   means "finding(F, Q, V, Year): a finding of the sciences on a question, by its year"
+  say "from {Year}, the finding {F} holds {V} on {Q}"
 use in_force/1 "icon_authority.lp"
 
 part case

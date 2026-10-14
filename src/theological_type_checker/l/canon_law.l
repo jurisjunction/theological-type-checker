@@ -43,39 +43,51 @@ sort situation
 
 slot age_clause(D: law, N: norm)
   means "age_clause(D, N): D's clause that the error about the age does not excuse from delict N (c. 1398 §1 n. 1; art. 6 n. 1)"
+  say "{D} says the error about the age does not excuse from {N}"
 
 slot censure_barring(K: penalty)
   means "censure_barring(K): a censure that bars from Holy Communion (c. 915)"
+  say "the censure {K} bars from Holy Communion"
 
 slot eastern_church(C: church)
   means "eastern_church(C): an Eastern Church sui iuris in full communion"
+  say "{C} is an Eastern Church in full communion"
 
 slot eastern_noncatholic_church(C: church)
   means "eastern_noncatholic_church(C): an Eastern Church not in full communion"
+  say "{C} is an Eastern Church not in full communion"
 
 slot element_of(N: norm, C: circumstance)
   means "element_of(N, C): C is an element of the matter of delict N"
+  say "{C} is an element of the matter of {N}"
 
 slot excusing(C: circumstance)
   means "excusing(C): a circumstance that exempts when believed invincibly (c. 1323 n. 7)"
+  say "{C}, believed invincibly, exempts"
 
 slot lapse_date(L: law, Date: date)
   means "lapse_date(L, Date): the date a law lapses by its own terms"
+  say "{L} lapses on {Date}"
 
 slot latae_sententiae(N: norm)
   means "latae_sententiae(N): the penalty of delict N is incurred by the act (c. 1314)"
+  say "the penalty of {N} is incurred by the act"
 
 slot narrower(R1: reading, R2: reading)
   means "narrower(R1, R2): reading R1 reaches less than R2"
+  say "the reading {R1} reaches less than {R2}"
 
 slot penalty(N: norm, K: penalty)
   means "penalty(N, K): the penalty of delict N"
+  say "the penalty of {N} is {K}"
 
 slot reorders(L2: law, B: law)
   means "reorders(L2, B): L2 reorders the whole matter of B (c. 20)"
+  say "{L2} reorders the whole matter of {B}"
 
 slot revokes(L2: law, B: law, Way: category)
   means "revokes(L2, B, Way): L2 revokes B expressly, by contrary law, or by reordering (c. 20)"
+  say "{L2} revokes {B} by {Way}"
 
 ```clingo
 
@@ -88,162 +100,213 @@ use bishop/1 "a bishop"
 
 slot in_class(Person: person, Class: class)
   means "in_class(Person, Class): e.g. the clergy of a society"
+  say "{Person} is of the class {Class}"
 
 slot consecration(Event: act, PrincipalConsecrator: person, Consecrated: person, Date: date)
   means "consecration(Event, PrincipalConsecrator, Consecrated, Date)"
+  say "{PrincipalConsecrator} consecrated {Consecrated} on {Date} ({Event})"
 
 slot co_consecrator(Event: act, Bishop: person)
   means "co_consecrator(Event, Bishop)"
+  say "{Bishop} co-consecrated at {Event}"
 
 slot pontifical_mandate(E: act)
   means "the consecration had a pontifical mandate"
+  say "the consecration {E} had a pontifical mandate"
 
 slot against_explicit_papal_will(A: act)
   means "the act was done against the pope's expressed will"
+  say "the act {A} was done against the pope's expressed will"
 
 slot decree(Decree: act, Issuer: authority, Date: date)
   means "decree(Decree, Issuer, Date)"
+  say "{Issuer} issued the decree {Decree} on {Date}"
 
 slot declares(Decree: act, Person: person, Norm: norm)
   means "declares(Decree, Person, Norm): names a person and declares a penalty"
+  say "{Decree} declares {Person} under {Norm}"
 
 slot heard(D: act, P: person)
   means "c. 1720 n. 1: accused informed of accusation and proofs, able to defend"
+  say "before {D}, {P} was informed of the accusation and the proofs, and could defend himself"
 
 slot summoned_absent(D: act, P: person)
   means "duly summoned and failed to appear"
+  say "{P} was duly summoned before {D} and failed to appear"
 
 slot recourse(Decree: act, Person: person, Date: date)
   means "recourse(Decree, Person, Date)"
+  say "{Person} took recourse against {Decree} on {Date}"
 
 slot recourse_decided(Decree: act, Date: date)
   means "recourse_decided(Decree, Date)"
+  say "the recourse against {Decree} was decided on {Date}"
 
 slot recourse_upheld(Decree: act)
   means "the decree was annulled on recourse"
+  say "{Decree} was annulled on recourse"
 
 slot remission(Act: act, Person: person, Norm: norm, Date: date)
   means "remission(Act, Person, Norm, Date): a censure remitted"
+  say "{Act} remitted to {Person} the censure of {Norm} on {Date}"
 
 slot issuer(Act: act, Authority: authority)
   means "issuer(Act, Authority)"
+  say "{Authority} issued {Act}"
 
 slot authority(A: authority, Rank: rank)
   means "authority(A, Rank): 4 pope (or by papal mandate/approval), 3 dicastery, 1 ordinary"
+  say "{A} holds authority of rank {Rank}"
 
 slot grant(G: act, Issuer: person, Faculty: category, Class: class, Date: date)
   means "grant(G, Issuer, Faculty, Class, Date)"
+  say "{Issuer} granted {Class} the faculty {Faculty} on {Date} ({G})"
 
 slot permission(P: act, Issuer: authority, Class: class, Date: date)
   means "permission(P, Issuer, Class, Date): ordinaries may delegate for this class"
+  say "by {P}, {Issuer} let ordinaries delegate for {Class} from {Date}"
 
 slot revocation(Act: act, Grant: act, Date: date)
   means "revocation(Act, Grant, Date): an act purporting to revoke a grant"
+  say "on {Date}, {Act} purports to revoke {Grant}"
 
 slot absolution(A: act, Priest: person, Penitent: person, Date: date)
   means "absolution(A, Priest, Penitent, Date)"
+  say "{Priest} absolved {Penitent} on {Date} ({A})"
 
 slot marriage(M: act, AssistingPriest: person, Date: date)
   means "marriage(M, AssistingPriest, Date)"
+  say "the marriage {M} was celebrated on {Date}, {AssistingPriest} assisting"
 
 slot delegation(D: act, Ordinary: person, Priest: person, Scope: act, Date: date)
   means "delegation(D, Ordinary, Priest, MarriageOrGeneral, Date)"
+  say "{Ordinary} delegated {Priest} for {Scope} on {Date} ({D})"
 
 slot ordinary(P: person)
   means "a local ordinary"
+  say "{P} is a local ordinary"
 
 slot danger_of_death(Penitent: person, Date: date)
   means "danger_of_death(Penitent, Date)"
+  say "{Penitent} was in danger of death on {Date}"
 
 slot just_cause_request(Penitent: person, Priest: person, Date: date)
   means "just_cause_request(Penitent, Priest, Date)"
+  say "on {Date}, {Penitent} asked {Priest} for absolution for a just cause"
 
 slot common_error(A: act)
   means "c. 144: common error or positive and probable doubt about this act"
+  say "in {A} there was common error, or positive and probable doubt"
 
 slot appears_otherwise(P: person, A: act)
   means "the external presumption of imputability is rebutted on the facts"
+  say "on the facts, the presumption of imputability for {P} in {A} is rebutted"
 
 use promulgated/2 "promulgated(Act, Date): a law, or an authentic interpretation in the form of law, published (cc. 7-8, 16 §2)"
 
 slot vacatio_set(Law: law, Date: date)
   means "vacatio_set(Law, Date): the law names its own date of force (c. 8 §1, another vacatio)"
+  say "{Law} names its own date of force, {Date}"
 
 slot aas_issue(Law: law, Date: date)
   means "aas_issue(Law, Date): the date the issue of the Acta Apostolicae Sedis carrying the law bears (c. 8 §1)"
+  say "the issue of the Acta carrying {Law} is dated {Date}"
 
 slot aas_volume(Law: law, Year: year, Given: date)
   means "aas_volume(Law, Year, Given): the issue unread; its volume's year and the date the act was given"
+  say "{Law} is in the Acta's volume for {Year}, the issue unread; the act was given {Given}"
 
 slot born(Person: person, Date: date)
   means "born(Person, Date): a birth date (c. 97, with c. 203)"
+  say "{Person} was born on {Date}"
 
 slot enacted_by(Body: law, Law: law)
   means "enacted_by(Body, Law): a body of norms enacted by this law"
+  say "{Body} is enacted by {Law}"
 
 slot part_of(Norm: canon, Body: law)
   means "part_of(Norm, Body)"
+  say "{Norm} is part of {Body}"
 
 slot interpretation_form(Act: act, Form: category)
   means "interpretation_form(Act, law | particular): an authentic interpretation's form (c. 16 §§2-3)"
+  say "the interpretation {Act} is in the form {Form}"
 
 slot particular_matter(Act: act, Event: act)
   means "particular_matter(Act, Event): the matter an act in a particular matter concerns (c. 16 §3)"
+  say "the act {Act} concerns the particular matter {Event}"
 
 slot applies_reading(Act: act, Canon: canon, Reading: reading)
   means "applies_reading(Act, Canon, Reading): an act that applies this reading of a canon"
+  say "the act {Act} applies the reading {Reading} of {Canon}"
 
 slot needs_reading(Law: canon, Context: entity)
   means "needs_reading(Law, Context): the law's reading decides something here"
+  say "the reading of {Law} decides something for {Context}"
 
 slot legislator(Law: law, Authority: authority)
   means "legislator(Law, Authority)"
+  say "{Authority} gave {Law}"
 
 slot contrary_to_law(L: law, H: law)
   means "contrary_to_law(L, H): a juridical finding that human law L contradicts human law H"
+  say "{L} contradicts {H}"
 
 slot invalidating(L: law)
   means "an invalidating or disqualifying law (c. 10)"
+  say "{L} is an invalidating or disqualifying law"
 
 slot obliging(L: law)
   means "a law that imposes an obligation"
+  say "{L} imposes an obligation"
 
 slot permits(L: law)
   means "a law that grants a permission"
+  say "{L} grants a permission"
 
 slot fact_for(Law: law, X: entity, Fact: fact)
   means "fact_for(Law, X, Fact): whether the law reaches X turns on this fact"
+  say "whether {Law} reaches {X} turns on {Fact}"
 
 slot lacuna(Matter: legal_matter)
   means "lacuna(Matter): no custom and no express prescript (c. 19)"
+  say "on {Matter} there is no custom and no express prescript"
 
 slot penal_matter(Matter: legal_matter)
   means "the matter is penal"
+  say "{Matter} is penal"
 
 slot equity_rule(Matter: legal_matter, Rule: category)
   means "equity_rule(Matter, Rule): a rule drawn by c. 19's means; supplied, never computed"
+  say "on {Matter}, the rule {Rule} is drawn by c. 19's means"
 
 slot dispensation(Act: act, Law: law, X: entity)
   means "dispensation(Act, Law, X): a dispensation from Law for X"
+  say "{Act} dispenses {X} from {Law}"
 
 slot defines_essentials(L: law)
   means "the law defines what essentially constitutes an institute or juridic act (c. 86)"
+  say "{L} defines what essentially constitutes an institute or a juridic act"
 
 slot doubtful_revocation(Later: law, Earlier: law)
   means "doubtful_revocation(Later, Earlier): whether the later revokes the earlier is in doubt"
+  say "whether {Later} revokes {Earlier} is in doubt"
 
 use age_at/3 "age_at(Person, Act, Years): the agent's age when the act was placed, where no birth date is given"
 
 slot juridic_act(Act: act, Person: person)
   means "juridic_act(Act, Person): a juridic act placed by the person (c. 124)"
+  say "{Person} placed the juridic act {Act}"
 
 slot spouse(Marriage: act, Person: person)
   means "spouse(Marriage, Person): one who gave consent to the marriage"
+  say "{Person} gave consent to the marriage {Marriage}"
 
 use claims_necessity/2 "the agent publicly claims a state of necessity for the act"
 
 slot asserts(Text: source, Claim: claim, Date: date)
   means "asserts(Text, Claim, Date): a text's claim about the juridical situation"
+  say "from {Date}, {Text} asserts {Claim}"
 
 use disputed/1 "a fact whose truth is disputed"
 
@@ -251,29 +314,37 @@ use today/1 "the evaluation date when no asof is given"
 
 slot authentic_reading(Canon: canon, Reading: reading, Act: act)
   means "authentic_reading(Canon, Reading, Act): the legislator's own reading (c. 16 §1)"
+  say "the legislator reads {Canon} as {Reading}, by the act {Act}"
 
 use of_kind/2 "from the theological side (pair.lp): in this branch the event is classified as of this kind"
 
 slot punishes_culpa(N: norm)
   means "c. 1321 §3: the law punishes this delict also when committed by culpability"
+  say "{N} punishes its delict committed by culpability too"
 
 slot communion(C: act, Person: person, Date: date)
   means "communion(C, Person, Date): holy communion received, or sought"
+  say "{Person} received or sought Holy Communion on {Date} ({C})"
 
 slot situation(Person: person, S: situation)
   means "situation(Person, S): an outward situation of the person"
+  say "{Person} is in the situation {S}"
 
 slot situation_kind(S: situation, Kind: kind)
   means "situation_kind(S, Kind): the kind of act or state the situation is"
+  say "the situation {S} is of the kind {Kind}"
 
 slot manifest(S: situation)
   means "manifest(S): the situation is publicly known"
+  say "the situation {S} is publicly known"
 
 slot persisting(S: situation)
   means "persisting(S): the situation endures and is not ended"
+  say "the situation {S} endures"
 
 slot confession_impossible(P: person, C: act)
   means "confession_impossible(P, C): a grave reason, and no opportunity to confess (c. 916)"
+  say "for {P}, before {C}, there was grave reason and no chance to confess"
 
 use grave_by_matter/1 "moral.lp: a kind grave by its matter, from the theological side"
 
@@ -283,66 +354,87 @@ use notoriety_substitutes/2 "candidate only: notoriety treated as the hearing"
 
 slot treated_as_declaring(Text: source, Class: class)
   means "candidate only: a text's class statement treated as a declaration"
+  say "{Text} is treated as declaring the class {Class}"
 
 slot unbaptized(P: person)
   means "the person is recorded as not baptized (c. 842 §1)"
+  say "{P} is recorded as not baptized"
 
 slot dissolution(D: act, Marriage: act, Way: category, Date: date)
   means "dissolution(D, Marriage, non_consummation | favour_of_faith | Other, Date): an act that dissolves a bond"
+  say "{D} dissolves the marriage {Marriage} by {Way} on {Date}"
 
 slot consummated(M: act)
   means "the marriage was consummated (c. 1061 §1)"
+  say "the marriage {M} was consummated"
 
 slot nullity_sentence(S: act, Marriage: act, Date: date)
   means "nullity_sentence(S, Marriage, Date): a sentence declaring a marriage null"
+  say "{S} declared the marriage {Marriage} null on {Date}"
 
 slot sentence_effective(S: act)
   means "the sentence has become effective (c. 1679)"
+  say "the sentence {S} has become effective"
 
 slot prohibited_to_marry(P: person)
   means "a prohibition attached to the sentence or set by the local ordinary (c. 1682 §1)"
+  say "{P} is prohibited to marry"
 
 slot delict_act(Person: person, Norm: norm, Act: act)
   means "delict_act(Person, Norm, Act): an external violation of the norm, as a case records it (a delict that need not be a consecration, absolution or marriage)"
+  say "{Person} violated {Norm} outwardly by {Act}"
 
 slot act_date(Act: act, Date: date)
   means "act_date(Act, Date): the date of an act a case records"
+  say "the act {Act} is dated {Date}"
 
 slot seal_lifted(Act: act, Why: ground)
   means "seal_lifted(Act, Why): a candidate's claim that something released the confessor"
+  say "the seal over {Act} is claimed released by {Why}"
 
 slot baptized_in(Person: person, Church: church)
   means "baptized_in(Person, catholic | Community): a baptism the case records, its validity presumed"
+  say "{Person} was baptized in the {Church} Church"
 
 slot received_into(P: person)
   means "the person was received into the Catholic Church"
+  say "{P} was received into the Catholic Church"
 
 slot ascribed(Person: person, Church: church)
   means "ascribed(Person, Church): a recorded ascription to a Church sui iuris (latin, or an Eastern Church)"
+  say "{Person} is ascribed to the {Church} Church"
 
 slot father(Child: person, Father: person)
   means "father(Child, Father)"
+  say "{Father} is the father of {Child}"
 
 slot mother(Child: person, Mother: person)
   means "mother(Child, Mother)"
+  say "{Mother} is the mother of {Child}"
 
 slot agreed(Child: person, Church: church)
   means "agreed(Child, Church): both parents agree that the child be baptized in that Church (c. 111 §1; CCEO c. 29 §1)"
+  say "the parents of {Child} agree that the child be baptized in the {Church} Church"
 
 slot deacon(P: person)
   means "a deacon"
+  say "{P} is a deacon"
 
 slot faculty_to_confirm(P: person)
   means "a presbyter has the faculty to confirm, by universal law or special grant (c. 882)"
+  say "the presbyter {P} has the faculty to confirm"
 
 slot promulgated_elsewhere(Law: law, Date: date)
   means "promulgated_elsewhere(Law, Date): promulgated by another publication than the Acta (c. 8 §1)"
+  say "{Law} was published outside the Acta on {Date}"
 
 slot formal_defection(Person: person, Date: date)
   means "formal_defection(Person, Date): a formal act of defection (cc. 1086 §1, 1117, 1124, 1983-2009)"
+  say "{Person} defected by a formal act on {Date}"
 
 slot communion_at_issue(P: person)
   means "the case asks after the person's communion"
+  say "the case asks after the communion of {P}"
 
 use professes/4 "professes(Person, Act, Q, V): in the act the person publicly holds V on Q (faith.lp)"
 
@@ -352,9 +444,11 @@ use repudiates/3 "repudiates(Person, Act, christian_faith): an outward repudiati
 
 slot warned(Person: person, Act: act, By: category)
   means "warned(Person, Act, apostolic_see | ordinary): a warning given about the act"
+  say "{Person} was warned about {Act} by the {By}"
 
 slot retracted(Person: person, Act: act)
   means "retracted(Person, Act)"
+  say "{Person} retracted {Act}"
 
 use owed/2 "from the authority graph: the assent a canon attaches to a teaching act by reference (cc. 750, 752)"
 
@@ -366,36 +460,47 @@ use interior/3 "act.lp: a claim about the agent (here, pertinacious)"
 
 slot born_of_noncatholics(P: person)
   means "born of non-Catholic parents (CIC 1917 c. 1099 §2)"
+  say "{P} was born of non-Catholic parents"
 
 slot raised_outside(P: person)
   means "from infancy grew up in heresy, schism, unbelief or no religion (CIC 1917 c. 1099 §2)"
+  say "{P} grew up from infancy outside the Church"
 
 slot act_kind(Act: act, K: category)
   means "act_kind(Act, general_decree | general_executory_decree | instruction): the kind of an act (cc. 29, 31, 34)"
+  say "the act {Act} is of the kind {K}"
 
 slot executes(Act: act, Law: law)
   means "executes(Act, Law): the executive act was given to apply or clarify this law (cc. 31-34)"
+  say "the act {Act} executes {Law}"
 
 slot effective_from(Act: act, Date: date)
   means "effective_from(Act, Date): the date from which an executive act takes effect"
+  say "the act {Act} takes effect from {Date}"
 
 slot executive_power_only(Act: act)
   means "the act's issuer has executive power alone (c. 30)"
+  say "the issuer of {Act} has executive power alone"
 
 slot express_grant(Act: act)
   means "the competent legislator expressly granted the power to issue this general decree, its conditions observed (c. 30)"
+  say "the legislator expressly granted the power to issue {Act}"
 
 slot provision(Act: act, P: act)
   means "provision(Act, P): a provision of an executive act"
+  say "{P} is a provision of {Act}"
 
 slot contrary_provision(P: act, Law: law)
   means "contrary_provision(P, Law): the provision cannot be reconciled with the law (a juridical finding; cc. 33 §1, 34 §2)"
+  say "the provision {P} cannot be reconciled with {Law}"
 
 slot doc_at_issue(X: law)
   means "the case asks after the force of this body of texts or act"
+  say "the case asks after the force of {X}"
 
 slot collection(Body: law, Kind: category)
   means "collection(Body, private | authentic): a body gathering texts from other sources"
+  say "{Body} is a {Kind} collection"
 
 use attribution/3 "sources.lp: attribution(Text, Author, Claimant), a claim"
 
@@ -405,22 +510,27 @@ use celebration_date/2 "sacrament.lp: the date of a celebration a case records"
 
 slot porrection(E: act)
   means "the instruments were handed over in the ordination (Florence, Exultate Deo, DH 1326)"
+  say "in {E} the instruments were handed over"
 
 slot alters(E: act, Part: rite_part)
   means "alters(E, Part): the minister added, omitted or altered a part of the rite that is not its form, on his own authority"
+  say "in {E} the minister altered {Part} on his own authority"
 
 slot indulgence(G: act, Kind: category, Date: date)
   means "indulgence(G, partial | plenary, Date): a grant of an indulgence"
+  say "{G} grants a {Kind} indulgence on {Date}"
 
 use in_days/2 "in_days(G, N): the grant designates its partial indulgence in days (or their equivalent)"
 
 slot confirmed(G: act, Date: date)
   means "confirmed(G, Date): an older grant confirmed under Indulgentiarum doctrina's transitional norms"
+  say "the grant {G} was confirmed on {Date}"
 
 use doubt_one_or_more/2 "doubt_one_or_more(E, Date): a birth at which it is doubted whether one human being or several (CIC 1917 c. 748)"
 
 slot born_together(E: event, Child: person)
   means "born_together(E, Child): a child of that birth, as the record names it"
+  say "{Child} was born of the birth {E}"
 
 ```clingo
 
@@ -631,6 +741,7 @@ norm cic:20 | c. 20: a later law abrogates or derogates from an earlier one if i
 
 slot directly_contrary(Later: law, Body: law)
   means "directly_contrary(Later, Body): the later law and the body cannot both stand (a juridical finding)"
+  say "{Later} and {Body} cannot both stand"
 
 ```clingo
 % Three ways, one fact each (TTC-SOURCES GN2). A way open to doubt yields to
@@ -709,6 +820,7 @@ norm cic:16 | c. 16 §§1-3: the legislator interprets authentically; in the for
 
 slot declaratory(A: act)
   means "c. 16 §2: the interpretation only declares words of the law certain in themselves (so retroactive)"
+  say "the interpretation {A} only declares words certain in themselves"
 
 ```clingo
 authentic_reading(N,R,D) :- applies_reading(D,N,R), issuer(D,A), authority(A,4).
@@ -749,9 +861,11 @@ norm cic:18 | c. 18: laws which establish a penalty, restrict the free exercise 
 
 slot penal_use(L: canon)
   means "the law's terms set a penalty (or make an exception)"
+  say "the terms of {L} set a penalty"
 
 slot restricts_rights(L: canon)
   means "the law restricts the free exercise of a right"
+  say "{L} restricts the free exercise of a right"
 
 ```clingo
 strict(L) :- penal_use(L).
@@ -1023,15 +1137,19 @@ element_of(n1379,cannot_absolve).                 % the delict's matter: one who
 
 slot procures(Person: person, Act: act)
   means "procures(Person, Act): the person procures the act (one who seeks it as well as one who performs it)"
+  say "{Person} procures {Act}"
 
 slot unborn(E: effect)
   means "unborn(E): the evil effect E is the death of one not yet born, from conception"
+  say "the evil effect {E} is the death of one not yet born"
 
 slot by_expulsion(A: act)
   means "by_expulsion(A): the act kills by expelling the immature fetus (outward)"
+  say "the act {A} kills by expelling the immature fetus"
 
 slot attempted_only(A: act)
   means "attempted_only(A): the act was attempted and its effect did not follow (c. 1328)"
+  say "the act {A} was attempted, its effect not following"
 
 use evil_kind_of/2 "moral.lp: an evil effect of this kind"
 
@@ -1071,9 +1189,11 @@ norm cic2021:1329 | c. 1329 §2: accomplices not named in the law incur a latae 
 
 slot assists(Person: person, Act: act)
   means "assists(Person, Act): the person gives assistance to another's delict"
+  say "{Person} assists in the act {Act}"
 
 slot necessary_assistance(P: person, A: act)
   means "without the person's assistance the delict would not have been committed (outward; computed both ways when disputed)"
+  say "without {P}, the delict {A} would not have been committed"
 
 ```clingo
 delict(P,N,A) :- assists(P,A), necessary_assistance(P,A), delict(Q,N,A), Q != P, latae_sententiae(N), not outside(P), not eastern_faithful(P).
@@ -1618,6 +1738,7 @@ penalty(n1386,excommunication).
 
 slot cleric(P: person)
   means "a cleric (deacon, priest or bishop)"
+  say "{P} is a cleric"
 
 norm cic2021:1398 | c. 1398 §1 n. 1: a cleric who commits an offence against the sixth commandment of the Decalogue with a minor is to be punished with deprivation of office and other just penalties, not excluding dismissal from the clerical state | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
 
@@ -1648,9 +1769,11 @@ info(error_disregarded(P,N,E)) :- delict(P,N,E), disregarded(N,Of), ignorance(P,
 
 slot special_gravity(Authority: person, Act: act)
   means "special_gravity(Authority, Act): the competent authority's judgment that the violation's special gravity requires punishment (supplied, never computed)"
+  say "{Authority} judges the special gravity of {Act} to require punishment"
 
 slot scandal_necessity(Authority: person, Act: act)
   means "scandal_necessity(Authority, Act): the authority's judgment that necessity demands that scandals be prevented or repaired (supplied, never computed)"
+  say "{Authority} judges that the need to prevent or repair scandal demands punishing {Act}"
 
 norm cic2021:1399 | c. 1399: besides the cases prescribed in this or in other laws, the external violation of divine or canon law can be punished, and with a just penalty, only when the special gravity of the violation requires it and necessity demands that scandals be prevented or repaired | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
 
@@ -1674,9 +1797,11 @@ end
 
 slot transfer(Decree: act, Pastor: person, Date: date)
   means "transfer(Decree, Pastor, Date): a decree transferring a pastor (cc. 1748-1752)"
+  say "by {Decree}, on {Date}, the pastor {Pastor} is transferred"
 
 slot sets_aside(Text: source, Norm: norm, Ground: ground)
   means "candidate only: sets_aside(Text, Norm, Ground): a text treats a penalty the law attaches as not incurred, on this ground"
+  say "{Text} treats the penalty of {Norm} as not incurred, on the ground {Ground}"
 
 norm cic:1752 | c. 1752: in cases of transfer the prescripts of c. 1747 are to be applied, canonical equity is to be observed, and the salvation of souls, which must always be the supreme law in the Church, is to be kept before one's eyes | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib7-cann1732-1752_en.html
 

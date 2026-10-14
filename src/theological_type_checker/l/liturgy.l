@@ -56,38 +56,49 @@ library
 
 slot liturgy_shows(C: shown_condition)
   means "liturgy_shows(C): a condition of LG 25 a universal prayer shows"
+  say "a universal prayer shows the condition {C}"
 
 use liturgical_witness/1 "the prayer a liturgical book holds, entered as a witness (a source)"
 
 slot fixes(Witness: source, Q: question)
   means "candidate only: fixes(Witness, Q), a liturgy treated as settling a doctrinal question"
+  say "the liturgy {Witness} is treated as settling {Q}"
 
 slot rests_on_liturgy(Claim: source, Witness: source)
   means "rests_on_liturgy(Claim, Witness): a claim of the ordinary universal magisterium argued from a prayer"
+  say "the claim {Claim} is argued from the prayer {Witness}"
 
 slot universal_witness(W: source)
   means "the prayer is in the books of the universal Church, approved by bishops in communion with the Roman Pontiff"
+  say "the prayer {W} is in the books of the universal Church"
 
 slot prayed_in(Witness: source, Church: church)
   means "prayed_in(Witness, Church): a Church that prays it"
+  say "{Witness} is prayed in the {Church} Church"
 
 slot in_use_from(Witness: source, Year: year)
   means "in_use_from(Witness, Year)"
+  say "{Witness} is in use from {Year}"
 
 slot prayed_by(Witness: source, Who: category)
   means "prayed_by(Witness, bishops | faithful)"
+  say "{Witness} is prayed by the {Who}"
 
 slot changes(Act: act, Witness: source)
   means "changes(Act, Witness): a change by competent authority to a prayed element"
+  say "the act {Act} changes {Witness}"
 
 slot changes_condition(Act: source, Sacrament: sacrament, Condition: condition)
   means "changes_condition(Act, Sacrament, Condition): a liturgical book changes a condition of a sacrament"
+  say "{Act} changes the condition {Condition} of {Sacrament}"
 
 slot derives_from(Rite: rite, Parent: rite)
   means "derives_from(Rite, Parent): a rite descending from another"
+  say "the rite {Rite} descends from {Parent}"
 
 slot binds_because(Element: rite_part, Ground: ground)
   means "candidate only: binds_because(Element, Ground), an element typed as binding on this ground"
+  say "{Element} is held binding because {Ground}"
 
 use oum_claim/2 "icon_authority.lp"
 

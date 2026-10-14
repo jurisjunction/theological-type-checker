@@ -59,69 +59,91 @@ library
 
 slot after_death(X: stage)
   means "after_death(X): a stage after death (purification, vision, hell)"
+  say "{X} is a stage after death"
 
 slot calendar_unit(U: category)
   means "calendar_unit(U): a unit of the calendar (days, years)"
+  say "{U} is a unit of the calendar"
 
 slot stage(X: stage)
   means "stage(X): a stage after death the order knows"
+  say "{X} is a stage after death the order knows"
 
 slot state_after_death(X: stage)
   means "state_after_death(X): hell, purification or glory"
+  say "{X} is a state after death"
 
 slot gives_order(Source: source, A: stage, B: stage)
   means "gives_order(Source, A, B): the source gives stage A before stage B"
+  say "{Source} gives the stage {A} before {B}"
 
 slot without_end(Stage: stage, Source: source)
   means "without_end(Stage, Source): the source gives the stage without end"
+  say "{Source} gives the stage {Stage} without end"
 
 slot places(Theory: theory, A: stage, B: stage)
   means "places(Theory, A, B): a theory of what follows death places stage A before stage B"
+  say "the theory {Theory} places {A} before {B}"
 
 slot ends_in(Theory: theory, A: stage, B: stage)
   means "ends_in(Theory, A, B): a theory ends stage A in stage B"
+  say "the theory {Theory} ends {A} in {B}"
 
 slot denies_subsistence(T: theory)
   means "a theory: no soul subsists after death"
+  say "the theory {T} says no soul subsists after death"
 
 slot gives_subsistence(Source: source)
   means "gives_subsistence(Source): the source defines the intellective soul immortal"
+  say "{Source} defines the intellective soul immortal"
 
 slot body_of(Person: person, Body: entity)
   means "body_of(Person, Body): a body the person's soul informs, as a case records it"
+  say "the soul of {Person} informs the body {Body}"
 
 slot one_body_given(Source: source)
   means "one_body_given(Source): the source gives each soul its own body, the one it now bears"
+  say "{Source} gives each soul its own body, the one it now bears"
 
 slot raised(P: person)
   means "a person raised to earthly life, a raising (Jn 11)"
+  say "{P} was raised to earthly life"
 
 slot rises_early(P: person)
   means "a bodily rising before the return, claimed of a person"
+  say "{P} is claimed risen in the body before the return"
 
 slot general_rule_given(Source: source)
   means "general_rule_given(Source): the source gives the rising of bodies at the return"
+  say "{Source} gives the rising of bodies at the return"
 
 slot duration_claim(Stage: stage, N: number, Unit: category)
   means "duration_claim(Stage, N, Unit): a duration laid on a stage after death"
+  say "{N} {Unit} are laid on the stage {Stage}"
 
 slot in_days(Grant: act, N: number)
   means "canon_law.lp: in_days(Grant, N), an indulgence designated in days"
+  say "the grant {Grant} is designated in {N} days"
 
 slot days_read_as(Grant: act, Measure: category)
   means "days_read_as(Grant, time_after_death): a grant's days read as a duration after death"
+  say "the days of {Grant} are read as {Measure}"
 
 slot separated_soul(X: entity)
   means "a human soul after death, entered as such"
+  say "{X} is a soul after death"
 
 slot placed_in(Person: person, State: stage)
   means "placed_in(Person, hell | purification | glory): a case places a named person in a state after death"
+  say "{Person} is placed in {State}"
 
 slot nothing_carried_over/0
   means "candidate only: nothing of this world carried over to the end"
+  say "nothing of this world is said carried over to the end"
 
 slot lasts_claim(Element: rite_part, Ground: ground)
   means "lasts_claim(Element, charity): a claim that charity carries the element to the end"
+  say "{Element} is claimed to last to the end, because {Ground}"
 
 use in_force/1 "icon_authority.lp"
 

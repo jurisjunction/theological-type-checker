@@ -90,204 +90,271 @@ sort year
 
 slot ambiguous(S: source)
   means "ambiguous(S): the text S admits more than one reading; one branch per reading"
+  say "{S} admits more than one reading"
 
 slot approved_custom(C: custom)
   means "approved_custom(C): the custom C has the legislator's approval (c. 23)"
+  say "the custom {C} has the legislator's approval"
 
 slot approver(C: custom, A: authority)
   means "approver(C, A): A approved the custom C"
+  say "{A} approved the custom {C}"
 
 slot approver_rank(A: authority, R: rank)
   means "approver_rank(A, R): the legislative rank R of an approver of customs"
+  say "{A} approves customs at rank {R}"
 
 slot binds(L: source, T: tier, O: category)
   means "binds(L, T, O): law L attaches obligation O to teaching at tier T (cc. 750, 752)"
+  say "{L} attaches {O} to teaching at tier {T}"
 
 slot by_papal_mandate(S: source)
   means "by_papal_mandate(S): a curial act the pope made his own (rank 4)"
+  say "the pope made {S} his own"
 
 slot char_points(K: character, P: number)
   means "char_points(K, P): the weight P of a document of character K (LG 25)"
+  say "a document of the character {K} weighs {P}"
 
 slot character(S: source, K: character)
   means "character(S, K): the kind of document S is: its weight under LG 25"
+  say "{S} is of the character {K}"
 
 slot cites(S: source, S2: source)
   means "cites(S, S2): S repeats S2, with no weight of its own"
+  say "{S} cites {S2}"
 
 slot claims_tier(C: source, S: source, K: tier)
   means "claims_tier(C, S, K): C says S teaches at tier K (a claim, rule 14)"
+  say "{C} says {S} teaches at tier {K}"
 
 slot community_capable(C: custom)
   means "community_capable(C): a community able to receive a law (c. 25)"
+  say "the community of the custom {C} can receive a law"
 
 slot conciliar(S: source)
   means "conciliar(S): a council's act (legislator rank 4, c. 135 §2)"
+  say "{S} is a council's act"
 
 slot conciliar_act(S: source, K: conciliar_act)
   means "conciliar_act(S, K): a council's act of kind K: canon, definition, creed, scope, chapter"
+  say "{S} is a council's {K}"
 
 slot condition_shown(S: source, C: shown_condition)
   means "condition_shown(S, C): a condition of a definition (DH 3074) or of LG 25, shown for S by evidence apart from its claimant (rule 14)"
+  say "for {S}, the condition {C} is shown"
 
 slot conference(S: source)
   means "conference(S): a conference of bishops' act (legislator rank 2)"
+  say "{S} is a conference of bishops' act"
 
 slot consent_claim(S: source, R: reading)
   means "consent_claim(S, R): the Fathers' unanimous consent claimed for reading R of text S"
+  say "the Fathers' unanimous consent is claimed for the reading {R} of {S}"
 
 slot contra_divine(C: custom)
   means "contra_divine(C): the custom C is against divine law (c. 24 §1)"
+  say "the custom {C} is against divine law"
 
 slot count_all/0
   means "every source counts, citing or not (an ablation)"
+  say "every source counts, citing or not"
 
 slot custom_practice(C: custom, Q: question, V: value, Y: year)
   means "custom_practice(C, Q, V, Y): a community's practice of V on Q since year Y (cc. 23-28)"
+  say "the community of the custom {C} has practised {V} on {Q} since {Y}"
 
 slot default(Q: question, V: value)
   means "default(Q, V): V holds on Q unless a source in force says otherwise (c. 1058)"
+  say "{V} holds on {Q} unless a source in force says otherwise"
 
 slot defining_act(K: conciliar_act)
   means "defining_act(K): a conciliar act that defines (canon, definition, creed, scope)"
+  say "a council's {K} defines"
 
 slot defining_form(F: papal_form)
   means "defining_form(F): a papal form that defines (ex cathedra)"
+  say "the papal form {F} defines"
 
 slot dicastery(S: source)
   means "dicastery(S): a dicastery's act (legislator rank 3)"
+  say "{S} is a dicastery's act"
 
 slot diocesan(S: source)
   means "diocesan(S): a diocesan act (legislator rank 1)"
+  say "{S} is a diocesan act"
 
 slot ec_condition(C: shown_condition)
   means "ec_condition(C): a condition of Pastor aeternus (DH 3074)"
+  say "{C} is a condition of Pastor aeternus"
 
 slot expressly_revokes(L: source, C: custom)
   means "expressly_revokes(L, C): law L expressly revokes the custom C (c. 28)"
+  say "{L} expressly revokes the custom {C}"
 
 slot faith_morals(S: source)
   means "faith_morals(S): the text S bears on faith or morals"
+  say "{S} bears on faith or morals"
 
 slot flat_weight/0
   means "every source weighs one point (an ablation)"
+  say "every source weighs one point"
 
 slot form_tier(F: papal_form, T: tier)
   means "form_tier(F, T): the tier a papal form gives"
+  say "the papal form {F} gives tier {T}"
 
 slot holds_reading(S: source, R: reading)
   means "holds_reading(S, R): a runtime's reading of S: only the branches it holds"
+  say "the runtime reads {S} as {R}"
 
 slot hypothetical_warrant(S: source)
   means "hypothetical_warrant(S): a warrant supposed for S (HYPOTHETICAL parts only, rule 6)"
+  say "a warrant is supposed for {S}"
 
 slot in_forma_specifica(S: source)
   means "in_forma_specifica(S): a curial act approved in specific form (rank 4)"
+  say "{S} is approved in specific form"
 
 slot interpretive(S: source, M: meta_question)
   means "interpretive(S, M): S speaks to M interpretively, leaving its extent open"
+  say "{S} speaks to {M} interpretively"
 
 slot interprets(S: source, S1: source, R: reading)
   means "interprets(S, S1, R): S weighs for reading R of S1; never fixes it"
+  say "{S} weighs for the reading {R} of {S1}"
 
 slot law_forbids_customs(L: source)
   means "law_forbids_customs(L): law L forbids future customs (c. 28)"
+  say "{L} forbids future customs"
 
 slot lex_posterior_kind(K: question_kind)
   means "lex_posterior_kind(K): a kind of question the later law decides"
+  say "the later law decides a {K} question"
 
 slot meta_supports(S: source, M: meta_question)
   means "meta_supports(S, M): S speaks to the question about tiers M"
+  say "{S} speaks to {M}"
 
 slot meta_target(M: meta_question, T: tier)
   means "meta_target(M, T): the tier the question M is about"
+  say "{M} is about tier {T}"
 
 slot object_tier(O: object, T: tier)
   means "object_tier(O, T): the tier a definition's object gives (revealed 1, connected 2)"
+  say "a {O} truth defined is at tier {T}"
 
 slot oum_claim(S: source, K: tier)
   means "oum_claim(S, K): S claimed as ordinary universal magisterium at grade K; computed both ways (rule 14)"
+  say "{S} is claimed as ordinary universal magisterium at grade {K}"
 
 slot oum_claimant(S: source, C: claimant)
   means "oum_claimant(S, C): who claims S as ordinary universal magisterium"
+  say "{C} claims {S} as ordinary universal magisterium"
 
 slot oum_condition(C: shown_condition)
   means "oum_condition(C): a condition of LG 25"
+  say "{C} is a condition of LG 25"
 
 slot oum_fixed_by(S: source, F: source)
   means "oum_fixed_by(S, F): an act F said to fix the claim on S"
+  say "{F} is said to fix the claim on {S}"
 
 slot papal_form(S: source, F: papal_form)
   means "papal_form(S, F): the form of a papal act: ex_cathedra, definitive_declaration, legislative, ordinary"
+  say "{S} is a papal act in the form {F}"
 
 slot promoted(S: source, T: tier, Y: year)
   means "promoted(S, T, Y): S raised to tier T from year Y (declared a Doctor)"
+  say "{S} is raised to tier {T} from {Y}"
 
 slot protects(S: source, Q: question)
   means "protects(S, Q): S, of protective force, blocks cleaving Q at or below its tier"
+  say "{S} protects {Q}"
 
 slot question(Q: question)
   means "question(Q): a question a run answers"
+  say "{Q} is asked"
 
 slot question_kind(Q: question, K: question_kind)
   means "question_kind(Q, K): the type of Q: doctrinal, governance, juridical, empirical"
+  say "{Q} is a {K} question"
 
 slot reading(S: source, R: reading)
   means "reading(S, R): R is a reading of S"
+  say "{R} is a reading of {S}"
 
 slot reads(S: source, R: reading, Q: question, V: value)
   means "reads(S, R, Q, V): read as R, S holds V on Q"
+  say "read as {R}, {S} holds {V} on {Q}"
 
 slot reaffirms(S: source, S2: source)
   means "reaffirms(S, S2): S re-teaches S2, with weight"
+  say "{S} re-teaches {S2}"
 
 slot received_creed(S: source)
   means "received_creed(S): S typed received with no claim and no date (refused)"
+  say "{S} is typed received, with no claim and no date"
 
 slot reception_claim(S: source, C: claimant, Y: year)
   means "reception_claim(S, C, Y): C claims the creed S received from year Y"
+  say "{C} claims the creed {S} received from {Y}"
 
 slot reception_fixed_by(S: source, F: source)
   means "reception_fixed_by(S, F): the act F hands the creed S on"
+  say "{F} hands the creed {S} on"
 
 slot records_diverse_readings(F: source, S: source)
   means "records_diverse_readings(F, S): F records diverse readings of S"
+  say "{F} records diverse readings of {S}"
 
 slot relaxed(S: source)
   means "relaxed(S): S dispensed, abrogated or changed: out of force"
+  say "{S} is out of force: dispensed, abrogated or changed"
 
 slot relies_on(A: claim, S: source)
   means "relies_on(A, S): the argument A relies on S"
+  say "the argument {A} relies on {S}"
 
 slot reprobated(C: custom)
   means "reprobated(C): the custom C reprobated by law (c. 24 §2)"
+  say "the custom {C} is reprobated by law"
 
 slot salience(S: source, Level: category)
   means "salience(S, high): S is prominent (warnings only)"
+  say "{S} is of {Level} salience"
 
 slot session_defines(S: source)
   means "session_defines(S): the session binds the chapter S (rule 14)"
+  say "the session binds the chapter {S}"
 
 slot source(S: source, T: tier, F: force, Y: year)
   means "source(S, T, F, Y): S at tier T (0-5), of force F (truth, juridical, protective), from year Y"
+  say "{S} is a source at tier {T}, of force {F}, from {Y}"
 
 slot supports(S: source, Q: question, V: value)
   means "supports(S, Q, V): S holds V on Q"
+  say "{S} holds {V} on {Q}"
 
 slot treated_as_binding_successors(S: source)
   means "treated_as_binding_successors(S): S read as binding the legislator's successors"
+  say "{S} is read as binding the legislator's successors"
 
 slot treated_as_fixing(C: source, S: source)
   means "treated_as_fixing(C, S): C's statement about S treated as fixing its tier (refused)"
+  say "{C} is treated as fixing the tier of {S}"
 
 slot value(Q: question, V: value)
   means "value(Q, V): V is an answer to Q"
+  say "{V} is an answer to {Q}"
 
 slot weight_tier(T: tier)
   means "weight_tier(T): a tier at which disagreement is weighed (3 to 5)"
+  say "disagreement is weighed at tier {T}"
 
 slot withdrawn(S: source, Y: year)
   means "withdrawn(S, Y): the text S replaced from year Y"
+  say "the text {S} was replaced in {Y}"
 
 ```clingo
 
@@ -427,9 +494,11 @@ blocked(S,Q)   :- supports(S,Q,_), eff_tier(S,TS), protected(Q,TP), TS >= TP, TS
 
 slot particular_council(S: source)
   means "the source is a particular council's act (c. 753)"
+  say "{S} is a particular council's act"
 
 slot liturgical_witness(W: source)
   means "liturgy.lp: the prayer a liturgical book holds"
+  say "{W} is the prayer of a liturgical book"
 
 ```clingo
 cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), eff_tier(S,T), T >= 2, T <= 3,
@@ -544,6 +613,7 @@ violation(self_elevation(S,M)) :- treated_as_fixing(S,M), eff_tier(S,T), meta_ta
 
 slot object_of(S: source, O: object)
   means "object_of(S, revealed | connected): what a defining act defines, as its text shows"
+  say "{S} defines a truth {O}"
 
 ```clingo
 defining_form(ex_cathedra).

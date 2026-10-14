@@ -62,99 +62,131 @@ sort term
 
 slot absorbed(X: entity)
   means "absorbed(X): X's humanity said absorbed into the divinity (Eutyches)"
+  say "the humanity of {X} is said absorbed into the divinity"
 
 slot acton(X: entity, Y: entity)
   means "acton(X, Y): X acts on the thing Y (relation d)"
+  say "{X} acts on {Y}"
 
 slot allowed(R: school, K: category)
   means "allowed(R, K): the reading R of simplicity admits distinctions of kind K in God"
+  say "on the reading {R}, simplicity admits distinctions of the kind {K} in God"
 
 slot angel(X: entity)
   means "angel(X): X is an angel, a spiritual created person (DH 800)"
+  say "{X} is an angel"
 
 slot bodily(M: presence_mode)
   means "bodily(M): a mode of presence that is bodily (natural, sacramental)"
+  say "presence in the mode {M} is bodily"
 
 slot changes_in(X: entity, K: nature)
   means "changes_in(X, K): a change said of X in nature K (hum or div)"
+  say "{X} changes in the {K} nature"
 
 slot claims(C: claim, P: predicate, X: entity, Y: entity, R: relation)
   means "claims(C, P, X, Y, R): claim C that X is P (receptive or donative) toward Y in relation R"
+  say "{C} claims {X} is {P} toward {Y} in the relation {R}"
 
 slot conjoined(Y: entity, X: entity)
   means "conjoined(Y, X): Y joined to X as another subject (Nestorius)"
+  say "{Y} is joined to {X} as another subject"
 
 slot denies(X: entity, P: category)
   means "denies(X, P): a claim that X lacks P (a human will, a human operation)"
+  say "{X} is claimed to lack {P}"
 
 slot descends_from(P: entity, Adam: entity)
   means "descends_from(P, adam): P descends from Adam by generation"
+  say "{P} descends from {Adam} by generation"
 
 slot distinguishes(C: claim, P: predicate, A: entity, B: entity)
   means "distinguishes(C, P, A, B): claim C that the predicate P distinguishes A from B"
+  say "{C} claims {P} distinguishes {A} from {B}"
 
 slot god(G: entity)
   means "god(G): G is God"
+  say "{G} is God"
 
 slot immutability(R: school)
   means "immutability(R): God's immutability, as R reads it"
+  say "God's immutability, as {R} reads it"
 
 slot in_nature(A: act, K: nature)
   means "in_nature(A, K): the nature K (hum or div) in which the act A is placed"
+  say "the act {A} is placed in the {K} nature"
 
 slot inanimate(X: entity)
   means "inanimate(X): a creature that merely is"
+  say "{X} merely is"
 
 slot incarnate(X: entity)
   means "incarnate(X): X is the Son incarnate: divine, of a human nature"
+  say "{X} is the Son incarnate"
 
 slot lacks(X: entity, P: category)
   means "lacks(X, P): a claim that X lacks P (a rational soul)"
+  say "{X} is claimed to lack {P}"
 
 slot next(E1: event, E2: event)
   means "next(E1, E2): E2 follows E1 in the order of events"
+  say "{E2} follows {E1}"
 
 slot organism(X: entity)
   means "organism(X): a living creature"
+  say "{X} is a living creature"
 
 slot pred_nature(P: predicate, K: nature)
   means "pred_nature(P, K): the predicate P belongs to nature K"
+  say "{P} is said of the {K} nature"
 
 slot presence_mode(M: presence_mode)
   means "presence_mode(M): a mode of presence known (the kernel's, a library's)"
+  say "{M} is a mode of presence"
 
 slot present(X: entity, Place: place, Mode: presence_mode)
   means "present(X, Place, Mode): a presence, typed by mode"
+  say "{X} is present in {Place}, in the mode {Mode}"
 
 slot qualified(S: sentence)
   means "qualified(S): the sentence S carries its qualification (as man)"
+  say "the sentence {S} carries its qualification"
 
 slot reltype(R: relation)
   means "reltype(R): a kind of relation the kernel knows"
+  say "{R} is a kind of relation the kernel knows"
 
 slot retype(X: entity, Y: entity)
   means "retype(X, Y): the edge from X to Y retyped (the rescue stress test)"
+  say "the edge from {X} to {Y} is retyped"
 
 slot says_unary(C: claim, P: predicate, X: entity)
   means "says_unary(C, P, X): claim C says P of X alone"
+  say "{C} says {P} of {X} alone"
 
 slot sentence(S: sentence, T: term, P: predicate)
   means "sentence(S, T, P): the sentence S predicates P of the term T"
+  say "the sentence {S} says {P} of {T}"
 
 slot simplicity(R: school)
   means "simplicity(R): God's simplicity, as R reads it"
+  say "God's simplicity, as {R} reads it"
 
 slot sort(X: entity, S: category)
   means "sort(X, S): X typed of sort S"
+  say "{X} is typed of the sort {S}"
 
 slot term_sort(T: term, K: category)
   means "term_sort(T, S): the term T names a suppositum or a nature"
+  say "the term {T} names {K}"
 
 slot unary_name(P: predicate)
   means "unary_name(P): a predicate said of persons one at a time"
+  say "{P} is said of persons one at a time"
 
 slot unsafe_unqualified(P: predicate)
   means "unsafe_unqualified(P): the predicate P needs a qualification when said of Christ"
+  say "{P} needs a qualification when said of Christ"
 
 ```clingo
 

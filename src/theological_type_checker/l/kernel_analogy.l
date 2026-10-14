@@ -26,12 +26,15 @@ sort perfection
 
 slot drop_bridge(F: perfection)
   means "drop_bridge(F): the bridge F withdrawn (an ablation)"
+  say "the bridge {F} is withdrawn"
 
 slot univocal_mode(F: perfection, M: category)
   means "univocal_mode(F, M): F said in one mode M of God and of creatures"
+  say "{F} is said in the one mode {M} of God and of creatures"
 
 slot unlicensed(F: perfection, S: category)
   means "unlicensed(F, S): the predicate F denied its license in domain S"
+  say "{F} is denied its license in the domain {S}"
 
 ```clingo
 

@@ -29,9 +29,11 @@ layer pair
 
 slot premise(N: norm, Q: question, V: value)
   means "premise(N, Q, V): norm N presupposes V on Q"
+  say "{N} presupposes {V} on {Q}"
 
 slot uncoupled/0
   means "the law applied apart from the theological branch (a candidate)"
+  say "the law is applied apart from the theological branch"
 
 ```clingo
 

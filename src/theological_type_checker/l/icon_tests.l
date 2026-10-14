@@ -21,45 +21,59 @@ sort origin_kind
 
 slot c_edge(A: node, B: node, K: origin_kind)
   means "c_edge(A, B, K): an edge of kind K in the created pattern searched for an image"
+  say "in the created pattern, {A} goes to {B} by {K}"
 
 slot c_ind(X: node)
   means "c_ind(X): an individual of the created pattern"
+  say "{X} is an individual of the created pattern"
 
 slot c_person(X: node)
   means "c_person(X): a person of the created pattern"
+  say "{X} is a person of the created pattern"
 
 slot d_ind(X: node)
   means "d_ind(X): an individual of the divine pattern"
+  say "{X} is an individual of the divine pattern"
 
 slot d_person(X: node)
   means "d_person(X): a person of the divine pattern"
+  say "{X} is a person of the divine pattern"
 
 slot exercises_reason(X: entity, S: category)
   means "exercises_reason(X, S): X exercises reason at stage S"
+  say "{X} exercises reason at the stage {S}"
 
 slot fam_o(A: node, B: node, K: origin_kind)
   means "fam_o(A, B, K): an origin of kind K in the family pattern"
+  say "in the family pattern, {A} gives origin to {B} by {K}"
 
 slot ignore_kinds/0
   means "the kinds of origin ignored in the search (a switch)"
+  say "the kinds of origin are ignored in the search"
 
 slot intense(X: entity, Y: entity)
   means "intense(X, Y): the friendship of X and Y claimed intense"
+  say "the friendship of {X} and {Y} is claimed intense"
 
 slot kind_bridge(K1: origin_kind, K2: origin_kind)
   means "kind_bridge(K1, K2): a procession of kind K1 imaged by a created kind K2"
+  say "a procession by {K1} is imaged by {K2}"
 
 slot married(X: entity)
   means "married(X): X is married"
+  say "{X} is married"
 
 slot src(X: node)
   means "src(X): a point of the source pattern of the search"
+  say "{X} is a point of the source pattern"
 
 slot stage(X: entity, S: category)
   means "stage(X, S): X at the stage of life S"
+  say "{X} is at the stage of life {S}"
 
 slot tgt(X: node)
   means "tgt(X): a point of the target pattern of the search"
+  say "{X} is a point of the target pattern"
 
 ```clingo
 
@@ -350,7 +364,7 @@ c_edge(adam,eve,formation). c_edge(pair(adam,eve),seth,procreation).
 
 ```
 
-part switch
+part switch of remarriage
 
 ```clingo
 #program flat_weight. flat_weight.        % ablation: one vote per independent source, reaffirmations as citations
@@ -389,7 +403,7 @@ part candidate
 #program cand_bridge_no_mode.       bridge(beauty,div,cr). mode(beauty,div,uncreated).
 ```
 
-part switch
+part switch of disparity
 
 ```clingo
 #program univocal_necessity.        univocal_mode(grain,necessity).   % one principle: a necessity everywhere

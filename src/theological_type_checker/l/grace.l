@@ -41,26 +41,33 @@ use holds_reading/2 "a runtime's reading (schools.lp)"
 
 slot salutary(P: person, A: act)
   means "salutary(P, A): an act ordered to salvation (faith, hope, love, repentance)"
+  say "{A} of {P} is ordered to salvation"
 
 slot beginning_of_faith(P: person, A: act)
   means "beginning_of_faith(P, A): the first assent of faith"
+  say "in {A}, {P} first assents in faith"
 
 use justification/2 "justification(P, A): the act in which P, moved by grace, assents to justification"
 
 slot moved_by(P: person, A: act, G: grace)
   means "moved_by(P, A, G): grace G moves P in the act A"
+  say "in {A}, the grace {G} moves {P}"
 
 slot efficacious(G: grace)
   means "efficacious(G): grace that in fact achieves its effect"
+  say "the grace {G} achieves its effect"
 
 slot grace_uncreated/0
   means "a runtime's reading: deifying grace an uncreated energy (Palamas)"
+  say "deifying grace is an uncreated energy"
 
 slot every_grace_efficacious/0
   means "a theory's claim: every interior grace is efficacious, none resisted (Jansen)"
+  say "every interior grace is said efficacious, none resisted"
 
 slot formal_cause_essence/0
   means "a theory's claim: the justified are just by the justice by which God is just (Osiander)"
+  say "the justified are said just by the justice by which God is just"
 
 ```clingo
 

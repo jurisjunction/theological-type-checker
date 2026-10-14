@@ -28,6 +28,7 @@ use in_nature/2 "in_nature(Act, Nature): the nature by which the person places t
 
 slot instrument_of(HumanAct: act, DivineAct: act)
   means "instrument_of(HumanAct, DivineAct): the human act as the divinity's instrument"
+  say "the human act {HumanAct} is the instrument of {DivineAct}"
 
 use incarnate/1 "the kernel"
 

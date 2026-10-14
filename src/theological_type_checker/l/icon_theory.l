@@ -23,42 +23,55 @@ sort number
 
 slot a9_universal/0
   means "the old reading of A9: every person is bridal, welcomed or not (a switch)"
+  say "every person is bridal, welcomed or not (the old reading of A9)"
 
 slot band(L: category)
   means "band(L): a level at which a finite nature cannot generate alone"
+  say "at the level {L} a finite nature cannot generate alone"
 
 slot bridegroom(C: entity)
   means "bridegroom(C): C is the bridegroom"
+  say "{C} is the bridegroom"
 
 slot capable_closing(X: entity, Y: entity)
   means "capable_closing(X, Y): X and Y capable of the closing act (c. 1084)"
+  say "{X} and {Y} are capable of the closing act"
 
 slot closed_in_act(A: act, X: entity, Y: entity)
   means "closed_in_act(A, X, Y): X and Y closed in the act A"
+  say "{X} and {Y} are closed in the act {A}"
 
 slot consent(X: entity, Y: entity)
   means "consent(X, Y): X consents to Y"
+  say "{X} consents to {Y}"
 
 slot level(X: entity, L: category)
   means "level(X, L): X's level in the order of natures"
+  say "{X} is at the level {L}"
 
 slot obligate_sexual(K: category)
   means "obligate_sexual(K): a kind that generates only by two"
+  say "{K} generates only by two"
 
 slot performs(A: act, X: entity, Y: entity, M: category)
   means "performs(A, X, Y, M): in act A, X and Y perform the motif M"
+  say "in {A}, {X} and {Y} perform the motif {M}"
 
 slot proposed_bond(X: entity, Y: entity)
   means "proposed_bond(X, Y): a bond between X and Y put forward"
+  say "a bond between {X} and {Y} is put forward"
 
 slot self_gift_measure(V: category, M: number)
   means "self_gift_measure(V, M): a measure M laid on the gift of self in state V"
+  say "the gift of self in the state {V} is measured {M}"
 
 slot total(X: entity, Y: entity)
   means "total(X, Y): X gives himself wholly to Y"
+  say "{X} gives himself wholly to {Y}"
 
 slot uses(T: category)
   means "uses(T): the theory T is loaded (the Grammar of the Icon)"
+  say "the theory {T} is loaded"
 
 ```clingo
 

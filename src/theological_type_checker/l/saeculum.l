@@ -34,18 +34,23 @@ library
 
 slot custom_asof/0
   means "an asof part sets the clock, not today/1"
+  say "an asof part sets the clock"
 
 slot end_event(E: event)
   means "end_event(E): the return and the judgment, which take no date"
+  say "{E} takes no date"
 
 slot month_days(M: number, N: number)
   means "month_days(M, N): the days of month M"
+  say "month {M} has {N} days"
 
 slot promulgated(Act: law, Date: date)
   means "promulgated(Act, Date): a law, or an authentic interpretation in the form of law, published (cc. 7-8, 16 §2)"
+  say "{Act} was promulgated on {Date}"
 
 slot today(Date: date)
   means "today(Date): the evaluation date, YYYYMMDD"
+  say "the evaluation date is {Date}"
 
 use before/2 "from the kernel: the order of events (next/2, transitive)"
 
@@ -121,6 +126,7 @@ violation(measure_against_order(S2,S1)) :- depends_on(S2,S1), source(S2,_,_,Y2),
 
 slot date_claim(E: event, Year: year)
   means "date_claim(E, Year): a calendar year laid on an event of the order"
+  say "the year {Year} is laid on the event {E}"
 
 ```clingo
 end_event(return). end_event(judgment).
@@ -143,9 +149,11 @@ violation(before_the_beginning(X)) :- before(X,creation).
 
 slot measured_by(X: entity, M: category)
   means "measured_by(X, M): a claim that X's duration is measured by M (eternity, aevum, time)"
+  say "the duration of {X} is claimed measured by {M}"
 
 slot without_beginning(X: entity)
   means "a claim that X had no beginning"
+  say "{X} is claimed to have had no beginning"
 
 ```clingo
 measure(X,eternity) :- ind_sort(X,div).

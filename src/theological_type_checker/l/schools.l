@@ -45,15 +45,19 @@ runtime palamite extends default
 
 slot foreseen(E: event, C: event)
   means "foreseen(E, C): E caused by C as foreseen (merits foreseen)"
+  say "{E} is caused by {C} as foreseen"
 
 slot justification(P: person, A: act)
   means "justification(P, A): the act in which P, moved by grace, assents to justification"
+  say "in {A}, {P}, moved by grace, assents to justification"
 
 slot univocal_concept(F: perfection)
   means "univocal_concept(F): F a concept said univocally of God and creatures (Scotus)"
+  say "{F} is a concept said univocally of God and creatures"
 
 slot virginally_conceived(X: entity)
   means "virginally_conceived(X): X conceived by the Holy Spirit, not by propagation"
+  say "{X} was conceived by the Holy Spirit"
 
 part switch
 

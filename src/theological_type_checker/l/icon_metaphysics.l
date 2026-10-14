@@ -17,42 +17,55 @@ layer schools
 
 slot attribute(A: perfection)
   means "attribute(A): a divine attribute (wisdom, goodness, power)"
+  say "{A} is a divine attribute"
 
 slot constitutive(R: relation)
   means "constitutive(R): the relation R constitutes its subject"
+  say "the relation {R} constitutes its subject"
 
 slot creaturely_only(P: perfection)
   means "creaturely_only(P): a predicate said of creatures only"
+  say "{P} is said of creatures only"
 
 slot esse_not_really_distinct/0
   means "esse not really distinct from essence (a school's)"
+  say "esse is not really distinct from essence"
 
 slot known_from_effects/0
   means "God known from his effects: every bridge read back (a school's)"
+  say "God is known from his effects"
 
 slot love_object_reading/0
   means "love read by its object, the Word (a school's)"
+  say "love is read by its object, the Word"
 
 slot mixed_relations/0
   means "God's relations to creatures are of reason only (a school's)"
+  say "God's relations to creatures are of reason only"
 
 slot predicamental(R: relation)
   means "predicamental(R): the relation R is predicamental"
+  say "the relation {R} is predicamental"
 
 slot rests_in(C: node, W: node)
   means "rests_in(C, W): love C rests in W"
+  say "{C} rests in {W}"
 
 slot said_of_god(P: perfection)
   means "said_of_god(P): the perfection P said of God"
+  say "{P} is said of God"
 
 slot transcendental(T: perfection)
   means "transcendental(T): a transcendental (goodness, truth, unity)"
+  say "{T} is a transcendental"
 
 slot transcendental_relation/0
   means "the creature's being-from as a transcendental relation (a school's)"
+  say "the creature's being-from is a transcendental relation"
 
 slot transcendentals/0
   means "the transcendentals: pure perfections said first of God (a school's)"
+  say "the transcendentals are pure perfections, said first of God"
 
 ```clingo
 

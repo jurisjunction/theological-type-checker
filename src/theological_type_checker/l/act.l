@@ -38,12 +38,15 @@ library
 
 slot act_of(P: person, A: act)
   means "act_of(P, A): P placed the act A"
+  say "{P} placed the act {A}"
 
 slot disputed(F: fact)
   means "disputed(F): the fact F is disputed: computed both ways"
+  say "the fact {F} is disputed"
 
 slot gross(K: category)
   means "gross(K): a gross kind of ignorance (crass, supine, affected)"
+  say "ignorance of the kind {K} is gross"
 
 use acts/1 "from the runtime (schools.lp, classical): creatures act"
 
@@ -57,6 +60,7 @@ use god/1 "from the kernel's sorts"
 
 slot interior(Person: person, Act: act, Element: interior)
   means "interior(Person, Act, Element): a claim about the agent's knowledge, will or freedom in the act; supplied, never derived"
+  say "it is claimed of {Person}, in {Act}: {Element}"
 
 ```clingo
 { interior(P,A,X) } :- disputed(interior(P,A,X)).
@@ -87,15 +91,19 @@ agent(P,A)   :- act_of(P,A), in_nature(A,hum), operates(P,hum).
 
 slot juridic_person(P: person)
   means "cc. 113 §2, 114: a subject of obligations and rights by law or decree (of the Church or of a civil order)"
+  say "{P} is a juridic person"
 
 slot moral_person(P: person)
   means "c. 113 §1: a moral person by divine ordinance (the Catholic Church, the Apostolic See)"
+  say "{P} is a moral person by divine ordinance"
 
 slot group(P: person)
   means "a name for persons with no status in law"
+  say "{P} names persons with no status in law"
 
 slot represents(Person: person, J: person)
   means "represents(Person, J): c. 118, who acts in its name"
+  say "{Person} acts in the name of {J}"
 
 ```clingo
 fiction(J)       :- juridic_person(J).

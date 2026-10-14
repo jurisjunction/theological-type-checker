@@ -386,7 +386,8 @@ beyond those this step touches.
 
 Appended stage by stage. Predictions committed in e69e70a, stamped in
 4357243. Stage 1 (RG) is 3fc3601, stage 2 (RU) 0b7ad94, stage 3 (SO, LY)
-2796019; stage 4 (TY) the commit that adds its rows.
+2796019, stage 4 (TY) 567c741; stage 5 (OF, SY) the commit that adds its
+rows.
 
 | | Result |
 | --- | --- |
@@ -410,6 +411,10 @@ Appended stage by stage. Predictions committed in e69e70a, stamped in
 | TY3 | In part. Five facts outside, in the range; but in four slots, not three, and none of `character/2`. Four scored (below); one remains, a candidate's. |
 | TY4 | Held: `unknown_slot` warns on `in_sort/2` as before; `schema` stays 1. |
 | M1 (TY) | Held: one atom added, `violation(outside_domain(present,3,located))` in PM1b, the candidate TY3 leaves. |
+| OF1 | Held: 115 of the 371 switches and candidates name a case. Of the rest, 27 are a runtime's parts, and the others a model's, a school's, the creed's, or no case's. Every `q(...)` term in a part `of C` is a question C states, or one no case states (a test). |
+| OF2 | Held: no rule file changed (a test strips `of` and compiles). The grammar serves it at M5. |
+| SY1 | Held: every slot has a `say` naming each argument once, written by hand (425); a test renders each with its arguments and finds no name left. No rule file changed. |
+| M1 (OF, SY) | Held: no rule file changed byte for byte, so no output did. |
 
 ### The slot, amended (SO1; rule 7)
 
@@ -512,3 +517,23 @@ CG scores it.
   it would be a slot; it is what L writes, never a case, and SO1's test
   leaves it out. The gate warns on it (TY4); CG is to refuse it.
 - **SR1, for the domains, holds now**: a test reads every rule body.
+
+### Cases and sentences (OF, SY)
+
+- **Which case.** A part names the case whose matter it changes or
+  tests: a reading of its sources, a source relaxed, a fact of its
+  events decided or disputed, a claim on its questions. Read off the
+  suite (the one case a part is always loaded with) and the questions it
+  names: 143 proposed, then checked by hand against each part's comment.
+  Thirty-nine were set aside: the candidates of the creed, of presence
+  and of time, loaded with `ic` only because the creed's bundle holds it
+  (`CREED`). Eleven were added by hand where the suite loads two cases or
+  none (the trolley and the ectopic cases go with `life_sources`,
+  `seal_dispensed` with `seal_case`), and one moved (`cand_sin_of_mary`
+  to `mary_actual_sin`). The test of OF1 caught one choice of mine:
+  `liturgy_oum_hyp` names `q(ic)`, so it is `of ic`, not of
+  `lex_orandi_ic`.
+- **A switch of a switch.** `of` names a case, and some matters live in
+  switches: the four readings of art. 6 (`art6_papal`, ...) change
+  `art6_case`, which states no question and so is a switch (SO2). They
+  name no case.

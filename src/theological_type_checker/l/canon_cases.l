@@ -13,6 +13,7 @@ layer canon
 
 slot c751_state_reading/0
   means "c. 751 read as a lasting state, not an act (a switch)"
+  say "c. 751 is read as a lasting state, not an act"
 
 ```clingo
 
@@ -109,7 +110,7 @@ marriage(m_2026,sspx_priest_x,20260815).                          % no delegatio
 % ---------- Switches (most are hypothetical) --------------------------------
 ```
 
-part switch
+part switch of sspx
 
 ```clingo
 #program recourse_decided_2026.  recourse_decided(ddf_decree_2026,20260901).                  % HYPOTHETICAL
@@ -121,31 +122,31 @@ part switch
 #program recourse_upheld_2026.   recourse_decided(ddf_decree_2026,20260901). recourse_upheld(ddf_decree_2026).   % HYPOTHETICAL
 ```
 
-part switch
+part switch of sspx
 
 ```clingo
 #program decree_papally_approved. issuer(ddf_decree_2026,leo_xiv). authority(leo_xiv,4).       % HYPOTHETICAL
 ```
 
-part switch
+part switch of sspx
 
 ```clingo
 #program note_as_revocation.     revocation(ddf_note_2026,mm12,20260702). revocation(ddf_note_2026,pced2017,20260702).
 ```
 
-part switch
+part switch of sspx
 
 ```clingo
 #program note_papally_approved.  issuer(ddf_note_2026,leo_xiv). authority(leo_xiv,4).          % HYPOTHETICAL
 ```
 
-part switch
+part switch of sspx
 
 ```clingo
 #program c751_state_reading.     c751_state_reading.     % c. 751 read as a lasting state, not an act
 ```
 
-part switch
+part switch of sspx
 
 ```clingo
 #program hyp_delegation.                                          % HYPOTHETICAL: an ordinary delegates for one marriage
@@ -153,7 +154,7 @@ ordinary(bishop_y). marriage(m_2026_delegated,sspx_priest_x,20260816).
 delegation(del1,bishop_y,sspx_priest_x,m_2026_delegated,20260810).
 ```
 
-part switch
+part switch of sspx
 
 ```clingo
 #program edge_acts.                                               % absolutions at the edges of the law
@@ -161,7 +162,7 @@ absolution(abs_dying,sspx_priest_x,penitent_e,20260803). danger_of_death(peniten
 absolution(abs_common_error,sspx_priest_x,penitent_f,20260804). disputed(common_error(abs_common_error)).   % c. 144 §2
 ```
 
-part candidate
+part candidate of sspx
 
 ```clingo
 #program cand_note_as_declaration.   % the note's class statement read as declaring every priest excommunicated
@@ -169,21 +170,21 @@ treated_as_declaring(ddf_note_2026,sspx_clergy).
 declared_at(P,n1364,T) :- in_class(P,sspx_clergy), instant(T), T >= 20260702.
 ```
 
-part candidate
+part candidate of sspx
 
 ```clingo
 #program cand_uncoupled.             % the law applied without regard to the theological branch
 uncoupled.
 ```
 
-part candidate
+part candidate of ecumenism
 
 ```clingo
 #program cand_law_answers_teaching.  % a canon-law result used to settle a doctrinal question
 law_answers(q(church_identity)).
 ```
 
-part candidate
+part candidate of sspx
 
 ```clingo
 #program cand_notoriety_dispenses.   % "the act was public, so no hearing was needed"
@@ -314,7 +315,7 @@ doubtful_revocation(l_new,l_old).
 
 ```
 
-part switch
+part switch of law_cases
 
 ```clingo
 #program law_penal_lacuna.          % HYPOTHETICAL: a penalty supplied by analogy in a penal lacuna
@@ -322,7 +323,7 @@ lacuna(m_pen). penal_matter(m_pen). equity_rule(m_pen,punish_by_analogy).
 
 ```
 
-part switch
+part switch of law_cases
 
 ```clingo
 #program law_bad_dispensations.     % HYPOTHETICAL: dispensations no human authority can give
@@ -331,7 +332,7 @@ dispensation(dsp2,d1,person_t). dispensation(dsp3,d2,person_t). dispensation(dsp
 
 ```
 
-part candidate
+part candidate of law_cases
 
 ```clingo
 #program cand_validity_settles_doctrine.   % a law's failing to bind used to settle that it contradicts divine law
@@ -376,7 +377,7 @@ interior(d5,def1,defence(moderate)).                                            
 
 ```
 
-part candidate
+part candidate of moral_cases
 
 ```clingo
 #program cand_proportionalism.      % a good end and a proportion make any act licit
@@ -448,14 +449,14 @@ part candidate
 formal_cause_essence.
 ```
 
-part candidate
+part candidate of jansenism
 
 ```clingo
 #program cand_jansenist.            % every interior grace efficacious, none resisted (Jansen)
 every_grace_efficacious.
 ```
 
-part switch
+part switch of c915_case
 
 ```clingo
 #program pclt_confirmed.            % HYPOTHETICAL: the 2000 declaration confirmed by pontifical authority and promulgated
@@ -496,7 +497,7 @@ classification(q(k_grave_c),k_grave_c,grave_matter). classification(q(k_grave_c)
 interior(son,act_s,full_knowledge). interior(son,act_s,deliberate_consent).
 ```
 
-part candidate
+part candidate of mary_actual_sin
 
 ```clingo
 #program cand_sin_of_mary.          % claims composing a venial sin of Mary (load with creed and mary_actual_sin)
@@ -577,7 +578,7 @@ presence_as(sign).
 
 ```
 
-part switch
+part switch of sacrament_conditions
 
 ```clingo
 #program sacrament_cases.           % HYPOTHETICAL
@@ -650,7 +651,7 @@ in_grace(R) :- reborn_on_the_deposit(R,_).
 
 ```
 
-part switch
+part switch of sacrament_conditions
 
 ```clingo
 #program sacrament_dispensations.   % HYPOTHETICAL: load with sacrament_conditions
@@ -667,7 +668,7 @@ interior(spouse_v,m_vit,fear(grave,extrinsic,unjust)). interior(spouse_v,m_vit,e
 dispensation(dsp_consent,cond(matrimony,consent),m_vit).
 ```
 
-part candidate
+part candidate of sacrament_conditions
 
 ```clingo
 #program cand_law_types_the_substance.   % the Code's c. 1108 cited as settling that the form is not of the substance
@@ -675,7 +676,7 @@ source(c1108_text,3,juridical,1983). supports(c1108_text,q(substance(matrimony,c
 
 ```
 
-part switch
+part switch of we_baptize
 
 ```clingo
 #program we_baptize_case.           % HYPOTHETICAL: load with we_baptize
@@ -735,14 +736,14 @@ value(q(disclosure_harms_souls),(yes;no)). default(q(disclosure_harms_souls),yes
 classification(q(disclosure_harms_souls),disclosure_k,harm_of_souls).
 ```
 
-part switch
+part switch of seal_case
 
 ```clingo
 #program seal_dispensed.            % HYPOTHETICAL: the supreme authority dispenses the confessor from the seal
 dispensation(dsp_seal,seal,conf_k).
 ```
 
-part candidate
+part candidate of seal_case
 
 ```clingo
 #program cand_penitent_releases.    % the penitent's permission lifts the seal
@@ -753,7 +754,7 @@ seal_lifted(disclosure_k,penitent_release).
 % composed from the effect and typed by the sources, never by hand.
 ```
 
-part switch
+part switch of life_sources
 
 ```clingo
 #program trolley.                   % HYPOTHETICAL: the lever, the push, the loop
@@ -779,7 +780,7 @@ evil_kind_of(death_of_patient,killing_of_innocent).
 
 ```
 
-part switch
+part switch of life_sources
 
 ```clingo
 #program trolley_duty.              % HYPOTHETICAL: one responsible for others, attacked (CCC 2265)
@@ -788,7 +789,7 @@ occasion(guard_g,charges_attacked).
 
 ```
 
-part candidate
+part candidate of life_sources
 
 ```clingo
 #program cand_must_push.            % "you must push the man to save five" (load with life_sources)
@@ -797,7 +798,7 @@ occasion(agent_p,more_at_stake).
 
 ```
 
-part switch
+part switch of life_sources
 
 ```clingo
 #program abortion.                  % HYPOTHETICAL: load with direct_reading, life_sources, craniotomy_sources; ectopic likewise
@@ -810,7 +811,7 @@ interior(doctor_c,cranio,evil_unintended). interior(doctor_c,cranio,proportionat
 disputed(interior(doctor_c,cranio,chooses(death_of_child))).
 ```
 
-part switch
+part switch of life_sources
 
 ```clingo
 #program ectopic.                   % HYPOTHETICAL: the damaged tube removed; the embryo removed; its growth stopped by a drug
@@ -831,7 +832,7 @@ disputed(interior(doctor_m,mtx,chooses(death_of_embryo_m))).
 
 ```
 
-part switch
+part switch of ivf_sources
 
 ```clingo
 #program ivf.                       % HYPOTHETICAL: load with ivf_sources and life_sources
@@ -841,7 +842,7 @@ object_is(discard_1,death_of_embryo_i). effect(discard_1,death_of_embryo_i,evil)
 
 ```
 
-part switch
+part switch of deathpenalty
 
 ```clingo
 #program dp_verdict.                % HYPOTHETICAL: an execution; load with deathpenalty and a date or reading
@@ -866,7 +867,7 @@ prudential(force_2,(lasting_grave_damage;other_means_ineffective;prospects_of_su
 
 ```
 
-part switch
+part switch of usury_two_questions
 
 ```clingo
 #program usury_case.                % HYPOTHETICAL: load with usury_two_questions
@@ -875,7 +876,7 @@ act_of(lender_u,loan_u). kind_of_act(loan_u,profit_from_loan_as_such).          
 % ---------- Faith and communion (TTC-COMMUNION), all HYPOTHETICAL ---------------
 ```
 
-part switch
+part switch of ic
 
 ```clingo
 #program professions_ic.            % HYPOTHETICAL: the Immaculate Conception denied; load with ic and a date
@@ -883,7 +884,7 @@ professes(theo_d,prof_ic,q(ic),no).
 
 ```
 
-part switch
+part switch of filioque
 
 ```clingo
 #program professions_filioque.      % HYPOTHETICAL: load with filioque and assent
@@ -901,7 +902,7 @@ interior(theo_q,doubt_q,pertinacious).
 
 ```
 
-part switch
+part switch of ecumenism
 
 ```clingo
 #program professions_anglican.      % HYPOTHETICAL: Anglican orders professed valid, warned, not retracted; load with ecumenism and assent
@@ -927,7 +928,7 @@ baptized_in(apost_y,catholic). repudiates(apost_y,rep_y,christian_faith). act_da
 
 ```
 
-part switch
+part switch of tier2
 
 ```clingo
 #program professions_definitive.    % HYPOTHETICAL: teaching held only at tier 2 (load with tier2 and assent)
@@ -946,7 +947,7 @@ apostasy_act(E) :- professes(_,E,_,_), censure(E,heretical).
 
 ```
 
-part switch
+part switch of moral_cases
 
 ```clingo
 #program outside_moral.             % HYPOTHETICAL: c. 11 and the moral library (load with moral_cases)
@@ -1004,7 +1005,7 @@ disputed(interior(fid_l,state,in_grace)).
 % ---------- Abortion, c. 1399, c. 1752, the Dicastery's clause, fictions (TTC-PENAL), all HYPOTHETICAL ----
 ```
 
-part switch
+part switch of life_sources
 
 ```clingo
 #program abortion_canon.            % HYPOTHETICAL: direct abortions, one mother each (load with life_sources and abortion)
@@ -1029,7 +1030,7 @@ act_date(ab_87x,19870302). by_expulsion(ab_87x).                                
 
 ```
 
-part switch
+part switch of life_sources
 
 ```clingo
 #program abortion_canon_di.         % HYPOTHETICAL: TTC-PRECEPT's acts, dated (load with abortion or ectopic and their sources)
@@ -1042,7 +1043,7 @@ procures(doctor_t,embryo_out). procures(doctor_m,mtx).
 
 ```
 
-part candidate
+part candidate of life_sources
 
 ```clingo
 #program cand_salus_animarum.       % "salus animarum suprema lex" read as a power to set a penalty aside (load with abortion_canon)
@@ -1143,7 +1144,7 @@ act_of(diocese_d,act_d). kind_of_act(act_d,k_s). interior(bishop_d,act_d,deliber
 represents(pope_r,apostolic_see). act_of(apostolic_see,act_as). kind_of_act(act_as,k_neutral).
 ```
 
-part candidate
+part candidate of fiction_acts
 
 ```clingo
 #program cand_state_is_evil.        % "the state is evil": the state as the agent of an act evil by its object, with consent claimed
@@ -1192,7 +1193,7 @@ part switch
 aas_issue(law_a,20231129). aas_issue(law_b,20231130). aas_issue(law_c,20221129). aas_issue(law_d,20230831).
 ```
 
-part switch
+part switch of tier2
 
 ```clingo
 #program rejection_1998.            % HYPOTHETICAL: a definitive teaching rejected twice inside Ad tuendam fidem's unread span (CT3; load with tier2, assent, professions_definitive)
@@ -1200,7 +1201,7 @@ professes(theo_t,(prof_t98;prof_t99),q(d1),no). act_date(prof_t98,19981201). act
 warned(theo_t,(prof_t98;prof_t99),ordinary). interior(theo_t,(prof_t98;prof_t99),pertinacious).
 ```
 
-part switch
+part switch of life_sources
 
 ```clingo
 #program ages_c97.                  % HYPOTHETICAL: ages from birth dates (CT4; load with life_sources, abortion, abortion_canon)
@@ -1226,7 +1227,7 @@ bishop(bp_g). baptized_in(bp_g,catholic). ascribed(bp_g,ukrainian).
 consecration(e_1990,bp_e,bp_g,19900801).                           % before the Eastern Code
 ```
 
-part switch
+part switch of life_sources
 
 ```clingo
 #program eastern_abortion.          % HYPOTHETICAL: an Eastern mother procures an abortion (EP1; load with life_sources, abortion, abortion_canon)
@@ -1236,7 +1237,7 @@ procures(m_east,ab_east90). act_date(ab_east90,19900501).            % before th
 object_is(ab_east90,death_of_unborn). effect(ab_east90,death_of_unborn,evil).
 ```
 
-part switch
+part switch of ic
 
 ```clingo
 #program eastern_faith.             % HYPOTHETICAL: a defined truth denied by a Latin and by two Eastern Catholics (EP2; load with ic, assent)
@@ -1336,7 +1337,7 @@ baptized_in((e_9;e_10),catholic). ascribed((e_9;e_10),ukrainian).
 marriage(ee_v,pr_m,20180606). spouse(ee_v,(e_9;e_10)). removes_voluntary(e_9,ee_v,violence).
 ```
 
-part switch
+part switch of tier2
 
 ```clingo
 #program eastern_definitive.        % HYPOTHETICAL: an Eastern Catholic rejects a definitive teaching (EP4; load with tier2, assent)
@@ -1384,7 +1385,7 @@ part switch
 doc_at_issue((form_text_1917;c1099_2_clause_1917;sp_text;ue2011)).
 ```
 
-part switch
+part switch of law_cases
 
 ```clingo
 #program revocation_dated.          % HYPOTHETICAL: c. 21 with dates (GN3; load with law_cases, whose clock it reads)
@@ -1440,7 +1441,7 @@ celebrated(ord_00p,orders(presbyterate),bp_o,cand_00p). celebration_date(ord_00p
 celebrated(ord_50,orders(presbyterate),bp_o,cand_50).   celebration_date(ord_50,19500601).
 ```
 
-part switch
+part switch of we_baptize
 
 ```clingo
 #program rite_changes.              % HYPOTHETICAL: a changed form and a changed prayer (RS3; load with we_baptize; anyone baptizes)
@@ -1448,7 +1449,7 @@ celebrated(bap_we,baptism,pr_w,inf_w).  act_date(bap_we,20210601).  form_used(ba
 celebrated(bap_alt,baptism,pr_w,inf_a). act_date(bap_alt,20210602). alters(bap_alt,closing_prayer).
 ```
 
-part switch
+part switch of sacrament_conditions
 
 ```clingo
 #program liturgical_books_hyp.      % HYPOTHETICAL: liturgical books changing a sacrament's conditions, even from the Apostolic See (RS1; load with sacrament_conditions)

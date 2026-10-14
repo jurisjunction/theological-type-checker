@@ -45,6 +45,7 @@ library
 
 slot kind_of_act(Act: act, Kind: kind)
   means "kind_of_act(Act, Kind): the kind of act a case says its act is (an outward fact)"
+  say "the act {Act} is of the kind {Kind}"
 
 use of_kind/2 "from the theological side (pair.lp): in this branch the kind is classified so"
 
@@ -58,45 +59,57 @@ use due_defence/2 "act.lp: the claim of legitimate defence with due moderation"
 
 slot forbids(Law: law, Kind: kind)
   means "forbids(Law, Kind): a law forbids acts of this kind"
+  say "{Law} forbids acts of the kind {Kind}"
 
 use does_not_bind/1 "law.lp: a law contrary to a higher law does not bind"
 
 slot effect(Act: act, Effect: effect, V: valence)
   means "effect(Act, Effect, good | evil): an effect of the act (outward)"
+  say "{Effect}, an effect of {Act}, is {V}"
 
 slot means(Act: act, E1: effect, E2: effect)
   means "means(Act, E1, E2): the effect E1 is the means to E2 (outward)"
+  say "in {Act}, {E1} is the means to {E2}"
 
 use holds/2 "from the authority graph: the value a branch holds (q(direct_by))"
 
 slot object_is(Act: act, E: effect)
   means "object_is(Act, E): the act consists in bringing about E (outward)"
+  say "the act {Act} consists in bringing about {E}"
 
 slot evil_kind_of(E: effect, K: kind)
   means "evil_kind_of(E, K): an evil effect of this kind (e.g. killing_of_innocent)"
+  say "the evil effect {E} is of the kind {K}"
 
 slot prudential(Act: act, Condition: condition)
   means "prudential(Act, Condition): the judgment of those responsible that a condition is met (CCC 2309); supplied, never computed"
+  say "those responsible judge {Condition} met for {Act}"
 
 slot permitted_only_if(Kind: kind, Condition: condition)
   means "permitted_only_if(Kind, Condition): acts of the kind are permitted only where the condition is met"
+  say "acts of the kind {Kind} are permitted only where {Condition}"
 
 slot denied(Condition: condition)
   means "denied(Condition): the theological side holds that the condition is not met today"
+  say "the condition {Condition} is held not met today"
 
 slot commands(Law: law, Kind: kind, Occasion: circumstance)
   means "commands(Law, Kind, Occasion): an affirmative precept commands acts of the kind on the occasion"
+  say "{Law} commands acts of the kind {Kind} on the occasion {Occasion}"
 
 slot occasion(Person: person, Occasion: circumstance)
   means "occasion(Person, Occasion): the occasion holds for the person"
+  say "the occasion {Occasion} holds for {Person}"
 
 slot teaching_type(S: source, T: teaching_type)
   means "teaching_type(Source, principle | criterion | directive) (CCC 2423)"
+  say "{S} is social teaching of the type {T}"
 
 use supports/3 "from the authority graph"
 
 slot classification(Q: question, E: entity, K: class)
   means "from the authority graph"
+  say "on {Q}, {E} is classed {K}"
 
 use unbound/2 "canon_law.lp (c. 11): an ecclesiastical law does not bind the person"
 

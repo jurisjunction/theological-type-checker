@@ -28,48 +28,63 @@ sort ground
 
 slot attends(P: person, X: entity)
   means "attends(P, X): P attends X, an outward fact (never adherence)"
+  say "{P} attends {X}"
 
 slot bond_kind(B: category)
   means "bond_kind(B): a bond of communion (LG 14; UR 3)"
+  say "{B} is a bond of communion"
 
 slot community(C: church)
   means "community(C): a community whose bonds of communion are compared"
+  say "{C} is a community whose bonds of communion are compared"
 
 slot condition_in_question(K: sacrament, C: condition)
   means "condition_in_question(K, C): asked whether condition C is of the substance of sacrament K"
+  say "whether {C} is of the substance of {K} is asked"
 
 slot confessed(P: person)
   means "confessed(P): P has confessed, an outward fact"
+  say "{P} has confessed"
 
 slot continent(P: person)
   means "continent(P): P lives in continence (FC 84)"
+  say "{P} lives in continence"
 
 slot declared_by_authority(P: person)
   means "declared_by_authority(P): P's adherence declared by competent authority"
+  say "competent authority has declared the adherence of {P}"
 
 slot internal_forum_actor(A: person)
   means "internal_forum_actor(A): one who acts in the internal forum (a confessor)"
+  say "{A} acts in the internal forum"
 
 slot irregular_union(P: person)
   means "irregular_union(P): P lives in an irregular union, an outward fact"
+  say "{P} lives in an irregular union"
 
 slot refuses(X: person, T: source)
   means "refuses(X, T): X publicly refuses the teaching T"
+  say "{X} publicly refuses the teaching {T}"
 
 slot schism_basis(B: ground)
   means "schism_basis(B): a ground c. 751 gives for schism"
+  say "{B} is a ground of schism under c. 751"
 
 slot separated_body(C: church)
   means "separated_body(C): a community separated from full communion"
+  say "{C} is separated from full communion"
 
 slot silent(Person: person, Act: act, Q: question)
   means "silent(Person, Act, Q): an outward silence on the question"
+  say "in {Act}, {Person} keeps an outward silence on {Q}"
 
 slot teaching_tier(T: source, K: tier)
   means "teaching_tier(T, K): the tier of the teaching T"
+  say "the teaching {T} is at tier {K}"
 
 slot theses_directive/0
   means "the 24 Theses read as directive norms, 1916 (a switch)"
+  say "the 24 Theses are read as directive norms"
 
 ```clingo
 
@@ -99,7 +114,7 @@ preserved_from_os(mary) :- holds(q(ic),yes).    % the dogma in the economy (kern
 
 ```
 
-part switch
+part switch of ic
 
 ```clingo
 #program ic_unprotected.          % ablation: remove both protective acts
@@ -326,7 +341,7 @@ gen(conception,m,c). gen(conception,w,c). closed_in_act(conception,m,w).
 
 ```
 
-part switch
+part switch of disparity
 
 ```clingo
 #program dispensed. relaxed(c1086).
@@ -354,7 +369,7 @@ binds(atf_1998,2,firm_assent).
 
 ```
 
-part switch
+part switch of tier2
 
 ```clingo
 #program cdf_fixes_tier2.         % the CDF 1998 commentary treated as fixing the force of tier 2
@@ -362,7 +377,7 @@ treated_as_fixing(cdf_1998,t2_truth).
 
 ```
 
-part switch
+part switch of tier2
 
 ```clingo
 #program atf_fixes_tier2.         % the legislator's act read as teaching, and as settling tier 2
@@ -370,7 +385,7 @@ meta_supports(atf_1998,t2_truth). treated_as_fixing(atf_1998,t2_truth).
 
 ```
 
-part switch
+part switch of tier2
 
 ```clingo
 #program atf_as_tier1.            % a legislative act entered at tier 1
@@ -463,25 +478,25 @@ part date
 #program asof_2019. asof(2019). custom_asof.
 ```
 
-part switch
+part switch of deathpenalty
 
 ```clingo
 #program ccc_circumstantial. :- read_as(ccc2018,intrinsic).
 ```
 
-part switch
+part switch of deathpenalty
 
 ```clingo
 #program ccc_intrinsic.      :- read_as(ccc2018,circumstantial).
 ```
 
-part switch
+part switch of deathpenalty
 
 ```clingo
 #program di_circumstantial.  :- read_as(di2024,intrinsic).
 ```
 
-part switch
+part switch of deathpenalty
 
 ```clingo
 #program di_intrinsic.       :- read_as(di2024,circumstantial).
@@ -493,7 +508,7 @@ part switch
 #program no_oum.             :- oum_holds(_).
 ```
 
-part switch
+part switch of deathpenalty
 
 ```clingo
 #program oum_dh795.          :- not oum_holds(dh795).
@@ -543,44 +558,44 @@ violation(diagnosis(P,A)) :- discerned(P,_,A), not internal_forum_actor(A).
 
 ```
 
-part switch
+part switch of remarriage
 
 ```clingo
 #program external_barred.  :- not holds(q(admission_external),barred_if_obstinate_and_manifest).
 ```
 
-part switch
+part switch of remarriage
 
 ```clingo
 #program count_all.        count_all.        % ablation: every source counts, citing or not
 ```
 
-part switch
+part switch of remarriage
 
 ```clingo
 #program typed_governance. :- question_kind(q(admission_internal),doctrinal).
 ```
 
-part switch
+part switch of remarriage
 
 ```clingo
 #program typed_doctrinal.  :- question_kind(q(admission_internal),governance).
 ```
 
-part switch
+part switch of remarriage
 
 ```clingo
 #program oum_fc84.         :- not oum_holds(fc84).
 ```
 
-part candidate
+part candidate of remarriage
 
 ```clingo
 #program cand_diagnose.                    % the checker assigning an interior
 discerned(P,diminished,system) :- irregular_union(P).
 ```
 
-part candidate
+part candidate of remarriage
 
 ```clingo
 #program cand_full_imputability_admitted.  % admit someone discerned as fully culpable
@@ -680,19 +695,19 @@ character(ho1949,letter). character(ccc847,catechism). character(ac1896,apostoli
 
 ```
 
-part switch
+part switch of ecumenism
 
 ```clingo
 #program lg14_graded.        :- not read_as(lg14,graded_incorporation).
 ```
 
-part switch
+part switch of ecumenism
 
 ```clingo
 #program lg14_binary.        :- not read_as(lg14,members_and_joined).
 ```
 
-part switch
+part switch of ecumenism
 
 ```clingo
 #program lg8_identity.       :- not read_as(lg8,identity_with_elements).
@@ -704,25 +719,25 @@ part switch
 #program lg8_broader.        :- not read_as(lg8,broader).
 ```
 
-part switch
+part switch of ecumenism
 
 ```clingo
 #program florence_nonmember. :- not read_as(florence1442,outside_as_nonmember).
 ```
 
-part switch
+part switch of ecumenism
 
 ```clingo
 #program florence_no_bond.   :- not read_as(florence1442,outside_as_no_bond).
 ```
 
-part switch
+part switch of ecumenism
 
 ```clingo
 #program orders_fixed.       :- not holds(q(anglican_orders),invalid).
 ```
 
-part switch
+part switch of ecumenism
 
 ```clingo
 #program oum_ac.             :- not oum_holds(ac1896).
@@ -770,25 +785,25 @@ part date
 #program asof_2010. asof(2010). custom_asof.
 ```
 
-part switch
+part switch of liturgy
 
 ```clingo
 #program lit_doctrinal.  :- question_kind(q(lex_orandi),governance).
 ```
 
-part switch
+part switch of liturgy
 
 ```clingo
 #program lit_governance. :- question_kind(q(lex_orandi),doctrinal).
 ```
 
-part candidate
+part candidate of liturgy
 
 ```clingo
 #program cand_perpetuity_binds. treated_as_binding_successors(quo_primum).
 ```
 
-part candidate
+part candidate of liturgy
 
 ```clingo
 #program cand_total_ban.          % a hypothetical future act
@@ -812,20 +827,20 @@ source(francis_sarah_2017,3,juridical,2017). papal_form(francis_sarah_2017,legis
 supports(francis_sarah_2017,q(translation_approval),confirmatio).
 ```
 
-part candidate
+part candidate of translation
 
 ```clingo
 #program cand_later_instruction.  % a hypothetical 2019 curial instruction restoring the old practice
 source(instr_2019,3,juridical,2019). dicastery(instr_2019). supports(instr_2019,q(translation_approval),detailed_recognitio).
 ```
 
-part switch
+part switch of translation
 
 ```clingo
 #program instr_in_forma_specifica. in_forma_specifica(instr_2019).
 ```
 
-part candidate
+part candidate of translation
 
 ```clingo
 #program cand_conference.           % a conference decree contrary to universal law
@@ -843,49 +858,49 @@ value(q(practice_x),forbidden). value(q(practice_x),permitted).
 source(law_1900,3,juridical,1900). papal_form(law_1900,legislative). supports(law_1900,q(practice_x),forbidden).
 ```
 
-part switch
+part switch of custom_demo
 
 ```clingo
 #program cu_young.      custom_practice(cy,q(practice_x),permitted,1950). community_capable(cy). approved_custom(cy). approver(cy,pope).
 ```
 
-part switch
+part switch of custom_demo
 
 ```clingo
 #program cu_divine.     contra_divine(cy).
 ```
 
-part switch
+part switch of custom_demo
 
 ```clingo
 #program cu_reprobated. reprobated(cy).
 ```
 
-part switch
+part switch of custom_demo
 
 ```clingo
 #program cu_forbids.    law_forbids_customs(law_1900).
 ```
 
-part switch
+part switch of custom_demo
 
 ```clingo
 #program cu_later_law.  source(law_2000,3,juridical,2000). papal_form(law_2000,legislative). supports(law_2000,q(practice_x),forbidden).
 ```
 
-part switch
+part switch of custom_demo
 
 ```clingo
 #program cu_centenary.  custom_practice(cc,q(practice_x),permitted,1780). community_capable(cc). approved_custom(cc). approver(cc,pope).
 ```
 
-part switch
+part switch of custom_demo
 
 ```clingo
 #program cu_express.    expressly_revokes(law_2000,cc).
 ```
 
-part switch
+part switch of custom_demo
 
 ```clingo
 #program cu_old.        custom_practice(co,q(practice_x),permitted,1890). community_capable(co). approved_custom(co). approver(co,pope).
@@ -920,7 +935,7 @@ source(enc_s,3,truth,1990). character(enc_s,encyclical). supports(enc_s,q(topic_
 source(interview_s,3,truth,2015). character(interview_s,interview). supports(interview_s,q(topic_s),b).
 ```
 
-part switch
+part switch of salience_demo
 
 ```clingo
 #program salience_marks.  salience(interview_s,high). relies_on(arg1,interview_s).
@@ -1026,19 +1041,19 @@ part date
 #program asof_2018. asof(2018). custom_asof.
 ```
 
-part switch
+part switch of sspx
 
 ```clingo
 #program sspx_salience. salience(francis_2016,high). relies_on(arg_not_schismatic,francis_2016).
 ```
 
-part candidate
+part candidate of sspx
 
 ```clingo
 #program cand_dissent_as_schism. classified_on(sspx,schism_c751,dissent_from(dignitatis_humanae)).
 ```
 
-part candidate
+part candidate of sspx
 
 ```clingo
 #program cand_infer_adherence.   formal_adherence(P,system) :- attends(P,sspx_mass).
@@ -1112,7 +1127,7 @@ monopatrism :- holds(q(spirit_origin),father_alone).             % into the core
 
 ```
 
-part switch
+part switch of filioque
 
 ```clingo
 #program councils_relaxed.        % ablation: the two councils removed from the graph
@@ -1120,7 +1135,7 @@ relaxed(lyons_ii_1274). relaxed(florence_1439).
 
 ```
 
-part switch
+part switch of auxiliis
 
 ```clingo
 #program theses_1914.             % Sacred Congregation of Studies, 27 July 1914 (AAS 6, 383-386; DH 3601-3624)
@@ -1135,7 +1150,7 @@ reads(theses_1914,premotion,q(efficacious_grace),physical_premotion).     % read
 
 ```
 
-part switch
+part switch of auxiliis
 
 ```clingo
 #program theses_directive.        % 1916: "proponantur veluti tutae normae directivae"
@@ -1152,14 +1167,14 @@ a9_universal.
 
 ```
 
-part candidate
+part candidate of tier2
 
 ```clingo
 #program cand_tier3_contrary.     % a tier-3 teaching against the tier-2 one
 source(t3_against,3,truth,2010). supports(t3_against,q(d1),no). character(t3_against,letter).
 ```
 
-part switch
+part switch of tier2
 
 ```clingo
 #program assume_t2. :- not t2_truth.
@@ -1179,7 +1194,7 @@ character(s_amb,letter). character(s_int,letter).
 
 ```
 
-part switch
+part switch of tier2
 
 ```clingo
 #program hypothetical_definition. % what a tier-1 act would settle
@@ -1306,7 +1321,7 @@ conciliar_act(trent_xxi_ch1,chapter). session_defines(trent_xxi_ch1).   % proem:
 % ablations: which act carries which value
 ```
 
-part switch
+part switch of filioque
 
 ```clingo
 #program quicumque_relaxed.       relaxed(quicumque).
@@ -1326,25 +1341,25 @@ part switch
 source(def_r,1,truth,1300). hypothetical_warrant(def_r). reception_fixed_by(quicumque,def_r).
 ```
 
-part switch
+part switch of filioque
 
 ```clingo
 #program creed_parts_relaxed.     relaxed(quicumque). relaxed(lateran_iv_1215).
 ```
 
-part switch
+part switch of marian
 
 ```clingo
 #program marian_council_relaxed.  relaxed(constantinople_ii_553).
 ```
 
-part switch
+part switch of ic
 
 ```clingo
 #program ic_definition_relaxed.   relaxed(ineffabilis_1854).
 ```
 
-part switch
+part switch of defined_senses
 
 ```clingo
 #program senses_relaxed.          relaxed(trent_vii_baptism_c2). relaxed(trent_xiv_penance_c3).
@@ -1403,7 +1418,7 @@ condition_shown(ad_sanctam_1656,defines).          % "declaramus et definimus"
 condition_shown(ad_sanctam_1656,faith_or_morals).  % the propositions' sense, condemned with the same note
 ```
 
-part switch
+part switch of jansen_fact
 
 ```clingo
 #program ad_sanctam_defined.      % HYPOTHETICAL until the full bull is read: the five conditions shown; a dogmatic fact defined
@@ -1411,7 +1426,7 @@ source(ad_sanctam_1656,2,truth,1656). papal_form(ad_sanctam_1656,ex_cathedra). o
 condition_shown(ad_sanctam_1656,(pastor_of_all;apostolic_authority;defines;faith_or_morals;whole_church)).
 ```
 
-part switch
+part switch of jansen_fact
 
 ```clingo
 #program respectful_silence.      % HYPOTHETICAL: silence kept on the fact (Vineam Domini, 1705, DH 2390)
@@ -1748,7 +1763,7 @@ supports(ev56_rarity,q(execution_evil_by_object),yes).
 % refused where the order refutes it; a dependence counts from its witness.
 ```
 
-part switch
+part switch of filioque
 
 ```clingo
 #program fides_damasi.            % the Fides Damasi (DH 71-72): "de Patre et Filio procedentem"
@@ -1907,7 +1922,7 @@ prayed_in(creed_rome_1014,latin). in_use_from(creed_rome_1014,1014). prayed_by(c
 
 ```
 
-part switch
+part switch of ic
 
 ```clingo
 #program liturgy_oum_hyp.         % HYPOTHETICAL: a claim of the ordinary universal magisterium argued from a universal feast (LW8; load with ic)
@@ -1929,7 +1944,7 @@ changes(chg_x,element_x).
 
 ```
 
-part candidate
+part candidate of ic
 
 ```clingo
 #program cand_lex_orandi_fixes.   % a liturgy treated as settling a doctrine (LW4; load with ic, lex_orandi_ic)
@@ -2193,7 +2208,7 @@ source(cdf_1998_commentary,3,truth,1998). character(cdf_1998_commentary,commenta
 claims_tier(cdf_1998_commentary,canonization_x,2).
 ```
 
-part switch
+part switch of canonization_hyp
 
 ```clingo
 #program beatification_hyp.       % HYPOTHETICAL: a beatification typed as teaching on the same question (NS3; load with canonization_hyp)
@@ -2201,7 +2216,7 @@ source(beatification_x,3,juridical,1985).
 supports(beatification_x,q(in_glory(saint_x)),yes).
 ```
 
-part switch
+part switch of canonization_hyp
 
 ```clingo
 #program placed_after_death.      % HYPOTHETICAL: named persons placed in states after death by a case (NS1; load with canonization_hyp)
@@ -2319,14 +2334,14 @@ part candidate
 source(text_u,0,truth,100). ambiguous(text_u). reading(text_u,(r1;r2)). consent_claim(text_u,r1).
 ```
 
-part switch
+part switch of empirical_kind_hyp
 
 ```clingo
 #program findings_hyp.            % HYPOTHETICAL: an earlier finding and a later one (EM2; load with empirical_kind_hyp)
 finding(f_early,q(x_fact),a,1900). finding(f_late,q(x_fact),b,1950).
 ```
 
-part candidate
+part candidate of beginning
 
 ```clingo
 #program cand_finding_on_doctrine.   % HYPOTHETICAL: a finding laid on a doctrinal question (EM3; load with beginning)
