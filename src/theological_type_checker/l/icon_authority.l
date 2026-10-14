@@ -92,6 +92,10 @@ slot ambiguous(S: source)
   means "ambiguous(S): the text S admits more than one reading; one branch per reading"
   say "{S} admits more than one reading"
 
+slot asof(Y: year)
+  means "asof(Year): the year the authority graph is read as of, entered with custom_asof (or by an asof part)"
+  say "the graph is read as of {Y}"
+
 slot approved_custom(C: custom)
   means "approved_custom(C): the custom C has the legislator's approval (c. 23)"
   say "the custom {C} has the legislator's approval"
@@ -211,6 +215,7 @@ slot holds_reading(S: source, R: reading)
 slot hypothetical_warrant(S: source)
   means "hypothetical_warrant(S): a warrant supposed for S (HYPOTHETICAL parts only, rule 6)"
   say "a warrant is supposed for {S}"
+  hypothetical "a warrant supposed, not shown: written only in parts marked HYPOTHETICAL"
 
 slot in_forma_specifica(S: source)
   means "in_forma_specifica(S): a curial act approved in specific form (rank 4)"

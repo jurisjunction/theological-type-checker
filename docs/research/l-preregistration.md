@@ -387,8 +387,8 @@ beyond those this step touches.
 Appended stage by stage. Predictions committed in e69e70a, stamped in
 4357243. Stage 1 (RG) is 3fc3601, stage 2 (RU) 0b7ad94, stage 3 (SO, LY)
 2796019, stage 4 (TY) 567c741, stage 5 (OF, SY) d2cf622, stage 6 (IS)
-3b43a2b, with FD4 restated in e84749b; stage 7 (M5) the commit that adds
-its row.
+3b43a2b, with FD4 restated in e84749b, stage 7 (M5) 9c73d90; stage 8 (CG,
+SR) the commit that adds its rows.
 
 | | Result |
 | --- | --- |
@@ -419,6 +419,16 @@ its row.
 | IS1 | Held: `act.l` names every `interior/3` supplied, and every one disputed, in every branch (two rules, each with a test that fails without it). In the snapshot the only change is these atoms, in 83 scenarios: the 80 whose parts supply or dispute an interior, and three of `c915_case` (MS3, MS5, MS5b), where c. 916 itself disputes one. No rule reads the atom (a test); nothing about the interior is derived. |
 | M1 (IS) | Held: only the atoms IS1 predicted. One test went red, FD4 (rule 7): it asked that no atom name `doubt_r`, meaning no censure and no canon, and the new atom names the pertinacity the case claims for it. The name is left aside; the check is otherwise as it was. |
 | M5 | Held but for the gate: `ttc://grammar` reads L (slots with their sorts, side, file, meaning and sentence; sorts with their values; parts with kind and case; runtimes with parents and combinators), keeps its caveat, and gains `grammar_schema` 2; `schema` stays 1. `conclusion` joins the refusal's gates at CG. `list_parts` reads each part's kind and case from L too, so the nine cases of SO2 now list as cases; the personal layer, which stays clingo, keeps the old reading by name. One expectation restated (rule 7): the grammar's runtimes give their parts under `parts`. |
+| CG1 | Held for the three: `eff_tier(blog,1).`, `theorem(anything_i_like).` and `:- holds(q(example),yes).` are refused at `conclusion`, each naming its predicate; without them the run is as before. Accepted: `:- not read_as(s,r).`, a helper written and read, and a slot some rule also derives (`source/4`). Not `event_date/2`, the example the prediction gave: no case enters it and the guide gives `act_date/2`, so it is no slot (SO1, amended), and it is refused. |
+| CG2 | Did not hold. Six snippets of the suite and its tests were refused: TC3 chose the branch of a claim by `:- not oum_holds(dh795).`, a constraint on what rule 14 computes, and is restated (rule 7) to load the base's own switch for it, `oum_dh795`; three unit tests wrote `info/1` heads, restated (rule 7) as a premise and two helpers; and two scenarios (RC1, CO1) set the clock by `asof(Year). custom_asof.`, now a premise (below), and pass unchanged. No expectation changed. |
+| CG3 | Held: `save_case` refuses a conclusion on either side with the same refusal, naming the side. |
+| CG4 | Held: none of `eff_tier/2`, `in_force/1`, `warranted/1`, `received/1`, `oum_holds/1` is a slot, and each is derived (a test). |
+| CG5 | Held: `hypothetical_warrant/1` is declared `hypothetical`; `tier2` and `hypothetical_definition` gain the mark on their `#program` lines (comments only); the compiler accepts the four parts and refuses a fifth unmarked, or the slot written outside any part (tests); in a snippet it is refused at `conclusion`. |
+| SR1 | Held (stage 4). |
+| SR2 | Held: with parts' kinds and cases, runtimes' parents and combinators, sentences and sides taken from the sources, every rule file compiles unchanged (a test). |
+| M2 | Held: 87 norms, 315 edges; CL1 and PR4 clean; no unused input. |
+| M3 | Held: each domain rule, the two IS rules and each new guard of the compiler and the gate has a test that fails without it (checked by removing each); a test per kind of declaration and per combinator. |
+| M5 (gates) | Held: the refusal's gates gain `conclusion`. |
 
 ### The slot, amended (SO1; rule 7)
 
@@ -541,3 +551,36 @@ CG scores it.
   switches: the four readings of art. 6 (`art6_papal`, ...) change
   `art6_case`, which states no question and so is a switch (SO2). They
   name no case.
+
+### The gate (CG, SR)
+
+- **The clock's year is a premise.** `asof/1` is derived (from
+  `today/1`), and no slot declared it; but the base's own header gives
+  `asof(Year), custom_asof` to evaluate the graph as of a date, every
+  `asof_Y` part writes it, and two scenarios entered it (RC1 and CO1). The guide now gives it in TIME, so it is a slot
+  by SO1's rule, declared in `icon_authority.l`; nothing else changed for
+  it.
+- **Through a helper.** THE LANGUAGE let a constraint read the snippet's
+  helpers. A helper drawn from a conclusion (`h(X) :- holds(q,X).`) and
+  a constraint on it would exclude a branch by fiat as surely as a
+  constraint on `holds/2`. The gate follows each helper's bodies, and
+  refuses the constraint, naming the conclusion it reads. A premise's
+  body may read anything: the guide's source on the branch of a claim
+  (`source(S,…) :- attributed(S,A).`) passes.
+- **`in_sort/2` is refused** at the gate, as L's own (TY4 kept it a
+  warning until then).
+- **The gate reads the base as it stands,** with the personal layer and
+  the fix method's rules: what they derive is a conclusion to a snippet
+  too.
+
+### Read
+
+L declares what the rules are about and leaves the rules in clingo:
+every slot once, sorted, sided and said; parts with their kinds and
+cases; runtimes by inheritance; premises kept from conclusions. Of the
+predictions, the definition of a slot, the libraries' side, CG1's
+example and CG2 did not hold as written, and are scored above with their
+repairs. Four findings remain for later steps: the 22 parts of
+`canon_cases.l` that enter theology; the candidate refused twice for a
+mode no one knows; the switches of a switch, which `of` cannot name; and
+the guide's other short lists, left open.

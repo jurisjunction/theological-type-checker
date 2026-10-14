@@ -134,7 +134,7 @@ class Slot(Decl):
     read it, save what is routed from the canon layer. Renders its `@input`
     tag."""
     keyword = "slot"
-    attributes = ("means", "say")
+    attributes = ("means", "say", "hypothetical")
 
     def parse(self, head):
         """`name/n`, or typed: `name(A: sort, B: sort)` (TY). A typed slot's
@@ -635,6 +635,7 @@ def validate(srcs: dict[str, Source]) -> None:
             raise LError(s.where, s.line, f"sort {s.name}: no slot uses it")
     for d in declared.values():
         check_say(d)
+    check_hypothetical(srcs, declared)
     case_parts = {p.name for src in srcs.values() for p in src.decls(Part) if p.kind == "case"}
     for src in srcs.values():
         for p in src.decls(Part):
@@ -660,6 +661,29 @@ def check_say(d: Slot) -> None:
         if names.count(a) != 1:
             raise LError(d.where, d.line, f"slot {d.name}/{d.arity}: `say` names {a} "
                          f"{'twice' if names.count(a) > 1 else 'never'}")
+
+
+def check_hypothetical(srcs: dict[str, Source], declared: dict) -> None:
+    """CG5, rule 6: a slot declared `hypothetical` is written only in a part
+    whose `#program` line is marked HYPOTHETICAL."""
+    from . import engine
+    hyp = {sig for sig, d in declared.items() if "hypothetical" in d.attrs}
+    if not hyp:
+        return
+    for src in srcs.values():
+        for item in src.items:
+            if not isinstance(item, Fence):
+                continue
+            written = engine.signatures("\n".join(item.lines), src.name)["heads"] & hyp
+            if not written:
+                continue
+            first = item.lines[0] if item.lines else ""
+            if not (first.startswith("#program") and "HYPOTHETICAL" in first):
+                n, a = sorted(written)[0]
+                where = re.match(r"^#program\s+(\w+)", first)
+                raise LError(src.name, item.line, f"{n}/{a} is hypothetical: written only in a part marked "
+                             f"HYPOTHETICAL on its #program line, not in "
+                             f"{'part ' + where.group(1) if where else 'the file outside its parts'} (rule 6)")
 
 
 def say(d: Slot, values: list[str]) -> str:

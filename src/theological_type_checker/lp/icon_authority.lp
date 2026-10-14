@@ -26,6 +26,7 @@
 % ===================================================================
 
 % @input ambiguous/1 | ambiguous(S): the text S admits more than one reading; one branch per reading
+% @input asof/1 | asof(Year): the year the authority graph is read as of, entered with custom_asof (or by an asof part)
 % @input approved_custom/1 | approved_custom(C): the custom C has the legislator's approval (c. 23)
 % @input approver/2 | approver(C, A): A approved the custom C
 % @input approver_rank/2 | approver_rank(A, R): the legislative rank R of an approver of customs

@@ -34,7 +34,7 @@ Edit the `.l` file, then build. Never edit a rule file by hand.
 | `layer kernel\|theory\|schools\|authority\|libraries\|canon\|pair\|library` | nothing | The file's layer, first line of every source. |
 | `library` | `%  @library  (…)` | norms.py counts the file's predicates as defined. |
 | `sort name`, `sort name {a, b, …}`, `sort name lo..hi` + `means "…"` | the domains section | A sort of slot argument: open (named, not enforced) or closed, by values or a range. Declared once, in the lowest layer whose slots use it. |
-| `slot name(A: sort, …)` (`name/0` with no arguments) + `means "…"` + `say "…"` | `% @input name/n \| …` | A predicate a case enters: one the base reads and no rule derives, or one the guide gives to enter though a rule derives it (`source/4`, `interior/3`). Declared once, in the lowest layer that reads it; absolutions and consecrations in the canon layer, which a library reads. |
+| `slot name(A: sort, …)` (`name/0` with no arguments) + `means "…"` + `say "…"` [+ `hypothetical "…"`] | `% @input name/n \| …` | A predicate a case enters: one the base reads and no rule derives, or one the guide gives to enter though a rule derives it (`source/4`, `interior/3`). Declared once, in the lowest layer that reads it; absolutions and consecrations in the canon layer, which a library reads. |
 | `use name/n "…"` | `% @input name/n \| …` | Read here; declared or derived elsewhere. |
 | `norm id \| citation \| url` | `% @norm id \| citation \| url` | A canon, with its source (house rule 4). |
 | `end`, `temporal id`, `recursive id`, `stratum id divine\|supreme\|common` | `% @end`, `% @temporal id`, … | As norms.py reads them. |
@@ -75,6 +75,16 @@ A slot's `say` is its sentence, each argument named once in braces
 (`"{S} is a source at tier {T}, of force {F}, from {Y}"`). A `say` naming
 an argument twice, never, or one the slot lacks, and an `of` naming no
 case, do not compile. `say` and `of` reach no rule file.
+
+A snippet, or a case saved with `save_case`, writes premises: the slots,
+helpers of its own, and constraints that read only those and `read_as/2`.
+A head on what the base derives or shows and no slot declares, or a
+constraint that reads it, directly or through a helper, is refused at the
+gate `conclusion`, naming the predicate. A slot declared `hypothetical` is
+written only in a part whose `#program` line is marked HYPOTHETICAL (house
+rule 6), never in a snippet; another part writing it does not compile.
+`fix_method` and `save_rules` are not gated: they change the theory, and
+answer to the suite.
 
 Lines beginning `--` are comments of L's and are not compiled.
 

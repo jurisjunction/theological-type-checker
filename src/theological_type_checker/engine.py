@@ -62,6 +62,7 @@ REFUSAL_GATES = {
     "parse": "clingo cannot parse the text",
     "ground": "clingo cannot ground the text (most often an unsafe variable)",
     "layer": "a fact on the wrong side of a case (house rule 1)",
+    "conclusion": "a head, or a constraint, on what the base concludes: premises only (TTC-L CG)",
     "input": "an argument the tool cannot take",
 }
 
@@ -337,6 +338,102 @@ def unknown_slots(facts: str, sigs: dict | None = None) -> list[str]:
     return [f"unknown_slot({n}/{a})" for n, a in sorted(found)]
 
 
+_CONCLUSIONS: dict[str, tuple] = {}
+
+
+def _premises():
+    """The slots a case may write (L), and what it may not: what the base
+    derives or shows and no slot declares, a hypothetical slot, and what L
+    itself writes. Cached by the vocabulary's key."""
+    from . import lang
+    v = vocabulary()
+    key = id(v)
+    if key not in _CONCLUSIONS:
+        decl = lang.slots(lang.sources())
+        slots = {sig for sig, d in decl.items() if "hypothetical" not in d.attrs}
+        hypothetical = {sig for sig, d in decl.items() if "hypothetical" in d.attrs}
+        concluded = ((v["derived"] | v["shown"]) - slots) | hypothetical | lang.GENERATED
+        _CONCLUSIONS.clear()
+        _CONCLUSIONS[key] = (slots, concluded, hypothetical)
+    return _CONCLUSIONS[key]
+
+
+def conclusion_gate(text: str, where: str = "facts") -> None:
+    """Premises, not conclusions (TTC-L CG). A snippet, or a side of a case,
+    writes premises: declared slots, helpers of its own, and constraints
+    that read only those and read_as/2. A head on what the base concludes
+    (it derives or shows the predicate and no slot declares it), a slot
+    declared hypothetical, or a constraint that reads a conclusion, directly
+    or through a helper of the snippet's, is refused at the gate
+    `conclusion`, naming the predicate. Bodies of rules with a premise for
+    their head may read anything (a source on the branch of a claim)."""
+    if not (text or "").strip():
+        return
+    slots, concluded, hypothetical = _premises()
+    rules = []                                     # (line, heads, reads, is_constraint)
+
+    def on(st):
+        t = st.ast_type
+        if t == _ast.ASTType.Rule:
+            loc = {"heads": set(), "reads": set()}
+            order = []
+            _walk(st.head, "heads", loc, order)
+            _walk(st.body, "reads", loc, order)
+            rules.append((st.location.begin.line, loc["heads"], loc["reads"], not loc["heads"]))
+        elif t == _ast.ASTType.Minimize:
+            loc = {"heads": set(), "reads": set()}
+            _walk(st, "reads", loc, [])
+            rules.append((st.location.begin.line, set(), loc["reads"], True))
+        elif t == _ast.ASTType.External:
+            loc = {"heads": set(), "reads": set()}
+            _walk(st.atom, "heads", loc, [])
+            rules.append((st.location.begin.line, loc["heads"], set(), False))
+    try:
+        _ast.parse_string(text, on, logger=lambda code, msg: None)
+    except RuntimeError:
+        return                                     # the parse gate reports it
+    allowed_reads = {("read_as", 2)}
+
+    def refuse(line, sig, how=""):
+        pred = f"{sig[0]}/{sig[1]}"
+        if sig in hypothetical:
+            message = f"{pred} is hypothetical: written only in a part of the base marked HYPOTHETICAL (rule 6)"
+        else:
+            message = (f"{how}{pred} is a conclusion of the base, not a premise: write the premises it is "
+                       "drawn from (TTC-L CG)")
+        raise SnippetError(message, "conclusion", where, line, None, pred, _line_of(text, line))
+    for line, heads, _, _ in rules:
+        for sig in sorted(heads):
+            if sig in concluded:
+                refuse(line, sig)
+    # helpers: the snippet's own predicates; tainted where a body reads a conclusion
+    own = {sig for _, heads, _, _ in rules for sig in heads} - slots - concluded
+    tainted = {}
+    changed = True
+    while changed:
+        changed = False
+        for line, heads, reads, constraint in rules:
+            if constraint:
+                continue
+            for h in heads & own:
+                if h in tainted:
+                    continue
+                bad = sorted(r for r in reads if (r in concluded and r not in allowed_reads) or r in tainted)
+                if bad:
+                    tainted[h] = tainted.get(bad[0], bad[0]) if bad[0] in tainted else bad[0]
+                    changed = True
+    for line, _, reads, constraint in rules:
+        if not constraint:
+            continue
+        for sig in sorted(reads):
+            if sig in allowed_reads:
+                continue
+            if sig in concluded:
+                refuse(line, sig, "a constraint reads it: ")
+            if sig in tainted:
+                refuse(line, tainted[sig], f"a constraint reads it, through {sig[0]}/{sig[1]}: ")
+
+
 def _ground_error(logs, facts, extra, exc):
     """A SnippetError at the ground gate. The base grounds alone, so the error
     lies in the facts (program user) or in the fix method's added rules."""
@@ -371,6 +468,7 @@ def solve(parts, mode="one", facts="", max_models=0, timeout=None, show=()):
     if extra:
         signatures(extra, "add_rules")          # refused at the parse gate, with its line
     warnings = unknown_slots(facts) if facts else []
+    conclusion_gate(facts)
     nmodels = {"one": [], "all": [f"--models={max_models}"], "branches": [f"--models={max_models}"],
                "opt": ["--opt-mode=opt"]}[mode]
     logs = []

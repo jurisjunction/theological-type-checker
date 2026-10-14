@@ -21,12 +21,14 @@ def test_a_wrong_arity_is_an_unknown_slot():
 
 
 def test_an_unknown_read_is_a_warning():
-    r = engine.solve([], "branches", facts="info(x) :- barr(a).")
+    # TTC-L CG (rule 7): the head was info(x), a conclusion, refused at the gate; a premise now
+    r = engine.solve([], "branches", facts="source(x,3,truth,2000) :- barr(a).")
     assert r["warnings"] == ["unknown_slot(barr/1)"]
 
 
 def test_known_slots_and_a_snippets_own_helpers_are_not_warned():
-    facts = "source(s,3,truth,2000). aux(S) :- source(S,_,_,_). info(seen(S)) :- aux(S)."
+    # TTC-L CG (rule 7): the last head was info(seen(S)), a conclusion; a helper, shown, now
+    facts = "source(s,3,truth,2000). aux(S) :- source(S,_,_,_). seen(S) :- aux(S). #show seen/1."
     assert engine.solve([], "branches", facts=facts)["warnings"] == []
 
 
@@ -51,8 +53,9 @@ def test_the_summary_carries_its_schema_and_warnings():
     ([], 'a(1).\n#include "x.lp".', {"gate": "snippet", "where": "facts", "line": 2, "column": 1}),
     ([], "source(s,3,truth,2000).\nq(X :- p.", {"gate": "parse", "where": "facts", "line": 2, "column": 5,
                                                  "text": "q(X :- p."}),
-    ([], "source(s,3,truth,2000).\ninfo(q(X)) :- source(s,3,truth,2000).",
-     {"gate": "ground", "where": "facts", "line": 2, "predicate": "info/1"}),
+    # TTC-L CG (rule 7): the unsafe head was info/1, now refused at the gate `conclusion`; a helper's
+    ([], "source(s,3,truth,2000).\nseen(q(X)) :- source(s,3,truth,2000).",
+     {"gate": "ground", "where": "facts", "line": 2, "predicate": "seen/1"}),
 ])
 def test_a_refusal_says_where(parts, facts, want):
     with pytest.raises(engine.SnippetError) as e:

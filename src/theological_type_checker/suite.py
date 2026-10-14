@@ -2177,8 +2177,10 @@ scen("TC2", CO, "The consensus as its own source", ["life_sources"],
      "EV at tier 3 in every branch; the claimed consensus, its grade computed both ways", mode=B)
 scen("TC3", CO, "c. 749 §3: an unshown claim is never preferred", ["deathpenalty"],
      [best_rest_on_no_claim,
-      shown(["deathpenalty", "oum_conditions_shown"], ("unshown_claim/1", "oum_holds/1"), absent=("unshown_claim(dh795)",),
-            facts=":- not oum_holds(dh795).")],
+      # TTC-L CG2 (rule 7): the branch where the claim holds was chosen by a snippet, `:- not oum_holds(dh795).`;
+      # a constraint on what the base concludes is refused at the gate, so the base's own switch chooses it
+      shown(["deathpenalty", "oum_conditions_shown", "oum_dh795"], ("unshown_claim/1", "oum_holds/1"),
+            absent=("unshown_claim(dh795)",))],
      "the claim's branch is main, and never preferred; shown by independent evidence, it would be", mode=B)
 scen("TC4", CO, "A lower tier speaking of a higher", ["life_sources", "tier2"],
      [info_all("lower_speaks_of_higher(cdf_1998,ev57,1)", "lower_speaks_of_higher(cdf_1998,t2_truth,2)",

@@ -651,3 +651,103 @@ def test_every_interior_supplied_or_disputed_is_named_in_every_branch():
 def test_no_rule_reads_the_interiors_named():
     for f, text in lang.compiled(lang.sources()).items():
         assert not re.search(r":-[^.]*interior_supplied", text), f
+
+
+# ---------- CG: premises, not conclusions; SR: the checker's word ----------
+EXAMPLE = ("question(q(example)). question_kind(q(example),doctrinal).\n"
+           "value(q(example),yes). value(q(example),no).\n"
+           "source(enc_x,3,truth,1990). papal_form(enc_x,ordinary). character(enc_x,encyclical).\n"
+           "supports(enc_x,q(example),yes).\n"
+           "source(blog,5,truth,2026). supports(blog,q(example),no).\n")
+
+
+@pytest.mark.parametrize("conclusion,pred", [
+    ("eff_tier(blog,1).", "eff_tier/2"),
+    ("theorem(anything_i_like).", "theorem/1"),
+    (":- holds(q(example),yes).", "holds/2"),
+    ("h(X) :- holds(q(example),X).\n:- h(yes).", "holds/2"),            # through a helper of its own
+    ("hypothetical_warrant(blog).", "hypothetical_warrant/1"),           # CG5
+    ("in_sort(force,bogus).", "in_sort/2"),                              # L's own
+    ("event_date(e,20200101).", "event_date/2"),                         # CG1's example: no slot (SCORING)
+])
+def test_a_conclusion_is_refused_at_its_gate(conclusion, pred):
+    # CG1: refused, naming its predicate; without it, the run is as before
+    with pytest.raises(engine.SnippetError) as e:
+        engine.solve([], "branches", facts=EXAMPLE + conclusion)
+    assert (e.value.gate, e.value.where, e.value.predicate) == ("conclusion", "facts", pred)
+    r = engine.solve([], "branches", facts=EXAMPLE)
+    assert {f for b in r["all_models"] for f in b if f.startswith("holds(")} == {"holds(q(example),yes)",
+                                                                                  "holds(q(example),no)"}
+
+
+@pytest.mark.parametrize("premise", [
+    ":- not read_as(s,r).",                                   # the guide's way to fix a reading
+    "aux(S) :- source(S,_,_,_).\n:- aux(nothing).",          # a helper of its own, written and read
+    "source(oum_x,1,truth,2000).",                           # a slot some rule also derives
+    "source(s,1,truth,600) :- attributed(s,a).",              # a premise on the branch of a claim
+])
+def test_a_premise_passes_the_gate(premise):
+    engine.conclusion_gate(premise)
+
+
+@pytest.mark.parametrize("side", ["theology", "canon"])
+def test_save_case_refuses_a_conclusion_on_either_side(tmp_path, monkeypatch, side):
+    # CG3
+    pytest.importorskip("mcp")
+    monkeypatch.setenv("TTC_HOME", str(tmp_path))
+    from mcp.server.mcpserver.exceptions import ToolError
+    from theological_type_checker import server
+    import json
+    with pytest.raises(ToolError) as e:
+        server.save_case("concl", **{side: "% a case\nwarranted(blog)."})
+    d = json.loads(str(e.value))
+    assert (d["gate"], d["where"], d["predicate"], d["line"]) == ("conclusion", side, "warranted/1", 2)
+
+
+# The predicates rule 14 computes: never premises.
+RULE_14 = [("eff_tier", 2), ("in_force", 1), ("warranted", 1), ("received", 1), ("oum_holds", 1)]
+
+
+def test_no_predicate_rule_14_computes_is_a_slot():
+    # CG4
+    declared = lang.slots(lang.sources())
+    assert [sig for sig in RULE_14 if sig in declared] == []
+    reads, derived = _base_reads_and_derives()
+    assert all(sig in derived for sig in RULE_14)
+
+
+def test_a_hypothetical_slot_is_written_only_in_a_part_marked_so():
+    # CG5: the base's four parts are marked; a fifth, unmarked, is refused
+    srcs = lang.sources()
+    assert "hypothetical" in lang.slots(srcs)[("hypothetical_warrant", 1)].attrs
+    lang.validate(srcs)
+    text = ('layer authority\nsort source\n  means "s"\nslot w(S: source)\n  means "m"\n  say "{S}"\n'
+            '  hypothetical "supposed"\n```clingo\nok(S) :- w(S).\n```\n')
+    marked = 'part switch\n```clingo\n#program h.   % HYPOTHETICAL: supposed\nw(a).\n```\n'
+    lang.validate({"a.lp": lang.parse(text + marked, "a.l")})
+    unmarked = 'part switch\n```clingo\n#program fifth.\nw(a).\n```\n'
+    with pytest.raises(lang.LError, match=re.escape("w/1 is hypothetical") + ".*part fifth"):
+        lang.validate({"a.lp": lang.parse(text + unmarked, "a.l")})
+    with pytest.raises(lang.LError, match="outside its parts"):
+        lang.validate({"a.lp": lang.parse(text + '```clingo\nw(b).\n```\n', "a.l")})
+
+
+def test_the_gates_name_conclusion():
+    # M5
+    assert "conclusion" in engine.REFUSAL_GATES
+
+
+def test_what_the_grammar_alone_holds_reaches_no_rule_file():
+    # SR2: parts' kinds and cases, runtimes' parents, sentences, sides
+    srcs = lang.sources()
+    before = lang.compiled(srcs)
+    for src in srcs.values():
+        src.layer = "library"                         # a side is its layer's: read by save_case alone
+        for item in src.items:
+            if isinstance(item, lang.Part):
+                item.kind, item.of = "switch", None
+            if isinstance(item, lang.Slot):
+                item.attrs.pop("say", None)
+            if isinstance(item, lang.Runtime):
+                item.parents, item.ops = [], []
+    assert lang.compiled(srcs) == before

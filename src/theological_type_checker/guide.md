@@ -175,7 +175,7 @@ Law never answers a doctrinal question (`teaching_from_law`).
 
 | Fact | Meaning |
 | --- | --- |
-| `today(Date)`, the `asof_Y` parts | The one clock (`now/1`): a day given, or the last day of an asof year. With a day, the authority graph is read as of its year; with neither, every source entered. |
+| `today(Date)`, `asof(Year)` with `custom_asof`, the `asof_Y` parts | The one clock (`now/1`): a day given, or the last day of an asof year. With a day, the authority graph is read as of its year; with neither, every source entered. |
 | `next(E1,E2)`, `happens_at(E,Point)` | The order of events, partial; dates are measures laid on it. |
 | `date_claim(E,Year)` | A year laid on an event of the order. The return and the judgment take none (`end_dated`), and nothing measured follows the return (`end_past`); nothing precedes creation (`before_the_beginning`). |
 | `measured_by(X,M)`, `without_beginning(X)` | Claims about duration. Eternity is God's alone (`eternal_with_beginning`); every creature began (`creature_without_beginning`). A procession in God, or God's act, placed in the order is refused (`procession_in_time`, `divine_act_in_time`). |
@@ -298,6 +298,7 @@ A refused run returns one JSON object: `refused`, `gate`, `where` (`facts`,
 | `ground` | Text clingo cannot ground; an unsafe variable, usually. |
 | `removal` | A line to remove that matches none, or several. |
 | `layer` | A slot of the other side of a case (THE PAIR): each slot's side is its layer's, and a library's slots (`interior/3`, `act_of/2`) go on either (ttc-l(1)). |
+| `conclusion` | A head on what the base concludes (a predicate it derives or shows that no slot declares: `eff_tier/2`, `holds/2`, `theorem/1`), a slot declared hypothetical, or a constraint that reads a conclusion, directly or through a helper of the snippet's. `read_as/2` may be read. |
 | `input` | An argument the tool cannot take. |
 
 Results come with their keys sorted. `ttc://grammar`, read off L, holds
@@ -322,13 +323,17 @@ Result: `yes` settled, with `no` a live shadow of `enc_x`. Make `enc_x` an
 ## RESTRICTIONS
 
 Snippets may not contain `#script`, `#include`, `#program`, `#end` or
-`@`-terms. Each open question doubles the branches, so fix readings you are
-not testing: `:- not read_as(s,r).`
+`@`-terms. They write premises: the slots, helpers of their own, and
+constraints that read only those and `read_as/2`. A premise may be
+conditioned on anything (`source(S,1,truth,Y) :- attributed(S,A).`). Each
+open question doubles the branches, so fix readings you are not testing:
+`:- not read_as(s,r).` Choose a branch of a claim with the base's switch
+for it (`oum_dh795`), not a constraint.
 
 ## BUGS
 
-The facts are only as honest as whoever wrote them. A snippet can write a
-conclusion (`eff_tier(S,1)`, `theorem(X)`, a constraint on `holds/2`) as
-easily as a premise, and the checker cannot yet tell them apart: read a
-result with the facts that produced it. `ttc://grammar` is the checker's
+The facts are only as honest as whoever wrote them. The gate `conclusion`
+refuses a conclusion written as a fact, but a premise can still be false:
+read a result with the facts that produced it. The gate is only as strong
+as the slots L declares. `ttc://grammar` is the checker's
 word about itself: a claim, never evidence that it is right.

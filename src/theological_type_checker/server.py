@@ -527,6 +527,8 @@ def save_case(part: str, theology: str = "", canon: str = "", note: str = "") ->
         raise ValueError("give the theology side, the canon side, or both")
     engine.check_snippet(theology, "theology")
     engine.check_snippet(canon, "canon")
+    engine.conclusion_gate(theology, "theology")
+    engine.conclusion_gate(canon, "canon")
     _layer_lint(theology, "theology")
     _layer_lint(canon, "canon")
     home = _home()

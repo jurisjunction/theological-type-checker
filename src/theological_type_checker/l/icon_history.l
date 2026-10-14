@@ -352,7 +352,7 @@ part switch of disparity
 part case
 
 ```clingo
-#program tier2.
+#program tier2.                   % HYPOTHETICAL in part: the warrant of definitive_d1 is supposed (synthetic)
 question(q(d1)). value(q(d1),yes). value(q(d1),no).
 source(definitive_d1,2,truth,2000). supports(definitive_d1,q(d1),yes).
 hypothetical_warrant(definitive_d1).   % synthetic
@@ -1197,7 +1197,7 @@ character(s_amb,letter). character(s_int,letter).
 part switch of tier2
 
 ```clingo
-#program hypothetical_definition. % what a tier-1 act would settle
+#program hypothetical_definition. % HYPOTHETICAL: what a tier-1 act would settle
 source(def_t2,1,truth,2030). meta_supports(def_t2,t2_truth). hypothetical_warrant(def_t2).
 
 % ---------- The creeds and the word of God (TTC-CREED) ------------------

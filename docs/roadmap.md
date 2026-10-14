@@ -32,9 +32,10 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | liturgy | the liturgy as witness, rite and development; one book, two sources; the substance kept, the rest law; rites in time | done ([ttc-liturgy(7)](research/liturgy-preregistration.md)) |
 | last things | the order after death given by definitions, never measured by the calendar; the vision deferred and defined; the end early; no one's state computed; what lasts; one sacrifice in many times | done ([ttc-novissima(7)](research/novissima-preregistration.md)) |
 | empirical | the empirical kind: no tier settles it, a finding does, and a finding settles no doctrine; Galileo and the Big Bang; method and being; how many human beings | done ([ttc-empirica(7)](research/empirica-preregistration.md)) |
-| L | a language for libraries, compiled to clingo: declarations as metaclasses; runtimes by inheritance, three combinators, clashes refused; slots declared once, with sorts, domains, layers and sentences; parts naming their case; premises kept apart from conclusions | in progress: regeneration, runtimes, slots, layers, sorts, cases, sentences, interiors and the grammar done; the conclusion gate left ([ttc-l(7)](research/l-preregistration.md)) |
+| L | a language for libraries, compiled to clingo: declarations as metaclasses; runtimes by inheritance, three combinators, clashes refused; slots declared once, with sorts, domains, layers and sentences; parts naming their case; premises kept apart from conclusions | done ([ttc-l(7)](research/l-preregistration.md)) |
 | churches | other Churches and ecclesial communities: succession, sacraments, *subsistit in* | to predict, after L |
 | senses | the senses and the routes to words: sensibles typed, schemes by culture, the interior senses; words by hearing, sight, hand and touch; perception's claims as premises | to predict, after L |
+| language | a word type-checked: its form, under its language's scheme at its date, by any route (heard, signed, written, touched); its sense; its lineage. Languages in time as a DAG, etymology a partial trace through it; each language encodable, none required | to predict, after the senses |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
@@ -409,7 +410,9 @@ Done: the base regenerated from L byte for byte; the runtimes by
 inheritance; 425 slots declared once, each with its side, which
 `save_case` reads (the hand lists are gone); every argument sorted, the
 guide's 13 closed sorts enforced (`outside_domain`); 115 switches and
-candidates naming their case; a sentence for every slot. Found on the way (SCORING):
+candidates naming their case; a sentence for every slot; an atom naming
+every interior supplied; the grammar read off L; premises kept apart
+from conclusions at the gate `conclusion`. Found on the way (SCORING):
 a slot is what a case enters, so the guide's inputs that a rule also
 derives (`source/4`, `interior/3`) are slots; the libraries' slots go on
 either side; and 22 parts of `canon_cases.l` enter theology (hypothetical
@@ -731,6 +734,56 @@ schemes and `conclusion` gate.
 - **To read.** Whether a sacramental form signed by the minister
   suffices: no text known here settles it; to be entered disputed until
   the sources are read.
+
+### language (after the senses)
+
+The rung above the senses: not all of human language, but the ability to
+type-check a word in any language someone enters, whatever the route it
+came by.
+
+- **A word, typed.** A form (a phoneme string, a sign's handshape,
+  location and movement, a written string, a Braille cell) under its
+  language's scheme at a date; a sense from that language's lexicon; a
+  lineage. It is ill-formed where the form is not one the scheme admits
+  at that date, where the sense is one the lexicon does not give, or
+  where the lineage breaks the order of time. A well-formed word is not
+  thereby the right word: the checker refuses, it does not affirm.
+- **Each language encodable, none required.** A language is declared
+  in L as the senses step declares a scheme: its forms, its lexicon,
+  their sources (a dictionary, a grammar, a corpus) as claimants, closed
+  per language where its sources close it. A language not entered is not
+  wrong; it is absent, and a word of it is an unknown slot, not a
+  violation.
+- **Languages as a DAG.** Varieties are nodes in time, edges are
+  descent: Latin to Old French to French; Old English and Norman French
+  both to Middle English; LSF and local signing to ASL; a creole with two
+  parents. A tree is refused for the reason the rites are an order, not a
+  line (`derives_from/2`, `rite_of_many_parents`). A language inherits as
+  a runtime does: `add` a borrowing, `exclude` a loss, `alter` a sound
+  change (Grimm's law alters *p* to *f*). Two parents that disagree
+  clash, and the child says which it took: contact is declared, never
+  linearized.
+- **Etymology is a partial trace.** A word's lineage is a path through
+  the DAG, each step attested (a dated text) or reconstructed. A
+  reconstruction is a claim with its claimant (a handbook), computed
+  both ways where scholars differ, never preferred to an attested form,
+  as an attribution is never preferred to evidence apart from its
+  claimant. A lineage that dates a word before its parent, or derives
+  it from a form attested only later, is refused, as an attribution is
+  refused by its dates (TTC-SOURCES). Gaps stay gaps: nothing is filled
+  in to make a path whole.
+- **Where it meets the base.** Sacramental forms are words of a
+  language at a date ("ego te baptizo", "we baptize"); a translation of a
+  form is a reading between schemes, checked against the form's
+  substance (TTC-LITURGY). The Latin of a canon read against its
+  vernacular. The senses deliver the form; this step types it.
+- **Typed checks, not rewards.** A reward is a number on an output: it
+  says how much, not where or why, and a model trained toward it learns
+  the number. A check returns where (the gate, the slot, the line), why
+  (the rule), and which readings stand (the branches). Training on the
+  checker's verdicts makes the checker's word the warrant, which it never
+  is (L); the labels a model learns from come from people and
+  instruments, and the checker refuses what fails.
 
 ## AMENDMENTS AND REPAIRS
 

@@ -100,7 +100,7 @@ gen(conception,m,c). gen(conception,w,c). closed_in_act(conception,m,w).
 #program dispensed. relaxed(c1086).
 
 % ---------- Tier 2: whose word fixes its force? -----------------------
-#program tier2.
+#program tier2.                   % HYPOTHETICAL in part: the warrant of definitive_d1 is supposed (synthetic)
 question(q(d1)). value(q(d1),yes). value(q(d1),no).
 source(definitive_d1,2,truth,2000). supports(definitive_d1,q(d1),yes).
 hypothetical_warrant(definitive_d1).   % synthetic
@@ -585,7 +585,7 @@ reads(s_amb,r1,q(x),a). reads(s_amb,r2,q(y),c).
 source(s_int,3,truth,2001). interprets(s_int,s_amb,r1).
 character(s_amb,letter). character(s_int,letter).
 
-#program hypothetical_definition. % what a tier-1 act would settle
+#program hypothetical_definition. % HYPOTHETICAL: what a tier-1 act would settle
 source(def_t2,1,truth,2030). meta_supports(def_t2,t2_truth). hypothetical_warrant(def_t2).
 
 % ---------- The creeds and the word of God (TTC-CREED) ------------------
