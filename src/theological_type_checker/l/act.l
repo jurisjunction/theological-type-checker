@@ -26,6 +26,17 @@ library
 
 ```
 
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot act_of/2
+  means "act_of(P, A): P placed the act A"
+
+slot disputed/1
+  means "disputed(F): the fact F is disputed: computed both ways"
+
+slot gross/1
+  means "gross(K): a gross kind of ignorance (crass, supine, affected)"
+
 use acts/1 "from the runtime (schools.lp, classical): creatures act"
 
 use operates/2 "from the runtime (schools.lp, classical): operates(X, hum), the incarnate's human operation"
@@ -36,7 +47,8 @@ use divine/1 "from the kernel's sorts"
 
 use god/1 "from the kernel's sorts"
 
-use interior/3 "interior(Person, Act, Element): a claim about the agent's knowledge, will or freedom in the act; supplied, never derived"
+slot interior/3
+  means "interior(Person, Act, Element): a claim about the agent's knowledge, will or freedom in the act; supplied, never derived"
 
 ```clingo
 { interior(P,A,X) } :- disputed(interior(P,A,X)).
@@ -65,12 +77,14 @@ agent(P,A)   :- act_of(P,A), in_nature(A,hum), operates(P,hum).
 % personal sins" (CCC 1869; RP 16): said by analogy, never of the collective.
 ```
 
-use juridic_person/1 "cc. 113 §2, 114: a subject of obligations and rights by law or decree (of the Church or of a civil order)"
+slot juridic_person/1
+  means "cc. 113 §2, 114: a subject of obligations and rights by law or decree (of the Church or of a civil order)"
 
 slot moral_person/1
   means "c. 113 §1: a moral person by divine ordinance (the Catholic Church, the Apostolic See)"
 
-use group/1 "a name for persons with no status in law"
+slot group/1
+  means "a name for persons with no status in law"
 
 slot represents/2
   means "represents(Person, J): c. 118, who acts in its name"

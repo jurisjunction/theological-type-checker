@@ -15,6 +15,7 @@
 %  @library  (read by norms.py: its predicates count as defined)
 % ===================================================================
 
+% @input grade_name/2 | grade_name(T, N): the name of the note at tier T
 % @input holds/2 | from the authority graph
 % @input supports/3 | from the authority graph
 % @input in_force/1 | from the authority graph

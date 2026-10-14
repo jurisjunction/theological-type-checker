@@ -23,6 +23,48 @@ layer canon
 %  canons where an event predates the revision.
 % ===================================================================
 
+```
+
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot age_clause/2
+  means "age_clause(D, N): D's clause that the error about the age does not excuse from delict N (c. 1398 §1 n. 1; art. 6 n. 1)"
+
+slot censure_barring/1
+  means "censure_barring(K): a censure that bars from Holy Communion (c. 915)"
+
+slot eastern_church/1
+  means "eastern_church(C): an Eastern Church sui iuris in full communion"
+
+slot eastern_noncatholic_church/1
+  means "eastern_noncatholic_church(C): an Eastern Church not in full communion"
+
+slot element_of/2
+  means "element_of(N, C): C is an element of the matter of delict N"
+
+slot excusing/1
+  means "excusing(C): a circumstance that exempts when believed invincibly (c. 1323 n. 7)"
+
+slot lapse_date/2
+  means "lapse_date(L, Date): the date a law lapses by its own terms"
+
+slot latae_sententiae/1
+  means "latae_sententiae(N): the penalty of delict N is incurred by the act (c. 1314)"
+
+slot narrower/2
+  means "narrower(R1, R2): reading R1 reaches less than R2"
+
+slot penalty/2
+  means "penalty(N, K): the penalty of delict N"
+
+slot reorders/2
+  means "reorders(L2, B): L2 reorders the whole matter of B (c. 20)"
+
+slot revokes/3
+  means "revokes(L2, B, Way): L2 revokes B expressly, by contrary law, or by reordering (c. 20)"
+
+```clingo
+
 % ---------- Inputs ---------------------------------------------------------
 ```
 
@@ -33,7 +75,8 @@ use bishop/1 "a bishop"
 slot in_class/2
   means "in_class(Person, Class): e.g. the clergy of a society"
 
-use consecration/4 "consecration(Event, PrincipalConsecrator, Consecrated, Date)"
+slot consecration/4
+  means "consecration(Event, PrincipalConsecrator, Consecrated, Date)"
 
 slot co_consecrator/2
   means "co_consecrator(Event, Bishop)"
@@ -50,7 +93,8 @@ slot decree/3
 slot declares/3
   means "declares(Decree, Person, Norm): names a person and declares a penalty"
 
-use heard/2 "c. 1720 n. 1: accused informed of accusation and proofs, able to defend"
+slot heard/2
+  means "c. 1720 n. 1: accused informed of accusation and proofs, able to defend"
 
 slot summoned_absent/2
   means "duly summoned and failed to appear"
@@ -67,7 +111,8 @@ slot recourse_upheld/1
 slot remission/4
   means "remission(Act, Person, Norm, Date): a censure remitted"
 
-use issuer/2 "issuer(Act, Authority)"
+slot issuer/2
+  means "issuer(Act, Authority)"
 
 slot authority/2
   means "authority(A, Rank): 4 pope (or by papal mandate/approval), 3 dicastery, 1 ordinary"
@@ -81,7 +126,8 @@ slot permission/4
 slot revocation/3
   means "revocation(Act, Grant, Date): an act purporting to revoke a grant"
 
-use absolution/4 "absolution(A, Priest, Penitent, Date)"
+slot absolution/4
+  means "absolution(A, Priest, Penitent, Date)"
 
 slot marriage/3
   means "marriage(M, AssistingPriest, Date)"
@@ -98,9 +144,11 @@ slot danger_of_death/2
 slot just_cause_request/3
   means "just_cause_request(Penitent, Priest, Date)"
 
-use common_error/1 "c. 144: common error or positive and probable doubt about this act"
+slot common_error/1
+  means "c. 144: common error or positive and probable doubt about this act"
 
-use appears_otherwise/2 "the external presumption of imputability is rebutted on the facts"
+slot appears_otherwise/2
+  means "the external presumption of imputability is rebutted on the facts"
 
 use promulgated/2 "promulgated(Act, Date): a law, or an authentic interpretation in the form of law, published (cc. 7-8, 16 §2)"
 
@@ -122,7 +170,8 @@ slot enacted_by/2
 slot part_of/2
   means "part_of(Norm, Body)"
 
-use interpretation_form/2 "interpretation_form(Act, law | particular): an authentic interpretation's form (c. 16 §§2-3)"
+slot interpretation_form/2
+  means "interpretation_form(Act, law | particular): an authentic interpretation's form (c. 16 §§2-3)"
 
 slot particular_matter/2
   means "particular_matter(Act, Event): the matter an act in a particular matter concerns (c. 16 §3)"
@@ -130,7 +179,8 @@ slot particular_matter/2
 slot applies_reading/3
   means "applies_reading(Act, Canon, Reading): an act that applies this reading of a canon"
 
-use needs_reading/2 "needs_reading(Law, Context): the law's reading decides something here"
+slot needs_reading/2
+  means "needs_reading(Law, Context): the law's reading decides something here"
 
 slot legislator/2
   means "legislator(Law, Authority)"
@@ -156,7 +206,8 @@ slot lacuna/1
 slot penal_matter/1
   means "the matter is penal"
 
-use equity_rule/2 "equity_rule(Matter, Rule): a rule drawn by c. 19's means; supplied, never computed"
+slot equity_rule/2
+  means "equity_rule(Matter, Rule): a rule drawn by c. 19's means; supplied, never computed"
 
 slot dispensation/3
   means "dispensation(Act, Law, X): a dispensation from Law for X"
@@ -184,7 +235,8 @@ use disputed/1 "a fact whose truth is disputed"
 
 use today/1 "the evaluation date when no asof is given"
 
-use authentic_reading/3 "authentic_reading(Canon, Reading, Act): the legislator's own reading (c. 16 §1)"
+slot authentic_reading/3
+  means "authentic_reading(Canon, Reading, Act): the legislator's own reading (c. 16 §1)"
 
 use of_kind/2 "from the theological side (pair.lp): in this branch the event is classified as of this kind"
 
@@ -221,7 +273,8 @@ slot treated_as_declaring/2
 slot unbaptized/1
   means "the person is recorded as not baptized (c. 842 §1)"
 
-use dissolution/4 "dissolution(D, Marriage, non_consummation | favour_of_faith | Other, Date): an act that dissolves a bond"
+slot dissolution/4
+  means "dissolution(D, Marriage, non_consummation | favour_of_faith | Other, Date): an act that dissolves a bond"
 
 slot consummated/1
   means "the marriage was consummated (c. 1061 §1)"
@@ -640,7 +693,8 @@ info(provision_without_force(P,L)) :- provision(A,P), executive_act(A), contrary
 
 norm cic:16 | c. 16 §§1-3: the legislator interprets authentically; in the form of law the interpretation has the force of law and must be promulgated; if it only declares words certain in themselves it is retroactive, if it restricts, extends or explains a doubtful law it is not; in a sentence or an administrative act in a particular matter it binds only the persons and matters for which it was given; with c. 9: laws regard the future, not the past, unless they expressly provide for the past | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 
-use declaratory/1 "c. 16 §2: the interpretation only declares words of the law certain in themselves (so retroactive)"
+slot declaratory/1
+  means "c. 16 §2: the interpretation only declares words of the law certain in themselves (so retroactive)"
 
 ```clingo
 authentic_reading(N,R,D) :- applies_reading(D,N,R), issuer(D,A), authority(A,4).
@@ -1004,7 +1058,8 @@ norm cic2021:1329 | c. 1329 §2: accomplices not named in the law incur a latae 
 slot assists/2
   means "assists(Person, Act): the person gives assistance to another's delict"
 
-use necessary_assistance/2 "without the person's assistance the delict would not have been committed (outward; computed both ways when disputed)"
+slot necessary_assistance/2
+  means "without the person's assistance the delict would not have been committed (outward; computed both ways when disputed)"
 
 ```clingo
 delict(P,N,A) :- assists(P,A), necessary_assistance(P,A), delict(Q,N,A), Q != P, latae_sententiae(N), not outside(P), not eastern_faithful(P).
@@ -1547,7 +1602,8 @@ penalty(n1386,excommunication).
 % ---------- Book VI: the cleric and the minor; the Dicastery's clause (TTC-ACT N1-N5) ----
 ```
 
-use cleric/1 "a cleric (deacon, priest or bishop)"
+slot cleric/1
+  means "a cleric (deacon, priest or bishop)"
 
 norm cic2021:1398 | c. 1398 §1 n. 1: a cleric who commits an offence against the sixth commandment of the Decalogue with a minor is to be punished with deprivation of office and other just penalties, not excluding dismissal from the clerical state | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
 

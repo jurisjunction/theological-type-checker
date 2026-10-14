@@ -12,6 +12,14 @@ layer kernel
 
 ```
 
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot caused_by/2
+  means "caused_by(E, C): the event E is caused by C"
+
+slot happens_at/2
+  means "happens_at(E, Point): an event placed at a point of the order"
+
 part switch
 
 ```clingo

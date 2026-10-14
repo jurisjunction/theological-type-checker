@@ -20,6 +20,19 @@
 %  canons where an event predates the revision.
 % ===================================================================
 
+% @input age_clause/2 | age_clause(D, N): D's clause that the error about the age does not excuse from delict N (c. 1398 §1 n. 1; art. 6 n. 1)
+% @input censure_barring/1 | censure_barring(K): a censure that bars from Holy Communion (c. 915)
+% @input eastern_church/1 | eastern_church(C): an Eastern Church sui iuris in full communion
+% @input eastern_noncatholic_church/1 | eastern_noncatholic_church(C): an Eastern Church not in full communion
+% @input element_of/2 | element_of(N, C): C is an element of the matter of delict N
+% @input excusing/1 | excusing(C): a circumstance that exempts when believed invincibly (c. 1323 n. 7)
+% @input lapse_date/2 | lapse_date(L, Date): the date a law lapses by its own terms
+% @input latae_sententiae/1 | latae_sententiae(N): the penalty of delict N is incurred by the act (c. 1314)
+% @input narrower/2 | narrower(R1, R2): reading R1 reaches less than R2
+% @input penalty/2 | penalty(N, K): the penalty of delict N
+% @input reorders/2 | reorders(L2, B): L2 reorders the whole matter of B (c. 20)
+% @input revokes/3 | revokes(L2, B, Way): L2 revokes B expressly, by contrary law, or by reordering (c. 20)
+
 % ---------- Inputs ---------------------------------------------------------
 % @input priest/1 | a priest
 % @input bishop/1 | a bishop

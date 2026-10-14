@@ -12,6 +12,39 @@
 %  Axiom labels (A0-A11) match the Core Edition doc. See docs/layers.md.
 % ===================================================================
 
+% @input absorbed/1 | absorbed(X): X's humanity said absorbed into the divinity (Eutyches)
+% @input acton/2 | acton(X, Y): X acts on the thing Y (relation d)
+% @input allowed/2 | allowed(R, K): the reading R of simplicity admits distinctions of kind K in God
+% @input angel/1 | angel(X): X is an angel, a spiritual created person (DH 800)
+% @input bodily/1 | bodily(M): a mode of presence that is bodily (natural, sacramental)
+% @input changes_in/2 | changes_in(X, K): a change said of X in nature K (hum or div)
+% @input claims/5 | claims(C, P, X, Y, R): claim C that X is P (receptive or donative) toward Y in relation R
+% @input conjoined/2 | conjoined(Y, X): Y joined to X as another subject (Nestorius)
+% @input denies/2 | denies(X, P): a claim that X lacks P (a human will, a human operation)
+% @input descends_from/2 | descends_from(P, adam): P descends from Adam by generation
+% @input distinguishes/4 | distinguishes(C, P, A, B): claim C that the predicate P distinguishes A from B
+% @input god/1 | god(G): G is God
+% @input immutability/1 | immutability(R): God's immutability, as R reads it
+% @input in_nature/2 | in_nature(A, K): the nature K (hum or div) in which the act A is placed
+% @input inanimate/1 | inanimate(X): a creature that merely is
+% @input incarnate/1 | incarnate(X): X is the Son incarnate: divine, of a human nature
+% @input lacks/2 | lacks(X, P): a claim that X lacks P (a rational soul)
+% @input next/2 | next(E1, E2): E2 follows E1 in the order of events
+% @input organism/1 | organism(X): a living creature
+% @input pred_nature/2 | pred_nature(P, K): the predicate P belongs to nature K
+% @input presence_mode/1 | presence_mode(M): a mode of presence known (the kernel's, a library's)
+% @input present/3 | present(X, Place, Mode): a presence, typed by mode
+% @input qualified/1 | qualified(S): the sentence S carries its qualification (as man)
+% @input reltype/1 | reltype(R): a kind of relation the kernel knows
+% @input retype/2 | retype(X, Y): the edge from X to Y retyped (the rescue stress test)
+% @input says_unary/3 | says_unary(C, P, X): claim C says P of X alone
+% @input sentence/3 | sentence(S, T, P): the sentence S predicates P of the term T
+% @input simplicity/1 | simplicity(R): God's simplicity, as R reads it
+% @input sort/2 | sort(X, S): X typed of sort S
+% @input term_sort/2 | term_sort(T, S): the term T names a suppositum or a nature
+% @input unary_name/1 | unary_name(P): a predicate said of persons one at a time
+% @input unsafe_unqualified/1 | unsafe_unqualified(P): the predicate P needs a qualification when said of Christ
+
 % ---------- Sorts --------------------------------------------------
 person(X)       :- divine(X).
 person(X)       :- created_person(X).

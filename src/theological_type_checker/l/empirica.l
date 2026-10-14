@@ -48,6 +48,11 @@ library
 
 ```
 
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot twin_reading_kind/1
+  means "twin_reading_kind(R): a reading of a twinning (budding, fission, delayed, one soul)"
+
 slot finding/4
   means "finding(F, Q, V, Year): a finding of the sciences on a question, by its year"
 

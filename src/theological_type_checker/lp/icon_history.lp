@@ -5,6 +5,22 @@
 %  sees only what existed then, with the standing it had then.
 % ===================================================================
 
+% @input attends/2 | attends(P, X): P attends X, an outward fact (never adherence)
+% @input bond_kind/1 | bond_kind(B): a bond of communion (LG 14; UR 3)
+% @input community/1 | community(C): a community whose bonds of communion are compared
+% @input condition_in_question/2 | condition_in_question(K, C): asked whether condition C is of the substance of sacrament K
+% @input confessed/1 | confessed(P): P has confessed, an outward fact
+% @input continent/1 | continent(P): P lives in continence (FC 84)
+% @input declared_by_authority/1 | declared_by_authority(P): P's adherence declared by competent authority
+% @input internal_forum_actor/1 | internal_forum_actor(A): one who acts in the internal forum (a confessor)
+% @input irregular_union/1 | irregular_union(P): P lives in an irregular union, an outward fact
+% @input refuses/2 | refuses(X, T): X publicly refuses the teaching T
+% @input schism_basis/1 | schism_basis(B): a ground c. 751 gives for schism
+% @input separated_body/1 | separated_body(C): a community separated from full communion
+% @input silent/3 | silent(Person, Act, Q): an outward silence on the question
+% @input teaching_tier/2 | teaching_tier(T, K): the tier of the teaching T
+% @input theses_directive/0 | the 24 Theses read as directive norms, 1916 (a switch)
+
 % ---------- Immaculate Conception ------------------------------------
 #program ic.
 question(q(ic)). value(q(ic),yes). value(q(ic),no). question_kind(q(ic),doctrinal).

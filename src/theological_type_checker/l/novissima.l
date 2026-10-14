@@ -47,13 +47,28 @@ library
 
 ```
 
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot after_death/1
+  means "after_death(X): a stage after death (purification, vision, hell)"
+
+slot calendar_unit/1
+  means "calendar_unit(U): a unit of the calendar (days, years)"
+
+slot stage/1
+  means "stage(X): a stage after death the order knows"
+
+slot state_after_death/1
+  means "state_after_death(X): hell, purification or glory"
+
 slot gives_order/3
   means "gives_order(Source, A, B): the source gives stage A before stage B"
 
 slot without_end/2
   means "without_end(Stage, Source): the source gives the stage without end"
 
-use places/3 "places(Theory, A, B): a theory of what follows death places stage A before stage B"
+slot places/3
+  means "places(Theory, A, B): a theory of what follows death places stage A before stage B"
 
 slot ends_in/3
   means "ends_in(Theory, A, B): a theory ends stage A in stage B"
@@ -79,7 +94,8 @@ slot rises_early/1
 slot general_rule_given/1
   means "general_rule_given(Source): the source gives the rising of bodies at the return"
 
-use duration_claim/3 "duration_claim(Stage, N, Unit): a duration laid on a stage after death"
+slot duration_claim/3
+  means "duration_claim(Stage, N, Unit): a duration laid on a stage after death"
 
 slot in_days/2
   means "canon_law.lp: in_days(Grant, N), an indulgence designated in days"

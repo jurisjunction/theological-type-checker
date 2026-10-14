@@ -12,6 +12,11 @@
 %  (ISBN, OCLC) are entered by hand; they are resolved at fetch time.
 % ===================================================================
 
+% @input cites_work/3 | cites_work(S, W, Locator): where source S is read, in work W
+% @input consulted/1 | consulted(S): the citation of S checked against print
+% @input online/2 | online(W, URL): a reliable text of W online
+% @input to_read/2 | to_read(W, Why): research owed on W
+
 work(dh43, "Denzinger, H.; Hünermann, P. (ed.)", "Enchiridion symbolorum, definitionum et declarationum de rebus fidei et morum", "43rd ed.", 2012).
 work(bullarium_taur, "Holy See", "Bullarum, diplomatum et privilegiorum sanctorum Romanorum pontificum Taurinensis editio", "Augustae Taurinorum", 1869).
 work(scotus_vat, "Ioannes Duns Scotus", "Opera omnia (editio Vaticana)", "Civitas Vaticana: Commissio Scotistica", 1950).

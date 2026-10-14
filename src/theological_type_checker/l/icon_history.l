@@ -8,6 +8,57 @@ layer authority
 %  sees only what existed then, with the standing it had then.
 % ===================================================================
 
+```
+
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot attends/2
+  means "attends(P, X): P attends X, an outward fact (never adherence)"
+
+slot bond_kind/1
+  means "bond_kind(B): a bond of communion (LG 14; UR 3)"
+
+slot community/1
+  means "community(C): a community whose bonds of communion are compared"
+
+slot condition_in_question/2
+  means "condition_in_question(K, C): asked whether condition C is of the substance of sacrament K"
+
+slot confessed/1
+  means "confessed(P): P has confessed, an outward fact"
+
+slot continent/1
+  means "continent(P): P lives in continence (FC 84)"
+
+slot declared_by_authority/1
+  means "declared_by_authority(P): P's adherence declared by competent authority"
+
+slot internal_forum_actor/1
+  means "internal_forum_actor(A): one who acts in the internal forum (a confessor)"
+
+slot irregular_union/1
+  means "irregular_union(P): P lives in an irregular union, an outward fact"
+
+slot refuses/2
+  means "refuses(X, T): X publicly refuses the teaching T"
+
+slot schism_basis/1
+  means "schism_basis(B): a ground c. 751 gives for schism"
+
+slot separated_body/1
+  means "separated_body(C): a community separated from full communion"
+
+slot silent/3
+  means "silent(Person, Act, Q): an outward silence on the question"
+
+slot teaching_tier/2
+  means "teaching_tier(T, K): the tier of the teaching T"
+
+slot theses_directive/0
+  means "the 24 Theses read as directive norms, 1916 (a switch)"
+
+```clingo
+
 % ---------- Immaculate Conception ------------------------------------
 ```
 

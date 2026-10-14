@@ -381,3 +381,103 @@ beyond those this step touches.
 [ttc-roadmap(7)](../roadmap.md), [ttc-schools(7)](schools-preregistration.md),
 [ttc-empirica(7)](empirica-preregistration.md), [ttc-mcp(8)](../mcp.md),
 [ttc-encoding(5)](../encoding-guide.md)
+
+## SCORING
+
+Appended stage by stage. Predictions committed in e69e70a, stamped in
+4357243. Stage 1 (RG) is 3fc3601, stage 2 (RU) 0b7ad94; stage 3 (SO, LY)
+the commit that adds these rows.
+
+| | Result |
+| --- | --- |
+| RG1 | Held: the 27 rule files compile byte for byte. |
+| RG2 | Held: every tag lifted (350 `@input` as 199 `slot` and 151 `use`; 87 `norm`, 17 `end`, one `temporal`, one `recursive`, five `stratum`, 12 `library`), all 480 parts annotated; 92.3% of lines stay in fences. The one `@input` inside a comment stays in its fence. |
+| RG3 | Held. |
+| RU1 | Held on the first compile, order included; the test's expectation is the table `engine.py` held, pasted. |
+| RU2 | Held. |
+| RU3 | Held, in either parent order; each combinator settles a clash. |
+| RU4 | Held. A parent never declared, a cycle and a runtime declared twice are refused too. |
+| SO1 | Held for the 386, with the definition amended (below). Each has one `slot` in its declaring file; 187 gained an `@input` line, the 169 untagged and 18 tagged only elsewhere; 13 slots of the amendment gained one too: 200 lines. 28 tags in the declaring file became `slot`, two `slot`s became `use` (LY1); every text kept. The rule files changed by those 200 lines and 11 blank lines; no scenario's atoms changed (563 compared). |
+| SO2 | Held in form: L's kinds differ from `_kind` for nine parts, all of `canon_cases.l`, and none besides. Not as expected: most of that file's hypothetical parts are switches (below). |
+| SO3 | Held: none does. The compiler also refuses a slot declared twice and a slot no rule reads (tests). |
+| LY1 | 27 of 29 agree. `consecration/4` and `absolution/4` disagree, and the hand list is right (below). |
+| LY2 | Held: `save_case` reads each slot's side from L; the hand lists are removed. Tests with `premise/3`, `conciliar_act/2` and `oum_claimant/2`, none on the old lists; `interior/3` and `classification/3` go on either side. |
+| M1 | Held through RG, RU, SO and LY: no scenario's atoms changed. |
+| M2 | Held: 87 norms, 315 edges; CL1 and PR4 clean. `custom_asof/0`, now declared in `saeculum.l`, showed as an unused input: norms.py does not read the clock's predicates (`BUILTIN`), and now counts none of them unused (a test). |
+| M4 | Held after each stage: the suite and the schools' tables. |
+
+### The slot, amended (SO1; rule 7)
+
+The stamped definition, a predicate read and never derived, leaves out
+the central inputs: `source/4`, `supports/3`, `question/1`, `value/2`,
+`question_kind/2`, `character/2`, `papal_form/2`, `interior/3`. Some rule
+derives each (the consensus a source of its own, a case's conditional
+facts, a choice where a fact is disputed). DESCRIPTION named `source/4`,
+`supports/3` and `character/2` among the 386 untagged: a mistake of the
+count's description, not of the count. CG1 already spoke of "a slot some
+rule also derives", and CG2 needs these as slots, or every case writing a
+source is refused at the gate.
+
+Amended: a slot is a predicate the base reads that a case enters. Either
+no rule derives it (386), or the guide gives it to enter though a rule
+derives it: 37 from the first column of its fact tables, two named in its
+prose (`appears_otherwise/2`, `interpretation_form/2`). 425 in all. The
+guide is a person's word, not the checker's. Measured and refused: any
+predicate a case, model, date or search writes as a fact. That would make
+slots of `of_kind/2` (the pair's computed classification, which the model
+`asexual` writes), and of `has/2` and `held_for/3` (derived from
+`holds/2`): conclusions the gate must refuse. `event_date/2`, CG1's
+example, is no slot: no case enters it, and the guide gives `act_date/2`.
+CG scores it.
+
+### Not predicted
+
+- **Absolutions and consecrations are the canon layer's** (LY1). The
+  lowest layer that reads them is the libraries (`sacrament.l`, a library
+  reading the canon layer's input, as its tag says), and the hand list
+  puts them on the canon side. The guide routes them from the canon
+  layer. The rule, not the list, is wrong for a predicate a library reads
+  from a higher layer: the two are declared in `canon_law.l`, the only
+  exceptions, listed in the test.
+- **The libraries serve both sides.** THE LANGUAGE put them on the
+  theology side. The guide's CANON table gives library slots to the canon
+  side (`interior/3`, `age_at/3`, `juridic_person/1`, `law_kind/2`,
+  `reaches/3`, `needs_reading/2`), and the parts of `canon_cases.l` write
+  them in 509 statements, in 79 of 123 parts. Their slots (130, with the
+  library's) go on either side.
+- **A case states its questions** (SO2, checked by hand, then written as
+  a test). A part, not a candidate, model, date or search, is a case where
+  it writes `question/1`, or where it bears the name of one that does (the
+  canon half of a case). Every other part is a switch, loaded with a case
+  or model to change it. This reproduces `_kind` everywhere but nine parts
+  of `canon_cases.l`: `sspx`, the canon half of the case, and eight
+  hypothetical cases with their own questions (`act_fear`, `law_cases`,
+  `moral_cases`, `c915_case`, `seal_case`, `prudential_case`,
+  `c1399_case`, `fiction_acts`). The file's other hypothetical parts state
+  no question: they add acts to questions the authority files state, and
+  stay switches, `trolley`, `eucharist_case` and `marriage_cases` among
+  them. Rule 6's "switch programs" are parts loaded by name; what it
+  requires is the mark, and the mark is CG5's.
+- **22 parts of `canon_cases.l` enter theology** (house rule 1): the
+  eight cases above; four candidates (`cand_art6_moral`,
+  `cand_sin_of_christ`, `cand_state_is_evil`,
+  `cand_law_types_the_substance`); and ten parts of theology filed with the
+  canon cases (`grace_cases`, `cand_pelagian`: `justification/2`;
+  `christ_acts`, `cand_one_theandric_operation`,
+  `cand_father_acts_humanly`: `in_nature/2`; `cand_god_located`,
+  `cand_angel_circumscribed`, `cand_bilocation`,
+  `cand_father_in_the_host`, `cand_mode_unknown`: `present/3`, `god/1`,
+  `angel/1`). Not split here: a test lists them, so a new one fails. No
+  part of a theology file enters a canon slot.
+- **L reads fences through clingo's parser.** THE LANGUAGE says a fence
+  is never read but for a part's name. SO3 needs what each file derives,
+  so the compiler reads each compiled file's signatures with clingo's
+  parser. It neither compiles nor changes a fence.
+- **The new slots' meanings** (200) were written by hand, in the tags'
+  style, from the guide's rows, the tags in other files and the rules that
+  read them. A tag already in the declaring file kept its text, even where
+  it only points elsewhere (`classification/3`: "from the authority
+  graph").
+- **A red test, stated** (rule 7): `ttc://grammar` lists `source/4`'s tags
+  with `icon_authority.lp` first, its slot's new tag; the expectation was
+  the three cross-references.

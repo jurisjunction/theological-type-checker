@@ -4,6 +4,21 @@
 %  A forbidden position "fails" when adding it produces a violation.
 % ===================================================================
 
+% @input c_edge/3 | c_edge(A, B, K): an edge of kind K in the created pattern searched for an image
+% @input c_ind/1 | c_ind(X): an individual of the created pattern
+% @input c_person/1 | c_person(X): a person of the created pattern
+% @input d_ind/1 | d_ind(X): an individual of the divine pattern
+% @input d_person/1 | d_person(X): a person of the divine pattern
+% @input exercises_reason/2 | exercises_reason(X, S): X exercises reason at stage S
+% @input fam_o/3 | fam_o(A, B, K): an origin of kind K in the family pattern
+% @input ignore_kinds/0 | the kinds of origin ignored in the search (a switch)
+% @input intense/2 | intense(X, Y): the friendship of X and Y claimed intense
+% @input kind_bridge/2 | kind_bridge(K1, K2): a procession of kind K1 imaged by a created kind K2
+% @input married/1 | married(X): X is married
+% @input src/1 | src(X): a point of the source pattern of the search
+% @input stage/2 | stage(X, S): X at the stage of life S
+% @input tgt/1 | tgt(X): a point of the target pattern of the search
+
 % ---------- Prohibitions, written as candidate rules ----------------
 #program cand_receiver_lesser.          % "whoever receives is less than the giver"
 less(X,Y) :- from(X,Y).

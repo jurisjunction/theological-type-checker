@@ -25,7 +25,7 @@ import hashlib
 import json
 
 from . import __version__
-from . import engine, library, norms, suite
+from . import engine, lang, library, norms, suite
 
 HERE = pathlib.Path(__file__).resolve().parent
 GUIDE = (HERE / "guide.md").read_text()
@@ -467,25 +467,26 @@ def save_rules(name: str, rules: str, force: bool = False, reasons: dict[str, st
     return {"saved": True, "file": str(home / "rules" / f"{name}.lp"), **report}
 
 
-THEOLOGY_ONLY = ("source(", "supports(", "question(", "value(", "question_kind(", "character(", "papal_form(",
-                 "cites(", "reaffirms(", "interprets(", "ambiguous(", "reading(", "reads(", "oum_claim(", "protects(")
-CANON_ONLY = ("consecration(", "co_consecrator(", "decree(", "declares(", "heard(", "recourse(", "grant(",
-              "permission(", "revocation(", "absolution(", "marriage(", "delegation(", "remission(", "asserts(")
-
-
-def _layer_lint(text, forbidden, layer):
+def _layer_lint(text, layer):
+    """Refuse a slot of the other side: each slot's side is its declaring
+    file's (lang.sides), theology, canon or either (TTC-L, LY)."""
+    other = "canon" if layer == "theology" else "theology"
+    sides = lang.sides()
+    s = engine.signatures(text, layer)
+    wrong = sorted(sig for sig in s["heads"] | s["reads"] if sides.get(sig) == other)
+    if not wrong:
+        return
     code = re.sub(r"%.*", "", text)
-    found = [(m.start(), f.rstrip("(")) for f in forbidden
-             for m in [re.search(r"(?<![\w])" + re.escape(f), code)] if m]
-    if found:
-        hits = sorted({name for _, name in found})
-        first, name = min(found)
-        line = code.count("\n", 0, first) + 1
-        pred = engine.signatures(text, layer)["at_line"].get(line)
-        pred = pred if pred and pred.startswith(name + "/") else name
-        raise engine.SnippetError(f"the {layer} side may not contain {', '.join(hits)}: "
-                                  "theology goes in `theology`, canon law in `canon` (house rule 1)",
-                                  "layer", layer, line, None, pred, engine._line_of(text, line))
+    found = []
+    for name, arity in wrong:
+        rx = rf"(?<![\w]){name}\s*\(" if arity else rf"(?<![\w]){name}(?![\w(])"
+        m = re.search(rx, code)
+        found.append((m.start() if m else len(code), f"{name}/{arity}"))
+    first, pred = min(found)
+    line = code.count("\n", 0, first) + 1
+    raise engine.SnippetError(f"the {layer} side may not contain {', '.join(p for _, p in sorted(found, key=lambda f: f[1]))}: "
+                              "theology goes in `theology`, canon law in `canon` (house rule 1)",
+                              "layer", layer, line, None, pred, engine._line_of(text, line))
 
 
 @_tool(writes=True, overwrites=True)
@@ -508,8 +509,8 @@ def save_case(part: str, theology: str = "", canon: str = "", note: str = "") ->
         raise ValueError("give the theology side, the canon side, or both")
     engine.check_snippet(theology, "theology")
     engine.check_snippet(canon, "canon")
-    _layer_lint(theology, CANON_ONLY, "theology")
-    _layer_lint(canon, THEOLOGY_ONLY, "canon")
+    _layer_lint(theology, "theology")
+    _layer_lint(canon, "canon")
     home = _home()
     header = "".join(f"% {line}\n" for line in note.splitlines()) if note else ""
     path = home / "rules" / f"case_{part}.lp"

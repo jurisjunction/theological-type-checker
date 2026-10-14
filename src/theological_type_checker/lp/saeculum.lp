@@ -21,6 +21,11 @@
 %  authority layer's (icon_authority.lp).
 % ===================================================================
 
+% @input custom_asof/0 | an asof part sets the clock, not today/1
+% @input end_event/1 | end_event(E): the return and the judgment, which take no date
+% @input month_days/2 | month_days(M, N): the days of month M
+% @input promulgated/2 | promulgated(Act, Date): a law, or an authentic interpretation in the form of law, published (cc. 7-8, 16 §2)
+% @input today/1 | today(Date): the evaluation date, YYYYMMDD
 % @input before/2 | from the kernel: the order of events (next/2, transitive)
 % @input ind_sort/2 | from the kernel: div or cr
 % @input angel/1 | from the kernel's sorts

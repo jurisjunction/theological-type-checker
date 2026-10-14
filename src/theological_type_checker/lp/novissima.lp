@@ -38,6 +38,10 @@
 %  @library  (read by norms.py: its predicates count as defined)
 % ===================================================================
 
+% @input after_death/1 | after_death(X): a stage after death (purification, vision, hell)
+% @input calendar_unit/1 | calendar_unit(U): a unit of the calendar (days, years)
+% @input stage/1 | stage(X): a stage after death the order knows
+% @input state_after_death/1 | state_after_death(X): hell, purification or glory
 % @input gives_order/3 | gives_order(Source, A, B): the source gives stage A before stage B
 % @input without_end/2 | without_end(Stage, Source): the source gives the stage without end
 % @input places/3 | places(Theory, A, B): a theory of what follows death places stage A before stage B

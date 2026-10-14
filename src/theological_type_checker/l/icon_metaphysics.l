@@ -11,6 +11,51 @@ layer schools
 %    2. Thomas's readings      3. rival readings and candidates
 % ===================================================================
 
+```
+
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot attribute/1
+  means "attribute(A): a divine attribute (wisdom, goodness, power)"
+
+slot constitutive/1
+  means "constitutive(R): the relation R constitutes its subject"
+
+slot creaturely_only/1
+  means "creaturely_only(P): a predicate said of creatures only"
+
+slot esse_not_really_distinct/0
+  means "esse not really distinct from essence (a school's)"
+
+slot known_from_effects/0
+  means "God known from his effects: every bridge read back (a school's)"
+
+slot love_object_reading/0
+  means "love read by its object, the Word (a school's)"
+
+slot mixed_relations/0
+  means "God's relations to creatures are of reason only (a school's)"
+
+slot predicamental/1
+  means "predicamental(R): the relation R is predicamental"
+
+slot rests_in/2
+  means "rests_in(C, W): love C rests in W"
+
+slot said_of_god/1
+  means "said_of_god(P): the perfection P said of God"
+
+slot transcendental/1
+  means "transcendental(T): a transcendental (goodness, truth, unity)"
+
+slot transcendental_relation/0
+  means "the creature's being-from as a transcendental relation (a school's)"
+
+slot transcendentals/0
+  means "the transcendentals: pure perfections said first of God (a school's)"
+
+```clingo
+
 % ---------- Simplicity: which distinctions in God a reading allows ----
 % god_distinction(X,Y,Kind): the data assert a distinction in God of this
 % kind, other than between the persons. The persons are distinct by

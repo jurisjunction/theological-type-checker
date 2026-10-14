@@ -15,6 +15,24 @@ layer library
 %  (ISBN, OCLC) are entered by hand; they are resolved at fetch time.
 % ===================================================================
 
+```
+
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot cites_work/3
+  means "cites_work(S, W, Locator): where source S is read, in work W"
+
+slot consulted/1
+  means "consulted(S): the citation of S checked against print"
+
+slot online/2
+  means "online(W, URL): a reliable text of W online"
+
+slot to_read/2
+  means "to_read(W, Why): research owed on W"
+
+```clingo
+
 work(dh43, "Denzinger, H.; Hünermann, P. (ed.)", "Enchiridion symbolorum, definitionum et declarationum de rebus fidei et morum", "43rd ed.", 2012).
 work(bullarium_taur, "Holy See", "Bullarum, diplomatum et privilegiorum sanctorum Romanorum pontificum Taurinensis editio", "Augustae Taurinorum", 1869).
 work(scotus_vat, "Ioannes Duns Scotus", "Opera omnia (editio Vaticana)", "Civitas Vaticana: Commissio Scotistica", 1950).

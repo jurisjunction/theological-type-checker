@@ -7,6 +7,54 @@ layer theory
 %  A forbidden position "fails" when adding it produces a violation.
 % ===================================================================
 
+```
+
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot c_edge/3
+  means "c_edge(A, B, K): an edge of kind K in the created pattern searched for an image"
+
+slot c_ind/1
+  means "c_ind(X): an individual of the created pattern"
+
+slot c_person/1
+  means "c_person(X): a person of the created pattern"
+
+slot d_ind/1
+  means "d_ind(X): an individual of the divine pattern"
+
+slot d_person/1
+  means "d_person(X): a person of the divine pattern"
+
+slot exercises_reason/2
+  means "exercises_reason(X, S): X exercises reason at stage S"
+
+slot fam_o/3
+  means "fam_o(A, B, K): an origin of kind K in the family pattern"
+
+slot ignore_kinds/0
+  means "the kinds of origin ignored in the search (a switch)"
+
+slot intense/2
+  means "intense(X, Y): the friendship of X and Y claimed intense"
+
+slot kind_bridge/2
+  means "kind_bridge(K1, K2): a procession of kind K1 imaged by a created kind K2"
+
+slot married/1
+  means "married(X): X is married"
+
+slot src/1
+  means "src(X): a point of the source pattern of the search"
+
+slot stage/2
+  means "stage(X, S): X at the stage of life S"
+
+slot tgt/1
+  means "tgt(X): a point of the target pattern of the search"
+
+```clingo
+
 % ---------- Prohibitions, written as candidate rules ----------------
 ```
 

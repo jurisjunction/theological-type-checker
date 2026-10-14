@@ -34,7 +34,8 @@ use read_as/2 "from the authority graph: the reading a branch takes of an ambigu
 
 use holds_reading/2 "a runtime's reading (schools.lp)"
 
-use salutary/2 "salutary(P, A): an act ordered to salvation (faith, hope, love, repentance)"
+slot salutary/2
+  means "salutary(P, A): an act ordered to salvation (faith, hope, love, repentance)"
 
 slot beginning_of_faith/2
   means "beginning_of_faith(P, A): the first assent of faith"

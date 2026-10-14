@@ -9,6 +9,20 @@
 %  Axiom labels (A0-A11) match the Core Edition.
 % ===================================================================
 
+% @input a9_universal/0 | the old reading of A9: every person is bridal, welcomed or not (a switch)
+% @input band/1 | band(L): a level at which a finite nature cannot generate alone
+% @input bridegroom/1 | bridegroom(C): C is the bridegroom
+% @input capable_closing/2 | capable_closing(X, Y): X and Y capable of the closing act (c. 1084)
+% @input closed_in_act/3 | closed_in_act(A, X, Y): X and Y closed in the act A
+% @input consent/2 | consent(X, Y): X consents to Y
+% @input level/2 | level(X, L): X's level in the order of natures
+% @input obligate_sexual/1 | obligate_sexual(K): a kind that generates only by two
+% @input performs/4 | performs(A, X, Y, M): in act A, X and Y perform the motif M
+% @input proposed_bond/2 | proposed_bond(X, Y): a bond between X and Y put forward
+% @input self_gift_measure/2 | self_gift_measure(V, M): a measure M laid on the gift of self in state V
+% @input total/2 | total(X, Y): X gives himself wholly to Y
+% @input uses/1 | uses(T): the theory T is loaded (the Grammar of the Icon)
+
 % ---------- Policy switches (scenarios may override) --------------
 closure_mode(act)   :- not closure_mode(bond).            % A4a
 license_policy(two) :- not license_policy(circuit_only).  % A4

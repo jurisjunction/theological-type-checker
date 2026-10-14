@@ -156,7 +156,9 @@ def graph(texts=None):
                 if a != b:
                     edges.add((a, b))
     undefined = sorted(f"{n}/{a}" for n, a in used if (n, a) not in produced and (n, a) not in inputs)
-    unused_inputs = sorted(f"{n}/{a}" for n, a in inputs if (n, a) not in used)
+    # the clock's predicates are not read for the graph (BUILTIN), so a slot of
+    # the clock, declared in saeculum.lp (TTC-L SO), is not counted unused
+    unused_inputs = sorted(f"{n}/{a}" for n, a in inputs if (n, a) not in used and n not in BUILTIN)
     return {"norms": norms, "edges": sorted(edges), "undefined": undefined, "temporal": sorted(temporal),
             "unused_inputs": unused_inputs, "inputs": {f"{n}/{a}": d for (n, a), d in sorted(inputs.items())}}
 

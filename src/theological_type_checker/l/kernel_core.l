@@ -15,6 +15,108 @@ layer kernel
 %  Axiom labels (A0-A11) match the Core Edition doc. See docs/layers.md.
 % ===================================================================
 
+```
+
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot absorbed/1
+  means "absorbed(X): X's humanity said absorbed into the divinity (Eutyches)"
+
+slot acton/2
+  means "acton(X, Y): X acts on the thing Y (relation d)"
+
+slot allowed/2
+  means "allowed(R, K): the reading R of simplicity admits distinctions of kind K in God"
+
+slot angel/1
+  means "angel(X): X is an angel, a spiritual created person (DH 800)"
+
+slot bodily/1
+  means "bodily(M): a mode of presence that is bodily (natural, sacramental)"
+
+slot changes_in/2
+  means "changes_in(X, K): a change said of X in nature K (hum or div)"
+
+slot claims/5
+  means "claims(C, P, X, Y, R): claim C that X is P (receptive or donative) toward Y in relation R"
+
+slot conjoined/2
+  means "conjoined(Y, X): Y joined to X as another subject (Nestorius)"
+
+slot denies/2
+  means "denies(X, P): a claim that X lacks P (a human will, a human operation)"
+
+slot descends_from/2
+  means "descends_from(P, adam): P descends from Adam by generation"
+
+slot distinguishes/4
+  means "distinguishes(C, P, A, B): claim C that the predicate P distinguishes A from B"
+
+slot god/1
+  means "god(G): G is God"
+
+slot immutability/1
+  means "immutability(R): God's immutability, as R reads it"
+
+slot in_nature/2
+  means "in_nature(A, K): the nature K (hum or div) in which the act A is placed"
+
+slot inanimate/1
+  means "inanimate(X): a creature that merely is"
+
+slot incarnate/1
+  means "incarnate(X): X is the Son incarnate: divine, of a human nature"
+
+slot lacks/2
+  means "lacks(X, P): a claim that X lacks P (a rational soul)"
+
+slot next/2
+  means "next(E1, E2): E2 follows E1 in the order of events"
+
+slot organism/1
+  means "organism(X): a living creature"
+
+slot pred_nature/2
+  means "pred_nature(P, K): the predicate P belongs to nature K"
+
+slot presence_mode/1
+  means "presence_mode(M): a mode of presence known (the kernel's, a library's)"
+
+slot present/3
+  means "present(X, Place, Mode): a presence, typed by mode"
+
+slot qualified/1
+  means "qualified(S): the sentence S carries its qualification (as man)"
+
+slot reltype/1
+  means "reltype(R): a kind of relation the kernel knows"
+
+slot retype/2
+  means "retype(X, Y): the edge from X to Y retyped (the rescue stress test)"
+
+slot says_unary/3
+  means "says_unary(C, P, X): claim C says P of X alone"
+
+slot sentence/3
+  means "sentence(S, T, P): the sentence S predicates P of the term T"
+
+slot simplicity/1
+  means "simplicity(R): God's simplicity, as R reads it"
+
+slot sort/2
+  means "sort(X, S): X typed of sort S"
+
+slot term_sort/2
+  means "term_sort(T, S): the term T names a suppositum or a nature"
+
+slot unary_name/1
+  means "unary_name(P): a predicate said of persons one at a time"
+
+slot unsafe_unqualified/1
+  means "unsafe_unqualified(P): the predicate P needs a qualification when said of Christ"
+
+```clingo
+
 % ---------- Sorts --------------------------------------------------
 person(X)       :- divine(X).
 person(X)       :- created_person(X).

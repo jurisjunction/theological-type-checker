@@ -6,6 +6,10 @@
 %  The kernel holds none of this; with no runtime it runs bare.
 % ===================================================================
 
+% @input foreseen/2 | foreseen(E, C): E caused by C as foreseen (merits foreseen)
+% @input justification/2 | justification(P, A): the act in which P, moved by grace, assents to justification
+% @input univocal_concept/1 | univocal_concept(F): F a concept said univocally of God and creatures (Scotus)
+% @input virginally_conceived/1 | virginally_conceived(X): X conceived by the Holy Spirit, not by propagation
 #program classical.               % agere sequitur esse: creatures act (ST I q.105 a.5; SCG III.69-70).
 acts(X) :- creature(X).           % Common to the four runtimes; denied by occasionalism.
 operates(X,hum) :- incarnate(X).  % Said of Christ's humanity too: two natural operations (DH 557).

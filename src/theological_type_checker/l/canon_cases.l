@@ -7,10 +7,19 @@ layer canon
 %  HYPOTHETICAL, and hypothetical facts live only in switch programs.
 % ===================================================================
 
+```
+
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot c751_state_reading/0
+  means "c. 751 read as a lasting state, not an act (a switch)"
+
+```clingo
+
 % ---------- The SSPX, 1988-2026 (same program as the authority side) -------
 ```
 
-part switch
+part case
 
 ```clingo
 #program sspx.
@@ -227,7 +236,7 @@ punishes_culpa(n1379).
 
 ```
 
-part switch
+part case
 
 ```clingo
 #program act_fear.                  % HYPOTHETICAL: one grave, unjust fear from without, four canons
@@ -253,7 +262,7 @@ classification(q(evil_a4),a4,intrinsically_evil).
 % ---------- Law (TTC-LAW): constructed laws, all HYPOTHETICAL ----------------
 ```
 
-part switch
+part case
 
 ```clingo
 #program law_cases.                 % HYPOTHETICAL
@@ -331,7 +340,7 @@ law_answers(q(broad_bish)) :- does_not_bind(l_bish).
 % ---------- The morality of acts, sin, grace (TTC-MORAL), all HYPOTHETICAL -------
 ```
 
-part switch
+part case
 
 ```clingo
 #program moral_cases.               % HYPOTHETICAL
@@ -375,7 +384,7 @@ licit_on_the_claims(P,A) :- act_of(P,A), interior(P,A,proportionate_reason).
 
 ```
 
-part switch
+part case
 
 ```clingo
 #program c915_case.                 % HYPOTHETICAL: c. 915 and c. 916
@@ -709,7 +718,7 @@ dissolution(S,M,by_sentence,T) :- nullity_sentence(S,M,T).
 
 ```
 
-part switch
+part case
 
 ```clingo
 #program seal_case.                 % HYPOTHETICAL: a confessor coerced, under a civil law, to disclose a confession
@@ -950,7 +959,7 @@ interior(child_s,act_s7,(full_knowledge;deliberate_consent)).
 
 ```
 
-part switch
+part case
 
 ```clingo
 #program prudential_case.           % HYPOTHETICAL: authentic teaching of the prudential order, and of principle
@@ -1050,7 +1059,7 @@ transfer(dec_t,pastor_t,20230601).
 
 ```
 
-part switch
+part case
 
 ```clingo
 #program c1399_case.                % HYPOTHETICAL: violations no canon names
@@ -1123,7 +1132,7 @@ law_answers(q(species_with_age_unknown)).
 
 ```
 
-part switch
+part case
 
 ```clingo
 #program fiction_acts.              % HYPOTHETICAL: acts in the name of a juridic person, and of the Apostolic See (c. 118)

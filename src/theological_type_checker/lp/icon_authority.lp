@@ -25,6 +25,74 @@
 %  A branch contradicted by a tier-1 truth source does not exist.
 % ===================================================================
 
+% @input ambiguous/1 | ambiguous(S): the text S admits more than one reading; one branch per reading
+% @input approved_custom/1 | approved_custom(C): the custom C has the legislator's approval (c. 23)
+% @input approver/2 | approver(C, A): A approved the custom C
+% @input approver_rank/2 | approver_rank(A, R): the legislative rank R of an approver of customs
+% @input binds/3 | binds(L, T, O): law L attaches obligation O to teaching at tier T (cc. 750, 752)
+% @input by_papal_mandate/1 | by_papal_mandate(S): a curial act the pope made his own (rank 4)
+% @input char_points/2 | char_points(K, P): the weight P of a document of character K (LG 25)
+% @input character/2 | character(S, K): the kind of document S is: its weight under LG 25
+% @input cites/2 | cites(S, S2): S repeats S2, with no weight of its own
+% @input claims_tier/3 | claims_tier(C, S, K): C says S teaches at tier K (a claim, rule 14)
+% @input community_capable/1 | community_capable(C): a community able to receive a law (c. 25)
+% @input conciliar/1 | conciliar(S): a council's act (legislator rank 4, c. 135 §2)
+% @input conciliar_act/2 | conciliar_act(S, K): a council's act of kind K: canon, definition, creed, scope, chapter
+% @input condition_shown/2 | condition_shown(S, C): a condition of a definition (DH 3074) or of LG 25, shown for S by evidence apart from its claimant (rule 14)
+% @input conference/1 | conference(S): a conference of bishops' act (legislator rank 2)
+% @input consent_claim/2 | consent_claim(S, R): the Fathers' unanimous consent claimed for reading R of text S
+% @input contra_divine/1 | contra_divine(C): the custom C is against divine law (c. 24 §1)
+% @input count_all/0 | every source counts, citing or not (an ablation)
+% @input custom_practice/4 | custom_practice(C, Q, V, Y): a community's practice of V on Q since year Y (cc. 23-28)
+% @input default/2 | default(Q, V): V holds on Q unless a source in force says otherwise (c. 1058)
+% @input defining_act/1 | defining_act(K): a conciliar act that defines (canon, definition, creed, scope)
+% @input defining_form/1 | defining_form(F): a papal form that defines (ex cathedra)
+% @input dicastery/1 | dicastery(S): a dicastery's act (legislator rank 3)
+% @input diocesan/1 | diocesan(S): a diocesan act (legislator rank 1)
+% @input ec_condition/1 | ec_condition(C): a condition of Pastor aeternus (DH 3074)
+% @input expressly_revokes/2 | expressly_revokes(L, C): law L expressly revokes the custom C (c. 28)
+% @input faith_morals/1 | faith_morals(S): the text S bears on faith or morals
+% @input flat_weight/0 | every source weighs one point (an ablation)
+% @input form_tier/2 | form_tier(F, T): the tier a papal form gives
+% @input holds_reading/2 | holds_reading(S, R): a runtime's reading of S: only the branches it holds
+% @input hypothetical_warrant/1 | hypothetical_warrant(S): a warrant supposed for S (HYPOTHETICAL parts only, rule 6)
+% @input in_forma_specifica/1 | in_forma_specifica(S): a curial act approved in specific form (rank 4)
+% @input interpretive/2 | interpretive(S, M): S speaks to M interpretively, leaving its extent open
+% @input interprets/3 | interprets(S, S1, R): S weighs for reading R of S1; never fixes it
+% @input law_forbids_customs/1 | law_forbids_customs(L): law L forbids future customs (c. 28)
+% @input lex_posterior_kind/1 | lex_posterior_kind(K): a kind of question the later law decides
+% @input meta_supports/2 | meta_supports(S, M): S speaks to the question about tiers M
+% @input meta_target/2 | meta_target(M, T): the tier the question M is about
+% @input object_tier/2 | object_tier(O, T): the tier a definition's object gives (revealed 1, connected 2)
+% @input oum_claim/2 | oum_claim(S, K): S claimed as ordinary universal magisterium at grade K; computed both ways (rule 14)
+% @input oum_claimant/2 | oum_claimant(S, C): who claims S as ordinary universal magisterium
+% @input oum_condition/1 | oum_condition(C): a condition of LG 25
+% @input oum_fixed_by/2 | oum_fixed_by(S, F): an act F said to fix the claim on S
+% @input papal_form/2 | papal_form(S, F): the form of a papal act: ex_cathedra, definitive_declaration, legislative, ordinary
+% @input promoted/3 | promoted(S, T, Y): S raised to tier T from year Y (declared a Doctor)
+% @input protects/2 | protects(S, Q): S, of protective force, blocks cleaving Q at or below its tier
+% @input question/1 | question(Q): a question a run answers
+% @input question_kind/2 | question_kind(Q, K): the type of Q: doctrinal, governance, juridical, empirical
+% @input reading/2 | reading(S, R): R is a reading of S
+% @input reads/4 | reads(S, R, Q, V): read as R, S holds V on Q
+% @input reaffirms/2 | reaffirms(S, S2): S re-teaches S2, with weight
+% @input received_creed/1 | received_creed(S): S typed received with no claim and no date (refused)
+% @input reception_claim/3 | reception_claim(S, C, Y): C claims the creed S received from year Y
+% @input reception_fixed_by/2 | reception_fixed_by(S, F): the act F hands the creed S on
+% @input records_diverse_readings/2 | records_diverse_readings(F, S): F records diverse readings of S
+% @input relaxed/1 | relaxed(S): S dispensed, abrogated or changed: out of force
+% @input relies_on/2 | relies_on(A, S): the argument A relies on S
+% @input reprobated/1 | reprobated(C): the custom C reprobated by law (c. 24 §2)
+% @input salience/2 | salience(S, high): S is prominent (warnings only)
+% @input session_defines/1 | session_defines(S): the session binds the chapter S (rule 14)
+% @input source/4 | source(S, T, F, Y): S at tier T (0-5), of force F (truth, juridical, protective), from year Y
+% @input supports/3 | supports(S, Q, V): S holds V on Q
+% @input treated_as_binding_successors/1 | treated_as_binding_successors(S): S read as binding the legislator's successors
+% @input treated_as_fixing/2 | treated_as_fixing(C, S): C's statement about S treated as fixing its tier (refused)
+% @input value/2 | value(Q, V): V is an answer to Q
+% @input weight_tier/1 | weight_tier(T): a tier at which disagreement is weighed (3 to 5)
+% @input withdrawn/2 | withdrawn(S, Y): the text S replaced from year Y
+
 % ---------- Time and force -----------------------------------------
 % asof/1 comes from the one clock (saeculum.lp): an asof part, today's
 % year, or 9999 (every source entered) with no clock (TTC-SAECULUM CA1).

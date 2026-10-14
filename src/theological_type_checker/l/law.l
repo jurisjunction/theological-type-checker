@@ -24,7 +24,13 @@ library
 
 ```
 
-use law_kind/2 "law_kind(Law, Kind): eternal, natural, divine_positive, ecclesiastical, civil"
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot kind_rank/2
+  means "kind_rank(K, R): the rank of a kind of law"
+
+slot law_kind/2
+  means "law_kind(Law, Kind): eternal, natural, divine_positive, ecclesiastical, civil"
 
 use of_kind/2 "from the theological side (pair.lp): in this branch the thing is classified as of this kind"
 
@@ -64,7 +70,8 @@ admissible(L,R) :- reading_option(L,R), not excluded_reading(L,R).
 % ---------- What a binding law reaches ------------------------------------
 ```
 
-use reaches/3 "reaches(Law, Reading, X): on this reading the law reaches the act or person X"
+slot reaches/3
+  means "reaches(Law, Reading, X): on this reading the law reaches the act or person X"
 
 use unbound/2 "canon_law.lp (c. 11): an ecclesiastical law does not bind the person"
 

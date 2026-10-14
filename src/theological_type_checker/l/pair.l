@@ -23,6 +23,18 @@ layer pair
 %    law_answers(Q)        a rule lets a canon-law result fix question Q
 % ===================================================================
 
+```
+
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot premise/3
+  means "premise(N, Q, V): norm N presupposes V on Q"
+
+slot uncoupled/0
+  means "the law applied apart from the theological branch (a candidate)"
+
+```clingo
+
 violation(law_without_premise(N,E,Q)) :- delict(_,N,E), premise(N,Q,V), holds(Q,W), W != V.
 % A theological question may classify a canonical event; in each branch the
 % law follows that branch's classification (unless deliberately uncoupled).

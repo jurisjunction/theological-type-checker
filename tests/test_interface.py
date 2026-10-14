@@ -91,6 +91,33 @@ def test_a_fact_on_the_wrong_side_is_refused_at_the_layer_gate(tmp_path, monkeyp
     assert (d["gate"], d["where"], d["predicate"], d["line"]) == ("layer", "theology", "decree/3", 2)
 
 
+@pytest.mark.parametrize("theology,canon,where,pred", [
+    ("question(q(m)).\npremise(n1364,q(m),yes).", "", "theology", "premise/3"),     # the pair's: canon
+    ("", "% the act\nconciliar_act(s,canon).", "canon", "conciliar_act/2"),         # the authority graph's
+    ("", "act_date(a,20260101).\noum_claimant(s,c).", "canon", "oum_claimant/2"),
+])
+def test_every_slot_keeps_its_side_not_only_the_old_lists(tmp_path, monkeypatch, theology, canon, where, pred):
+    # TTC-L LY2: each slot's side is its declaring file's; none of these was
+    # on the hand lists, which are gone
+    pytest.importorskip("mcp")
+    monkeypatch.setenv("TTC_HOME", str(tmp_path))
+    from mcp.server.mcpserver.exceptions import ToolError
+    from theological_type_checker import server
+    assert not hasattr(server, "THEOLOGY_ONLY") and not hasattr(server, "CANON_ONLY")
+    with pytest.raises(ToolError) as e:
+        server.save_case("sides", theology=theology, canon=canon)
+    d = json.loads(str(e.value))
+    assert (d["gate"], d["where"], d["predicate"], d["line"]) == ("layer", where, pred, 2)
+
+
+def test_a_librarys_slot_goes_on_either_side():
+    # interior/3 (act.l) and classification/3 (moral.l): the libraries serve both
+    pytest.importorskip("mcp")
+    from theological_type_checker import server
+    for side in ("theology", "canon"):
+        server._layer_lint("interior(p,a,deliberate).\nclassification(q(k),kill,grave_matter).", side)
+
+
 # ---------- stable JSON (KEEP) -------------------------------------------------
 def _keys_sorted(o):
     if isinstance(o, dict):
@@ -121,7 +148,10 @@ def test_the_grammar_is_read_off_the_checker():
     assert g["schema"] == engine.SCHEMA
     assert g["slots"]["finding/4"]["tags"] == [{"file": "empirica.lp", "meaning": g["slots"]["finding/4"]["meaning"]}]
     assert g["slots"]["finding/4"]["meaning"].startswith("finding(F, Q, V, Year)")
-    assert [t["file"] for t in g["slots"]["source/4"]["tags"]] == ["faith.lp", "sources.lp", "empirica.lp"]
+    # TTC-L SO1 (rule 7): source/4 gained its slot's tag in icon_authority.lp,
+    # the file that declares it; the three cross-references follow
+    assert [t["file"] for t in g["slots"]["source/4"]["tags"]] == ["icon_authority.lp", "faith.lp", "sources.lp",
+                                                                   "empirica.lp"]
     assert g["parts"]["galileo"]["kind"] == "case" and g["parts"]["galileo"]["file"] == "icon_history.lp"
     assert g["runtimes"] == {k: list(v) for k, v in engine.RUNTIMES.items()}
     assert {"parts", "facts"} <= set(g["tools"]["check"]["parameters"]["properties"])

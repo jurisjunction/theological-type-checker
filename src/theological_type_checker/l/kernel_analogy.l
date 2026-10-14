@@ -15,6 +15,21 @@ layer kernel
 %     side licenses nothing on that side.
 % ===================================================================
 
+```
+
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot drop_bridge/1
+  means "drop_bridge(F): the bridge F withdrawn (an ablation)"
+
+slot univocal_mode/2
+  means "univocal_mode(F, M): F said in one mode M of God and of creatures"
+
+slot unlicensed/2
+  means "unlicensed(F, S): the predicate F denied its license in domain S"
+
+```clingo
+
 ind_sort(X,div) :- divine(X).
 ind_sort(X,div) :- god(X).
 ind_sort(X,cr)  :- creature(X).

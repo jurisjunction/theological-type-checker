@@ -20,6 +20,9 @@
 %    law_answers(Q)        a rule lets a canon-law result fix question Q
 % ===================================================================
 
+% @input premise/3 | premise(N, Q, V): norm N presupposes V on Q
+% @input uncoupled/0 | the law applied apart from the theological branch (a candidate)
+
 violation(law_without_premise(N,E,Q)) :- delict(_,N,E), premise(N,Q,V), holds(Q,W), W != V.
 % A theological question may classify a canonical event; in each branch the
 % law follows that branch's classification (unless deliberately uncoupled).

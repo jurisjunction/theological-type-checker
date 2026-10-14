@@ -7,6 +7,8 @@
 %  creatures, the spiritual and the bodily, the angelic and the earthly".
 % ===================================================================
 
+% @input caused_by/2 | caused_by(E, C): the event E is caused by C
+% @input happens_at/2 | happens_at(E, Point): an event placed at a point of the order
 #program world.
 god(god).
 inanimate(stone; star; water; bronze).          % what merely is

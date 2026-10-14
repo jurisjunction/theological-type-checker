@@ -36,6 +36,20 @@ runtime palamite extends default
 
 ```
 
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot foreseen/2
+  means "foreseen(E, C): E caused by C as foreseen (merits foreseen)"
+
+slot justification/2
+  means "justification(P, A): the act in which P, moved by grace, assents to justification"
+
+slot univocal_concept/1
+  means "univocal_concept(F): F a concept said univocally of God and creatures (Scotus)"
+
+slot virginally_conceived/1
+  means "virginally_conceived(X): X conceived by the Holy Spirit, not by propagation"
+
 part switch
 
 ```clingo

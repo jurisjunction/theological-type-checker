@@ -39,6 +39,7 @@
 %  @library  (read by norms.py: its predicates count as defined)
 % ===================================================================
 
+% @input twin_reading_kind/1 | twin_reading_kind(R): a reading of a twinning (budding, fission, delayed, one soul)
 % @input finding/4 | finding(F, Q, V, Year): a finding of the sciences on a question, by its year
 % @input method/2 | method(F, division): how a finding was reached, where a claim rests on it
 % @input censures_as_heresy/3 | censures_as_heresy(S, Q, V): the source censures value V of Q as heretical

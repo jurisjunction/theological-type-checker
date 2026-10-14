@@ -8,6 +8,20 @@
 %    2. Thomas's readings      3. rival readings and candidates
 % ===================================================================
 
+% @input attribute/1 | attribute(A): a divine attribute (wisdom, goodness, power)
+% @input constitutive/1 | constitutive(R): the relation R constitutes its subject
+% @input creaturely_only/1 | creaturely_only(P): a predicate said of creatures only
+% @input esse_not_really_distinct/0 | esse not really distinct from essence (a school's)
+% @input known_from_effects/0 | God known from his effects: every bridge read back (a school's)
+% @input love_object_reading/0 | love read by its object, the Word (a school's)
+% @input mixed_relations/0 | God's relations to creatures are of reason only (a school's)
+% @input predicamental/1 | predicamental(R): the relation R is predicamental
+% @input rests_in/2 | rests_in(C, W): love C rests in W
+% @input said_of_god/1 | said_of_god(P): the perfection P said of God
+% @input transcendental/1 | transcendental(T): a transcendental (goodness, truth, unity)
+% @input transcendental_relation/0 | the creature's being-from as a transcendental relation (a school's)
+% @input transcendentals/0 | the transcendentals: pure perfections said first of God (a school's)
+
 % ---------- Simplicity: which distinctions in God a reading allows ----
 % god_distinction(X,Y,Kind): the data assert a distinction in God of this
 % kind, other than between the persons. The persons are distinct by

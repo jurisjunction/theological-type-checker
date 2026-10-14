@@ -30,6 +30,23 @@ library
 
 ```
 
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot custom_asof/0
+  means "an asof part sets the clock, not today/1"
+
+slot end_event/1
+  means "end_event(E): the return and the judgment, which take no date"
+
+slot month_days/2
+  means "month_days(M, N): the days of month M"
+
+slot promulgated/2
+  means "promulgated(Act, Date): a law, or an authentic interpretation in the form of law, published (cc. 7-8, 16 §2)"
+
+slot today/1
+  means "today(Date): the evaluation date, YYYYMMDD"
+
 use before/2 "from the kernel: the order of events (next/2, transitive)"
 
 use ind_sort/2 "from the kernel: div or cr"

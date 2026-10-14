@@ -8,8 +8,9 @@ guards against hand edits; it is not evidence that the base is right.
 
 Each kind of declaration is a class with a parse, a check and a render:
 the compiler's metaclasses, registered by keyword. A fence is copied byte
-for byte and never read, except that a ``part`` annotation must stand
-before a fence opening with ``#program``.
+for byte. L reads it only to check that a ``part`` annotation stands
+before a fence opening with ``#program``, and, through clingo's own
+parser, to check the slots against the rules (``validate``).
 """
 from __future__ import annotations
 
@@ -28,10 +29,12 @@ FENCE_OPEN = "```clingo"
 FENCE_CLOSE = "```"
 
 # Layers, lowest first (TTC-L, THE LANGUAGE). A slot is declared in the
-# lowest layer whose rules read it; sides for a case follow the layer.
+# lowest layer whose rules read it; sides for a case follow the layer. The
+# libraries serve both sides: the guide enters their slots on either
+# (interior/3, act_of/2, law_kind/2 ...), and the canon cases do (SO, LY).
 LAYERS = ["kernel", "theory", "schools", "authority", "libraries", "canon", "pair", "library"]
 SIDE = {"kernel": "theology", "theory": "theology", "schools": "theology", "authority": "theology",
-        "libraries": "theology", "canon": "canon", "pair": "canon", "library": "either"}
+        "libraries": "either", "canon": "canon", "pair": "canon", "library": "either"}
 
 NAME = r"[a-z_][a-z0-9_]*"
 SIG = re.compile(rf"^({NAME})/(\d+)$")
@@ -120,8 +123,11 @@ class Library(Decl):
 
 
 class Slot(Decl):
-    """A predicate the base reads and never derives, declared once, in the
-    lowest layer whose rules read it. Renders its `@input` tag."""
+    """A predicate a case enters, declared once: one the base reads and no
+    rule derives, or one the guide gives to enter though a rule also derives
+    it (`source/4`, `interior/3`). Declared in the lowest layer whose rules
+    read it, save what is routed from the canon layer. Renders its `@input`
+    tag."""
     keyword = "slot"
     attributes = ("means", "say")
 
@@ -446,6 +452,52 @@ def runtimes_text(compiled: dict) -> str:
     return json.dumps(compiled, indent=1, ensure_ascii=False) + "\n"
 
 
+def slots(srcs: dict[str, Source]) -> dict[tuple[str, int], Slot]:
+    """Each slot by (name, arity). A predicate declared a slot twice is
+    refused, naming both places."""
+    out: dict[tuple[str, int], Slot] = {}
+    for src in srcs.values():
+        for d in src.decls(Slot):
+            if d.sig in out:
+                first = out[d.sig]
+                raise LError(d.where, d.line, f"slot {d.name}/{d.arity} is declared already "
+                             f"({first.where}:{first.line}); say `use` here")
+            d.side = SIDE[src.layer]
+            out[d.sig] = d
+    return out
+
+
+def validate(srcs: dict[str, Source]) -> None:
+    """What the declarations say against the rules the fences hold, read by
+    clingo's own parser: every slot is read by some rule, and every `use`
+    names a predicate some file declares or derives (SO3)."""
+    from . import engine
+    declared = slots(srcs)
+    reads, derived = set(), set()
+    for name, src in srcs.items():
+        s = engine.signatures(src.compile(), name)
+        reads |= s["reads"]
+        derived |= s["derived"]
+    for d in declared.values():
+        if d.sig not in reads:
+            raise LError(d.where, d.line, f"slot {d.name}/{d.arity}: no rule reads it")
+    for src in srcs.values():
+        for u in src.decls(Use):
+            if u.sig not in declared and u.sig not in derived:
+                raise LError(u.where, u.line, f"use {u.name}/{u.arity}: no file declares or derives it")
+
+
+_SIDES: dict = {}
+
+
+def sides(l_dir: pathlib.Path = L_DIR) -> dict[tuple[str, int], str]:
+    """The side of a case each slot goes on: theology, canon or either, from
+    the layer of the file that declares it. Read by save_case."""
+    if l_dir not in _SIDES:
+        _SIDES[l_dir] = {sig: d.side for sig, d in slots(sources(l_dir)).items()}
+    return _SIDES[l_dir]
+
+
 def sources(l_dir: pathlib.Path = L_DIR) -> dict[str, Source]:
     """Every .l file, by the name of the rule file it compiles to."""
     out = {}
@@ -464,6 +516,7 @@ def check(l_dir: pathlib.Path = L_DIR, lp_dir: pathlib.Path = LP_DIR,
     """The compiled files that differ from what their sources compile to
     (the rule files and runtimes.json), and any rule file with no source."""
     srcs = sources(l_dir)
+    validate(srcs)
     built = {name: src.compile() for name, src in srcs.items()}
     bad = [name for name, text in built.items()
            if not (lp_dir / name).is_file() or (lp_dir / name).read_text() != text]
@@ -483,6 +536,7 @@ def main(argv=None):
     try:
         if a.command == "build":
             srcs = sources(a.l)
+            validate(srcs)
             outputs = {a.lp / name: src.compile() for name, src in srcs.items()}
             outputs[RUNTIMES_JSON] = runtimes_text(compile_runtimes(srcs))
             for p, text in outputs.items():

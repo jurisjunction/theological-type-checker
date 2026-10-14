@@ -24,6 +24,11 @@ library
 
 ```
 
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot grade_name/2
+  means "grade_name(T, N): the name of the note at tier T"
+
 use holds/2 "from the authority graph"
 
 use supports/3 "from the authority graph"

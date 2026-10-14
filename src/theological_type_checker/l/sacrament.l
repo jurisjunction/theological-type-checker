@@ -25,21 +25,29 @@ library
 
 ```
 
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot due_form/2
+  means "due_form(K, F): the form due to sacrament K"
+
+slot grade/1
+  means "grade(G): a grade of orders"
+
 slot celebrated/4
   means "celebrated(E, Sacrament, Minister, Recipient): a celebration a case records (outward)"
 
 slot celebration_date/2
   means "celebration_date(E, Date)"
 
-slot absolution/4
-  means "the canon layer's input"
+use absolution/4 "the canon layer's input"
 
-slot consecration/4
-  means "the canon layer's input"
+use consecration/4 "the canon layer's input"
 
-use matter_used/2 "matter_used(E, M): the matter, where a case records it"
+slot matter_used/2
+  means "matter_used(E, M): the matter, where a case records it"
 
-use form_used/2 "form_used(E, F): the form, where a case records it"
+slot form_used/2
+  means "form_used(E, F): the form, where a case records it"
 
 slot simulated/1
   means "the rite was performed in jest or on a stage: an outward fact"
@@ -70,7 +78,8 @@ use dispensed/2 "canon_law.lp (c. 85): dispensed(Law, X)"
 
 use interior/3 "act.lp: a claim, supplied or computed both ways"
 
-use age_at/3 "age_at(Person, Act, Years)"
+slot age_at/3
+  means "age_at(Person, Act, Years)"
 
 use incarnate/1 "the kernel"
 

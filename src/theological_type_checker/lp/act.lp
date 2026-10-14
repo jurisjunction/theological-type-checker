@@ -17,6 +17,9 @@
 %  @library  (read by norms.py: its predicates count as defined)
 % ===================================================================
 
+% @input act_of/2 | act_of(P, A): P placed the act A
+% @input disputed/1 | disputed(F): the fact F is disputed: computed both ways
+% @input gross/1 | gross(K): a gross kind of ignorance (crass, supine, affected)
 % @input acts/1 | from the runtime (schools.lp, classical): creatures act
 % @input operates/2 | from the runtime (schools.lp, classical): operates(X, hum), the incarnate's human operation
 % @input in_nature/2 | in_nature(Act, Nature): the nature by which the person places the act (the kernel's T5 natures)

@@ -15,6 +15,7 @@
 %  @library  (read by norms.py: its predicates count as defined)
 % ===================================================================
 
+% @input kind_rank/2 | kind_rank(K, R): the rank of a kind of law
 % @input law_kind/2 | law_kind(Law, Kind): eternal, natural, divine_positive, ecclesiastical, civil
 % @input of_kind/2 | from the theological side (pair.lp): in this branch the thing is classified as of this kind
 % @input reading_option/2 | reading_option(Law, Reading): a reading the words admit (c. 17)

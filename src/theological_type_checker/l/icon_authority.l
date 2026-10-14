@@ -28,6 +28,213 @@ layer authority
 %  A branch contradicted by a tier-1 truth source does not exist.
 % ===================================================================
 
+```
+
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot ambiguous/1
+  means "ambiguous(S): the text S admits more than one reading; one branch per reading"
+
+slot approved_custom/1
+  means "approved_custom(C): the custom C has the legislator's approval (c. 23)"
+
+slot approver/2
+  means "approver(C, A): A approved the custom C"
+
+slot approver_rank/2
+  means "approver_rank(A, R): the legislative rank R of an approver of customs"
+
+slot binds/3
+  means "binds(L, T, O): law L attaches obligation O to teaching at tier T (cc. 750, 752)"
+
+slot by_papal_mandate/1
+  means "by_papal_mandate(S): a curial act the pope made his own (rank 4)"
+
+slot char_points/2
+  means "char_points(K, P): the weight P of a document of character K (LG 25)"
+
+slot character/2
+  means "character(S, K): the kind of document S is: its weight under LG 25"
+
+slot cites/2
+  means "cites(S, S2): S repeats S2, with no weight of its own"
+
+slot claims_tier/3
+  means "claims_tier(C, S, K): C says S teaches at tier K (a claim, rule 14)"
+
+slot community_capable/1
+  means "community_capable(C): a community able to receive a law (c. 25)"
+
+slot conciliar/1
+  means "conciliar(S): a council's act (legislator rank 4, c. 135 §2)"
+
+slot conciliar_act/2
+  means "conciliar_act(S, K): a council's act of kind K: canon, definition, creed, scope, chapter"
+
+slot condition_shown/2
+  means "condition_shown(S, C): a condition of a definition (DH 3074) or of LG 25, shown for S by evidence apart from its claimant (rule 14)"
+
+slot conference/1
+  means "conference(S): a conference of bishops' act (legislator rank 2)"
+
+slot consent_claim/2
+  means "consent_claim(S, R): the Fathers' unanimous consent claimed for reading R of text S"
+
+slot contra_divine/1
+  means "contra_divine(C): the custom C is against divine law (c. 24 §1)"
+
+slot count_all/0
+  means "every source counts, citing or not (an ablation)"
+
+slot custom_practice/4
+  means "custom_practice(C, Q, V, Y): a community's practice of V on Q since year Y (cc. 23-28)"
+
+slot default/2
+  means "default(Q, V): V holds on Q unless a source in force says otherwise (c. 1058)"
+
+slot defining_act/1
+  means "defining_act(K): a conciliar act that defines (canon, definition, creed, scope)"
+
+slot defining_form/1
+  means "defining_form(F): a papal form that defines (ex cathedra)"
+
+slot dicastery/1
+  means "dicastery(S): a dicastery's act (legislator rank 3)"
+
+slot diocesan/1
+  means "diocesan(S): a diocesan act (legislator rank 1)"
+
+slot ec_condition/1
+  means "ec_condition(C): a condition of Pastor aeternus (DH 3074)"
+
+slot expressly_revokes/2
+  means "expressly_revokes(L, C): law L expressly revokes the custom C (c. 28)"
+
+slot faith_morals/1
+  means "faith_morals(S): the text S bears on faith or morals"
+
+slot flat_weight/0
+  means "every source weighs one point (an ablation)"
+
+slot form_tier/2
+  means "form_tier(F, T): the tier a papal form gives"
+
+slot holds_reading/2
+  means "holds_reading(S, R): a runtime's reading of S: only the branches it holds"
+
+slot hypothetical_warrant/1
+  means "hypothetical_warrant(S): a warrant supposed for S (HYPOTHETICAL parts only, rule 6)"
+
+slot in_forma_specifica/1
+  means "in_forma_specifica(S): a curial act approved in specific form (rank 4)"
+
+slot interpretive/2
+  means "interpretive(S, M): S speaks to M interpretively, leaving its extent open"
+
+slot interprets/3
+  means "interprets(S, S1, R): S weighs for reading R of S1; never fixes it"
+
+slot law_forbids_customs/1
+  means "law_forbids_customs(L): law L forbids future customs (c. 28)"
+
+slot lex_posterior_kind/1
+  means "lex_posterior_kind(K): a kind of question the later law decides"
+
+slot meta_supports/2
+  means "meta_supports(S, M): S speaks to the question about tiers M"
+
+slot meta_target/2
+  means "meta_target(M, T): the tier the question M is about"
+
+slot object_tier/2
+  means "object_tier(O, T): the tier a definition's object gives (revealed 1, connected 2)"
+
+slot oum_claim/2
+  means "oum_claim(S, K): S claimed as ordinary universal magisterium at grade K; computed both ways (rule 14)"
+
+slot oum_claimant/2
+  means "oum_claimant(S, C): who claims S as ordinary universal magisterium"
+
+slot oum_condition/1
+  means "oum_condition(C): a condition of LG 25"
+
+slot oum_fixed_by/2
+  means "oum_fixed_by(S, F): an act F said to fix the claim on S"
+
+slot papal_form/2
+  means "papal_form(S, F): the form of a papal act: ex_cathedra, definitive_declaration, legislative, ordinary"
+
+slot promoted/3
+  means "promoted(S, T, Y): S raised to tier T from year Y (declared a Doctor)"
+
+slot protects/2
+  means "protects(S, Q): S, of protective force, blocks cleaving Q at or below its tier"
+
+slot question/1
+  means "question(Q): a question a run answers"
+
+slot question_kind/2
+  means "question_kind(Q, K): the type of Q: doctrinal, governance, juridical, empirical"
+
+slot reading/2
+  means "reading(S, R): R is a reading of S"
+
+slot reads/4
+  means "reads(S, R, Q, V): read as R, S holds V on Q"
+
+slot reaffirms/2
+  means "reaffirms(S, S2): S re-teaches S2, with weight"
+
+slot received_creed/1
+  means "received_creed(S): S typed received with no claim and no date (refused)"
+
+slot reception_claim/3
+  means "reception_claim(S, C, Y): C claims the creed S received from year Y"
+
+slot reception_fixed_by/2
+  means "reception_fixed_by(S, F): the act F hands the creed S on"
+
+slot records_diverse_readings/2
+  means "records_diverse_readings(F, S): F records diverse readings of S"
+
+slot relaxed/1
+  means "relaxed(S): S dispensed, abrogated or changed: out of force"
+
+slot relies_on/2
+  means "relies_on(A, S): the argument A relies on S"
+
+slot reprobated/1
+  means "reprobated(C): the custom C reprobated by law (c. 24 §2)"
+
+slot salience/2
+  means "salience(S, high): S is prominent (warnings only)"
+
+slot session_defines/1
+  means "session_defines(S): the session binds the chapter S (rule 14)"
+
+slot source/4
+  means "source(S, T, F, Y): S at tier T (0-5), of force F (truth, juridical, protective), from year Y"
+
+slot supports/3
+  means "supports(S, Q, V): S holds V on Q"
+
+slot treated_as_binding_successors/1
+  means "treated_as_binding_successors(S): S read as binding the legislator's successors"
+
+slot treated_as_fixing/2
+  means "treated_as_fixing(C, S): C's statement about S treated as fixing its tier (refused)"
+
+slot value/2
+  means "value(Q, V): V is an answer to Q"
+
+slot weight_tier/1
+  means "weight_tier(T): a tier at which disagreement is weighed (3 to 5)"
+
+slot withdrawn/2
+  means "withdrawn(S, Y): the text S replaced from year Y"
+
+```clingo
+
 % ---------- Time and force -----------------------------------------
 % asof/1 comes from the one clock (saeculum.lp): an asof part, today's
 % year, or 9999 (every source entered) with no clock (TTC-SAECULUM CA1).

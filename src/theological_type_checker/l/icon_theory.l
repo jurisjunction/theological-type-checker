@@ -12,6 +12,51 @@ layer theory
 %  Axiom labels (A0-A11) match the Core Edition.
 % ===================================================================
 
+```
+
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot a9_universal/0
+  means "the old reading of A9: every person is bridal, welcomed or not (a switch)"
+
+slot band/1
+  means "band(L): a level at which a finite nature cannot generate alone"
+
+slot bridegroom/1
+  means "bridegroom(C): C is the bridegroom"
+
+slot capable_closing/2
+  means "capable_closing(X, Y): X and Y capable of the closing act (c. 1084)"
+
+slot closed_in_act/3
+  means "closed_in_act(A, X, Y): X and Y closed in the act A"
+
+slot consent/2
+  means "consent(X, Y): X consents to Y"
+
+slot level/2
+  means "level(X, L): X's level in the order of natures"
+
+slot obligate_sexual/1
+  means "obligate_sexual(K): a kind that generates only by two"
+
+slot performs/4
+  means "performs(A, X, Y, M): in act A, X and Y perform the motif M"
+
+slot proposed_bond/2
+  means "proposed_bond(X, Y): a bond between X and Y put forward"
+
+slot self_gift_measure/2
+  means "self_gift_measure(V, M): a measure M laid on the gift of self in state V"
+
+slot total/2
+  means "total(X, Y): X gives himself wholly to Y"
+
+slot uses/1
+  means "uses(T): the theory T is loaded (the Grammar of the Icon)"
+
+```clingo
+
 % ---------- Policy switches (scenarios may override) --------------
 closure_mode(act)   :- not closure_mode(bond).            % A4a
 license_policy(two) :- not license_policy(circuit_only).  % A4

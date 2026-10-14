@@ -47,6 +47,11 @@ library
 
 ```
 
+-- Slots this layer reads first (TTC-L, SO): what a case enters
+
+slot liturgy_shows/1
+  means "liturgy_shows(C): a condition of LG 25 a universal prayer shows"
+
 use liturgical_witness/1 "the prayer a liturgical book holds, entered as a witness (a source)"
 
 slot fixes/2

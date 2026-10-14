@@ -295,7 +295,7 @@ A refused run returns one JSON object: `refused`, `gate`, `where` (`facts`,
 | `parse` | Text clingo cannot parse. |
 | `ground` | Text clingo cannot ground; an unsafe variable, usually. |
 | `removal` | A line to remove that matches none, or several. |
-| `layer` | A fact on the wrong side of a case (THE PAIR). |
+| `layer` | A slot of the other side of a case (THE PAIR): each slot's side is its layer's, and a library's slots (`interior/3`, `act_of/2`) go on either (ttc-l(1)). |
 | `input` | An argument the tool cannot take. |
 
 Results come with their keys sorted. `ttc://grammar` holds the slots with

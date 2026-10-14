@@ -12,6 +12,10 @@
 %     side licenses nothing on that side.
 % ===================================================================
 
+% @input drop_bridge/1 | drop_bridge(F): the bridge F withdrawn (an ablation)
+% @input univocal_mode/2 | univocal_mode(F, M): F said in one mode M of God and of creatures
+% @input unlicensed/2 | unlicensed(F, S): the predicate F denied its license in domain S
+
 ind_sort(X,div) :- divine(X).
 ind_sort(X,div) :- god(X).
 ind_sort(X,cr)  :- creature(X).

@@ -16,6 +16,8 @@
 %  @library  (read by norms.py: its predicates count as defined)
 % ===================================================================
 
+% @input due_form/2 | due_form(K, F): the form due to sacrament K
+% @input grade/1 | grade(G): a grade of orders
 % @input celebrated/4 | celebrated(E, Sacrament, Minister, Recipient): a celebration a case records (outward)
 % @input celebration_date/2 | celebration_date(E, Date)
 % @input absolution/4 | the canon layer's input

@@ -23,7 +23,8 @@ library
 
 ```
 
-use kind_of_act/2 "kind_of_act(Act, Kind): the kind of act a case says its act is (an outward fact)"
+slot kind_of_act/2
+  means "kind_of_act(Act, Kind): the kind of act a case says its act is (an outward fact)"
 
 use of_kind/2 "from the theological side (pair.lp): in this branch the kind is classified so"
 
@@ -60,7 +61,8 @@ slot prudential/2
 slot permitted_only_if/2
   means "permitted_only_if(Kind, Condition): acts of the kind are permitted only where the condition is met"
 
-use denied/1 "denied(Condition): the theological side holds that the condition is not met today"
+slot denied/1
+  means "denied(Condition): the theological side holds that the condition is not met today"
 
 slot commands/3
   means "commands(Law, Kind, Occasion): an affirmative precept commands acts of the kind on the occasion"
@@ -73,7 +75,8 @@ slot teaching_type/2
 
 use supports/3 "from the authority graph"
 
-use classification/3 "from the authority graph"
+slot classification/3
+  means "from the authority graph"
 
 use unbound/2 "canon_law.lp (c. 11): an ecclesiastical law does not bind the person"
 

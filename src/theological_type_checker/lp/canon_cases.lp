@@ -4,6 +4,8 @@
 %  HYPOTHETICAL, and hypothetical facts live only in switch programs.
 % ===================================================================
 
+% @input c751_state_reading/0 | c. 751 read as a lasting state, not an act (a switch)
+
 % ---------- The SSPX, 1988-2026 (same program as the authority side) -------
 #program sspx.
 today(20261010).

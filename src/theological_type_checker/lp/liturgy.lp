@@ -38,6 +38,7 @@
 %  @library  (read by norms.py: its predicates count as defined)
 % ===================================================================
 
+% @input liturgy_shows/1 | liturgy_shows(C): a condition of LG 25 a universal prayer shows
 % @input liturgical_witness/1 | the prayer a liturgical book holds, entered as a witness (a source)
 % @input fixes/2 | candidate only: fixes(Witness, Q), a liturgy treated as settling a doctrinal question
 % @input rests_on_liturgy/2 | rests_on_liturgy(Claim, Witness): a claim of the ordinary universal magisterium argued from a prayer
