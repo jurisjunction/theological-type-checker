@@ -1,0 +1,137 @@
+#!/usr/bin/env python3
+"""Write each rule file as an L source, once (TTC-L, METHOD 1).
+
+Every tag is lifted to a declaration only where the declaration renders
+the line exactly; anything else stays in a fence. Each `#program` block
+opens a fence with a `part` before it, its kind as server._kind gives it
+(SO2 checks the kinds by hand). An `@input` tag becomes `slot` in the
+file that declares the slot (the lowest layer whose rules read it, first
+by file order within the layer), `use` everywhere else.
+
+    tools/lp2l            write src/theological_type_checker/l/*.l
+    tools/lp2l --check    write nothing; fail unless every file round-trips
+"""
+import pathlib
+import re
+import sys
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "src"))
+
+from theological_type_checker import engine, lang, server  # noqa: E402
+
+FILE_LAYER = {
+    "kernel_core.lp": "kernel", "kernel_analogy.lp": "kernel", "kernel_world.lp": "kernel",
+    "icon_theory.lp": "theory", "icon_models.lp": "theory", "icon_tests.lp": "theory",
+    "schools.lp": "schools", "icon_metaphysics.lp": "schools",
+    "icon_authority.lp": "authority", "icon_history.lp": "authority",
+    "act.lp": "libraries", "law.lp": "libraries", "moral.lp": "libraries", "grace.lp": "libraries",
+    "christ.lp": "libraries", "sacrament.lp": "libraries", "faith.lp": "libraries",
+    "saeculum.lp": "libraries", "sources.lp": "libraries", "liturgy.lp": "libraries",
+    "novissima.lp": "libraries", "empirica.lp": "libraries",
+    "canon_law.lp": "canon", "canon_cceo.lp": "canon", "canon_cases.lp": "canon",
+    "pair.lp": "pair", "library.lp": "library",
+}
+
+TAGS = [
+    (re.compile(r"^%  @library  \(read by norms\.py: its predicates count as defined\)$"), lambda m: ("library", "")),
+    (re.compile(r"^% @input ([a-z_][a-z0-9_]*/\d+) \| (.*)$"), lambda m: ("input", m.group(1), m.group(2))),
+    (re.compile(r"^% @norm (.*)$"), lambda m: ("norm", m.group(1))),
+    (re.compile(r"^% @end$"), lambda m: ("end", "")),
+    (re.compile(r"^% @temporal (\S+)$"), lambda m: ("temporal", m.group(1))),
+    (re.compile(r"^% @recursive (\S+)$"), lambda m: ("recursive", m.group(1))),
+    (re.compile(r"^% @stratum (\S+ \S+)$"), lambda m: ("stratum", m.group(1))),
+]
+
+
+def declaring_files(texts):
+    """sig -> the file that declares it as a slot."""
+    derived, reads = set(), {}
+    for f, t in texts.items():
+        s = engine.signatures(t, f)
+        derived |= s["derived"]
+        reads[f] = s["reads"]
+    order = sorted(texts, key=lambda f: (lang.LAYERS.index(FILE_LAYER[f]), engine.FILES.index(f)))
+    out = {}
+    for f in order:
+        for sig in reads[f]:
+            if sig not in derived:
+                out.setdefault(sig, f)
+    return out
+
+
+def blocks_in(text):
+    """name -> block text, for each #program block of one file."""
+    lines = text.split("\n")
+    starts = [i for i, l in enumerate(lines) if re.match(r"#program\s+\w+\s*\.", l)]
+    out = {}
+    for k, i in enumerate(starts):
+        end = starts[k + 1] if k + 1 < len(starts) else len(lines)
+        out.setdefault(re.match(r"#program\s+(\w+)", lines[i]).group(1), "\n".join(lines[i:end]))
+    return out
+
+
+def convert(name, text, declaring, declared):
+    blocks = blocks_in(text)
+    items = [lang.Layer(FILE_LAYER[name], name, 0)]
+    fence = None
+    for line in text.split("\n")[:-1]:
+        assert line not in (lang.FENCE_OPEN, lang.FENCE_CLOSE), line
+        decl = None
+        for rx, make in TAGS:
+            m = rx.match(line)
+            if not m:
+                continue
+            kind, *args = make(m)
+            if kind == "input":
+                sig, note = args
+                n, a = sig.split("/")
+                if declaring.get((n, int(a))) == name and (n, int(a)) not in declared:
+                    decl = lang.Slot(sig, name, 0)
+                    decl.attrs["means"] = note
+                    declared.add((n, int(a)))
+                else:
+                    decl = lang.Use(f"{sig} {lang._quote(note)}", name, 0)
+            else:
+                decl = lang.KINDS[kind](args[0], name, 0)
+            if decl.render() != [line]:          # lift only what renders exactly
+                decl = None
+            break
+        prog = re.match(r"^#program\s+(\w+)\s*\.", line)
+        if decl is not None:
+            items.append(decl)
+            fence = None
+        elif prog:
+            items.append(lang.Part(server._kind(prog.group(1), name, blocks[prog.group(1)]), name, 0))
+            fence = lang.Fence([line], name, 0)
+            items.append(fence)
+        else:
+            if fence is None:
+                fence = lang.Fence([], name, 0)
+                items.append(fence)
+            fence.lines.append(line)
+    src = lang.Source(name, items)
+    return src.text()
+
+
+def main(argv):
+    texts = {f: (engine.LP_DIR / f).read_text() for f in engine.FILES}
+    declaring = declaring_files(texts)
+    declared = set()
+    out = {name: convert(name, text, declaring, declared) for name, text in texts.items()}
+    bad = [n for n, l_text in out.items() if lang.parse(l_text, n).compile() != texts[n]]
+    if bad:
+        print("does not round-trip:", ", ".join(bad), file=sys.stderr)
+        return 1
+    if "--check" in argv:
+        print(f"{len(out)} files round-trip")
+        return 0
+    lang.L_DIR.mkdir(exist_ok=True)
+    for name, l_text in out.items():
+        (lang.L_DIR / (name[:-3] + ".l")).write_text(l_text)
+    print(f"wrote {len(out)} sources to {lang.L_DIR.relative_to(ROOT)}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

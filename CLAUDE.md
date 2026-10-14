@@ -7,7 +7,10 @@
 ## DESCRIPTION
 
 This is a deterministic checker for theological and canonical claims
-(clingo). The rule base is in `src/theological_type_checker/lp/`:
+(clingo). The rule base is written in L (`src/theological_type_checker/l/*.l`,
+[ttc-l(1)](docs/l.md)) and compiled to `src/theological_type_checker/lp/`,
+which stays checked in and is what the solver reads. Edit the `.l` file,
+then `ttc-l build`; never edit a rule file by hand (`ttc-l check` fails):
 
 | Layer | Files |
 | --- | --- |
@@ -21,7 +24,7 @@ This is a deterministic checker for theological and canonical claims
 | library | `library.lp` |
 
 The suite is `suite.py`, the server is `server.py`, the fetch lists are
-`library.py`, the norm graph is `norms.py`. The runtimes are
+`library.py`, the norm graph is `norms.py`, the compiler is `lang.py`. The runtimes are
 `engine.RUNTIMES`; their boot and pair tables are `schools.py`.
 
 ## COMMANDS
@@ -35,6 +38,8 @@ ttc-schools
 ttc-check sspx lattice
 ttc-library ic --near 41.90,12.45
 ttc-coverage --write
+ttc-l build
+ttc-l check
 ```
 
 The personal layer is `$TTC_HOME` (default `~/.ttc` if present). Tests run
@@ -55,7 +60,8 @@ with it disabled.
    `% @norm id | citation | URL`. Texts come from iuscangreg
    (https://www.iuscangreg.it/: `cic1983.php`, `diritto_tutto.php`,
    `risposte.php`, `cic1917.php`) or vatican.va. Declare new slots with
-   `% @input`.
+   `% @input`. In L: `norm id | citation | URL`, and `slot` (or `use`),
+   which compile to those tags.
 5. **A test per rule.** Each rule needs a test that fails without it. Keep
    CL1 and PR4 clean.
 6. **Hypothetical facts go in switch programs only,** marked `HYPOTHETICAL`.

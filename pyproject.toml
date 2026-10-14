@@ -29,6 +29,7 @@ ttc-check = "theological_type_checker.cli:main"
 ttc-library = "theological_type_checker.library:main"
 ttc-schools = "theological_type_checker.schools:main"
 ttc-coverage = "theological_type_checker.coverage:main"
+ttc-l = "theological_type_checker.lang:main"
 
 [project.urls]
 Repository = "https://radicle.network/nodes/iris.radicle.network/rad:z9REkMbmisawZ51TYM8PxU9FK3jZ"
@@ -37,4 +38,4 @@ Repository = "https://radicle.network/nodes/iris.radicle.network/rad:z9REkMbmisa
 where = ["src"]
 
 [tool.setuptools.package-data]
-theological_type_checker = ["lp/*.lp", "guide.md"]
+theological_type_checker = ["lp/*.lp", "l/*.l", "guide.md"]

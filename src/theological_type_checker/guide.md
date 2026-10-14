@@ -14,6 +14,10 @@ A case is an ordered pair. The **theology** side comes first; the **canon**
 side is ordered to it. Never mix them: teaching facts go on the theology
 side, juridical facts on the canon side.
 
+Facts and snippets are clingo. The base itself is written in L and
+compiled to clingo (ttc-l(1)); `read_part` shows the
+compiled text.
+
 ## WORKFLOW
 
 1. Find the nearest case with `list_parts` and `read_part`. `sspx` and

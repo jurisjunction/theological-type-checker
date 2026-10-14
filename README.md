@@ -10,6 +10,7 @@
 ttc-suite [--md file] [--show id] [--with part]
 ttc-check [part ...] [--facts file] [--branches n] [--list]
 ttc-library [part ...] [--near lat,lon | place] [--csv file] [--no-reading]
+ttc-l build | check
 ttc-mcp
 ```
 
@@ -37,7 +38,8 @@ Encoding is interpretation. Checking is mechanical. Do not confuse them.
 **ttc-schools** boots each school alone and in pairs.
 **ttc-library** prints a fetch list of physical copies, with the nearest
 library first. **ttc-coverage** maps the Catechism, article by article, to
-what the base holds ([ttc-coverage(7)](docs/coverage.md)). **ttc-mcp**
+what the base holds ([ttc-coverage(7)](docs/coverage.md)). **ttc-l**
+compiles the rule base from its L sources ([ttc-l(1)](docs/l.md)). **ttc-mcp**
 serves all of it to a language model. The model
 reads the texts; **ttc** computes what follows.
 
