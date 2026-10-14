@@ -386,8 +386,9 @@ beyond those this step touches.
 
 Appended stage by stage. Predictions committed in e69e70a, stamped in
 4357243. Stage 1 (RG) is 3fc3601, stage 2 (RU) 0b7ad94, stage 3 (SO, LY)
-2796019, stage 4 (TY) 567c741, stage 5 (OF, SY) d2cf622; stage 6 (IS)
-the commit that adds its row.
+2796019, stage 4 (TY) 567c741, stage 5 (OF, SY) d2cf622, stage 6 (IS)
+3b43a2b, with FD4 restated in e84749b; stage 7 (M5) the commit that adds
+its row.
 
 | | Result |
 | --- | --- |
@@ -417,6 +418,7 @@ the commit that adds its row.
 | M1 (OF, SY) | Held: no rule file changed byte for byte, so no output did. |
 | IS1 | Held: `act.l` names every `interior/3` supplied, and every one disputed, in every branch (two rules, each with a test that fails without it). In the snapshot the only change is these atoms, in 83 scenarios: the 80 whose parts supply or dispute an interior, and three of `c915_case` (MS3, MS5, MS5b), where c. 916 itself disputes one. No rule reads the atom (a test); nothing about the interior is derived. |
 | M1 (IS) | Held: only the atoms IS1 predicted. One test went red, FD4 (rule 7): it asked that no atom name `doubt_r`, meaning no censure and no canon, and the new atom names the pertinacity the case claims for it. The name is left aside; the check is otherwise as it was. |
+| M5 | Held but for the gate: `ttc://grammar` reads L (slots with their sorts, side, file, meaning and sentence; sorts with their values; parts with kind and case; runtimes with parents and combinators), keeps its caveat, and gains `grammar_schema` 2; `schema` stays 1. `conclusion` joins the refusal's gates at CG. `list_parts` reads each part's kind and case from L too, so the nine cases of SO2 now list as cases; the personal layer, which stays clingo, keeps the old reading by name. One expectation restated (rule 7): the grammar's runtimes give their parts under `parts`. |
 
 ### The slot, amended (SO1; rule 7)
 

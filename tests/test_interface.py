@@ -153,12 +153,38 @@ def test_the_grammar_is_read_off_the_checker():
     assert [t["file"] for t in g["slots"]["source/4"]["tags"]] == ["icon_authority.lp", "faith.lp", "sources.lp",
                                                                    "empirica.lp"]
     assert g["parts"]["galileo"]["kind"] == "case" and g["parts"]["galileo"]["file"] == "icon_history.lp"
-    assert g["runtimes"] == {k: list(v) for k, v in engine.RUNTIMES.items()}
+    # TTC-L M5 (rule 7): grammar_schema 2 gives each runtime its parents and
+    # combinators beside its parts; the parts are as before
+    assert {k: v["parts"] for k, v in g["runtimes"].items()} == {k: list(v) for k, v in engine.RUNTIMES.items()}
     assert {"parts", "facts"} <= set(g["tools"]["check"]["parameters"]["properties"])
     assert set(g["refusal"]["fields"]) == set(engine.REFUSAL_FIELDS)
     assert set(g["slots"]) <= set(g["vocabulary"])
     assert g["vocabulary"]["source/4"]["read"] and g["vocabulary"]["violation/1"]["shown"]
     assert "claim" in g["caveat"]
+
+
+def test_the_grammar_reads_l():
+    # TTC-L M5: slots with their sorts, side, file, meaning and sentence;
+    # closed sorts with their values; parts with kind and case; runtimes with
+    # parents and combinators; the caveat kept
+    pytest.importorskip("mcp")
+    from theological_type_checker import server
+    g = json.loads(server.grammar_resource())
+    assert g["grammar_schema"] == 2 and g["schema"] == 1
+    src = g["slots"]["source/4"]
+    assert [(a["name"], a["sort"]) for a in src["args"]] == [("S", "source"), ("T", "tier"), ("F", "force"),
+                                                             ("Y", "year")]
+    assert (src["side"], src["file"], src["layer"]) == ("theology", "icon_authority.lp", "authority")
+    assert src["say"] == "{S} is a source at tier {T}, of force {F}, from {Y}"
+    assert g["slots"]["interior/3"]["side"] == "either" and "in_force/1" not in g["slots"]
+    assert g["sorts"]["tier"]["range"] == [0, 5] and g["sorts"]["force"]["values"] == ["truth", "juridical",
+                                                                                         "protective"]
+    assert g["sorts"]["source"]["closed"] is False
+    assert (g["parts"]["trolley"]["kind"], g["parts"]["trolley"]["of"]) == ("switch", "life_sources")
+    assert g["parts"]["act_fear"]["kind"] == "case" and g["parts"]["galileo"]["of"] is None
+    assert g["runtimes"]["palamite"]["extends"] == ["default"] and ["exclude", "one_power"] in g["runtimes"][
+        "palamite"]["ops"]
+    assert "act_fear" in {r["part"] for r in server.list_parts("case")}
 
 
 def _top_args(s):

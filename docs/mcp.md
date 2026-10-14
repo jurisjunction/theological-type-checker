@@ -94,7 +94,7 @@ uses this to decide when to ask the person first.
 | Tool | Does |
 | --- | --- |
 | `guide` | The encoding manual, [ttc-encoding(5)](encoding-guide.md). Read it first. |
-| `list_parts`, `read_part` | Models, cases, switches, candidates; the source of one. |
+| `list_parts`, `read_part` | Models, cases, switches, candidates, each with its kind and case (L's; the personal layer's by name); the source of one. |
 
 ### Checking
 
@@ -135,7 +135,7 @@ uses this to decide when to ask the person first.
 | --- | --- |
 | `ttc://guide` | The encoding manual. |
 | `ttc://rules/{file}` | One rule file. |
-| `ttc://grammar` | What the checker declares about itself: slots and their tags, the vocabulary, outputs, parts, runtimes, tools and their arguments, the refusal's fields and gates, the summary's schema. |
+| `ttc://grammar` | What the checker declares about itself, read off L (`grammar_schema` 2): slots with their sorts, sides, meanings, sentences and tags; sorts; the vocabulary; outputs; parts with their kinds and cases; runtimes with their parents and combinators; tools and their arguments; the refusal's fields and gates; the summary's schema. |
 
 ## RESULTS
 

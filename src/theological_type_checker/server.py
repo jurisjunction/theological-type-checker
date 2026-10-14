@@ -99,6 +99,24 @@ def _part_blocks():
     return out
 
 
+@functools.lru_cache(maxsize=1)
+def _l_parts() -> dict:
+    """name -> (kind, case) for the base's parts, read off L (TTC-L M5)."""
+    out = {}
+    for src in lang.sources().values():
+        for p in src.decls(lang.Part):
+            out.setdefault(p.name, (p.kind, p.of))
+    return out
+
+
+def _part_kind(name, f, block):
+    """A part's kind and case: the base's from L; the personal layer's,
+    which stays clingo, by its name and file."""
+    if not f.startswith("personal/") and name in _l_parts():
+        return _l_parts()[name]
+    return _kind(name, f, block), None
+
+
 def _kind(name, f, block):
     if name.startswith("asof_"):
         return "date"
@@ -206,16 +224,16 @@ def list_parts(kind: str | None = None) -> list[dict]:
     """
     rows = []
     if kind in (None, "runtime"):
-        rows += [{"part": f"rt_{n}", "kind": "runtime", "file": "engine.py", "note": ", ".join(ps) or "no runtime",
-                  "questions": []} for n, ps in engine.RUNTIMES.items()]
+        rows += [{"part": f"rt_{n}", "kind": "runtime", "of": None, "file": "schools.l",
+                  "note": ", ".join(ps) or "no runtime", "questions": []} for n, ps in engine.RUNTIMES.items()]
         if kind == "runtime":
             return rows
     for name, (f, comment, block) in _part_blocks().items():
-        k = _kind(name, f, block)
+        k, of = _part_kind(name, f, block)
         if kind and k != kind:
             continue
         qs = sorted(set(re.findall(r"question\((q\([^)]*\)+)\)", block)))
-        rows.append({"part": name, "kind": k, "file": f, "note": comment, "questions": qs})
+        rows.append({"part": name, "kind": k, "of": of, "file": f, "note": comment, "questions": qs})
     return rows
 
 
@@ -399,7 +417,7 @@ def theology_frontier() -> list[str]:
     """Frontier items of the theological side, across every case part."""
     found = set()
     for name, (f, _, block) in _part_blocks().items():
-        if _kind(name, f, block) != "case":
+        if _part_kind(name, f, block)[0] != "case":
             continue
         for a in engine.solve([name], "one")["atoms"]:
             if a.startswith("frontier(theology,"):
@@ -605,25 +623,37 @@ def rules_resource(file: str) -> str:
     return texts[file]
 
 
+GRAMMAR_SCHEMA = 2   # the resource's shape: 1 as first served (3440b0b), 2 read off L (TTC-L M5)
 GRAMMAR_CAVEAT = ("The checker's word about itself: a claim, never evidence that it is right. "
                   "Nothing in the rule base reads it.")
 
 
 def grammar() -> dict:
-    """What the checker declares about itself, read off the rule files and
-    the server: the summary's schema; the slots the @input tags declare,
-    each with every tag (file and text) and the longest text as its
-    meaning; the vocabulary (every
-    predicate of the base, and what the base does with it: the gate's
-    known set); the outputs; the parts; the runtimes; the tools with their
-    arguments; the refusal's fields and gates; the warnings."""
+    """What the checker declares about itself, read off L and the server
+    (TTC-L M5): the shape of this resource (`grammar_schema`) and of the
+    summary (`schema`); the slots, each with its sorted arguments, side,
+    file, meaning, sentence and every tag that names it; the sorts, closed
+    with their values; the vocabulary (every predicate of the base, and
+    what the base does with it: the gate's known set); the outputs; the
+    parts, each with its kind and case; the runtimes, with their parents
+    and combinators; the tools with their arguments; the refusal's fields
+    and gates; the warnings. Nothing in the rule base reads it."""
     texts = engine.base_texts()
     tags = {}
     for f, t in texts.items():
         for m in engine._TAG_INPUT.finditer(t):
             tags.setdefault(f"{m.group(1)}/{m.group(2)}", []).append((f, " ".join(m.group(3).split())))
-    slots = {sig: {"meaning": max((d for _, d in rows), key=len),
-                   "tags": [{"file": f, "meaning": d} for f, d in rows]} for sig, rows in tags.items()}
+    srcs = lang.sources()
+    slots = {}
+    for (n, a), d in lang.slots(srcs).items():
+        sig = f"{n}/{a}"
+        slots[sig] = {"file": d.where[:-2] + ".lp", "layer": d.layer, "side": d.side,
+                      "meaning": d.attrs["means"], "say": d.attrs["say"],
+                      "args": [{"name": x, "sort": s} for x, s in d.args or []],
+                      "tags": [{"file": f, "meaning": m} for f, m in tags.get(sig, [])]}
+    sorts = {s.name: {"file": s.where[:-2] + ".lp", "means": s.attrs.get("means", ""), "closed": s.closed,
+                      "values": list(s.values) if s.values else None, "range": list(s.range) if s.range else None}
+             for s in lang.all_sorts(srcs).values()}
     v = engine.vocabulary()
     every = v["heads"] | v["reads"] | v["shown"] | v["tagged"]
     vocab = {f"{n}/{a}": {"written": (n, a) in v["heads"], "read": (n, a) in v["reads"],
@@ -631,19 +661,25 @@ def grammar() -> dict:
                           "tagged": (n, a) in v["tagged"]} for n, a in every}
     parts = {}
     for name, (f, comment, block) in _part_blocks().items():
-        parts[name] = {"file": f, "kind": _kind(name, f, block), "note": comment,
+        kind, of = _part_kind(name, f, block)
+        parts[name] = {"file": f, "kind": kind, "of": of, "note": comment,
                        "questions": sorted(set(re.findall(r"question\((q\([^)]*\)+)\)", block)))}
+    declared = lang.compile_runtimes(srcs)["declared"]
+    runtimes = {k: {"parts": list(ps), "extends": declared.get(k, {}).get("extends", []),
+                    "ops": declared.get(k, {}).get("ops", [])} for k, ps in engine.RUNTIMES.items()}
     tools = {t.name: {"description": inspect.cleandoc(t.description or ""), "parameters": t.parameters}
              for t in server._tool_manager.list_tools()}
     return engine.stable({
         "caveat": GRAMMAR_CAVEAT,
+        "grammar_schema": GRAMMAR_SCHEMA,
         "schema": engine.SCHEMA,
         "version": __version__,
         "slots": slots,
+        "sorts": sorts,
         "vocabulary": vocab,
         "outputs": sorted(f"{n}/{a}" for n, a in v["shown"]),
         "parts": parts,
-        "runtimes": {k: list(ps) for k, ps in engine.RUNTIMES.items()},
+        "runtimes": runtimes,
         "tools": tools,
         "refusal": {"fields": list(engine.REFUSAL_FIELDS), "gates": dict(engine.REFUSAL_GATES)},
         "warnings": {"unknown_slot": inspect.cleandoc(engine.unknown_slots.__doc__)},

@@ -300,9 +300,11 @@ A refused run returns one JSON object: `refused`, `gate`, `where` (`facts`,
 | `layer` | A slot of the other side of a case (THE PAIR): each slot's side is its layer's, and a library's slots (`interior/3`, `act_of/2`) go on either (ttc-l(1)). |
 | `input` | An argument the tool cannot take. |
 
-Results come with their keys sorted. `ttc://grammar` holds the slots with
-their tags, the vocabulary the warning reads, the parts, the runtimes,
-the tools and the schema.
+Results come with their keys sorted. `ttc://grammar`, read off L, holds
+the slots with their sorts, sides, meanings and sentences; the sorts; the
+vocabulary the warning reads; the parts with their kinds and cases; the
+runtimes with their parents; the tools; `grammar_schema` (its own shape,
+2) and `schema` (the summary's).
 
 ## EXAMPLES
 
