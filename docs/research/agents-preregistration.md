@@ -151,3 +151,43 @@ be detected.
 ## SEE ALSO
 
 [ttc-l(7)](l-preregistration.md) (CG7), [ttc-office(7)](office-preregistration.md)
+
+## SCORING
+
+Run on 15 October 2026 with the checker at d9d5942, scored after all
+runs ended. An independent re-score (separate code, raw files only)
+reproduced every count.
+
+| Hypothesis | Result | Evidence |
+| --- | --- | --- |
+| H1 | held | D in coverage, 126 pairs: 80.2% unaided, 92.1% with the checker; b = 16, c = 1, McNemar p = 0.0003; bootstrap 95% CI +4.0 to +21.4 points. Haiku +21.4, Sonnet +14.3, Opus 0 (95.2% both) |
+| H2 | held in part | D out of coverage: 94.7% against 95.6%. D03 failed: all six checker sessions named the missing 1967 text and overrode the checker |
+| H3 | failed | 37.0% against 42.6% abstention, p = 0.38. I28, O03, O15 and D13 never answered undetermined |
+| H4 | held | no `priest/1` refusal; premises read in 98.3% (Haiku), 96.0% (Sonnet), 94.8% (Opus) of 1,101 calls; two refused at the conclusion gate |
+| H5 | held in part | Opus no difference; I05, I06 right in all six checker sessions; Sonnet +10.9 on Q in coverage, p = 0.016 (p = 0.07 on the pilot's key) |
+| H6 | held | Sonnet and Opus 78/80 in both conditions; Haiku unaided failed twice (64,000-token output limit), scored missing; no charter violation but three unquoted CSV rows |
+
+Deviations are logged with their times in the study's run log: the
+manual served in three parts after the permission classifier blocked
+paging (set D checker sessions relaunched); one scoring rule for
+mistyped codes (three lines).
+
+### Not predicted
+
+- **D13 is settled in the base.** CCEO c. 828 is applied to the Eastern
+  party at every date, so a Latin-Eastern wedding before a delegated
+  deacon in 2012 is invalid in every branch. The two codes disagreed
+  until 2016 and the item is keyed undetermined; all six checker
+  sessions followed the base.
+- **Silence binds.** A delegation or a date the case leaves open cannot
+  be held open (`disputed/1` admits a few predicates only). D08 and D40
+  come out determinate unless the agent runs both values.
+- **A missing text is not reported.** For a deacon in 1975 the base
+  applies the 1917 rule without saying that the 1967 text is not
+  encoded. Asked directly, every agent caught it; in the register, one
+  followed it (E09).
+- **Read is not used.** A premise under a fresh constant is read and
+  derives nothing (the library's abortion rule fires on its own
+  constant); the premises report does not show it.
+- **Overrides.** Haiku overrode the checker on 52 of 176 answers and was
+  wrong on 15, twice against a correct result (D07, D08).
