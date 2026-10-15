@@ -86,3 +86,29 @@ built-in advantage as the checker's.
 ## SEE ALSO
 
 [ttc-agents(7)](agents-preregistration.md)
+
+## SCORING
+
+Run on 15 October 2026, 10:33 to 10:46 UTC, after the stamp (40f1254);
+six sessions, all complete. Scored with `harness/ablation.py` as hashed.
+
+| Hypothesis | Result | Evidence |
+| --- | --- | --- |
+| H7 | held | D in coverage, 126 pairs: unaided 80.2%, manual only 89.7%, checker 92.1%. Manual against unaided +9.5 (b = 15, c = 3, p = 0.008); checker against manual +2.4 (b = 5, c = 2, p = 0.45) |
+| H8 | held | D04, D05, D12, D18: manual only 6/6, as the checker; D07, D08: manual only 4/6, as unaided (checker 5/6) |
+| H9 | held | D out of coverage: 94.7% unaided and manual only |
+
+The manual alone recovers four-fifths of the checker's gain on these
+items. The solver adds little that the study can detect, and only where
+the manual does not state a date.
+
+### Not predicted
+
+- **D40 goes the other way.** Manual only 6/6, checker 4/6: without
+  the checker's closed-world answer, Haiku answered undetermined.
+- **The scorer's output.** In the m-against-c block a key collides:
+  the checker's accuracy is overwritten by the discordant count. The
+  tests are unaffected.
+- **No session tried `check`.** One Haiku session wrote its answers in
+  batches; one Sonnet session misplaced a code (matched by q) and
+  printed the wrapper once.
