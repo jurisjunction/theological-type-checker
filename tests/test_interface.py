@@ -173,7 +173,8 @@ def test_the_grammar_reads_l():
     pytest.importorskip("mcp")
     from theological_type_checker import server
     g = json.loads(server.grammar_resource())
-    assert g["grammar_schema"] == 2 and g["schema"] == 1
+    # the summary's schema restated (rule 7): 2 since `premises` (CG7)
+    assert g["grammar_schema"] == 2 and g["schema"] == 2
     src = g["slots"]["source/4"]
     assert [(a["name"], a["sort"]) for a in src["args"]] == [("S", "source"), ("T", "tier"), ("F", "force"),
                                                              ("Y", "year")]

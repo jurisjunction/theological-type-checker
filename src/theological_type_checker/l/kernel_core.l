@@ -76,6 +76,10 @@ slot angel(X: entity)
   means "angel(X): X is an angel, a spiritual created person (DH 800)"
   say "{X} is an angel"
 
+slot being(P: entity, X: entity)
+  means "being(P, X): a claim that P gives X its being; the kernel derives it from God for every creature (A1)"
+  say "{P} gives {X} its being"
+
 slot bodily(M: presence_mode)
   means "bodily(M): a mode of presence that is bodily (natural, sacramental)"
   say "presence in the mode {M} is bodily"
@@ -92,9 +96,17 @@ slot conjoined(Y: entity, X: entity)
   means "conjoined(Y, X): Y joined to X as another subject (Nestorius)"
   say "{Y} is joined to {X} as another subject"
 
+slot created_person(X: entity)
+  means "created_person(X): X is a created person, human or angelic"
+  say "{X} is a created person"
+
 slot denies(X: entity, P: category)
   means "denies(X, P): a claim that X lacks P (a human will, a human operation)"
   say "{X} is claimed to lack {P}"
+
+slot denies_image(X: entity, R: category)
+  means "denies_image(X, R): a claim denying X the image of God, for the reason R"
+  say "{X} is denied the image of God, for {R}"
 
 slot descends_from(P: entity, Adam: entity)
   means "descends_from(P, adam): P descends from Adam by generation"
@@ -103,6 +115,14 @@ slot descends_from(P: entity, Adam: entity)
 slot distinguishes(C: claim, P: predicate, A: entity, B: entity)
   means "distinguishes(C, P, A, B): claim C that the predicate P distinguishes A from B"
   say "{C} claims {P} distinguishes {A} from {B}"
+
+slot divine(X: entity)
+  means "divine(X): X is a divine person"
+  say "{X} is a divine person"
+
+slot gen(A: act, Source: entity, Term: entity)
+  means "gen(A, Source, Term): Source contributes to the origin of Term in the act A"
+  say "in {A}, {Source} contributes to the origin of {Term}"
 
 slot god(G: entity)
   means "god(G): G is God"
@@ -127,6 +147,10 @@ slot incarnate(X: entity)
 slot lacks(X: entity, P: category)
   means "lacks(X, P): a claim that X lacks P (a rational soul)"
   say "{X} is claimed to lack {P}"
+
+slot less(X: entity, Y: entity)
+  means "less(X, Y): a claim that X ranks below Y"
+  say "{X} is claimed to rank below {Y}"
 
 slot next(E1: event, E2: event)
   means "next(E1, E2): E2 follows E1 in the order of events"

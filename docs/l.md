@@ -80,7 +80,9 @@ A snippet, or a case saved with `save_case`, writes premises: the slots,
 helpers of its own, and constraints that read only those and `read_as/2`.
 A head on what the base derives or shows and no slot declares, or a
 constraint that reads it, directly or through a helper, is refused at the
-gate `conclusion`, naming the predicate. A slot declared `hypothetical` is
+gate `conclusion`, naming the predicate and the slots it is drawn from.
+`check` reports which of a snippet's predicates the base reads
+(`premises`). A slot declared `hypothetical` is
 written only in a part whose `#program` line is marked HYPOTHETICAL (house
 rule 6), never in a snippet; another part writing it does not compile.
 `fix_method` and `save_rules` are not gated: they change the theory, and
@@ -151,3 +153,6 @@ it was written, and often repeats the arguments.
 hypothetical cases with their own questions, four candidates, and ten
 parts on Christ, grace and presence filed with the canon cases (house
 rule 1). A test lists them; they are to be split.
+
+`of_kind/2` is the pair's conclusion, and two parts write it as a fact;
+a snippet cannot. It is to be split.

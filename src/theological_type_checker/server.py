@@ -263,13 +263,16 @@ def check(parts: list[str], facts: str = "", max_branches: int = 30, max_models:
     Returns, per question and value, settled / open / shadow / excluded and
     the value preferred by weight. It also returns the violations and notes
     found in every branch or only in some, and the branches themselves, each
-    with what it rests on, what cleaves it, and what would bring it back.
+    with what it rests on, what cleaves it, and what would bring it back;
+    and `premises`: which of your predicates the base reads, and which it
+    does not (a fact under an unread one computes nothing).
     Set optimize=True only for the search parts (lateran, rescue_*).
     """
     r = _run(parts, facts, max_models, timeout_s, optimize)
     if optimize:
         return {"schema": engine.SCHEMA, "satisfiable": r["sat"], "optimal_cost": r["cost"], "atoms": r["atoms"],
-                "violations": r["violations"], "truncated": r["truncated"], "warnings": r["warnings"]}
+                "violations": r["violations"], "truncated": r["truncated"], "warnings": r["warnings"],
+                "premises": r["premises"]}
     return engine.summary(r, max_branches)
 
 

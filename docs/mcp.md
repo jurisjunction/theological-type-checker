@@ -100,7 +100,7 @@ uses this to decide when to ask the person first.
 
 | Tool | Does |
 | --- | --- |
-| `check` | Run parts plus new facts: statuses, violations, branches. |
+| `check` | Run parts plus new facts: statuses, violations, branches, and which of the facts' predicates the base reads (`premises`). |
 | `compare` | Two configurations, and only what differs between them. |
 | `run_suite` | The regression suite. |
 | `read_test` | One test: its parts, its checks' source. Open every test a change turns red. |

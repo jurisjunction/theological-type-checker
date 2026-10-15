@@ -533,10 +533,12 @@ def test_nothing_reads_the_domains_but_the_domain_rules():
 
 
 def test_the_gate_knows_no_more_than_before():
-    # TY4: in_sort/2 is L's, not a case's; the summary's schema stays 1
+    # TY4: in_sort/2 is L's, not a case's, and left the summary's shape alone
+    # (schema 1). Restated (rule 7): the shape changed later, with `premises`
+    # (the gate's fix, CG7), so the schema is 2; in_sort/2 still adds nothing.
     assert engine.unknown_slots("in_sort(force,bogus).") == ["unknown_slot(in_sort/2)"]
     assert engine.unknown_slots("source(s,3,truth,2000).") == []
-    assert engine.SCHEMA == 1
+    assert engine.SCHEMA == 2
 
 
 # ---------- OF, SY: parts and their cases; sentences ------------------------
@@ -735,6 +737,52 @@ def test_a_hypothetical_slot_is_written_only_in_a_part_marked_so():
 def test_the_gates_name_conclusion():
     # M5
     assert "conclusion" in engine.REFUSAL_GATES
+
+
+# CG7 (SCORING, the gate's fix): what the base's own cases enter as premises,
+# and the base reads, a case may enter too. Before the fix each was refused.
+CLAIM_VOCABULARY = [
+    ("marriage(m,pr,20190615). spouse(m,(a;b)). priest(pr).", "priest/1"),
+    ("created_person(x).", "created_person/1"),
+    ("divine(father). divine(son). gen(begetting,father,son).", "divine/1"),
+    ("god(g). created_person(p). being(demiurge,p).", "being/2"),
+    ("less(peter,gabriel).", "less/2"),
+    ("denies_image(embryo,not_yet_born).", "denies_image/2"),
+    ("held_for(church,child,son).", "held_for/3"),
+    ("question(q(x)). question_kind(q(x),doctrinal). law_answers(q(x)).", "law_answers/1"),
+]
+
+
+@pytest.mark.parametrize("facts,pred", CLAIM_VOCABULARY)
+def test_the_claim_vocabulary_passes_the_gate(facts, pred):
+    engine.conclusion_gate(facts)
+    sig = tuple(pred.split("/"))
+    assert (sig[0], int(sig[1])) in lang.slots(lang.sources())
+
+
+@pytest.mark.parametrize("facts,pred,drawn", [
+    ("info(anything).", "info/1", None),                                  # an output
+    ("of_kind(e,k).", "of_kind/2", None),                                 # the pair's conclusion
+    ("monopatrism.", "monopatrism/0", None),                              # a switch's flag: load its part
+    ("bridge(beauty,div,cr).", "bridge/3", None),                         # a theory's vocabulary
+    ("dispensed(l,x).", "dispensed/2", "dispensation/3"),                # drawn from a premise
+    ("sacred_minister(a).", "sacred_minister/1", "deacon/1"),
+    ("removes_voluntary(p,a,violence).", "removes_voluntary/3", "interior/3"),
+])
+def test_a_conclusion_stays_refused_and_names_its_premises(facts, pred, drawn):
+    # CG7: the refusal names the slots the conclusion is drawn from
+    with pytest.raises(engine.SnippetError) as e:
+        engine.conclusion_gate(facts)
+    assert (e.value.gate, e.value.predicate) == ("conclusion", pred)
+    if drawn:
+        assert drawn in str(e.value).split("drawn from (TTC-L CG): ")[1]
+
+
+def test_the_summary_says_which_premises_the_base_reads():
+    # CG7: a fact under a predicate nothing reads computes nothing, and says so
+    s = engine.summary(engine.run_checked([], "marriage(m,pr,20190615). spouse(m,(a;b)). wedding_day(m)."))
+    assert s["premises"] == {"read": ["marriage/3", "spouse/2"], "unread": ["wedding_day/1"]}
+    assert engine.summary(engine.run_checked([], ""))["premises"] == {"read": [], "unread": []}
 
 
 def test_what_the_grammar_alone_holds_reaches_no_rule_file():

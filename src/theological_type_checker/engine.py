@@ -52,7 +52,7 @@ _ADD: contextvars.ContextVar[str] = contextvars.ContextVar("ttc_add", default=""
 _REMOVE: contextvars.ContextVar[tuple] = contextvars.ContextVar("ttc_remove", default=())
 
 
-SCHEMA = 1     # the shape of check's summary; raised whenever the shape changes
+SCHEMA = 2     # the shape of check's summary; raised whenever the shape changes (2: premises)
 
 REFUSAL_FIELDS = ("refused", "gate", "where", "line", "column", "predicate", "text", "message")
 REFUSAL_GATES = {
@@ -358,6 +358,59 @@ def _premises():
     return _CONCLUSIONS[key]
 
 
+_DRAWN: dict[int, dict] = {}
+
+
+def drawn_from(sig, limit: int = 8) -> list[str]:
+    """The slots a conclusion is drawn from: those read in the bodies of the
+    rules that derive it, followed back through the predicates those rules
+    derive in turn, nearest first, at most `limit`. Named in the gate's
+    refusal, so that one refused knows what to write instead."""
+    slots, concluded, _ = _premises()
+    v = vocabulary()
+    if id(v) not in _DRAWN:
+        by_head: dict = {}
+        for f, t in base_texts().items():
+            def on(st):
+                if st.ast_type == _ast.ASTType.Rule and len(st.body):
+                    loc = {"heads": set(), "reads": set()}
+                    _walk(st.head, "heads", loc, [])
+                    _walk(st.body, "reads", loc, [])
+                    for h in loc["heads"]:
+                        by_head.setdefault(h, set()).update(loc["reads"])
+            _ast.parse_string(t, on, logger=lambda code, msg: None)
+        _DRAWN.clear()
+        _DRAWN[id(v)] = by_head
+    by_head = _DRAWN[id(v)]
+    found, seen, frontier = [], {sig}, [sig]
+    while frontier and len(found) < limit:
+        nxt = []
+        for p in frontier:
+            for r in sorted(by_head.get(p, ())):
+                if r in seen:
+                    continue
+                seen.add(r)
+                if r in slots:
+                    found.append(f"{r[0]}/{r[1]}")
+                elif r in by_head:
+                    nxt.append(r)
+        frontier = nxt
+    return found[:limit]
+
+
+def premises_read(facts: str) -> dict:
+    """Which of a snippet's predicates reach the base: `read`, those some
+    rule of the base reads; `unread`, those neither the base nor the snippet
+    itself reads. A fact under an unread predicate computes nothing."""
+    if not (facts or "").strip():
+        return {"read": [], "unread": []}
+    s = signatures(facts)
+    v = vocabulary()
+    read = sorted(s["heads"] & v["reads"])
+    unread = sorted(s["heads"] - v["reads"] - s["reads"])
+    return {"read": [f"{n}/{a}" for n, a in read], "unread": [f"{n}/{a}" for n, a in unread]}
+
+
 def conclusion_gate(text: str, where: str = "facts") -> None:
     """Premises, not conclusions (TTC-L CG). A snippet, or a side of a case,
     writes premises: declared slots, helpers of its own, and constraints
@@ -399,8 +452,9 @@ def conclusion_gate(text: str, where: str = "facts") -> None:
         if sig in hypothetical:
             message = f"{pred} is hypothetical: written only in a part of the base marked HYPOTHETICAL (rule 6)"
         else:
+            drawn = drawn_from(sig)
             message = (f"{how}{pred} is a conclusion of the base, not a premise: write the premises it is "
-                       "drawn from (TTC-L CG)")
+                       "drawn from (TTC-L CG)" + (": " + ", ".join(drawn) if drawn else ""))
         raise SnippetError(message, "conclusion", where, line, None, pred, _line_of(text, line))
     for line, heads, _, _ in rules:
         for sig in sorted(heads):
@@ -485,7 +539,8 @@ def solve(parts, mode="one", facts="", max_models=0, timeout=None, show=()):
         ctl.ground([("base", [])] + [(p, []) for p in expand_runtimes(parts)] + ([("user", [])] if facts else []))
     except RuntimeError as exc:
         raise _ground_error(logs, facts, extra, exc) from None
-    out = {"models": 0, "atoms": [], "cost": None, "all_models": [], "truncated": False, "warnings": warnings}
+    out = {"models": 0, "atoms": [], "cost": None, "all_models": [], "truncated": False, "warnings": warnings,
+           "premises": premises_read(facts)}
 
     def on_model(m):
         out["models"] += 1
@@ -639,7 +694,7 @@ def summary(r, max_branches=30):
     in every branch or only some, and the branches themselves."""
     bs = r.get("branches") or []
     out = {"schema": SCHEMA, "satisfiable": r["sat"], "stable_models": r["models"], "truncated": r["truncated"],
-           "warnings": list(r.get("warnings", []))}
+           "warnings": list(r.get("warnings", [])), "premises": r.get("premises") or {"read": [], "unread": []}}
     if not r["sat"]:
         out["note"] = "No stable model: the facts are inconsistent with a hard constraint (often a tier-1 text or a fixed reading)."
         return stable(out)

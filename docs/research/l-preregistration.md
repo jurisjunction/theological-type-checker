@@ -584,3 +584,37 @@ repairs. Four findings remain for later steps: the 22 parts of
 `canon_cases.l` that enter theology; the candidate refused twice for a
 mode no one knows; the switches of a switch, which `of` cannot name; and
 the guide's other short lists, left open.
+
+### The gate, repaired (CG7; rule 7)
+
+Found after the stage was scored: the base's own cases enter as premises
+some predicates a rule also derives, which no slot declared, so a
+snippet writing them was refused. Agents encoding marriages, absolutions
+and confirmations met it most: 22 of 30 refusals in one set of runs were
+`priest/1`, a predicate the base derives only from `bishop/1`. Each such
+predicate was read against SO1's rule (a predicate the base reads, which
+the guide gives to enter though a rule derives it):
+
+| Became slots | Why |
+| --- | --- |
+| `priest/1` (`sacrament.l`, the lowest layer that reads it) | the officiant of a marriage, an absolution, a confirmation |
+| `created_person/1`, `divine/1`, `gen/3` (`kernel_core.l`) | the persons and acts of origin the kernel reads |
+| `being/2`, `less/2`, `denies_image/2` (`kernel_core.l`) | claims the kernel refuses where they contradict it |
+| `held_for/3` (`icon_theory.l`), `law_answers/1` (`pair.l`) | as above, in the theory and the pair |
+
+| Stay refused | Why |
+| --- | --- |
+| `info/1`, `of_kind/2` | outputs; `of_kind/2` is the pair's conclusion, though two parts write it (BUGS) |
+| `monopatrism/0`, `gen_policy/1`, `license_policy/1`, `closure_mode/1`, `no_divine_contraction/0`, `distinction/1` | a switch's flag: load its part |
+| `bridge/3`, `mode/3`, `rel/3` | a theory's vocabulary: `fix_method` |
+| `changes/1`, `received/2`, `removes_voluntary/3`, `nupt/2` | drawn from a premise the case enters (`changes_in/2`, `celebrated/4`, `interior/3`, …) |
+| `discerned/3`, `classified_on/3`, `has/2`, `communion/1`, `god_o/3`, `d_edge/3` | read only inside one case or model: load the part |
+| `hypothetical_warrant/1` | hypothetical (CG5) |
+
+The refusal now names the slots a conclusion is drawn from
+(`dispensed/2` from `dispensation/3`), and `check` reports which of a
+snippet's predicates the base reads and which nothing reads
+(`premises`), so a fact that computes nothing is seen to. The summary's
+shape changed with it: `schema` is 2. Two expectations were restated for
+that and nothing else (TY4's schema, and the grammar's); no other
+expectation changed.

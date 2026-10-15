@@ -27,7 +27,7 @@
 % @input simulated/1 | the rite was performed in jest or on a stage: an outward fact
 % @input contrary_intention_manifested/1 | a contrary intention manifested outwardly (Apostolicae curae 33)
 % @input conditional/1 | the celebration was conferred conditionally (c. 845 §2)
-% @input priest/1 | the canon layer's input
+% @input priest/1 | priest(P): P is a priest, a presbyter or a bishop (c. 1009 §1); a bishop is one by derivation
 % @input bishop/1 | the canon layer's input
 % @input faculty_met/1 | canon_law.lp (c. 966 §1, c. 976, c. 144): the faculty to absolve, or the Church's supply
 % @input confirms_by_law_or_faculty/1 | the canon layers (c. 882; CCEO c. 696): a presbyter confirms validly in this celebration

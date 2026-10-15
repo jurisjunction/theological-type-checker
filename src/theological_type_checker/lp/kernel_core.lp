@@ -16,19 +16,25 @@
 % @input acton/2 | acton(X, Y): X acts on the thing Y (relation d)
 % @input allowed/2 | allowed(R, K): the reading R of simplicity admits distinctions of kind K in God
 % @input angel/1 | angel(X): X is an angel, a spiritual created person (DH 800)
+% @input being/2 | being(P, X): a claim that P gives X its being; the kernel derives it from God for every creature (A1)
 % @input bodily/1 | bodily(M): a mode of presence that is bodily (natural, sacramental)
 % @input changes_in/2 | changes_in(X, K): a change said of X in nature K (hum or div)
 % @input claims/5 | claims(C, P, X, Y, R): claim C that X is P (receptive or donative) toward Y in relation R
 % @input conjoined/2 | conjoined(Y, X): Y joined to X as another subject (Nestorius)
+% @input created_person/1 | created_person(X): X is a created person, human or angelic
 % @input denies/2 | denies(X, P): a claim that X lacks P (a human will, a human operation)
+% @input denies_image/2 | denies_image(X, R): a claim denying X the image of God, for the reason R
 % @input descends_from/2 | descends_from(P, adam): P descends from Adam by generation
 % @input distinguishes/4 | distinguishes(C, P, A, B): claim C that the predicate P distinguishes A from B
+% @input divine/1 | divine(X): X is a divine person
+% @input gen/3 | gen(A, Source, Term): Source contributes to the origin of Term in the act A
 % @input god/1 | god(G): G is God
 % @input immutability/1 | immutability(R): God's immutability, as R reads it
 % @input in_nature/2 | in_nature(A, K): the nature K (hum or div) in which the act A is placed
 % @input inanimate/1 | inanimate(X): a creature that merely is
 % @input incarnate/1 | incarnate(X): X is the Son incarnate: divine, of a human nature
 % @input lacks/2 | lacks(X, P): a claim that X lacks P (a rational soul)
+% @input less/2 | less(X, Y): a claim that X ranks below Y
 % @input next/2 | next(E1, E2): E2 follows E1 in the order of events
 % @input organism/1 | organism(X): a living creature
 % @input pred_nature/2 | pred_nature(P, K): the predicate P belongs to nature K

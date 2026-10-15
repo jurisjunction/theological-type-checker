@@ -45,6 +45,10 @@ slot consent(X: entity, Y: entity)
   means "consent(X, Y): X consents to Y"
   say "{X} consents to {Y}"
 
+slot held_for(P: entity, X: entity, Y: entity)
+  means "held_for(P, X, Y): P holds X's consent to Y in trust (an infant's, at baptism)"
+  say "{P} holds the consent of {X} to {Y} in trust"
+
 slot level(X: entity, L: category)
   means "level(X, L): X's level in the order of natures"
   say "{X} is at the level {L}"

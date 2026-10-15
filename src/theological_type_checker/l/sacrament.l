@@ -81,7 +81,9 @@ slot conditional(E: act)
   means "the celebration was conferred conditionally (c. 845 §2)"
   say "{E} was conferred conditionally"
 
-use priest/1 "the canon layer's input"
+slot priest(P: person)
+  means "priest(P): P is a priest, a presbyter or a bishop (c. 1009 §1); a bishop is one by derivation"
+  say "{P} is a priest"
 
 slot bishop(P: person)
   means "the canon layer's input"

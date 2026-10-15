@@ -31,6 +31,10 @@ slot premise(N: norm, Q: question, V: value)
   means "premise(N, Q, V): norm N presupposes V on Q"
   say "{N} presupposes {V} on {Q}"
 
+slot law_answers(Q: question)
+  means "law_answers(Q): a claim that a canon-law result fixes the question Q"
+  say "a canon-law result is claimed to fix {Q}"
+
 slot uncoupled/0
   means "the law applied apart from the theological branch (a candidate)"
   say "the law is applied apart from the theological branch"

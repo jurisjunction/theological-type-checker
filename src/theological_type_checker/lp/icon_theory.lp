@@ -15,6 +15,7 @@
 % @input capable_closing/2 | capable_closing(X, Y): X and Y capable of the closing act (c. 1084)
 % @input closed_in_act/3 | closed_in_act(A, X, Y): X and Y closed in the act A
 % @input consent/2 | consent(X, Y): X consents to Y
+% @input held_for/3 | held_for(P, X, Y): P holds X's consent to Y in trust (an infant's, at baptism)
 % @input level/2 | level(X, L): X's level in the order of natures
 % @input obligate_sexual/1 | obligate_sexual(K): a kind that generates only by two
 % @input performs/4 | performs(A, X, Y, M): in act A, X and Y perform the motif M

@@ -61,6 +61,15 @@ compiled text.
 | `custom_practice/4` and companions | Custom, cc. 23–28. |
 | `salience(S,high)`, `relies_on(A,S)` | Warnings only. |
 
+### Persons and origin
+
+| Fact | Meaning |
+| --- | --- |
+| `god(G)`, `divine(X)`, `created_person(X)` | God; a divine person; a created person, human or angelic. The kernel also derives some (the incarnate is divine; an angel is a created person). |
+| `gen(A,Source,Term)` | Source contributes to the origin of Term in the act A: a begetting, a spiration, a conception. |
+| `being(P,X)`, `less(X,Y)`, `denies_image(X,R)` | Claims: that P gives X its being (the kernel derives it from God for every creature), that X ranks below Y, that X lacks the image of God for the reason R. Refused where the kernel forbids them (`being_from_non_god`, `receiver_ranked_lower`, `image_denied`). |
+| `held_for(P,X,Y)` | P holds X's consent to Y in trust (an infant's, at baptism). |
+
 ### The incarnate
 
 | Fact | Meaning |
@@ -147,7 +156,7 @@ compiled text.
 | `special_gravity(Auth,A)`, `scandal_necessity(Auth,A)` | c. 1399: the authority's two judgments, supplied, never computed; a penalty to be imposed, besides the cases prescribed, on those c. 11 binds. |
 | `transfer(D,P,Date)` | c. 1752: the salvation of souls kept in view; no effect, no weight against the law. |
 | `ascribed(P,C)`, `father/2`, `mother/2`, `agreed(Child,C)` | The Church *sui iuris* that selects the code: recorded, or a child's computed (c. 111 §1; CCEO c. 29 §1). Silence ascribes a Catholic to the Latin Church. The Latin delicts do not reach the Eastern faithful (c. 1); the Eastern layer (`canon_cceo.lp`) imposes its penalties, never incurs them. |
-| `deacon(P)`, `baptized_in(P,orthodox_church)` | The form across the codes: a priest for an Eastern party (CCEO c. 828; c. 1108 §3 from 2016); with an Eastern non-Catholic, the form for liceity only (c. 1127 §1; CCEO c. 834 §2). |
+| `priest(P)`, `deacon(P)`, `baptized_in(P,orthodox_church)` | A priest (a bishop is one by derivation) or a deacon. The form across the codes: a priest for an Eastern party (CCEO c. 828; c. 1108 §3 from 2016); with an Eastern non-Catholic, the form for liceity only (c. 1127 §1; CCEO c. 834 §2). |
 | `faculty_to_confirm(P)`, `typed_ordinary_minister(P,K)` | A presbyter confirms validly by law (an Eastern presbyter, CCEO c. 696 §1) or faculty (c. 882); the ordinary minister is the bishop alone (DH 1630). |
 | `promulgated_elsewhere(L,Date)` | A law promulgated outside the *Acta*: its three months from that publication or from the *Acta*, a disputed reading where they differ. |
 | `enacted_by(B,L)`, `part_of(N,B)`, `revokes(L2,B,Way)`, `reorders(L2,B)`, `directly_contrary(L2,B)`, `doubtful_revocation(L2,B)` | A code at a date is a view: each body of texts enacted by its act, and a rule fires only under the text in force at the event's date. c. 20's three ways (`expressly`, `contrary`, `reorders`); a doubtful revocation is not presumed (c. 21): the earlier text stays in force, and nothing branches. The Code of 1917 is abrogated by c. 6 §1 n. 1; the form of marriage is read from it until 26 November 1983, and no text governs a marriage before 19 May 1918 (`no_text_in_force`). |
@@ -168,6 +177,7 @@ codes; untagged, a norm is its own code's). See [ttc-canon(5)](canon-law-layer.m
 | --- | --- |
 | `classification(Q,E,Kind)` | Theological question Q classifies event E. Where Q holds `no`, the law treats E as not of that kind. |
 | `premise(N,Q,V)` | Norm N presupposes V on Q. Applied where Q holds otherwise: violation. |
+| `law_answers(Q)` | A claim that a canon-law result fixes Q: refused where Q is doctrinal. |
 
 Law never answers a doctrinal question (`teaching_from_law`).
 
@@ -280,7 +290,9 @@ A value is *settled* if every main branch has it, *open* if some do, a
 ## WARNINGS AND REFUSALS
 
 `check` returns `schema`, the summary's shape (raised when the shape
-changes), and `warnings`:
+changes; 2 from `premises`), `premises` (which of your predicates the base
+reads, `read`, and which neither it nor your facts read, `unread`: a fact
+under an unread predicate computes nothing), and `warnings`:
 
 | Warning | Meaning |
 | --- | --- |
@@ -298,7 +310,7 @@ A refused run returns one JSON object: `refused`, `gate`, `where` (`facts`,
 | `ground` | Text clingo cannot ground; an unsafe variable, usually. |
 | `removal` | A line to remove that matches none, or several. |
 | `layer` | A slot of the other side of a case (THE PAIR): each slot's side is its layer's, and a library's slots (`interior/3`, `act_of/2`) go on either (ttc-l(1)). |
-| `conclusion` | A head on what the base concludes (a predicate it derives or shows that no slot declares: `eff_tier/2`, `holds/2`, `theorem/1`), a slot declared hypothetical, or a constraint that reads a conclusion, directly or through a helper of the snippet's. `read_as/2` may be read. |
+| `conclusion` | A head on what the base concludes (a predicate it derives or shows that no slot declares: `eff_tier/2`, `holds/2`, `theorem/1`), a slot declared hypothetical, or a constraint that reads a conclusion, directly or through a helper of the snippet's. `read_as/2` may be read. The refusal names the slots the conclusion is drawn from. A switch's flag (`monopatrism`, `gen_policy/1`, `closure_mode/1`) is chosen by loading its part; a theory's own vocabulary (`bridge/3`, `mode/3`, `rel/3`) changes through `fix_method`. |
 | `input` | An argument the tool cannot take. |
 
 Results come with their keys sorted. `ttc://grammar`, read off L, holds

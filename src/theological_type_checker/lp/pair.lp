@@ -21,6 +21,7 @@
 % ===================================================================
 
 % @input premise/3 | premise(N, Q, V): norm N presupposes V on Q
+% @input law_answers/1 | law_answers(Q): a claim that a canon-law result fixes the question Q
 % @input uncoupled/0 | the law applied apart from the theological branch (a candidate)
 
 violation(law_without_premise(N,E,Q)) :- delict(_,N,E), premise(N,Q,V), holds(Q,W), W != V.
