@@ -88,3 +88,36 @@ build`, the tests, the guide's CANON table, and SCORING appended here.
 
 [ttc-sources(7)](sources-preregistration.md) (TX: a code at a date),
 [ttc-cceo(7)](cceo-preregistration.md), [ttc-l(7)](l-preregistration.md)
+
+## SCORING
+
+Scored on the rules as committed after the predictions (6036e06,
+stamped 15b34d7).
+
+| Prediction | Result | Evidence |
+| --- | --- | --- |
+| PO1 | held | PO1: valid within the parish, or the ordinary's diocese or a parish in it; invalid outside; invalid once declared excommunicated |
+| PO2 | held | PO2: by office under the Code of 1917, within the territory only |
+| PO3 | held | PO3: a Latin and a Ukrainian Catholic party before the Latin pastor in 2018, no `priest/1` entered: valid |
+| PO4 | held | the four slots, each with its sort (`place`) and sentence, in `canon_law.l` |
+| PW1 | held | PW1: one witness fails the form in 1950 and 2019; two keep it; silence is no defect |
+| PW2 | held | PW2: with an Eastern non-Catholic before a priest, one witness: valid, no report |
+| M1 | held | no expectation changed |
+| M2 | held | each new rule has a scenario that fails without it (checked by removing each) |
+| M3 | held | the four matters named stay unencoded |
+
+### Not predicted
+
+- **The pastor delegates.** The rules let only one entered as `ordinary/1`
+  delegate; c. 1111 §1 (and CIC 1917 c. 1095 §2) lets the pastor delegate
+  within his territory. With `pastor_of/2` and `held_in/2` in the base,
+  two rules give it, for a marriage and in general (PO5). A pastor's
+  delegation outside his parish is no delegation.
+- **`witnesses/2` takes a sort declared in the theory layer** (`number`),
+  as the slot rule allows.
+- **The norm graph refused the first placement.** With the pastor's
+  delegation filed under c. 1109 and "a pastor is a priest" with it, c.
+  1108 and c. 1109 fed each other, and through `priest/1` the penal
+  canons fed the form (CL1: five vicious cycles). The delegation is c.
+  1111's, filed with c. 1108 whose citation names it; "a pastor is a
+  priest" is c. 521 §1's, under its own norm. The graph is clean again.

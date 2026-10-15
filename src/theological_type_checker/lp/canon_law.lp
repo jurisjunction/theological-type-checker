@@ -58,6 +58,11 @@
 % @input marriage/3 | marriage(M, AssistingPriest, Date)
 % @input delegation/5 | delegation(D, Ordinary, Priest, MarriageOrGeneral, Date)
 % @input ordinary/1 | a local ordinary
+% @input pastor_of/2 | pastor_of(P, T): P holds the office of pastor of the parish T
+% @input ordinary_of/2 | ordinary_of(P, T): P is the local ordinary of the territory T
+% @input held_in/2 | held_in(M, T): the marriage M was celebrated within the territory T
+% @input within/2 | within(T, D): the territory T lies within D (a parish within a diocese)
+% @input witnesses/2 | witnesses(M, N): the number of witnesses present at the marriage M (c. 1108 §1)
 % @input danger_of_death/2 | danger_of_death(Penitent, Date)
 % @input just_cause_request/3 | just_cause_request(Penitent, Priest, Date)
 % @input common_error/1 | c. 144: common error or positive and probable doubt about this act
@@ -800,16 +805,34 @@ form_excused(M) :- form_code(M,_), spouse(M,_), not some_party_bound(M).
 some_party_bound(M) :- bound_to_form(_,M).
 form_binds(M) :- form_code(M,_), not form_excused(M).
 
-% @norm cic:1108 | c. 1108 §1 and c. 1111: the form requires assistance by the ordinary, the pastor, or a priest delegated by either; c. 144 §2 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
+% @norm cic:1108 | c. 1108 §1 and c. 1111: the form requires assistance by the ordinary, the pastor, or a priest delegated by either (the pastor within his territory), and two witnesses; c. 144 §2 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
 % A rule of the layer fires only under the text in force at the event's date
 % (TTC-SOURCES TX): the form of 1983 from 27 November 1983.
 form_1983(M) :- marriage(M,_,T), norm_in_force(n1108_1,T).
 delegated(P,M) :- marriage(M,P,T), delegation(_,O,P,M,TD), ordinary(O), TD <= T.
 delegated(P,M) :- marriage(M,P,T), delegation(_,O,P,general,TD), ordinary(O), TD <= T.
-valid_form(M) :- form_1983(M), marriage(M,P,T), delegated(P,M), not governance_invalid_at(P,T), not lacks_priest(M).
-valid_form(M) :- form_1983(M), common_error(M), not lacks_priest(M).
+% the pastor delegates within his territory (c. 1111 §1; CIC 1917 c. 1095 §2)
+delegated(P,M) :- marriage(M,P,T), delegation(_,O,P,M,TD), pastor_of(O,Tr), held_in(M,Tr), TD <= T.
+delegated(P,M) :- marriage(M,P,T), delegation(_,O,P,general,TD), pastor_of(O,Tr), held_in(M,Tr), TD <= T.
+valid_form(M) :- form_1983(M), marriage(M,P,T), delegated(P,M), not governance_invalid_at(P,T), not lacks_priest(M),
+                 not few_witnesses(M).
+valid_form(M) :- form_1983(M), common_error(M), not lacks_priest(M), not few_witnesses(M).
 priest_required(M) :- priest_required_by(M,_).
 lacks_priest(M) :- priest_required(M), marriage(M,A,_), not priest(A).
+% Two witnesses (TTC-OFFICE PW1): a number given below two fails the form;
+% silence is no defect.
+few_witnesses(M) :- witnesses(M,N), N < 2.
+% @norm cic:1109 | c. 1109: the local ordinary and the pastor, unless excommunicated, interdicted or suspended from office or declared such by sentence or decree, assist validly by virtue of office within their territory at the marriages of subjects and non-subjects, provided one party is of the Latin Church | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
+% TTC-OFFICE PO1: by office, within the territory.
+in_own_territory(M,P) :- marriage(M,P,_), pastor_of(P,T), held_in(M,T).
+in_own_territory(M,P) :- marriage(M,P,_), ordinary_of(P,T), held_in(M,T).
+in_own_territory(M,P) :- marriage(M,P,_), ordinary_of(P,D), held_in(M,T), within(T,D).
+latin_party(M) :- spouse(M,Q), latin_faithful(Q).
+valid_form(M) :- form_1983(M), marriage(M,P,T), in_own_territory(M,P), latin_party(M),
+                 not governance_invalid_at(P,T), not lacks_priest(M), not few_witnesses(M).
+% @norm cic:521 | c. 521 §1: to be appointed pastor validly, one must be in the sacred order of the presbyterate | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann515-552_en.html
+% TTC-OFFICE PO3: a pastor is a priest.
+priest(P) :- pastor_of(P,_).
 % @norm dc2016:1108 | c. 1108 §3 (De concordia inter Codices, 2016): only a priest validly assists at a marriage between Eastern parties, or between a Latin party and an Eastern party, Catholic or not; c. 1111 §1: delegation to priests and deacons, without prejudice to c. 1108 §3 | https://www.vatican.va/content/francesco/la/motu_proprio/documents/papa-francesco-motu-proprio_20160531_de-concordia-inter-codices.html
 eastern_party(M) :- spouse(M,P), eastern_faithful(P).
 eastern_party(M) :- spouse(M,P), eastern_noncatholic(P).
@@ -823,7 +846,10 @@ sacred_minister(A) :- deacon(A).
 % From 19 May 1918 to 26 November 1983. A priest is delegated, never a deacon
 % (TTC-SOURCES TX1).
 form_1917(M) :- marriage(M,_,T), norm_in_force(n1094_1917,T).
-valid_form(M) :- form_1917(M), marriage(M,P,_), delegated(P,M), priest(P).
+valid_form(M) :- form_1917(M), marriage(M,P,_), delegated(P,M), priest(P), not few_witnesses(M).
+% @norm cic1917:1095 | CIC 1917 c. 1095 §1 n. 2: the pastor and the local ordinary assist validly within the limits of their own territory only, at the marriages of subjects and non-subjects | https://www.iuscangreg.it/cic1917.php
+% TTC-OFFICE PO2: by office under the Code of 1917, no proviso on rite.
+valid_form(M) :- form_1917(M), marriage(M,P,_), in_own_territory(M,P), not few_witnesses(M).
 % @norm cic1917:1099 | CIC 1917 c. 1099 §1: bound to the form are "omnes in catholica Ecclesia baptizati et ad eam ex haeresi aut schismate conversi, licet sive hi sive illi ab eadem postea defecerint", marrying among themselves (n. 1) or non-Catholics (n. 2); §2: not bound, "item ab acatholicis nati, etsi in Ecclesia catholica baptizati, qui ab infantili aetate in haeresi vel schismate aut infidelitate vel sine ulla religione adoleverunt, quoties cum parte acatholica contraxerint", a clause Pius XII struck from 1 January 1949 | https://www.iuscangreg.it/cic1917.php
 % One who left the Church is still bound; one born of non-Catholics and raised
 % outside was not, until 1949 (TX2, TX3).
@@ -838,6 +864,7 @@ info(marriage(M,form_not_binding)) :- form_code(M,_), past(M), not form_binds(M)
 info(no_text_in_force(M,form)) :- form_unread(M), past(M).
 info(marriage(M,form_for_liceity_only)) :- liceity_only(M), past(M).
 info(priest_required(M,N)) :- priest_required_by(M,N), past(M).
+info(marriage(M,few_witnesses)) :- few_witnesses(M), past(M), form_binds(M), not liceity_only(M).
 
 % @norm cic:1103 | c. 1103: a marriage is invalid if entered into because of force or grave fear from without, even when inflicted unintentionally, so that a person is compelled to choose marriage in order to be freed from it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1095-1107_en.html
 act_of(P,M) :- spouse(M,P).

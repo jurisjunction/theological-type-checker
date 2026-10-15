@@ -2794,6 +2794,54 @@ scen("TX4", SRC, "A marriage of 1915", FT,
 scen("TX5", SRC, "One code's form at a time", FT,
      [one_code_at_a_time(FT, ["interritual_marriages"], ["defection_2010", "on_0407"], ["marriage_cases"], ["marriages_c1117"], ["sspx", "hyp_delegation"])],
      "the 1917 form until 26 November 1983, the 1983 form from the 27th; never both")
+# TTC-OFFICE: the pastor and the ordinary by office; two witnesses
+_OF = "today(20261015). baptized_in((of_a;of_b),catholic). spouse(of_m,(of_a;of_b)). "
+_PASTOR = "pastor_of(of_p,par_b). "
+def _form(facts, *atoms, absent=()):
+    return shown([], ("info/1",), *atoms, facts=_OF + facts, absent=absent)
+scen("PO1", SRC, "The pastor and the ordinary by office, 1983 (c. 1109)", [],
+     [_form(_PASTOR + "marriage(of_m,of_p,20190615). held_in(of_m,par_b).", "info(marriage(of_m,valid_form))"),
+      _form(_PASTOR + "marriage(of_m,of_p,20190615). held_in(of_m,par_a).", "info(marriage(of_m,invalid_form))"),
+      _form("ordinary_of(of_o,dio). within(par_a,dio). marriage(of_m,of_o,20190615). held_in(of_m,par_a).",
+            "info(marriage(of_m,valid_form))"),
+      _form("ordinary_of(of_o,dio). marriage(of_m,of_o,20190615). held_in(of_m,dio).", "info(marriage(of_m,valid_form))"),
+      _form(_PASTOR + "marriage(of_m,of_p,20190615). held_in(of_m,par_b). decree(of_d,of_x,20180101). issuer(of_d,of_x). "
+            "authority(of_x,1). declares(of_d,of_p,of_n). penalty(of_n,excommunication).",
+            "info(marriage(of_m,invalid_form))")],
+     "valid within his parish, or the ordinary's diocese or a parish within it, without delegation; not outside it; not once declared excommunicated")
+scen("PO2", SRC, "The pastor by office, 1917 (c. 1095 §1 n. 2)", [],
+     [_form(_PASTOR + "marriage(of_m,of_p,19500615). held_in(of_m,par_b).", "info(marriage(of_m,valid_form))"),
+      _form(_PASTOR + "marriage(of_m,of_p,19500615). held_in(of_m,par_a).", "info(marriage(of_m,invalid_form))")],
+     "within his territory only")
+scen("PO3", SRC, "A pastor is a priest (c. 521 §1; c. 1108 §3)", [],
+     [shown([], ("info/1",), "info(marriage(of_m,valid_form))",
+            facts="today(20261015). baptized_in((of_a;of_b),catholic). ascribed(of_b,ukrainian). spouse(of_m,(of_a;of_b)). "
+                  + _PASTOR + "marriage(of_m,of_p,20180615). held_in(of_m,par_b).")],
+     "a Latin and an Eastern party before the Latin pastor, no priest/1 entered: valid")
+scen("PO5", SRC, "The pastor delegates within his territory (c. 1111 §1; not predicted)", [],
+     [_form(_PASTOR + "deacon(of_d). marriage(of_m,of_d,19900615). held_in(of_m,par_b). delegation(of_g,of_p,of_d,of_m,19900601).",
+            "info(marriage(of_m,valid_form))"),
+      _form(_PASTOR + "deacon(of_d). marriage(of_m,of_d,19900615). held_in(of_m,par_b). delegation(of_g,of_p,of_d,general,19900101).",
+            "info(marriage(of_m,valid_form))"),
+      _form(_PASTOR + "deacon(of_d). marriage(of_m,of_d,19900615). held_in(of_m,par_a). delegation(of_g,of_p,of_d,of_m,19900601).",
+            "info(marriage(of_m,invalid_form))"),
+      _form(_PASTOR + "deacon(of_d). marriage(of_m,of_d,19500615). held_in(of_m,par_b). delegation(of_g,of_p,of_d,of_m,19500601).",
+            "info(marriage(of_m,invalid_form))")],
+     "a deacon the pastor delegates, for a marriage or generally, in his parish: valid in 1990; outside his parish, or in 1950, not")
+scen("PW1", SRC, "Two witnesses (c. 1108 §1; CIC 1917 c. 1094)", [],
+     [_form(_PASTOR + "marriage(of_m,of_p,20190615). held_in(of_m,par_b). witnesses(of_m,1).",
+            "info(marriage(of_m,few_witnesses))", "info(marriage(of_m,invalid_form))"),
+      _form(_PASTOR + "marriage(of_m,of_p,19500615). held_in(of_m,par_b). witnesses(of_m,1).",
+            "info(marriage(of_m,invalid_form))"),
+      _form(_PASTOR + "marriage(of_m,of_p,20190615). held_in(of_m,par_b). witnesses(of_m,2).",
+            "info(marriage(of_m,valid_form))", absent=("info(marriage(of_m,few_witnesses))",))],
+     "one witness fails the form under either code; two keep it; silence is no defect (PO1)")
+scen("PW2", SRC, "The form for liceity only is untouched by the witnesses", [],
+     [shown([], ("info/1",), "info(marriage(of_m,valid_form))",
+            facts="today(20261015). baptized_in(of_a,catholic). baptized_in(of_b,orthodox_church). spouse(of_m,(of_a;of_b)). "
+                  "priest(of_q). marriage(of_m,of_q,20190615). witnesses(of_m,1).",
+            absent=("info(marriage(of_m,few_witnesses))",))],
+     "with an Eastern non-Catholic before a priest (c. 1127 §1)")
 scen("GN1", SRC, "The Code of 1917 abrogated (c. 6 §1 n. 1)", DIT + ["today_20261010"],
      [shown(DIT, ("info/1",), "info(text_in_force(form_text_1917))", "info(text_revoked(c1099_2_clause_1917,pxii1948,expressly))",
             facts="today(19500101).", absent=("info(text_revoked(form_text_1917,code1983,expressly))",)),
