@@ -108,6 +108,55 @@ beside `interior_of_fiction`, the case and the candidates in
 `l/icon_history.l` and `l/kernel_world.l`; then `ttc-l build`, the tests,
 the guide, and SCORING appended here.
 
+## SCORING
+
+Scored on the rules as committed after the predictions (43be3c1,
+stamped c3f8071).
+
+| Prediction | Result | Evidence |
+| --- | --- | --- |
+| DS1 | held | DS1: two members refused (`original_sin_denied`), no source loaded; DC3 |
+| DS2 | held | DS2: the people refused as a fiction, and not as a human being |
+| DS3 | held | DS3: the model `family` with `one_root`, clean in both branches |
+| DD1 | held | the slot, with its sort (`category`, open) and sentence, in `empirica.l` |
+| DD2 | held | DD2: yes settled; no a live shadow, reintegrated by `humani_generis_37` |
+| DD3 | held | DD3: `cand_pre_adamite` alone, silent |
+| DD4 | held | DD4: `erroneous` and `authentic` in the main branch, nothing in the shadow, never `heretical`; the doubt uncensured |
+| DC1 | held | DC1 |
+| DC2 | held | DC2 |
+| DC3 | held | DC3: with the dogma, without it, and in 1850 on both branches |
+| M1 | missed, once | no scenario's expectation changed; one guard did: `test_monopatrism_changes_only_the_processions` now excludes the group `descent`, as it excludes every group that loads the creed. DC3 loads it; its verdict holds under monopatrism |
+| M2 | held | each rule removed in turn: DS1's turns DS1 and DC1 red; DS2's, DS2 and DC1; the descent rule, DC1 and DC2; the reservation of DH 1516, DC3 |
+| M3 | held | two rows in "Persons and origin"; the copy in `docs/encoding-guide.md` identical |
+| M4 | held | named in BUGS |
+
+### Not predicted
+
+- **The descent rule sits in `empirica.l`.** The kernel reads nothing the
+  authority graph concludes; `of_kind/2` is read in the libraries. The
+  slot `denies_descent/2` goes with it, in the lowest layer that reads it.
+  METHOD named no file for it.
+- **The candidates and switches sit in `icon_history.l`,** beside their
+  case; of `kernel_world.l` only the reservation of DH 1516, in `creed`.
+- **A third slot.** `os_reserved/1` is read by the kernel and entered in
+  the part `creed`: an input, declared as one (SO1 went red until it was).
+- **Two switches METHOD did not name:** `professions_one_root` (DD4) and
+  `os_free_claimed` (DC3).
+- **A guard idle on the base.** DS1's `not incarnate(P)` excludes no one
+  the base types: the incarnate is no created person. It stays for a
+  model or candidate that types him one.
+- **Coverage.** CCC 385-421 now names DS1, DS2, DD2 and DC1.
+
+## BUGS
+
+Left unencoded (M4): Acts 17:26 as a text of tier 0 with its readings;
+CCC 360; the discussion after 1950 of the force of "nequaquam appareat",
+carried only as the live shadow; Rom 5:12 and its *in quo*. A finding of
+the sciences laid on `q(one_root)` would be refused as a finding on a
+doctrine; no scenario tries it. The reasons of `denies_descent/2` are an
+open sort: a misspelled reason is still refused, but not reported as
+outside a domain.
+
 ## CAVEATS
 
 Two silences differ. A case that types no descent says nothing, and the

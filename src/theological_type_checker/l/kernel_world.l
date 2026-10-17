@@ -160,6 +160,8 @@ present(son,right_hand_of_the_father,natural).   % he sits at the right hand of 
                                                  % "according to the natural mode of existing" (DH 1636)
 virginally_conceived(son).         % conceived by the Holy Spirit (DH 30, 150)
 descends_from(mary,adam). descends_from(son,adam).   % by generation; his through Mary (Lk 3:23-38)
+os_reserved(mary).                 % "not its intention to include in this decree ... the blessed and
+                                   % immaculate Virgin Mary" (Trent, sess. V, DH 1516; TTC-DESCENT DS1)
 % the economy: an order of events
 next(creation,fall). next(fall,conception_of_mary). next(conception_of_mary,annunciation).
 next(annunciation,nativity_of_christ). next(nativity_of_christ,passion). next(passion,death).

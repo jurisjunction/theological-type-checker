@@ -3333,6 +3333,45 @@ scen("TW4", EMP, "Conjoined twins, 1950 and 2000", ["conjoined_twins"],
                       some=("assumed_fact(one_human_being(cj_2000))", "assumed_fact(false(one_human_being(cj_2000)))"))],
      "c. 748 of 1917 in 1950; in 2000 no canon answers, the number both ways", mode=B)
 
+# ---------- One root: original sin in all; the descent of all (TTC-DESCENT) -----
+
+DES = "descent"
+scen("DS1", DES, "Members claimed free of original sin, no source loaded", ["cand_branch_without_os"],
+     [has("original_sin_denied(p1)", "original_sin_denied(p2)"), count("original_sin_denied", 2), none_of("descent_denied")],
+     "refused on Trent's scope (DH 1512-1513); the descent silent without its source")
+scen("DS2", DES, "The people itself claimed free of it", ["cand_branch_without_os"],
+     [has("original_sin_of_fiction(people_p)"), none_of("original_sin_denied(people_p)")],
+     "refused as said of a fiction: \"in each one as his own\" (DH 1513)")
+scen("DS3", DES, "Silence kept", ["family", "one_root"], [clean_branches],
+     "human beings typed without descent, of whom nothing is claimed: no refusal", mode=B)
+scen("DD2", DES, "One root, at tier 3", ["one_root"],
+     [cls("q(one_root)=yes", "settled"), cls("q(one_root)=no", "shadow"), reint_includes("q(one_root)=no", "humani_generis_37")],
+     "yes settled; no a live shadow of the encyclical", mode=B)
+scen("DD3", DES, "A denial of descent, no source loaded", ["cand_pre_adamite"], [none_of("descent_denied")],
+     "silent: a teaching of tier 3 weighs only where its source is entered")
+scen("DD4", DES, "Pushing against it is not heresy", ["one_root", "professions_one_root", "report_notes"],
+     [in_branches("info(censure(essay_n,erroneous))", "main"), in_branches("info(censure(essay_n,", "live_shadow", present=False),
+      info_none("censure(essay_n,heretical)", "censure(essay_d"), in_branches("info(note(q(one_root),yes,authentic))", "main")],
+     "erroneous in the main branch only, never heretical; a doubt not censured", mode=B)
+scen("DC1", DES, "A people claimed free of original sin and not from Adam", ["one_root", "cand_branch_without_os"],
+     [info_all("violation(original_sin_denied(p1))", "violation(original_sin_denied(p2))",
+               "violation(original_sin_of_fiction(people_p))"),
+      branch_violation("q(one_root)=yes", "descent_denied(p1,separate_creation)"),
+      branch_violation("q(one_root)=yes", "descent_denied(p2,separate_creation)"),
+      branch_violation("q(one_root)=no", "descent_denied", present=False)],
+     "two denied and one of a fiction in every branch; the denials of descent in the main branch only", mode=B)
+scen("DC2", DES, "Human beings before Adam", ["one_root", "cand_pre_adamite"],
+     [branch_violation("q(one_root)=yes", "descent_denied(pre_a,before_adam)"),
+      branch_violation("q(one_root)=no", "descent_denied", present=False)],
+     "refused in the main branch only", mode=B)
+scen("DC3", DES, "The incarnate and Mary claimed free of it", CREED + ["os_free_claimed"],
+     [clean_branches,
+      lambda r: (not solve(["trinity", "creed", "os_virginal", "os_free_claimed"], "one")["violations"],
+                 "without the dogma: reserved (DH 1516)"),
+      lambda r: (not [f for b in solve(CREED + ["asof_1850", "os_free_claimed"], "branches")["branches"]
+                      for f in b["facts"] if f.startswith("violation(")], "1850: reserved on every branch")],
+     "not refused on any date: Christ (DH 301); Mary reserved (DH 1516), preserved from 1854 (DH 2803)", mode=B)
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

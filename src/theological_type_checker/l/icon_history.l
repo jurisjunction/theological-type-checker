@@ -1534,6 +1534,53 @@ supports(trent_vi_c23_clause,q(mary_without_actual_sin),yes).
 part case
 
 ```clingo
+#program one_root.                % Humani generis 37 (DH 3897): all from one Adam, by natural generation (TTC-DESCENT DD2)
+question(q(one_root)). question_kind(q(one_root),doctrinal).
+value(q(one_root),(yes;no)).
+classification(q(one_root),human_race,from_one_adam).
+source(humani_generis_37,3,truth,1950). papal_form(humani_generis_37,ordinary). character(humani_generis_37,encyclical).
+supports(humani_generis_37,q(one_root),yes).   % "Non enim christifideles eam sententiam amplecti possunt ..."
+
+```
+
+part candidate of one_root
+
+```clingo
+#program cand_branch_without_os.  % HYPOTHETICAL: a people whose members are claimed free of original sin and not from Adam (DC1)
+created_person(p1). created_person(p2). group(people_p).
+free_of_original_sin(p1). free_of_original_sin(p2). free_of_original_sin(people_p).
+denies_descent(p1,separate_creation). denies_descent(p2,separate_creation).
+
+```
+
+part candidate of one_root
+
+```clingo
+#program cand_pre_adamite.        % HYPOTHETICAL: human beings before Adam (La Peyrere, Prae-Adamitae, 1655; DC2)
+created_person(pre_a). denies_descent(pre_a,before_adam).
+
+```
+
+part switch of one_root
+
+```clingo
+#program professions_one_root.    % HYPOTHETICAL: the descent denied in an essay, and doubted in another (DD4)
+professes(writer_n,essay_n,q(one_root),no).
+doubts(writer_d,essay_d,q(one_root)).
+
+```
+
+part switch
+
+```clingo
+#program os_free_claimed.         % HYPOTHETICAL: the incarnate and Mary claimed free of original sin (DC3; load with creed)
+free_of_original_sin(son). free_of_original_sin(mary).
+
+```
+
+part case
+
+```clingo
 #program berengar.                % Berengar's profession at the Roman synod of 1059 (DH 690), read two ways (PM4)
 question(q(christ_divided_with_species)). question_kind(q(christ_divided_with_species),doctrinal).
 value(q(christ_divided_with_species),(yes;no)).

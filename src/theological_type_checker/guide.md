@@ -69,6 +69,8 @@ compiled text.
 | `gen(A,Source,Term)` | Source contributes to the origin of Term in the act A: a begetting, a spiration, a conception. |
 | `being(P,X)`, `less(X,Y)`, `denies_image(X,R)` | Claims: that P gives X its being (the kernel derives it from God for every creature), that X ranks below Y, that X lacks the image of God for the reason R. Refused where the kernel forbids them (`being_from_non_god`, `receiver_ranked_lower`, `image_denied`). |
 | `held_for(P,X,Y)` | P holds X's consent to Y in trust (an infant's, at baptism). |
+| `free_of_original_sin(X)` | A claim that X contracted no original sin. Of a human being, refused (`original_sin_denied`): the sin is "into the whole human race", "in each one as his own" (DH 1512-1513); not of the incarnate, nor of Mary, whom the decree does not include (DH 1516). Of a group or a juridic person, refused (`original_sin_of_fiction`): a people is entered by its members. |
+| `denies_descent(X,R)` | A claim that X, a human being, does not descend from Adam, for the reason R (`many_first_parents`, `before_adam`, `separate_creation`). With the part `one_root` (*Humani generis* 37, tier 3), refused in the main branch only (`descent_denied`); its contrary a live shadow. Without it, silent. |
 
 ### The incarnate
 
