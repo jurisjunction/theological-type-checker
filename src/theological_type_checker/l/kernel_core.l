@@ -120,6 +120,10 @@ slot divine(X: entity)
   means "divine(X): X is a divine person"
   say "{X} is a divine person"
 
+slot free_of_original_sin(X: entity)
+  means "free_of_original_sin(X): a claim that X contracted no original sin"
+  say "{X} is claimed to have contracted no original sin"
+
 slot gen(A: act, Source: entity, Term: entity)
   means "gen(A, Source, Term): Source contributes to the origin of Term in the act A"
   say "in {A}, {Source} contributes to the origin of {Term}"
@@ -155,6 +159,10 @@ slot less(X: entity, Y: entity)
 slot next(E1: event, E2: event)
   means "next(E1, E2): E2 follows E1 in the order of events"
   say "{E2} follows {E1}"
+
+slot os_reserved(X: entity)
+  means "os_reserved(X): X is not included in Trent's decree on original sin (sess. V, DH 1516)"
+  say "{X} is not included in Trent's decree on original sin"
 
 slot organism(X: entity)
   means "organism(X): a living creature"
@@ -304,6 +312,14 @@ propagated_from_adam(P)   :- descends_from(P,adam), not not_by_propagation(P).
 contracts_original_sin(P) :- propagated_from_adam(P), not preserved_from_os(P).
 violation(sin_in_christ(X))          :- incarnate(X), contracts_original_sin(X).          % DH 301
 violation(stain_on_the_preserved(P)) :- contracts_original_sin(P), preserved_from_os(P).  % DH 2803
+% The scope (TTC-DESCENT DS1): Adam "transfused ... into the whole human
+% race" sin (can. 2, DH 1512), "into all by propagation", "in each one as
+% his own" (can. 3, DH 1513). A claim that a human being contracted none is
+% refused, save the incarnate (DH 301) and one the decree does not include
+% (DH 1516: os_reserved/1, kernel_world.lp). A human being typed without
+% descent, of whom nothing is claimed, stays silent (DS3).
+violation(original_sin_denied(P)) :- free_of_original_sin(P), human(P), not incarnate(P),
+                                     not preserved_from_os(P), not os_reserved(P).
 
 % ---------- A0  Fixed relation inventory ---------------------------
 % Base relations: being/2 (E), orig_cr/2 (O), orig_div/2 (O in God, the

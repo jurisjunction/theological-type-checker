@@ -183,8 +183,9 @@ def test_monopatrism_changes_only_the_processions():
     # SRC excluded for the same reason: its Filioque witnesses load the Trinity (TTC-SOURCES, stated in its scoring)
     # LIT excluded for the same reason: Rome's creed (LO3) loads the Trinity (TTC-LITURGY, stated in its scoring)
     # NOV excluded for the same reason: the end early, what lasts and the sacrifice load the creed (TTC-NOVISSIMA, stated in its scoring)
+    # DES excluded for the same reason: DC3 loads the creed; its verdict holds under monopatrism (TTC-DESCENT, stated in its scoring)
     changed = {s["id"] for s in suite.S if s["group"] not in (suite.FQ, suite.TH, suite.KG, suite.RT, suite.CR, suite.MR, suite.CX, suite.SAE,
-                                                              suite.SRC, suite.LIT, suite.NOV)
+                                                              suite.SRC, suite.LIT, suite.NOV, suite.DES)
                and _outcome(s) != _outcome(s, ["monopatrism"])}
     assert changed == FILIOQUE_DEPENDENT
 
