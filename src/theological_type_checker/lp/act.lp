@@ -25,6 +25,7 @@
 % @input in_nature/2 | in_nature(Act, Nature): the nature by which the person places the act (the kernel's T5 natures)
 % @input divine/1 | from the kernel's sorts
 % @input god/1 | from the kernel's sorts
+% @input free_of_original_sin/1 | the kernel: a claim that X contracted no original sin
 % @input interior/3 | interior(Person, Act, Element): a claim about the agent's knowledge, will or freedom in the act; supplied, never derived
 { interior(P,A,X) } :- disputed(interior(P,A,X)).
 assumed_fact(interior(P,A,X))        :- disputed(interior(P,A,X)), interior(P,A,X).
@@ -65,6 +66,10 @@ non_physical(J)  :- fiction(J).
 non_physical(J)  :- moral_person(J).
 act_of(P,A) :- act_of(J,A), non_physical(J), represents(P,J).
 violation(interior_of_fiction(J,A)) :- fiction(J), interior(J,A,_).
+% Original sin is "in each one as his own" (Trent, sess. V, can. 3, DH
+% 1513): said of a fiction, the claim is ill typed. A people is entered by
+% its members (TTC-DESCENT DS2).
+violation(original_sin_of_fiction(J)) :- free_of_original_sin(J), fiction(J).
 
 % ---------- Kinds of act (ST I-II q. 1 a. 1; q. 6 a. 5) ------------------
 % An actus humanus proceeds from knowledge and deliberate will; force from

@@ -123,6 +123,10 @@ slot doubt_one_or_more(E: event, Date: date)
   means "canon_law.lp: a birth at which it is doubted whether one human being or several"
   say "at the birth {E}, on {Date}, it is doubted whether one human being was born or several"
 
+slot denies_descent(X: entity, R: category)
+  means "denies_descent(X, R): a claim that X, a human being, does not descend from Adam by generation, for the reason R (many_first_parents, before_adam, separate_creation)"
+  say "{X} is claimed not to descend from Adam, for {R}"
+
 use question_kind/2 "icon_authority.lp"
 
 use holds/2 "icon_authority.lp"
@@ -140,6 +144,8 @@ use consent_claim/2 "icon_authority.lp"
 use faith_morals/1 "icon_authority.lp"
 
 use human/1 "the kernel"
+
+use of_kind/2 "from the theological side (pair.lp): in this branch the thing is classified so"
 
 ```clingo
 
@@ -196,4 +202,13 @@ violation(soul_divided(E)) :- divides_the_soul(E).
 { one_human_being(E) } :- doubt_one_or_more(E,_).
 assumed_fact(one_human_being(E))        :- doubt_one_or_more(E,_), one_human_being(E).
 assumed_fact(false(one_human_being(E))) :- doubt_one_or_more(E,_), not one_human_being(E).
+
+% ---------- One root (TTC-DESCENT DD) ---------------------------------------
+% That every human being descends "ab eodem prouti omnium protoparente,
+% naturali generatione", and Adam is not "multitudinem quamdam
+% protoparentum", is taught at tier 3 (Humani generis 37, DH 3897: "cum
+% nequaquam appareat quomodo ... componi queat"). It weighs on the branch
+% whose question holds it (part one_root): a denial is refused there, and
+% stands on the live shadow. Without the part, the claim is silent.
+violation(descent_denied(P,R)) :- denies_descent(P,R), human(P), of_kind(human_race,from_one_adam).
 ```

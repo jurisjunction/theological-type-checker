@@ -27,6 +27,7 @@
 % @input descends_from/2 | descends_from(P, adam): P descends from Adam by generation
 % @input distinguishes/4 | distinguishes(C, P, A, B): claim C that the predicate P distinguishes A from B
 % @input divine/1 | divine(X): X is a divine person
+% @input free_of_original_sin/1 | free_of_original_sin(X): a claim that X contracted no original sin
 % @input gen/3 | gen(A, Source, Term): Source contributes to the origin of Term in the act A
 % @input god/1 | god(G): G is God
 % @input immutability/1 | immutability(R): God's immutability, as R reads it
@@ -36,6 +37,7 @@
 % @input lacks/2 | lacks(X, P): a claim that X lacks P (a rational soul)
 % @input less/2 | less(X, Y): a claim that X ranks below Y
 % @input next/2 | next(E1, E2): E2 follows E1 in the order of events
+% @input os_reserved/1 | os_reserved(X): X is not included in Trent's decree on original sin (sess. V, DH 1516)
 % @input organism/1 | organism(X): a living creature
 % @input pred_nature/2 | pred_nature(P, K): the predicate P belongs to nature K
 % @input presence_mode/1 | presence_mode(M): a mode of presence known (the kernel's, a library's)
@@ -141,6 +143,14 @@ propagated_from_adam(P)   :- descends_from(P,adam), not not_by_propagation(P).
 contracts_original_sin(P) :- propagated_from_adam(P), not preserved_from_os(P).
 violation(sin_in_christ(X))          :- incarnate(X), contracts_original_sin(X).          % DH 301
 violation(stain_on_the_preserved(P)) :- contracts_original_sin(P), preserved_from_os(P).  % DH 2803
+% The scope (TTC-DESCENT DS1): Adam "transfused ... into the whole human
+% race" sin (can. 2, DH 1512), "into all by propagation", "in each one as
+% his own" (can. 3, DH 1513). A claim that a human being contracted none is
+% refused, save the incarnate (DH 301) and one the decree does not include
+% (DH 1516: os_reserved/1, kernel_world.lp). A human being typed without
+% descent, of whom nothing is claimed, stays silent (DS3).
+violation(original_sin_denied(P)) :- free_of_original_sin(P), human(P), not incarnate(P),
+                                     not preserved_from_os(P), not os_reserved(P).
 
 % ---------- A0  Fixed relation inventory ---------------------------
 % Base relations: being/2 (E), orig_cr/2 (O), orig_div/2 (O in God, the

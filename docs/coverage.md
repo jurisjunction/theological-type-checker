@@ -43,7 +43,7 @@ it, so this measures reach, not depth. The rule files cite
 | 279–324 | The Creator | rules |  | K1, K5, RT2, B6 | being from God alone; creatures act; de auxiliis protected |
 | 325–354 | Heaven and earth | rules | 1 | K1, K10, K12 | angels as created persons |
 | 355–384 | Man | rules | 1 | K11, X1, MB1, TW1, TW2, TW3 | the image, not graded; the soul the form of the body; how many human beings, both ways; each soul created immediately (CCC 366) |
-| 385–421 | The Fall | rules |  | CE1, CE1c, CE1e | original sin by propagation; why Christ is free |
+| 385–421 | The Fall | rules |  | CE1, CE1c, CE1e, DS1, DS2, DD2, DC1 | original sin by propagation, in all, in each as his own; why Christ is free; the descent of all from Adam, at tier 3 |
 | 430–455 | And in Jesus Christ, his only Son, our Lord | rules |  | CR2, CR2d | the incarnate is the Son |
 | 456–483 | The Son of God became man | rules |  | CR3, CR5, CR6, CR7a, CH1, CH1c | two natures, wills, operations; acts by a nature |
 | 484–511 | Conceived by the Holy Spirit, born of the Virgin Mary | rules |  | CM1b, CS3, B5, CE1d | ever-virgin; the Immaculate Conception's history |
