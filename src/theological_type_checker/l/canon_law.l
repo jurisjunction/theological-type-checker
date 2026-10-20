@@ -566,12 +566,14 @@ past(E) :- event_date(E,TE), eval_date(T), TE <= T.
 instant(T) :- event_date(_,T).
 instant(T) :- eval_date(T).
 instant(T) :- celebration_date(_,T).                % a sacrament's date, for the laws that bear on its validity
+instant(D) :- narrows(L,_), promulgated(L,D).        % a narrowing law's day, on which c. 135 §2 tests it (rs2004:21)
 % what the law asks of the calendar (c. 203): c. 8 §1's three months from
 % an issue, or from each end of an unread issue's span; and completed years
 months_asked(D,3)             :- aas_issue(_,D).
 months_asked(G,3)             :- aas_volume(_,_,G).
 months_asked(Y*10000+1231,3)  :- aas_volume(_,Y,_).
 months_asked(D,3)             :- promulgated_elsewhere(_,D).
+months_asked(D,1)             :- particular_law(L), promulgated(L,D), not vacatio_set(L,_).   % c. 8 §2's month
 years_asked(B,T)              :- born(_,B), event_date(_,T), B <= T.
 years_asked(B,T)              :- born(_,B), eval_date(T), B <= T.
 issued(D) :- decree(D,_,TD), eval_date(T), TD <= T.
@@ -734,7 +736,6 @@ slot particular_law(Law: law)
 % are: the day counts whole, and the law binds from the day of the same
 % number, or the first of the next month where the month lacks it (c. 203;
 % CT5). A law that sets its own time keeps it (vacatio_set, c. 7 above).
-months_asked(D,1)  :- particular_law(L), promulgated(L,D), not vacatio_set(L,_).
 in_force_from(L,T) :- particular_law(L), promulgated(L,D), not vacatio_set(L,_), not aas_issue(L,_),
                       same_number_after(D,1,T), not void_decree(L).
 
@@ -1007,7 +1008,6 @@ slot withdraws_option(Law: law, Matter: category)
 % the supreme authority withdraws is open no longer, from that law's force; a
 % law already without force on its day is not revived by it (LW11).
 act_kind(rs2004,instruction). effective_from(rs2004,20040423). issuer(rs2004,cdwds). authority(cdwds,3).
-instant(D) :- narrows(L,_), promulgated(L,D).
 option_withdrawn(M,D) :- withdraws_option(L2,M), force_at(L2,D).
 option_open(H,M,D) :- option_of(H,M,_), force_at(H,D), not option_withdrawn(M,D).
 narrowing_ground(c135_2,D) :- narrows(L,_), promulgated(L,D), force_at(code1983,D).

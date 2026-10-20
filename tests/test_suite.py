@@ -537,6 +537,9 @@ def test_force_is_computed_not_typed():
     code = "\n".join(line.split("%")[0] for f in ("canon_law.lp", "canon_cases.lp") for line in texts[f].splitlines())
     laws = set(re.findall(r"\bpromulgated\(([a-z]\w*),", code))
     dated = set(re.findall(r"\b(?:vacatio_set|aas_issue|aas_volume)\(([a-z]\w*),", code))
+    # A particular law's force is computed from its promulgation (c. 8 §2):
+    # computed, not typed (TTC-LAW CT5).
+    dated |= set(re.findall(r"\bparticular_law\(([a-z]\w*)\)", code))
     assert laws <= dated, laws - dated
 
 

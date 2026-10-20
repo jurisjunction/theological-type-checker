@@ -681,12 +681,12 @@ marriage(m_r,minister_l,20100408). spouse(m_r,(def_r;lu_f)).
 #program issues_november.           % HYPOTHETICAL: laws in issues of 29 and 30 November, before a leap year and a common one (CT2)
 aas_issue(law_a,20231129). aas_issue(law_b,20231130). aas_issue(law_c,20221129). aas_issue(law_d,20230831).
 #program particular_laws.           % HYPOTHETICAL: particular laws promulgated in the manner the legislator determined (CT5)
-particular_law((pl_a;pl_b;pl_c;pl_d)).
+particular_law(pl_a). particular_law(pl_b). particular_law(pl_c). particular_law(pl_d).
 promulgated(pl_a,20260901).                                  % a month: 1 October
 promulgated(pl_b,20260131).                                  % February lacks the 31st: 1 March (c. 203 §2)
 promulgated(pl_c,20261201).                                  % across the year: 1 January
 promulgated(pl_d,20260901). vacatio_set(pl_d,20260901).      % the law sets its own time: at once
-promulgated(ul_e,20260901).                                  % not particular: c. 8 §2 gives it no date
+promulgated(ul_e,20260901). aas_issue(ul_e,20260901).       % not particular: c. 8 §1's three months, not c. 8 §2's one
 #program rejection_1998.            % HYPOTHETICAL: a definitive teaching rejected twice inside Ad tuendam fidem's unread span (CT3; load with tier2, assent, professions_definitive)
 professes(theo_t,(prof_t98;prof_t99),q(d1),no). act_date(prof_t98,19981201). act_date(prof_t99,19990201).
 warned(theo_t,(prof_t98;prof_t99),ordinary). interior(theo_t,(prof_t98;prof_t99),pertinacious).

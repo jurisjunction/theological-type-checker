@@ -1197,12 +1197,12 @@ part switch
 
 ```clingo
 #program particular_laws.           % HYPOTHETICAL: particular laws promulgated in the manner the legislator determined (CT5)
-particular_law((pl_a;pl_b;pl_c;pl_d)).
+particular_law(pl_a). particular_law(pl_b). particular_law(pl_c). particular_law(pl_d).
 promulgated(pl_a,20260901).                                  % a month: 1 October
 promulgated(pl_b,20260131).                                  % February lacks the 31st: 1 March (c. 203 §2)
 promulgated(pl_c,20261201).                                  % across the year: 1 January
 promulgated(pl_d,20260901). vacatio_set(pl_d,20260901).      % the law sets its own time: at once
-promulgated(ul_e,20260901).                                  % not particular: c. 8 §2 gives it no date
+promulgated(ul_e,20260901). aas_issue(ul_e,20260901).       % not particular: c. 8 §1's three months, not c. 8 §2's one
 ```
 
 part switch of tier2

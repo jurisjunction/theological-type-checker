@@ -2553,10 +2553,10 @@ scen("CT2", SAE, "The month that lacks the day", ["issues_november"],
      "29 November 2023: 29 February 2024; 30 November 2023: 1 March 2024; 29 November 2022: 1 March 2023 (c. 203 §2)")
 scen("CT5", SAE, "A particular law: a month from promulgation (c. 8 §2)", ["particular_laws"],
      [shown(["particular_laws"], FORCE, "in_force_from(pl_a,20261001)", "in_force_from(pl_b,20260301)",
-            "in_force_from(pl_c,20270101)", "in_force_from(pl_d,20260901)",
+            "in_force_from(pl_c,20270101)", "in_force_from(pl_d,20260901)", "in_force_from(ul_e,20261201)",
             absent=("in_force_from(pl_d,20261001)", "in_force_from(ul_e,20261001)"))],
      "1 September: 1 October; 31 January: 1 March (c. 203 §2); 1 December: 1 January; a law that sets its own time "
-     "keeps it; a law not particular takes no date from c. 8 §2")
+     "keeps it; a universal law keeps c. 8 §1's three months")
 scen("CT3", SAE, "An unread issue: force inside its span both ways", ["tier2", "assent", "professions_definitive", "rejection_1998"],
      [in_branches("info(delict(theo_t,n1371_1998,prof_t98))", "main", assume=["assumed_fact(force_by(atf1998,19981201))"]),
       in_branches("info(delict(theo_t,n1371_1998,prof_t98))", "main", assume=["assumed_fact(false(force_by(atf1998,19981201)))"],
