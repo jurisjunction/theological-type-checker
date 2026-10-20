@@ -13,7 +13,11 @@ pytestmark = pytest.mark.skipif(not os.environ.get("TTC_SLOW"), reason="slow: se
 
 # The theory's scenarios gain bridge_without_mode(principle,div) wherever the Latin
 # license is absent (RESULTS, "not predicted"); the rest is as predicted.
-THEORY_RED = {"L2", "L4", "M2", "M3", "M4", "S2", "S7", "S8", "S9", "X5b"}
+# DS3 (TTC-DESCENT) loads the family model with one_root; outside the
+# classical runtime it carries exactly the family model's violations, as M2
+# does (bridge_without_mode on Palamite and bare; one_operation and one_will
+# on bare). Added when the descent step left it out (found 20 October 2026).
+THEORY_RED = {"L2", "L4", "M2", "M3", "M4", "S2", "S7", "S8", "S9", "X5b", "DS3"}
 
 BOOT_B = {
     "thomist": (["AN4", "FQ13", "FQ19", "K7", "K9", "UN1", "UN2"], ["FQ19"]),
