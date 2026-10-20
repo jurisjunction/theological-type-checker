@@ -2723,10 +2723,29 @@ scen("WB1", CC, "Who a merely ecclesiastical law binds", ["who_is_bound"],
 # reported as obliging an act placed before its force began. binds_on/2 read
 # the reading and the reach, never the date.
 scen("WB3", CC, "A law binds the acts placed in its force (c. 9)", ["law_in_force"],
-     [info_all("info(obliged(act_after,l_dated))", "info(obliged(act_old,b_old_f))", "info(obliged(act_any,l_undated))"),
-      info_none("obliged(act_before,l_dated)", "obliged(act_late,b_old_f)")],
-     "laws regard the future (c. 9): not an act placed before the law's force (cc. 7-8), nor one placed after its "
-     "text is revoked (c. 20); a law with no date entered binds as before", mode=B)
+     [info_all("info(obliged(act_after,l_dated))", "info(obliged(act_old,b_old_f))", "info(obliged(act_any,l_undated))",
+               "info(obliged(act_later,b_new_f))"),
+      info_none("obliged(act_before,l_dated)", "obliged(act_late,b_old_f)", "obliged(act_early,b_new_f)")],
+     "laws regard the future (c. 9): not an act placed before the law's force, or before the force of the law that "
+     "enacts a text (cc. 7-8), nor one placed after its text is revoked (c. 20); a law with no date entered binds as "
+     "before", mode=B)
+# Found on a diocesan decree reserving a posture the Missal leaves to the
+# celebrant (20 October 2026): Huels, Liturgy and Law (2006) 47, with RS 21.
+scen("LW11", LW, "A lower law narrowing a choice a higher law leaves open (c. 135 §2; RS 21)", ["option_narrowed"],
+     [info_all("does_not_bind(l_res)", "narrows_higher_choice(l_res,book_o,c135_2)",
+               "narrows_higher_choice(l_res,book_o,rs21)", "obliged(church_a,l_fixed)", "obliged(mass_c,l_res_late)"),
+      info_none("obliged(mass_a,l_res)", "does_not_bind(l_fixed)", "does_not_bind(l_res_late)",
+                "narrows_higher_choice(l_res_late", "narrows_higher_choice(l_old"),
+      shown(["option_narrowed"], ("frontier/2",), "frontier(canon,narrowing_without_ground(l_old))",
+            absent=("frontier(canon,narrowing_without_ground(l_res))",))],
+     "tested on its own day, on each ground then in force: a reservation of 2025 is contrary (c. 135 §2; RS 21) and "
+     "stays so; requiring what the book commends is not; once the supreme authority withdraws the choice, the same "
+     "reservation binds; before 1983 no ground is encoded", mode=B)
+scen("LW12", LW, "Higher ius includes a higher authority's instruction (c. 135 §2)", ["ius_superius"],
+     [info_all("does_not_bind(l_dioc_h)", "obliged(person_k,l_dioc_k)"),
+      info_none("obliged(person_h,l_dioc_h)", "does_not_bind(l_dioc_k)")],
+     "a diocesan law against a dicastery's instruction does not bind; against the bishop's own instruction, it binds "
+     "(Huels, Worship 74 (2000) 126 n. 24)", mode=B)
 scen("LK3", CC, "An Eastern marriage under divine law", IMP + ["eastern_bond"],
      [info_all("info(bond(ee_p))", "info(marriage(ee_v,invalid_consent))"),
       shown(IMP + ["eastern_bond"], ("eastern_faithful/1",), "eastern_faithful(e_9)", "eastern_faithful(e_10)"),

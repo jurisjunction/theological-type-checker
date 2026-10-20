@@ -484,9 +484,43 @@ info(dispensed(L,X))         :- dispensed(L,X).
 % @norm cic:135 | c. 135 §2: a lower authority cannot validly act contrary to a higher one | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann129-144_en.html
 higher(H,L) :- law_kind(H,ecclesiastical), law_kind(L,ecclesiastical), legislator(H,AH), legislator(L,AL),
                authority(AH,KH), authority(AL,KL), KH > KL.
+% "Contra ius superius": the higher norm need not be a law. A higher
+% authority's instruction or executory decree binds a lower legislator too
+% (Huels, Worship 74 (2000) 126 n. 24; Liturgy and Law (2006) 47; LW12).
+higher(H,L) :- executive_act(H), issuer(H,AH), law_kind(L,ecclesiastical), legislator(L,AL),
+               authority(AH,KH), authority(AL,KL), KH > KL.
 contrary(L,H) :- contrary_to_law(L,H).
 competent_revocation(R,G) :- revocation(R,G,_), issuer(R,A1), issuer(G,A2), authority(A1,K1), authority(A2,K2), K1 >= K2.
 violation(ineffective_revocation(R,G)) :- revocation(R,G,_), not competent_revocation(R,G).
+
+% @norm rs2004:21 | Redemptionis Sacramentum 21 (2004), with c. 838 §4: within the limits of his competence the diocesan bishop issues liturgical norms by which all are bound; still, he must take care not to allow the removal of that liberty foreseen by the norms of the liturgical books | https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20040423_redemptionis-sacramentum_en.html
+% @input option_of/3 | option_of(Law, Matter, Holder): the law leaves the choice in Matter to Holder (a liturgical book's choice left to the celebrant)
+% @input narrows/2 | narrows(Law, Matter): the law limits, reserves or removes the choice in Matter
+% @input withdraws_option/2 | withdraws_option(Law, Matter): the law takes the choice in Matter from its holder
+% The diocesan bishop may legislate on the liturgy in every area (cc. 381 §1,
+% 838 §4), never contrary to higher ius (c. 135 §2): he "could not ... impose
+% limitations on the freedom of choice permitted in the liturgical books (RS
+% 21)" (Huels, Liturgy and Law (2006) 47). GIRM 387's list adds to that power
+% only Communion under both kinds (48): a matter's being unlisted is not the
+% test; narrowing a choice the higher law leaves open is.
+% The rule is dated. c. 135 §2 governs new law, so a narrowing law is tested on
+% the day it is promulgated (Huels, Worship 74 (2000) 128; Worship 78 (2004)
+% 410 n. 14), against a choice then open, on each ground then in force: c. 135
+% §2 from 27 November 1983, RS 21 from its publication, 23 April 2004. A choice
+% the supreme authority withdraws is open no longer, from that law's force; a
+% law already without force on its day is not revived by it (LW11).
+act_kind(rs2004,instruction). effective_from(rs2004,20040423). issuer(rs2004,cdwds). authority(cdwds,3).
+instant(D) :- narrows(L,_), promulgated(L,D).
+option_withdrawn(M,D) :- withdraws_option(L2,M), force_at(L2,D).
+option_open(H,M,D) :- option_of(H,M,_), force_at(H,D), not option_withdrawn(M,D).
+narrowing_ground(c135_2,D) :- narrows(L,_), promulgated(L,D), force_at(code1983,D).
+narrowing_ground(rs21,D)   :- narrows(L,_), promulgated(L,D), exec_in_force(rs2004,D).
+contrary_by(L,H,G) :- narrows(L,M), promulgated(L,D), option_open(H,M,D), narrowing_ground(G,D), L != H.
+contrary(L,H) :- contrary_by(L,H,_).
+info(narrows_higher_choice(L,H,G)) :- contrary_by(L,H,G), higher(H,L).
+% Before 1983 no ground is encoded: the narrowing is left to be read.
+frontier(canon,narrowing_without_ground(L)) :- narrows(L,M), promulgated(L,D), option_of(H,M,_), force_at(H,D),
+                                               not option_withdrawn(M,D), not narrowing_ground(_,D).
 
 % @norm cic:333 | c. 333 §3: no appeal or recourse against a decision of the Roman Pontiff | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann330-367_en.html
 % @stratum cic:333 supreme

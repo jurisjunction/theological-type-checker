@@ -1341,9 +1341,51 @@ promulgated(l_src_f,20200101). vacatio_set(l_src_f,20200101).
 promulgated(l_rev_f,20260601). vacatio_set(l_rev_f,20260701). revokes(l_rev_f,b_old_f,expressly).
 reading_option(b_old_f,plain). needs_reading(b_old_f,all). reaches(b_old_f,plain,(act_old;act_late)).
 act_date(act_old,20260615). act_date(act_late,20260715).
+% A body of texts enacted by a law in force from 1 July 2026: an act before, and one after.
+law_kind(b_new_f,ecclesiastical). obliging(b_new_f). enacted_by(b_new_f,l_src_new).
+promulgated(l_src_new,20260601). vacatio_set(l_src_new,20260701).
+reading_option(b_new_f,plain). needs_reading(b_new_f,all). reaches(b_new_f,plain,(act_early;act_later)).
+act_date(act_early,20260615). act_date(act_later,20260715).
 % A law with no date of force entered: it binds as before.
 law_kind(l_undated,ecclesiastical). obliging(l_undated).
 reading_option(l_undated,plain). needs_reading(l_undated,all). reaches(l_undated,plain,act_any). act_date(act_any,20260615).
+```
+
+part switch
+
+```clingo
+#program option_narrowed.           % HYPOTHETICAL: diocesan laws and a choice a liturgical book leaves to the celebrant (LW11)
+today(20270601).
+authority(pope_o,4). authority(bishop_o,1).
+law_kind((book_o;book_p;l_wd),ecclesiastical). legislator((book_o;book_p;l_wd),pope_o). permits((book_o;book_p)).
+promulgated(book_o,20000420). vacatio_set(book_o,20000420). option_of(book_o,posture_o,celebrant).
+law_kind((l_res;l_fixed;l_res_late;l_old),ecclesiastical). legislator((l_res;l_fixed;l_res_late;l_old),bishop_o).
+obliging((l_res;l_fixed;l_res_late;l_old)).
+reading_option((l_res;l_fixed;l_res_late),plain). needs_reading((l_res;l_fixed;l_res_late),all).
+% Reserving the choice, 2025: contrary on both grounds, then and after.
+promulgated(l_res,20250612). vacatio_set(l_res,20250701). narrows(l_res,posture_o). reaches(l_res,plain,mass_a). act_date(mass_a,20250801).
+% Requiring what the book commends narrows no choice (praeter legem).
+promulgated(l_fixed,20250612). vacatio_set(l_fixed,20250701). reaches(l_fixed,plain,church_a).
+% The supreme authority withdraws the choice from 2027; the same reservation issued after binds.
+promulgated(l_wd,20261001). vacatio_set(l_wd,20270101). withdraws_option(l_wd,posture_o).
+promulgated(l_res_late,20270301). vacatio_set(l_res_late,20270301). narrows(l_res_late,posture_o).
+reaches(l_res_late,plain,mass_c). act_date(mass_c,20270515).
+% Before 1983: no ground encoded.
+promulgated(book_p,19700101). vacatio_set(book_p,19700101). option_of(book_p,posture_p,celebrant).
+promulgated(l_old,19800101). vacatio_set(l_old,19800101). narrows(l_old,posture_p).
+```
+
+part switch
+
+```clingo
+#program ius_superius.              % HYPOTHETICAL: a diocesan law against a dicastery's instruction, and against the bishop's own (LW12)
+today(20261010).
+authority(dicastery_h,3). authority(bishop_h,1).
+act_kind((instr_h;instr_k),instruction). issuer(instr_h,dicastery_h). issuer(instr_k,bishop_h).
+law_kind((l_dioc_h;l_dioc_k),ecclesiastical). legislator((l_dioc_h;l_dioc_k),bishop_h). obliging((l_dioc_h;l_dioc_k)).
+reading_option((l_dioc_h;l_dioc_k),plain). needs_reading((l_dioc_h;l_dioc_k),all).
+reaches(l_dioc_h,plain,person_h). reaches(l_dioc_k,plain,person_k).
+contrary_to_law(l_dioc_h,instr_h). contrary_to_law(l_dioc_k,instr_k).
 ```
 
 part switch
