@@ -2741,11 +2741,18 @@ scen("LW11", LW, "A lower law narrowing a choice a higher law leaves open (c. 13
      "tested on its own day, on each ground then in force: a reservation of 2025 is contrary (c. 135 §2; RS 21) and "
      "stays so; requiring what the book commends is not; once the supreme authority withdraws the choice, the same "
      "reservation binds; before 1983 no ground is encoded", mode=B)
-scen("LW12", LW, "Higher ius includes a higher authority's instruction (c. 135 §2)", ["ius_superius"],
-     [info_all("does_not_bind(l_dioc_h)", "obliged(person_k,l_dioc_k)"),
-      info_none("obliged(person_h,l_dioc_h)", "does_not_bind(l_dioc_k)")],
-     "a diocesan law against a dicastery's instruction does not bind; against the bishop's own instruction, it binds "
-     "(Huels, Worship 74 (2000) 126 n. 24)", mode=B)
+scen("LW12", LW, "Higher ius through a provision in force (c. 135 §2; cc. 33-34)", ["ius_superius"],
+     [info_all("does_not_bind(l_dioc_h)", "against_higher_provision(l_dioc_h,p_ok)",
+               "obliged(person_b,l_dioc_b)", "obliged(person_g,l_dioc_g)", "obliged(person_k,l_dioc_k)",
+               "obliged(person_e,l_dioc_e)", "obliged(person_u,l_dioc_u)",
+               "provision_without_force_on_the_day(l_dioc_b,p_bad)", "provision_without_force_on_the_day(l_dioc_g,p_g)",
+               "provision_without_force_on_the_day(l_dioc_e,p_ok)"),
+      info_none("obliged(person_h,l_dioc_h)", "does_not_bind(l_dioc_b)", "does_not_bind(l_dioc_g)",
+                "does_not_bind(l_dioc_k)", "does_not_bind(l_dioc_e)", "does_not_bind(l_dioc_u)"),
+      shown(["ius_superius"], ("frontier/2",), "frontier(canon,contrary_provision_undated(l_dioc_u))")],
+     "a diocesan law against a dicastery's provision in force does not bind (Huels, StC 32 (1998) 360 n. 77); against "
+     "a provision without force (c. 34 §2), one whose law has ceased (§3), the bishop's own, or one not yet in force "
+     "when the law was given, it binds; with no day of promulgation it is not tested", mode=B)
 scen("LK3", CC, "An Eastern marriage under divine law", IMP + ["eastern_bond"],
      [info_all("info(bond(ee_p))", "info(marriage(ee_v,invalid_consent))"),
       shown(IMP + ["eastern_bond"], ("eastern_faithful/1",), "eastern_faithful(e_9)", "eastern_faithful(e_10)"),

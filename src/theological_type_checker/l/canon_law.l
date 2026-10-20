@@ -272,6 +272,10 @@ slot contrary_to_law(L: law, H: law)
   means "contrary_to_law(L, H): a juridical finding that human law L contradicts human law H"
   say "{L} contradicts {H}"
 
+slot contrary_to_provision(L: law, P: act)
+  means "contrary_to_provision(L, P): a juridical finding that the law L cannot be reconciled with the provision P of an executive act"
+  say "{L} cannot be reconciled with the provision {P}"
+
 slot invalidating(L: law)
   means "an invalidating or disqualifying law (c. 10)"
   say "{L} is an invalidating or disqualifying law"
@@ -567,6 +571,7 @@ instant(T) :- event_date(_,T).
 instant(T) :- eval_date(T).
 instant(T) :- celebration_date(_,T).                % a sacrament's date, for the laws that bear on its validity
 instant(D) :- narrows(L,_), promulgated(L,D).        % a narrowing law's day, on which c. 135 §2 tests it (rs2004:21)
+instant(D) :- contrary_to_provision(L,_), promulgated(L,D).   % likewise a law contrary to a provision (cic:135)
 % what the law asks of the calendar (c. 203): c. 8 §1's three months from
 % an issue, or from each end of an unread issue's span; and completed years
 months_asked(D,3)             :- aas_issue(_,D).
@@ -969,11 +974,21 @@ norm cic:135 | c. 135 §2: a lower authority cannot validly act contrary to a hi
 ```clingo
 higher(H,L) :- law_kind(H,ecclesiastical), law_kind(L,ecclesiastical), legislator(H,AH), legislator(L,AL),
                authority(AH,KH), authority(AL,KL), KH > KL.
-% "Contra ius superius": the higher norm need not be a law. A higher
-% authority's instruction or executory decree binds a lower legislator too
-% (Huels, Worship 74 (2000) 126 n. 24; Liturgy and Law (2006) 47; LW12).
-higher(H,L) :- executive_act(H), issuer(H,AH), law_kind(L,ecclesiastical), legislator(L,AL),
+% "Lex iuri superiori contraria": the lower act must be a law, but the
+% measure is ius, which includes a higher authority's executive norms. A
+% diocesan bishop "could not validly enact a law contrary to a provision of
+% an instruction of the Roman Curia" (Huels, StC 32 (1998) 360 n. 77, citing
+% Labandeira; Worship 74 (2000) 126 n. 24; Liturgy and Law (2006) 47). The
+% force is borrowed: a provision counts only while it has force, reconciled
+% with the law (c. 34 §2) and its law not ceased (§3), tested on the day the
+% lower law is promulgated (LW12; found in discussion, 20 October 2026).
+higher(P,L) :- provision(A,P), executive_act(A), issuer(A,AH), law_kind(L,ecclesiastical), legislator(L,AL),
                authority(AH,KH), authority(AL,KL), KH > KL.
+contrary(L,P) :- contrary_to_provision(L,P), promulgated(L,D), provision_in_force(P,D).
+info(against_higher_provision(L,P)) :- contrary_to_provision(L,P), promulgated(L,D), provision_in_force(P,D), higher(P,L).
+info(provision_without_force_on_the_day(L,P)) :- contrary_to_provision(L,P), provision(_,P), promulgated(L,D), instant(D),
+                                                not provision_in_force(P,D).
+frontier(canon,contrary_provision_undated(L)) :- contrary_to_provision(L,_), not promulgated(L,_).
 contrary(L,H) :- contrary_to_law(L,H).
 competent_revocation(R,G) :- revocation(R,G,_), issuer(R,A1), issuer(G,A2), authority(A1,K1), authority(A2,K2), K1 >= K2.
 violation(ineffective_revocation(R,G)) :- revocation(R,G,_), not competent_revocation(R,G).
@@ -1004,14 +1019,15 @@ slot withdraws_option(Law: law, Matter: category)
 % The rule is dated. c. 135 §2 governs new law, so a narrowing law is tested on
 % the day it is promulgated (Huels, Worship 74 (2000) 128; Worship 78 (2004)
 % 410 n. 14), against a choice then open, on each ground then in force: c. 135
-% §2 from 27 November 1983, RS 21 from its publication, 23 April 2004. A choice
+% §2 from 27 November 1983, RS 21's provision while it has force (cc. 33-34),
+% from the instruction's publication, 23 April 2004. A choice
 % the supreme authority withdraws is open no longer, from that law's force; a
 % law already without force on its day is not revived by it (LW11).
-act_kind(rs2004,instruction). effective_from(rs2004,20040423). issuer(rs2004,cdwds). authority(cdwds,3).
+act_kind(rs2004,instruction). effective_from(rs2004,20040423). issuer(rs2004,cdwds). authority(cdwds,3). provision(rs2004,rs2004_21).
 option_withdrawn(M,D) :- withdraws_option(L2,M), force_at(L2,D).
 option_open(H,M,D) :- option_of(H,M,_), force_at(H,D), not option_withdrawn(M,D).
 narrowing_ground(c135_2,D) :- narrows(L,_), promulgated(L,D), force_at(code1983,D).
-narrowing_ground(rs21,D)   :- narrows(L,_), promulgated(L,D), exec_in_force(rs2004,D).
+narrowing_ground(rs21,D)   :- narrows(L,_), promulgated(L,D), provision_in_force(rs2004_21,D).
 contrary_by(L,H,G) :- narrows(L,M), promulgated(L,D), option_open(H,M,D), narrowing_ground(G,D), L != H.
 contrary(L,H) :- contrary_by(L,H,_).
 info(narrows_higher_choice(L,H,G)) :- contrary_by(L,H,G), higher(H,L).

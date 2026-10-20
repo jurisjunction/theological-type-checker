@@ -1378,14 +1378,34 @@ promulgated(l_old,19800101). vacatio_set(l_old,19800101). narrows(l_old,posture_
 part switch
 
 ```clingo
-#program ius_superius.              % HYPOTHETICAL: a diocesan law against a dicastery's instruction, and against the bishop's own (LW12)
+#program ius_superius.              % HYPOTHETICAL: diocesan laws against provisions of executive acts (LW12)
 today(20261010).
-authority(dicastery_h,3). authority(bishop_h,1).
-act_kind((instr_h;instr_k),instruction). issuer(instr_h,dicastery_h). issuer(instr_k,bishop_h).
-law_kind((l_dioc_h;l_dioc_k),ecclesiastical). legislator((l_dioc_h;l_dioc_k),bishop_h). obliging((l_dioc_h;l_dioc_k)).
-reading_option((l_dioc_h;l_dioc_k),plain). needs_reading((l_dioc_h;l_dioc_k),all).
-reaches(l_dioc_h,plain,person_h). reaches(l_dioc_k,plain,person_k).
-contrary_to_law(l_dioc_h,instr_h). contrary_to_law(l_dioc_k,instr_k).
+authority(pope_h,4). authority(dicastery_h,3). authority(bishop_h,1).
+law_kind((l_univ;l_gone_h),ecclesiastical). legislator((l_univ;l_gone_h),pope_h).
+promulgated(l_univ,20000101). vacatio_set(l_univ,20000101). enacted_by(b_univ,l_univ).
+promulgated(l_gone_h,20000101). vacatio_set(l_gone_h,20000101). enacted_by(b_gone_h,l_gone_h).
+promulgated(l_rev_h,20200101). vacatio_set(l_rev_h,20200101). revokes(l_rev_h,b_gone_h,expressly).
+act_kind((instr_h;instr_g;instr_k),instruction). issuer((instr_h;instr_g),dicastery_h). issuer(instr_k,bishop_h).
+effective_from((instr_h;instr_g;instr_k),20100101). executes((instr_h;instr_k),l_univ). executes(instr_g,l_gone_h).
+provision(instr_h,(p_ok;p_bad)). contrary_provision(p_bad,l_univ).   % p_bad cannot be reconciled with the law (c. 34 §2)
+provision(instr_g,p_g). provision(instr_k,p_k).
+law_kind((l_dioc_h;l_dioc_b;l_dioc_g;l_dioc_k;l_dioc_e;l_dioc_u),ecclesiastical).
+legislator((l_dioc_h;l_dioc_b;l_dioc_g;l_dioc_k;l_dioc_e;l_dioc_u),bishop_h).
+obliging((l_dioc_h;l_dioc_b;l_dioc_g;l_dioc_k;l_dioc_e;l_dioc_u)).
+reading_option((l_dioc_h;l_dioc_b;l_dioc_g;l_dioc_k;l_dioc_e;l_dioc_u),plain).
+needs_reading((l_dioc_h;l_dioc_b;l_dioc_g;l_dioc_k;l_dioc_e;l_dioc_u),all).
+reaches(l_dioc_h,plain,person_h). reaches(l_dioc_b,plain,person_b). reaches(l_dioc_g,plain,person_g).
+reaches(l_dioc_k,plain,person_k). reaches(l_dioc_e,plain,person_e). reaches(l_dioc_u,plain,person_u).
+promulgated(l_dioc_h,20250101). promulgated(l_dioc_b,20250101). promulgated(l_dioc_g,20250101).
+promulgated(l_dioc_k,20250101). promulgated(l_dioc_e,20050101).
+particular_law(l_dioc_h). particular_law(l_dioc_b). particular_law(l_dioc_g).   % diocesan: c. 8 §2's month
+particular_law(l_dioc_k). particular_law(l_dioc_e). particular_law(l_dioc_u).
+contrary_to_provision(l_dioc_h,p_ok).    % against a dicastery's provision in force: invalid
+contrary_to_provision(l_dioc_b,p_bad).   % against a provision without force (c. 34 §2): stands
+contrary_to_provision(l_dioc_g,p_g).     % against a provision whose law has ceased (c. 34 §3): stands
+contrary_to_provision(l_dioc_k,p_k).     % against the bishop's own instruction: stands
+contrary_to_provision(l_dioc_e,p_ok).    % given before the instruction took effect: stands
+contrary_to_provision(l_dioc_u,p_ok).    % no day of promulgation entered: not tested
 ```
 
 part switch
