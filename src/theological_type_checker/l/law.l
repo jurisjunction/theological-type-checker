@@ -91,12 +91,15 @@ use unbound_at/3 "canon_law.lp (c. 11): an ecclesiastical law does not bind the 
 
 use unbound_now/2 "canon_law.lp (c. 11 with c. 97): the person is under seven at the evaluation date"
 
+use out_of_force_for/2 "canon_law.lp (c. 9 with cc. 7-8, 20): the act was placed outside the law's force"
+
 ```clingo
 % A merely ecclesiastical law binds only whom c. 11 binds: for a person, the
 % person's exemptions; for an act, its agent's, as binds_for/3 reads them in
 % the moral library (TTC-CCEO WB: the two libraries had disagreed). A divine
-% law has no such exemptions.
-binds_on(L,X) :- read_for(L,R,_), reaches(L,R,X), not does_not_bind(L), not exempt_from(X,L).
+% law has no such exemptions. Any law binds an act only while it is in force
+% (c. 9; WB3).
+binds_on(L,X) :- read_for(L,R,_), reaches(L,R,X), not does_not_bind(L), not exempt_from(X,L), not out_of_force_for(L,X).
 exempt_from(X,L) :- unbound(X,L).
 exempt_from(X,L) :- unbound_now(X,L).
 exempt_from(A,L) :- act_of(P,A), unbound(P,L).

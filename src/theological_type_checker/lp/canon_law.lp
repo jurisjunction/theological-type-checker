@@ -324,6 +324,16 @@ assumed_fact(false(force_by(L,T))) :- force_window(L,T1,T2), instant(T), T1 <= T
 norm_in_force(N,T) :- part_of(N,B), enacted_by(B,L), force_at(L,T), event_date(_,T), not abrogated_at(B,T).
 abrogated_at(B,T)  :- revokes(L2,B,_), force_at(L2,T).
 
+% @norm cic:8 | c. 8 §2: particular laws are promulgated in the manner determined by the legislator and begin to oblige a month after the day of promulgation unless the law itself establishes another time | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+% @input particular_law/1 | particular_law(Law): a law given for a particular territory or community (c. 13), promulgated as its legislator determines (c. 8 §2)
+% A month from the day of promulgation, counted as c. 8 §1's three months
+% are: the day counts whole, and the law binds from the day of the same
+% number, or the first of the next month where the month lacks it (c. 203;
+% CT5). A law that sets its own time keeps it (vacatio_set, c. 7 above).
+months_asked(D,1)  :- particular_law(L), promulgated(L,D), not vacatio_set(L,_).
+in_force_from(L,T) :- particular_law(L), promulgated(L,D), not vacatio_set(L,_), not aas_issue(L,_),
+                      same_number_after(D,1,T), not void_decree(L).
+
 % @norm cic:203 | cc. 200-203: time is computed by these canons unless the law provides otherwise; a day is 24 hours from midnight, continuous months and years as in the calendar (c. 202); the day a quo is not counted unless its beginning coincides with the beginning of the day; a term of months or years ends at the close of the last day of the same number or, if the month lacks it, of the last day of the month (c. 203) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann200-203_en.html
 % The day of the same number N calendar months after D; where the month
 % lacks it, its term closes with the month and the next day is the first.
@@ -418,6 +428,14 @@ info(not_retroactive(A,E)) :- authentic_reading(N,_,A), interpretation_form(A,la
 violation(interpretation_without_force(A)) :- authentic_reading(_,_,A), interpretation_form(A,law), not has_force_date(A).
 authentically_read(N,E) :- reading_binds(N,_,E).
 read_for(N,R,E) :- reading_binds(N,R,E).
+% So of every law, not only of an interpretation: it binds an act placed
+% while it is in force (c. 9), not one placed before its force begins
+% (cc. 7-8), nor one placed after its text is revoked (c. 20). A law with no
+% date of force entered is not computed here. (TTC-LAW WB3: binds_on/2 read
+% the reading and the reach, never the date; found on a diocesan decree.)
+out_of_force_for(L,X) :- event_date(X,T), has_force_date(L), not force_at(L,T).
+out_of_force_for(B,X) :- event_date(X,T), enacted_by(B,L), has_force_date(L), not force_at(L,T).
+out_of_force_for(B,X) :- event_date(X,T), abrogated_at(B,T).
 
 % @norm cic:17 | c. 17: laws are understood by the proper meaning of their words in text and context; if the meaning remains doubtful, by parallel places, purpose and circumstances, and the mind of the legislator | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 % A disputed reading with no authentic interpretation branches (rule 2). The
