@@ -173,12 +173,14 @@ past(E) :- event_date(E,TE), eval_date(T), TE <= T.
 instant(T) :- event_date(_,T).
 instant(T) :- eval_date(T).
 instant(T) :- celebration_date(_,T).                % a sacrament's date, for the laws that bear on its validity
+instant(D) :- narrows(L,_), promulgated(L,D).        % a narrowing law's day, on which c. 135 §2 tests it (rs2004:21)
 % what the law asks of the calendar (c. 203): c. 8 §1's three months from
 % an issue, or from each end of an unread issue's span; and completed years
 months_asked(D,3)             :- aas_issue(_,D).
 months_asked(G,3)             :- aas_volume(_,_,G).
 months_asked(Y*10000+1231,3)  :- aas_volume(_,Y,_).
 months_asked(D,3)             :- promulgated_elsewhere(_,D).
+months_asked(D,1)             :- particular_law(L), promulgated(L,D), not vacatio_set(L,_).   % c. 8 §2's month
 years_asked(B,T)              :- born(_,B), event_date(_,T), B <= T.
 years_asked(B,T)              :- born(_,B), eval_date(T), B <= T.
 issued(D) :- decree(D,_,TD), eval_date(T), TD <= T.
@@ -324,6 +326,15 @@ assumed_fact(false(force_by(L,T))) :- force_window(L,T1,T2), instant(T), T1 <= T
 norm_in_force(N,T) :- part_of(N,B), enacted_by(B,L), force_at(L,T), event_date(_,T), not abrogated_at(B,T).
 abrogated_at(B,T)  :- revokes(L2,B,_), force_at(L2,T).
 
+% @norm cic:8 | c. 8 §2: particular laws are promulgated in the manner determined by the legislator and begin to oblige a month after the day of promulgation unless the law itself establishes another time | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
+% @input particular_law/1 | particular_law(Law): a law given for a particular territory or community (c. 13), promulgated as its legislator determines (c. 8 §2)
+% A month from the day of promulgation, counted as c. 8 §1's three months
+% are: the day counts whole, and the law binds from the day of the same
+% number, or the first of the next month where the month lacks it (c. 203;
+% CT5). A law that sets its own time keeps it (vacatio_set, c. 7 above).
+in_force_from(L,T) :- particular_law(L), promulgated(L,D), not vacatio_set(L,_), not aas_issue(L,_),
+                      same_number_after(D,1,T), not void_decree(L).
+
 % @norm cic:203 | cc. 200-203: time is computed by these canons unless the law provides otherwise; a day is 24 hours from midnight, continuous months and years as in the calendar (c. 202); the day a quo is not counted unless its beginning coincides with the beginning of the day; a term of months or years ends at the close of the last day of the same number or, if the month lacks it, of the last day of the month (c. 203) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann200-203_en.html
 % The day of the same number N calendar months after D; where the month
 % lacks it, its term closes with the month and the next day is the first.
@@ -418,6 +429,14 @@ info(not_retroactive(A,E)) :- authentic_reading(N,_,A), interpretation_form(A,la
 violation(interpretation_without_force(A)) :- authentic_reading(_,_,A), interpretation_form(A,law), not has_force_date(A).
 authentically_read(N,E) :- reading_binds(N,_,E).
 read_for(N,R,E) :- reading_binds(N,R,E).
+% So of every law, not only of an interpretation: it binds an act placed
+% while it is in force (c. 9), not one placed before its force begins
+% (cc. 7-8), nor one placed after its text is revoked (c. 20). A law with no
+% date of force entered is not computed here. (TTC-LAW WB3: binds_on/2 read
+% the reading and the reach, never the date; found on a diocesan decree.)
+out_of_force_for(L,X) :- event_date(X,T), has_force_date(L), not force_at(L,T).
+out_of_force_for(B,X) :- event_date(X,T), enacted_by(B,L), has_force_date(L), not force_at(L,T).
+out_of_force_for(B,X) :- event_date(X,T), abrogated_at(B,T).
 
 % @norm cic:17 | c. 17: laws are understood by the proper meaning of their words in text and context; if the meaning remains doubtful, by parallel places, purpose and circumstances, and the mind of the legislator | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
 % A disputed reading with no authentic interpretation branches (rule 2). The
@@ -466,9 +485,42 @@ info(dispensed(L,X))         :- dispensed(L,X).
 % @norm cic:135 | c. 135 §2: a lower authority cannot validly act contrary to a higher one | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann129-144_en.html
 higher(H,L) :- law_kind(H,ecclesiastical), law_kind(L,ecclesiastical), legislator(H,AH), legislator(L,AL),
                authority(AH,KH), authority(AL,KL), KH > KL.
+% "Contra ius superius": the higher norm need not be a law. A higher
+% authority's instruction or executory decree binds a lower legislator too
+% (Huels, Worship 74 (2000) 126 n. 24; Liturgy and Law (2006) 47; LW12).
+higher(H,L) :- executive_act(H), issuer(H,AH), law_kind(L,ecclesiastical), legislator(L,AL),
+               authority(AH,KH), authority(AL,KL), KH > KL.
 contrary(L,H) :- contrary_to_law(L,H).
 competent_revocation(R,G) :- revocation(R,G,_), issuer(R,A1), issuer(G,A2), authority(A1,K1), authority(A2,K2), K1 >= K2.
 violation(ineffective_revocation(R,G)) :- revocation(R,G,_), not competent_revocation(R,G).
+
+% @norm rs2004:21 | Redemptionis Sacramentum 21 (2004), with c. 838 §4: within the limits of his competence the diocesan bishop issues liturgical norms by which all are bound; still, he must take care not to allow the removal of that liberty foreseen by the norms of the liturgical books | https://www.vatican.va/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20040423_redemptionis-sacramentum_en.html
+% @input option_of/3 | option_of(Law, Matter, Holder): the law leaves the choice in Matter to Holder (a liturgical book's choice left to the celebrant)
+% @input narrows/2 | narrows(Law, Matter): the law limits, reserves or removes the choice in Matter
+% @input withdraws_option/2 | withdraws_option(Law, Matter): the law takes the choice in Matter from its holder
+% The diocesan bishop may legislate on the liturgy in every area (cc. 381 §1,
+% 838 §4), never contrary to higher ius (c. 135 §2): he "could not ... impose
+% limitations on the freedom of choice permitted in the liturgical books (RS
+% 21)" (Huels, Liturgy and Law (2006) 47). GIRM 387's list adds to that power
+% only Communion under both kinds (48): a matter's being unlisted is not the
+% test; narrowing a choice the higher law leaves open is.
+% The rule is dated. c. 135 §2 governs new law, so a narrowing law is tested on
+% the day it is promulgated (Huels, Worship 74 (2000) 128; Worship 78 (2004)
+% 410 n. 14), against a choice then open, on each ground then in force: c. 135
+% §2 from 27 November 1983, RS 21 from its publication, 23 April 2004. A choice
+% the supreme authority withdraws is open no longer, from that law's force; a
+% law already without force on its day is not revived by it (LW11).
+act_kind(rs2004,instruction). effective_from(rs2004,20040423). issuer(rs2004,cdwds). authority(cdwds,3).
+option_withdrawn(M,D) :- withdraws_option(L2,M), force_at(L2,D).
+option_open(H,M,D) :- option_of(H,M,_), force_at(H,D), not option_withdrawn(M,D).
+narrowing_ground(c135_2,D) :- narrows(L,_), promulgated(L,D), force_at(code1983,D).
+narrowing_ground(rs21,D)   :- narrows(L,_), promulgated(L,D), exec_in_force(rs2004,D).
+contrary_by(L,H,G) :- narrows(L,M), promulgated(L,D), option_open(H,M,D), narrowing_ground(G,D), L != H.
+contrary(L,H) :- contrary_by(L,H,_).
+info(narrows_higher_choice(L,H,G)) :- contrary_by(L,H,G), higher(H,L).
+% Before 1983 no ground is encoded: the narrowing is left to be read.
+frontier(canon,narrowing_without_ground(L)) :- narrows(L,M), promulgated(L,D), option_of(H,M,_), force_at(H,D),
+                                               not option_withdrawn(M,D), not narrowing_ground(_,D).
 
 % @norm cic:333 | c. 333 §3: no appeal or recourse against a decision of the Roman Pontiff | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann330-367_en.html
 % @stratum cic:333 supreme

@@ -680,6 +680,13 @@ marriage(m_r,minister_l,20100407). spouse(m_r,(def_r;lu_f)).
 marriage(m_r,minister_l,20100408). spouse(m_r,(def_r;lu_f)).
 #program issues_november.           % HYPOTHETICAL: laws in issues of 29 and 30 November, before a leap year and a common one (CT2)
 aas_issue(law_a,20231129). aas_issue(law_b,20231130). aas_issue(law_c,20221129). aas_issue(law_d,20230831).
+#program particular_laws.           % HYPOTHETICAL: particular laws promulgated in the manner the legislator determined (CT5)
+particular_law(pl_a). particular_law(pl_b). particular_law(pl_c). particular_law(pl_d).
+promulgated(pl_a,20260901).                                  % a month: 1 October
+promulgated(pl_b,20260131).                                  % February lacks the 31st: 1 March (c. 203 §2)
+promulgated(pl_c,20261201).                                  % across the year: 1 January
+promulgated(pl_d,20260901). vacatio_set(pl_d,20260901).      % the law sets its own time: at once
+promulgated(ul_e,20260901). aas_issue(ul_e,20260901).       % not particular: c. 8 §1's three months, not c. 8 §2's one
 #program rejection_1998.            % HYPOTHETICAL: a definitive teaching rejected twice inside Ad tuendam fidem's unread span (CT3; load with tier2, assent, professions_definitive)
 professes(theo_t,(prof_t98;prof_t99),q(d1),no). act_date(prof_t98,19981201). act_date(prof_t99,19990201).
 warned(theo_t,(prof_t98;prof_t99),ordinary). interior(theo_t,(prof_t98;prof_t99),pertinacious).
@@ -756,6 +763,53 @@ marriage(ce_d,dcn_u,20180609). spouse(ce_d,(l_12;e_12)). disputed(common_error(c
 marriage(ee_d,dcn_d,20180603). spouse(ee_d,(e_4;e_5)).       % two Eastern Catholics, before a deacon
 marriage(ee_p,pr_m,20180604). spouse(ee_p,(e_6;e_7)).        % before a priest who assists and blesses
 marriage(eo_d,dcn_d,20180605). spouse(eo_d,(e_8;o_3)).       % an Eastern Catholic and an Orthodox, before a deacon
+#program law_in_force.              % HYPOTHETICAL: a law binds the acts placed in its force (c. 9; cc. 7-8, 20) (WB3)
+today(20261010).
+% A law in force from 1 July 2026: an act placed before, and one after.
+law_kind(l_dated,ecclesiastical). obliging(l_dated). promulgated(l_dated,20260601). vacatio_set(l_dated,20260701).
+reading_option(l_dated,plain). needs_reading(l_dated,all). reaches(l_dated,plain,(act_before;act_after)).
+act_date(act_before,20260615). act_date(act_after,20260715).
+% A body of texts in force since 2020, expressly revoked from 1 July 2026.
+law_kind(b_old_f,ecclesiastical). obliging(b_old_f). enacted_by(b_old_f,l_src_f).
+promulgated(l_src_f,20200101). vacatio_set(l_src_f,20200101).
+promulgated(l_rev_f,20260601). vacatio_set(l_rev_f,20260701). revokes(l_rev_f,b_old_f,expressly).
+reading_option(b_old_f,plain). needs_reading(b_old_f,all). reaches(b_old_f,plain,(act_old;act_late)).
+act_date(act_old,20260615). act_date(act_late,20260715).
+% A body of texts enacted by a law in force from 1 July 2026: an act before, and one after.
+law_kind(b_new_f,ecclesiastical). obliging(b_new_f). enacted_by(b_new_f,l_src_new).
+promulgated(l_src_new,20260601). vacatio_set(l_src_new,20260701).
+reading_option(b_new_f,plain). needs_reading(b_new_f,all). reaches(b_new_f,plain,(act_early;act_later)).
+act_date(act_early,20260615). act_date(act_later,20260715).
+% A law with no date of force entered: it binds as before.
+law_kind(l_undated,ecclesiastical). obliging(l_undated).
+reading_option(l_undated,plain). needs_reading(l_undated,all). reaches(l_undated,plain,act_any). act_date(act_any,20260615).
+#program option_narrowed.           % HYPOTHETICAL: diocesan laws and a choice a liturgical book leaves to the celebrant (LW11)
+today(20270601).
+authority(pope_o,4). authority(bishop_o,1).
+law_kind((book_o;book_p;l_wd),ecclesiastical). legislator((book_o;book_p;l_wd),pope_o). permits((book_o;book_p)).
+promulgated(book_o,20000420). vacatio_set(book_o,20000420). option_of(book_o,posture_o,celebrant).
+law_kind((l_res;l_fixed;l_res_late;l_old),ecclesiastical). legislator((l_res;l_fixed;l_res_late;l_old),bishop_o).
+obliging((l_res;l_fixed;l_res_late;l_old)).
+reading_option((l_res;l_fixed;l_res_late),plain). needs_reading((l_res;l_fixed;l_res_late),all).
+% Reserving the choice, 2025: contrary on both grounds, then and after.
+promulgated(l_res,20250612). vacatio_set(l_res,20250701). narrows(l_res,posture_o). reaches(l_res,plain,mass_a). act_date(mass_a,20250801).
+% Requiring what the book commends narrows no choice (praeter legem).
+promulgated(l_fixed,20250612). vacatio_set(l_fixed,20250701). reaches(l_fixed,plain,church_a).
+% The supreme authority withdraws the choice from 2027; the same reservation issued after binds.
+promulgated(l_wd,20261001). vacatio_set(l_wd,20270101). withdraws_option(l_wd,posture_o).
+promulgated(l_res_late,20270301). vacatio_set(l_res_late,20270301). narrows(l_res_late,posture_o).
+reaches(l_res_late,plain,mass_c). act_date(mass_c,20270515).
+% Before 1983: no ground encoded.
+promulgated(book_p,19700101). vacatio_set(book_p,19700101). option_of(book_p,posture_p,celebrant).
+promulgated(l_old,19800101). vacatio_set(l_old,19800101). narrows(l_old,posture_p).
+#program ius_superius.              % HYPOTHETICAL: a diocesan law against a dicastery's instruction, and against the bishop's own (LW12)
+today(20261010).
+authority(dicastery_h,3). authority(bishop_h,1).
+act_kind((instr_h;instr_k),instruction). issuer(instr_h,dicastery_h). issuer(instr_k,bishop_h).
+law_kind((l_dioc_h;l_dioc_k),ecclesiastical). legislator((l_dioc_h;l_dioc_k),bishop_h). obliging((l_dioc_h;l_dioc_k)).
+reading_option((l_dioc_h;l_dioc_k),plain). needs_reading((l_dioc_h;l_dioc_k),all).
+reaches(l_dioc_h,plain,person_h). reaches(l_dioc_k,plain,person_k).
+contrary_to_law(l_dioc_h,instr_h). contrary_to_law(l_dioc_k,instr_k).
 #program who_is_bound.              % HYPOTHETICAL: a merely ecclesiastical law and a divine law reaching all (WB1-WB2)
 today(20261010).
 law_kind(l_eccl,ecclesiastical). obliging(l_eccl). reading_option(l_eccl,plain). needs_reading(l_eccl,all).

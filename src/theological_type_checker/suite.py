@@ -2551,6 +2551,12 @@ scen("CT2", SAE, "The month that lacks the day", ["issues_november"],
      [shown(["issues_november"], FORCE, "in_force_from(law_a,20240229)", "in_force_from(law_b,20240301)",
             "in_force_from(law_c,20230301)", "in_force_from(law_d,20231201)")],
      "29 November 2023: 29 February 2024; 30 November 2023: 1 March 2024; 29 November 2022: 1 March 2023 (c. 203 §2)")
+scen("CT5", SAE, "A particular law: a month from promulgation (c. 8 §2)", ["particular_laws"],
+     [shown(["particular_laws"], FORCE, "in_force_from(pl_a,20261001)", "in_force_from(pl_b,20260301)",
+            "in_force_from(pl_c,20270101)", "in_force_from(pl_d,20260901)", "in_force_from(ul_e,20261201)",
+            absent=("in_force_from(pl_d,20261001)", "in_force_from(ul_e,20261001)"))],
+     "1 September: 1 October; 31 January: 1 March (c. 203 §2); 1 December: 1 January; a law that sets its own time "
+     "keeps it; a universal law keeps c. 8 §1's three months")
 scen("CT3", SAE, "An unread issue: force inside its span both ways", ["tier2", "assent", "professions_definitive", "rejection_1998"],
      [in_branches("info(delict(theo_t,n1371_1998,prof_t98))", "main", assume=["assumed_fact(force_by(atf1998,19981201))"]),
       in_branches("info(delict(theo_t,n1371_1998,prof_t98))", "main", assume=["assumed_fact(false(force_by(atf1998,19981201)))"],
@@ -2713,6 +2719,33 @@ scen("WB1", CC, "Who a merely ecclesiastical law binds", ["who_is_bound"],
                 "obliged(act_pg,l_eccl)")],
      "c. 11 read by the law library: the unbaptized, one baptized outside, one under seven now, and an act placed "
      "under seven are not bound; a divine law reaches them", mode=B)
+# Found on a diocesan decree (20 October 2026): a law not yet in force was
+# reported as obliging an act placed before its force began. binds_on/2 read
+# the reading and the reach, never the date.
+scen("WB3", CC, "A law binds the acts placed in its force (c. 9)", ["law_in_force"],
+     [info_all("info(obliged(act_after,l_dated))", "info(obliged(act_old,b_old_f))", "info(obliged(act_any,l_undated))",
+               "info(obliged(act_later,b_new_f))"),
+      info_none("obliged(act_before,l_dated)", "obliged(act_late,b_old_f)", "obliged(act_early,b_new_f)")],
+     "laws regard the future (c. 9): not an act placed before the law's force, or before the force of the law that "
+     "enacts a text (cc. 7-8), nor one placed after its text is revoked (c. 20); a law with no date entered binds as "
+     "before", mode=B)
+# Found on a diocesan decree reserving a posture the Missal leaves to the
+# celebrant (20 October 2026): Huels, Liturgy and Law (2006) 47, with RS 21.
+scen("LW11", LW, "A lower law narrowing a choice a higher law leaves open (c. 135 §2; RS 21)", ["option_narrowed"],
+     [info_all("does_not_bind(l_res)", "narrows_higher_choice(l_res,book_o,c135_2)",
+               "narrows_higher_choice(l_res,book_o,rs21)", "obliged(church_a,l_fixed)", "obliged(mass_c,l_res_late)"),
+      info_none("obliged(mass_a,l_res)", "does_not_bind(l_fixed)", "does_not_bind(l_res_late)",
+                "narrows_higher_choice(l_res_late", "narrows_higher_choice(l_old"),
+      shown(["option_narrowed"], ("frontier/2",), "frontier(canon,narrowing_without_ground(l_old))",
+            absent=("frontier(canon,narrowing_without_ground(l_res))",))],
+     "tested on its own day, on each ground then in force: a reservation of 2025 is contrary (c. 135 §2; RS 21) and "
+     "stays so; requiring what the book commends is not; once the supreme authority withdraws the choice, the same "
+     "reservation binds; before 1983 no ground is encoded", mode=B)
+scen("LW12", LW, "Higher ius includes a higher authority's instruction (c. 135 §2)", ["ius_superius"],
+     [info_all("does_not_bind(l_dioc_h)", "obliged(person_k,l_dioc_k)"),
+      info_none("obliged(person_h,l_dioc_h)", "does_not_bind(l_dioc_k)")],
+     "a diocesan law against a dicastery's instruction does not bind; against the bishop's own instruction, it binds "
+     "(Huels, Worship 74 (2000) 126 n. 24)", mode=B)
 scen("LK3", CC, "An Eastern marriage under divine law", IMP + ["eastern_bond"],
      [info_all("info(bond(ee_p))", "info(marriage(ee_v,invalid_consent))"),
       shown(IMP + ["eastern_bond"], ("eastern_faithful/1",), "eastern_faithful(e_9)", "eastern_faithful(e_10)"),
