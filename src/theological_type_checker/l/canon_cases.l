@@ -128,6 +128,34 @@ part switch of sspx
 #program decree_papally_approved. issuer(ddf_decree_2026,leo_xiv). authority(leo_xiv,4).       % HYPOTHETICAL
 ```
 
+part switch
+
+```clingo
+#program c1321_dolus_read.       :- not read_for(c1321_4,presumes_dolus,all).   % c. 1321 §4 read one way, for one-model checks (TTC-REPAIRS2)
+```
+
+part switch of sspx
+
+```clingo
+#program decree_in_specific_form. approved_in_specific_form(ddf_decree_2026).                  % HYPOTHETICAL
+```
+
+part switch of sspx
+
+```clingo
+#program ddf_recourse_final.     % HYPOTHETICAL: the Dicastery decides the recourse against its own decree; a further recourse is taken
+decree(ddf_ruling_2026,ddf,20260901). issuer(ddf_ruling_2026,ddf).
+decides_recourse(ddf_ruling_2026,ddf_decree_2026). declares(ddf_ruling_2026,fellay,n1364).
+recourse(ddf_ruling_2026,fellay,20260915).
+```
+
+part switch of sspx
+
+```clingo
+#program notified_later.         % HYPOTHETICAL: the decree made known to one it names after the clock, to another before it
+notified(ddf_decree_2026,fellay,20261015). notified(ddf_decree_2026,galarreta,20261005).
+```
+
 part switch of sspx
 
 ```clingo

@@ -48,6 +48,10 @@
 % @input recourse/3 | recourse(Decree, Person, Date)
 % @input recourse_decided/2 | recourse_decided(Decree, Date)
 % @input recourse_upheld/1 | the decree was annulled on recourse
+% @input notified/3 | notified(Decree, Person, Date): the decree made known to the person by the authority of its author (c. 54 §1)
+% @input approved_in_specific_form/1 | a curial decree approved by the Roman Pontiff in specific form, and so his own act
+% @input decides_recourse/2 | decides_recourse(Decision, Decree): the decision on the recourse against the decree
+% @input reserved_to_ddf/1 | reserved_to_ddf(N): the delict of N is reserved to the Dicastery for the Doctrine of the Faith (SST 2021)
 % @input remission/4 | remission(Act, Person, Norm, Date): a censure remitted
 % @input issuer/2 | issuer(Act, Authority)
 % @input authority/2 | authority(A, Rank): 4 pope (or by papal mandate/approval), 3 dicastery, 1 ordinary
@@ -280,6 +284,14 @@ part_of(n1371_1983,c1371_text_1983). part_of(n1371_1998,c1371_text_1998).
 reading_option(c751,act_suffices). reading_option(c751,lasting_state).
 narrower(lasting_state,act_suffices).
 needs_reading(c751,E) :- consecration(E,_,_,_), against_explicit_papal_will(E).
+% c. 1321 §4: does the presumption reach mere imputability, the source (dolus
+% or culpa) then to be found in the acts, or dolus itself, as CIC/17 c. 2200
+% §2 had it? No authentic interpretation: both are read (rule 2), once, and
+% only where it decides something (TTC-REPAIRS2 CI1).
+reading_option(c1321_4,presumes_imputability).
+reading_option(c1321_4,presumes_dolus).
+% Whether c. 18 reaches §4 itself (and so narrows it) is left open: no narrower/2 here.
+needs_reading(c1321_4,all) :- unsourced_latae(_,_,_).
 % c. 915: "manifest grave sin", objectively or subjectively? The Pontifical
 % Council's declaration (24 June 2000) applies the objective reading; it is not
 % an authentic interpretation (c. 16 §1; Pastor bonus art. 155). Whether the
@@ -661,6 +673,9 @@ info(satisfies_obligation(P,D,M)) :- assists_at(P,M), meets_obligation(M,D).
 % @norm cic:333 | c. 333 §3: no appeal or recourse against a decision of the Roman Pontiff | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann330-367_en.html
 % @stratum cic:333 supreme
 papal_act(D) :- issuer(D,A), authority(A,4).
+% A curial decree approved in specific form is the Pontiff's own act, as the
+% authority side already ranks it (in_forma_specifica, rank 4; TTC-REPAIRS2 PA1).
+papal_act(D) :- approved_in_specific_form(D).
 
 % @norm cic:113 | c. 113: the Catholic Church and the Apostolic See have the character of a moral person by divine ordinance itself; in the Church, besides physical persons, there are juridic persons, subjects of obligations and rights which correspond to their nature; c. 114 §1: constituted by law or by decree; c. 118: represented by those whose competence is acknowledged; c. 120 §1: perpetual by nature | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann96-123_en.html
 % A juridic person is a unity of order, not a substance (In I Ethic. lect. 1;
@@ -833,10 +848,15 @@ rebutted(imputability(P,E)) :- appears_otherwise(P,E).
 imputed(P,N,E) :- delict(P,N,E), presumed(imputability(P,E)), actus_humanus(P,E),
                   not exempt(P,E), not unpunished_culpa(P,N,E).
 unpunished_culpa(P,N,E) :- delict(P,N,E), culpa(P,E), not punishes_culpa(N), not culpa_disregarded(P,N,E).
-incurred_at(P,N,E,T) :- imputed(P,N,E), latae_sententiae(N), event_date(E,TE), instant(T), TE <= T,
-                        not remitted_at(P,N,E,T), not latae_excused(P,N,E).
+% A penalty to be imposed by a process: the process itself must establish the
+% source of imputability (c. 1342 §1; c. 1608), so the reading of §4 below
+% does not reach it (TTC-REPAIRS2 CI4).
 to_be_imposed(P,N,E) :- imputed(P,N,E), not latae_sententiae(N).
-presumed_incurred(P,N,E) :- incurred_at(P,N,E,T), eval_date(T).
+% §§2-3: the source of grave imputability, dolus or culpa, is a finding a
+% case supplies; the checker never derives it (rule 3).
+supplied_source(P,E) :- dolus(P,E).
+supplied_source(P,E) :- culpa(P,E).
+unsourced_latae(P,N,E) :- imputed(P,N,E), latae_sententiae(N), not supplied_source(P,E).
 info(not_a_human_act(P,E)) :- delict(P,_,E), not actus_humanus(P,E).
 info(dolus(P,E))           :- delict(P,_,E), dolus(P,E).
 info(culpa_not_punished(P,N,E)) :- unpunished_culpa(P,N,E).
@@ -847,6 +867,20 @@ info(culpa_not_punished(P,N,E)) :- unpunished_culpa(P,N,E).
 illicit_apart(P,E) :- binds_for(P,E,K), kind_of_act(E,K).
 violation(punished_without_fault(P,N,E)) :- imputed(P,N,E), disregarded(N,Of), ignorant_without_fault(P,E,Of),
                                             not illicit_apart(P,E).
+
+% @norm cic2021:1321_4 | c. 1321 §4 with §§2-3, the presumption of imputability read, and a latae sententiae penalty binding one to whom the violation is gravely imputable by dolus, or by culpa where the law provides | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
+% What §4 presumes is read once (c1321_4, all): mere imputability, the source
+% then to be found in the acts; or imputability and so dolus, the rule of
+% CIC/17 c. 2200 §2. No authentic interpretation: both are computed (rule 2).
+punishable(P,N,E) :- imputed(P,N,E), dolus(P,E).
+% imputed/3 already sets aside culpa the law does not punish (§3)
+punishable(P,N,E) :- imputed(P,N,E), culpa(P,E).
+punishable(P,N,E) :- unsourced_latae(P,N,E), read_for(c1321_4,presumes_dolus,all).
+incurred_at(P,N,E,T) :- punishable(P,N,E), latae_sententiae(N), event_date(E,TE), instant(T), TE <= T,
+                        not remitted_at(P,N,E,T), not latae_excused(P,N,E).
+presumed_incurred(P,N,E) :- incurred_at(P,N,E,T), eval_date(T).
+info(source_not_established(P,N,E)) :- unsourced_latae(P,N,E), read_for(c1321_4,presumes_imputability,all).
+info(presumption_read(R)) :- read_for(c1321_4,R,all).
 
 % @norm cic2021:1323 | c. 1323: not subject to a penalty: one under sixteen; one ignorant without fault of violating the law (inadvertence and error equivalent); physical force or unforeseeable chance; grave fear, necessity or grave inconvenience unless the act is intrinsically evil or tends to the harm of souls; due self-defence; lack of reason; one who thought without fault that the circumstances of nn. 4-5 existed | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
 exempt(P,E) :- delict(P,_,E), age_at(P,E,Y), Y < 16.                                   % n. 1
@@ -900,13 +934,31 @@ violation(notoriety_for_hearing(D,P)) :- notoriety_substitutes(D,P).
 % is a ground for recourse, not a non-existent decree.
 info(ground_for_recourse(D,P,c1720)) :- declares(D,P,_), issued(D), not hearing_ok(D,P).
 
+% @norm cic:54 | c. 54 §1, a singular decree not entrusted to an executor takes effect when it is made known to the person by the authority of the one who issued it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann35-93_en.html
+% A declaration takes effect for each person it names when made known to him
+% (TTC-REPAIRS2 NK1). The executor clause is not encoded.
+notified_to(D,P) :- notified(D,P,_).
+effective_at(D,P,T) :- declares(D,P,_), notified(D,P,TN), instant(T), TN <= T.
+% No notification entered: the effect is dated from the decree, and a note says so.
+effective_at(D,P,T) :- declares(D,P,_), not notified_to(D,P), decree(D,_,TD), instant(T), TD <= T.
+info(effect_from_decree_date(D)) :- declares(D,P,_), issued(D), not notified_to(D,P).
+
+% @norm sst2021:24 | Norms on delicts reserved to the Dicastery for the Doctrine of the Faith (11 October 2021), art. 24 §1 with art. 2 §1, recourse against the Dicastery's own acts in reserved delicts lies to the same Dicastery, any further recourse excluded; the delicts of c. 1364 are reserved | https://www.vatican.va/roman_curia/congregations/cfaith/documents/rc_con_cfaith_doc_20211011_norme-delittiriservati-cfaith_en.html
+% art. 2 §1; the reserved delicts of arts. 3-6 are not yet entered (TTC-REPAIRS2 SR3)
+reserved_to_ddf(n1364).
+reserved_matter(D) :- declares(D,_,N), reserved_to_ddf(N).
+dicastery_act(D) :- issuer(D,ddf).
+% the Dicastery's decision on a recourse against its own act is the last word (TTC-REPAIRS2 SR1)
+final_on_recourse(D2) :- decides_recourse(D2,D1), dicastery_act(D1), dicastery_act(D2), reserved_matter(D1).
+
 % @norm cic2021:1353 | c. 1353: recourse against a decree declaring a penalty has suspensive effect | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
-recourse_admissible(D) :- recourse(D,_,_), not papal_act(D).
-issued_at(D,T)    :- decree(D,_,TD), instant(T), TD <= T.
+recourse_admissible(D) :- recourse(D,_,_), not papal_act(D), not final_on_recourse(D).
+info(no_recourse_against_papal_act(D)) :- recourse(D,_,_), papal_act(D).
+info(no_further_recourse(D)) :- recourse(D,_,_), final_on_recourse(D).
 decided_at(D,T)   :- recourse_decided(D,TD), instant(T), TD <= T.
 suspended_at(D,T) :- recourse_admissible(D), recourse(D,_,TR), instant(T), TR <= T, not decided_at(D,T).
 annulled(D) :- recourse_upheld(D).
-declared_at(P,N,T) :- declares(D,P,N), issued_at(D,T), not suspended_at(D,T), not annulled(D).
+declared_at(P,N,T) :- declares(D,P,N), effective_at(D,P,T), not suspended_at(D,T), not annulled(D).
 declared_effective(P,N) :- declared_at(P,N,T), eval_date(T).
 info(declared(P,N)) :- declared_effective(P,N).
 info(declaration_suspended(D,P)) :- declares(D,P,_), suspended_at(D,T), eval_date(T).

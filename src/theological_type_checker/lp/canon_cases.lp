@@ -95,6 +95,14 @@ marriage(m_2026,sspx_priest_x,20260815).                          % no delegatio
 #program recourse_decided_2026.  recourse_decided(ddf_decree_2026,20260901).                  % HYPOTHETICAL
 #program recourse_upheld_2026.   recourse_decided(ddf_decree_2026,20260901). recourse_upheld(ddf_decree_2026).   % HYPOTHETICAL
 #program decree_papally_approved. issuer(ddf_decree_2026,leo_xiv). authority(leo_xiv,4).       % HYPOTHETICAL
+#program c1321_dolus_read.       :- not read_for(c1321_4,presumes_dolus,all).   % c. 1321 §4 read one way, for one-model checks (TTC-REPAIRS2)
+#program decree_in_specific_form. approved_in_specific_form(ddf_decree_2026).                  % HYPOTHETICAL
+#program ddf_recourse_final.     % HYPOTHETICAL: the Dicastery decides the recourse against its own decree; a further recourse is taken
+decree(ddf_ruling_2026,ddf,20260901). issuer(ddf_ruling_2026,ddf).
+decides_recourse(ddf_ruling_2026,ddf_decree_2026). declares(ddf_ruling_2026,fellay,n1364).
+recourse(ddf_ruling_2026,fellay,20260915).
+#program notified_later.         % HYPOTHETICAL: the decree made known to one it names after the clock, to another before it
+notified(ddf_decree_2026,fellay,20261015). notified(ddf_decree_2026,galarreta,20261005).
 #program note_as_revocation.     revocation(ddf_note_2026,mm12,20260702). revocation(ddf_note_2026,pced2017,20260702).
 #program note_papally_approved.  issuer(ddf_note_2026,leo_xiv). authority(leo_xiv,4).          % HYPOTHETICAL
 #program c751_state_reading.     c751_state_reading.     % c. 751 read as a lasting state, not an act
