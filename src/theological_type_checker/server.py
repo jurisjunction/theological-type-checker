@@ -277,6 +277,19 @@ def check(parts: list[str], facts: str = "", max_branches: int = 30, max_models:
 
 
 @_tool
+def say(parts: list[str], facts: str = "", brief: bool = False) -> str:
+    """The checker's answer as plain text, said through the base's templates
+    (ttc-say(1)). Every sentence is a slot's or a result's `say`, filled from
+    the atom printed under it (brief=True leaves the atoms out). In the facts,
+    `% @encoded-by who` names who encoded them, `% @case title` titles the
+    case, and `% @label term | text` names a constant.
+    Give the person the text as it is, in a code block. Do not paraphrase it:
+    whatever you add is yours, not the checker's, and should be said so."""
+    from . import report
+    return report.render(parts, facts, atoms=not brief)
+
+
+@_tool
 def compare(parts_a: list[str], parts_b: list[str], facts_a: str = "", facts_b: str = "") -> dict:
     """Run two configurations and report only what differs: the status of
     each question=value, the preferred values, and the violations or notes
@@ -713,8 +726,10 @@ def type_check_text(text: str, context: str = "") -> str:
    one `reading` per interpretation rather than choosing.
 3. Enter the text and any sources it relies on or contradicts, each with tier,
    force, year, papal form, character and legislator rank.
-4. Run `check` with the relevant parts plus your facts. Report, for each question,
-   what is settled, what is open, what is a shadow and what would bring it back.
+4. Run `check` with the relevant parts plus your facts, then `say` with the same,
+   with `% @encoded-by` naming who encoded them. Give the text `say` returns as it
+   is, in a code block: for each question, what is settled, what is open, what is
+   a shadow and what would bring it back. Whatever you add is yours; say so.
 5. List every violation, and for each one ask: is the checker wrong, or the text?
    If you suspect the checker, propose a rule change and test it with `fix_method`.
 6. Never assign anyone an interior state or a degree of culpability.

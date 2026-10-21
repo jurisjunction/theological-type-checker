@@ -958,6 +958,69 @@ violation(dispensing_essentials(D,L))  :- dispensation(D,L,_), defines_essential
 
 end
 
+-- Results this layer computes (TTC-L, SY): what ttc-say(1) says of them
+
+result reading_excluded(L: canon, R: reading)
+  say "the reading {R} of {L} is excluded"
+
+result excluded_reading(L: canon, R: reading)
+  say "the reading {R} of {L} is excluded"
+
+result permitted(X: entity, L: law)
+  say "{L} permits {X}"
+
+result obliged(X: entity, L: law)
+  say "{X} is bound by {L}"
+
+result invalid(X: entity, L: law)
+  say "{X} is invalid under {L}"
+
+result dispensed(L: law, X: entity)
+  say "{X} is dispensed from {L}"
+
+result declined_by_strict_interpretation(L: canon, R: reading, E: entity)
+  say "read strictly (c. 18), {L} is not given the wider reading {R} in {E}"
+
+result narrows_higher_choice(L: law, H: law, G: ground)
+  say "{L} narrows a choice {H} leaves open, against higher ius ({G})"
+
+result against_higher_provision(L: law, P: act)
+  say "{L} is contrary to {P}, a higher authority's provision that had force when the law was given (c. 135 §2)"
+
+result provision_without_force_on_the_day(L: law, P: act)
+  say "{L} is not tested against {P}: that provision had no force on the day the law was given (cc. 33-34)"
+
+result provision_in_force(P: act)
+  say "{P} is in force"
+
+result provision_without_force(P: act, L: law)
+  say "{P} lacks force: it cannot be reconciled with {L} (c. 34 §2)"
+
+result act_in_force(A: act)
+  say "{A} is in force"
+
+result ceased_with_law(A: act, L: law)
+  say "{A} ceased with {L}, the law it executed (cc. 33 §2, 34 §3)"
+
+result text_in_force(B: law)
+  say "{B} is in force as a text"
+
+result text_revoked(B: law, L: law, W: category)
+  say "{B} is revoked by {L} ({W})"
+
+result revocation_not_presumed(L2: law, L: law)
+  say "{L2} is not taken to revoke {L}: revocation is not presumed (c. 21)"
+
+result contrary_provision_undated(L: law)
+  say "{L} has no day of promulgation entered, so it is not tested against the provision it contradicts"
+
+result narrowing_without_ground(L: law)
+  say "{L} narrows a choice a higher law leaves open, but no ground in force on its day is encoded"
+
+label c135_2 "c. 135 §2"
+
+label rs21 "RS 21"
+
 ```clingo
 info(reading_excluded(L,R))  :- excluded_reading(L,R).
 info(does_not_bind(L))       :- does_not_bind(L).

@@ -505,6 +505,9 @@ slot liturgical_witness(W: source)
   means "liturgy.lp: the prayer a liturgical book holds"
   say "{W} is the prayer of a liturgical book"
 
+result invalid_lower_act(S: source, S2: source)
+  say "{S}, a later act of a lower legislator against {S2}, is invalid (c. 135 §2)"
+
 ```clingo
 cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), eff_tier(S,T), T >= 2, T <= 3,
                    not source(S,_,protective,_), not blocked(S,Q), not nonmagisterial(S), not particular_council(S),

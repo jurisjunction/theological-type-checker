@@ -81,6 +81,9 @@ admissible(L,R) :- reading_option(L,R), not excluded_reading(L,R).
 % ---------- What a binding law reaches ------------------------------------
 ```
 
+result does_not_bind(L: law)
+  say "{L} does not bind"
+
 slot reaches(Law: law, Reading: reading, X: entity)
   means "reaches(Law, Reading, X): on this reading the law reaches the act or person X"
   say "read as {Reading}, {Law} reaches {X}"

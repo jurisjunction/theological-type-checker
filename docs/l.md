@@ -9,6 +9,7 @@
 ```
 ttc-l build [--l dir] [--lp dir]
 ttc-l check [--l dir] [--lp dir]
+ttc-l gbnf [--side theology|canon] [--slot name/n ...]
 ```
 
 ## DESCRIPTION
@@ -27,6 +28,16 @@ and, through clingo's own parser, to check the slots against the rules.
 
 Edit the `.l` file, then build. Never edit a rule file by hand.
 
+**ttc-l gbnf** writes the slots and sorts as a GBNF grammar, for an
+encoder held to it in constrained decoding (llama.cpp; xgrammar and
+outlines read the same form). `root` is any number of facts; each fact is
+a slot, each argument of its sort: a closed sort's values, a range's
+numbers, a `date` of eight digits, a `year` or `number` an integer, a
+`string` quoted, any other open sort a term. No result, output or rule can
+be written in it. `--side` keeps the slots a case of that side enters;
+`--slot` keeps the named slots, so a question about one slot is answered
+in it alone.
+
 ## DECLARATIONS
 
 | Declaration | Compiles to | Says |
@@ -36,6 +47,8 @@ Edit the `.l` file, then build. Never edit a rule file by hand.
 | `sort name`, `sort name {a, b, …}`, `sort name lo..hi` + `means "…"` | the domains section | A sort of slot argument: open (named, not enforced) or closed, by values or a range. Declared once, in the lowest layer whose slots use it. |
 | `slot name(A: sort, …)` (`name/0` with no arguments) + `means "…"` + `say "…"` [+ `hypothetical "…"`] | `% @input name/n \| …` | A predicate a case enters: one the base reads and no rule derives, or one the guide gives to enter though a rule derives it (`source/4`, `interior/3`). Declared once, in the lowest layer that reads it; absolutions and consecrations in the canon layer, which a library reads. |
 | `use name/n "…"` | `% @input name/n \| …` | Read here; declared or derived elsewhere. |
+| `result name(A: sort, …)` + `say "…"` | nothing | A predicate the base computes, as a result shows it: a derived predicate, or the term an `info`, `violation` or `frontier` atom carries. Its `say` is what ttc-say(1) prints above the atom. |
+| `label term "…"` | nothing | A display name for a constant of the base (`label c135_2 "c. 135 §2"`), used when an atom is said. |
 | `norm id \| citation \| url` | `% @norm id \| citation \| url` | A canon, with its source (house rule 4). |
 | `end`, `temporal id`, `recursive id`, `stratum id divine\|supreme\|common` | `% @end`, `% @temporal id`, … | As norms.py reads them. |
 | `part model\|case\|switch\|candidate\|date\|search [of case]` | nothing | The kind of the `#program` block below, and its case. A case states its questions (`question/1`), or is the canon half of one, by its name; a switch is loaded with a case or a model to change it. A switch or candidate names the case whose matter it changes or tests with `of`; one of a model, a school or the creed names none. |
@@ -75,6 +88,11 @@ A slot's `say` is its sentence, each argument named once in braces
 (`"{S} is a source at tier {T}, of force {F}, from {Y}"`). A `say` naming
 an argument twice, never, or one the slot lacks, and an `of` naming no
 case, do not compile. `say` and `of` reach no rule file.
+
+A result is typed and said as a slot is, under the same rule. A result no
+rule computes, one also declared a slot (a slot is entered, a result
+computed), one declared twice, and a term labelled twice do not compile.
+Results and labels reach no rule file.
 
 A snippet, or a case saved with `save_case`, writes premises: the slots,
 helpers of its own, and constraints that read only those and `read_as/2`.
@@ -144,7 +162,14 @@ question(q(earth_moves)). question_kind(q(earth_moves),empirical).
 base is right: the evidence is the suite's expectations, written by hand,
 and the stamp. Byte identity tests the compiler, not the theology.
 
+The grammar guarantees form, not fidelity. An open sort admits any term,
+and a well-typed fact can be the wrong fact; that is for the tests with
+answers people gave.
+
 ## BUGS
+
+The GBNF is tested against a small recognizer of its own subset, not yet
+against llama.cpp's parser.
 
 Most of the base is still raw clingo in fences. A tag's text is kept as
 it was written, and often repeats the arguments.

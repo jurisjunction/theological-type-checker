@@ -30,6 +30,7 @@ ttc-library = "theological_type_checker.library:main"
 ttc-schools = "theological_type_checker.schools:main"
 ttc-coverage = "theological_type_checker.coverage:main"
 ttc-l = "theological_type_checker.lang:main"
+ttc-say = "theological_type_checker.report:main"
 
 [project.urls]
 Repository = "https://radicle.network/nodes/iris.radicle.network/rad:z9REkMbmisawZ51TYM8PxU9FK3jZ"
