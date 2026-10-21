@@ -783,6 +783,40 @@ act_date(act_early,20260615). act_date(act_later,20260715).
 % A law with no date of force entered: it binds as before.
 law_kind(l_undated,ecclesiastical). obliging(l_undated).
 reading_option(l_undated,plain). needs_reading(l_undated,all). reaches(l_undated,plain,act_any). act_date(act_any,20260615).
+#program option_held.               % HYPOTHETICAL: whose choice, a right regulated, a decision's reach (LW13)
+today(20270601).
+authority(pope_r,4). authority(dicastery_r,3). authority(bishop_r,1). authority(vicar_r,1).
+holds_as(bishop_r,diocesan_bishop).
+law_kind(book_r,ecclesiastical). legislator(book_r,pope_r). permits(book_r).
+promulgated(book_r,20000420). vacatio_set(book_r,20000420).
+option_of(book_r,mode_r,diocesan_bishop).                    % the bishop's own (RH1)
+option_of(book_r,posture_r,celebrant).                       % someone else's (RH2, RR3)
+option_of(book_r,tongue_r,communicant). right_of_the_faithful(tongue_r).
+law_kind((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low),ecclesiastical).
+legislator((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low),bishop_r).
+obliging((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low)).
+promulgated((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low),20260101).
+vacatio_set((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low),20260101).
+reading_option((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low),plain).
+needs_reading((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low),all).
+reaches(l_mode,plain,mass_m). reaches(l_post,plain,mass_p). reaches(l_reg,plain,mass_r). reaches(l_bare,plain,mass_b).
+reaches(l_cele_reg,plain,mass_e). reaches(l_conf,plain,mass_c). reaches(l_low,plain,mass_l).
+act_date((mass_m;mass_p;mass_r;mass_b;mass_e;mass_c;mass_l),20260801).
+narrows(l_mode,mode_r).                                      % RH1: binds
+narrows(l_post,posture_r).                                   % RH2: contrary, as before
+narrows(l_reg,tongue_r). disputed(regulates_exercise(l_reg,tongue_r)).      % RR1: both ways
+narrows(l_bare,tongue_r).                                    % RR2: no claim, contrary
+narrows(l_cele_reg,posture_r). regulates_exercise(l_cele_reg,posture_r).    % RR3: not a right of the faithful
+narrows(l_conf,tongue_r). disputed(regulates_exercise(l_conf,tongue_r)).
+decision_on_recourse(dec_r,l_conf,confirmed). issuer(dec_r,dicastery_r).   % RD1: settled for l_conf alone
+narrows(l_low,tongue_r). disputed(regulates_exercise(l_low,tongue_r)).
+decision_on_recourse(dec_low,l_low,confirmed). issuer(dec_low,vicar_r).    % RD3: not higher, settles nothing
+% Before 1983: the bishop's own choice is no frontier; another's is (as in LW11).
+law_kind((book_q;l_own_old;l_post_old),ecclesiastical). legislator(book_q,pope_r). legislator((l_own_old;l_post_old),bishop_r).
+promulgated(book_q,19700101). vacatio_set(book_q,19700101).
+option_of(book_q,mode_q,diocesan_bishop). option_of(book_q,posture_q,celebrant).
+promulgated((l_own_old;l_post_old),19800101). vacatio_set((l_own_old;l_post_old),19800101).
+narrows(l_own_old,mode_q). narrows(l_post_old,posture_q).
 #program option_narrowed.           % HYPOTHETICAL: diocesan laws and a choice a liturgical book leaves to the celebrant (LW11)
 today(20270601).
 authority(pope_o,4). authority(bishop_o,1).
@@ -802,14 +836,34 @@ reaches(l_res_late,plain,mass_c). act_date(mass_c,20270515).
 % Before 1983: no ground encoded.
 promulgated(book_p,19700101). vacatio_set(book_p,19700101). option_of(book_p,posture_p,celebrant).
 promulgated(l_old,19800101). vacatio_set(l_old,19800101). narrows(l_old,posture_p).
-#program ius_superius.              % HYPOTHETICAL: a diocesan law against a dicastery's instruction, and against the bishop's own (LW12)
+#program ius_superius.              % HYPOTHETICAL: diocesan laws against provisions of executive acts (LW12)
 today(20261010).
-authority(dicastery_h,3). authority(bishop_h,1).
-act_kind((instr_h;instr_k),instruction). issuer(instr_h,dicastery_h). issuer(instr_k,bishop_h).
-law_kind((l_dioc_h;l_dioc_k),ecclesiastical). legislator((l_dioc_h;l_dioc_k),bishop_h). obliging((l_dioc_h;l_dioc_k)).
-reading_option((l_dioc_h;l_dioc_k),plain). needs_reading((l_dioc_h;l_dioc_k),all).
-reaches(l_dioc_h,plain,person_h). reaches(l_dioc_k,plain,person_k).
-contrary_to_law(l_dioc_h,instr_h). contrary_to_law(l_dioc_k,instr_k).
+authority(pope_h,4). authority(dicastery_h,3). authority(bishop_h,1).
+law_kind((l_univ;l_gone_h),ecclesiastical). legislator((l_univ;l_gone_h),pope_h).
+promulgated(l_univ,20000101). vacatio_set(l_univ,20000101). enacted_by(b_univ,l_univ).
+promulgated(l_gone_h,20000101). vacatio_set(l_gone_h,20000101). enacted_by(b_gone_h,l_gone_h).
+promulgated(l_rev_h,20200101). vacatio_set(l_rev_h,20200101). revokes(l_rev_h,b_gone_h,expressly).
+act_kind((instr_h;instr_g;instr_k),instruction). issuer((instr_h;instr_g),dicastery_h). issuer(instr_k,bishop_h).
+effective_from((instr_h;instr_g;instr_k),20100101). executes((instr_h;instr_k),l_univ). executes(instr_g,l_gone_h).
+provision(instr_h,(p_ok;p_bad)). contrary_provision(p_bad,l_univ).   % p_bad cannot be reconciled with the law (c. 34 §2)
+provision(instr_g,p_g). provision(instr_k,p_k).
+law_kind((l_dioc_h;l_dioc_b;l_dioc_g;l_dioc_k;l_dioc_e;l_dioc_u),ecclesiastical).
+legislator((l_dioc_h;l_dioc_b;l_dioc_g;l_dioc_k;l_dioc_e;l_dioc_u),bishop_h).
+obliging((l_dioc_h;l_dioc_b;l_dioc_g;l_dioc_k;l_dioc_e;l_dioc_u)).
+reading_option((l_dioc_h;l_dioc_b;l_dioc_g;l_dioc_k;l_dioc_e;l_dioc_u),plain).
+needs_reading((l_dioc_h;l_dioc_b;l_dioc_g;l_dioc_k;l_dioc_e;l_dioc_u),all).
+reaches(l_dioc_h,plain,person_h). reaches(l_dioc_b,plain,person_b). reaches(l_dioc_g,plain,person_g).
+reaches(l_dioc_k,plain,person_k). reaches(l_dioc_e,plain,person_e). reaches(l_dioc_u,plain,person_u).
+promulgated(l_dioc_h,20250101). promulgated(l_dioc_b,20250101). promulgated(l_dioc_g,20250101).
+promulgated(l_dioc_k,20250101). promulgated(l_dioc_e,20050101).
+particular_law(l_dioc_h). particular_law(l_dioc_b). particular_law(l_dioc_g).   % diocesan: c. 8 §2's month
+particular_law(l_dioc_k). particular_law(l_dioc_e). particular_law(l_dioc_u).
+contrary_to_provision(l_dioc_h,p_ok).    % against a dicastery's provision in force: invalid
+contrary_to_provision(l_dioc_b,p_bad).   % against a provision without force (c. 34 §2): stands
+contrary_to_provision(l_dioc_g,p_g).     % against a provision whose law has ceased (c. 34 §3): stands
+contrary_to_provision(l_dioc_k,p_k).     % against the bishop's own instruction: stands
+contrary_to_provision(l_dioc_e,p_ok).    % given before the instruction took effect: stands
+contrary_to_provision(l_dioc_u,p_ok).    % no day of promulgation entered: not tested
 #program who_is_bound.              % HYPOTHETICAL: a merely ecclesiastical law and a divine law reaching all (WB1-WB2)
 today(20261010).
 law_kind(l_eccl,ecclesiastical). obliging(l_eccl). reading_option(l_eccl,plain). needs_reading(l_eccl,all).

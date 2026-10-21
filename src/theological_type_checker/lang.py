@@ -127,6 +127,26 @@ class Library(Decl):
         return ["%  @library  (read by norms.py: its predicates count as defined)"]
 
 
+def _typed_head(d: Decl, head: str) -> None:
+    """`name/n`, or typed: `name(A: sort, B: sort)` (TY), for a slot or a
+    result: sets name, arity and args (None when untyped)."""
+    d.args = None
+    m = SIG.match(head)
+    if m:
+        d.name, d.arity = m.group(1), int(m.group(2))
+        return
+    m = re.match(rf"^({NAME})\((.+)\)$", head)
+    if not m:
+        raise LError(d.where, d.line, f"expected name/arity or name(Arg: sort, ...), got {head!r}")
+    d.name, args = m.group(1), []
+    for part in m.group(2).split(","):
+        a = re.match(rf"^\s*([A-Z][A-Za-z0-9_]*)\s*:\s*({NAME})\s*$", part)
+        if not a:
+            raise LError(d.where, d.line, f"expected `Arg: sort`, got {part.strip()!r}")
+        args.append((a.group(1), a.group(2)))
+    d.args, d.arity = args, len(args)
+
+
 class Slot(Decl):
     """A predicate a case enters, declared once: one the base reads and no
     rule derives, or one the guide gives to enter though a rule also derives
@@ -139,21 +159,7 @@ class Slot(Decl):
     def parse(self, head):
         """`name/n`, or typed: `name(A: sort, B: sort)` (TY). A typed slot's
         arguments are clingo variables, each with a sort."""
-        self.args: list[tuple[str, str]] | None = None
-        m = SIG.match(head)
-        if m:
-            self.name, self.arity = m.group(1), int(m.group(2))
-            return
-        m = re.match(rf"^({NAME})\((.+)\)$", head)
-        if not m:
-            raise LError(self.where, self.line, f"expected name/arity or name(Arg: sort, ...), got {head!r}")
-        self.name, args = m.group(1), []
-        for part in m.group(2).split(","):
-            a = re.match(rf"^\s*([A-Z][A-Za-z0-9_]*)\s*:\s*({NAME})\s*$", part)
-            if not a:
-                raise LError(self.where, self.line, f"expected `Arg: sort`, got {part.strip()!r}")
-            args.append((a.group(1), a.group(2)))
-        self.args, self.arity = args, len(args)
+        _typed_head(self, head)
 
     @property
     def sig(self):
@@ -258,6 +264,44 @@ class Use(Decl):
 
     def render(self):
         return [f"% @input {self.name}/{self.arity} | {self.note}"]
+
+
+class Result(Decl):
+    """A predicate the base computes, as a result shows it: the inner term of
+    an `info` or `violation` atom, or a derived predicate (SY, for results).
+    Typed like a slot; its `say` is the sentence ttc-say(1) prints above the
+    atom. Renders nothing: the rule files are unchanged by it."""
+    keyword = "result"
+    attributes = ("say",)
+
+    def parse(self, head):
+        _typed_head(self, head)
+
+    @property
+    def sig(self):
+        return (self.name, self.arity)
+
+    def source(self):
+        lines = super().source()
+        if self.args:
+            lines[0] = f"result {self.name}(" + ", ".join(f"{a}: {s}" for a, s in self.args) + ")"
+        return lines
+
+
+LABEL_TERM = re.compile(rf"^(?:-?\d+|{NAME}(?:\([a-z0-9_(),]*\))?)$")
+
+
+class Label(Decl):
+    """A display name for a constant of the base (`label c135_2 "c. 135 §2"`),
+    used when a result is said. A case gives its own as `% @label term | text`
+    (ttc-say(1)). Renders nothing."""
+    keyword = "label"
+
+    def parse(self, head):
+        term, _, text = head.partition(" ")
+        if not LABEL_TERM.match(term):
+            raise LError(self.where, self.line, f"label: not a term: {term!r}")
+        self.term, self.text = term, _string(text.strip(), self.where, self.line)
 
 
 class Norm(Decl):
@@ -583,6 +627,58 @@ def slots(srcs: dict[str, Source]) -> dict[tuple[str, int], Slot]:
     return out
 
 
+def results(srcs: dict[str, Source]) -> dict[tuple[str, int], Result]:
+    """Each result by (name, arity). Declared once; never also a slot, since
+    a slot is entered and a result computed."""
+    out: dict[tuple[str, int], Result] = {}
+    declared = slots(srcs)
+    for src in srcs.values():
+        for d in src.decls(Result):
+            if d.sig in out:
+                first = out[d.sig]
+                raise LError(d.where, d.line, f"result {d.name}/{d.arity} is declared already ({first.where}:{first.line})")
+            if d.sig in declared:
+                s = declared[d.sig]
+                raise LError(d.where, d.line, f"result {d.name}/{d.arity} is a slot ({s.where}:{s.line}): "
+                             "a slot is entered, a result computed")
+            out[d.sig] = d
+    return out
+
+
+def labels(srcs: dict[str, Source]) -> dict[str, str]:
+    """Each label of the base by its term. A term labelled twice is refused."""
+    out: dict[str, Label] = {}
+    for src in srcs.values():
+        for d in src.decls(Label):
+            if d.term in out:
+                raise LError(d.where, d.line, f"label {d.term} is given already ({out[d.term].where}:{out[d.term].line})")
+            out[d.term] = d
+    return {k: d.text for k, d in out.items()}
+
+
+WRAPPERS = ("info", "violation")
+
+
+def wrapped(text: str) -> set[tuple[str, int]]:
+    """The (name, arity) of each term an `info` or `violation` atom wraps, or
+    a `frontier(Layer, X)` atom as its second argument, in a program text
+    (comments dropped)."""
+    out = set()
+    code = "\n".join(line.split("%")[0] for line in text.splitlines())
+    opener = r"\b(?:(?:" + "|".join(WRAPPERS) + r")\(|frontier\(\s*" + NAME + r"\s*,)\s*(" + NAME + r")\s*(\()?"
+    for m in re.finditer(opener, code):
+        if not m.group(2):
+            out.add((m.group(1), 0))
+            continue
+        depth, i = 1, m.end()
+        while i < len(code) and depth:
+            depth += code[i] == "("
+            depth -= code[i] == ")"
+            i += 1
+        out.add((m.group(1), len(_split_top(code[m.end():i - 1]))))
+    return out
+
+
 def all_sorts(srcs: dict[str, Source]) -> dict[str, Sort]:
     """Every sort, by name. A sort declared twice is refused."""
     out: dict[str, Sort] = {}
@@ -635,6 +731,20 @@ def validate(srcs: dict[str, Source]) -> None:
             raise LError(s.where, s.line, f"sort {s.name}: no slot uses it")
     for d in declared.values():
         check_say(d)
+    computed = set(derived)
+    for text in compiled(srcs, domains=False).values():
+        computed |= wrapped(text)
+    for d in results(srcs).values():
+        if d.sig not in computed:
+            raise LError(d.where, d.line, f"result {d.name}/{d.arity}: no rule computes it")
+        if d.arity and d.args is None:
+            raise LError(d.where, d.line, f"result {d.name}/{d.arity}: its arguments have no sorts; "
+                         f"write `result {d.name}(Arg: sort, ...)`")
+        for _, sort in d.args or []:
+            if sort not in sorts:
+                raise LError(d.where, d.line, f"result {d.name}/{d.arity}: no sort named {sort}")
+        check_say(d)
+    labels(srcs)
     check_hypothetical(srcs, declared)
     case_parts = {p.name for src in srcs.values() for p in src.decls(Part) if p.kind == "case"}
     for src in srcs.values():
@@ -648,18 +758,20 @@ def validate(srcs: dict[str, Source]) -> None:
                 raise LError(u.where, u.line, f"use {u.name}/{u.arity}: no file declares or derives it")
 
 
-def check_say(d: Slot) -> None:
-    """SY: a slot's `say` names each of its arguments once, and nothing else."""
+def check_say(d: Slot | Result) -> None:
+    """SY: a slot's or a result's `say` names each of its arguments once, and
+    nothing else."""
+    k = d.keyword
     if "say" not in d.attrs:
-        raise LError(d.where, d.line, f"slot {d.name}/{d.arity} has no `say`")
+        raise LError(d.where, d.line, f"{k} {d.name}/{d.arity} has no `say`")
     names = re.findall(r"\{([^{}]*)\}", d.attrs["say"])
     args = [a for a, _ in d.args or []]
     unknown = [n for n in names if n not in args]
     if unknown:
-        raise LError(d.where, d.line, f"slot {d.name}/{d.arity}: `say` names no argument {unknown[0]}")
+        raise LError(d.where, d.line, f"{k} {d.name}/{d.arity}: `say` names no argument {unknown[0]}")
     for a in args:
         if names.count(a) != 1:
-            raise LError(d.where, d.line, f"slot {d.name}/{d.arity}: `say` names {a} "
+            raise LError(d.where, d.line, f"{k} {d.name}/{d.arity}: `say` names {a} "
                          f"{'twice' if names.count(a) > 1 else 'never'}")
 
 
@@ -686,8 +798,8 @@ def check_hypothetical(srcs: dict[str, Source], declared: dict) -> None:
                              f"{'part ' + where.group(1) if where else 'the file outside its parts'} (rule 6)")
 
 
-def say(d: Slot, values: list[str]) -> str:
-    """The slot's sentence, its arguments filled in."""
+def say(d: Slot | Result, values: list[str]) -> str:
+    """The slot's or result's sentence, its arguments filled in."""
     out = d.attrs["say"]
     for (a, _), v in zip(d.args or [], values):
         out = out.replace("{" + a + "}", v)
@@ -735,12 +847,25 @@ def check(l_dir: pathlib.Path = L_DIR, lp_dir: pathlib.Path = LP_DIR,
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(prog="ttc-l", description="Compile L to the rule files, or check them.")
-    ap.add_argument("command", choices=["build", "check"])
+    ap = argparse.ArgumentParser(prog="ttc-l", description="Compile L to the rule files, check them, "
+                                 "or write the slots and sorts as a GBNF grammar.")
+    ap.add_argument("command", choices=["build", "check", "gbnf"])
+    ap.add_argument("--side", choices=["theology", "canon"], help="gbnf: the slots a case of this side enters")
+    ap.add_argument("--slot", action="append", default=None, metavar="NAME/N",
+                    help="gbnf: only this slot (repeatable)")
     ap.add_argument("--l", type=pathlib.Path, default=L_DIR, help="the sources (default: the package's l/)")
     ap.add_argument("--lp", type=pathlib.Path, default=LP_DIR, help="the rule files (default: the package's lp/)")
     a = ap.parse_args(argv)
     try:
+        if a.command == "gbnf":
+            from . import gbnf
+            validate(sources(a.l))
+            try:
+                sys.stdout.write(gbnf.grammar(a.side, set(a.slot) if a.slot else None, sources(a.l)))
+            except ValueError as exc:
+                print(f"refused: {exc}", file=sys.stderr)
+                return 2
+            return 0
         if a.command == "build":
             srcs = sources(a.l)
             validate(srcs)

@@ -42,6 +42,7 @@ ttc-library ic --near 41.90,12.45
 ttc-coverage --write
 ttc-l build
 ttc-l check
+ttc-say case.lp
 tools/sync
 ```
 

@@ -80,6 +80,7 @@
 % @input needs_reading/2 | needs_reading(Law, Context): the law's reading decides something here
 % @input legislator/2 | legislator(Law, Authority)
 % @input contrary_to_law/2 | contrary_to_law(L, H): a juridical finding that human law L contradicts human law H
+% @input contrary_to_provision/2 | contrary_to_provision(L, P): a juridical finding that the law L cannot be reconciled with the provision P of an executive act
 % @input invalidating/1 | an invalidating or disqualifying law (c. 10)
 % @input obliging/1 | a law that imposes an obligation
 % @input permits/1 | a law that grants a permission
@@ -174,6 +175,7 @@ instant(T) :- event_date(_,T).
 instant(T) :- eval_date(T).
 instant(T) :- celebration_date(_,T).                % a sacrament's date, for the laws that bear on its validity
 instant(D) :- narrows(L,_), promulgated(L,D).        % a narrowing law's day, on which c. 135 §2 tests it (rs2004:21)
+instant(D) :- contrary_to_provision(L,_), promulgated(L,D).   % likewise a law contrary to a provision (cic:135)
 % what the law asks of the calendar (c. 203): c. 8 §1's three months from
 % an issue, or from each end of an unread issue's span; and completed years
 months_asked(D,3)             :- aas_issue(_,D).
@@ -426,6 +428,9 @@ reaches_act(A,E) :- declaratory(A), needs_reading(_,E).
 reading_binds(N,R,E) :- authentic_reading(N,R,A), interpretation_form(A,law), needs_reading(N,E), reaches_act(A,E).
 reading_binds(N,R,E) :- authentic_reading(N,R,A), interpretation_form(A,particular), particular_matter(A,E), needs_reading(N,E).
 info(not_retroactive(A,E)) :- authentic_reading(N,_,A), interpretation_form(A,law), needs_reading(N,E), not reaches_act(A,E).
+% So of a superior's decision on recourse (c. 1739): it reaches no other law,
+% though that law narrow the same matter (TTC-REPAIRS RD2).
+info(not_reached_by(L2,D)) :- decision_on_recourse(D,L,_), narrows(L,M), narrows(L2,M), L2 != L.
 violation(interpretation_without_force(A)) :- authentic_reading(_,_,A), interpretation_form(A,law), not has_force_date(A).
 authentically_read(N,E) :- reading_binds(N,_,E).
 read_for(N,R,E) :- reading_binds(N,R,E).
@@ -485,11 +490,21 @@ info(dispensed(L,X))         :- dispensed(L,X).
 % @norm cic:135 | c. 135 §2: a lower authority cannot validly act contrary to a higher one | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann129-144_en.html
 higher(H,L) :- law_kind(H,ecclesiastical), law_kind(L,ecclesiastical), legislator(H,AH), legislator(L,AL),
                authority(AH,KH), authority(AL,KL), KH > KL.
-% "Contra ius superius": the higher norm need not be a law. A higher
-% authority's instruction or executory decree binds a lower legislator too
-% (Huels, Worship 74 (2000) 126 n. 24; Liturgy and Law (2006) 47; LW12).
-higher(H,L) :- executive_act(H), issuer(H,AH), law_kind(L,ecclesiastical), legislator(L,AL),
+% "Lex iuri superiori contraria": the lower act must be a law, but the
+% measure is ius, which includes a higher authority's executive norms. A
+% diocesan bishop "could not validly enact a law contrary to a provision of
+% an instruction of the Roman Curia" (Huels, StC 32 (1998) 360 n. 77, citing
+% Labandeira; Worship 74 (2000) 126 n. 24; Liturgy and Law (2006) 47). The
+% force is borrowed: a provision counts only while it has force, reconciled
+% with the law (c. 34 §2) and its law not ceased (§3), tested on the day the
+% lower law is promulgated (LW12; found in discussion, 20 October 2026).
+higher(P,L) :- provision(A,P), executive_act(A), issuer(A,AH), law_kind(L,ecclesiastical), legislator(L,AL),
                authority(AH,KH), authority(AL,KL), KH > KL.
+contrary(L,P) :- contrary_to_provision(L,P), promulgated(L,D), provision_in_force(P,D).
+info(against_higher_provision(L,P)) :- contrary_to_provision(L,P), promulgated(L,D), provision_in_force(P,D), higher(P,L).
+info(provision_without_force_on_the_day(L,P)) :- contrary_to_provision(L,P), provision(_,P), promulgated(L,D), instant(D),
+                                                not provision_in_force(P,D).
+frontier(canon,contrary_provision_undated(L)) :- contrary_to_provision(L,_), not promulgated(L,_).
 contrary(L,H) :- contrary_to_law(L,H).
 competent_revocation(R,G) :- revocation(R,G,_), issuer(R,A1), issuer(G,A2), authority(A1,K1), authority(A2,K2), K1 >= K2.
 violation(ineffective_revocation(R,G)) :- revocation(R,G,_), not competent_revocation(R,G).
@@ -498,6 +513,7 @@ violation(ineffective_revocation(R,G)) :- revocation(R,G,_), not competent_revoc
 % @input option_of/3 | option_of(Law, Matter, Holder): the law leaves the choice in Matter to Holder (a liturgical book's choice left to the celebrant)
 % @input narrows/2 | narrows(Law, Matter): the law limits, reserves or removes the choice in Matter
 % @input withdraws_option/2 | withdraws_option(Law, Matter): the law takes the choice in Matter from its holder
+% @input holds_as/2 | holds_as(A, Holder): the authority A holds a choice as Holder, one of the holders option_of/3 names (a diocesan bishop as diocesan_bishop)
 % The diocesan bishop may legislate on the liturgy in every area (cc. 381 §1,
 % 838 §4), never contrary to higher ius (c. 135 §2): he "could not ... impose
 % limitations on the freedom of choice permitted in the liturgical books (RS
@@ -507,21 +523,56 @@ violation(ineffective_revocation(R,G)) :- revocation(R,G,_), not competent_revoc
 % The rule is dated. c. 135 §2 governs new law, so a narrowing law is tested on
 % the day it is promulgated (Huels, Worship 74 (2000) 128; Worship 78 (2004)
 % 410 n. 14), against a choice then open, on each ground then in force: c. 135
-% §2 from 27 November 1983, RS 21 from its publication, 23 April 2004. A choice
+% §2 from 27 November 1983, RS 21's provision while it has force (cc. 33-34),
+% from the instruction's publication, 23 April 2004. A choice
 % the supreme authority withdraws is open no longer, from that law's force; a
 % law already without force on its day is not revived by it (LW11).
-act_kind(rs2004,instruction). effective_from(rs2004,20040423). issuer(rs2004,cdwds). authority(cdwds,3).
+act_kind(rs2004,instruction). effective_from(rs2004,20040423). issuer(rs2004,cdwds). authority(cdwds,3). provision(rs2004,rs2004_21).
 option_withdrawn(M,D) :- withdraws_option(L2,M), force_at(L2,D).
 option_open(H,M,D) :- option_of(H,M,_), force_at(H,D), not option_withdrawn(M,D).
 narrowing_ground(c135_2,D) :- narrows(L,_), promulgated(L,D), force_at(code1983,D).
-narrowing_ground(rs21,D)   :- narrows(L,_), promulgated(L,D), exec_in_force(rs2004,D).
-contrary_by(L,H,G) :- narrows(L,M), promulgated(L,D), option_open(H,M,D), narrowing_ground(G,D), L != H.
+narrowing_ground(rs21,D)   :- narrows(L,_), promulgated(L,D), provision_in_force(rs2004_21,D).
+% Whose choice it is decides (TTC-REPAIRS RH): a choice the higher law leaves
+% to the narrowing law's own legislator is his to exercise, not higher ius he
+% contradicts. The GIRM leaves Communion under both kinds, and so the mode of
+% intinction, to the diocesan bishop's norms (GIRM 283, 387; Huels, Liturgy
+% and Law (2006) 48). A right of the faithful whose exercise the law directs
+% for the common good is regulated, not contradicted (c. 223 §2; RR).
+own_choice(L,H,M) :- narrows(L,M), option_of(H,M,Hd), legislator(L,A), holds_as(A,Hd).
+contrary_by(L,H,G) :- narrows(L,M), promulgated(L,D), option_open(H,M,D), narrowing_ground(G,D), L != H,
+                      not own_choice(L,H,M), not regulated(L,M).
+info(narrows_own_choice(L,H)) :- own_choice(L,H,M), promulgated(L,D), option_open(H,M,D).
 contrary(L,H) :- contrary_by(L,H,_).
 info(narrows_higher_choice(L,H,G)) :- contrary_by(L,H,G), higher(H,L).
 % Before 1983 no ground is encoded: the narrowing is left to be read.
 frontier(canon,narrowing_without_ground(L)) :- narrows(L,M), promulgated(L,D), option_of(H,M,_), force_at(H,D),
-                                               not option_withdrawn(M,D), not narrowing_ground(_,D).
+                                               not option_withdrawn(M,D), not narrowing_ground(_,D),
+                                               not own_choice(L,H,M).
 
+% @norm cic:223 | c. 223 §2: in view of the common good, ecclesiastical authority can direct the exercise of rights which are proper to the Christian faithful | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann208-329_en.html
+% @input right_of_the_faithful/1 | right_of_the_faithful(M): the choice in M is a right proper to the Christian faithful (c. 223 §2), as receiving on the tongue (RS 92) or kneeling (RS 91)
+% @input regulates_exercise/2 | regulates_exercise(L, M): the law directs the exercise of the right in M in view of the common good (c. 223 §2); a prudential judgment, entered as a claim or disputed, never computed
+% "In view of the common good, ecclesiastical authority can direct the
+% exercise of rights which are proper to the Christian faithful" (c. 223 §2).
+% In a pandemic, provisional norms "must be obeyed" and "expire when the
+% situation returns to normal", the right not limited beyond the norms of
+% hygiene (CDW, letter to the presidents of the conferences, 15 August 2020).
+% Whether a law does so is a judgment the checker never makes (rule 2): the
+% claim is entered, or disputed and computed both ways. It rescues only a
+% right of the faithful, never a choice the books leave to a minister (RR3).
+{ regulates_exercise(L,M) } :- disputed(regulates_exercise(L,M)).
+assumed_fact(F)        :- disputed(F), F = regulates_exercise(L,M), regulates_exercise(L,M).
+assumed_fact(false(F)) :- disputed(F), F = regulates_exercise(L,M), not regulates_exercise(L,M).
+regulated(L,M) :- regulates_exercise(L,M), right_of_the_faithful(M), narrows(L,M).
+info(regulates_right(L,M)) :- regulated(L,M).
+% @norm cic:1739 | c. 1739: the superior who deals with the recourse may confirm the decree or declare it invalid, rescind or revoke it, or emend, replace or modify it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib7-cann1732-1752_en.html
+% @input decision_on_recourse/3 | decision_on_recourse(D, L, Outcome): the superior's decision D on a recourse against L: confirmed (c. 1739)
+% A higher authority that confirms a law on recourse has judged it within
+% power: a regulation disputed for that law is settled, for that law alone.
+% The decision binds only the parties and the matter (c. 16 §2-3; RD2).
+decides_above(D,L) :- decision_on_recourse(D,L,_), issuer(D,A), authority(A,K), legislator(L,AL), authority(AL,KL), K > KL.
+regulates_exercise(L,M) :- decision_on_recourse(D,L,confirmed), decides_above(D,L), disputed(regulates_exercise(L,M)).
+info(confirmed_on_recourse(L,D)) :- decision_on_recourse(D,L,confirmed), decides_above(D,L).
 % @norm cic:333 | c. 333 §3: no appeal or recourse against a decision of the Roman Pontiff | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann330-367_en.html
 % @stratum cic:333 supreme
 papal_act(D) :- issuer(D,A), authority(A,4).
