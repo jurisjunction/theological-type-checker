@@ -621,6 +621,9 @@ priest(P) :- bishop(P).
 { declaratory(A) } :- disputed(declaratory(A)), interpretation_form(A,law).
 { necessary_assistance(P,A) } :- disputed(necessary_assistance(P,A)).
 { issuer(D,A) } :- disputed(issuer(D,A)).
+{ penal_use(L) } :- disputed(penal_use(L)).
+assumed_fact(F)      :- disputed(F), F = penal_use(L), penal_use(L).
+assumed_fact(false(F)) :- disputed(F), F = penal_use(L), not penal_use(L).
 assumed_fact(F)      :- disputed(F), F = declaratory(A), interpretation_form(A,law), declaratory(A).
 assumed_fact(false(F)) :- disputed(F), F = declaratory(A), interpretation_form(A,law), not declaratory(A).
 assumed_fact(F)      :- disputed(F), F = necessary_assistance(P,A), necessary_assistance(P,A).
@@ -707,7 +710,19 @@ needs_reading(c751,E) :- consecration(E,_,_,_), against_explicit_papal_will(E).
 % only where it decides something (TTC-REPAIRS2 CI1).
 reading_option(c1321_4,presumes_imputability).
 reading_option(c1321_4,presumes_dolus).
-% Whether c. 18 reaches §4 itself (and so narrows it) is left open: no narrower/2 here.
+% Whether c. 18 reaches §4 itself: since 2021 §4 stands as an exception to
+% §1's presumption of innocence, and it is odious to the accused. Disputed,
+% and computed both ways wherever §4's reading is asked (TTC-REPAIRS3 SI1).
+narrower(presumes_imputability,presumes_dolus).
+disputed(penal_use(c1321_4)) :- needs_reading(c1321_4,all).
+% c. 1325: what gross ignorance supplies, read three ways, once, where it
+% attends a delict: nothing (a bar to cc. 1323-1324 only); dolus for all three
+% kinds; or dolus for affected ignorance, directly willed, and culpa for crass
+% or supine, indirectly willed (ST I-II q. 6 a. 8; TTC-REPAIRS3 IG1).
+reading_option(c1325,bar_only).
+reading_option(c1325,as_dolus).
+reading_option(c1325,affected_as_dolus).
+needs_reading(c1325,all) :- gross_ignorance(P,E,_), delict(P,_,E).
 needs_reading(c1321_4,all) :- unsourced_latae(_,_,_).
 % c. 915: "manifest grave sin", objectively or subjectively? The Pontifical
 % Council's declaration (24 June 2000) applies the objective reading; it is not
@@ -1018,6 +1033,18 @@ result excluded_reading(L: canon, R: reading)
 
 result presumption_read(R: reading)
   say "c. 1321 §4 is read as {R}"
+
+result c1325_read(R: reading)
+  say "c. 1325 is read as {R}"
+
+result no_formal_delict(P: person, E: act)
+  say "the subjective element is absent: {P}'s external violation in {E} is no delict in the formal sense"
+
+result delict_stands_exempt(P: person, E: act)
+  say "{P}'s delict in {E} stands, and the law exempts it from the penalty (c. 1323)"
+
+result aggravated(P: person, E: act, W: category)
+  say "{P}'s delict in {E} is aggravated ({W}): a more serious punishment is due (c. 1326 §1)"
 
 result source_not_established(P: person, N: norm, E: act)
   say "no source of imputability (dolus or culpa) is established for {P} in {E}, so on this reading of c. 1321 §4 the penalty of {N} is not incurred"
@@ -1679,8 +1706,13 @@ act_of(P,E) :- delict(P,_,E).
 raises(imputability(P,E))   :- delict(P,_,E).
 rebutted(imputability(P,E)) :- appears_otherwise(P,E).
 imputed(P,N,E) :- delict(P,N,E), presumed(imputability(P,E)), actus_humanus(P,E),
-                  not exempt(P,E), not unpunished_culpa(P,N,E).
+                  not exempt(P,E), not unpunished_culpa(P,N,E), not not_grave(P,E).
 unpunished_culpa(P,N,E) :- delict(P,N,E), culpa(P,E), not punishes_culpa(N), not culpa_disregarded(P,N,E).
+unpunished_culpa(P,N,E) :- delict(P,N,E), ignorance_source(P,E,culpa), not punishes_culpa(N).
+% §2: imputability claimed not grave leaves no subjective element of the delict
+% (a claim supplied, never computed; TTC-REPAIRS3 MT2).
+not_grave(P,E) :- delict(P,_,E), interior(P,E,imputability(not_grave)).
+info(no_formal_delict(P,E)) :- not_grave(P,E).
 % A penalty to be imposed by a process: the process itself must establish the
 % source of imputability (c. 1342 §1; c. 1608), so the reading of §4 below
 % does not reach it (TTC-REPAIRS2 CI4).
@@ -1689,6 +1721,8 @@ to_be_imposed(P,N,E) :- imputed(P,N,E), not latae_sententiae(N).
 % case supplies; the checker never derives it (rule 3).
 supplied_source(P,E) :- dolus(P,E).
 supplied_source(P,E) :- culpa(P,E).
+supplied_source(P,E) :- ignorance_source(P,E,_).      % c. 1325, as read (TTC-REPAIRS3 IG1)
+supplied_source(P,E) :- premeditated(P,E).            % c. 1326 §1 n. 4 (TTC-REPAIRS3 AG2)
 unsourced_latae(P,N,E) :- imputed(P,N,E), latae_sententiae(N), not supplied_source(P,E).
 info(not_a_human_act(P,E)) :- delict(P,_,E), not actus_humanus(P,E).
 info(dolus(P,E))           :- delict(P,_,E), dolus(P,E).
@@ -1713,6 +1747,10 @@ punishable(P,N,E) :- imputed(P,N,E), dolus(P,E).
 % imputed/3 already sets aside culpa the law does not punish (§3)
 punishable(P,N,E) :- imputed(P,N,E), culpa(P,E).
 punishable(P,N,E) :- unsourced_latae(P,N,E), read_for(c1321_4,presumes_dolus,all).
+% gross ignorance read as a source (c. 1325), and passion fostered for the deed
+% (c. 1326 §1 n. 4); imputed/3 already sets aside culpa the law does not punish
+punishable(P,N,E) :- imputed(P,N,E), ignorance_source(P,E,_).
+punishable(P,N,E) :- imputed(P,N,E), premeditated(P,E).
 incurred_at(P,N,E,T) :- punishable(P,N,E), latae_sententiae(N), event_date(E,TE), instant(T), TE <= T,
                         not remitted_at(P,N,E,T), not latae_excused(P,N,E).
 presumed_incurred(P,N,E) :- incurred_at(P,N,E,T), eval_date(T).
@@ -1738,10 +1776,24 @@ grave_matter(E) :- of_kind(E,intrinsically_evil).
 grave_matter(E) :- of_kind(E,harm_of_souls).
 grave_matter(E) :- kind_of_act(E,K), evil_by_object(K).          % the library's kind (TTC-PENAL AB5)
 info(exempt(P,E)) :- exempt(P,E).
+% Proper and improper exemptions (TTC-REPAIRS3 PE1). Improper: the subjective
+% element is absent, so there is no delict in the formal sense; the external
+% violation alone remains (delict/3). Proper: the delict stands, and the law
+% exempts it from the penalty.
+improper(P,E) :- delict(P,_,E), ignorant_without_fault(P,E,law).                        % n. 2
+improper(P,E) :- delict(P,N,E), ignorant_without_fault(P,E,fact(C)), element_of(N,C), not disregarded(N,fact(C)).  % n. 2
+improper(P,E) :- delict(P,_,E), chance(P,E).                                             % n. 3
+improper(P,E) :- delict(P,_,E), believed(P,E,C,invincible), excusing(C).                 % n. 7
+improper(P,E) :- delict(P,_,E), not actus_humanus(P,E).                                  % force; the lack of reason (n. 6; c. 1322)
+proper_exemption(P,E) :- delict(P,_,E), age_at(P,E,Y), Y < 16.                           % n. 1
+proper_exemption(P,E) :- delict(P,_,E), fear_or_necessity(P,E), not grave_matter(E).     % n. 4
+proper_exemption(P,E) :- delict(P,_,E), due_defence(P,E).                                % n. 5
+info(no_formal_delict(P,E)) :- improper(P,E).
+info(delict_stands_exempt(P,E)) :- proper_exemption(P,E), not improper(P,E).
 
 ```
 
-norm cic2021:1324 | c. 1324 §1 nn. 1, 3, 4, 5, 8, 9 and §3: imperfect use of reason; undeliberate grave passion; a minor over sixteen; grave fear or necessity where the act is intrinsically evil or harmful to souls; culpably mistaken circumstances of c. 1323 nn. 4-5; ignorance without fault of the penalty: the penalty is tempered, and no latae sententiae penalty binds | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
+norm cic2021:1324 | c. 1324 §1 nn. 1, 3-10 (n. 2 apart) and §3, imperfect use of reason; undeliberate grave passion; a minor over sixteen; grave fear or necessity where the act is intrinsically evil or harmful to souls; defence without due moderation; grave and unjust provocation; culpably mistaken circumstances of c. 1323 nn. 4-5; ignorance without fault of the penalty; imputability not full yet grave; the penalty is tempered, and no latae sententiae penalty binds | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
 
 ```clingo
 mitigated(P,E,imperfect_reason) :- delict(P,_,E), imperfect_reason(P,E).                % n. 1
@@ -1750,6 +1802,11 @@ mitigated(P,E,minor)            :- delict(P,_,E), age_at(P,E,Y), 16 <= Y, Y < 18
 mitigated(P,E,fear)             :- delict(P,_,E), fear_or_necessity(P,E), grave_matter(E). % n. 5
 mitigated(P,E,mistaken)         :- delict(P,_,E), believed(P,E,C,vincible), excusing(C). % n. 8
 mitigated(P,E,penalty_unknown)  :- delict(P,_,E), ignorant_without_fault(P,E,penalty).  % n. 9
+% nn. 6, 7, 10: claims supplied, never computed (TTC-REPAIRS3 MT1). An excess in
+% defence by dolus, which excludes mitigation, is not told apart here.
+mitigated(P,E,excess_defence)   :- delict(P,_,E), interior(P,E,defence(immoderate)).    % n. 6
+mitigated(P,E,provocation)      :- delict(P,_,E), interior(P,E,provoked(grave,unjust)). % n. 7
+mitigated(P,E,not_full)         :- delict(P,_,E), interior(P,E,imputability(diminished)). % n. 10
 latae_excused(P,N,E) :- delict(P,N,E), mitigated(P,E,_), latae_sententiae(N).           % §3
 
 ```
@@ -1758,6 +1815,23 @@ norm cic2021:1325 | c. 1325: crass, supine or affected ignorance is never taken 
 
 ```clingo
 info(ignorance_disregarded(P,E,Of)) :- delict(P,_,E), gross_ignorance(P,E,Of).
+% What gross ignorance supplies, read once (c1325, all; TTC-REPAIRS3 IG1).
+ignorance_source(P,E,dolus) :- gross_ignorance(P,E,_), delict(P,_,E), read_for(c1325,as_dolus,all).
+ignorance_source(P,E,dolus) :- ignorance(P,E,_,affected), delict(P,_,E), read_for(c1325,affected_as_dolus,all).
+ignorance_source(P,E,culpa) :- ignorance(P,E,_,K), gross(K), K != affected, delict(P,_,E), read_for(c1325,affected_as_dolus,all).
+info(c1325_read(R)) :- read_for(c1325,R,all).
+```
+
+norm cic2021:1326 | c. 1326 §1 nn. 3-4, a judge must inflict a more serious punishment on one who, a penalty for a culpable offence being constituted, foresaw the event and omitted the precautions any careful person would have taken; and on one who offended through passion deliberately stimulated or nourished | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1311-1363_en.html
+
+```clingo
+% n. 4, second limb: passion fostered for the deed supplies dolus (dolus
+% praemeditatus) and aggravates. The first limb, drunkenness or disturbance
+% sought, needs the act imputed in its cause: not encoded (TTC-REPAIRS3 AG3).
+premeditated(P,E) :- delict(P,_,E), interior(P,E,passion(grave,stimulated)).
+info(aggravated(P,E,stimulated_passion)) :- premeditated(P,E).
+% n. 3: only where the law punishes culpa (c. 1321 §3; TTC-REPAIRS3 AG1)
+info(aggravated(P,E,foreseen_event)) :- delict(P,N,E), culpa(P,E), punishes_culpa(N), interior(P,E,foresaw(certain)).
 ```
 
 end

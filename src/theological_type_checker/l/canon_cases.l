@@ -265,6 +265,20 @@ punishes_culpa(n1379).
 
 ```
 
+part switch
+
+```clingo
+#program act_penal_more.            % HYPOTHETICAL: the circumstances added by TTC-REPAIRS3
+today(20261010).
+absolution(b_excess,y1,pen,20260901).  interior(y1,b_excess,defence(immoderate)).    % c. 1324 §1 n. 6
+absolution(b_prov,y2,pen,20260901).    interior(y2,b_prov,provoked(grave,unjust)).   % c. 1324 §1 n. 7
+absolution(b_dimin,y3,pen,20260901).   interior(y3,b_dimin,imputability(diminished)). % c. 1324 §1 n. 10
+absolution(b_slight,y4,pen,20260901).  interior(y4,b_slight,imputability(not_grave)). % c. 1321 §2
+absolution(b_stim,y5,pen,20260901).    interior(y5,b_stim,passion(grave,stimulated)). % c. 1326 §1 n. 4
+absolution(b_fore,y6,pen,20260901).    interior(y6,b_fore,negligence). interior(y6,b_fore,foresaw(certain)).  % c. 1326 §1 n. 3
+
+```
+
 part case
 
 ```clingo

@@ -144,3 +144,50 @@ reaches c. 1325; c. 1324 §2.
 ## SEE ALSO
 
 docs/research/repairs2-preregistration.md.
+
+## SCORING
+
+Scored on the encoding (branch `repairs3`, from `85b003b`), against the
+predictions above as committed and stamped (`ffba066`, proof `85b003b`).
+
+| Prediction | Result |
+| --- | --- |
+| SI1 | **Hit.** AC14: `penal_use(c1321_4)` is disputed wherever §4's reading is asked, one branch each way; `narrower(presumes_imputability,presumes_dolus)` entered. |
+| SI2 | **Hit.** AC14: where c. 18 reaches §4, only `presumes_imputability`, with `declined_by_strict_interpretation(c1321_4,presumes_dolus,all)`; where it does not, both readings, no note. |
+| SI3 | **Hit.** `sspx` with `lattice`: 384 branches become 576. |
+| SI4 | **Hit.** No check changed for SI: every check written under a reading of §4 still finds its branches. |
+| IG1 | **Hit.** AC15. Asked once per run, only where gross ignorance attends a delict: `act_penal_more`, which has none, keeps three branches. |
+| IG2 | **Hit.** AC15: on `bar_only`, as in TTC-REPAIRS2; on `as_dolus`, x6, x22, x23 incurred on every reading of §4; on `affected_as_dolus`, x23 incurred, x6 and x22 culpa not punished. |
+| IG3 | **Hit.** AC15b. |
+| IG4 | **Hit.** AC5 went red on both of its reading checks and is restated under `bar_only` (rule 7); AB4 unchanged. |
+| MT1 | **Hit.** AC16: y1, y2, y3 mitigated (`excess_defence`, `provocation`, `not_full`), none incurred. |
+| MT2 | **Hit.** AC16: y4 not imputed, with `no_formal_delict(y4,b_slight)`. |
+| MT3 | As stated: every circumstance is an `interior/3` claim of the part `act_penal_more`. |
+| AG1 | **Hit.** AC17 (no note, culpa not punished), AC17b (a note, and incurred). |
+| AG2 | **Hit.** AC17: y5 incurred in every branch, `aggravated(y5,b_stim,stimulated_passion)`, no mitigation, no `source_not_established`. |
+| AG3 | As stated. |
+| PE1 | **Hit.** AC18; `exempt/2` unchanged (AC2). |
+| PE2 | **Hit**, exactly the lists predicted. x20 also shows `no_formal_delict` in the branches assuming its disputed invincible ignorance, as the claim gives. |
+| PE3 | **Hit.** No check changed for PE. |
+| CL1 | **Hit.** No vicious cycle, no undefined predicate (`ttc-l check`); PR4 clean. |
+
+Only AC5 went red, as predicted. The other 574 scenarios were unchanged.
+
+One change the predictions did not see: `penal_use/1` was a slot that no
+rule derived. The disputed premise makes the base derive it, so the L
+inventory no longer counted it as a slot (`test_every_slot_is_declared_once`).
+A case still enters it (c. 18), so the guide now gives it as an input, as it
+gives `interior/3`.
+
+Each new rule has a test that fails without it (rule 5): each of the 36 new
+lines, commented out alone, turns its scenario red (AC5, AC14-AC18, AC15b,
+AC17b). AC15 gained one check for this: without `supplied_source` from
+c. 1325, gross ignorance counted as dolus would still show as a source not
+established.
+
+Noted, not changed: in `act_penal_more`, on `presumes_imputability`, y1-y3
+carry `source_not_established`. That is true (no source is entered), and by
+c. 1324 §3 no penalty binds them on either reading.
+
+Left open, as before: culpable drunkenness and the deliberately sought
+disturbance (AG3); excess in defence by dolus; whether c. 18 reaches c. 1325.

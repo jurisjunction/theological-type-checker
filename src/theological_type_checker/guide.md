@@ -137,7 +137,11 @@ compiled text.
 | `notified(D,P,Date)` | The decree made known to a person it names: its effect for him runs from then (c. 54 §1). Not entered, the effect is dated from the decree, and a note says so. |
 | `approved_in_specific_form(D)` | A curial decree the Pope approved in specific form: his own act, against which no recourse lies (c. 333 §3). |
 | `decides_recourse(D2,D)` | D2 decides the recourse against D. The Dicastery's decision on a recourse against its own act, in a delict reserved to it, admits no further recourse (SST art. 24 §1). |
-| `interior(P,E,deliberate)`, `interior(P,E,negligence)` | The source of grave imputability, dolus or culpa: a claim supplied from the acts, never computed. With neither entered, a *latae sententiae* penalty turns on the reading of c. 1321 §4 (`presumes_imputability` or `presumes_dolus`), computed both ways. |
+| `interior(P,E,deliberate)`, `interior(P,E,negligence)` | The source of grave imputability, dolus or culpa: a claim supplied from the acts, never computed. With neither entered, a *latae sententiae* penalty turns on the reading of c. 1321 §4 (`presumes_imputability` or `presumes_dolus`), computed both ways. Whether c. 18 reaches §4 is itself disputed (`penal_use(c1321_4)`): where it does, only `presumes_imputability` stands. |
+| `interior(P,E,ignorance(Of,K))`, K = `crass`, `supine`, `affected` | c. 1325: never taken into account under cc. 1323-1324. What it supplies is read three ways: nothing (`bar_only`); dolus (`as_dolus`); affected ignorance dolus, crass and supine culpa (`affected_as_dolus`; ST I-II q. 6 a. 8). |
+| `interior(P,E,defence(immoderate))`, `interior(P,E,provoked(grave,unjust))`, `interior(P,E,imputability(diminished))` | c. 1324 §1 nn. 6, 7, 10: the penalty tempered, and no *latae sententiae* penalty binds (§3). Claims, never computed. |
+| `interior(P,E,imputability(not_grave))` | c. 1321 §2: not gravely imputable. No penalty, and no delict in the formal sense. A claim, never computed. |
+| `interior(P,E,passion(grave,stimulated))`, `interior(P,E,foresaw(certain))` | c. 1326 §1 nn. 4, 3: passion deliberately stimulated or nourished supplies dolus, and aggravates; culpa with the event foreseen aggravates where the law punishes culpa. |
 | `grant/5`, `permission/4`, `revocation/3` | Faculties and their revocation. |
 | `absolution/4`, `marriage/3`, `delegation/5` | Acts whose validity is computed. |
 | `danger_of_death/2`, `just_cause_request/3`, `common_error/1` | cc. 976, 1335 §2, 144. |
@@ -148,6 +152,7 @@ compiled text.
 | `disputed(F)` | Computed both ways: `heard/2`, `common_error/1`, `appears_otherwise/2`, `interior/3`. |
 | `authentic_reading(C,R,Act)` | The legislator's reading (c. 16 §1). Its reach: `interpretation_form(Act,F)` (F: `law` or `particular`), `particular_matter(Act,E)`, `promulgated(Act,Date)` (c. 16 §§2–3). |
 | `reading_option(L,R)`, `narrower(R1,R2)`, `needs_reading(L,Context)` | The readings a law admits; a disputed one branches (c. 17), penal terms read strictly (c. 18). |
+| `penal_use(L)` | c. 18: the law's terms set a penalty or make an exception, so the narrower reading stands. Entered by a case, or disputed and computed both ways (c. 1321 §4). |
 | `law_kind(L,K)`, `legislator(L,A)`, `permits/1`, `obliging/1`, `invalidating/1`, `reaches(L,R,X)` | A law: kind (eternal, natural, divine_positive, ecclesiastical, civil), maker, effect, reach (library `law.lp`). |
 | `lacuna(M)`, `penal_matter(M)`, `equity_rule(M,R)` | c. 19: equity is input, never computed. |
 | `dispensation(D,L,X)`, `defines_essentials(L)` | cc. 85–86. |

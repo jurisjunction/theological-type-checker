@@ -1196,6 +1196,24 @@ scen("RT14", RT, "DH 1330 as deposit: the Filioque table", [],
 # Every interior claim is a case's input (canon_cases.lp: act_penal, act_fear).
 AC = "act"
 
+# what c. 1325 supplies, read three ways (TTC-REPAIRS3)
+BAR_ONLY = "c1325_read(bar_only)"
+AS_DOLUS = "c1325_read(as_dolus)"
+AFF_DOLUS = "c1325_read(affected_as_dolus)"
+# whether c. 18 reaches c. 1321 §4, a disputed premise
+REACH = "assumed_fact(penal_use(c1321_4))"
+NO_REACH = "assumed_fact(false(penal_use(c1321_4)))"
+
+def assuming(atom, chk):
+    """the check applied only to the branches resting on the assumption atom; none such fails"""
+    def c(r):
+        bs = [b for b in r["branches"] if atom in b["assume"]]
+        if not bs:
+            return False, f"no branch assuming {atom}"
+        ok, d = chk(dict(r, branches=bs))
+        return ok, f"[{atom}] {d}"
+    return c
+
 def branch_facts(*subs, every=True):
     def chk(r):
         hits = [all(any(s in f for f in b["facts"] + b["assume"]) for s in subs) for b in r["branches"]]
@@ -1228,11 +1246,16 @@ scen("AC4", AC, "No human act: force, lack of reason, habitual insanity", ["act_
 scen("AC5", AC, "c. 1325: crass, supine, affected ignorance", ["act_penal"],
      # changed with TTC-REPAIRS2 (not predicted): c. 1325 bars excuse and mitigation, but supplies no source;
      # whether gross ignorance counts as dolus is not encoded, so these are incurred only on the dolus reading
+     # changed with TTC-REPAIRS3 (IG4): what c. 1325 supplies is now read three ways (AC15); the result above
+     # is the reading on which it bars and supplies nothing (bar_only), and the checks are restated under it
      [info_all("ignorance_disregarded(x6,a_crass,law)", "ignorance_disregarded(x22,a_supine,law)",
                "ignorance_disregarded(x23,a_affect,law)"),
-      under(DOLUS_READ, info_all("presumed_incurred(x6,n1379)", "presumed_incurred(x22,n1379)", "presumed_incurred(x23,n1379)")),
-      under(IMPUT_READ, info_all("source_not_established(x6,", "source_not_established(x22,", "source_not_established(x23,"))],
-     "never taken into account: the presumption stands, and binds where it is read to reach dolus", mode=B)
+      under(BAR_ONLY, under(DOLUS_READ, info_all("presumed_incurred(x6,n1379)", "presumed_incurred(x22,n1379)",
+                                                 "presumed_incurred(x23,n1379)"))),
+      under(BAR_ONLY, under(IMPUT_READ, info_all("source_not_established(x6,", "source_not_established(x22,",
+                                                 "source_not_established(x23,")))],
+     "never taken into account: where c. 1325 supplies nothing, the presumption stands, and binds where it is read "
+     "to reach dolus", mode=B)
 scen("AC6", AC, "Dolus and culpa (c. 1321 §§2-3)", ["act_penal"],
      [info_all("dolus(x18,a_dolus)", "presumed_incurred(x18,n1379)", "culpa_not_punished(x5,n1379,a_factv)",
                "culpa_not_punished(x19,n1379,a_neg)"),
@@ -1263,6 +1286,61 @@ scen("AC13", AC, "What c. 1321 §4 presumes, read both ways (TTC-REPAIRS2)", ["a
       under(IMPUT_READ, info_none("presumed_incurred(x0,", "source_not_established(x18,"))],
      "dolus entered: incurred on both readings; no source entered: incurred only where §4 is read to presume dolus",
      mode=B)
+scen("AC14", AC, "c. 18 and c. 1321 §4: whether strict interpretation reaches the presumption (TTC-REPAIRS3)",
+     ["act_penal"],
+     [branch_facts(REACH, every=False), branch_facts(NO_REACH, every=False),
+      assuming(REACH, info_all("declined_by_strict_interpretation(c1321_4,presumes_dolus,all)", IMPUT_READ)),
+      assuming(REACH, info_none(DOLUS_READ)),
+      assuming(NO_REACH, under(DOLUS_READ, info_all("presumed_incurred(x0,n1379)"))),
+      assuming(NO_REACH, under(IMPUT_READ, info_all("source_not_established(x0,n1379"))),
+      assuming(NO_REACH, info_none("declined_by_strict_interpretation"))],
+     "disputed, computed both ways: where c. 18 reaches §4, only the narrower reading stands; where it does not, "
+     "both", mode=B)
+scen("AC15", AC, "c. 1325 read three ways: what gross ignorance supplies (TTC-REPAIRS3)", ["act_penal"],
+     [info_any(BAR_ONLY, AS_DOLUS, AFF_DOLUS),
+      under(BAR_ONLY, under(DOLUS_READ, info_all("presumed_incurred(x6,n1379)", "presumed_incurred(x22,n1379)",
+                                                 "presumed_incurred(x23,n1379)"))),
+      under(BAR_ONLY, under(IMPUT_READ, info_none("presumed_incurred(x6,", "presumed_incurred(x22,",
+                                                  "presumed_incurred(x23,"))),
+      under(AS_DOLUS, info_all("presumed_incurred(x6,n1379)", "presumed_incurred(x22,n1379)",
+                               "presumed_incurred(x23,n1379)")),
+      under(AS_DOLUS, info_none("source_not_established(x6,", "source_not_established(x22,",
+                                "source_not_established(x23,")),
+      under(AFF_DOLUS, info_all("presumed_incurred(x23,n1379)", "culpa_not_punished(x6,n1379,a_crass)",
+                                "culpa_not_punished(x22,n1379,a_supine)")),
+      under(AFF_DOLUS, info_none("presumed_incurred(x6,", "presumed_incurred(x22,"))],
+     "bars excuse and mitigation and supplies nothing; or counts as dolus; or affected ignorance, directly willed, "
+     "as dolus, and crass or supine, by negligence, as culpa (ST I-II q. 6 a. 8)", mode=B)
+scen("AC15b", AC, "c. 1325 read three ways, culpa punished (HYPOTHETICAL)", ["act_penal", "culpa_punished"],
+     [under(AFF_DOLUS, info_all("presumed_incurred(x6,n1379)", "presumed_incurred(x22,n1379)",
+                                "presumed_incurred(x23,n1379)")),
+      info_none("culpa_not_punished(x6,", "culpa_not_punished(x22,")],
+     "where the law punishes culpa, and crass or supine ignorance is counted as culpa, all three bind on every reading of §4", mode=B)
+scen("AC16", AC, "c. 1324 §1 nn. 6, 7, 10; c. 1321 §2: mitigated, or not grave (TTC-REPAIRS3)", ["act_penal_more"],
+     [info_all("mitigated(y1,b_excess,excess_defence)", "mitigated(y2,b_prov,provocation)",
+               "mitigated(y3,b_dimin,not_full)", "no_formal_delict(y4,b_slight)"),
+      info_none("presumed_incurred(y1,", "presumed_incurred(y2,", "presumed_incurred(y3,", "presumed_incurred(y4,"),
+      info_none("mitigated(y4,", "source_not_established(y4,")],
+     "defence beyond due moderation, grave and unjust provocation, imputability not full yet grave: tempered, and no "
+     "latae sententiae penalty binds (§3); imputability not grave: no delict in the formal sense", mode=B)
+scen("AC17", AC, "c. 1326 §1 nn. 3-4: aggravation (TTC-REPAIRS3)", ["act_penal_more"],
+     [info_all("aggravated(y5,b_stim,stimulated_passion)", "presumed_incurred(y5,n1379)",
+               "culpa_not_punished(y6,n1379,b_fore)"),
+      info_none("mitigated(y5,", "source_not_established(y5,", "aggravated(y6,", "presumed_incurred(y6,")],
+     "passion deliberately stimulated supplies dolus, on every reading of §4; foreseen culpa aggravates only where "
+     "culpa is punished", mode=B)
+scen("AC17b", AC, "c. 1326 §1 n. 3: foreseen culpa, culpa punished (HYPOTHETICAL)", ["act_penal_more", "culpa_punished"],
+     [info_all("aggravated(y6,b_fore,foreseen_event)", "presumed_incurred(y6,n1379)")],
+     "the event foreseen, precautions omitted: aggravating", mode=B)
+scen("AC18", AC, "c. 1323: proper and improper exemptions (TTC-REPAIRS3)", ["act_penal"],
+     [info_all(*[f"no_formal_delict({p})" for p in ("x3,a_law", "x4,a_fact", "x7,a_chance", "x8,a_force",
+                                                    "x9,a_insane", "x10,a_noreason", "x13,a_bel", "x21,a_inadv",
+                                                    "x24,a_beld")]),
+      info_all("delict_stands_exempt(x1,a_child)", "delict_stands_exempt(x11,a_nec)", "delict_stands_exempt(x12,a_def)"),
+      info_none(*[f"delict_stands_exempt({x}," for x in ("x3", "x4", "x7", "x8", "x9", "x10", "x13", "x21", "x24")]),
+      info_none("no_formal_delict(x1,", "no_formal_delict(x11,", "no_formal_delict(x12,")],
+     "improper (nn. 2, 3, 7; no human act): no delict in the formal sense; proper (nn. 1, 4, 5): the delict stands, "
+     "exempt from the penalty", mode=B)
 scen("AC12", AC, "A public claim of necessity: recorded, never decided", ["sspx"],
      [info_any("defence_claimed(galarreta)"), info_none("exempt(")],
      "the Society's claim is noted where a penalty is presumed; it exempts no one, since no interior claim is supplied",
