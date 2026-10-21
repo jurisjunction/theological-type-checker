@@ -881,6 +881,9 @@ reaches_act(A,E) :- declaratory(A), needs_reading(_,E).
 reading_binds(N,R,E) :- authentic_reading(N,R,A), interpretation_form(A,law), needs_reading(N,E), reaches_act(A,E).
 reading_binds(N,R,E) :- authentic_reading(N,R,A), interpretation_form(A,particular), particular_matter(A,E), needs_reading(N,E).
 info(not_retroactive(A,E)) :- authentic_reading(N,_,A), interpretation_form(A,law), needs_reading(N,E), not reaches_act(A,E).
+% So of a superior's decision on recourse (c. 1739): it reaches no other law,
+% though that law narrow the same matter (TTC-REPAIRS RD2).
+info(not_reached_by(L2,D)) :- decision_on_recourse(D,L,_), narrows(L,M), narrows(L2,M), L2 != L.
 violation(interpretation_without_force(A)) :- authentic_reading(_,_,A), interpretation_form(A,law), not has_force_date(A).
 authentically_read(N,E) :- reading_binds(N,_,E).
 read_for(N,R,E) :- reading_binds(N,R,E).
@@ -1008,6 +1011,18 @@ result text_in_force(B: law)
 result text_revoked(B: law, L: law, W: category)
   say "{B} is revoked by {L} ({W})"
 
+result narrows_own_choice(L: law, H: law)
+  say "{L} exercises a choice that {H} leaves to the law's own legislator, rather than contradicting higher ius"
+
+result regulates_right(L: law, M: category)
+  say "{L} directs the exercise of a right of the faithful in {M} for the common good, and so is not against higher ius (c. 223 §2)"
+
+result confirmed_on_recourse(L: law, D: act)
+  say "{L} was confirmed on recourse by {D}, a higher authority's decision (c. 1739)"
+
+result not_reached_by(L2: law, D: act)
+  say "{L2} is not reached by {D}, a decision given in another matter (c. 16 §3)"
+
 result revocation_not_presumed(L2: law, L: law)
   say "{L2} is not taken to revoke {L}: revocation is not presumed (c. 21)"
 
@@ -1072,6 +1087,10 @@ slot withdraws_option(Law: law, Matter: category)
   means "withdraws_option(Law, Matter): the law takes the choice in Matter from its holder"
   say "{Law} withdraws the choice in {Matter}"
 
+slot holds_as(A: authority, Holder: category)
+  means "holds_as(A, Holder): the authority A holds a choice as Holder, one of the holders option_of/3 names (a diocesan bishop as diocesan_bishop)"
+  say "{A} holds a choice as {Holder}"
+
 ```clingo
 % The diocesan bishop may legislate on the liturgy in every area (cc. 381 §1,
 % 838 §4), never contrary to higher ius (c. 135 §2): he "could not ... impose
@@ -1091,13 +1110,64 @@ option_withdrawn(M,D) :- withdraws_option(L2,M), force_at(L2,D).
 option_open(H,M,D) :- option_of(H,M,_), force_at(H,D), not option_withdrawn(M,D).
 narrowing_ground(c135_2,D) :- narrows(L,_), promulgated(L,D), force_at(code1983,D).
 narrowing_ground(rs21,D)   :- narrows(L,_), promulgated(L,D), provision_in_force(rs2004_21,D).
-contrary_by(L,H,G) :- narrows(L,M), promulgated(L,D), option_open(H,M,D), narrowing_ground(G,D), L != H.
+% Whose choice it is decides (TTC-REPAIRS RH): a choice the higher law leaves
+% to the narrowing law's own legislator is his to exercise, not higher ius he
+% contradicts. The GIRM leaves Communion under both kinds, and so the mode of
+% intinction, to the diocesan bishop's norms (GIRM 283, 387; Huels, Liturgy
+% and Law (2006) 48). A right of the faithful whose exercise the law directs
+% for the common good is regulated, not contradicted (c. 223 §2; RR).
+own_choice(L,H,M) :- narrows(L,M), option_of(H,M,Hd), legislator(L,A), holds_as(A,Hd).
+contrary_by(L,H,G) :- narrows(L,M), promulgated(L,D), option_open(H,M,D), narrowing_ground(G,D), L != H,
+                      not own_choice(L,H,M), not regulated(L,M).
+info(narrows_own_choice(L,H)) :- own_choice(L,H,M), promulgated(L,D), option_open(H,M,D).
 contrary(L,H) :- contrary_by(L,H,_).
 info(narrows_higher_choice(L,H,G)) :- contrary_by(L,H,G), higher(H,L).
 % Before 1983 no ground is encoded: the narrowing is left to be read.
 frontier(canon,narrowing_without_ground(L)) :- narrows(L,M), promulgated(L,D), option_of(H,M,_), force_at(H,D),
-                                               not option_withdrawn(M,D), not narrowing_ground(_,D).
+                                               not option_withdrawn(M,D), not narrowing_ground(_,D),
+                                               not own_choice(L,H,M).
 
+```
+
+norm cic:223 | c. 223 §2: in view of the common good, ecclesiastical authority can direct the exercise of rights which are proper to the Christian faithful | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann208-329_en.html
+
+slot right_of_the_faithful(M: category)
+  means "right_of_the_faithful(M): the choice in M is a right proper to the Christian faithful (c. 223 §2), as receiving on the tongue (RS 92) or kneeling (RS 91)"
+  say "the choice in {M} is a right of the faithful"
+
+slot regulates_exercise(L: law, M: category)
+  means "regulates_exercise(L, M): the law directs the exercise of the right in M in view of the common good (c. 223 §2); a prudential judgment, entered as a claim or disputed, never computed"
+  say "{L} directs the exercise of the right in {M} in view of the common good"
+
+```clingo
+% "In view of the common good, ecclesiastical authority can direct the
+% exercise of rights which are proper to the Christian faithful" (c. 223 §2).
+% In a pandemic, provisional norms "must be obeyed" and "expire when the
+% situation returns to normal", the right not limited beyond the norms of
+% hygiene (CDW, letter to the presidents of the conferences, 15 August 2020).
+% Whether a law does so is a judgment the checker never makes (rule 2): the
+% claim is entered, or disputed and computed both ways. It rescues only a
+% right of the faithful, never a choice the books leave to a minister (RR3).
+{ regulates_exercise(L,M) } :- disputed(regulates_exercise(L,M)).
+assumed_fact(F)        :- disputed(F), F = regulates_exercise(L,M), regulates_exercise(L,M).
+assumed_fact(false(F)) :- disputed(F), F = regulates_exercise(L,M), not regulates_exercise(L,M).
+regulated(L,M) :- regulates_exercise(L,M), right_of_the_faithful(M), narrows(L,M).
+info(regulates_right(L,M)) :- regulated(L,M).
+```
+
+norm cic:1739 | c. 1739: the superior who deals with the recourse may confirm the decree or declare it invalid, rescind or revoke it, or emend, replace or modify it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib7-cann1732-1752_en.html
+
+slot decision_on_recourse(D: act, L: law, Outcome: category)
+  means "decision_on_recourse(D, L, Outcome): the superior's decision D on a recourse against L: confirmed (c. 1739)"
+  say "the decision {D} on recourse against {L}: {Outcome}"
+
+```clingo
+% A higher authority that confirms a law on recourse has judged it within
+% power: a regulation disputed for that law is settled, for that law alone.
+% The decision binds only the parties and the matter (c. 16 §2-3; RD2).
+decides_above(D,L) :- decision_on_recourse(D,L,_), issuer(D,A), authority(A,K), legislator(L,AL), authority(AL,KL), K > KL.
+regulates_exercise(L,M) :- decision_on_recourse(D,L,confirmed), decides_above(D,L), disputed(regulates_exercise(L,M)).
+info(confirmed_on_recourse(L,D)) :- decision_on_recourse(D,L,confirmed), decides_above(D,L).
 ```
 
 norm cic:333 | c. 333 §3: no appeal or recourse against a decision of the Roman Pontiff | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann330-367_en.html

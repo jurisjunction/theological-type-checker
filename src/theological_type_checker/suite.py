@@ -1944,6 +1944,24 @@ def in_branches(sub, status=None, values=(), assume=(), present=True):
         return ok, f"{where}: {sub} {'in all' if hits and all(hits) else 'in none' if not any(hits) else 'in some'} of {len(bs)}"
     return chk
 
+scen("LW13", LW, "Whose choice, a right regulated, a decision's reach (GIRM 283; cc. 223 \u00a72, 1739, 16 \u00a73)", ["option_held"],
+     [info_all("narrows_own_choice(l_mode,book_r)", "obliged(mass_m,l_mode)", "does_not_bind(l_post)",
+               "does_not_bind(l_bare)", "does_not_bind(l_cele_reg)", "confirmed_on_recourse(l_conf,dec_r)",
+               "regulates_right(l_conf,tongue_r)", "obliged(mass_c,l_conf)", "not_reached_by(l_reg,dec_r)",
+               "not_reached_by(l_low,dec_r)"),
+      info_none("does_not_bind(l_mode)", "does_not_bind(l_conf)", "regulates_right(l_cele_reg",
+                "confirmed_on_recourse(l_low", "narrows_own_choice(l_post"),
+      in_branches("does_not_bind(l_reg)", assume=("assumed_fact(false(regulates_exercise(l_reg,tongue_r)))",)),
+      in_branches("does_not_bind(l_reg)", assume=("assumed_fact(regulates_exercise(l_reg,tongue_r))",), present=False),
+      in_branches("regulates_right(l_reg,tongue_r)", assume=("assumed_fact(regulates_exercise(l_reg,tongue_r))",)),
+      in_branches("does_not_bind(l_low)", assume=("assumed_fact(false(regulates_exercise(l_low,tongue_r)))",)),
+      in_branches("assumed_fact(false(regulates_exercise(l_conf", present=False),
+      shown(["option_held"], ("frontier/2",), "frontier(canon,narrowing_without_ground(l_post_old))",
+            absent=("frontier(canon,narrowing_without_ground(l_own_old))",))],
+     "the bishop's own choice is his to narrow; another's is not; a right of the faithful regulated for the common good "
+     "binds where the claim holds, never where it is absent or the choice is a minister's; a higher authority's "
+     "confirmation on recourse settles it for that law alone; a lower one's settles nothing", mode=B)
+
 def shadow_by_oum(qv):
     """qv is in no main branch; a counterfactual shadow only where a claim of the OUM holds, a live one where none does"""
     def chk(r):

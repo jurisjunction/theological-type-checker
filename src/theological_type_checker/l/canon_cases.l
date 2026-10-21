@@ -1354,6 +1354,45 @@ reading_option(l_undated,plain). needs_reading(l_undated,all). reaches(l_undated
 part switch
 
 ```clingo
+#program option_held.               % HYPOTHETICAL: whose choice, a right regulated, a decision's reach (LW13)
+today(20270601).
+authority(pope_r,4). authority(dicastery_r,3). authority(bishop_r,1). authority(vicar_r,1).
+holds_as(bishop_r,diocesan_bishop).
+law_kind(book_r,ecclesiastical). legislator(book_r,pope_r). permits(book_r).
+promulgated(book_r,20000420). vacatio_set(book_r,20000420).
+option_of(book_r,mode_r,diocesan_bishop).                    % the bishop's own (RH1)
+option_of(book_r,posture_r,celebrant).                       % someone else's (RH2, RR3)
+option_of(book_r,tongue_r,communicant). right_of_the_faithful(tongue_r).
+law_kind((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low),ecclesiastical).
+legislator((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low),bishop_r).
+obliging((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low)).
+promulgated((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low),20260101).
+vacatio_set((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low),20260101).
+reading_option((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low),plain).
+needs_reading((l_mode;l_post;l_reg;l_bare;l_cele_reg;l_conf;l_low),all).
+reaches(l_mode,plain,mass_m). reaches(l_post,plain,mass_p). reaches(l_reg,plain,mass_r). reaches(l_bare,plain,mass_b).
+reaches(l_cele_reg,plain,mass_e). reaches(l_conf,plain,mass_c). reaches(l_low,plain,mass_l).
+act_date((mass_m;mass_p;mass_r;mass_b;mass_e;mass_c;mass_l),20260801).
+narrows(l_mode,mode_r).                                      % RH1: binds
+narrows(l_post,posture_r).                                   % RH2: contrary, as before
+narrows(l_reg,tongue_r). disputed(regulates_exercise(l_reg,tongue_r)).      % RR1: both ways
+narrows(l_bare,tongue_r).                                    % RR2: no claim, contrary
+narrows(l_cele_reg,posture_r). regulates_exercise(l_cele_reg,posture_r).    % RR3: not a right of the faithful
+narrows(l_conf,tongue_r). disputed(regulates_exercise(l_conf,tongue_r)).
+decision_on_recourse(dec_r,l_conf,confirmed). issuer(dec_r,dicastery_r).   % RD1: settled for l_conf alone
+narrows(l_low,tongue_r). disputed(regulates_exercise(l_low,tongue_r)).
+decision_on_recourse(dec_low,l_low,confirmed). issuer(dec_low,vicar_r).    % RD3: not higher, settles nothing
+% Before 1983: the bishop's own choice is no frontier; another's is (as in LW11).
+law_kind((book_q;l_own_old;l_post_old),ecclesiastical). legislator(book_q,pope_r). legislator((l_own_old;l_post_old),bishop_r).
+promulgated(book_q,19700101). vacatio_set(book_q,19700101).
+option_of(book_q,mode_q,diocesan_bishop). option_of(book_q,posture_q,celebrant).
+promulgated((l_own_old;l_post_old),19800101). vacatio_set((l_own_old;l_post_old),19800101).
+narrows(l_own_old,mode_q). narrows(l_post_old,posture_q).
+```
+
+part switch
+
+```clingo
 #program option_narrowed.           % HYPOTHETICAL: diocesan laws and a choice a liturgical book leaves to the celebrant (LW11)
 today(20270601).
 authority(pope_o,4). authority(bishop_o,1).
