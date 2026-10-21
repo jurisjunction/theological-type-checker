@@ -136,6 +136,10 @@ compiled text.
 | `consecration(E,P,R,D)`, `co_consecrator(E,B)`, `pontifical_mandate(E)` | Consecrations. |
 | `decree(D,I,Date)`, `declares(D,P,N)`, `issuer(X,A)`, `authority(A,R)` | Decrees. Ranks: 4 pope (or approved), 3 dicastery, 1 ordinary. |
 | `heard/2`, `summoned_absent/2`, `recourse/3`, `recourse_decided/2`, `recourse_upheld/1` | Procedure (cc. 1720, 1353). |
+| `notified(D,P,Date)` | The decree made known to a person it names: its effect for him runs from then (c. 54 §1). Not entered, the effect is dated from the decree, and a note says so. |
+| `approved_in_specific_form(D)` | A curial decree the Pope approved in specific form: his own act, against which no recourse lies (c. 333 §3). |
+| `decides_recourse(D2,D)` | D2 decides the recourse against D. The Dicastery's decision on a recourse against its own act, in a delict reserved to it, admits no further recourse (SST art. 24 §1). |
+| `interior(P,E,deliberate)`, `interior(P,E,negligence)` | The source of grave imputability, dolus or culpa: a claim supplied from the acts, never computed. With neither entered, a *latae sententiae* penalty turns on the reading of c. 1321 §4 (`presumes_imputability` or `presumes_dolus`), computed both ways. |
 | `grant/5`, `permission/4`, `revocation/3` | Faculties and their revocation. |
 | `absolution/4`, `marriage/3`, `delegation/5` | Acts whose validity is computed. |
 | `danger_of_death/2`, `just_cause_request/3`, `common_error/1` | cc. 976, 1335 §2, 144. |

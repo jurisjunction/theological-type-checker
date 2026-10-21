@@ -492,6 +492,21 @@ def info_none(*subs, apart=()):
         return not hit, "; ".join(hit) or f"none of: {', '.join(subs)}"
     return chk
 
+def under(marker, chk):
+    """the check applied only to the branches whose facts carry marker (a reading, say); none such fails"""
+    def c(r):
+        bs = [b for b in r["branches"] if any(marker in f for f in b["facts"])]
+        if not bs:
+            return False, f"no branch with {marker}"
+        ok, d = chk(dict(r, branches=bs))
+        return ok, f"[{marker}] {d}"
+    return c
+
+DOLUS_READ = "presumption_read(presumes_dolus)"           # c. 1321 §4 read to presume dolus (TTC-REPAIRS2)
+IMPUT_READ = "presumption_read(presumes_imputability)"    # c. 1321 §4 read to presume mere imputability
+# for a one-model check (shown): the reading fixed by a switch part, so the model is not chosen by chance
+DOLUS_PART = ["c1321_dolus_read"]
+
 def reint_includes(qv, src):
     def chk(r):
         bs = [b for b in r["branches"] if qv in b["values"]]
@@ -681,15 +696,17 @@ ED_LAW = "assumed_fact(interpretation_form(ed1988,law))"
 ED_PARTICULAR = "assumed_fact(false(interpretation_form(ed1988,law)))"
 
 scen("SX11", SC, "Incurred and declared, recourse pending", SX,
-     [info_all("presumed_incurred(fellay,n1387)", "presumed_incurred(schreiber,n1387)",
-               "declaration_suspended(ddf_decree_2026,fellay)", "investigation_dispensable(ddf_decree_2026,galarreta)"),
+     # changed with TTC-REPAIRS2 (CI2): no source of imputability is entered, so the penalties are incurred
+     # only where c. 1321 §4 is read to presume dolus; the declaration and its suspension do not turn on it
+     [info_all("declaration_suspended(ddf_decree_2026,fellay)", "investigation_dispensable(ddf_decree_2026,galarreta)"),
+      under(DOLUS_READ, info_all("presumed_incurred(fellay,n1387)", "presumed_incurred(schreiber,n1387)")),
       # changed with the ordered pair (and the investigation check moved from
       # Fellay, whose declared title is c. 1364, to de Galarreta, c. 1387): c. 1364 now applies only in the branches
       # that classify the act as schismatic (all main branches), not in the shadow
       # changed with the law library (TTC-LAW G2): c. 1364 applies in the schismatic branches where
       # Ecclesia Dei adflicta's reading binds 2026 (given as law); where it reaches 1988 only, c. 18 reads
       # c. 751 strictly for 2026 and the title of c. 1364 is not derived
-      main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1364)", where=ED_LAW),
+      under(DOLUS_READ, main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1364)", where=ED_LAW)),
       main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1364)", present=False, where=ED_PARTICULAR),
       info_none("declared(")],
      "presumed incurred (c. 1321 §4) under c. 1387 even as co-consecrator, and under c. 1364 where the act is classified as schismatic; declaration suspended (c. 1353)", mode=B)
@@ -705,9 +722,14 @@ scen("SX14", SC, "The 2009 remission does not reach 2026", SX + ["asof_2018"],
      [info_none("presumed_incurred(fellay", "presumed_incurred(galarreta"), cls("q(act2026_schismatic)=yes", "excluded")],
      "nothing incurred, and no 2026 question, before the act", mode=B)
 scen("SX15", SC, "Absolution after 2026, on the facts of record", SX,
+     # changed with TTC-REPAIRS2 (not predicted): the bishop's absolution is illicit because he is excommunicated,
+     # incurred and undeclared; on the reading of c. 1321 §4 that presumes mere imputability nothing is incurred
+     # without a source entered, so there it is licit
      [info_all("class_faculty(sspx_clergy,confession)", "absolution(abs_2026,valid,licit)",
-               "absolution(abs_2026_bishop,valid,illicit)", "absolution(abs_2026_bishop_jc,valid,licit)",
-               "claim_contradicted(ddf_note_2026,invalid_absolution(sspx_clergy),abs_2026)")],
+               "absolution(abs_2026_bishop_jc,valid,licit)",
+               "claim_contradicted(ddf_note_2026,invalid_absolution(sspx_clergy),abs_2026)"),
+      under(DOLUS_READ, info_all("absolution(abs_2026_bishop,valid,illicit)")),
+      under(IMPUT_READ, info_all("absolution(abs_2026_bishop,valid,licit)"))],
      "the papal grant stands until a competent revocation; undeclared, the prohibition yields to a just-cause request (c. 1335 §2)", mode=B)
 scen("SX16", SC, "A competent revocation (hypothetical papal approval of the note)", SX + ["note_as_revocation", "note_papally_approved", "edge_acts"],
      [info_all("absolution(abs_2026,invalid)", "delict(sspx_priest_x,n1379,abs_2026)", "absolution(abs_2018,valid,licit)",
@@ -736,11 +758,25 @@ scen("SX21", SC, "Marriages", SX + ["hyp_delegation"],
                "claim_contradicted(ddf_note_2026,invalid_marriage(sspx_clergy),m_2026_delegated)")],
      "invalid without delegation, valid with it: the note is right in the usual case, wrong where an ordinary delegated", mode=B)
 scen("SX22", SC, "c. 751 read as a state, not an act", SX + ["c751_state_reading", "recourse_decided_2026"],
-     [info_none("delict(fellay,n1364"), info_all("presumed_incurred(fellay,n1387)", "title_not_derived(ddf_decree_2026,fellay,n1364)")],
+     # changed with TTC-REPAIRS2 (CI2): c. 1387 reaches him, incurred where c. 1321 §4 is read to presume dolus
+     [info_none("delict(fellay,n1364"), info_all("title_not_derived(ddf_decree_2026,fellay,n1364)", "delict(fellay,n1387,"),
+      under(DOLUS_READ, info_all("presumed_incurred(fellay,n1387)"))],
      "the decree's title for Fellay fails on that reading, but c. 1387 reaches him anyway as co-consecrator", mode=B)
 scen("SX23", SC, "The lattice now", SXE,
      [info_all("degree(sspx,above,orthodox)"), info_none("church_proper(sspx)", "missing_bond(sspx,faculties_confession)")],
      "the faculties stand on the record; the Society's sort is unchanged", mode=B)
+# TTC-REPAIRS2: the Pontiff's own act, the last recourse, the decree made known
+scen("SX24", SC, "A decree approved in specific form, the recourse pending (c. 333 §3)", SX + ["decree_in_specific_form"],
+     [info_all("declared(fellay,n1364)", "no_recourse_against_papal_act(ddf_decree_2026)"), info_none("declaration_suspended(")],
+     "the Pontiff's own act: no recourse lies, nothing is suspended", mode=B)
+scen("SX25", SC, "The Dicastery's decision on the recourse is the last (SST art. 24 §1)",
+     SX + ["recourse_decided_2026", "ddf_recourse_final"],
+     [info_all("no_further_recourse(ddf_ruling_2026)"), info_none("declaration_suspended(ddf_ruling_2026")],
+     "a further recourse in a reserved delict is not admitted and suspends nothing", mode=B)
+scen("SX26", SC, "A declaration takes effect when made known (c. 54 §1)", SX + ["recourse_decided_2026", "notified_later"],
+     [info_none("declared(fellay,"), info_all("declared(galarreta,n1387)", "declared(schreiber,n1387)",
+                                              "effect_from_decree_date(ddf_decree_2026)")],
+     "made known after the clock: not yet declared; before it: declared; not entered: dated from the decree, noted", mode=B)
 
 
 # the ordered pair: teaching first, law ordered to it
@@ -760,7 +796,8 @@ scen("PR1", PR, "The law follows the theological branch", SX,
      [_by_value("q(act2026_schismatic)=yes", "delict(fellay,n1364,", True, where=ED_LAW),
       _by_value("q(act2026_schismatic)=yes", "delict(fellay,n1364,", False, where=ED_PARTICULAR),
       _by_value("q(act2026_schismatic)=no", "delict(fellay,n1364,", False),
-      _by_value("q(act2026_schismatic)=no", "presumed_incurred(fellay,n1387)", True),
+      # changed with TTC-REPAIRS2 (CI2): incurred where c. 1321 §4 is read to presume dolus
+      under(DOLUS_READ, _by_value("q(act2026_schismatic)=no", "presumed_incurred(fellay,n1387)", True)),
       info_none("law_without_premise")],
      "where the act is classified as schismatic, c. 1364 applies; where not, only c. 1387; no mismatch", mode=B)
 scen("PR2", PR, "The law applied without regard to the theological branch", SX + ["cand_uncoupled"],
@@ -1167,7 +1204,12 @@ def branch_facts(*subs, every=True):
     return chk
 
 scen("AC1", AC, "c. 1321 §4: the presumption alone", ["act_penal"],
-     [info_all("presumed_incurred(x0,n1379)")], "an external violation, nothing claimed: imputability presumed", mode=B)
+     # changed with TTC-REPAIRS2 (CI2): what §4 presumes is now read both ways; with no source entered the
+     # penalty is incurred only where §4 is read to presume dolus (CIC/17 c. 2200 §2's rule)
+     [under(DOLUS_READ, info_all("presumed_incurred(x0,n1379)")),
+      under(IMPUT_READ, info_all("source_not_established(x0,n1379")), under(IMPUT_READ, info_none("presumed_incurred(x0,"))],
+     "an external violation, nothing claimed: imputability presumed; incurred where the presumption is read to reach dolus",
+     mode=B)
 scen("AC2", AC, "c. 1323: not subject to a penalty", ["act_penal"],
      [info_all(*[f"exempt({p})" for p in ("x1,a_child", "x3,a_law", "x4,a_fact", "x7,a_chance", "x11,a_nec",
                                          "x12,a_def", "x13,a_bel", "x21,a_inadv", "x24,a_beld")]),
@@ -1184,18 +1226,22 @@ scen("AC4", AC, "No human act: force, lack of reason, habitual insanity", ["act_
       info_none("presumed_incurred(x8,", "presumed_incurred(x9,", "presumed_incurred(x10,")],
      "an actus hominis (ST I-II q. 1 a. 1; q. 6 a. 5); cc. 1322, 1323 nn. 3, 6", mode=B)
 scen("AC5", AC, "c. 1325: crass, supine, affected ignorance", ["act_penal"],
+     # changed with TTC-REPAIRS2 (not predicted): c. 1325 bars excuse and mitigation, but supplies no source;
+     # whether gross ignorance counts as dolus is not encoded, so these are incurred only on the dolus reading
      [info_all("ignorance_disregarded(x6,a_crass,law)", "ignorance_disregarded(x22,a_supine,law)",
-               "ignorance_disregarded(x23,a_affect,law)", "presumed_incurred(x6,n1379)", "presumed_incurred(x22,n1379)",
-               "presumed_incurred(x23,n1379)")],
-     "never taken into account: the presumption stands", mode=B)
+               "ignorance_disregarded(x23,a_affect,law)"),
+      under(DOLUS_READ, info_all("presumed_incurred(x6,n1379)", "presumed_incurred(x22,n1379)", "presumed_incurred(x23,n1379)")),
+      under(IMPUT_READ, info_all("source_not_established(x6,", "source_not_established(x22,", "source_not_established(x23,"))],
+     "never taken into account: the presumption stands, and binds where it is read to reach dolus", mode=B)
 scen("AC6", AC, "Dolus and culpa (c. 1321 §§2-3)", ["act_penal"],
      [info_all("dolus(x18,a_dolus)", "presumed_incurred(x18,n1379)", "culpa_not_punished(x5,n1379,a_factv)",
                "culpa_not_punished(x19,n1379,a_neg)"),
       info_none("presumed_incurred(x5,", "presumed_incurred(x19,")],
      "the violation known and willed is punished; culpability only where the law provides", mode=B)
 scen("AC6b", AC, "c. 1321 §3: a law that punishes culpability (HYPOTHETICAL)", ["act_penal", "culpa_punished"],
-     [info_all("presumed_incurred(x5,n1379)", "presumed_incurred(x19,n1379)"), info_none("culpa_not_punished")],
-     "culpa punished", mode=B)
+     [info_all("presumed_incurred(x5,n1379)", "presumed_incurred(x19,n1379)"),
+      info_none("culpa_not_punished", "source_not_established(x5,", "source_not_established(x19,")],
+     "culpa punished; culpa entered is a source, whatever c. 1321 §4 is read to presume", mode=B)
 scen("AC7", AC, "A disputed claim is computed both ways", ["act_penal"],
      [branch_facts("assumed_fact(interior(x20", every=False),
       branch_facts("assumed_fact(false(interior(x20", every=False),
@@ -1211,6 +1257,12 @@ scen("AC9", AC, "Force, unintended fear, fear from within", ["act_fear"],
      [info_all("juridic_act(j2,never_placed)", "marriage(m2,invalid_consent)", "marriage(m4,invalid_consent)"),
       info_none("marriage(m3,invalid_consent)")],
      "c. 125 §1; c. 1103 needs fear from without, not unjust or intended", mode=B)
+scen("AC13", AC, "What c. 1321 §4 presumes, read both ways (TTC-REPAIRS2)", ["act_penal"],
+     [under(DOLUS_READ, info_all("presumed_incurred(x0,n1379)", "presumed_incurred(x18,n1379)")),
+      under(IMPUT_READ, info_all("source_not_established(x0,n1379", "presumed_incurred(x18,n1379)")),
+      under(IMPUT_READ, info_none("presumed_incurred(x0,", "source_not_established(x18,"))],
+     "dolus entered: incurred on both readings; no source entered: incurred only where §4 is read to presume dolus",
+     mode=B)
 scen("AC12", AC, "A public claim of necessity: recorded, never decided", ["sspx"],
      [info_any("defence_claimed(galarreta)"), info_none("exempt(")],
      "the Society's claim is noted where a penalty is presumed; it exempts no one, since no interior claim is supplied",
@@ -1228,7 +1280,8 @@ LW = "law"
 
 scen("LW1", LW, "Ecclesia Dei adflicta given in a particular matter: the 2026 title", SX,
      [main_with("q(act2026_schismatic)=yes", "title_not_derived(ddf_decree_2026,fellay,n1364)", where=ED_PARTICULAR),
-      main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1387)", where=ED_PARTICULAR),
+      # changed with TTC-REPAIRS2 (CI2): incurred where c. 1321 §4 is read to presume dolus
+      under(DOLUS_READ, main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1387)", where=ED_PARTICULAR)),
       main_with("q(act1988_schismatic)=yes", "delict(lefebvre,n1364_1983", where=ED_PARTICULAR),
       main_with("q(act2026_schismatic)=yes", "declined_by_strict_interpretation(c751,act_suffices,e2026_schreiber)",
                 where=ED_PARTICULAR),
@@ -1239,8 +1292,9 @@ scen("LW1", LW, "Ecclesia Dei adflicta given in a particular matter: the 2026 ti
      "c. 16 §3: the reading reaches 1988 only; for 2026, c. 18 reads c. 751 strictly: no title under c. 1364, "
      "c. 1387 still reaches Bp Fellay as co-consecrator; 1988 untouched", mode=B)
 scen("LW2", LW, "The 2026 decree approved by the Pope (HYPOTHETICAL)", SX + ["decree_papally_approved"],
-     [main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1364)", where=ED_PARTICULAR),
-      main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1364)", where=ED_LAW)],
+     # changed with TTC-REPAIRS2 (CI2): incurred where c. 1321 §4 is read to presume dolus
+     [under(DOLUS_READ, main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1364)", where=ED_PARTICULAR)),
+      under(DOLUS_READ, main_with("q(act2026_schismatic)=yes", "presumed_incurred(fellay,n1364)", where=ED_LAW))],
      "the legislator's act in the particular matter binds it (c. 16 §3): the title returns", mode=B)
 scen("LW3", LW, "The mind of the legislator, by rank (c. 17; q. 96 a. 4)", ["law_cases"],
      [info_all("reading_excluded(l_sup,broad)", "permitted(act_n,l_sup)"), info_none("permitted(act_b,l_sup)"),
@@ -1908,7 +1962,9 @@ scen("SM7", CX, "A confessor coerced under a civil law", SEAL,
       branch_fact("q(seal_of_divine_law)=no", "does_not_bind(civil_disclosure_law)", present=False),
       info_all("delict(conf_k,n1386,disclosure_k)", "mitigated(conf_k,disclosure_k,fear)"),
       info_none("exempt(conf_k", "presumed_incurred(conf_k"), weight_in("q(seal_of_divine_law)=no", 4, 1),
-      shown(SEAL, ("excommunicated_at/2",), "excommunicated_at(conf_j,20261010)", absent=("excommunicated_at(conf_k,20261010)",))],
+      # changed with TTC-REPAIRS2 (not predicted): one model, so the reading of c. 1321 §4 is fixed to dolus
+      shown(SEAL + DOLUS_PART, ("excommunicated_at/2",), "excommunicated_at(conf_j,20261010)",
+            absent=("excommunicated_at(conf_k,20261010)",))],
      "the ground a classification at tier 3; not exempt (c. 1323 n. 4), mitigated (c. 1324 §1 n. 5), no latae sententiae (§3); the delict stands",
      mode=B)
 scen("SM7b", CX, "The seal dispensed by the supreme authority", SEAL + ["seal_dispensed"],
@@ -2392,16 +2448,20 @@ scen("AB2", PN, "The attempt", ABC,
 scen("AB3", PN, "Two texts, one content", ABC,
      [shown(ABC, ("delict/3",), "delict(doctor_b,n1398_1983,ab_19)", "delict(doctor_b,n1397,ab_15)",
             absent=("delict(doctor_b,n1397,ab_19)", "delict(doctor_b,n1398_1983,ab_15)")),
-      shown(ABC, ("excommunicated_at/2",), "excommunicated_at(doctor_b,19900301)")],
+      # changed with TTC-REPAIRS2 (not predicted): one model, so the reading of c. 1321 §4 is fixed to dolus
+      shown(ABC + DOLUS_PART, ("excommunicated_at/2",), "excommunicated_at(doctor_b,19900301)")],
      "2019 under c. 1398 (1983), 2023 under c. 1397 §2; no act under both", mode=B)
 scen("AB4", PN, "The exemptions, through the library", ABC,
      [in_branches("info(exempt(m_15,ab_15))", "main"), in_branches("info(mitigated(m_17,ab_17,minor))", "main"),
       in_branches("info(mitigated(m_pen,ab_pen,penalty_unknown))", "main"), in_branches("info(mitigated(m_fear,ab_fear,fear))", "main"),
       in_branches("info(exempt(m_fear,ab_fear))", "main", present=False),
-      in_branches("info(presumed_incurred(m_aff,n1397))", "main"), in_branches("info(ignorance_disregarded(m_aff,ab_aff,penalty))", "main"),
-      in_branches("info(presumed_incurred(doctor_b,n1397))", "main"),
+      # changed with TTC-REPAIRS2 (CI2): with no source entered, incurred where c. 1321 §4 is read to presume dolus;
+      # the one-model check fixes that reading
+      under(DOLUS_READ, in_branches("info(presumed_incurred(m_aff,n1397))", "main")),
+      in_branches("info(ignorance_disregarded(m_aff,ab_aff,penalty))", "main"),
+      under(DOLUS_READ, in_branches("info(presumed_incurred(doctor_b,n1397))", "main")),
       info_none("presumed_incurred(m_15,", "presumed_incurred(m_17,", "presumed_incurred(m_pen,", "presumed_incurred(m_fear,"),
-      shown(ABC, ("excommunicated_at/2",), "excommunicated_at(doctor_b,20261010)", "excommunicated_at(m_aff,20261010)",
+      shown(ABC + DOLUS_PART, ("excommunicated_at/2",), "excommunicated_at(doctor_b,20261010)", "excommunicated_at(m_aff,20261010)",
             absent=("excommunicated_at(m_17,20261010)",))] +
      [in_branches(f"info(verdict({a},must_not,by_object(direct(killing_of_innocent))))", "main")
       for a in ("ab_15", "ab_17", "ab_pen", "ab_fear", "ab_aff")],
@@ -2591,7 +2651,9 @@ scen("CT3", SAE, "An unread issue: force inside its span both ways", ["tier2", "
      "1 December 1998: the amended c. 1371 n. 1 in one branch, none in the other; the base's cases fall outside every span", mode=B)
 scen("CT4", SAE, "Ages from birth dates", ABC + ["ages_c97"],
      [in_branches("info(exempt(m_b16,ab_b16))", "main"), in_branches("info(mitigated(m_a16,ab_a16,minor))", "main"),
-      in_branches("info(mitigated(m_f28,ab_f28,minor))", "main"), in_branches("info(presumed_incurred(m_f01,n1397))", "main"),
+      in_branches("info(mitigated(m_f28,ab_f28,minor))", "main"),
+      # changed with TTC-REPAIRS2 (CI2): incurred where c. 1321 §4 is read to presume dolus
+      under(DOLUS_READ, in_branches("info(presumed_incurred(m_f01,n1397))", "main")),
       info_none("exempt(m_a16,", "mitigated(m_f01,", "exempt(m_f01,", "presumed_incurred(m_b16,", "presumed_incurred(m_a16,",
                 "presumed_incurred(m_f28,")],
      "on the sixteenth birthday not yet sixteen (c. 1323 n. 1); the day after, tempered; born 29 February, a minor "
@@ -2664,8 +2726,11 @@ scen("AS2", CC, "A child's ascription", ["eastern_ascription"],
      "parents agreeing on the Latin Church: Latin; failing agreement, the father's Church (c. 111 §1; CCEO c. 29 §1)", mode=B)
 scen("AS3", CC, "An Eastern bishop consecrates without a mandate", ["eastern_consecration"],
      [info_all("info(eastern_delict(bp_e,cceo1459_1,e_east))", "info(eastern_delict(bp_f,cceo1459_1,e_east))",
-               "info(to_be_imposed(bp_e,cceo1459_1,e_east,deposition))", "info(presumed_incurred(bp_l,n1387))",
+               "info(to_be_imposed(bp_e,cceo1459_1,e_east,deposition))",
                "info(no_eastern_code_in_force(bp_e,e_1990))", "info(no_eastern_code_in_force(bp_g,e_1990))"),
+      # changed with TTC-REPAIRS2 (not predicted): the Latin bishop's c. 1387, incurred where c. 1321 §4 is read
+      # to presume dolus
+      under(DOLUS_READ, info_all("info(presumed_incurred(bp_l,n1387))")),
       info_none("info(delict(bp_e,", "info(delict(bp_f,", "presumed_incurred(bp_e,", "presumed_incurred(bp_f,",
                 "eastern_delict(bp_l,", "eastern_delict(bp_m,")],
      "no c. 1387 delict and nothing incurred; deposition to be imposed (CCEO c. 1459 §1); the Latin bishop incurs c. 1387", mode=B)
@@ -2677,8 +2742,10 @@ scen("EP1", CC, "An Eastern mother procures an abortion", ABC + ["eastern_aborti
       info_none("presumed_incurred(m_east,", "info(delict(m_east,")],
      "imposed, never incurred (CCEO cc. 1450 §2, 1402); the act still \"must not\"", mode=B)
 scen("EP2", CC, "One denial, two codes", ["ic", "assent", "eastern_faith"],
-     [info_all("info(presumed_incurred(theo_l,n1364))", "info(eastern_delict(theo_e,cceo1436_1,den_e))",
+     # changed with TTC-REPAIRS2 (CI2): the Latin heretic's c. 1364, incurred where c. 1321 §4 is read to presume dolus
+     [info_all("info(eastern_delict(theo_e,cceo1436_1,den_e))",
                "info(to_be_imposed(theo_e,cceo1436_1,den_e,major_excommunication))"),
+      under(DOLUS_READ, info_all("info(presumed_incurred(theo_l,n1364))")),
       info_all("info(eastern_delict(theo_y,cceo1436_1,dub_y))", "info(eastern_delict(theo_z,cceo1436_1,rep_z))"),
       shown(["ic", "assent", "eastern_faith"], ("heresy_matter/1",), "heresy_matter(den_w)"),
       info_none("delict(theo_w,", "eastern_delict(theo_w,", "info(delict(theo_e,", "presumed_incurred(theo_e",

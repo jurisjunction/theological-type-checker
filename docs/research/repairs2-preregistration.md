@@ -132,3 +132,55 @@ finding rests.
 
 docs/research/calendar-preregistration.md, the TTC-REPAIRS commit
 `f90f176`.
+
+## SCORING
+
+Scored on the encoding (branch `repairs2`, from `7afb452`), against the
+predictions above as committed and stamped (`9d50fd0`, proof `7afb452`).
+
+| Prediction | Result |
+| --- | --- |
+| PA1 | **Hit.** SX24: with the decree approved in specific form, `declared(fellay,n1364)` in every branch, no suspension, and a note (`no_recourse_against_papal_act`). |
+| PA2 | **Hit** on the papal act. LW2 went red, but only on CI2: its two incurred-penalty checks are restated under the reading that presumes dolus. |
+| SR1 | **Hit.** SX25: the Dicastery's decision on the recourse against its own decree admits no further recourse and suspends nothing. |
+| SR2 | **Hit.** SX11 keeps `declaration_suspended(ddf_decree_2026,fellay)` with the first recourse pending. |
+| SR3 | **As stated**, and narrower still: the line for c. 1364's 1983 text was dropped, since no test could fail without it (rule 5). |
+| NK1 | **Hit.** SX26. A second person, made known before the clock, was added to the part so that the rule reading `notified/3` has a test of its own (rule 5). |
+| NK2 | **Hit.** No scenario changed for want of a notification; the note is given per decree. |
+| NK3 | As stated. |
+| CI1 | **Hit, with one change.** `narrower/2` is not entered: c. 18 is not applied to §4, so nothing would read it (rule 5). |
+| CI2 | **Hit.** AC1, AC13. |
+| CI3 | **Hit.** AC6 unchanged; AC6b unchanged in result and given one more check (culpa entered is a source on either reading). |
+| CI4 | **Hit.** GP1, N1, CN4, EP1, EP4 unchanged. |
+| CI5 | **9 of 9 named reds went red** (AC1, SX11, SX22, PR1, LW1, LW2, AB4, CT4, EP2). **5 reds were not predicted:** SX15, AC5, SM7, AB3, AS3. Each is restated in the suite with its reason (rule 7). |
+| CI6 | **Hit.** In the scratch case, on the readings least favourable to the cleric, the penalty is incurred only on `presumes_dolus`; where nothing turns on the presumption, no reading is asked. |
+| CL1 | **Hit.** No vicious cycle, no undefined predicate; PR4 clean. |
+
+The five misses:
+
+- **SX15.** A bishop's absolution is illicit because he is under an
+  incurred, undeclared censure (`licit_absolution/1` reads
+  `excommunicated_at/2`). On `presumes_imputability` nothing is incurred
+  without a source, so the absolution is licit there. A reader of
+  `incurred_at/4` that the predictions did not look past.
+- **AC5.** Crass, supine and affected ignorance (c. 1325). The predictions
+  treated them as unchanged. c. 1325 bars excuse and mitigation, but it
+  supplies no source, so on `presumes_imputability` these penalties are not
+  incurred. Whether gravely culpable ignorance is to be counted as dolus
+  ("punishable as though it were committed with dolus") is a reading of its
+  own, not encoded here.
+- **SM7, AB3.** One-model checks (`shown`): with the new branch, which
+  reading the one model takes is arbitrary. The reading is now fixed by a
+  switch part (`c1321_dolus_read`), as `ccc_*` and `c751_state_reading` fix
+  theirs.
+- **AS3.** The Eastern-consecration case carries a Latin bishop's c. 1387,
+  with no source entered. The predictions listed AS3 as unchanged without
+  seeing the Latin delict in it.
+
+Left open, as before: whether c. 18 reaches §4 itself; gravity as a separate
+element; whether gravely culpable ignorance counts as dolus.
+
+One slip of method, no harm to the record: the first test run before the
+predictions commit was killed by its own time limit (the suite takes about
+21 minutes on two workers here). It was rerun whole and green before the
+commit, and nothing was encoded before the proof (`7afb452`).
