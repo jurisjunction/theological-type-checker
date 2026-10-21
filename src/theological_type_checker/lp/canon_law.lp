@@ -289,6 +289,17 @@ narrower(subjective,objective).
 applies_reading(pclt2000,c915,objective). issuer(pclt2000,pclt). authority(pclt,3).
 disputed(excluded_reading(c915,subjective)) :- needs_reading(c915,_).
 needs_reading(c915,S) :- situation(_,S), manifest(S), persisting(S).
+% c. 1248 §1: "in the evening of the preceding day". From noon (Browne,
+% Letter & Spirit (1995) 702; Peters, canonlaw.info, 30 November 2008), or
+% from two in the afternoon; no authentic interpretation. The obligation of
+% c. 1247, as c. 1248 §1 measures it, reaches less on the first. A Mass
+% between the two hours needs a reading; c. 14 gives it (TTC-CALENDAR CO2).
+evening_from(evening_from_noon,1200).
+evening_from(evening_from_two,1400).
+reading_option(c1247,R) :- evening_from(R,_).
+narrower(evening_from_noon,evening_from_two).
+obliging(c1247).
+needs_reading(c1247,M) :- on_the_eve(M,_), evening_possible(M), not evening_certain(M).
 
 % ---------- Book I: general norms ------------------------------------------
 % @norm cic:7 | c. 7: a law is established when it is promulgated; c. 8 §1: universal laws are promulgated in the Acta Apostolicae Sedis and take force only after three months have elapsed from the date of that issue, unless they bind at once from the nature of the matter or the law sets a shorter or longer vacatio | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann7-22_en.html
@@ -466,6 +477,9 @@ info(declined_by_strict_interpretation(L,R,E)) :- needs_reading(L,E), strict(L),
 :- read_for(L,R,E), doubt_binds_strictly(L), not authentically_read(L,E), admissible(L,R2), narrower(R2,R).
 doubt_binds_strictly(L) :- invalidating(L).
 doubt_binds_strictly(L) :- obliging(L).
+% The narrowing is said, as c. 18's is (TTC-CALENDAR CO2: it was silent).
+info(declined_in_doubt_of_law(L,R,E)) :- needs_reading(L,E), doubt_binds_strictly(L), not authentically_read(L,E),
+                                         admissible(L,R), admissible(L,R2), narrower(R2,R).
 doubt_of_fact(L,X) :- fact_for(L,X,F), disputed(F).
 info(ordinary_may_dispense(L,X)) :- doubt_of_fact(L,X), dispensable(L).
 
@@ -573,6 +587,77 @@ info(regulates_right(L,M)) :- regulated(L,M).
 decides_above(D,L) :- decision_on_recourse(D,L,_), issuer(D,A), authority(A,K), legislator(L,AL), authority(AL,KL), K > KL.
 regulates_exercise(L,M) :- decision_on_recourse(D,L,confirmed), decides_above(D,L), disputed(regulates_exercise(L,M)).
 info(confirmed_on_recourse(L,D)) :- decision_on_recourse(D,L,confirmed), decides_above(D,L).
+% @norm gnly:59 | GNLY 59-60 and the Table of Liturgical Days (General Norms for the Liturgical Year and the Calendar, 1969): precedence is governed solely by the Table; of several celebrations on one day, the one of highest rank is observed; a Solemnity impeded by a day of higher precedence is transferred, the others omitted; Optional Memorials (12) may be celebrated even on the days of no. 9; n. 14: of several Optional Memorials on one day, only one is celebrated | https://www.liturgyoffice.org/Calendar/Info/GNLY.pdf
+% @input celebration_on/3 | celebration_on(D, C, R): the calendar in use inscribes C on the date D, at number R of the Table of Liturgical Days (GNLY 59); entered from that calendar, the General or a proper one
+% @input solemnity/1 | solemnity(C): C is of the degree of a Solemnity (GNLY 10-11)
+% "If several celebrations fall on the same day, the one that holds the
+% highest rank according to the Table of Liturgical Days is observed"
+% (GNLY 60). An Optional Memorial (no. 12) displaces nothing: it may be
+% kept on a day of no. 9 or 13, and is omitted on a day of any higher number
+% (an obligatory memorial, 10-11, is observed over it). An impeded
+% Solemnity is transferred (60): the transfer is not encoded.
+day_asked(D) :- celebration_on(D,_,_).
+optional_memorial(D,C) :- celebration_on(D,C,12).
+outranked(D,C) :- celebration_on(D,C,R), R != 12, celebration_on(D,_,R2), R2 != 12, R2 < R.
+day_celebration(D,C) :- celebration_on(D,C,R), R != 12, not outranked(D,C).
+memorial_impeded(D) :- celebration_on(D,_,R), R <= 11, R != 9.
+info(day_celebration(D,C)) :- day_celebration(D,C).
+info(omitted(D,C)) :- outranked(D,C), not solemnity(C).
+info(omitted(D,C)) :- optional_memorial(D,C), memorial_impeded(D).
+info(may_be_kept(D,C)) :- optional_memorial(D,C), not memorial_impeded(D).
+frontier(canon,impeded_solemnity(D,C)) :- outranked(D,C), solemnity(C).
+% @norm gnly:3 | GNLY 3: the liturgical day runs from midnight to midnight, but the celebration of Sunday and of Solemnities begins already on the evening of the previous day; 11: Solemnities begin with First Vespers on the preceding day; 13: Feasts are celebrated within the limits of the natural day, and so have no First Vespers | https://www.liturgyoffice.org/Calendar/Info/GNLY.pdf
+% A Sunday or a Solemnity begins on the evening of the day before; a Feast
+% keeps the natural day (13), save a Feast of the Lord on a Sunday, which
+% begins as the Sunday does (CE1). The weekday is computed (saeculum.lp).
+begins_on_eve(D,C) :- day_celebration(D,C), weekday(D,sunday).
+begins_on_eve(D,C) :- day_celebration(D,C), solemnity(C).
+info(begins_evening_before(C,P)) :- begins_on_eve(D,C), day_before(D,P).
+% @norm gnly:61 | GNLY 61: if on the same day Vespers of the current Office and First Vespers of the following day are to be celebrated, the Vespers of the celebration of higher rank take precedence; in cases of equal rank, Vespers of the current day | https://www.liturgyoffice.org/Calendar/Info/GNLY.pdf
+% The evening of the eve belongs to the higher in the Table (the lower
+% number); at equal rank, to the current day (CE4). Where the next day's
+% celebration does not begin on the eve, the evening is the day's own.
+evening_prevails(P,C) :- begins_on_eve(D,C), day_before(D,P), celebration_on(D,C,R), day_celebration(P,C0),
+                         celebration_on(P,C0,R0), R < R0.
+evening_prevails(P,C0) :- day_celebration(P,C0), celebration_on(P,C0,R0), day_after(P,D), begins_on_eve(D,C),
+                          celebration_on(D,C,R), R >= R0.
+evening_prevails(P,C0) :- day_celebration(P,C0), day_after(P,D), celebration_on(D,_,_), not begins_on_eve(D,_).
+info(vespers_of(P,C)) :- evening_prevails(P,C).
+% @norm gnly:11 | GNLY 11: some Solemnities are also endowed with their own Vigil Mass, which is to be used on the evening of the preceding day, if an evening Mass is celebrated | https://www.liturgyoffice.org/Calendar/Info/GNLY.pdf
+% @input vigil_mass/2 | vigil_mass(C, F): the Solemnity C has its own Vigil Mass, the formulary F (GNLY 11)
+% @input mass_formulary/2 | mass_formulary(M, F): the Mass M is celebrated with the formulary F
+% Of a Solemnity whose evening it is (61, above), an evening Mass on the
+% eve is its Vigil Mass (CE2). Between noon and two the hour is evening on
+% one reading only (c. 1248, below), and in a doubt of law the requirement
+% does not oblige (c. 14): only a Mass evening on every reading is held to
+% it. No such rule is written of a Sunday's eve (CE3).
+violation(vigil_mass_not_used(M,C)) :- vigil_mass(C,F), evening_prevails(P,C), day_after(P,D), begins_on_eve(D,C),
+                                       mass_at(M,P,_), evening_certain(M), mass_formulary(M,F2), F2 != F.
+% @norm cic:1248 | cc. 1246-1248: Sunday is to be observed in the universal Church as the primordial holy day of obligation, and ten other days (c. 1246 §1); on Sundays and other holy days of obligation the faithful are obliged to participate in the Mass (c. 1247); a person who assists at a Mass celebrated anywhere in a Catholic rite either on the feast day itself or in the evening of the preceding day satisfies the obligation of participating in the Mass (c. 1248 §1) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1244-1253_en.html
+% @input holy_day_of_obligation/1 | holy_day_of_obligation(D): a day other than Sunday kept as a holy day of obligation where the case is (c. 1246, as the conference has it under §2)
+% @input mass_at/3 | mass_at(M, D, T): a Mass celebrated in a Catholic rite on the date D at the hour T (HHMM)
+% @input assists_at/2 | assists_at(P, M): the person assists at the Mass M (c. 1248 §1); an outward fact, the canon side's (attends/2 is the authority layer's)
+% @input evening_from/2 | evening_from(R, H): on the reading R of c. 1248 §1's "evening", the evening begins at the hour H (HHMM)
+% Any Mass in a Catholic rite on the day, or in the evening of the day
+% before, whatever its formulary (CO1). A Mass between noon and two meets
+% it on the reading c. 14 gives (the readings, above); a morning Mass on
+% the eve, or a service that is not a Mass (c. 1248 §2 recommends and
+% obliges to nothing), meets nothing (CO3). Of a person, the checker says
+% only that assisting at a Mass meets the obligation, never that anyone
+% failed it (rule 3).
+day_asked(D) :- mass_at(_,D,_).
+day_asked(N) :- mass_at(_,P,_), day_after(P,N).
+obligation_day(D) :- day_asked(D), weekday(D,sunday).
+obligation_day(D) :- holy_day_of_obligation(D).
+on_the_eve(M,D) :- mass_at(M,P,_), day_after(P,D), obligation_day(D).
+early_on(M,R) :- mass_at(M,P,T), day_after(P,_), evening_from(R,H), T < H.
+evening_possible(M) :- mass_at(M,P,_), day_after(P,_), evening_from(R,_), not early_on(M,R).
+evening_certain(M) :- mass_at(M,P,_), day_after(P,_), not early_on(M,_).
+meets_obligation(M,D) :- mass_at(M,D,_), obligation_day(D).
+meets_obligation(M,D) :- on_the_eve(M,D), evening_certain(M).
+meets_obligation(M,D) :- on_the_eve(M,D), read_for(c1247,R,M), not early_on(M,R).
+info(meets_obligation(M,D)) :- meets_obligation(M,D).
+info(satisfies_obligation(P,D,M)) :- assists_at(P,M), meets_obligation(M,D).
 % @norm cic:333 | c. 333 §3: no appeal or recourse against a decision of the Roman Pontiff | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann330-367_en.html
 % @stratum cic:333 supreme
 papal_act(D) :- issuer(D,A), authority(A,4).
@@ -1159,3 +1244,7 @@ info(class_statement_not_declaration(S,C)) :- asserted(S,status(C,_)), not decla
 violation(collective_declaration(S,C)) :- treated_as_declaring(S,C), asserts(S,status(C,_),_).
 
 #show assumed_fact/1.
+
+% ---------- domains (L) ---------------------------------------------
+in_sort(table_rank,1..13).
+violation(outside_domain(celebration_on,3,R)) :- celebration_on(_,_,R), not in_sort(table_rank,R).
