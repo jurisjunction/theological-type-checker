@@ -49,6 +49,31 @@ days_in(Y,M,L)  :- cal_year(Y), month_days(M,L).
 days_in(Y,2,29) :- cal_year(Y), leap(Y).
 days_in(Y,2,28) :- cal_year(Y), not leap(Y).
 
+% ---------- The week, and the days either side (TTC-CALENDAR CD1) -------
+% Of a day the law asks about (day_asked/1): its weekday, by Zeller's
+% congruence for the Gregorian calendar (January and February counted as
+% the 13th and 14th months of the year before; 0 is Saturday), and the day
+% before and after it. Computed, never entered.
+% @input day_asked/1 | a day the law asks about (canon_law.lp: the liturgical day, the Sunday obligation)
+% @input weekday_name/2 | weekday_name(N, W): Zeller's number N of a weekday (0 is Saturday)
+cal_year(Y) :- day_asked(D), Y = D/10000.
+weekday_name(0,saturday).
+weekday_name(1,sunday).
+weekday_name(2,monday).
+weekday_name(3,tuesday).
+weekday_name(4,wednesday).
+weekday_name(5,thursday).
+weekday_name(6,friday).
+zeller(D,D\100,M,D/10000)        :- day_asked(D), M = (D/100)\100, M >= 3.
+zeller(D,D\100,M+12,D/10000 - 1) :- day_asked(D), M = (D/100)\100, M <= 2.
+weekday(D,W) :- zeller(D,Q,M,Y), K = Y\100, J = Y/100, H = (Q + 13*(M+1)/5 + K + K/4 + J/4 + 5*J)\7, weekday_name(H,W).
+day_before(D,D-1) :- day_asked(D), D\100 > 1.
+day_before(D,P)   :- day_asked(D), D\100 = 1, M = (D/100)\100, M > 1, Y = D/10000, days_in(Y,M-1,L), P = Y*10000 + (M-1)*100 + L.
+day_before(D,P)   :- day_asked(D), D\100 = 1, (D/100)\100 = 1, P = (D/10000 - 1)*10000 + 1231.
+day_after(D,D+1)  :- day_asked(D), M = (D/100)\100, days_in(D/10000,M,L), D\100 < L.
+day_after(D,N)    :- day_asked(D), M = (D/100)\100, M < 12, days_in(D/10000,M,L), D\100 = L, N = (D/10000)*10000 + (M+1)*100 + 1.
+day_after(D,N)    :- day_asked(D), (D/100)\100 = 12, D\100 = 31, N = (D/10000 + 1)*10000 + 101.
+
 % ---------- The clock (CA1) --------------------------------------------
 % One evaluation date for both layers: the day a case gives (today/1), or
 % the last day of an asof year. With today and no asof, the authority

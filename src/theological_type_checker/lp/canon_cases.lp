@@ -864,6 +864,41 @@ contrary_to_provision(l_dioc_g,p_g).     % against a provision whose law has cea
 contrary_to_provision(l_dioc_k,p_k).     % against the bishop's own instruction: stands
 contrary_to_provision(l_dioc_e,p_ok).    % given before the instruction took effect: stands
 contrary_to_provision(l_dioc_u,p_ok).    % no day of promulgation entered: not tested
+#program liturgical_day.            % HYPOTHETICAL: the General Calendar, its evenings, the Sunday obligation (LW14)
+today(20261220).
+% CP: a Saturday of Advent with an Optional Memorial, before a Sunday of Advent
+celebration_on(20261212,weekday_a,13). celebration_on(20261212,memorial_m,12). celebration_on(20261213,sunday_a,2).
+% an obligatory memorial over an optional one; a day of no. 9; an impeded Solemnity
+celebration_on(20261214,memorial_o,10). celebration_on(20261214,memorial_p,12). celebration_on(20261214,weekday_c,13).
+celebration_on(20261218,weekday_d,9). celebration_on(20261218,memorial_q,12).
+celebration_on(20270321,sunday_l,2). celebration_on(20270321,solemnity_t,3). solemnity(solemnity_t).
+% CE1: a Feast keeps its day
+celebration_on(20261209,weekday_e,13). celebration_on(20261210,feast_g,7).
+% CE2: a Solemnity with its own Vigil Mass, on a holy day of obligation, after a weekday
+celebration_on(20261207,weekday_b,13). celebration_on(20261208,solemnity_s,3). solemnity(solemnity_s).
+vigil_mass(solemnity_s,vigil_s). holy_day_of_obligation(20261208).
+mass_at(mass_v1,20261207,1830). mass_formulary(mass_v1,vigil_s).
+mass_at(mass_v2,20261207,1900). mass_formulary(mass_v2,weekday_b).        % not the Vigil Mass
+mass_at(mass_v3,20261207,1230). mass_formulary(mass_v3,weekday_b).        % evening on one reading only
+% ... and one whose eve is a Sunday of higher rank: the evening is the Sunday's
+celebration_on(20261129,sunday_c,2). celebration_on(20261130,solemnity_u,3). solemnity(solemnity_u).
+vigil_mass(solemnity_u,vigil_u).
+mass_at(mass_u1,20261129,1800). mass_formulary(mass_u1,sunday_c).
+% CE4: equal rank, the current day's
+celebration_on(20270626,solemnity_p,3). solemnity(solemnity_p).
+celebration_on(20270627,solemnity_q,3). celebration_on(20270627,sunday_o,6). solemnity(solemnity_q).
+% CO: Masses on the Saturday and the Sunday, and who assists at what
+mass_at(mass_x1,20261212,1700). mass_formulary(mass_x1,memorial_m).       % of the Saturday's own celebration
+mass_at(mass_x2,20261212,1300).
+mass_at(mass_x3,20261212,900).
+mass_at(mass_x4,20261213,1000).
+assists_at(person_a,mass_x2). assists_at(person_b,mass_x3). assists_at(person_c,service_w).
+% CD1: the month's turn (the Sunday not entered, its weekday computed), the year's, and a leap day
+mass_at(mass_w,20261031,1800).
+mass_at(mass_n,20261231,2300). holy_day_of_obligation(20270101).
+celebration_on(20240301,weekday_z,13).
+#program liturgical_day_proper.     % HYPOTHETICAL: the same days on a proper calendar, the memorial a Feast (LW14, CP2)
+celebration_on(20261212,weekday_a,13). celebration_on(20261212,memorial_m,8). celebration_on(20261213,sunday_a,2).
 #program who_is_bound.              % HYPOTHETICAL: a merely ecclesiastical law and a divine law reaching all (WB1-WB2)
 today(20261010).
 law_kind(l_eccl,ecclesiastical). obliging(l_eccl). reading_option(l_eccl,plain). needs_reading(l_eccl,all).

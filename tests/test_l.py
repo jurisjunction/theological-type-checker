@@ -430,7 +430,8 @@ def test_each_sort_is_declared_in_the_lowest_layer_whose_slots_use_it():
 
 # The closed sorts, from the guide's tables (TTC-L, Domains): pasted.
 CLOSED = {"tier", "force", "question_kind", "papal_form", "character", "conciliar_act", "shown_condition",
-          "object", "presence_mode", "nature", "sacrament", "teaching_type", "valence"}
+          "object", "presence_mode", "nature", "sacrament", "teaching_type", "valence",
+          "table_rank"}   # TTC-CALENDAR: the Table of Liturgical Days, 1..13
 
 
 def _domain_args():

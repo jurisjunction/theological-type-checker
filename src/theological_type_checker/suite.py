@@ -2771,6 +2771,45 @@ scen("LW12", LW, "Higher ius through a provision in force (c. 135 §2; cc. 33-34
      "a diocesan law against a dicastery's provision in force does not bind (Huels, StC 32 (1998) 360 n. 77); against "
      "a provision without force (c. 34 §2), one whose law has ceased (§3), the bishop's own, or one not yet in force "
      "when the law was given, it binds; with no day of promulgation it is not tested", mode=B)
+# Predictions committed first: docs/research/calendar-preregistration.md.
+# Found on a Saturday Feast before a Sunday of Advent (December 2026).
+scen("LW14", LW, "The liturgical day, its evening, and the Sunday obligation (GNLY 3, 11, 59-61; cc. 1247-1248, 14)",
+     ["liturgical_day"],
+     [info_all("day_celebration(20261212,weekday_a)", "may_be_kept(20261212,memorial_m)",
+               "day_celebration(20261214,memorial_o)", "omitted(20261214,memorial_p)", "omitted(20261214,weekday_c)",
+               "may_be_kept(20261218,memorial_q)", "day_celebration(20270627,solemnity_q)", "omitted(20270627,sunday_o)",
+               "begins_evening_before(sunday_a,20261212)", "begins_evening_before(solemnity_s,20261207)",
+               "vespers_of(20261212,sunday_a)", "vespers_of(20261207,solemnity_s)", "vespers_of(20261129,sunday_c)",
+               "vespers_of(20270626,solemnity_p)", "vespers_of(20261209,weekday_e)",
+               "violation(vigil_mass_not_used(mass_v2,solemnity_s))",
+               "meets_obligation(mass_x1,20261213)", "meets_obligation(mass_x2,20261213)", "meets_obligation(mass_x4,20261213)",
+               "meets_obligation(mass_v1,20261208)", "meets_obligation(mass_v2,20261208)", "meets_obligation(mass_v3,20261208)",
+               "meets_obligation(mass_n,20270101)", "meets_obligation(mass_w,20261101)",
+               "declined_in_doubt_of_law(c1247,evening_from_two,mass_x2)",
+               "satisfies_obligation(person_a,20261213,mass_x2)"),
+      info_none("day_celebration(20261212,memorial_m)", "may_be_kept(20261214", "omitted(20261212", "omitted(20261218",
+                "omitted(20270321,solemnity_t)", "begins_evening_before(feast_g", "vespers_of(20261209,feast_g)",
+                "vespers_of(20270626,solemnity_q)", "vespers_of(20270627", "vigil_mass_not_used(mass_v1",
+                "vigil_mass_not_used(mass_v3",
+                "vigil_mass_not_used(mass_u1", "vigil_mass_not_used(mass_x1", "meets_obligation(mass_x3",
+                "satisfies_obligation(person_b", "satisfies_obligation(person_c", "failed"),
+      shown(["liturgical_day"], ("weekday/2", "day_before/2", "day_after/2"),
+            "weekday(20261212,saturday)", "weekday(20261213,sunday)", "weekday(20240301,friday)", "weekday(20270101,friday)",
+            "day_before(20240301,20240229)", "day_before(20270101,20261231)", "day_after(20261231,20270101)"),
+      shown(["liturgical_day"], ("frontier/2",), "frontier(canon,impeded_solemnity(20270321,solemnity_t))"),
+      # An authentic interpretation for two o'clock, in that matter, settles it the other way, and c. 14 is silent.
+      shown(["liturgical_day"], ("info/1",), "info(meets_obligation(mass_x1,20261213))",
+            absent=("info(meets_obligation(mass_x2,20261213))", "info(declined_in_doubt_of_law(c1247,evening_from_two,mass_x2))"),
+            facts="applies_reading(int_x,c1247,evening_from_two). issuer(int_x,pope_y). authority(pope_y,4). "
+                  "particular_matter(int_x,mass_x2)."),
+      shown(["liturgical_day_proper"], ("info/1",), "info(day_celebration(20261212,memorial_m))",
+            "info(omitted(20261212,weekday_a))", "info(vespers_of(20261212,sunday_a))",
+            absent=("info(may_be_kept(20261212,memorial_m))", "info(day_celebration(20261212,weekday_a))"))],
+     "the weekday is computed; the highest in the Table is the day's, an Optional Memorial kept only on a day of no. 9 "
+     "or 13; a Sunday or a Solemnity begins the evening before, a Feast keeps its day, and the evening goes to the higher "
+     "(at equal rank, the current day); a Solemnity's Vigil Mass is owed at an evening Mass when its evening it is; any "
+     "Mass on the day or in the evening before meets the obligation, from noon in a doubt of law (c. 14); the "
+     "same memorial is the day's on a proper calendar that makes it a Feast", mode=B)
 scen("LK3", CC, "An Eastern marriage under divine law", IMP + ["eastern_bond"],
      [info_all("info(bond(ee_p))", "info(marriage(ee_v,invalid_consent))"),
       shown(IMP + ["eastern_bond"], ("eastern_faithful/1",), "eastern_faithful(e_9)", "eastern_faithful(e_10)"),
