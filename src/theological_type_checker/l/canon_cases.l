@@ -279,6 +279,18 @@ absolution(b_fore,y6,pen,20260901).    interior(y6,b_fore,negligence). interior(
 
 ```
 
+part switch
+
+```clingo
+#program act_in_causa.              % HYPOTHETICAL: the deed done without reason, voluntary in its cause (TTC-REPAIRS4)
+today(20261010).
+absolution(c_blame,z1,pen,20260901).  interior(z1,c_blame,reason(lacking)).                                          % c. 1323 n. 6, without fault
+absolution(c_culp,z2,pen,20260901).   interior(z2,c_culp,reason(lacking)).   interior(z2,c_culp,disturbance(culpable)).  % c. 1324 §1 n. 2
+absolution(c_sought,z3,pen,20260901). interior(z3,c_sought,reason(lacking)). interior(z3,c_sought,disturbance(sought)).  % c. 1326 §1 n. 4
+absolution(c_habit,z4,pen,20260901).  interior(z4,c_habit,reason(habitually_lacking)). interior(z4,c_habit,disturbance(culpable)).  % c. 1322
+
+```
+
 part case
 
 ```clingo

@@ -128,3 +128,43 @@ unchanged.
 ## SEE ALSO
 
 docs/research/repairs3-preregistration.md.
+
+## SCORING
+
+Scored on the encoding (branch `repairs4`, from `ea33b20` with `main` merged),
+against the predictions above as committed and stamped (`35e53d5`, proof
+`9fdf3cf`).
+
+| Prediction | Result |
+| --- | --- |
+| IC1 | **Hit.** AC20, AC21: `voluntary_in_cause/2` for z2 and z3; `imputed/3` and `improper/2` read `imputable_act/2`. |
+| IC2 | **Hit.** `actus_humanus/2` unchanged; every check that reads it (AC8, AC9, the moral and Christ libraries) unchanged. |
+| IC3 | **Hit.** AC19: z4 stays incapable, with no note of the voluntary in its cause. |
+| DR1 | **Hit.** AC20: z2 not exempt, not noted as no formal delict; noted as not a human act, and as voluntary in its cause. |
+| DR2 | **Hit.** AC20: `mitigated(z2,c_culp,culpable_disturbance)`, and nothing incurred in any branch. |
+| DR3 | **Hit.** AC20: `source_not_established(z2,…)` on the reading that presumes mere imputability, in both of its branches. |
+| DS1 | **Hit.** AC21: z3 neither exempt nor mitigated. |
+| DS2 | **Hit.** AC21: z3 incurred in all three branches, with `aggravated(z3,c_sought,sought_disturbance)` and no note that the source is not established. |
+| DS3 | **Hit.** AC21 (z3 not noted as stimulated passion), AC17 (y5 not noted as a disturbance sought; one check added, nothing changed). |
+| CA1 | As stated. |
+| CA2 | **Hit.** AC19-AC21. |
+| CA3 | **Hit.** Three branches; c. 1325 not asked. |
+| SU1 | **Hit.** No expectation changed: AC1-AC18 and the 574 other scenarios as before. |
+| CL1 | **Hit.** No vicious cycle, no undefined predicate (`ttc-l check`); PR4 clean. |
+
+No test went red, as predicted.
+
+Each new rule has a test that fails without it (rule 5): each new line
+commented out alone, and each rule that now reads `imputable_act/2` put back
+as it was, turns its scenario red (AC1, AC17, AC20, AC21); so does c. 1324
+§1 n. 2 without its reservation of c. 1326 §1 n. 4 (AC21).
+
+One slip of method, no harm to the record: the merge of `main` into
+`repairs4` (the predictions and their proof only) was committed before
+`pytest -q` ran on the branch (rule 11). Its tree is the tested `ea33b20`
+with two files of text added, and the whole suite ran green on the encoding
+before the encoding's commit.
+
+Left open, as stated: what source culpable drunkenness supplies; imperfect
+reason from a disturbance sought; c. 1326 §§2-3; the text of 1983; sin on
+the claims in drunkenness.

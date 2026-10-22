@@ -144,6 +144,7 @@ compiled text.
 | `interior(P,E,defence(immoderate))`, `interior(P,E,provoked(grave,unjust))`, `interior(P,E,imputability(diminished))` | c. 1324 §1 nn. 6, 7, 10: the penalty tempered, and no *latae sententiae* penalty binds (§3). Claims, never computed. |
 | `interior(P,E,imputability(not_grave))` | c. 1321 §2: not gravely imputable. No penalty, and no delict in the formal sense. A claim, never computed. |
 | `interior(P,E,passion(grave,stimulated))`, `interior(P,E,foresaw(certain))` | c. 1326 §1 nn. 4, 3: passion deliberately stimulated or nourished supplies dolus, and aggravates; culpa with the event foreseen aggravates where the law punishes culpa. |
+| `interior(P,E,disturbance(culpable))`, `interior(P,E,disturbance(sought))` | With `interior(P,E,reason(lacking))`: the lack of reason culpably brought on (drunkenness or a similar disturbance), or sought so as to commit the offence or to excuse it. The deed is no human act, but voluntary in its cause (II-II q. 150 a. 4): culpable, the penalty is tempered and no *latae sententiae* penalty binds (c. 1324 §1 n. 2, §3); sought, it supplies dolus and aggravates (c. 1326 §1 n. 4). For imputability only: consent and juridic acts still need actual reason. Claims, never computed. |
 | `grant/5`, `permission/4`, `revocation/3` | Faculties and their revocation. |
 | `absolution/4`, `marriage/3`, `delegation/5` | Acts whose validity is computed. |
 | `danger_of_death/2`, `just_cause_request/3`, `common_error/1` | cc. 976, 1335 §2, 144. |

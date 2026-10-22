@@ -132,6 +132,19 @@ removes_voluntary(P,A,no_reason)   :- interior(P,A,reason(lacking)).
 removes_voluntary(P,A,no_reason)   :- interior(P,A,reason(habitually_lacking)).
 actus_humanus(P,A) :- agent(P,A), not removes_voluntary(P,A,_).
 
+% ---------- The voluntary in its cause (ST II-II q. 150 a. 4) -------------
+% Reason lacking at the deed, its lack brought on culpably or sought for the
+% deed: the deed is no human act, yet it is voluntary through the act before
+% it, and so not wholly excused (actio libera in causa). For imputability
+% only: what needs actual reason to be placed (consent, a juridic act) reads
+% actus_humanus/2, which this leaves as it is. Claims, never computed.
+culpable_disturbance(P,A) :- interior(P,A,disturbance(culpable)).
+sought_disturbance(P,A)   :- interior(P,A,disturbance(sought)).
+voluntary_in_cause(P,A) :- agent(P,A), interior(P,A,reason(lacking)), culpable_disturbance(P,A).
+voluntary_in_cause(P,A) :- agent(P,A), interior(P,A,reason(lacking)), sought_disturbance(P,A).
+imputable_act(P,A) :- actus_humanus(P,A).
+imputable_act(P,A) :- voluntary_in_cause(P,A).
+
 % ---------- Ignorance (ST I-II q. 6 a. 8; q. 76 aa. 2-3) -----------------
 % Of: law, penalty, or fact(C), a circumstance. Kind: invincible (without
 % fault), vincible (with fault), crass, supine, affected. Error and

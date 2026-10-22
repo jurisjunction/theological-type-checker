@@ -1326,7 +1326,8 @@ scen("AC16", AC, "c. 1324 §1 nn. 6, 7, 10; c. 1321 §2: mitigated, or not grave
 scen("AC17", AC, "c. 1326 §1 nn. 3-4: aggravation (TTC-REPAIRS3)", ["act_penal_more"],
      [info_all("aggravated(y5,b_stim,stimulated_passion)", "presumed_incurred(y5,n1379)",
                "culpa_not_punished(y6,n1379,b_fore)"),
-      info_none("mitigated(y5,", "source_not_established(y5,", "aggravated(y6,", "presumed_incurred(y6,")],
+      info_none("mitigated(y5,", "source_not_established(y5,", "aggravated(y6,", "presumed_incurred(y6,"),
+      info_none("aggravated(y5,b_stim,sought_disturbance)")],       # each note by its ground (TTC-REPAIRS4 DS3)
      "passion deliberately stimulated supplies dolus, on every reading of §4; foreseen culpa aggravates only where "
      "culpa is punished", mode=B)
 scen("AC17b", AC, "c. 1326 §1 n. 3: foreseen culpa, culpa punished (HYPOTHETICAL)", ["act_penal_more", "culpa_punished"],
@@ -1341,6 +1342,27 @@ scen("AC18", AC, "c. 1323: proper and improper exemptions (TTC-REPAIRS3)", ["act
       info_none("no_formal_delict(x1,", "no_formal_delict(x11,", "no_formal_delict(x12,")],
      "improper (nn. 2, 3, 7; no human act): no delict in the formal sense; proper (nn. 1, 4, 5): the delict stands, "
      "exempt from the penalty", mode=B)
+scen("AC19", AC, "The lack of reason without fault, and habitual: as before (TTC-REPAIRS4)", ["act_in_causa"],
+     [info_all("not_a_human_act(z1,c_blame)", "no_formal_delict(z1,c_blame)",
+               "not_a_human_act(z4,c_habit)", "no_formal_delict(z4,c_habit)"),
+      info_none("presumed_incurred(z1,", "presumed_incurred(z4,", "voluntary_in_cause(z1,", "voluntary_in_cause(z4,",
+                "c1325_read"),
+      lambda r: (len(r["branches"]) == 3, f"{len(r['branches'])} branches")],
+     "drunkenness without fault excuses wholly (c. 1323 n. 6; II-II q. 150 a. 4); the habitually insane stay incapable "
+     "(c. 1322)", mode=B)
+scen("AC20", AC, "c. 1324 §1 n. 2: culpable drunkenness, voluntary in its cause (TTC-REPAIRS4)", ["act_in_causa"],
+     [info_all("voluntary_in_cause(z2,c_culp)", "mitigated(z2,c_culp,culpable_disturbance)", "not_a_human_act(z2,c_culp)"),
+      info_none("presumed_incurred(z2,", "no_formal_delict(z2,", "exempt(z2,"),
+      under(IMPUT_READ, info_all("source_not_established(z2,n1379"))],
+     "not excused, being voluntary through the act before it, but lessened: the penalty tempered, and no latae "
+     "sententiae penalty binds (§3)", mode=B)
+scen("AC21", AC, "c. 1326 §1 n. 4: the disturbance sought (TTC-REPAIRS4)", ["act_in_causa"],
+     [info_all("voluntary_in_cause(z3,c_sought)", "aggravated(z3,c_sought,sought_disturbance)",
+               "presumed_incurred(z3,n1379)"),
+      info_none("mitigated(z3,", "source_not_established(z3,", "no_formal_delict(z3,", "exempt(z3,",
+                "aggravated(z3,c_sought,stimulated_passion)")],
+     "sought so as to commit the offence or to excuse it: neither exempt nor tempered; dolus, on every reading of "
+     "c. 1321 §4, and aggravated", mode=B)
 scen("AC12", AC, "A public claim of necessity: recorded, never decided", ["sspx"],
      [info_any("defence_claimed(galarreta)"), info_none("exempt(")],
      "the Society's claim is noted where a penalty is presumed; it exempts no one, since no interior claim is supplied",
