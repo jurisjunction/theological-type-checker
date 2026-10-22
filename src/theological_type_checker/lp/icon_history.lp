@@ -1394,6 +1394,29 @@ contrary_acts_at_once(tw_a,tw_b). died_while_other_lived(tw_a,tw_b). baptized_ea
 divides_the_soul(e_z).
 #program cand_soul_from_twin.     % HYPOTHETICAL: a twin's soul given by the other twin (TW3)
 created_person(tw_a;tw_b). being(tw_a,tw_b).
+#program manner_hyp.              % HYPOTHETICAL: a tier-3 act on a doctrinal question, a tier-5 work against it, a contrary profession (MA; TTC-MANNER; load with assent)
+question(q(mn)). question_kind(q(mn),doctrinal). value(q(mn),(yes;no)).
+source(act_mn,3,truth,2026). dicastery(act_mn). character(act_mn,notification). supports(act_mn,q(mn),yes).
+source(work_mn,5,truth,2020). supports(work_mn,q(mn),no).
+professes(p_mn,e_mn,q(mn),no).
+#program manner_whole.            % HYPOTHETICAL: the act says of itself that it settles nothing (MA2)
+self_limited(act_mn).
+#program manner_on_q.             % HYPOTHETICAL: the act says of itself that it settles nothing on q(mn) (MA3)
+self_limits(act_mn,q(mn)).
+#program manner_reaffirmed.       % HYPOTHETICAL: the act reaffirms an earlier tier-3 teaching of the same value (MA4)
+source(enc_mn,3,truth,1990). character(enc_mn,encyclical). supports(enc_mn,q(mn),yes). reaffirms(act_mn,enc_mn).
+#program manner_lowered_by_another. % HYPOTHETICAL: a later work says the act teaches at tier 5 (MA5)
+source(gloss_mn,5,truth,2027). claims_tier(gloss_mn,act_mn,5).
+#program manner_def_hyp.          % HYPOTHETICAL: a defined truth, and a contrary profession (MA6, HG; TTC-MANNER)
+question(q(mn_def)). question_kind(q(mn_def),doctrinal). value(q(mn_def),(yes;no)).
+source(def_mn,1,truth,1900). hypothetical_warrant(def_mn). supports(def_mn,q(mn_def),yes).
+professes(p_ht,e_ht,q(mn_def),no).
+#program cand_limit_on_definition.   % HYPOTHETICAL: the definition entered as settling nothing (MA6)
+self_limited(def_mn).
+#program cand_limit_on_definition_q. % HYPOTHETICAL: the definition entered as settling nothing on its question (MA7)
+self_limits(def_mn,q(mn_def)).
+#program cand_hierarchy_as_grade.    % HYPOTHETICAL: a work, and the definition's own author, grading the truth by its place in the hierarchy (HG1)
+source(work_ht,5,truth,2020). ranks_lower(work_ht,q(mn_def)). ranks_lower(def_mn,q(mn_def)).
 
 % ---------- domains (L) ---------------------------------------------
 #program base.

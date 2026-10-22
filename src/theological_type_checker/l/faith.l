@@ -150,6 +150,25 @@ info(silence_without_censure(P,Q)) :- silent(P,_,Q).
 
 ```
 
+slot ranks_lower(C: source, Q: question)
+  means "ranks_lower(C, Q): C treats Q as owed less assent for its place in the hierarchy of truths (refused; TTC-MANNER)"
+  say "{C} treats {Q} as owed less assent for its place in the hierarchy of truths"
+
+result hierarchy_as_grade(C: source, Q: question)
+  say "{C} grades {Q} by its place in the hierarchy of truths: refused, since every revealed truth is believed with the same divine faith (Mysterium Ecclesiae 4)"
+
+```clingo
+% ---------- The hierarchy of truths is not a grade (TTC-MANNER) -----------------
+% UR 11: the truths vary in their relation to the foundation of the faith.
+% Mysterium Ecclesiae 4 (CDF, 1973): some dogmas rest on the principal ones
+% and are lit by them, but all, being revealed, are believed with the same
+% divine faith. A note is read off the authority graph, never off a truth's
+% place in that order: the hierarchy is not modelled, and its use as a grade
+% is refused, by whoever makes it, and feeds no rule.
+violation(hierarchy_as_grade(C,Q)) :- ranks_lower(C,Q), in_force(C).
+
+```
+
 part switch
 
 ```clingo

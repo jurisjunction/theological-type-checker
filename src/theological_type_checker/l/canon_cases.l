@@ -1712,3 +1712,13 @@ part switch
 doubt_one_or_more(cj_1950,19500301). born_together(cj_1950,(cj_a;cj_b)).
 doubt_one_or_more(cj_2000,20000301). born_together(cj_2000,(cj_c;cj_d)).
 ```
+
+part switch of manner_hyp
+
+```clingo
+#program manner_professions.      % HYPOTHETICAL: the contrary profession warned and not retracted (MA8; load with manner_hyp and assent)
+today(20261010).
+baptized_in(p_mn,catholic). communion_at_issue(p_mn).
+act_date(e_mn,20260601). warned(p_mn,e_mn,ordinary).
+interior(p_mn,e_mn,pertinacious).                                                    % obstinacy claimed
+```
