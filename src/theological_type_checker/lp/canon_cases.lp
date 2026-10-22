@@ -157,6 +157,22 @@ absolution(a_beld,x24,pen,20260901).   interior(x24,a_beld,believed(defence,invi
 #program culpa_punished.            % HYPOTHETICAL: a law that punishes culpability too (c. 1321 §3)
 punishes_culpa(n1379).
 
+#program act_penal_more.            % HYPOTHETICAL: the circumstances added by TTC-REPAIRS3
+today(20261010).
+absolution(b_excess,y1,pen,20260901).  interior(y1,b_excess,defence(immoderate)).    % c. 1324 §1 n. 6
+absolution(b_prov,y2,pen,20260901).    interior(y2,b_prov,provoked(grave,unjust)).   % c. 1324 §1 n. 7
+absolution(b_dimin,y3,pen,20260901).   interior(y3,b_dimin,imputability(diminished)). % c. 1324 §1 n. 10
+absolution(b_slight,y4,pen,20260901).  interior(y4,b_slight,imputability(not_grave)). % c. 1321 §2
+absolution(b_stim,y5,pen,20260901).    interior(y5,b_stim,passion(grave,stimulated)). % c. 1326 §1 n. 4
+absolution(b_fore,y6,pen,20260901).    interior(y6,b_fore,negligence). interior(y6,b_fore,foresaw(certain)).  % c. 1326 §1 n. 3
+
+#program act_in_causa.              % HYPOTHETICAL: the deed done without reason, voluntary in its cause (TTC-REPAIRS4)
+today(20261010).
+absolution(c_blame,z1,pen,20260901).  interior(z1,c_blame,reason(lacking)).                                          % c. 1323 n. 6, without fault
+absolution(c_culp,z2,pen,20260901).   interior(z2,c_culp,reason(lacking)).   interior(z2,c_culp,disturbance(culpable)).  % c. 1324 §1 n. 2
+absolution(c_sought,z3,pen,20260901). interior(z3,c_sought,reason(lacking)). interior(z3,c_sought,disturbance(sought)).  % c. 1326 §1 n. 4
+absolution(c_habit,z4,pen,20260901).  interior(z4,c_habit,reason(habitually_lacking)). interior(z4,c_habit,disturbance(culpable)).  % c. 1322
+
 #program act_fear.                  % HYPOTHETICAL: one grave, unjust fear from without, four canons
 today(20261010).
 juridic_act(j1,p).                 interior(p,j1,fear(grave,extrinsic,unjust)).             % c. 125 §2
