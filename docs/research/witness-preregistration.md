@@ -237,6 +237,10 @@ stamped `05246c9`).
   calendar's rule notes `info(omitted(S,Q))`, said as "Q is omitted on S
   (GNLY 60)". It is so at `4183446` (a tier-3 letter against a claimed
   consensus, on the claim's branch). A silent bug for a repair of its own.
+- **TTC-MANNER landed first.** It was merged to `main` (`6cb7958`) while
+  this step was being encoded. The two met only in `suite.py`, where both
+  appended scenarios; no rule, slot or expectation of either changed, as
+  M1 predicted.
 
 ## BUGS
 

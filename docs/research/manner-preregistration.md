@@ -139,3 +139,43 @@ foundation: not modelled; only its use as a grade is refused.
 ## SEE ALSO
 
 docs/research/sources-preregistration.md, docs/research/liturgy-preregistration.md.
+
+## SCORING
+
+Scored on the encoding (branch `manner`, from `ceb89cd`), against the
+predictions above as committed and stamped (`6cce458`, proof `ceb89cd`).
+
+| Prediction | Result |
+| --- | --- |
+| MN1 | **Hit.** `self_limited/1` and `self_limits/2`, each S's word about itself. MA5: a later work's `claims_tier(gloss_mn,act_mn,5)` changes nothing; the act cleaves and is owed as before. |
+| MN2 | **Hit.** MA2: both values open, no branch cleaved; the act counted at tier 3 in the branch it disagrees with. |
+| MN3 | **Hit.** MA2, MA3: no censure of the contrary profession. |
+| MN4 | **Hit.** MA2: no `owed/2` for the act, no delict. MA3: `owed(act_mn,religious_submission)` still noted, and no delict (`owed_as/3` guarded). In MA1, unlimited, c. 1365 is reached through `rejects/3`, as before. |
+| MN5 | **Hit.** MA4: the reaffirmed encyclical cleaves (the shadow is its, not the act's), is owed, and notes; nothing is owed to the act. |
+| MN6 | **Hit.** MA6, MA7: `limit_on_a_definition(def_mn)`, the contrary value excluded, the censure heretical (MA6). |
+| MN7 | **Hit.** MA2: no `governance_read_as_teaching`; no rule reads a limit into `question_kind/2`. |
+| HT1 | **Hit.** HG1: `hierarchy_as_grade(work_ht,q(mn_def))`. |
+| HT2 | **Hit.** HG1: the contrary value excluded and the censure heretical, as without it; the refusal is the only rule that reads `ranks_lower/2`. |
+| HT3 | **Hit.** HG1: `hierarchy_as_grade(def_mn,q(mn_def))`, the definition's own author. |
+| CA1 | As stated, in nine parts: the case `manner_hyp`, its switches `manner_whole`, `manner_on_q`, `manner_reaffirmed`, `manner_lowered_by_another` (MN1's other text) and `manner_professions` (canon: the profession warned and not retracted); the case `manner_def_hyp` and its candidates `cand_limit_on_definition`, `cand_limit_on_definition_q` (the second slot on a definition) and `cand_hierarchy_as_grade`. The act carries a character (`notification`), which PR4 asks of every teaching source. |
+| CA2 | **Hit.** MA1-MA3. The delict under c. 1365 is in every branch of MA1, not the main branch only: what is owed is read off the graph, not off a branch. |
+| CA3 | **Hit.** MA6, HG1. |
+| SU1 | **Hit.** No expectation changed. The 598 scenarios before the encoding pass with no output changed (the fix method's run, the same rules); the eight new ones pass (MA1-MA7, HG1); `pytest -q`: 827 passed, 13 skipped. |
+| CL1 | **Hit.** CL1: no vicious cycle, nothing undefined (`use limited/2` in the canon layer); PR4 clean. |
+
+Each new rule has a test that fails without it (rule 5). Each commented out
+alone: `limited_act/1`, MA2 and MA4; `limited/2` from the act, MA2 and MA4;
+`limited/2` on a question, MA3; each refusal of a limit on a definition, MA6
+and MA7; the guard on `cleave_raw/2`, MA2-MA4; on `owed/2`, MA2 and MA4; on
+`owed_as/3`, MA3; `hierarchy_as_grade/2`, HG1.
+
+One finding of method, on the way. The fix method, run before encoding,
+turned CL1 red with `owed_as/3` undefined: it appends the rules it adds
+outside every norm block, so a canon rule it replaces drops out of the norm
+graph. Edited in place, with its input declared, the graph is clean.
+
+Added after scoring, and not a prediction: MA8, with the case `manner_fact`.
+A limited act that holds a value on an empirical question is still refused
+(`act_answers_a_fact/2`), as it is without the limit. The limit lowers what
+the act may do; it does not change the shape of what it says. MA8 pins the
+two as independent and goes red without `act_answers_a_fact/2`.

@@ -341,6 +341,14 @@ slot salience(S: source, Level: category)
   means "salience(S, high): S is prominent (warnings only)"
   say "{S} is of {Level} salience"
 
+slot self_limited(S: source)
+  means "self_limited(S): S's own text says it settles nothing, its manner of speaking (LG 25; TTC-MANNER)"
+  say "{S} says of itself that it settles nothing"
+
+slot self_limits(S: source, Q: question)
+  means "self_limits(S, Q): S's own text says it settles nothing on Q (TTC-MANNER)"
+  say "{S} says of itself that it settles nothing on {Q}"
+
 slot session_defines(S: source)
   means "session_defines(S): the session binds the chapter S (rule 14)"
   say "the session binds the chapter {S}"
@@ -573,10 +581,34 @@ slot liturgical_witness(W: source)
 result invalid_lower_act(S: source, S2: source)
   say "{S}, a later act of a lower legislator against {S2}, is invalid (c. 135 §2)"
 
+result limited(S: source, Q: question)
+  say "{S} says of itself that it settles nothing on {Q}: it weighs and cleaves nothing there (TTC-MANNER)"
+
+result limited_act(S: source)
+  say "{S} says of itself that it settles nothing: nothing is owed to it by reference (TTC-MANNER)"
+
+result limit_on_a_definition(S: source)
+  say "{S} is entered as settling nothing, but its form says it settles: refused (TTC-MANNER)"
+
 ```clingo
+% The manner of speaking (LG 25; the notification of 16 November 1964, "from
+% its manner of speaking"): the form sets the ceiling, and a text's own word
+% about itself may lower how it uses its tier, never raise it (c. 749 §3).
+% A tier-3 act that says it settles nothing weighs at its tier and cleaves
+% nothing, as a particular council or a liturgical witness does, and c. 752
+% attaches nothing to it. It reaches only the act: what the act cites or
+% reaffirms keeps its own tier. Another text's lowering stays a claim
+% (claims_tier/3). A definition's form says it settles: a limit on one is
+% refused, and changes nothing (TTC-MANNER).
+limited_act(S) :- self_limited(S), eff_tier(S,3).
+limited(S,Q)   :- limited_act(S), supports(S,Q,_).
+limited(S,Q)   :- self_limits(S,Q), supports(S,Q,_), eff_tier(S,3).
+violation(limit_on_a_definition(S)) :- self_limited(S), in_force(S), eff_tier(S,T), T <= 2.
+violation(limit_on_a_definition(S)) :- self_limits(S,_), in_force(S), eff_tier(S,T), T <= 2.
+
 cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), eff_tier(S,T), T >= 2, T <= 3,
                    not source(S,_,protective,_), not blocked(S,Q), not nonmagisterial(S), not particular_council(S),
-                   not liturgical_witness(S), not empirical_q(Q).
+                   not liturgical_witness(S), not empirical_q(Q), not limited(S,Q).
 cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), source(S,_,juridical,_), not blocked(S,Q), not empirical_q(Q).
 
 % conflicts among sources that could cleave
@@ -710,9 +742,10 @@ violation(governance_read_as_teaching(S,M)) :- governance(S), meta_supports(S,M)
 % is taught at that tier (incorporation by reference)
 % A particular council's teaching is owed by the faithful entrusted to its
 % bishops (c. 753), not by all: not computed here (TTC-SOURCES).
-% Nor is anything owed to a prayer as a teaching act (TTC-LITURGY LW5).
+% Nor is anything owed to a prayer as a teaching act (TTC-LITURGY LW5), nor to
+% an act that says of itself that it settles nothing (TTC-MANNER).
 owed(S,O) :- in_force(S), not governance(S), eff_tier(S,T), binds(L,T,O), in_force(L), not particular_council(S),
-             not liturgical_witness(S).
+             not liturgical_witness(S), not limited_act(S).
 info(owed(S,O)) :- owed(S,O).
 
 % ---------- Labels -----------------------------------------------------
