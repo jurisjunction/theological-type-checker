@@ -3636,6 +3636,100 @@ scen("DC3", DES, "The incarnate and Mary claimed free of it", CREED + ["os_free_
                       for f in b["facts"] if f.startswith("violation(")], "1850: reserved on every branch")],
      "not refused on any date: Christ (DH 301); Mary reserved (DH 1516), preserved from 1854 (DH 2803)", mode=B)
 
+# ---------- TTC-WITNESS: a witness apart from the claim ----------------------
+WIT = "witness"
+_CLAIM_W = ("question(q(x_w)). question_kind(q(x_w),doctrinal). value(q(x_w),(yes;no)).\n"
+            "source(decl_w2,3,truth,2026). character(decl_w2,declaration). supports(decl_w2,q(x_w),yes).\n"
+            "oum_claim(decl_w2,1). oum_claimant(decl_w2,decl_w2).\n")
+_LG25 = ("dispersed_in_communion", "authentic_teaching", "faith_or_morals", "one_position_definitive")
+_ALL4 = "(" + ";".join(_LG25) + ")"
+
+
+def _on_the_claim(parts, src, facts, unshown):
+    """every branch resting on the claim on src is (un)shown, and some branch rests on it"""
+    def chk(_r):
+        bs = [b for b in solve(parts, "branches", facts=facts)["branches"] if f"oum_holds({src})" in b["assume"]]
+        ok = bool(bs) and all((b["unshown"] >= 1) == unshown for b in bs)
+        return ok, f"{len(bs)} branches on the claim, each {'unshown' if unshown else 'shown'}" if ok else "not as stated"
+    return chk
+
+
+def refused_witness(extra, witness):
+    """with the snippet, the witness is refused for each of LG 25's conditions, and the claim stays unshown"""
+    def chk(_r):
+        facts = _CLAIM_W + extra + f"witnessed_by(decl_w2,{_ALL4},{witness}).\n"
+        v = solve([], "one", facts=facts)["violations"]
+        missing = [c for c in _LG25 if f"witness_is_claimant(decl_w2,{c},{witness})" not in v]
+        ok = not missing and _on_the_claim([], "decl_w2", facts, True)(None)[0]
+        return ok, f"{witness}: refused four times, unshown" if ok else f"{witness}: not refused for {missing}"
+    return chk
+
+
+scen("WN1", WIT, "A condition shown by a witness apart", ["witness_apart_hyp"],
+     [shown(["witness_apart_hyp"], ("shown_apart/2", "condition_shown/2"),
+            *[f"shown_apart(decl_apart,{c})" for c in _LG25], *[f"condition_shown(decl_apart,{c})" for c in _LG25]),
+      _on_the_claim(["witness_apart_hyp"], "decl_apart", "", False),
+      _on_the_claim([], "decl_w2", _CLAIM_W, True)],
+     "the four conditions shown apart, and the claim with them; with no witness, unshown", mode=B)
+scen("WN2", WIT, "No witness in its own cause", ["cand_i_say"],
+     [count("witness_is_claimant(decl_say,", 4), _on_the_claim(["cand_i_say"], "decl_say", "", True),
+      refused_witness("", "oum(decl_w2)"),
+      refused_witness("oum_claimant(decl_w2,dicastery_w).\n", "dicastery_w"),
+      refused_witness("source(gloss_w,3,truth,2026). character(gloss_w,commentary). claims_tier(gloss_w,decl_w2,1).\n", "gloss_w"),
+      refused_witness("claim_stated(decl_w2,herald_w).\n", "herald_w"),
+      refused_witness("oum_claimant(decl_w2,pope_w). in_name_of(curia_w,pope_w).\n", "curia_w"),
+      lambda r: (f"witness_is_claimant(decl_w3,faith_or_morals,decl_w3)" in solve([], "one", facts=
+                 "question(q(x_w3)). question_kind(q(x_w3),doctrinal). value(q(x_w3),(yes;no)). "
+                 "source(decl_w3,3,truth,2026). character(decl_w3,declaration). supports(decl_w3,q(x_w3),yes). "
+                 "oum_claim(decl_w3,1). oum_claimant(decl_w3,critic_w). "
+                 f"witnessed_by(decl_w3,{_ALL4},decl_w3).")["violations"], "the claim its own witness, claimed by another: refused")],
+     "the claim, its consensus, a claimant, one who grades it, one who states it, an act in a claimant's name: refused", mode=B)
+scen("WN3", WIT, "A condition entered as shown, no witness named", [],
+     [lambda r: (all(f"condition_without_witness(decl_w2,{c})" in solve([], "one", facts=_CLAIM_W + f"condition_shown(decl_w2,{_ALL4}).")["info"]
+                     for c in _LG25), "noted for each condition"),
+      _on_the_claim([], "decl_w2", _CLAIM_W + f"condition_shown(decl_w2,{_ALL4}).", True)],
+     "noted, and the claim stays unshown", mode=B)
+scen("WC2", WIT, "Communion judged by the teaching in question", [],
+     [lambda r: ("communion_from_the_teaching(decl_w2,count_w)" in solve([], "one", facts=_CLAIM_W +
+                 "source(count_w,5,truth,2026). witnessed_by(decl_w2,dispersed_in_communion,count_w). "
+                 "communion_judged_by(count_w,q(x_w)).")["violations"], "on the very question: refused"),
+      lambda r: (not solve([], "one", facts=_CLAIM_W + "question(q(x_o)). question_kind(q(x_o),doctrinal). value(q(x_o),(yes;no)). "
+                           "source(count_o,5,truth,2026). witnessed_by(decl_w2,dispersed_in_communion,count_o). "
+                           "communion_judged_by(count_o,q(x_o)).")["violations"], "on another question: not refused"),
+      _on_the_claim([], "decl_w2", _CLAIM_W + "source(count_w,5,truth,2026). witnessed_by(decl_w2," + _ALL4 + ",count_w). "
+                    "communion_judged_by(count_w,q(x_w)).", True)],
+     "refused in every branch, the condition unmet; judged by another question, not refused", mode=B)
+scen("WD1", WIT, "The true Scotsman", ["commentary_communion", "cand_scotsman"],
+     [all_branches_violation("communion_from_the_teaching(decl_scot,count_scot)"),
+      _on_the_claim(["commentary_communion", "cand_scotsman"], "decl_scot", "", True), best_rest_on_no_claim,
+      in_branches("against_tier1(bishop_scot,q(x_scot))", assume=("oum_holds(decl_scot)",)),
+      lambda r: (not any("against_tier1(bishop_scot" in f for b in r["branches"] if "oum_holds(decl_scot)" not in b["assume"]
+                         for f in b["facts"]), "the dissenting bishop: against tier 1 only on the claim's branch")],
+     "the claim proving itself: refused; its branch unshown and never preferred (WC3)", mode=B)
+scen("WD2", WIT, "I say X is OUM", ["cand_i_say"],
+     [all_branches_violation("witness_is_claimant(decl_say,dispersed_in_communion,decl_say)"),
+      info_all("never_stated(decl_say)")],
+     "the claimant its own witness for each condition: refused in every branch", mode=B)
+scen("WD3", WIT, "The control: a witness apart", ["witness_apart_hyp"],
+     [clean_branches, _on_the_claim(["witness_apart_hyp"], "decl_apart", "", False)],
+     "no refusal; the claim shown, its branch free to be preferred by weight", mode=B)
+scen("WR1", WIT, "Who states the claim in words", ["ordination_reserved"],
+     [info_all("claim_unstated(os1994,os1994)"),
+      info_none("claim_unstated(os1994,cdf_1995)", "claim_unstated(os1994,cdf_1998)")],
+     "the letter is entered as claimant, never stating it; the reply and the commentary state it", mode=B)
+scen("WR2", WIT, "The first to state it", ["ordination_reserved"],
+     [info_all("first_stated(os1994,cdf_1995,1995)"), info_none("first_stated(os1994,cdf_1998", "never_stated(os1994)"),
+      lambda r: ("never_stated(decl_w2)" in solve([], "one", facts=_CLAIM_W)["info"], "unstated by any: noted")],
+     "the reply of 1995; where no one states it, noted", mode=B)
+scen("WR3", WIT, "A claim in another's name", ["ordination_reserved"],
+     [info_all("claim_attributed(cdf_1995,john_paul_ii,os1994)"),
+      shown(["ordination_reserved"], ("eff_tier/2",), "eff_tier(cdf_1995,3)", "eff_tier(os1994,3)")],
+     "the reply's claim is its own, said in the pope's name; no tier changes", mode=B)
+scen("WR4", WIT, "Approval in specific form", [],
+     [shown([], ("eff_tier/2", "lrank/2"), "eff_tier(decl_w2,3)", "lrank(decl_w2,4)", facts=_CLAIM_W + "in_forma_specifica(decl_w2)."),
+      _on_the_claim([], "decl_w2", _CLAIM_W + "in_forma_specifica(decl_w2).", True)],
+     "the rank rises; the tier stays 3, and the claim unshown", mode=B)
+
 # ---------- The manner of speaking; the hierarchy of truths (TTC-MANNER) --------
 
 MAN = "manner"

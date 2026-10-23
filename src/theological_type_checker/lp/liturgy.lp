@@ -61,7 +61,7 @@
 % claimant's word; it never shows "one position held as definitive": a
 % collect proposes nothing to be held definitively (LW8).
 liturgy_shows(dispersed_in_communion;authentic_teaching;faith_or_morals).
-condition_shown(S,C) :- oum_claim(S,_), rests_on_liturgy(S,W), universal_witness(W), liturgical_witness(W), liturgy_shows(C).
+witnessed_by(S,C,W) :- oum_claim(S,_), rests_on_liturgy(S,W), universal_witness(W), liturgical_witness(W), liturgy_shows(C).   % the witness named (TTC-WITNESS WN4)
 violation(lex_orandi_as_fixing(W,Q)) :- fixes(W,Q), liturgical_witness(W).
 
 % ---------- Vincent's measure: reported, never a verdict -------------------

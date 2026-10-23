@@ -149,7 +149,7 @@ COVER = {
     "1.2.3.a8": ("rules", ["FQ1", "RT1", "CR1"], "the procession of the Spirit"),
     "1.2.3.a9p3": ("rules", ["FC1", "FC2", "EC1", "EC6", "EC9", "EC10"],
                    "incorporation (c. 96) and full communion (c. 205); subsistit in; 'outside the Church'"),
-    "1.2.3.a9p4": ("rules", ["B10", "B12", "B14"], "the teaching office's tiers and forms (LG 25)"),
+    "1.2.3.a9p4": ("rules", ["B10", "B12", "B14", "WN1", "WN2", "WD1"], "the teaching office's tiers and forms (LG 25); its conditions shown by a witness apart from the claim (CCC 891-892)"),
     "1.2.3.a9p6": ("rules", ["CM3", "CH2b"], "the Assumption; Mary without actual sin"),
     "1.2.3.a10": ("case", ["CS2"], "Jn 20:23 read sacramentally"),
     "1.2.3.a11": ("rules", ["NV2", "NV3", "NV4", "WL1"], "the rising at the return, by tier-1 sources in force; one soul, one body; the end early in Christ and Mary; nothing of this world annihilated (CCC 966, 1013)"),

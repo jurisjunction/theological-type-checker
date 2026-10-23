@@ -1485,6 +1485,13 @@ supports(cdf_1995,q(ordination_reserved_to_men),yes).
 claims_tier(cdf_1995,os1994,1).    % "set forth infallibly by the ordinary and universal Magisterium ... as belonging to the deposit of the faith"
 source(cdf_1998,3,truth,1998). character(cdf_1998,commentary).
 claims_tier(cdf_1998,os1994,2).    % n. 11: c. 750 §2; perhaps one day defined as revealed
+% TTC-WITNESS WR: the letter declares the judgment "to be definitively held" and
+% never says "ordinary and universal" or "infallibly". The words enter with the
+% reply of 1995 ("set forth infallibly by the ordinary and universal
+% Magisterium"), which the pope "approved ... and ordered it to be published",
+% and the commentary's n. 11 repeats them.
+claim_stated(os1994,(cdf_1995;cdf_1998)).
+in_name_of(cdf_1995,john_paul_ii).
 
 ```
 
@@ -1726,7 +1733,45 @@ part switch
 
 ```clingo
 #program oum_conditions_shown.     % HYPOTHETICAL: LG 25's conditions shown for Innocent III's profession by evidence apart from the claimants (TC3)
-condition_shown(dh795,(dispersed_in_communion;authentic_teaching;faith_or_morals;one_position_definitive)).
+witnessed_by(dh795,(dispersed_in_communion;authentic_teaching;faith_or_morals;one_position_definitive),evidence_hyp).   % the witness named (TTC-WITNESS WN4)
+
+```
+
+part candidate
+
+```clingo
+#program cand_scotsman.            % HYPOTHETICAL: "I say X is OUM"; whoever denies it is out of communion; so those in communion agree (TTC-WITNESS WD1; load with commentary_communion)
+question(q(x_scot)). question_kind(q(x_scot),doctrinal). value(q(x_scot),(yes;no)).
+source(decl_scot,3,truth,2026). character(decl_scot,declaration). supports(decl_scot,q(x_scot),yes).
+oum_claim(decl_scot,1). oum_claimant(decl_scot,decl_scot). claim_stated(decl_scot,decl_scot).
+source(survey_scot,5,truth,2025). witnessed_by(decl_scot,(authentic_teaching;faith_or_morals;one_position_definitive),survey_scot).
+source(count_scot,5,truth,2026). witnessed_by(decl_scot,dispersed_in_communion,count_scot). communion_judged_by(count_scot,q(x_scot)).
+source(bishop_scot,3,truth,2020). character(bishop_scot,letter). supports(bishop_scot,q(x_scot),no).
+
+```
+
+part candidate
+
+```clingo
+#program cand_i_say.               % HYPOTHETICAL: the claimant shows LG 25's conditions by its own word (TTC-WITNESS WD2)
+question(q(x_say)). question_kind(q(x_say),doctrinal). value(q(x_say),(yes;no)).
+source(decl_say,3,truth,2026). character(decl_say,declaration). supports(decl_say,q(x_say),yes).
+oum_claim(decl_say,1). oum_claimant(decl_say,decl_say).
+witnessed_by(decl_say,(dispersed_in_communion;authentic_teaching;faith_or_morals;one_position_definitive),decl_say).
+
+```
+
+part case
+
+```clingo
+#program witness_apart_hyp.        % HYPOTHETICAL: the control: all four conditions shown by a witness apart, communion judged by another question (TTC-WITNESS WD3)
+question(q(x_apart)). question_kind(q(x_apart),doctrinal). value(q(x_apart),(yes;no)).
+question(q(x_other)). question_kind(q(x_other),doctrinal). value(q(x_other),(yes;no)).
+source(decl_apart,3,truth,2026). character(decl_apart,declaration). supports(decl_apart,q(x_apart),yes).
+oum_claim(decl_apart,1). oum_claimant(decl_apart,decl_apart). claim_stated(decl_apart,decl_apart).
+source(survey_apart,5,truth,2025). supports(survey_apart,q(x_other),yes). communion_judged_by(survey_apart,q(x_other)).
+witnessed_by(decl_apart,(dispersed_in_communion;authentic_teaching;faith_or_morals;one_position_definitive),survey_apart).
+source(bishop_apart,3,truth,2020). character(bishop_apart,letter). supports(bishop_apart,q(x_apart),no).
 
 ```
 

@@ -419,7 +419,9 @@ def conclusion_gate(text: str, where: str = "facts") -> None:
     declared hypothetical, or a constraint that reads a conclusion, directly
     or through a helper of the snippet's, is refused at the gate
     `conclusion`, naming the predicate. Bodies of rules with a premise for
-    their head may read anything (a source on the branch of a claim)."""
+    their head may read anything (a source on the branch of a claim), except
+    a witness's: a witness of LG 25's conditions reads no conclusion
+    (TTC-WITNESS WG)."""
     if not (text or "").strip():
         return
     slots, concluded, hypothetical = _premises()
@@ -486,6 +488,28 @@ def conclusion_gate(text: str, where: str = "facts") -> None:
                 refuse(line, sig, "a constraint reads it: ")
             if sig in tainted:
                 refuse(line, tainted[sig], f"a constraint reads it, through {sig[0]}/{sig[1]}: ")
+    # TTC-WITNESS WG: a witness of LG 25's conditions is shown apart from the
+    # claim, so it is never drawn from what the base concludes (oum_holds/1 and
+    # the like), directly or through a helper. Other premise heads keep the
+    # latitude above.
+    for line, heads, reads, constraint in rules:
+        if constraint or not heads & WITNESS_SLOTS:
+            continue
+        for sig in sorted(reads):
+            if sig in allowed_reads:
+                continue
+            via = f", through {sig[0]}/{sig[1]}" if sig in tainted else ""
+            if sig in concluded or sig in tainted:
+                pred_sig = tainted.get(sig, sig)
+                pred = f"{pred_sig[0]}/{pred_sig[1]}"
+                raise SnippetError(f"a witness is drawn from {pred}{via}, a conclusion of the base: a witness "
+                                   "is shown apart from the claim, never drawn from what the base concludes "
+                                   "(rule 14; TTC-WITNESS)", "conclusion", where, line, None, pred,
+                                   _line_of(text, line))
+
+
+# The slots a witness of LG 25's conditions is entered by (TTC-WITNESS WG).
+WITNESS_SLOTS = {("witnessed_by", 3), ("condition_shown", 2), ("communion_judged_by", 2)}
 
 
 def _ground_error(logs, facts, extra, exc):

@@ -36,10 +36,12 @@
 % @input character/2 | character(S, K): the kind of document S is: its weight under LG 25
 % @input cites/2 | cites(S, S2): S repeats S2, with no weight of its own
 % @input claims_tier/3 | claims_tier(C, S, K): C says S teaches at tier K (a claim, rule 14)
+% @input claim_stated/2 | claim_stated(S, C): the claimant C states the claim on S as ordinary universal magisterium in its own words (TTC-WITNESS WR1)
+% @input communion_judged_by/2 | communion_judged_by(W, Q): the witness W counts the bishops in communion by their answer on Q (TTC-WITNESS WC1)
 % @input community_capable/1 | community_capable(C): a community able to receive a law (c. 25)
 % @input conciliar/1 | conciliar(S): a council's act (legislator rank 4, c. 135 §2)
 % @input conciliar_act/2 | conciliar_act(S, K): a council's act of kind K: canon, definition, creed, scope, chapter
-% @input condition_shown/2 | condition_shown(S, C): a condition of a definition (DH 3074) or of LG 25, shown for S by evidence apart from its claimant (rule 14)
+% @input condition_shown/2 | condition_shown(S, C): a condition of a definition (DH 3074), shown for S by its form; one of LG 25's, derived only from a witness apart (witnessed_by/3; rule 14)
 % @input conference/1 | conference(S): a conference of bishops' act (legislator rank 2)
 % @input consent_claim/2 | consent_claim(S, R): the Fathers' unanimous consent claimed for reading R of text S
 % @input contra_divine/1 | contra_divine(C): the custom C is against divine law (c. 24 §1)
@@ -58,6 +60,7 @@
 % @input holds_reading/2 | holds_reading(S, R): a runtime's reading of S: only the branches it holds
 % @input hypothetical_warrant/1 | hypothetical_warrant(S): a warrant supposed for S (HYPOTHETICAL parts only, rule 6)
 % @input in_forma_specifica/1 | in_forma_specifica(S): a curial act approved in specific form (rank 4)
+% @input in_name_of/2 | in_name_of(A, P): the act A issued in P's name, by vicarious power or approved by P in common form (c. 131 §2; c. 360; TTC-WITNESS WR3)
 % @input interpretive/2 | interpretive(S, M): S speaks to M interpretively, leaving its extent open
 % @input interprets/3 | interprets(S, S1, R): S weighs for reading R of S1; never fixes it
 % @input law_forbids_customs/1 | law_forbids_customs(L): law L forbids future customs (c. 28)
@@ -95,6 +98,7 @@
 % @input value/2 | value(Q, V): V is an answer to Q
 % @input weight_tier/1 | weight_tier(T): a tier at which disagreement is weighed (3 to 5)
 % @input withdrawn/2 | withdrawn(S, Y): the text S replaced from year Y
+% @input witnessed_by/3 | witnessed_by(S, C, W): the condition C of LG 25 shown for the claim on S by the witness W, apart from the claim (rule 14; TTC-WITNESS WN1)
 
 % ---------- Time and force -----------------------------------------
 % asof/1 comes from the one clock (saeculum.lp): an asof part, today's
@@ -159,8 +163,36 @@ supports(oum(S),Q,V)     :- oum_holds(S), supports(S,Q,V).
 % the claimant's word (condition_shown/2); where any is not, the branch that
 % rests on the claim is never preferred (engine.pref_key).
 oum_condition(dispersed_in_communion;authentic_teaching;faith_or_morals;one_position_definitive).
-oum_unmet(S)        :- oum_claim(S,_), oum_condition(C), not condition_shown(S,C).
+oum_unmet(S)        :- oum_claim(S,_), oum_condition(C), not shown_apart(S,C).
 unshown_claim(S)    :- oum_holds(S), oum_unmet(S).
+% TTC-WITNESS. The OUM has no act of its own: its conditions are a fact
+% about many witnesses, each named (witnessed_by/3). A witness who is the claim,
+% the consensus it claims, one of its claimants, or an act in a claimant's
+% name is no witness in its own cause: "If I bear witness of myself, my
+% witness is not true" (John 5:31). Communion counted by the bishops'
+% answer on the very teaching claimed is the claim proving itself (WC2).
+own_witness(S,S)    :- witnessed_by(S,_,S).
+own_witness(S,W)    :- witnessed_by(S,_,W), W = oum(S).
+own_witness(S,W)    :- witnessed_by(S,_,W), oum_claimant(S,W).
+own_witness(S,W)    :- witnessed_by(S,_,W), claims_tier(W,S,_).
+own_witness(S,W)    :- witnessed_by(S,_,W), claim_stated(S,W).
+own_witness(S,W)    :- witnessed_by(S,_,W), in_name_of(W,P), oum_claimant(S,P).
+violation(witness_is_claimant(S,C,W)) :- witnessed_by(S,C,W), oum_claim(S,_), own_witness(S,W).
+judged_by_teaching(S,W) :- witnessed_by(S,dispersed_in_communion,W), communion_judged_by(W,Q), supports(S,Q,_).
+violation(communion_from_the_teaching(S,W)) :- judged_by_teaching(S,W), oum_claim(S,_).
+witness_refused(S,C,W) :- witnessed_by(S,C,W), own_witness(S,W).
+witness_refused(S,dispersed_in_communion,W) :- judged_by_teaching(S,W).
+shown_apart(S,C)    :- witnessed_by(S,C,W), oum_condition(C), not witness_refused(S,C,W).
+condition_shown(S,C) :- shown_apart(S,C).   % one word for "shown": LG 25's, only by a witness apart
+info(condition_without_witness(S,C)) :- oum_claim(S,_), oum_condition(C), condition_shown(S,C), not witnessed_by(S,C,_).
+% The root of a claim (WR). Who states the claim in words, and who first;
+% an act in another's name keeps its claims as its own (c. 131 §2; c. 360).
+info(claim_unstated(S,C)) :- oum_claimant(S,C), not claim_stated(S,C).
+stated_in(S,C,Y)    :- claim_stated(S,C), source(C,_,_,Y).
+stated_earlier(S,C) :- stated_in(S,C,Y), stated_in(S,_,Y2), Y2 < Y.
+info(first_stated(S,C,Y)) :- stated_in(S,C,Y), not stated_earlier(S,C).
+info(never_stated(S)) :- oum_claim(S,_), not claim_stated(S,_).
+info(claim_attributed(A,P,S)) :- in_name_of(A,P), claim_stated(S,A), not claim_stated(S,P).
 violation(claim_without_claimant(S)) :- oum_claim(S,_), not oum_claimant(S,_).   % rule 14: entered with its claimant
 
 % ---------- A creed received: a dated claim (TTC-SAECULUM RC) ------------
@@ -446,4 +478,5 @@ violation(outside_domain(question_kind,2,K)) :- question_kind(_,K), not in_sort(
 violation(outside_domain(source,2,T)) :- source(_,T,_,_), not in_sort(tier,T).
 violation(outside_domain(source,3,F)) :- source(_,_,F,_), not in_sort(force,F).
 violation(outside_domain(weight_tier,1,T)) :- weight_tier(T), not in_sort(tier,T).
+violation(outside_domain(witnessed_by,2,C)) :- witnessed_by(_,C,_), not in_sort(shown_condition,C).
 violation(outside_domain(object_of,2,O)) :- object_of(_,O), not in_sort(object,O).
