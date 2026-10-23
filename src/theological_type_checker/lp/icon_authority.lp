@@ -90,6 +90,7 @@
 % @input salience/2 | salience(S, high): S is prominent (warnings only)
 % @input self_limited/1 | self_limited(S): S's own text says it settles nothing, its manner of speaking (LG 25; TTC-MANNER)
 % @input self_limits/2 | self_limits(S, Q): S's own text says it settles nothing on Q (TTC-MANNER)
+% @input particular_reply/1 | particular_reply(S): S is a juridical answer given in a particular matter, to a bishop, a tribunal or a petitioner (c. 16 §3; TTC-REPLIES)
 % @input session_defines/1 | session_defines(S): the session binds the chapter S (rule 14)
 % @input source/4 | source(S, T, F, Y): S at tier T (0-5), of force F (truth, juridical, protective), from year Y
 % @input supports/3 | supports(S, Q, V): S holds V on Q
@@ -277,10 +278,18 @@ limited(S,Q)   :- self_limits(S,Q), supports(S,Q,_), eff_tier(S,3).
 violation(limit_on_a_definition(S)) :- self_limited(S), in_force(S), eff_tier(S,T), T <= 2.
 violation(limit_on_a_definition(S)) :- self_limits(S,_), in_force(S), eff_tier(S,T), T <= 2.
 
+% A juridical answer given in a particular matter binds only there (c. 16 §3),
+% and lex posterior is a rule of laws (c. 20): it weighs and never cleaves,
+% at any rank. Not the act's own word, as limited/2 is, but the law's word on
+% a reply's reach (TTC-REPLIES).
+reply_bound(S) :- particular_reply(S), source(S,_,juridical,_).
+info(weighs_only(S,Q)) :- reply_bound(S), supports(S,Q,_), in_force(S).
+
 cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), eff_tier(S,T), T >= 2, T <= 3,
                    not source(S,_,protective,_), not blocked(S,Q), not nonmagisterial(S), not particular_council(S),
-                   not liturgical_witness(S), not empirical_q(Q), not limited(S,Q).
-cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), source(S,_,juridical,_), not blocked(S,Q), not empirical_q(Q).
+                   not liturgical_witness(S), not empirical_q(Q), not limited(S,Q), not reply_bound(S).
+cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), source(S,_,juridical,_), not blocked(S,Q), not empirical_q(Q),
+                   not reply_bound(S).
 
 % conflicts among sources that could cleave
 contrary(S1,S2,Q) :- cleave_raw(S1,Q), cleave_raw(S2,Q), supports(S1,Q,V1), supports(S2,Q,V2), V1 != V2.
@@ -432,6 +441,9 @@ dependent(S,Q) :- reaffirms(S,S2), supports(S,Q,V), supports(S2,Q,V), in_force(S
 disagrees(S,T,Q) :- in_force(S), source(S,_,truth,_), eff_tier(S,T), T >= 3,
                     supports(S,Q,W), holds(Q,V), W != V, not can_cleave(S,Q), not dependent(S,Q), not empirical_q(Q).
 disagrees(S,T,reading(S1)) :- interprets(S,S1,R), in_force(S), eff_tier(S,T), read_as(S1,R2), R2 != R.
+% a particular reply weighs at its tier, though its force is juridical (TTC-REPLIES)
+disagrees(S,T,Q) :- reply_bound(S), in_force(S), eff_tier(S,T), T >= 3,
+                    supports(S,Q,W), holds(Q,V), W != V, not dependent(S,Q), not empirical_q(Q).
 weight_tier(3..5).
 weight(T,N) :- weight_tier(T), question(_), N = #sum{ P,S,X : disagrees(S,T,X), pts(S,P) }.
 

@@ -2633,3 +2633,29 @@ part candidate of manner_def_hyp
 #program cand_hierarchy_as_grade.    % HYPOTHETICAL: a work, and the definition's own author, grading the truth by its place in the hierarchy (HG1)
 source(work_ht,5,truth,2020). ranks_lower(work_ht,q(mn_def)). ranks_lower(def_mn,q(mn_def)).
 ```
+
+part case
+
+```clingo
+#program replies_hyp.             % HYPOTHETICAL: replies of two offices, one earlier against two later, and a teaching letter (RP; TTC-REPLIES)
+question(q(rp_x)). question_kind(q(rp_x),juridical). value(q(rp_x),(yes;no)).
+source(rp_a,3,juridical,2018). dicastery(rp_a). character(rp_a,letter). supports(rp_a,q(rp_x),no).
+source(rp_b,3,juridical,2019). dicastery(rp_b). character(rp_b,letter). supports(rp_b,q(rp_x),yes).
+source(rp_c,3,juridical,2023). dicastery(rp_c). character(rp_c,letter). supports(rp_c,q(rp_x),yes).
+question(q(rp_d)). question_kind(q(rp_d),doctrinal). value(q(rp_d),(yes;no)).
+source(rp_t,3,truth,2020). dicastery(rp_t). character(rp_t,letter). supports(rp_t,q(rp_d),yes).
+```
+
+part switch of replies_hyp
+
+```clingo
+#program replies_marked.          % HYPOTHETICAL: each entered as an answer given in a particular matter (RP2-RP4)
+particular_reply(rp_a). particular_reply(rp_b). particular_reply(rp_c). particular_reply(rp_t).
+```
+
+part switch of replies_hyp
+
+```clingo
+#program replies_specific.        % HYPOTHETICAL: the 2023 reply approved in forma specifica (RP3)
+in_forma_specifica(rp_c).
+```
