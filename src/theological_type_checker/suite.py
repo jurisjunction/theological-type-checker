@@ -3636,6 +3636,53 @@ scen("DC3", DES, "The incarnate and Mary claimed free of it", CREED + ["os_free_
                       for f in b["facts"] if f.startswith("violation(")], "1850: reserved on every branch")],
      "not refused on any date: Christ (DH 301); Mary reserved (DH 1516), preserved from 1854 (DH 2803)", mode=B)
 
+# ---------- The manner of speaking; the hierarchy of truths (TTC-MANNER) --------
+
+MAN = "manner"
+MNB = ["manner_hyp", "assent"]
+scen("MA1", MAN, "A tier-3 act, as now", MNB + ["manner_professions"],
+     [cls("q(mn)=yes", "settled"), cls("q(mn)=no", "shadow"), reint_includes("q(mn)=no", "act_mn"),
+      info_all("owed(act_mn,religious_submission)", "delict(p_mn,n1365,e_mn)"),
+      in_branches("info(censure(e_mn,erroneous))", "main")],
+     "yes settled, no a live shadow of the act; religious submission owed; the contrary profession erroneous, c. 1365", mode=B)
+scen("MA2", MAN, "An act that says it settles nothing", MNB + ["manner_whole", "manner_professions"],
+     [cls("q(mn)=yes", "open"), cls("q(mn)=no", "open"),
+      lambda r: (all(b["cleaved"] == [] for b in r["branches"])
+                 and {b["w"][3] for b in r["branches"] if "q(mn)=no" in b["values"]} == {1}, "cleaves nothing; weighs at tier 3"),
+      info_none("owed(act_mn", "censure(e_mn", "delict(p_mn", "governance_read_as_teaching")],
+     "both open, the act weighing at tier 3; nothing owed, no censure, no delict; still teaching (LG 25)", mode=B)
+scen("MA3", MAN, "Settling nothing on one question", MNB + ["manner_on_q", "manner_professions"],
+     [cls("q(mn)=yes", "open"), cls("q(mn)=no", "open"), info_all("owed(act_mn,religious_submission)"),
+      info_none("censure(e_mn", "delict(p_mn")],
+     "both open; owed to the act, but nothing owed on that question: no censure, no delict", mode=B)
+scen("MA4", MAN, "What the act reaffirms keeps its own tier", MNB + ["manner_whole", "manner_reaffirmed"],
+     [cls("q(mn)=yes", "settled"), cls("q(mn)=no", "shadow"),
+      lambda r: (all(b["cleaved"] == ["enc_mn"] for b in r["branches"] if "q(mn)=no" in b["values"]),
+                 "a shadow of the earlier teaching, not of the act"),
+      info_all("owed(enc_mn,religious_submission)"), info_none("owed(act_mn"),
+      in_branches("info(censure(e_mn,erroneous))", "main")],
+     "the limit reaches only the act: the teaching it reaffirms cleaves, is owed, and notes", mode=B)
+scen("MA5", MAN, "Another text's lowering stays a claim", MNB + ["manner_lowered_by_another"],
+     [cls("q(mn)=yes", "settled"), cls("q(mn)=no", "shadow"), info_all("owed(act_mn,religious_submission)")],
+     "inert, as before: only the act's own text lowers it", mode=B)
+scen("MA6", MAN, "A definition entered as settling nothing", ["manner_def_hyp", "cand_limit_on_definition"],
+     [any_branch_violation("limit_on_a_definition(def_mn)"), cls("q(mn_def)=no", "excluded"),
+      info_all("censure(e_ht,heretical)")],
+     "refused: the form says it settles; deletion and the note unchanged", mode=B)
+scen("MA7", MAN, "A definition entered as settling nothing on its question", ["manner_def_hyp", "cand_limit_on_definition_q"],
+     [any_branch_violation("limit_on_a_definition(def_mn)"), cls("q(mn_def)=no", "excluded")],
+     "refused, likewise", mode=B)
+scen("MA8", MAN, "An act that settles nothing still answers no fact", ["manner_hyp", "manner_whole", "manner_fact"],
+     [any_branch_violation("act_answers_a_fact(act_mn,q(mn_fact))"),
+      lambda r: (any("violation(act_answers_a_fact(act_mn,q(mn_fact)))" in b["facts"]
+                     for b in solve(["manner_hyp", "manner_fact"], "branches")["branches"]), "refused without the limit too"),
+      cls("q(mn_fact)=yes", "open"), cls("q(mn_fact)=no", "open")],
+     "refused with the limit as without it: the limit lowers what the act may do, not the shape of what it says", mode=B)
+scen("HG1", MAN, "The hierarchy of truths used as a grade", ["manner_def_hyp", "cand_hierarchy_as_grade"],
+     [any_branch_violation("hierarchy_as_grade(work_ht,q(mn_def))"), any_branch_violation("hierarchy_as_grade(def_mn,q(mn_def))"),
+      cls("q(mn_def)=no", "excluded"), info_all("censure(e_ht,heretical)")],
+     "refused, whoever makes it, the author too; the note and the censure unchanged (Mysterium Ecclesiae 4)", mode=B)
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

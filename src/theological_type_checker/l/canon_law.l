@@ -501,6 +501,8 @@ slot retracted(Person: person, Act: act)
 
 use owed/2 "from the authority graph: the assent a canon attaches to a teaching act by reference (cc. 750, 752)"
 
+use limited/2 "from the authority graph: the act says of itself that it settles nothing on the question (TTC-MANNER)"
+
 use supports/3 "from the authority graph"
 
 use law_kind/2 "law.lp: the kind of a law"
@@ -1560,7 +1562,8 @@ norm cic:751h | c. 751: heresy is the obstinate denial or obstinate doubt after 
 % the authority graph joins to teaching by reference (binds/3, owed/2; B15):
 % no new link (TTC-COMMUNION). The obstinacy is the claim faith.lp reads as
 % pertinacity (II-II q. 11 a. 2 ad 3); apostasy's definition has none.
-owed_as(Q,V,O) :- owed(S,O), supports(S,Q,V).
+% Nothing is owed on a question the act says it settles nothing on (TTC-MANNER).
+owed_as(Q,V,O) :- owed(S,O), supports(S,Q,V), not limited(S,Q).
 heresy_matter(E) :- professes(_,E,Q,W), owed_as(Q,V,divine_and_catholic_faith), V != W.
 heresy_matter(E) :- doubts(_,E,Q), owed_as(Q,_,divine_and_catholic_faith).
 c751_offence(P,heresy,E)   :- professes(P,E,_,_), heresy_matter(E), incorporated(P), interior(P,E,pertinacious).

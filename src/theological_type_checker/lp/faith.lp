@@ -108,6 +108,16 @@ info(in_body_not_in_heart_on_the_claims(P)) :- in_body_not_in_heart_on_the_claim
 violation(assent_computed(P,Q)) :- assents(P,Q).
 info(silence_without_censure(P,Q)) :- silent(P,_,Q).
 
+% @input ranks_lower/2 | ranks_lower(C, Q): C treats Q as owed less assent for its place in the hierarchy of truths (refused; TTC-MANNER)
+% ---------- The hierarchy of truths is not a grade (TTC-MANNER) -----------------
+% UR 11: the truths vary in their relation to the foundation of the faith.
+% Mysterium Ecclesiae 4 (CDF, 1973): some dogmas rest on the principal ones
+% and are lit by them, but all, being revealed, are believed with the same
+% divine faith. A note is read off the authority graph, never off a truth's
+% place in that order: the hierarchy is not modelled, and its use as a grade
+% is refused, by whoever makes it, and feeds no rule.
+violation(hierarchy_as_grade(C,Q)) :- ranks_lower(C,Q), in_force(C).
+
 #program report_notes.            % every note, for the test of NT1
 info(note(Q,V,G)) :- note(Q,V,T), grade_name(T,G).
 
