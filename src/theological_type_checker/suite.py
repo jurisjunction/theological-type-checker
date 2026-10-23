@@ -3672,6 +3672,12 @@ scen("MA6", MAN, "A definition entered as settling nothing", ["manner_def_hyp", 
 scen("MA7", MAN, "A definition entered as settling nothing on its question", ["manner_def_hyp", "cand_limit_on_definition_q"],
      [any_branch_violation("limit_on_a_definition(def_mn)"), cls("q(mn_def)=no", "excluded")],
      "refused, likewise", mode=B)
+scen("MA8", MAN, "An act that settles nothing still answers no fact", ["manner_hyp", "manner_whole", "manner_fact"],
+     [any_branch_violation("act_answers_a_fact(act_mn,q(mn_fact))"),
+      lambda r: (any("violation(act_answers_a_fact(act_mn,q(mn_fact)))" in b["facts"]
+                     for b in solve(["manner_hyp", "manner_fact"], "branches")["branches"]), "refused without the limit too"),
+      cls("q(mn_fact)=yes", "open"), cls("q(mn_fact)=no", "open")],
+     "refused with the limit as without it: the limit lowers what the act may do, not the shape of what it says", mode=B)
 scen("HG1", MAN, "The hierarchy of truths used as a grade", ["manner_def_hyp", "cand_hierarchy_as_grade"],
      [any_branch_violation("hierarchy_as_grade(work_ht,q(mn_def))"), any_branch_violation("hierarchy_as_grade(def_mn,q(mn_def))"),
       cls("q(mn_def)=no", "excluded"), info_all("censure(e_ht,heretical)")],

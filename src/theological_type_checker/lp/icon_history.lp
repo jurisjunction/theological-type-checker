@@ -1407,6 +1407,9 @@ self_limits(act_mn,q(mn)).
 source(enc_mn,3,truth,1990). character(enc_mn,encyclical). supports(enc_mn,q(mn),yes). reaffirms(act_mn,enc_mn).
 #program manner_lowered_by_another. % HYPOTHETICAL: a later work says the act teaches at tier 5 (MA5)
 source(gloss_mn,5,truth,2027). claims_tier(gloss_mn,act_mn,5).
+#program manner_fact.             % HYPOTHETICAL: the act also holds a value on an empirical question (MA8; load with manner_hyp)
+question(q(mn_fact)). question_kind(q(mn_fact),empirical). value(q(mn_fact),(yes;no)).
+supports(act_mn,q(mn_fact),yes).
 #program manner_def_hyp.          % HYPOTHETICAL: a defined truth, and a contrary profession (MA6, HG; TTC-MANNER)
 question(q(mn_def)). question_kind(q(mn_def),doctrinal). value(q(mn_def),(yes;no)).
 source(def_mn,1,truth,1900). hypothetical_warrant(def_mn). supports(def_mn,q(mn_def),yes).

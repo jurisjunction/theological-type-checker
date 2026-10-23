@@ -2554,6 +2554,14 @@ source(gloss_mn,5,truth,2027). claims_tier(gloss_mn,act_mn,5).
 part case
 
 ```clingo
+#program manner_fact.             % HYPOTHETICAL: the act also holds a value on an empirical question (MA8; load with manner_hyp)
+question(q(mn_fact)). question_kind(q(mn_fact),empirical). value(q(mn_fact),(yes;no)).
+supports(act_mn,q(mn_fact),yes).
+```
+
+part case
+
+```clingo
 #program manner_def_hyp.          % HYPOTHETICAL: a defined truth, and a contrary profession (MA6, HG; TTC-MANNER)
 question(q(mn_def)). question_kind(q(mn_def),doctrinal). value(q(mn_def),(yes;no)).
 source(def_mn,1,truth,1900). hypothetical_warrant(def_mn). supports(def_mn,q(mn_def),yes).

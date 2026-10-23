@@ -173,3 +173,9 @@ One finding of method, on the way. The fix method, run before encoding,
 turned CL1 red with `owed_as/3` undefined: it appends the rules it adds
 outside every norm block, so a canon rule it replaces drops out of the norm
 graph. Edited in place, with its input declared, the graph is clean.
+
+Added after scoring, and not a prediction: MA8, with the case `manner_fact`.
+A limited act that holds a value on an empirical question is still refused
+(`act_answers_a_fact/2`), as it is without the limit. The limit lowers what
+the act may do; it does not change the shape of what it says. MA8 pins the
+two as independent and goes red without `act_answers_a_fact/2`.
