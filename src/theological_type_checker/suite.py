@@ -3777,6 +3777,26 @@ scen("HG1", MAN, "The hierarchy of truths used as a grade", ["manner_def_hyp", "
       cls("q(mn_def)=no", "excluded"), info_all("censure(e_ht,heretical)")],
      "refused, whoever makes it, the author too; the note and the censure unchanged (Mysterium Ecclesiae 4)", mode=B)
 
+# ---------- Particular replies: they weigh and never cleave (TTC-REPLIES) -------
+
+REP = "replies"
+RPB = ["replies_hyp"]
+scen("RP1", REP, "Replies entered without the slot, as now", RPB,
+     [cls("q(rp_x)=yes", "settled"), cls("q(rp_x)=no", "shadow"),
+      reint_includes("q(rp_x)=no", "rp_b"), reint_includes("q(rp_x)=no", "rp_c")],
+     "yes settled, no a live shadow of the two later replies: lex posterior between letters", mode=B)
+scen("RP2", REP, "Particular replies weigh and never cleave", RPB + ["replies_marked"],
+     [cls("q(rp_x)=yes", "open"), cls("q(rp_x)=no", "open"), prefers("q(rp_x)", "yes"),
+      info_all("weighs_only(rp_a,q(rp_x))", "weighs_only(rp_b,q(rp_x))", "weighs_only(rp_c,q(rp_x))")],
+     "both open, yes preferred by weight; each reply noted as weighing only (c. 16 §3)", mode=B)
+scen("RP3", REP, "A particular reply in forma specifica", RPB + ["replies_marked", "replies_specific"],
+     [cls("q(rp_x)=yes", "open"), cls("q(rp_x)=no", "open"), prefers("q(rp_x)", "yes")],
+     "as RP2: the form does not lift a particular reply; c. 16 §3 is of reach, not rank", mode=B)
+scen("RP4", REP, "The slot on a teaching letter", RPB + ["replies_marked"],
+     [cls("q(rp_d)=yes", "settled"), cls("q(rp_d)=no", "shadow"), reint_includes("q(rp_d)=no", "rp_t"),
+      info_none("weighs_only(rp_t")],
+     "unchanged: c. 16 §3 is of interpretations of law", mode=B)
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

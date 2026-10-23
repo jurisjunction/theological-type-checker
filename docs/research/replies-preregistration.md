@@ -126,3 +126,35 @@ left as it stands.
 ## SEE ALSO
 
 docs/research/manner-preregistration.md, docs/canon-law-layer.md.
+
+## SCORING
+
+Scored on the encoding (branch `replies`, from `a975fc9`), against the
+predictions above as committed and stamped (`d775bd9`, proof `a975fc9`).
+
+| Prediction | Result |
+| --- | --- |
+| RP1 | **Hit.** `particular_reply/1`, entered by the encoder; no rule derives it. |
+| RP2 | **Hit.** RP2: both values open, no branch cleaved. A guard on each rule of `cleave_raw/2` (`reply_bound/1`); each guard taken out alone turns RP2 and RP3 red. |
+| RP3 | **Hit.** RP2: yes preferred by weight; `weighs_only/2` for each reply in every branch. |
+| RP4 | **Hit.** RP3: in forma specifica, as RP2. |
+| RP5 | **Hit.** RP4: the teaching letter, marked, still cleaves; no `weighs_only/2` for it. |
+| RP6 | **Hit.** RP1: unmarked, yes settled, no a live shadow of the two later replies. |
+| RP7 | **Hit.** `reply_bound/1` and `limited/2` share only the guard's line; MA1-MA8 and HG1 unchanged. |
+| CA1 | As stated: the case `replies_hyp` and its switches `replies_marked` and `replies_specific`. The four sources carry a character (`letter`), as PR4 asks. |
+| CA2 | **Hit.** RP1. |
+| CA3 | **Hit.** RP2, RP4. |
+| CA4 | **Hit.** RP3. |
+| SU1 | **Hit.** The 618 scenarios before the encoding pass with no output changed: each run on `a975fc9` and on the branch, and the outputs compared. The four new ones pass. `pytest -q`: 847 passed, 13 skipped. |
+| CL1 | **Hit.** CL1: 103 norms, 374 edges, no vicious cycle, nothing undefined; PR4 clean. |
+
+Each new rule has a test that fails without it (rule 5). Each taken out
+alone: `reply_bound/1`, RP2 and RP3; its test of force `juridical`, RP4;
+`weighs_only/2`, RP2; the guard on the first rule of `cleave_raw/2`, RP2 and
+RP3; on the second, RP2 and RP3; `disagrees/3` for replies, RP2 and RP3.
+
+One finding of method, from the first version. Run by the fix method with
+only the second rule of `cleave_raw/2` guarded, the replies still cleaved: a
+juridical source at tier 3 cleaves by the first rule as well. The fix method
+reported no loss, because no scenario then entered the slot. A fix whose
+case is not yet in the suite cannot be judged by the suite alone.

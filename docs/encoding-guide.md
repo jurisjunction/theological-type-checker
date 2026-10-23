@@ -57,6 +57,7 @@ compiled text.
 | `ambiguous(S)`, `reading(S,R)`, `reads(S,R,Q,V)` | One branch per reading. |
 | `holds_reading(S,R)` | A runtime's reading of S: only the branches it holds. |
 | `interprets(S,S1,R)` | Weighs for a reading; never fixes one. |
+| `particular_reply(S)` | A juridical answer given in a particular matter (c. 16 §3): weighs at its tier; never cleaves, so no lex posterior between replies; in forma specifica too. On a source of force `truth`, nothing. |
 | `oum_claim(S,T)` | Claimed as ordinary universal magisterium at tier T; computed both ways. |
 | `consent_claim(S,R)`, `faith_morals(S)`, `records_diverse_readings(F,S)` | The Fathers' unanimous consent for reading R of text S: computed both ways; binds in faith and morals; refused where F records diverse readings. |
 | `binds(L,T,O)` | Law L attaches obligation O to tier T. |
