@@ -189,7 +189,54 @@ in `l/icon_authority.l` beside rule 14's block, `in_name_of/2` beside
 
 ## SCORING
 
-To be appended after encoding.
+Scored on the rules as committed after the predictions (`e03cac8`,
+stamped `05246c9`).
+
+| Prediction | Result | Evidence |
+| --- | --- | --- |
+| WN1 | held, renamed | WN1: the four conditions shown apart (`shown_apart/2`), and the claim with them; with no witness, unshown. The slot is `witnessed_by/3`: `shown_by/3` is the authorship slot (`sources.l`), and the compiler refused a second declaration |
+| WN2 | held | WN2, WD2: the claim, `oum(S)`, a claimant, one who grades it (`claims_tier/3`), one who states it (`claim_stated/2`), an act in a claimant's name; each refused for the four conditions, the claim unshown |
+| WN3 | held | WN3: `condition_without_witness` for each condition; unshown |
+| WN4 | held | TC3 and LO8 unchanged (LO8 is the suite's name for the liturgy step's LW8) |
+| WC1 | held | the slot, read by `judged_by_teaching/2` |
+| WC2 | held | WC2: refused on the very question, not on another; the condition unmet |
+| WC3 | held | WD1: `against_tier1(bishop_scot,…)` only on the claim's branch |
+| WG1 | held | `test_a_witness_drawn_from_a_conclusion_is_refused`: directly and through a helper; `source(…) :- attributed(…)` still passes |
+| WG2 | held | the same test, first case: `oum_holds/1` named, with rule 14 |
+| WR1 | held | WR1 |
+| WR2 | held | WR2: `first_stated(os1994,cdf_1995,1995)`; `never_stated` where no one states it |
+| WR3 | held | WR3: `claim_attributed(cdf_1995,john_paul_ii,os1994)`; the tiers of `cdf_1995` and `os1994` stay 3 |
+| WR4 | held | WR4: `lrank(decl_w2,4)`, `eff_tier(decl_w2,3)`, the claim unshown |
+| WD1 | held | WD1: refused in every branch; the claim's branch unshown and never preferred |
+| WD2 | held | WD2 |
+| WD3 | held | WD3: no refusal; the claim shown |
+| M1 | held, with more notes | No check's expectation changed. One check went red on the way, PR4, on the control's own fixture: the other question it judges communion by had no source; the survey now answers it (rule 7: the fixture was wrong, not the expectation). Outputs gained notes beyond `ordination_reserved`: `claim_unstated` and `never_stated` wherever a claim is entered unstated (`dh795`, `fc84`, `ac1896`, `ev57`, `ev62`, `claim_1849`), and WR3's note in `ordination_reserved`; no check reads them |
+| M2 | held after closing a gap | Each new rule removed in turn turns a test red. `own_witness(S,S)` was idle where the claim is its own claimant (`cand_i_say`); WN2 now enters a claim claimed by another and witnessing itself. Where the compiler refuses the removal (a result no rule computes, a slot no rule reads), the rule was disabled by an impossible literal instead, and its test went red. The gate: with `WITNESS_SLOTS` emptied, its three refusals go red |
+| M3 | held | three rows in "Tiers, faith, communion", and `oum_claim`'s row names `witnessed_by/3`; `docs/encoding-guide.md` identical |
+| M4 | held | named in BUGS |
+
+### Not predicted
+
+- **The slot's name.** `witnessed_by/3`, not `shown_by/3` (WN1).
+- **`condition_shown/2` stays the one word for "shown".** It is derived
+  from `shown_apart/2` for LG 25's conditions, so readers of it (LO8, the
+  sentence "the condition C is shown") see the same atoms; entered alone
+  for an OUM claim it shows nothing (WN3).
+- **One who states the claim is a claimant for WN2** (`claim_stated/2`),
+  as WR3's "A is no witness" needed.
+- **WR3's fact entered in the case.** The reply of 1995 is `in_name_of`
+  the pope in `ordination_reserved`, so FO4's outputs carry
+  `claim_attributed` too.
+- **The control is a case**, marked HYPOTHETICAL: it states its own
+  questions (SO2).
+- **`read_as/2` stays readable** by a witness's rule, as by a constraint's.
+- **Coverage.** CCC 871–945 now names WN1, WN2 and WD1.
+- **Found on the way, outside this step.** `outranked/2` names two things:
+  a source outranked on a question (`icon_authority.l`) and a celebration
+  outranked on a day (`canon_law.l`). Wherever a source is outranked, the
+  calendar's rule notes `info(omitted(S,Q))`, said as "Q is omitted on S
+  (GNLY 60)". It is so at `4183446` (a tier-3 letter against a claimed
+  consensus, on the claim's branch). A silent bug for a repair of its own.
 
 ## BUGS
 

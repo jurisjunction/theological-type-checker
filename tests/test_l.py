@@ -693,6 +693,24 @@ def test_a_premise_passes_the_gate(premise):
     engine.conclusion_gate(premise)
 
 
+@pytest.mark.parametrize("witness,pred", [
+    ("condition_shown(s,dispersed_in_communion) :- oum_holds(s).", "oum_holds/1"),       # WG2: the claim shows itself
+    ("witnessed_by(s,faith_or_morals,w) :- oum_grade(s,1).", "oum_grade/2"),
+    ("h(S) :- oum_holds(S).\ncommunion_judged_by(w,q(x)) :- h(s).", "oum_holds/1"),     # through a helper of its own
+])
+def test_a_witness_drawn_from_a_conclusion_is_refused(witness, pred):
+    # TTC-WITNESS WG1: a witness of LG 25's conditions reads no conclusion of the base
+    with pytest.raises(engine.SnippetError) as e:
+        engine.conclusion_gate(witness)
+    assert (e.value.gate, e.value.predicate) == ("conclusion", pred)
+    assert "rule 14" in str(e.value)
+
+
+def test_a_witness_from_premises_passes_the_gate():
+    # TTC-WITNESS WG1: a witness drawn from premises passes; whether it is apart is the base's to say (WN2)
+    engine.conclusion_gate("witnessed_by(S,C,w) :- oum_claim(S,_), oum_condition(C).")
+
+
 @pytest.mark.parametrize("side", ["theology", "canon"])
 def test_save_case_refuses_a_conclusion_on_either_side(tmp_path, monkeypatch, side):
     # CG3

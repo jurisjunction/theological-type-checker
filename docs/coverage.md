@@ -59,7 +59,7 @@ it, so this measures reach, not depth. The rule files cite
 | 751–780 | The Church in God's plan | frontier |  |  |  |
 | 781–810 | People of God, Body of Christ, Temple of the Spirit | frontier |  |  |  |
 | 811–870 | One, holy, catholic and apostolic | rules | 1 | FC1, FC2, EC1, EC6, EC9, EC10 | incorporation (c. 96) and full communion (c. 205); subsistit in; 'outside the Church' |
-| 871–945 | Hierarchy, laity, consecrated life | rules |  | B10, B12, B14 | the teaching office's tiers and forms (LG 25) |
+| 871–945 | Hierarchy, laity, consecrated life | rules |  | B10, B12, B14, WN1, WN2, WD1 | the teaching office's tiers and forms (LG 25); its conditions shown by a witness apart from the claim (CCC 891-892) |
 | 946–962 | The communion of saints | frontier |  |  |  |
 | 963–975 | Mary, Mother of Christ, Mother of the Church | rules | 1 | CM3, CH2b | the Assumption; Mary without actual sin |
 | 976–987 | The forgiveness of sins | case |  | CS2 | Jn 20:23 read sacramentally |
