@@ -3,11 +3,13 @@
   "bare": [],
   "default": [
    "classical",
-   "one_power"
+   "one_power",
+   "word_of_no_tongue"
   ],
   "thomist": [
    "classical",
    "one_power",
+   "word_of_no_tongue",
    "th01",
    "th03",
    "th04",
@@ -26,6 +28,7 @@
   "scotist": [
    "classical",
    "one_power",
+   "word_of_no_tongue",
    "simplicity_scotist",
    "attributes_formal",
    "univocity_of_concept",
@@ -36,6 +39,7 @@
   "suarezian": [
    "classical",
    "one_power",
+   "word_of_no_tongue",
    "simplicity_thomist",
    "attributes_by_reason",
    "suarez_esse",
@@ -45,11 +49,29 @@
   ],
   "palamite": [
    "classical",
+   "word_of_no_tongue",
    "simplicity_palamite",
    "palamite_energies",
    "monopatrism",
    "no_divine_contraction",
    "grace_uncreated"
+  ],
+  "saussure": [
+   "classical",
+   "one_power",
+   "word_by_division"
+  ],
+  "vocal": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "verbum_vocal"
+  ],
+  "lingual": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "verbum_lingual"
   ]
  },
  "declared": {
@@ -69,6 +91,10 @@
     [
      "add",
      "one_power"
+    ],
+    [
+     "add",
+     "word_of_no_tongue"
     ]
    ]
   },
@@ -229,6 +255,46 @@
     [
      "add",
      "grace_uncreated"
+    ]
+   ]
+  },
+  "saussure": {
+   "extends": [
+    "default"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "word_of_no_tongue"
+    ],
+    [
+     "add",
+     "word_by_division"
+    ]
+   ]
+  },
+  "vocal": {
+   "extends": [
+    "default"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "verbum_vocal"
+    ]
+   ]
+  },
+  "lingual": {
+   "extends": [
+    "default"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "verbum_lingual"
     ]
    ]
   }

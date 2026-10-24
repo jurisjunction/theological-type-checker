@@ -23,6 +23,7 @@
 % @input self_gift_measure/2 | self_gift_measure(V, M): a measure M laid on the gift of self in state V
 % @input total/2 | total(X, Y): X gives himself wholly to Y
 % @input uses/1 | uses(T): the theory T is loaded (the Grammar of the Icon)
+% @input side_by_side/3 | side_by_side(X, Y, T): X and Y ordered together to the common term T (relation S)
 
 % ---------- Policy switches (scenarios may override) --------------
 closure_mode(act)   :- not closure_mode(bond).            % A4a
@@ -34,7 +35,7 @@ no_divine_contraction :- license_policy(circuit_only).    % one license for both
 % ---------- A0  The theory's relations ------------------------------
 % N, the nuptial gift face to face, and S, ordering to a common term. Warrant:
 % the long version; N is the relation the theory exists to state. (S, side_by_side/3,
-% is used by its motif rules only.)
+% is used by its motif rules, and by the form of a sacrament: A7, BF5.)
 reltype(n).
 rel(n,X,Y) :- nupt(X,Y).
 
@@ -77,6 +78,15 @@ bond(X,Y) :- nupt(X,Y), nupt(Y,X).
 counter_phase(X,Y) :- bond(X,Y), created_person(X), created_person(Y).
 violation(motif_mismatch(A,X,Y)) :- performs(A,X,Y,close_circuit), not counter_phase(X,Y).
 violation(ungrounded_counter_phase(X,Y)) :- claimed_counter_phase(X,Y), not bond(X,Y).
+% The form of a sacrament (TTC-LINGUAE BF5): the minister acts on the one
+% baptized (D, acton/2), as instrument of the principal cause (III q. 66 a. 5);
+% the assembly is ordered with him to the baptism (S). A form that names the
+% assembly as the one who acts puts S in D's place: refused, as a closing
+% motif without counter-phase is. It types the CDF's "ministerialmente - non
+% collegialmente" (2020), beside the response, and decides no validity.
+cophase(X) :- side_by_side(X,_,_).
+cophase(Y) :- side_by_side(_,Y,_).
+violation(cophase_as_agent(F)) :- uses(icon), agent_named(F,X), cophase(X), not acton(X,_).
 
 % ---------- A4 / A4a  The circuit: two creatures as one principle -----
 closed(A,X,Y) :- closed_in_act(A,X,Y).

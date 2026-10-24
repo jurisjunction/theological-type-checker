@@ -47,6 +47,14 @@ violation(law_without_premise(N,E,Q)) :- delict(_,N,E), premise(N,Q,V), holds(Q,
 not_of_kind(E,K) :- classification(Q,E,K), holds(Q,no), not uncoupled.
 of_kind(E,K)     :- classification(Q,E,K), holds(Q,yes), not uncoupled.
 violation(teaching_from_law(Q)) :- law_answers(Q), question_kind(Q,doctrinal).
+% An approval of a version is governance (c. 838). Whether the version
+% carries its source is computed (linguae.lp), never law's: entered as
+% answering it, it is refused (TTC-LINGUAE). By the CDF's declaration of 1974
+% an approval also judges the sense; that judgement enters as a mode claim
+% at the approver's tier, and weighs.
+carriage(q(carries(X2,X1))) :- given_for(X2,X1).
+carriage(q(carries(T2,T1))) :- made_from(T2,T1).
+violation(teaching_from_law(Q)) :- law_answers(Q), carriage(Q).
 
 % ---------- The flywheel's frontier, theological side ---------------
 % What the theological encoding still lacks. Each item is something to
@@ -57,6 +65,7 @@ frontier(theology,cited_not_encoded(S1,S)) :- interprets(S,S1,_), not source(S1,
 has_support(Q) :- supports(_,Q,_).
 has_support(Q) :- reads(_,_,Q,_).
 has_support(Q) :- finding(_,Q,_,_).        % an empirical question answered by the sciences (TTC-EMPIRICA)
+has_support(Q) :- practice_teaches(_,_,Q). % a question a claim of practice speaks to, with no tier (TTC-LINGUAE)
 frontier(theology,question_without_sources(Q)) :- question(Q), not has_support(Q), not default(Q,_).
 has_reading(S) :- reading(S,_).
 frontier(theology,ambiguous_without_readings(S)) :- ambiguous(S), not has_reading(S).

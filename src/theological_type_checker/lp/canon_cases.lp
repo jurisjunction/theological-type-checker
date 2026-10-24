@@ -418,6 +418,80 @@ matter_used(bap_we,true_water). form_used(bap_we,we_baptize).
 celebrated(bap_doubt,baptism,deacon_w,child_y). celebration_date(bap_doubt,20200102). matter_used(bap_doubt,true_water).
 disputed(form_used(bap_doubt,we_baptize)).                                                % was "we" said?
 
+#program linguae_pro_multis_canon.  % the approvals of two versions, under c. 838 at their dates (PM7)
+version_approval(recognitio_en_2010,missal_en_2011). act_date(recognitio_en_2010,20100623).   % Canizares, CDW, 23 June 2010
+version_approval(confirmatio_it_2019,missal_it_2020). act_date(confirmatio_it_2019,20190716). % [S: La Civilta Cattolica]
+#program cand_approval_answers.   % HYPOTHETICAL: an approval entered as answering whether the version carries its source (the pair)
+law_answers(q(carries(missal_en_2011,missal_la_2002))). law_answers(q(carries(pm_en11_many,pm_la02))).
+#program cand_definitive_answers. % HYPOTHETICAL: Laetamur magnopere entered as answering whether a lie needs a hearer with a right to the truth (CC3)
+law_answers(q(lie_needs_right_hearer)).
+#program linguae_signed_canon.    % HYPOTHETICAL: the lay baptism, in danger of death (SG5, SG8)
+today(20261023). act_date(bap_signed,20260301). danger_of_death(infant_d,20260301).
+#program cand_rubric_answers.     % HYPOTHETICAL: the England and Wales rubric (1992) entered as answering whether the signed form is valid (SG5)
+law_answers(q(valid_form(baptism,sg_g1))).
+#program linguae_signed_penance.  % HYPOTHETICAL: a deaf priest absolves in ASL, without voice; the penitent confesses in ASL (SG7)
+text_of(t_abs_signed,absolution_record,ase_2026,2026). form_in((sg_absolvo;sg_confession),t_abs_signed,perf(1)).
+rite_given(abs_signed,penance,deaf_priest_p,penitent_p,sg_absolvo).
+confession_given(abs_signed,penitent_p,sg_confession). act_date(abs_signed,20260310).
+#program linguae_confession_interpreter.  % HYPOTHETICAL: a deaf penitent confesses through an interpreter (SG7)
+text_of(t_conf_i,confession_record,ase_2026,2026). form_in(sg_confession_q,t_conf_i,perf(1)).
+confession_given(conf_i,penitent_q,sg_confession_q). interpreter(conf_i,interp_q). act_date(conf_i,20260315).
+#program cand_interpreter_required.  % HYPOTHETICAL: a penitent held obliged to confess through an interpreter (SG7)
+obliged_through_interpreter(penitent_q,conf_i).
+#program linguae_consent_signs.   % HYPOTHETICAL: two deaf parties consent in ASL, one of whom can also speak; the pastor signs (SG6)
+today(20261023). encoding(en_2016,eng,2016,2026). encoding_route(en_2016,written).
+text_of(ocm_en_2016,order_celebrating_matrimony,en_2016,2016). form_in(ocm_consent,ocm_en_2016,n(62)).  % [M]
+text_of(t_consent_a,consent_record_a,ase_2026,2026). form_in((sg_consent_1;sg_consent_2),t_consent_a,perf(1)).
+host_declared((sg_consent_1;sg_consent_2),ocm_consent,ncod_2011).
+marriage(m_sa,pastor_sa,20260601). spouse(m_sa,(party_1;party_2)). baptized_in((party_1;party_2),catholic).
+pastor_of(pastor_sa,parish_sa). held_in(m_sa,parish_sa). witnesses(m_sa,2).
+consent_given(m_sa,party_1,sg_consent_1). consent_given(m_sa,party_2,sg_consent_2). can_speak(party_2).
+knows_encoding(pastor_sa,ase_2026). assistant_perceived(m_sa,consent,yes).
+#program linguae_consent_interpreter.  % HYPOTHETICAL: the pastor knows no ASL; an interpreter, once unsure, once trusted (SG6)
+today(20261023). encoding(en_2016,eng,2016,2026). encoding_route(en_2016,written).
+text_of(ocm_en_2016,order_celebrating_matrimony,en_2016,2016). form_in(ocm_consent,ocm_en_2016,n(62)).
+text_of(t_consent_b,consent_record_b,ase_2026,2026). form_in((sg_consent_3;sg_consent_4),t_consent_b,perf(1)).
+host_declared((sg_consent_3;sg_consent_4),ocm_consent,ncod_2011).
+pastor_of(pastor_sb,parish_sb). knows_encoding(pastor_sb,en_2016).
+marriage(m_sb,pastor_sb,20260601). spouse(m_sb,(party_3;party_4)). baptized_in((party_3;party_4),catholic).
+held_in(m_sb,parish_sb). witnesses(m_sb,2).
+consent_given(m_sb,party_3,sg_consent_3). consent_given(m_sb,party_4,sg_consent_4).
+interpreter(m_sb,interp_b). assistant_perceived(m_sb,consent,yes).
+marriage(m_sb2,pastor_sb,20260602). spouse(m_sb2,(party_3;party_4)). held_in(m_sb2,parish_sb). witnesses(m_sb2,2).
+consent_given(m_sb2,party_3,sg_consent_3). consent_given(m_sb2,party_4,sg_consent_4).
+interpreter(m_sb2,interp_b). interpreter_fidelity(m_sb2,established). assistant_perceived(m_sb2,consent,yes).
+#program linguae_consent_outside.  % HYPOTHETICAL: the pastor knows no ASL, and there is no interpreter (SG6)
+today(20261023).
+text_of(t_consent_c,consent_record_c,ase_2026,2026). form_in((sg_consent_9;sg_consent_10),t_consent_c,perf(1)).
+pastor_of(pastor_sc,parish_sc). knows_encoding(pastor_sc,en_2016). encoding(en_2016,eng,2016,2026).
+marriage(m_sc,pastor_sc,20260601). spouse(m_sc,(party_9;party_10)). baptized_in((party_9;party_10),catholic).
+held_in(m_sc,parish_sc). witnesses(m_sc,2).
+consent_given(m_sc,party_9,sg_consent_9). consent_given(m_sc,party_10,sg_consent_10).
+assistant_perceived(m_sc,celebration,yes). assistant_perceived(m_sc,consent,no).
+#program linguae_consent_witnesses.  % HYPOTHETICAL: the pastor signs; the two witnesses know no ASL (SG6)
+today(20261023).
+text_of(t_consent_d,consent_record_d,ase_2026,2026). form_in((sg_consent_11;sg_consent_12),t_consent_d,perf(1)).
+pastor_of(pastor_sd,parish_sd). knows_encoding(pastor_sd,ase_2026).
+marriage(m_sd,pastor_sd,20260601). spouse(m_sd,(party_11;party_12)). baptized_in((party_11;party_12),catholic).
+held_in(m_sd,parish_sd). witnesses(m_sd,2).          % of the witnesses only their number enters the canon
+consent_given(m_sd,party_11,sg_consent_11). consent_given(m_sd,party_12,sg_consent_12).
+assistant_perceived(m_sd,consent,yes).
+#program linguae_consent_symmetry.  % HYPOTHETICAL: a deaf assistant receives spoken consent, a hearing one signed consent, each through an interpreter (SG10)
+today(20261023). encoding(en_2026,eng,2000,2026). encoding_route(en_2026,written).
+pastor_of(deaf_priest_m,parish_m). knows_encoding(deaf_priest_m,ase_2026).
+text_of(t_consent_s,consent_record_s,en_2026,2026). form_in((en_consent_5;en_consent_6),t_consent_s,perf(1)).
+marriage(m_deaf,deaf_priest_m,20260601). spouse(m_deaf,(party_5;party_6)). baptized_in((party_5;party_6),catholic).
+held_in(m_deaf,parish_m). witnesses(m_deaf,2).
+consent_given(m_deaf,party_5,en_consent_5). consent_given(m_deaf,party_6,en_consent_6).
+interpreter(m_deaf,interp_m). assistant_perceived(m_deaf,consent,yes).
+pastor_of(pastor_h,parish_h). knows_encoding(pastor_h,en_2026).
+text_of(t_consent_h,consent_record_h,ase_2026,2026). form_in((sg_consent_7;sg_consent_8),t_consent_h,perf(1)).
+marriage(m_hear,pastor_h,20260601). spouse(m_hear,(party_7;party_8)). baptized_in((party_7;party_8),catholic).
+held_in(m_hear,parish_h). witnesses(m_hear,2).
+consent_given(m_hear,party_7,sg_consent_7). consent_given(m_hear,party_8,sg_consent_8).
+interpreter(m_hear,interp_h). assistant_perceived(m_hear,consent,yes).
+#program cand_guidelines_as_rite. % HYPOTHETICAL: the USCCB's Guidelines (2017) taken as the rite of the marriage (SG6; c. 1120; load with linguae_consent_signs)
+rite_by(m_sa,usccb_2017).
 #program marriage_cases.            % HYPOTHETICAL: nullity and dissolution (SA10)
 today(20261010). authority(pope_m,4).
 marriage(m_rc,priest_m,20200601). spouse(m_rc,(sp_a;sp_b)). delegation(dl_m,ordinary_m,priest_m,general,20200101). ordinary(ordinary_m).

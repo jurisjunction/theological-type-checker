@@ -3797,6 +3797,504 @@ scen("RP4", REP, "The slot on a teaching letter", RPB + ["replies_marked"],
       info_none("weighs_only(rp_t")],
      "unchanged: c. 16 §3 is of interpretations of law", mode=B)
 
+# ---------- The tongues: one word, many encodings (TTC-LINGUAE) ---------------
+# Predictions committed and stamped first: docs/research/linguae-preregistration.md.
+# The suite names LW1-LW4 WO1-WO4 and PM1-PM7 PX1-PX7: LW and PM are the law's
+# and presence's. LX and LP pin the library's and the pair's mechanics.
+
+LIN = "linguae"
+RN9 = ["linguae_rn9"]
+CCC = ["linguae_ccc2483"]
+PMU = ["linguae_pro_multis"]
+BAP = ["we_baptize", "linguae_we_baptize"]
+SGN = BAP + ["linguae_signed"]
+SGC = SGN + ["linguae_signed_canon"]
+LITERAL = "assumed_fact(read_by(rn_la_forma,lex_la_1891))"
+VELUT = "assumed_fact(read_by(rn_la_forma,lex_la_velut))"
+P_SCHOL = "assumed_fact(read_by(rn_en_personality,lex_en_schol_1891))"
+P_LOCKE = "assumed_fact(read_by(rn_en_personality,lex_en_locke_1891))"
+W_SCHOL = "assumed_fact(read_by(rn_en_wellbeing,lex_en_schol_1891))"
+W_LOCKE = "assumed_fact(read_by(rn_en_wellbeing,lex_en_locke_1891))"
+SEALS = [("rn_en_impress", "en_2026"), ("rn_it_impronta", "it_2026"), ("rn_fr_empreinte", "fr_2026"), ("rn_es_huella", "es_2026")]
+VOCAL, LINGUAL = "read_as(verbum,verbum_vocal)", "read_as(verbum,verbum_lingual)"
+
+
+def rendered(s, yes=True):
+    return f"assumed_fact(renders({s},rn_la_forma))" if yes else f"assumed_fact(false(renders({s},rn_la_forma)))"
+
+
+def lin_on(parts, *checks, facts=""):
+    """the checks, on another run: other parts, a runtime, a regime, or a snippet"""
+    def chk(_r):
+        r = solve(parts, "branches", facts=facts)
+        res = [c(r) for c in checks]
+        tag = " ".join(p for p in parts if p.startswith(("rt_", "regime_", "asof_", "cand_"))) or "snippet"
+        return all(o for o, _ in res), f"[{tag}] " + " | ".join(d for _, d in res)
+    return chk
+
+
+def lin_exact(prefix, expected):
+    """in every branch, the facts beginning with prefix are exactly these"""
+    def chk(r):
+        got = {frozenset(f for f in b["facts"] if f.startswith(prefix)) for b in r["branches"]}
+        ok = got == {frozenset(expected)}
+        return ok, f"{prefix}: " + ("exactly as stated" if ok else str([sorted(g) for g in got]))
+    return chk
+
+
+def lin_assumed(*atoms):
+    """each assumption is made in some branch, and in none with another of the list"""
+    def chk(r):
+        seen = [sum(a in b["assume"] for b in r["branches"]) for a in atoms]
+        ok = all(seen) and all(sum(a in b["assume"] for a in atoms) <= 1 for b in r["branches"])
+        return ok, f"{', '.join(atoms)}: {seen}"
+    return chk
+
+
+def lin_paired(a, b):
+    """in every branch, the assumption a is made exactly where b is"""
+    def chk(r):
+        ok = bool(r["branches"]) and all((a in x["assume"]) == (b in x["assume"]) for x in r["branches"])
+        return ok, f"{a} exactly where {b}" if ok else f"{a} apart from {b}"
+    return chk
+
+
+def lin_every(atom):
+    """the assumption is made in every branch"""
+    def chk(r):
+        ok = bool(r["branches"]) and all(atom in b["assume"] for b in r["branches"])
+        return ok, f"{atom}: every branch" if ok else f"{atom}: not every branch"
+    return chk
+
+
+def lin_same_classes(parts_a, parts_b, q, values):
+    """a question's values classed and preferred alike with and without the new parts"""
+    def chk(_r):
+        out = []
+        for parts in (parts_a, parts_b):
+            r = solve(parts, "branches")
+            out.append([classify(r, f"{q}={v}") for v in values] + [preferred_value(r, q)])
+        return out[0] == out[1], f"{q}: {out[0]} / {out[1]}"
+    return chk
+
+
+def on_every_runtime_v(parts, sub):
+    """the violation on every runtime the base declares, bare included"""
+    def chk(_r):
+        miss = [rt for rt in E.RUNTIMES if not any(sub in v for v in solve(list(parts) + [f"rt_{rt}"], "one")["violations"])]
+        return not miss, "on every runtime" if not miss else f"not on {', '.join(miss)}"
+    return chk
+
+
+def lin_symmetric(m1, m2, preds):
+    """c. 1108's atoms for two marriages, the one's name put for the other's, are the same in every branch"""
+    def chk(r):
+        ok = True
+        for b in r["branches"]:
+            one = {f.replace(m1, "M") for f in b["facts"] if m1 in f and any(p in f for p in preds)}
+            two = {f.replace(m2, "M") for f in b["facts"] if m2 in f and any(p in f for p in preds)}
+            ok = ok and one == two and bool(one)
+        return ok, f"{m1} and {m2} computed alike" if ok else f"{m1} and {m2} differ"
+    return chk
+
+
+def lin_no_asl_approval(_r):
+    """no approval of a version is entered for any text in a signed language (none was found)"""
+    import re as _re
+    texts = (E.LP_DIR / "canon_cases.lp").read_text() + (E.LP_DIR / "icon_history.lp").read_text()
+    approved = set(_re.findall(r"version_approval\(\w+,(\w+)\)", texts))
+    return approved == {"missal_en_2011", "missal_it_2020"}, f"approved: {sorted(approved)}"
+
+
+scen("WO1", LIN, "A word given a date (LW1)", RN9 + ["cand_word_dated"],
+     [info_all("violation(word_dated(w_persona))", "violation(word_dated(w_forma))", "violation(word_dated(w_perfectio))"),
+      lin_on(RN9 + ["cand_word_dated", "rt_saussure"], info_none("word_dated"))],
+     "refused on the default runtime, by a date, a text's year, a place in the order; not on rt_saussure", mode=B)
+scen("WO2", LIN, "One word, or a value in each tongue (LW2)", RN9,
+     [info_all("info(mode(rn_fr_personne,rn_la_persona,univocal))", "info(mode(rn_es_persona,rn_la_persona,univocal))"),
+      lin_on(RN9 + ["rt_saussure"], info_none("univocal)"),
+             info_all("info(mode(rn_fr_personne,rn_la_persona,equivocal))", "info(mode(rn_es_persona,rn_la_persona,equivocal))",
+                      "info(mode(rn_en_personality,rn_la_persona,analogical))",
+                      "info(lost_in(rn9,fr_2026,cd(efficient,human),equivocal))"))],
+     "personne and persona render personae univocally; on rt_saussure no rendering between two encodings is univocal: "
+     "analogical where an analogy is declared, equivocal otherwise", mode=B)
+scen("WO3", LIN, "Translations in time (LW3)", ["cand_translation_order"],
+     [info_all("violation(made_before_parent(tx_early,tx_parent))", "violation(translation_cycle(tx_a))"),
+      info_none("made_before_parent(tx_a", "made_before_parent(tx_b")],
+     "a text made before its parent refused; a cycle of translations refused", mode=B)
+scen("WO4", LIN, "A word as a tongue's root (LW4)", ["cand_word_as_root"],
+     [has("word_as_root(w_forma_locutionis)"), none_of("word_as_root(proto_ie)"),
+      on_every_runtime_v(["cand_word_as_root"], "word_as_root(w_forma_locutionis)")],
+     "a perfect language taken as the word refused on every runtime; a proto-language, an encoding with its claimant, not")
+
+scen("RN1", LIN, "RN 9: the person in four tongues (RN1)", RN9,
+     [info_all(*[f"info(carried({f},rn_la_persona,cd({c},human)))" for f in ("rn_fr_personne", "rn_es_persona")
+                 for c in ("formal", "efficient")],
+               "info(mode(rn_fr_personne,rn_la_persona,univocal))", "info(mode(rn_es_persona,rn_la_persona,univocal))",
+               "info(analogy_kind(rn_it_personalita,rn_la_persona,attribution))",
+               "info(carried(rn_it_personalita,rn_la_persona,cd(formal,human)))"),
+      in_branches("info(analogy_kind(rn_en_personality,rn_la_persona,attribution))", assume=(P_SCHOL,)),
+      in_branches("info(carried(rn_en_personality,rn_la_persona,cd(formal,human)))", assume=(P_SCHOL,)),
+      in_branches("info(carried(rn_en_personality,rn_la_persona,cd(efficient,human)))", assume=(P_LOCKE,)),
+      in_branches("info(carried(rn_en_personality,rn_la_persona,cd(formal,human)))", assume=(P_LOCKE,), present=False),
+      in_branches("info(lost_in(rn9,en_2026,cd(formal,human),no_carry))", assume=(P_LOCKE,)),
+      info_all("info(carried_in(rn9,fr_2026,cd(efficient,human)))", "info(carried_in(rn9,es_2026,cd(efficient,human)))"),
+      clean_branches],
+     "French and Spanish carry the person univocally; English and Italian by attribution under the scholastic lexicon; "
+     "under the Lockean only (efficient, human)", mode=B)
+scen("RN2", LIN, "RN 9: the seal-words, an analogy or a gap (RN2)", RN9,
+     [*(in_branches(f"info(carried({s},rn_la_forma,cd(formal,human)))", assume=(LITERAL, rendered(s))) for s, _ in SEALS),
+      *(in_branches(f"info(analogy_kind({s},rn_la_forma,proportionality))", assume=(LITERAL, rendered(s))) for s, _ in SEALS),
+      *(in_branches(f"info(lost_in(rn9,{e},cd(formal,human),gap))", assume=(rendered(s, False),)) for s, e in SEALS),
+      *(in_branches(f"info(carried({s},rn_la_forma,", assume=(rendered(s, False),), present=False) for s, _ in SEALS)],
+     "(formal, human) carried by proportionality where the seal-word is given for the form; lost by gap where it is not, "
+     "in every vernacular", mode=B)
+scen("RN3", LIN, "RN 9: well-being (RN3)", RN9,
+     [in_branches("info(mode(rn_en_wellbeing,rn_la_perficiendam,univocal))", assume=(W_SCHOL,)),
+      in_branches("info(extent(rn_en_wellbeing,rn_la_perficiendam,wider))", assume=(W_SCHOL,)),
+      in_branches("info(carried(rn_en_wellbeing,rn_la_perficiendam,cd(final,human)))", assume=(W_SCHOL,)),
+      in_branches("info(carried(rn_en_wellbeing,rn_la_perficiendam,cd(final,self)))", assume=(W_LOCKE,)),
+      lin_paired(W_SCHOL, "assumed_fact(read_by(rn_en_wellbeing,lex_en_2026))"), branches_n(128),
+      in_branches("info(carried(rn_en_wellbeing,rn_la_perficiendam,cd(final,human)))", assume=(W_LOCKE,), present=False)],
+     "univocal and wider under the scholastic lexicon, carrying (final, human); under the Lockean, (final, self) only", mode=B)
+scen("RN4", LIN, "RN 9 heard in the English of 1891, under Locke (RN4)", RN9,
+     [lin_exact("info(carried_for(g_en_1891_locke,", {"info(carried_for(g_en_1891_locke,rn9,cd(efficient,human)))",
+                                                      "info(carried_for(g_en_1891_locke,rn9,cd(material,nature)))",
+                                                      "info(carried_for(g_en_1891_locke,rn9,cd(final,self)))"}),
+      info_all("info(mode_for(g_en_1891_locke,rn_en_personality,rn_la_persona,analogical))",
+               "info(lost_for(g_en_1891_locke,rn9,cd(formal,human),no_carry))")],
+     "exactly (efficient, human), (material, nature), (final, self), in every branch; TTC-MODERNITY, whose switch "
+     "rn9_in_english was to retire, is not in the base", mode=B)
+scen("RN5", LIN, "RN 9: lost by encoding, lost by horizon (RN5)", RN9,
+     [info_all("info(mode_for(g_thomist_2026,rn_en_personality,rn_la_persona,equivocal))",
+               "info(lost_for(g_thomist_2026,rn9,cd(formal,human),equivocal))",
+               "info(lost_by_horizon(g_locke_la,rn9,cd(formal,human)))",
+               "info(lost_by_horizon(g_en_1891_locke,rn9,cd(formal,human)))"),
+      info_none("lost_by_horizon(g_thomist_2026", "lost_for(g_locke_la"),
+      in_branches("info(lost_for(g_thomist_2026,rn9,cd(formal,human),gap))", assume=(rendered("rn_en_impress", False),))],
+     "the Thomist guest in the English of 2026 loses it by encoding alone, the Lockean guest of the Latin by horizon "
+     "alone; the two reported apart", mode=B)
+scen("RN6", LIN, "RN 9: the Latin's own velut (RN6)", RN9,
+     [*(in_branches(f"info(mode({s},rn_la_forma,univocal))", assume=(VELUT, rendered(s))) for s, _ in SEALS),
+      *(in_branches(f"info(carried({s},rn_la_forma,cd(formal,human)))", assume=(VELUT, rendered(s))) for s, _ in SEALS),
+      in_branches("info(premise_by_analogy(rn9,cd(formal,human),proportionality))", assume=(VELUT,)),
+      in_branches("info(premise_by_analogy(", assume=(LITERAL,), present=False)],
+     "on the metaphor reading the form premise is a proportion, and every seal-word renders it univocally", mode=B)
+
+scen("CC1", LIN, "CCC 2483: clause by clause; a revision no rendering (CC1)", CCC + ["cand_revision_rendered"],
+     [info_all("info(mode(ccc94_en_against,ccc92_fr_contra,univocal))", "info(mode(ccc94_en_error,ccc92_fr_erreur,univocal))",
+               "info(mode(ccc94_en_right,ccc92_fr_droit,univocal))", "info(no_mode(ccc97_la_contra,ccc92_fr_contra,revision))",
+               "info(no_mode(ccc92_fr_erreur,ccc97_la_errorem,revision))"),
+      info_none("info(mode(ccc97_la", "info(mode(ccc92_fr_erreur")],
+     "the English of 1994 renders the French of 1992 univocally; no mode between the French of 1992 and the Latin of 1997", mode=B)
+scen("CC2", LIN, "CCC 2483: the encodings of a superseded edition (CC2)", CCC,
+     [info_all("info(superseded_encoding(ccc_en_1994,ccc_la_1997))", "info(superseded_encoding(ccc_de_vatican,ccc_la_1997))"),
+      info_none("superseded_encoding(ccc_fr_1997", "superseded_encoding(ccc_en_2000")],
+     "vatican.va's English and German encode the edition the Latin of 1997 revises", mode=B)
+scen("CC3", LIN, "CCC 2483: the definitive text answers no question of lying (CC3)", CCC + ["cand_definitive_answers"],
+     [info_all("violation(teaching_from_law(q(lie_needs_right_hearer)))"),
+      cls("q(ccc_definitive_text)=latin_typical", "settled"),
+      lin_on(CCC, info_none("teaching_from_law"))],
+     "the Latin definitive: governance; entered as answering the doctrinal question, refused", mode=B)
+
+scen("PX1", LIN, "pro multis: what each rendering closes (PM1)", PMU,
+     [info_none("info(closes(pm_en11_many", "info(closes(pm_fr21_multitude", "closes(pm_en73_all,pm_la70,r_all)"),
+      info_all(*[f"info(closes({f},{h},{r}))" for f, h in (("pm_en73_all", "pm_la70"), ("pm_de75_alle", "pm_la70"),
+                                                           ("pm_it20_tutti", "pm_la02")) for r in ("r_open", "r_offered")],
+               "info(interpretation(pm_en73_all,pm_la70,r_all))", "info(interpretation(pm_de75_alle,pm_la70,r_all))",
+               "info(interpretation(pm_it20_tutti,pm_la02,r_all))",
+               "info(closes_for(g_en_2011,pm_en73_all,pm_la70,r_open))",
+               "info(interpretation_for(g_en_2011,pm_en73_all,pm_la70,r_all))"),
+      in_branches("info(opens_for(g_en_2011,pm_en11_many,pm_la02,r_not_all))",
+                  assume=("assumed_fact(heard_by(g_en_2011,en_2011,lex_en_not_all))",))],
+     "for many and pour la multitude close nothing; for all, fur alle, per tutti close the open reading and the "
+     "offered, keeping all: an interpretation", mode=B)
+scen("PX2", LIN, "pro multis under Liturgiam authenticam (PM2)", PMU + ["regime_la"],
+     [info_all("info(faithful(pm_en11_many,pm_la02))", "info(not_faithful(pm_en73_all,pm_la70))",
+               "info(not_faithful(pm_de75_alle,pm_la70))", "info(not_faithful(pm_it20_tutti,pm_la02))",
+               "info(for_catechesis(pm_en11_many,r_not_all))", "info(for_catechesis(pm_en73_all,r_all))"),
+      info_none("not_faithful(pm_en11_many")],
+     "for many faithful; for all, fur alle, per tutti not; what a rendering opens goes to catechesis", mode=B)
+EN11 = "assumed_fact(heard_by(g_en_2011,en_2011,lex_en_2011))"
+NOTALL = "assumed_fact(heard_by(g_en_2011,en_2011,lex_en_not_all))"
+INS = "assumed_fact(inserted(pm_en73_all,pm_la70))"
+NOINS = "assumed_fact(false(inserted(pm_en73_all,pm_la70)))"
+scen("PX3", LIN, "pro multis under Comme le prevoit (PM3)", PMU + ["regime_clp"],
+     [in_branches("info(faithful_for(g_en_2011,pm_en73_all,pm_la70))", assume=(NOINS,)),
+      in_branches("info(not_faithful_for(g_en_2011,pm_en73_all,pm_la70))", assume=(INS,)),
+      in_branches("info(faithful_for(g_en_2011,pm_en11_many,pm_la02))", assume=(EN11,)),
+      in_branches("info(not_faithful_for(g_en_2011,pm_en11_many,pm_la02))", assume=(NOTALL,)),
+      in_branches("info(contrary_for(g_en_2011,pm_en11_many,r_not_all,q(died_for_all)))", status="main", assume=(NOTALL,))],
+     "for all faithful where the message is all, not where it is an insertion of an explanation; for many faithful, "
+     "save for a hearing of many as not all, against Christ died for all: two branches each", mode=B)
+scen("PX4", LIN, "pro multis under Magnum principium (PM4)", PMU + ["regime_mp"],
+     [info_all("info(not_faithful_for(g_en_2011,pm_en73_all,pm_la70))", "info(latin_decides(pm_en73_all,pm_la70))",
+               "info(word_for_word_required(pm_en11_many,pm_la02))"),
+      in_branches("info(faithful_for(g_en_2011,pm_en11_many,pm_la02))", assume=(EN11,)),
+      in_branches("info(not_faithful_for(g_en_2011,pm_en11_many,pm_la02))", assume=(NOTALL,)),
+      info_none("latin_decides(pm_en11_many")],
+     "the text fails for for all, the Latin deciding; the addressees branch for for many as under CLP", mode=B)
+scen("PX5", LIN, "pro multis: the claims of a mode (PM5)", PMU,
+     [info_all("info(mode_claim_agrees(arinze_2006,pm_en11_many,pm_la02))",
+               "info(mode_claim_agrees(benedict_2012,pm_de75_alle,pm_la70))",
+               "info(units_differ(arinze_2006,recognitio_en_2010,pm_en11_many,pm_la02))",
+               "info(mode_claim_weighs(confirmatio_it_2019,pm_it20_tutti,pm_la02,3))"),
+      info_none("mode_claim_differs", "units_differ(benedict_2012")],
+     "Arinze's and Benedict's claims agree with what is computed. Scored red: the Italian confirmation's claim is on "
+     "per tutti and Benedict's on fur alle, two pairs, so no units_differ between them; it is reported where two "
+     "claims share a pair (Arinze, the recognitio of 2010)", mode=B)
+scen("PX6", LIN, "pro multis answers nothing of Christ's death (PM6)", PMU + ["cand_rendering_answers"],
+     [info_all("violation(rendering_answers(s_for_all,q(died_for_all),pm_en73_all))",
+               "violation(rendering_answers(s_not_all,q(died_for_all),pm_en11_many))"),
+      cls("q(died_for_all)=yes", "settled")],
+     "a value rested on what a rendering closes refused; the question keeps its own sources' value", mode=B)
+scen("PX7", LIN, "pro multis: the translation case unchanged; c. 838 at its dates (PM7)", PMU + ["linguae_pro_multis_canon"],
+     [lin_same_classes(["translation"], ["translation"] + PMU + ["linguae_pro_multis_canon"], "q(translation_approval)",
+                       ("detailed_recognitio", "confirmatio")),
+      info_all("info(approved_under(missal_en_2011,n838_1983))", "info(approved_under(missal_it_2020,n838_2017))"),
+      info_none("approved_under(missal_en_2011,n838_2017)", "approved_under(missal_it_2020,n838_1983)")],
+     "q(translation_approval) as before; the English of 2011 under c. 838 before 1 October 2017, the Italian after", mode=B)
+
+scen("BF1", LIN, "The form of baptism: I baptize you (BF1)", BAP,
+     [info_all("info(mode(bf_en_i,bf_la_ego,univocal))", "info(feature_mode(bf_en_i,bf_la_ego,minister_act,univocal))",
+               "info(feature_mode(bf_en_i,bf_la_ego,trinity_invoked,univocal))")],
+     "univocal on both features", mode=B)
+scen("BF2", LIN, "The form of baptism: the Greek passive, We baptize (BF2)", BAP,
+     [info_all("info(feature(bf_la_greek,minister_act,unexpressed))", "info(feature_mode(bf_la_greek,bf_la_ego,trinity_invoked,univocal))",
+               "info(feature_mode(bf_la_greek,bf_la_ego,minister_act,gap))", "info(feature(bf_en_we,minister_act,other_agent))",
+               "info(feature_mode(bf_en_we,bf_la_ego,minister_act,equivocal))"),
+      cls("q(valid_form(baptism,we_baptize))=no", "settled"),
+      lin_same_classes(["we_baptize"], BAP, "q(valid_form(baptism,we_baptize))", ("yes", "no"))],
+     "the Greek passive univocal on the Trinity, the act unexpressed; We, another agent; the validity the response's", mode=B)
+scen("BF3", LIN, "The form of baptism: you and te (BF3)", BAP,
+     [info_all("info(opens(bf_en_i,bf_la_ego,r_plural))"), info_none("info(closes(bf_en_i")],
+     "you opens a plural reading te closes", mode=B)
+scen("BF4", LIN, "The form of baptism: a form corrupt (BF4)", BAP,
+     [info_all("info(read_by_accommodation(bf_la_zachary))", "info(sense_lost(bf_la_matris))"),
+      info_none("read_by_accommodation(bf_la_matris)", "sense_lost(bf_la_zachary)")],
+     "corrupt at the end, read by accommodation; at the start, its sense lost", mode=B)
+scen("BF5", LIN, "The form of baptism with the Grammar of the Icon (BF5)", BAP + ["linguae_icon_baptism"],
+     [info_all("violation(cophase_as_agent(bf_en_we))", "violation(cophase_as_agent(bf_it_we))"),
+      info_none("cophase_as_agent(bf_la_ego)", "cophase_as_agent(bf_en_i)", "cophase_as_agent(bf_la_greek)"),
+      cls("q(valid_form(baptism,we_baptize))=no", "settled"),
+      lin_on(BAP, info_none("cophase_as_agent")),
+      lin_on([], info_all("violation(cophase_as_agent(f_x))", "violation(cophase_as_agent(f_y))"),
+             info_none("cophase_as_agent(f_z)"),
+             facts="uses(icon). side_by_side(s_a,s_b,t_x). acton(d_a,d_b). form_agent(f_x,s_a,c). "
+                   "form_agent(f_y,s_b,c). form_agent(f_z,d_a,c).")],
+     "the assembly named as the one who acts puts S in D's place: refused; the validity the response's; without the "
+     "theory nothing changes", mode=B)
+
+scen("SG0", LIN, "Forms in sign: the empirical questions (SG0)", SGN,
+     [info_all("info(fixed_by_finding(q(human_language(ase)),yes,hickok_1996))",
+               "info(fixed_by_finding(q(signifies_by_convention(ase)),yes,klima_bellugi_1979t))"),
+      lin_on(SGN + ["asof_1970"], info_all("info(fixed_by_finding(q(human_language(ase)),yes,stokoe_1960))"),
+             info_none("fixed_by_finding(q(signifies_by_convention")),
+      lin_on(SGN, info_all("info(fixed_by_finding(q(signifies_by_convention(ase)),yes,frishberg_1975))"),
+             facts="asof(1975). custom_asof."),
+      lin_on(SGN, info_none("fixed_by_finding"), facts="asof(1959). custom_asof."),
+      classified(SGN + ["asof_1950"], ("q(human_language(ase))=yes", "open"), ("q(human_language(ase))=no", "open"),
+                 ("q(signifies_by_convention(ase))=yes", "open"), ("q(signifies_by_convention(ase))=no", "open")),
+      lin_on(SGN + ["cand_finding_on_form"], info_all("violation(finding_on_a_doctrine(stokoe_1960,q(valid_form(baptism,sg_g1))))",
+                                                     "violation(finding_on_a_doctrine(stokoe_1960,q(verba_1104(ase))))")),
+      lin_on(SGN + ["linguae_signed_homesign", "rt_lingual"], info_all("info(read_as_signa(sg_home))")),
+      lin_on(SGN + ["linguae_signed_homesign", "rt_vocal"], info_all("info(read_as_signa(sg_home))"))],
+     "fixed yes from 1960 and 1975 by findings, then by later ones; as of 1950 neither, Seton weighing nothing; a "
+     "finding on a doctrine or a canon's reading refused; a homesign's signs never verba", mode=B)
+scen("SGR", LIN, "Forms in sign: two runtimes for verbum (SG-R)", SGC,
+     [lin_assumed(VOCAL, LINGUAL), lin_paired("read_as(aquinas_verbum,thomas_definition)", VOCAL),
+      lin_on(SGC + ["rt_vocal"], lin_every(VOCAL), info_all("info(read_as_signa(sg_g1))")),
+      lin_on(SGC + ["rt_lingual"], lin_every(LINGUAL), info_all("info(read_as_verba(sg_g1))")),
+      lin_on(SGC + ["rt_thomist"], lin_assumed(VOCAL, LINGUAL)),
+      lin_on(SGC + ["cand_verba_two_ways", "rt_vocal"], info_all("violation(verba_read_two_ways(c1104_2,c849))")),
+      lin_on(SGC + ["cand_verba_two_ways", "rt_lingual"], info_none("verba_read_two_ways")),
+      lin_on(SGN + ["linguae_consent_signs", "rt_vocal"], info_all("violation(verba_read_two_ways(c1104_2,c849))"),
+             facts="canon_verbum(c849,lingual)."),
+      lin_on(SGN + ["linguae_consent_signs", "rt_vocal"], info_none("verba_read_two_ways"))],
+     "vocal: signs never a verborum forma; lingual: from the findings' year; default and thomist both, Thomas twice; "
+     "each branch names its part; verba read two ways refused", mode=B)
+scen("SG1", LIN, "Forms in sign: IX-1 BAPTIZE IX-2 (SG1)", SGN,
+     [info_all("info(feature(sg_g1,minister_act,expressed))", "info(feature(sg_g1,trinity_invoked,yes))",
+               "info(mode(sg_g1,bf_la_ego,univocal))", "info(closes(sg_g1,bf_en_i,r_plural))",
+               "info(feature(sg_g1,addressee,deictic))", "info(gloss_presumes_category(sg_g1,second_person))",
+               "info(feature_mode(sg_g1,bf_en_i,minister_act,univocal))"),
+      info_none("info(opens(sg_g1,bf_la_ego", "info(closes(sg_g1,bf_la_ego")],
+     "the act expressed, the Trinity yes, number closed: the point renders te univocally on number; the addressee "
+     "deictic; IX-2 presumes a category", mode=B)
+scen("SG2", LIN, "Forms in sign: Signing Exact English (SG2)", SGN + ["linguae_signed_see"],
+     [info_all("info(no_mode(sg_see,bf_en_i,code))", "info(opens(sg_see,bf_la_ego,r_plural))",
+               "info(no_claimant(sg_see,see_1972))"),
+      info_none("info(mode(sg_see,bf_en_i", "no_claimant(sg_g1")],
+     "the code opens the plural as English does; no mode between it and English; no claimant of its own", mode=B)
+scen("SG3", LIN, "Forms in sign: no subject token; FATHER (SG3)", SGN + ["linguae_signed_subject", "linguae_signed_father"],
+     [lin_assumed("assumed_fact(feature(sg_g1,minister_act,expressed))", "assumed_fact(feature(sg_g1,minister_act,unexpressed))"),
+      lin_assumed("assumed_fact(feature(sg_g1,trinity_invoked,yes))", "assumed_fact(feature(sg_g1,trinity_invoked,no))"),
+      cls("q(valid_form(baptism,sg_g1))=yes", "open"), cls("q(valid_form(baptism,sg_g1))=no", "open"), clean_branches,
+      lin_on(SGC + ["linguae_signed_father", "rt_lingual"], in_branches("info(to_be_baptized(infant_d,conditionally))", status="main"),
+             in_branches("info(to_be_baptized(infant_d,conditionally))", values=("q(form_substance(baptism))=no",), present=False)),
+      lin_on(SGC + ["linguae_signed_subject", "rt_lingual"], in_branches("info(to_be_baptized(infant_d,conditionally))", status="main"))],
+     "the act disputed, both values run; FATHER a human father under the everyday lexicon, the Trinity no; the "
+     "validity keeps every branch; each lexicon dated", mode=B)
+scen("SG4", LIN, "Forms in sign: notations and their claimants (SG4)", SGN + ["linguae_signed_subject", "linguae_signed_moods"],
+     [info_all("info(notation_gap(sg_g1,gloss_a,nonmanual))", "info(notation_gap(sg_g1,stokoe_c,nonmanual))",
+               "info(notation_partial(sg_g1,hamnosys_b,nonmanual))", "info(transcriptions_differ(sg_g1,gloss_a,gloss_h))",
+               "info(meaning_not_supplied(sg_g1,asl_signbank))",
+               "info(clause_read(sg_stmt,gloss_f,unmarked))", "info(clause_read(sg_ynq,gloss_f,unmarked))",
+               "info(clause_read(sg_stmt,elan_g,statement))", "info(clause_read(sg_ynq,elan_g,yes_no_question))"),
+      info_none("notation_gap(sg_g1,signwriting_d", "notation_gap(sg_g1,elan_e", "notation_gap(sg_g1,hamnosys_b",
+                "clause_read(sg_ynq,gloss_f,yes_no"),
+      lin_assumed("assumed_fact(feature(sg_g1,minister_act,expressed))", "assumed_fact(feature(sg_g1,minister_act,unexpressed))"),
+      lin_on(SGN + ["cand_gloss_as_word"], info_all("violation(gloss_as_word(sg_g1))"))],
+     "a gloss entered as a word refused; the non-manual gap for Stokoe and a bare gloss, partial for HamNoSys, none for "
+     "SignWriting or a tiered annotation; one gloss gives one reading of two performances, the annotation two; "
+     "transcriptions that differ both run; a database's token gives no meaning", mode=B)
+scen("SG5", LIN, "Forms in sign: the lay baptism (SG5)", SGC,
+     [only_with("info(to_be_baptized(infant_d,conditionally))", VOCAL),
+      lin_on(SGC + ["rt_vocal"], info_all("info(to_be_baptized(infant_d,conditionally))")),
+      lin_on(SGC + ["rt_lingual"], info_none("to_be_baptized")),
+      cls("q(valid_form(baptism,sg_g1))=yes", "open"), cls("q(valid_form(baptism,sg_g1))=no", "open"),
+      info_all("info(only_validity_required(bap_signed))"), info_none("rite_read(bap_signed"),
+      lin_on(SGC + ["cand_rubric_answers"], info_all("violation(teaching_from_law(q(valid_form(baptism,sg_g1))))")),
+      classified(SGN + ["linguae_signed_practice"], ("q(voice_required(celebrant))=yes", "settled"),
+                 ("q(voice_required(celebrant))=no", "shadow"), ("q(sign_admitted(party))=yes", "settled")),
+      info_all("info(practice_claim(peters_2008,unvoiced_practice,q(valid_form(baptism,sg_g1))))"),
+      lin_on(SGN + ["cand_validity_from_practice"],
+             info_all("violation(validity_from_practice(cand_practice_v,q(valid_form(baptism,sg_g1))))"))],
+     "no source answers the form; c. 869 §1 conditional on rt_vocal, not on rt_lingual, both on default; the rubric "
+     "as answering refused, as practice weighing at its tier; the practice's teaching a claim of no tier; urgent "
+     "necessity, no question of the text (c. 850)", mode=B)
+scen("SG5a", LIN, "Forms in sign: consecration (SG5a)", SGN + ["linguae_signed_mass"],
+     [classified(SGN + ["linguae_signed_mass", "rt_vocal"], ("q(valid_form(eucharist,ase_institution))=no", "settled"),
+                 ("q(valid_form(eucharist,ase_institution))=yes", "shadow")),
+      classified(SGN + ["linguae_signed_mass", "rt_lingual"], ("q(valid_form(eucharist,ase_institution))=no", "open"),
+                 ("q(valid_form(eucharist,ase_institution))=yes", "open")),
+      info_all("info(dated_two_ways(holy_office_1957,19570308,19570523))"),
+      lin_paired("read_as(holy_office_1957,pronuntiat_spoken)", VOCAL),
+      lin_paired("read_as(holy_office_1957,pronuntiat_expressed)", LINGUAL)],
+     "the Holy Office's response gives a value only on rt_vocal; on rt_lingual both stay; its two dates claimed", mode=B)
+CONSENT = ("marriage(", "consent_received(", "consent_not_received(", "assistance_illicit(", "assistant_outside_encoding(",
+           "recipit_read(")
+scen("SG6", LIN, "Forms in sign: consent (SG6)", SGN + ["linguae_consent_signs"],
+     [info_all("info(marriage(m_sa,valid_form))", "info(consent_received(m_sa))"), info_none("assistant_outside_encoding"),
+      lin_on(SGN + ["linguae_consent_signs", "rt_vocal"], info_all("info(consent_illicit(m_sa,party_2,c1104_2))",
+                                                                  "info(marriage(m_sa,valid_form))"),
+             info_none("consent_illicit(m_sa,party_1")),
+      lin_on(SGN + ["linguae_consent_signs", "rt_lingual"], info_none("consent_illicit"), info_all("info(marriage(m_sa,valid_form))")),
+      lin_on(SGN + ["linguae_consent_outside", "rt_vocal"], in_branches("consent_illicit(m_sc,party_9", assume=("assumed_fact(can_speak(party_9))",)),
+             in_branches("consent_illicit(m_sc,party_9", assume=("assumed_fact(false(can_speak(party_9)))",), present=False),
+             facts="disputed(can_speak(party_9))."),
+      lin_on(SGN + ["linguae_consent_interpreter"], info_all("info(assistance_illicit(m_sb,c1106))", "info(consent_received(m_sb))",
+                                                             "info(marriage(m_sb,valid_form))", "info(marriage(m_sb2,valid_form))"),
+             info_none("assistance_illicit(m_sb2")),
+      lin_on(SGN + ["linguae_consent_outside"], info_all("info(assistant_outside_encoding(m_sc))"),
+             under("recipit_read(m_sc,recipit_celebration)", info_all("info(marriage(m_sc,valid_form))")),
+             under("recipit_read(m_sc,recipit_consent)", info_all("info(marriage(m_sc,invalid_form))"))),
+      lin_on(SGN + ["linguae_consent_witnesses"], info_all("info(marriage(m_sd,valid_form))")),
+      under("rite_read(m_sa,rite_changed)", info_all("info(illicit_change(pastor_sa,m_sa))")),
+      under("rite_read(m_sa,rite_kept)", info_none("illicit_change(pastor_sa")),
+      lin_on(SGN + ["linguae_consent_signs", "cand_guidelines_as_rite"], info_all("violation(rite_without_recognitio(usccb_2017,m_sa))"))],
+     "c. 1104 §2 never invalidates; illicit on rt_vocal for the party who can speak; received, the form valid; through "
+     "an interpreter, licit where his trustworthiness is entered; no ASL and no interpreter, two readings of recipit; "
+     "the witnesses' tongue enters nothing; the rite kept or changed; the Guidelines no rite", mode=B)
+scen("SG7", LIN, "Forms in sign: penance (SG7)", SGN + ["linguae_signed_penance"],
+     [lin_assumed(VOCAL, LINGUAL), info_all("info(confession_by_form(abs_signed,penitent_p,sg_confession))"),
+      under("rite_read(abs_signed,rite_changed)", info_all("info(illicit_change(deaf_priest_p,abs_signed))")),
+      lin_on([], lambda r: (not any(a.startswith("read_as(verbum") for b in r["branches"] for a in b["assume"]),
+                            "a confession in sign raises no reading of verba"),
+             facts="encoding(ase_x,ase,1817,2026). encoding_route(ase_x,manual). text_of(t_c,s_c,ase_x,2026). "
+                   "form_in(f_c,t_c,n(1)). confession_given(a_c,p_c,f_c)."),
+      lin_on(SGN + ["linguae_confession_interpreter"], clean_branches,
+             info_all("info(bound_to_secrecy(interp_q,conf_i))", "info(secret_under_penalty(interp_q,conf_i))")),
+      lin_on(SGN + ["linguae_confession_interpreter", "cand_interpreter_required"],
+             info_all("violation(interpreter_required(penitent_q,conf_i))"))],
+     "the penitent's signed confession raises no dispute; the unvoiced absolution carries both readings; through an "
+     "interpreter, secrecy under penalty, cleanly; an obligation to use one refused", mode=B)
+scen("SG8", LIN, "Forms in sign: the sign's likeness (SG8)", SGC,
+     [info_all("info(iconic_manner_differs(sg_g1,bap_signed))"), clean_branches],
+     "BAPTIZE as immersion beside poured water: reported, never a refusal", mode=B)
+scen("SG9", LIN, "Forms in sign: ASL in time (SG9)", SGN,
+     [clean_branches, lin_no_asl_approval,
+      lin_on(SGN + ["cand_asl_in_time"], info_all("violation(lexicon_out_of_span(epee_1776,ase_2026))",
+                                                 "violation(variety_entered_as_descent(ase_black,ase_2026))"))],
+     "every lexicon dated and in its span; Black ASL a variety, not descended; no approval of a signed version entered", mode=B)
+scen("SG10", LIN, "Forms in sign: the route never enters c. 1108 (SG10)", SGN + ["linguae_consent_symmetry"],
+     [lin_symmetric("m_deaf", "m_hear", CONSENT), info_all("info(marriage(m_deaf,valid_form))"),
+      info_none("read_as_signa(en_consent")],
+     "a deaf assistant receiving spoken consent through an interpreter computes as a hearing one receiving signed "
+     "consent through one", mode=B)
+
+scen("LM1", LIN, "Claims of a mode, rules of hearing (LM1)", PMU + ["cand_mode_fixed", "linguae_heard_by_rule"],
+     [info_all("violation(mode_fixed_by_claim(arinze_2006,pm_en11_many,pm_la02))",
+               "info(heard_by_rule(g_en_2011,pm_en73_all,cdf_1974))"),
+      info_none("closes_for(g_en_2011,pm_en73_all", "interpretation_for(g_en_2011,pm_en73_all"),
+      lin_on(PMU + ["linguae_heard_by_rule", "regime_clp"],
+             in_branches("info(faithful_for(g_en_2011,pm_en73_all,pm_la70))",
+                         assume=("assumed_fact(false(inserted(pm_en73_all,pm_la70)))",)))],
+     "a mode claim treated as fixing refused; under the rule of 1974 the hearer admits exactly the host's readings", mode=B)
+scen("LM2", LIN, "Et cum spiritu tuo under two regimes (LM2)", ["linguae_ecst", "regime_la"],
+     [info_all("info(not_faithful(ecst_en73,ecst_la70))", "info(faithful(ecst_en11,ecst_la02))",
+               "info(interpretation(ecst_en73,ecst_la70,r_person))"),
+      lin_on(["linguae_ecst", "regime_clp"], info_all("info(faithful_for(g_en_1973,ecst_en73,ecst_la70))"))],
+     "the same pair unfaithful under LA, faithful under CLP, where only the message and the hearing are read", mode=B)
+scen("LM3", LIN, "A hearing of a person, or by no lexicon (LM3)", PMU + ["cand_hearings"],
+     [info_all("violation(hearing_of_a_person(reader_x))", "violation(hearing_without_lexicon(g_nolex))"),
+      lin_on(PMU, info_none("hearing_of_a_person", "hearing_without_lexicon"))],
+     "refused", mode=B)
+
+_X_TEXTS = ("encoding(e_x,xxx,1900,2000). encoding(e_y,yyy,1900,2000). text_of(t_a,s_x,e_x,1950). "
+            "form_in(f_a,t_a,n(1)). lexicon(lx,e_x,1950,dictionary). lexicon(ly,e_y,1950,dictionary). ")
+scen("LX1", LIN, "The library's mechanics, beside the predictions", [],
+     [lin_on(["rt_saussure"], info_all("info(mode(f_b,f_a,univocal))", "info(mode_for(g_x,f_b,f_a,univocal))"),
+             facts=_X_TEXTS + "text_of(t_b,s_x,e_x,1960). form_in(f_b,t_b,n(1)). renders(f_b,f_a). "
+                              "signifies((f_a;f_b),w_x,lx). hears_in(g_x,e_x,lx)."),
+      lin_on([], info_all("info(extent(f_b,f_a,narrower))", "info(mode(f_b,f_a,analogical))"),
+             facts=_X_TEXTS + "text_of(t_b,s_x,e_y,1960). form_in(f_b,t_b,n(1)). renders(f_b,f_a). signifies(f_a,w_a,lx). "
+                              "signifies(f_b,w_b,ly). analogous(w_b,w_a,attribution,c). broader(w_a,w_b,c)."),
+      lin_on([], info_all("info(gap(f_a,t_b))", "info(lost_in(a_x,e_y,p_x,gap))"),
+             facts=_X_TEXTS + "text_of(t_b,s_x,e_y,1960). made_from(t_b,t_a). rests_on_form(a_x,p_x,f_a)."),
+      lin_on([], info_all("violation(analogy_without_kind(w_a,w_b))", "violation(word_dated(w_a))", "violation(word_dated(w_b))"),
+             facts="analogous(w_a,w_b,likeness,c). date_claim(w_a,1900). date_claim(w_b,1900)."),
+      lin_on([], info_all("violation(equivocation_carried(f_b,f_a))"),
+             facts=_X_TEXTS + "text_of(t_b,s_x,e_y,1960). form_in(f_b,t_b,n(1)). renders(f_b,f_a). signifies(f_a,w_a,lx). "
+                              "signifies(f_b,w_b,ly). carries(w_b,w_a,p_x)."),
+      lin_on([], info_all("violation(meaning_without_lexicon(f_a,nolex))"), facts=_X_TEXTS + "signifies(f_a,w_c,nolex)."),
+      lin_on([], info_all("violation(lexicon_out_of_span(lx_late,e_x))"), info_none("lexicon_out_of_span(lx,"),
+             facts=_X_TEXTS + "lexicon(lx_late,e_x,2010,dictionary)."),
+      lin_on([], info_all("info(transcriptions_differ(f_t,n_a,n_b))", "info(transcriptions_differ(f_u,n_a,n_b))"),
+             info_none("transcriptions_differ(f_v"),
+             facts="notated((f_t;f_u;f_v),(n_a;n_b),c). token(f_t,n_a,1,x). token(f_t,n_b,1,y). "
+                   "token(f_u,n_a,(1;2),x). token(f_u,n_b,1,x). token(f_v,(n_a;n_b),1,x)."),
+      lin_on(["regime_la"], info_all("info(not_faithful(f_b,f_a))", "info(not_faithful(f_c,f_a))"),
+             facts=_X_TEXTS + "text_of(t_b,s_x,e_y,1960). form_in((f_b;f_c),t_b,n(1)). renders((f_b;f_c),f_a). "
+                              "unrendered(f_b,f_a,w_a). order_changed(f_c,f_a,c)."),
+      lin_on(PMU, info_all("info(mode_claim_differs(arinze_2006,pm_en73_all,pm_la70))"),
+             facts="mode_claim(arinze_2006,pm_en73_all,pm_la70,equivocal,word).")],
+     "univocal within one encoding on rt_saussure; narrower; a gap where a text made from the host lacks the form; "
+     "an analogy of no kind; carriage on an equivocal pair; a meaning by no lexicon; LA's words and order; a claim "
+     "that differs", mode=B)
+_RECV = ("today(20261023). pastor_of(pastor_x,parish_x). "
+         "marriage(m_x1,priest_x1,20260601). spouse(m_x1,(p_1;p_2)). baptized_in((p_1;p_2),catholic). held_in(m_x1,parish_x). "
+         "witnesses(m_x1,2). delegation(dl_1,pastor_x,priest_x1,m_x1,20260501). "
+         "marriage(m_x2,priest_x2,20260601). spouse(m_x2,(p_3;p_4)). baptized_in((p_3;p_4),catholic). priest(priest_x2). "
+         "witnesses(m_x2,2). common_error(m_x2). "
+         "marriage(m_x3,priest_x3,20260601). spouse(m_x3,(p_5;p_6)). baptized_in(p_5,catholic). baptized_in(p_6,orthodox_x). "
+         "eastern_noncatholic_church(orthodox_x). priest(priest_x3). ")
+scen("LX2", LIN, "c. 1108 §2 in every variant of the form", [],
+     [lin_on([], info_all("info(marriage(m_x1,valid_form))", "info(marriage(m_x2,valid_form))", "info(marriage(m_x3,valid_form))"),
+             facts=_RECV),
+      lin_on([], info_all("info(marriage(m_x1,invalid_form))", "info(marriage(m_x2,invalid_form))", "info(marriage(m_x3,invalid_form))",
+                          "info(consent_not_received(m_x1))"), facts=_RECV + "assistant_perceived((m_x1;m_x2;m_x3),consent,no)."),
+      lin_on([], in_branches("info(marriage(m_x1,valid_form))", assume=("assumed_fact(assistant_perceived(m_x1,consent))",)),
+             in_branches("info(marriage(m_x1,invalid_form))", assume=("assumed_fact(false(assistant_perceived(m_x1,consent)))",)),
+             facts=_RECV + "assistant_perceived(m_x1,consent,disputed).")],
+     "a delegate, common error, a sacred minister in a mixed marriage: each assists validly, and none where the consent "
+     "is not received (the pastor in his territory: SG6)", mode=B)
+scen("LP1", LIN, "An approval answers no question of carriage (the pair)", PMU + ["linguae_pro_multis_canon", "cand_approval_answers"],
+     [info_all("violation(teaching_from_law(q(carries(missal_en_2011,missal_la_2002))))",
+               "violation(teaching_from_law(q(carries(pm_en11_many,pm_la02))))"),
+      lin_on(PMU + ["linguae_pro_multis_canon"], info_none("teaching_from_law"))],
+     "whether a version carries its source is not law's: entered as answered by an approval, refused", mode=B)
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

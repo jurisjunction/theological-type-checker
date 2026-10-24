@@ -622,3 +622,122 @@ predictions are revised to use `hears_in/3`, committed and stamped.
 [ttc-saeculum(7)](saeculum-preregistration.md), [ttc-schools(7)](schools-preregistration.md),
 [ttc-core(5)](../core-edition.md),
 ttc-modernity(7), [ttc-roadmap(7)](../roadmap.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in `61ac504`, stamped in
+`d82f3cb`. Encoded in `linguae.l` (new, the library), `schools.l` (the part
+`word_of_no_tongue` in `default`; the runtimes `saussure`, `vocal`,
+`lingual`; four switch parts), `pair.l` (an approval answering carriage
+refused; a claim of practice counts as a question's support),
+`icon_theory.l` (`side_by_side/3`, `cophase_as_agent`), `canon_law.l`
+(c. 838 in its texts of 1983 and 2017; cc. 849-850, 869 §1, 983 §2, 990,
+1104 §2, 1106, 1108 §2, 1119, 1120, 1386 §2), `icon_history.l` and
+`canon_cases.l` (the cases), `engine.py`. Scenarios WO, RN, CC, PX, BF, SG,
+LM, LX, LP (44; 666 in all). The suite names LW1-LW4 `WO1`-`WO4` and
+PM1-PM7 `PX1`-`PX7`: `LW` and `PM` are the law's and presence's. Of 42
+predictions, 40 held; PM5 is red in part, and RN4's second half is not
+scored.
+
+| | Result |
+| --- | --- |
+| LW1 | Held (WO1): `word_dated` by a date, a text's year and a place in the order; none on `rt_saussure`. |
+| LW2 | Held (WO2): *personne* and *persona* univocal on `default`. On `rt_saussure` no rendering between two encodings is univocal; "personality" analogical by its declared analogy, the rest equivocal. Within one encoding a rendering stays univocal there (LX1). |
+| LW3 | Held (WO3). |
+| LW4 | Held (WO4): Dante's *forma locutionis* as an encoding's parent refused on every runtime, `bare` included; Proto-Indo-European, an encoding with its claimant, not. |
+| RN1 | Held (RN1). French and Spanish univocal; Italian by attribution; English by attribution under the scholastic lexicon, and under the Lockean only (efficient, human). |
+| RN2 | Held (RN2), in all four vernaculars. |
+| RN3 | Held (RN3). |
+| RN4 | Held in its first half (RN4): heard in the English of 1891 under Locke, exactly (efficient, human), (material, nature), (final, self), in every branch. Not scored in its second: TTC-MODERNITY and its switch `rn9_in_english` are not in the base, so there is nothing to retire or compare. |
+| RN5 | Held (RN5). Read: "no lexicon declared for 'personality'" as the hearing's lexicon of 2026 giving the form no meaning, so the pair is equivocal for that hearing. |
+| RN6 | Held (RN6). |
+| CC1 | Held (CC1). With no rendering entered between the editions, no mode at all; entered both ways (`cand_revision_rendered`), `no_mode(…, revision)`. |
+| CC2 | Held (CC2). |
+| CC3 | Held (CC3): the Latin settled as the definitive text, a governance question; entered as answering the doctrinal one, refused. |
+| PM1 | Held (PX1). |
+| PM2 | Held (PX2). |
+| PM3 | Held (PX3): two branches each, on the insertion and on the hearing's lexicon. |
+| PM4 | Held (PX4). |
+| PM5 | Red in part (PX5). Arinze's claim agrees; Benedict's agrees. The Italian confirmation's claim is on "per tutti" and Benedict's on "für alle": two pairs, and `units_differ` is defined of "two claims on one pair in different units" (THE DESIGN). It does not fire between them. It fires where two claims share a pair (Arinze, word; the recognitio of 2010, act). The prediction is kept; the test pins the result as a finding (rule 7). |
+| PM6 | Held (PX6): both refused; the question keeps CCC 605's value. |
+| PM7 | Held (PX7): `q(translation_approval)` classed and preferred as before; the English of 2011 approved under c. 838 as of 1983, the Italian under its text of 2017. |
+| BF1 | Held (BF1). |
+| BF2 | Held (BF2): the CDF's value unchanged with the new part loaded. |
+| BF3 | Held (BF3). |
+| BF4 | Held (BF4). |
+| BF5 | Held (BF5): "We baptize" and "a nome della comunità" refused; *Ego te baptizo*, "I baptize" and the Greek passive not; nothing without the theory. |
+| SG0 | Held (SG0): fixed from 1960 and from 1975, by the latest finding today; nothing as of 1959 or 1950, Seton weighing nothing; a finding on the form, or on c. 1104 §2, refused; a homesign's gestures *signa* on both runtimes. |
+| SG-R | Held (SGR): on `default` and `thomist` both readings of *verbum*, Thomas's definition exactly where *verbum* is read as a sound; `rt_vocal` and `rt_lingual` decide it and name their part in `read_as`; `verba_read_two_ways(c1104_2,c849)` refused. |
+| SG1 | Held (SG1). |
+| SG2 | Held (SG2). |
+| SG3 | Held (SG3). |
+| SG4 | Held (SG4). |
+| SG5 | Held (SG5). c. 850 read: urgent necessity, only what validity needs, and no reading of the rite (c. 846) for the lay baptism. "Where … the minister's act is `expressed`" read as a condition: where the record disputes a feature of the substance (no subject token, SG3; FATHER), c. 869 §1 gives baptism under condition on `rt_lingual` too, in the branches where those features are of the substance (Florence). |
+| SG5a | Held (SG5a). |
+| SG6 | Held (SG6), every bullet; LX2 runs c. 1108 §2 through every variant of the form. |
+| SG7 | Held (SG7). c. 1386 §2 is reported (`secret_under_penalty`), never applied: imputability is not computed (rule 3). |
+| SG8 | Held (SG8). |
+| SG9 | Held (SG9). |
+| SG10 | Held (SG10). |
+| LM1 | Held (LM1). |
+| LM2 | Held (LM2). |
+| LM3 | Held (LM3). |
+| M1 | Held, with one repair. No earlier scenario's atoms changed (622 compared; 44 new). One earlier check went red on the way, PR4: the signed form's validity, a question no source answers, was "without sources". Peters's claim that practice teaches it now stands in the case, and the frontier counts a claim of practice as a question's support, as it counts a finding. The TTC-SCHOOLS tables gain `word_of_no_tongue` in every runtime but `bare` and `saussure`, and boots of `saussure`, `vocal` and `lingual` that change nothing; the rest as before. The group stays out of the stamped boot set. Expectations changed, as predicted and stated where they stand (rule 7): the default runtime's parts, the hand-written runtimes, and the closed sorts (`tmode`, `akind`, `unit`). |
+| M2 | Held after closing gaps. Each new statement was deleted in turn (245 in `linguae.lp`, 64 in `canon_law.lp`, 4 in `pair.lp`, 4 constraints in `icon_history.lp`'s parts, 3 in `icon_theory.lp`; a part's facts are data) against the group's scenarios, PR4 and CL1, and each survivor again; each new `not receipt_failed(M)` was removed alone. The domain rules and sorts the compiler generates (9) were killed by TTC-L's sort test (TY2). Closed on the way: the second side of `side_by_side/3`; the response of 1957's readings tied to *verbum*; c. 1108 §2 in every variant of the form (LX2), and a perception disputed; an assistant within the encoding; a lexicon after its encoding's span; lexicons alike read together; losses by equivocation and by no carriage, in a text and for a hearing; carriage in a text; the readings a rule of hearing admits; the per-hearing reports; features compared through a rendering; each canon's reading of *verba* from the runtime; a spoken form at issue read as *verba*; the two ways transcriptions differ. Removed as idle: a guard on the runtime's reading of *verbum* (the choice's bounds do it); a refusal of a date claimed off its source's year (unpredicted); and a contrary feature as a doubt under c. 869 §1, replaced by a feature of the substance given two ways (an undisputed contrary is the response's invalidity, not a doubt). None survives. CL1 and PR4 clean. |
+
+### Readings
+
+- **`signifies/3` for `means/3`.** `means/3` is taken (`moral.l`).
+- **`carries/3` on words** (`carries(W2,W1,P)`): an analogy carries a premise
+  wherever its two words are rendered, not form by form.
+- **`tmode` has `interpretation`**, so Benedict's claim (PM5) is in its
+  domain. `extent` is no sort: no slot takes it; only `wider` and
+  `narrower` are reported.
+- **`token/4`** (`token(F,N,I,T)`): two notations of one performance give
+  their own tokens. **`form_in/3`'s locus** is a sort of its own.
+- **The canon halves of the cases** are parts of `canon_cases.l`
+  (`linguae_pro_multis_canon`, `linguae_signed_canon` and the variants), as
+  no part may enter the other side's slots.
+- **`linguae_signed` is a case**, marked HYPOTHETICAL, not a switch: it
+  states its own questions (SO2), as the witness step's control does.
+  Its variants are switches of it.
+- **Thomas** is one ambiguous source with two readings, tied to the reading
+  of *verbum* by two constraints; he answers no question.
+- **The Italian approval** is the confirmation of 2019 of the Missal of 2020
+  (`act_date` 16 July 2019, [S]); c. 838 of 2017 governs it either way.
+- **The CDF's declaration of 1974** enters twice: as the hearing rule (LM1),
+  and, per THE DESIGN, the recognitio of 2010 as a mode claim at its tier.
+- **`for_catechesis/2`** is what a rendering opens and what a source sends
+  to catechesis; a reading contrary for a hearing is reported as
+  `contrary_for`, not sent.
+- **`finding_on_a_doctrine`** also refuses a finding on a juridical
+  question (how c. 1104 §2 reads), as SG0 names it.
+- **`verba_read_two_ways(L1,L2)`** names the two canons.
+- **c. 1108 §2** enters every variant of the 1983 form (`receipt_failed`):
+  four rules gain one literal each; no earlier output changed.
+
+### Not predicted
+
+- **"For all" keeps the Gentiles' reading too**: `interpretation(…,
+  r_gentiles)` beside `r_all`, as the lexicon of "all" admits both.
+- **"For many" opens "not all"** in every branch; under LA it goes to
+  catechesis.
+- **The French of 1992 is itself superseded** (`superseded_encoding(ccc_fr_1992,
+  ccc_la_1997)`), beside vatican.va's English and German.
+- **The Byzantine English** types as the Greek passive: the act unexpressed,
+  a gap.
+- **The frontier counts a claim of practice** (M1).
+- **SG0's branches halve** as each question is fixed: 64 as of 1959, 32 from
+  1960, 16 from 1975.
+- **c. 869 §1 on a disputed feature** (SG5): conditional baptism on
+  `rt_lingual` too, where the record gives a feature of the substance two
+  ways.
+- **A pair of `vocal` and `lingual`** has no model where a manual form is at
+  issue: *verbum* is read one way in a run. Elsewhere the pair boots.
+
+### Left
+
+- TTC-MODERNITY's predictions revised to `hears_in/3`, committed and
+  stamped (METHOD), with RN4's second half.
+- Perceiving a form; a doubt whether "I" or "we" was said (the senses).
+- The Italian drafts of *Rerum novarum* (Antonazzi, 1957).

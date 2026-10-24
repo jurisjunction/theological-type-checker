@@ -21,7 +21,7 @@ a test checks the file is current and every scenario named exists.
 Of 87 units: 48 touched by rules, 5 by cases only,
 34 frontier. A unit counts as touched if one rule reaches
 it, so this measures reach, not depth. The rule files cite
-54 of the Catechism's 2,865 paragraphs by number (the column
+56 of the Catechism's 2,865 paragraphs by number (the column
 "Cited"). The Prologue (1–25) is frontier.
 
 ## PART ONE: THE PROFESSION OF FAITH
@@ -49,7 +49,7 @@ it, so this measures reach, not depth. The rule files cite
 | 484–511 | Conceived by the Holy Spirit, born of the Virgin Mary | rules |  | CM1b, CS3, B5, CE1d | ever-virgin; the Immaculate Conception's history |
 | 512–570 | The mysteries of Christ's life | frontier |  |  |  |
 | 574–594 | Jesus and Israel | frontier |  |  |  |
-| 595–623 | Jesus died crucified | rules | 1 | CE0, CE2, MD4 | the economy's order; merits foreseen; God's act not dated, its effects are (CCC 600) |
+| 595–623 | Jesus died crucified | rules | 2 | CE0, CE2, MD4, PX6 | the economy's order; merits foreseen; God's act not dated, its effects are (CCC 600); for all, by its sources and never by a rendering (CCC 605) |
 | 624–630 | Jesus Christ was buried | case |  | CE0 | the economy's order |
 | 632–637 | Christ descended into hell | case |  | CE0 | the economy's order |
 | 638–658 | On the third day he rose from the dead | case |  | CE0, CE3 | risen after he died |
@@ -76,14 +76,14 @@ it, so this measures reach, not depth. The rule files cite
 | 1077–1112 | The liturgy, work of the Holy Trinity | frontier |  |  |  |
 | 1113–1134 | The paschal mystery in the Church's sacraments | rules | 2 | SM4, SM8, SM6b | ex opere operato; the character; the fruit and disposition |
 | 1136–1199 | Celebrating the Church's liturgy | rules |  | LO1, LO8, LO9, RS3, RD1 | one book, two sources: the prayer a witness that weighs and never fixes; three of LG 25's conditions, never the fourth; Vincent's measure; c. 846; the Missal's editions in an order (CCC 1124-1125) |
-| 1200–1209 | Liturgical diversity and the unity of the mystery | rules | 2 | LT5, LT6, AS1, AS2 | lex orandi typed as teaching or governance; the Churches sui iuris and their rites, ascription choosing the code |
-| 1213–1284 | Baptism | rules |  | SM2, SM5, SM8, SM9, L2 | matter, form, character, fruit, infants |
+| 1200–1209 | Liturgical diversity and the unity of the mystery | rules | 2 | LT5, LT6, AS1, AS2, PX2, LM2 | lex orandi typed as teaching or governance; the Churches sui iuris and their rites, ascription choosing the code; a rite in many tongues, under three regimes of translation, none preferred |
+| 1213–1284 | Baptism | rules |  | SM2, SM5, SM8, SM9, L2, BF1, BF5, SG5 | matter, form, character, fruit, infants; the form in its renderings and in sign |
 | 1285–1321 | Confirmation | rules | 2 | SM6b, CF1 | the minister, a presbyter by law or faculty; the character |
 | 1322–1419 | The Eucharist | rules |  | PM1, PM4, PM6, MS3, MS5, CS4 | presence; cc. 915-916; Jn 6 |
-| 1422–1498 | Penance and reconciliation | rules |  | SX15, SX20, SM7, SM2 | absolution's validity; faculties; the seal |
+| 1422–1498 | Penance and reconciliation | rules |  | SX15, SX20, SM7, SM2, SG7 | absolution's validity; faculties; the seal; confession in sign or through an interpreter (cc. 983 §2, 990) |
 | 1499–1532 | The anointing of the sick | rules |  | SM6b | the minister |
 | 1536–1600 | Holy orders | rules |  | SM6, SM6c, EC2 | consecration and character; Anglican orders |
-| 1601–1666 | Matrimony | rules | 1 | SM10, SM10b, SM10c, AC9, DR1, IM1, IM2, IM3 | consent and form, across the codes; dissolution and nullity; remarriage |
+| 1601–1666 | Matrimony | rules | 1 | SM10, SM10b, SM10c, AC9, DR1, IM1, IM2, IM3, SG6, SG10 | consent and form, across the codes; dissolution and nullity; remarriage; consent in sign (cc. 1104 §2, 1108) |
 | 1667–1679 | Sacramentals | frontier |  |  |  |
 | 1680–1690 | Christian funerals | frontier |  |  |  |
 
@@ -114,7 +114,7 @@ it, so this measures reach, not depth. The rule files cite
 | 2258–2330 | The fifth commandment | rules | 7 | DP1, DP2, DP5, SD1, MS2, MS2b, DI3, DI4, DI5, SD3, AB1, AB4 | the death penalty's history and verdict; legitimate defence; abortion and its penalty (c. 1397 §2; CCC 2272); just war |
 | 2331–2400 | The sixth commandment | rules |  | DI6, DR1, K11 | IVF "must not" (Donum vitae); remarriage; the embryo's image |
 | 2401–2463 | The seventh commandment | rules | 1 | SD2, SD2b, SD4 | usury as two questions; social teaching typed (CCC 2423) |
-| 2464–2513 | The eighth commandment | rules |  | SM7, SM7c | the seal |
+| 2464–2513 | The eighth commandment | rules | 1 | SM7, SM7c, CC1, CC3 | the seal; CCC 2483 in its encodings, the definitive text governance |
 | 2514–2533 | The ninth commandment | frontier |  |  |  |
 | 2534–2557 | The tenth commandment | frontier |  |  |  |
 

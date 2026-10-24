@@ -114,19 +114,25 @@ def test_l_refuses(text, why):
 
 # ---------- RU: runtimes by inheritance --------------------------------------
 # The runtimes as engine.py held them by hand before L (at 3fc3601): the
-# expectation is that table, not anything the compiler computes.
+# expectation is that table, not anything the compiler computes. Restated
+# (rule 7) by TTC-LINGUAE M1, as predicted: default gains the part
+# word_of_no_tongue, which its children inherit after default's own parts,
+# and the runtimes saussure, vocal and lingual are added.
 HAND_WRITTEN = {
     "bare": [],
-    "default": ["classical", "one_power"],
-    "thomist": ["classical", "one_power", "th01", "th03", "th04", "th05", "th06", "th21", "th22", "th24",
-                "simplicity_thomist", "attributes_by_reason", "mixed_relations", "transcendentals",
+    "default": ["classical", "one_power", "word_of_no_tongue"],
+    "thomist": ["classical", "one_power", "word_of_no_tongue", "th01", "th03", "th04", "th05", "th06", "th21",
+                "th22", "th24", "simplicity_thomist", "attributes_by_reason", "mixed_relations", "transcendentals",
                 "holds_premotion", "one_place_circumscribed"],
-    "scotist": ["classical", "one_power", "simplicity_scotist", "attributes_formal", "univocity_of_concept",
-                "scotus_esse", "mixed_relations", "transcendentals"],
-    "suarezian": ["classical", "one_power", "simplicity_thomist", "attributes_by_reason", "suarez_esse",
-                  "mixed_relations", "transcendentals", "holds_concurrence"],
-    "palamite": ["classical", "simplicity_palamite", "palamite_energies", "monopatrism", "no_divine_contraction",
-                 "grace_uncreated"],
+    "scotist": ["classical", "one_power", "word_of_no_tongue", "simplicity_scotist", "attributes_formal",
+                "univocity_of_concept", "scotus_esse", "mixed_relations", "transcendentals"],
+    "suarezian": ["classical", "one_power", "word_of_no_tongue", "simplicity_thomist", "attributes_by_reason",
+                  "suarez_esse", "mixed_relations", "transcendentals", "holds_concurrence"],
+    "palamite": ["classical", "word_of_no_tongue", "simplicity_palamite", "palamite_energies", "monopatrism",
+                 "no_divine_contraction", "grace_uncreated"],
+    "saussure": ["classical", "one_power", "word_by_division"],
+    "vocal": ["classical", "one_power", "word_of_no_tongue", "verbum_vocal"],
+    "lingual": ["classical", "one_power", "word_of_no_tongue", "verbum_lingual"],
 }
 
 
@@ -431,7 +437,8 @@ def test_each_sort_is_declared_in_the_lowest_layer_whose_slots_use_it():
 # The closed sorts, from the guide's tables (TTC-L, Domains): pasted.
 CLOSED = {"tier", "force", "question_kind", "papal_form", "character", "conciliar_act", "shown_condition",
           "object", "presence_mode", "nature", "sacrament", "teaching_type", "valence",
-          "table_rank"}   # TTC-CALENDAR: the Table of Liturgical Days, 1..13
+          "table_rank",   # TTC-CALENDAR: the Table of Liturgical Days, 1..13
+          "tmode", "akind", "unit"}   # TTC-LINGUAE: a mode claimed, a kind of analogy, a claim's unit
 
 
 def _domain_args():

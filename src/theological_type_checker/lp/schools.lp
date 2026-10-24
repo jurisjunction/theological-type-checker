@@ -74,3 +74,18 @@ acts(P) :- justification(P,_).    % grace, which Trent defines (DH 1554; TTC-MOR
 % yes, by divine power. The Thomist runtime holds the first.
 #program one_place_circumscribed.
 violation(two_circumscribed_places(X,L1,L2)) :- present(X,L1,circumscriptive), present(X,L2,circumscriptive), L1 < L2.
+% The tongues (TTC-LINGUAE). The word in the heart is "nec Graecum nec
+% Latinum nec linguae alicuius alterius" (De Trinitate XV.10.19), and the
+% passions of the soul "sunt eaedem omnibus" (In Peryerm. I lect. 2 n. 9):
+% two encodings can mean one word, and no word is dated. Saussure: mouton
+% may mean what sheep means, but has not its value; before a tongue,
+% thought is a shapeless mass (Cours, Part II ch. IV).
+#program word_of_no_tongue.
+word_of_no_tongue.
+#program word_by_division.        % Saussure, Cours de linguistique generale (1916), Part II ch. IV: a word is
+word_by_division.                 % a value in one tongue at its date
+#program verbum_vocal.            % a verbum is a vox, "a sound significant by convention" (De int. 2, 16a19);
+verbum_vocal.                     % "vox est sonus ab ore animalis prolatus" (In Peryerm. I lect. 4 n. 3)
+#program verbum_lingual.          % a verbum signifies the inner word by any route: to nod is "to speak in some
+verbum_lingual.                   % way to the sight" (De Trinitate XV.10.19); words, because they "can be
+                                  % formed in various ways" to signify (ST III q. 60 a. 6)
