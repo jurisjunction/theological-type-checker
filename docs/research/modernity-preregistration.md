@@ -801,3 +801,129 @@ shares, so they hold however many parts the library has.
 
 [ttc-linguae(7)](linguae-preregistration.md), [ttc-schools(7)](schools-preregistration.md),
 `docs/research/modernity-sources.md`, `docs/research/modernity-hearers.md`
+
+## SCORING
+
+Appended after the runs. Predictions committed in `e308c18`, stamped in
+`f932d62`. Encoded in `causae.l` (new, the library: the sorts `cause` and
+`domain`, the slots, availability, the reports, the VM, hearing, the
+conversion), `schools.l` (the ten parts, the first nine in `default`; the
+33 runtimes of THE DESIGN's tables, the contested edges marked; a part
+`vm_R` for each of the 42 runtimes; `horizons_all`; two figure parts),
+`icon_history.l` (the case `modernity_property`, its six switches,
+Fortin's claim, `modernity_measure`, the four hearing parts and
+`hearers_tongues`; the slot `figure/1`), `engine.py` (the library
+registered), `schools.py` (the group kept out of the stamped boot set), the
+suite (39 scenarios, group `modernity`), `tests/test_l.py` (the runtimes'
+table and the closed sorts restated), `tests/test_suite.py` (the default
+runtime restated), the guide in both copies, the roadmap
+and the coverage index. The suite names PR1-PR8 `MP1`-`MP8`: PR is the
+pair's. MM1-MM5 pin the library's mechanics. Of 37 predictions, 35 held,
+DG3 is red in part, and PH3 is not scored; EX1 is reported. RN4's
+second half (TTC-LINGUAE), left unscored there, is scored here as HE1, and
+held. The full suite: 933 passed, 16 skipped; TTC_SLOW `test_schools`: 15
+passed.
+
+| | Result |
+| --- | --- |
+| CV1 | Held (CV1). Products and land natural, settled, the positive addition a shadow; use common yes and IP absolute no, settled. Each branch's values, status, cleaving, weights, verdicts and notes are the same on every runtime, alone and beside all six switches, and on `default` beside each. Read: a runtime's own note, given without the case (`palamite`'s `manifested_through(spirit,son)`), is not the case's and is set aside. |
+| CV2 | Held (CV2). On `bare` exactly rn10_products, rn10_land and the six for the positive addition; use common and IP absolute without reason, rn10 sole, under every switch. An argument typed by nothing is available on all 42 runtimes. |
+| CV3 | Held (CV3): `outside_domain` for `argues_from/3` (arguments 2 and 3) and `measures_as/3` (2 and 3). |
+| CV4 | Held (CV4), over every horizon of `horizons_all` under each switch, and on every runtime alone and beside all six. |
+| CV5 | Held (CV5). Refused on 38 runtimes, `bare`, `kant` and `marx_social` among them; native at `hobbes`, `spinoza`, `hobbes_wl`, `spinoza_wl`; 8 horizons of 1,024. |
+| DG1 | Held (DG1), exactly: the seven runtimes on the parts predicted, and nothing else; none on `form_of_law`. Read: "before any `add`, `exclude` or `alter` resolving a clash" as the node's own attributes taken away, its parents as resolved; each refusal collected in turn by mentioning the part refused and building again. |
+| DG2 | Held (DG2). Raised at Suárez, Descartes, Hobbes, Spinoza, Locke and Leibniz; not at Grotius, Ockham or Bacon. Against the record (`modernity-sources.md`, the nine): in substance at Suárez ({ends_in_nature, ends_by_god_physics, object_as_form}: the end in nature and its direction by God, as DM 23.10 and 24.2 resolve it), Descartes (forms and ends in nature), Locke (Hooker's ends against Hobbes's, seven parts) and Leibniz (forms; God's ends in nature); in part at Hobbes (nature and the object, where the record names the ethics of ends) and Spinoza (God's ends, human ends, the soul, the object, where it names conatus). The object moves no score. Angers's clash, reported: {ends_in_nature, forms_in_nature, ends_of_human_nature, soul_as_form, object_as_form}, where the record's quarrel with Liège is about the State and the wage. |
+| DG3 | Red in part (DG3). Physics: `ends_by_god_physics` alone, no forms, no intrinsic ends. Ethics: `ends_by_god_ethics`, `ends_desired`, `self_preservation`; no `ends_of_human_nature`, no `object_as_form`. Held. "His own add of ends_by_god_ethics is the one move that separates him from Hobbes" holds in ethics only: Locke's own adds are two, and `ends_by_god_physics` separates him from Hobbes as well (Hobbes's horizon is his less those two). On this case only the ethical one moves a report, since no argument rests on God's ends in nature. The prediction is kept; the test pins the result as a finding (rule 7). |
+| DG4 | Held (DG4), exactly. |
+| DG5 | Held (DG4). Against the nine: `hobbes_wl`'s clash holds `ends_of_human_nature`, the scholastic ethics of ends, so Hobbes moves to "in substance"; Spinoza's ({ends_by_god_ethics, soul_as_form}) stays "in part", and nothing else moves. The two clashes added in revision are raised, `suarez_wl` and `leibniz_wl` each on the ends of human nature (reported). |
+| DG6 | Held (DG6): each will-line node resolves to its twin's horizon, and gives on the case what its twin gives. |
+| DG7 | Held (DG7). |
+| PR1 | Held (MP1). |
+| PR2 | Held (MP2): the middle loses exactly th66; `ockham_nominal` exactly rn7_products, rn7_land, rn9 and th66; nothing fires. |
+| PR3 | Held (MP3): `scotus_will`, `ockham_will`, `descartes_will` and `locke` lose exactly the seven (nine arguments), and the three give what `locke` gives. |
+| PR4 | Held (MP4), every row and column, the Lockean hearing on every runtime. Read: `bare`, which the table leaves out, is CV2's: rn10 under every switch and the hearing, as `kant`. The will line as its twins (DG6). |
+| PR5 | Held (MP5), on every runtime under every switch, `bare` and the will line read as in PR4. |
+| PR6 | Held (MP6): no `contrary_reasoned`, on any runtime or horizon, under any switch or the Lockean hearing. |
+| PR7 | Held (MP7). |
+| PR8 | Held (MP8): neither form moves a report over the 1,024 horizons; every earlier runtime gives what its horizon less the two forms gives; `kant` and `kant_mm` as `hobbes`, `kant_humanity` as `marx`. |
+| VM1 | Held (VM1), `vm_bare` included, under every switch and all six; `guest_without_reason` likewise where `without_reason` fires. |
+| VM2 | Held (VM2). Read: "the guests of human ends without God's" as PH1's group, which holds `kant_humanity` beside the three the parenthesis names; rn22 bridges to `vm_kant_humanity` too. |
+| VM3 | Held (VM3), for all 42. |
+| HE1 | Held (HE1). On every runtime, and over `horizons_all` beside each switch and all six, the Lockean hearing with Fortin's claim gives what the fixture `rn9_in_english` (rn9 read from (efficient, human), (material, nature), (final, self)) gave. So TTC-LINGUAE's RN4, its second half, held: the switch is retired, kept only as the suite's fixture. |
+| HE2 | Held (HE2): Fortin's line removed, `heard_short(here,rn9)` on every runtime, rn9 available on none, every report as committed. |
+| HE3 | Held (HE3), on `default`, in every branch: the Lockean hearing carries exactly (efficient, human), (material, nature) and (final, self), names the two attributions, loses (final, human) and (formal, human) by no carriage and (formal, human) on the seal-word by equivocation where it renders the form and by a gap where it does not; the scholastic as predicted, proportionality on the literal reading and univocity on the metaphor; 2026 by equivocation; the Latin as typed. No report changes under the last three, on any runtime alone or over `horizons_all` beside each switch and all six. |
+| HE4 | Held (HE4), in every branch. |
+| HE5 | Held (HE5). A fit, not a test, as stated. |
+| HE6 | Held (HE6). |
+| HE7 | Held (HE7). |
+| PH1 | Held (PH1): order parameters exactly `ends_by_god_ethics` and `ends_of_human_nature`; four phases of 256; every runtime in its phase; a hearer of 1891 in each. |
+| PH2 | Held (PH2), every bullet: the order parameters, the number of phases, the runtimes placed and the phases with no runtime. |
+| PH3 | Not scored: a commitment on the preregistrations of the cases to come. |
+| SU1 | Held. No part but this step's enters `argument/4`, `argues_from/3`, `reading_of/2` or `measures_as/3` (SU1). Every scenario before the encoding (668) gives the same atoms, in every model, before and after. |
+| SU2 | Held. The boot set is unchanged, the group kept out of it; TTC_SLOW `test_schools`: 15 passed. The TTC-SCHOOLS tables gain the nine parts in every runtime but `bare`, after `default`'s own, and the 33 runtimes; no boot or pair of the nine runtimes before changes. The new runtimes are not booted there: 21 of them (`suarez_dm23` and every node below it) refuse `composition_in_god` on their own (below), which would change every scenario of the boot. Expectations restated, as predicted and stated where they stand (rule 7): the runtimes' table (`test_l`), the default runtime (`test_suite`), the closed sorts (`cause`, `domain`). |
+| SU3 | Held. CL1 and PR4 clean. Each new statement was deleted in turn (48 in `causae.lp`, the four hearing rules and the two of `hearers_tongues` in `icon_history.lp`, the two choices of `horizons_all`; a part's facts are data) against the group, CL1 and PR4, and each turned a test red; then each body literal of each new rule of `causae.lp` alone, where the rule stayed safe (54 of 87). Closed on the way: the guest's arguments (`guest_available_as/2`, VM1); who hears in what under the hearers' tongues (HE5, the bishops' Latin changing no report); no guest without a part `vm_R` (VM3); TTC-LINGUAE's named hearers, for whom the library computes nothing (SU4); a premise kept only where every form carries it, and a bridge named only through the renderings of the argument's own forms, by the hearer's words, where the rendering is analogical (HE3, MM2); nothing lost by horizon where nothing is heard (HE4); an argument idle in the host, not sole there (MM5). Removed as idle: four literals implied by the others (`short/2` in `claimed/2`, `reading_rec/2` and `reheard/2` in `needs/4`, `V2 != V` in `contrary_reasoned`). None survives. |
+| SU4 | Held (SU4): TTC-LINGUAE's 44 scenarios among the 668, RN1-RN6 included, give the same atoms; its named hearers get nothing from the library, and their `lost_by_horizon` stays as entered. |
+| EX1 | Reported (EX1): without `descartes <- suarez_dm23`, `hobbes <- ockham` and `locke <- hobbes` the DAG still builds, and every node keeps its horizon: nothing on the case changes. The three edges are contested for what passes through them of the schools, not of the causes this case reads. |
+
+### Readings
+
+- **`here` and `guest`.** A hearing part declares its hearing for the VM's
+  guest where a `vm_R` is loaded, and otherwise for the run's own horizon
+  (`hearer/1`): so the host hears as typed in the VM (HE6), and a run with
+  no VM hears as its part says (HE1). `hearers_tongues` declares for `here`
+  alone, from the node's figure part (`figure/1`; `george`, which
+  `george_hn` inherits, and `episcopate_1891`).
+- **The heard typing.** For a hearer, an argument on forms keeps the
+  premises on no form as typed, a premise on forms he hears in their own
+  tongue as typed, and what his hearing carries where every form it rests
+  on carries it. It replaces only the argument's own reading; a further
+  reading rests on no form and is heard as typed. An argument on forms in
+  none of whose texts' tongues he hears does not reach him (MM2).
+- **Idle.** `guest_sole_reason/4` asks A available in the host beside
+  another of S's arguments for V, as the design's "another ... besides A,
+  so A is idle there".
+- **`without_reason/2`** counts every argument entered for the value,
+  whatever its source's force.
+- **`lost_by_horizon/3`, computed,** ranges over the argument's typing, for
+  `here` and `guest`; the entered `horizon_lacks/3` stands for TTC-LINGUAE's
+  named hearers. `heard_by_analogy/4` names only a premise kept.
+- **The library's table** `cause_domain/1` is a slot (a fact a rule reads,
+  as `char_points/2`); `holds_cause/2` and `guest_holds/2` are results,
+  derived by the library for the efficient and the material cause, so a case
+  that writes them is refused at the gate: set by a part, never by a case.
+- **"Excl. every part but …"** (Hobbes, Spinoza, Kant) is read as the cause
+  parts each inherits; `form_of_law`, which none of Hobbes's parents holds,
+  is not excluded there.
+- **The source** is `rn_1891`, as the predictions name it; `linguae_rn9`'s
+  texts name the act `rn1891`, and no rule joins them.
+- **Fortin's claim** stands in the case; HE2 runs without it by removing its
+  line. The retired switch is kept only as the suite's fixture, a snippet
+  of slots, and is no part.
+- **The marks.** A contested edge is marked by an L comment under its node,
+  `-- contested edge: child <- parent`, read by EX1 and MM3; the will line's
+  twins of the record's contested edges are marked too, and the hearers'
+  edges with no documented reading as `undocumented`.
+- **`horizons_all`** is loaded beside `rt_bare` and default's other parts
+  (`classical`, `one_power`, `word_of_no_tongue`), so that only the horizon
+  varies.
+- **The runs.** Every runtime is run on the case alone and beside all six
+  switches; each switch alone is read off `horizons_all`, and MM4 checks
+  that every runtime gives what its horizon gives (alone, beside all six,
+  and under the Lockean hearing). A VM is run for one guest of each horizon:
+  two parts `vm_R` of one horizon differ only in `vm_guest`'s constant, and
+  VM3 checks each guest's horizon against its runtime's. A run's reports are
+  read by a projected solve, one model per distinct report.
+
+### Not predicted
+
+- **The modernities inherit the schools' metaphysics.** `suarez_dm23`
+  extends `suarezian` (the Thomist simplicity) and `scotus_dpp`, which
+  extends `scotist` (the formal distinction of the attributes): it refuses
+  `composition_in_god` on its own, and so do the twenty runtimes below it
+  (Descartes, Hobbes, Spinoza, Grotius, Locke, Leibniz, Kant and their
+  readings, the will line from Suárez, Smith, Angers, George). Nothing in
+  the case reads it, and no earlier runtime changes. Which of a school's
+  parts a modernity keeps is left to be read, node by node (the roadmap).
+- **The word on `bare` and `saussure`.** Neither holds `word_of_no_tongue`,
+  so every English hearing there also loses (material, nature), by
+  equivocation. No report changes: it is held by the library everywhere.

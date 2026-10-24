@@ -4318,6 +4318,1091 @@ scen("RF2", RF, "A question with no source and no claim stays on the theological
      "practice: neither")
 
 
+# ---------- The four causes: modernities as runtimes (TTC-MODERNITY) ---------
+# Predictions committed and stamped first: docs/research/modernity-preregistration.md.
+# The suite names PR1-PR8 MP1-MP8 (PR is the pair's), and MM pins the
+# library's mechanics. A run's reports are read by a projected solve
+# (mod_project): the base's own #show statements set aside, only the atoms
+# asked for shown, one model per distinct projection. So a run of 2,048
+# branches, or the 1,024 horizons of horizons_all, is read in one solve.
+
+MOD = "modernity"
+MPC = ["modernity_property"]
+RN9C = MPC + ["linguae_rn9"]
+SW6 = ("rn7_from_form", "rn7_from_self", "rn7_under_providence", "rn13_as_command", "rn8_from_sustenance",
+       "rn22_as_stewardship")
+CONFIGS = ((),) + tuple((s,) for s in SW6)
+HEAR_LOCKE = "hear_en_1891_locke"
+# The retired switch (TTC-LINGUAE RN4), kept only as a fixture: rn9 heard in the English of 1891 under Locke.
+RN9_IN_ENGLISH = ("reading_of(rn9_in_english,rn9). argues_from(rn9_in_english,efficient,human). "
+                  "argues_from(rn9_in_english,material,nature). argues_from(rn9_in_english,final,self).")
+FORTIN = "concludes_heard(rn9,lex_en_locke_1891,fortin_1992)."
+CAUSE_PARTS = {"ends_in_nature": ("final", "nature"), "forms_in_nature": ("formal", "nature"),
+               "ends_by_god_physics": ("final", "god_physics"), "ends_by_god_ethics": ("final", "god_ethics"),
+               "ends_of_human_nature": ("final", "human"), "soul_as_form": ("formal", "human"),
+               "ends_desired": ("final", "will"), "self_preservation": ("final", "self"),
+               "object_as_form": ("formal", "will"), "form_of_law": ("formal", "reason")}
+PHYSICS = {"ends_in_nature", "forms_in_nature", "ends_by_god_physics"}
+REPORT_TERMS = ("info(without_reason(Q,V))", "info(sole_reason(S,A,Q,V))", "info(contrary_reasoned(Q,V,W))")
+GUEST_TERMS = ("info(guest_without_reason(Q,V))", "info(guest_sole_reason(S,A,Q,V))")
+# The runtimes, by the groups the predictions name (PR1, PR7, PH1).
+SCHOOL_RTS = ("thomist", "scotist", "suarezian", "palamite")
+MIDDLE = ("scotus_dpp", "ockham", "suarez_dm23", "grotius", "bacon", "descartes")
+RECORD = ("scotus_dpp", "ockham", "suarez_dm23", "bacon", "descartes", "hobbes", "spinoza", "hooker", "grotius",
+          "locke", "leibniz", "kant")
+READINGS = ("scotus_will", "ockham_will", "ockham_nominal", "descartes_will", "grotius_etiamsi", "kant_humanity",
+            "kant_mm")
+WILL_LINE = {"suarez_wl": "suarez_dm23", "hobbes_wl": "hobbes", "spinoza_wl": "spinoza", "locke_wl": "locke",
+             "leibniz_wl": "leibniz"}
+HEARERS = ("episcopate_1891", "social_catholic", "smith", "angers", "george", "george_hn", "marx", "marx_social",
+           "lassalle")
+WILL_READINGS = ("scotus_will", "ockham_will", "descartes_will")
+THOMIST_GROUP = SCHOOL_RTS + ("default", "saussure", "vocal", "lingual", "hooker", "leibniz", "leibniz_wl") + MIDDLE \
+    + ("ockham_nominal", "suarez_wl", "episcopate_1891", "social_catholic", "angers", "george_hn")
+LOCKE_LIKE = ("locke", "locke_wl", "smith", "george")
+LOCKE_GROUP = LOCKE_LIKE + WILL_READINGS
+HOBBES_LIKE = ("hobbes", "spinoza", "hobbes_wl", "spinoza_wl", "marx_social", "kant_mm")
+HOBBES_GROUP = HOBBES_LIKE + ("kant", "bare")
+HUMAN_ENDS = ("marx", "lassalle", "grotius_etiamsi", "kant_humanity")
+POSITIVE = tuple(f"{s}_{q}" for s in ("suarez_dl", "grotius_dibp", "hobbes_l24") for q in ("products", "land"))
+
+_SHOW_STMT = re.compile(r"#show\s+[^.]*\.")
+_MOD_CACHE: dict = {}
+
+
+def mod_project(parts, shows, facts=""):
+    """The distinct projections of a run onto `shows` (terms such as info(sole_reason(S,A,Q,V)), shown where
+    derived, or name/arity), as a frozenset of frozensets: one where every branch gives the same."""
+    import hashlib
+
+    import clingo
+    texts = E.base_texts()
+    extra = E._ADD.get()
+    key = (hashlib.sha256("\0".join(list(texts.values()) + [extra]).encode()).hexdigest(), tuple(parts),
+           tuple(shows), facts)
+    if key not in _MOD_CACHE:
+        unknown = [p for p in parts if p not in E.known_parts() and not E.is_runtime(p)]
+        if unknown:
+            raise E.SnippetError(f"unknown part(s): {', '.join(unknown)}", "parts", "parts")
+        E.check_snippet(facts)
+        E.conclusion_gate(facts)
+        ctl = clingo.Control(["0", "--project"], logger=lambda code, msg: None)
+        for t in list(texts.values()) + ([extra] if extra else []):
+            ctl.add("base", [], _SHOW_STMT.sub("", t))
+        ctl.add("base", [], " ".join(["#show."] + [f"#show {s} : {s}." if "(" in s else f"#show {s}." for s in shows]))
+        if facts:
+            ctl.add("user", [], facts)
+        ctl.ground([("base", [])] + [(p, []) for p in E.expand_runtimes(parts)] + ([("user", [])] if facts else []))
+        out = set()
+        ctl.solve(on_model=lambda m: out.add(frozenset(str(s) for s in m.symbols(shown=True))))
+        if len(_MOD_CACHE) > 20000:
+            _MOD_CACHE.clear()
+        _MOD_CACHE[key] = frozenset(out)
+    return _MOD_CACHE[key]
+
+
+AUTH_SHOWS = ("holds/2", "branch/1", "cleaved_by/1", "reintegrates_if_relaxed/1", "weight/2", "verdict/2", "info/1")
+# One projection per kind of run, so that the checks share their solves: a run of the case (its authority, its
+# notes and reports, what is available), a hearing (what crosses, the reports, the lexicons' branches), a VM.
+COMMITTED_SHOWS = AUTH_SHOWS + ("available_as/2",)
+HEARING_SHOWS = REPORT_TERMS + ("info(heard_short(G,A))", "info(heard_by_analogy(G,A,P,K))",
+                                "info(lost_by_horizon(here,A,P))", "info(lost_for(here,A,P,W))",
+                                "info(carried_for(here,A,P))", "info(mode_for(here,F2,F1,M))", "available_as/2",
+                                "assumed_fact/1")
+VM_SHOWS = REPORT_TERMS + GUEST_TERMS + ("info(heard_by_analogy(G,A,P,K))", "info(lost_by_horizon(G,A,P))",
+                                         "info(lost_for(G,A,P,W))", "available_as/2", "guest_available_as/2",
+                                         "assumed_fact/1")
+REPORT_PREFIX = ("info(without_reason(", "info(sole_reason(", "info(contrary_reasoned(")
+GUEST_PREFIX = ("info(guest_without_reason(", "info(guest_sole_reason(")
+
+
+def mod_run(parts, facts=""):
+    """a run's projection, by its kind: a VM where a part vm_R is loaded, a hearing where linguae_rn9 is, or else
+    the case's committed run"""
+    parts = list(parts)
+    shows = (VM_SHOWS if any(p.startswith("vm_") for p in parts) else
+             HEARING_SHOWS if "linguae_rn9" in parts else COMMITTED_SHOWS)
+    return mod_project(parts, shows, facts)
+
+
+def mod_reports(parts, facts="", prefix=REPORT_PREFIX):
+    """the reports of a run (the guest's with prefix=GUEST_PREFIX), a frozenset over its branches"""
+    return frozenset(frozenset(a for a in m if a.startswith(prefix)) for m in mod_run(parts, facts))
+
+
+def mod_available(parts, facts=""):
+    """the arguments available in every branch of a run"""
+    sets = [{E.split_args(a)[1][0] for a in m if a.startswith("available_as(")} for m in mod_run(parts, facts)]
+    return set.intersection(*sets) if sets else set()
+
+
+def horizon(rt):
+    """the cause parts a runtime holds"""
+    return frozenset(p for p in E.RUNTIMES[rt] if p in CAUSE_PARTS)
+
+
+# Every runtime is run on the case alone and beside all six switches (RUN_CONFIGS); each switch alone is read off
+# horizons_all, every horizon at once, and MM4 checks that each runtime gives on the case what its horizon gives
+# there. A VM is run for one guest of each horizon: two parts vm_R of one horizon differ only in vm_guest's name,
+# which no rule reads but for there being a guest, and VM3 checks that each guest has its runtime's horizon.
+RUN_CONFIGS = ((), SW6)
+
+
+def rt_report(rt, sw=()):
+    """a runtime's reports on the case: its own run alone or beside all six, else its horizon's over horizons_all"""
+    sw = tuple(sw)
+    return mod_reports(_rt(rt, *sw)) if sw in RUN_CONFIGS else phase_map(MPC + list(sw))[horizon(rt)]
+
+
+def guest_of(rt):
+    """the part vm_R for the first runtime of rt's horizon"""
+    return "vm_" + next(r for r in E.RUNTIMES if horizon(r) == horizon(rt))
+
+
+def _rt(rt, *parts):
+    return MPC + [f"rt_{rt}"] + list(parts)
+
+
+def _sole(a, q, v="natural"):
+    return f"info(sole_reason(rn_1891,{a},q({q}),{v}))"
+
+
+def _without(q, v):
+    return f"info(without_reason(q({q}),{v}))"
+
+
+RN10 = {_sole("rn10_products", "property_in_products"), _sole("rn10_land", "property_in_land")}
+
+
+def mp_expected(rt, sw=None, hearing=None):
+    """the reports PR4, PR5 and PR6 predict for a runtime under one switch or none, and the Lockean hearing (with
+    Fortin's claim); bare as CV2, the will line as its twin (DG6)"""
+    out = set()
+    if rt in HOBBES_LIKE + LOCKE_GROUP + ("kant", "bare"):
+        rn10 = set(RN10)
+        if rt in ("kant", "bare"):
+            pass
+        elif sw == "rn7_from_self":
+            rn10 = set()
+        elif rt in LOCKE_GROUP and sw in ("rn7_under_providence", "rn13_as_command"):
+            rn10 = set()
+        elif rt in WILL_READINGS and sw == "rn7_from_form":
+            rn10 = set()
+        elif hearing == HEAR_LOCKE:
+            rn10 = {_sole("rn10_products", "property_in_products")}
+        out |= rn10
+    if rt in ("kant", "bare") or (rt in HOBBES_LIKE and sw != "rn8_from_sustenance"):
+        out.add(_without("use_common", "yes"))
+    if (rt in LOCKE_GROUP and sw != "rn22_as_stewardship") or (rt in HOBBES_LIKE and sw == "rn8_from_sustenance"):
+        out.add(_sole("rn8", "use_common", "yes"))
+    if (rt in ("marx", "lassalle", "grotius_etiamsi") and sw != "rn8_from_sustenance") or rt == "kant_humanity":
+        out.add(_sole("rn22", "use_common", "yes"))
+    if "ends_of_human_nature" not in E.RUNTIMES[rt]:
+        out.add(_without("ip_absolute", "no"))
+    return frozenset({frozenset(out)})
+
+
+def _mod(test):
+    """a check from a function returning the failures: none where the prediction holds"""
+    def chk(_r):
+        bad = list(test())
+        more = f" (and {len(bad) - 4} more)" if len(bad) > 4 else ""
+        return not bad, "as predicted" if not bad else "; ".join(str(b) for b in bad[:4]) + more
+    return chk
+
+
+def _sw(sw):
+    return list(sw) if isinstance(sw, tuple) else [sw]
+
+
+# ---------- CV: the library ----------
+CAUSAE_INFO = ("info(without_reason(", "info(sole_reason(", "info(contrary_reasoned(", "info(guest_", "info(heard_",
+               "info(lost_by_horizon(", "info(conversion_native(")
+
+
+def _authority(rt, sw=()):
+    """the case's authority on a runtime: each branch's values, status, cleaving, weights, verdicts and notes, the
+    library's reports and the runtime's own notes (given without the case: palamite's manifested_through) aside"""
+    own = set().union(*mod_project([f"rt_{rt}"], ("info/1",)))
+    return frozenset(frozenset(a for a in m if not a.startswith(CAUSAE_INFO + ("available_as(",)) and a not in own)
+                     for m in mod_run(_rt(rt, *sw)))
+
+
+def cv1():
+    r = solve(MPC, "branches")
+    want = {"q(property_in_products)=natural": "settled", "q(property_in_products)=positive_addition": "shadow",
+            "q(property_in_land)=natural": "settled", "q(property_in_land)=positive_addition": "shadow",
+            "q(use_common)=yes": "settled", "q(ip_absolute)=no": "settled"}
+    got = {qv: classify(r, qv) for qv in want}
+    if got != want:
+        yield got
+    ref = _authority("default")
+    for rt, sw in [(rt, sw) for rt in E.RUNTIMES for sw in RUN_CONFIGS] + [("default", (s,)) for s in SW6]:
+        if _authority(rt, sw) != ref:
+            yield (rt, sw)
+
+
+UNTYPED = "argument(x_untyped,x_src,q(x_q),x_v)."
+
+
+def cv2():
+    want = {"rn10_products", "rn10_land"} | set(POSITIVE)
+    for sw in CONFIGS:
+        got = mod_available(_rt("bare", *sw))
+        if got != want:
+            yield ("available", sw, sorted(got ^ want))
+        if mod_reports(_rt("bare", *sw)) != mp_expected("bare", sw[0] if sw else None):
+            yield ("reports", sw)
+    for rt in E.RUNTIMES:
+        if "x_untyped" not in mod_available([f"rt_{rt}"], UNTYPED):
+            yield ("untyped", rt)
+
+
+def available_map(parts):
+    """each horizon of horizons_all -> the arguments available in every branch"""
+    pairs = {f"holds_cause({c},{d})": p for p, (c, d) in CAUSE_PARTS.items()}
+    out: dict = {}
+    for m in mod_project(phase_base() + list(parts), ("available_as/2", "holds_cause/2")):
+        h = frozenset(pairs[a] for a in m if a in pairs)
+        got = {E.split_args(a)[1][0] for a in m if a.startswith("available_as(")}
+        out[h] = out[h] & got if h in out else got
+    return out
+
+
+def cv4():
+    base = available_map(MPC)
+    for s in SW6:
+        now = available_map(MPC + [s])
+        lost = [h for h in base if base[h] - now[h]]
+        if lost:
+            yield (s, len(lost))
+    for rt in E.RUNTIMES:
+        for sw in RUN_CONFIGS:
+            if mod_available(_rt(rt, *sw)) != available_map(MPC + list(sw))[horizon(rt)]:
+                yield (rt, sw, "not its horizon's")
+
+
+MEASURE = ("violation(cause_converted(M,C,D))", "info(conversion_native(M))")
+PHASE_BASE = ["horizons_all", "rt_bare"]
+
+
+def phase_base():
+    """horizons_all beside default's other parts: only the horizon varies"""
+    return PHASE_BASE + [p for p in E.RUNTIMES["default"] if p not in CAUSE_PARTS]
+
+
+def cv5():
+    native = {"hobbes", "spinoza", "hobbes_wl", "spinoza_wl"}
+    for rt in E.RUNTIMES:
+        want = ({"info(conversion_native(adams_1907))"} if rt in native
+                else {"violation(cause_converted(adams_1907,final,efficient))"})
+        if mod_project(["modernity_measure", f"rt_{rt}"], MEASURE) != frozenset({frozenset(want)}):
+            yield rt
+    ms = mod_project(phase_base() + ["modernity_measure"], MEASURE + ("holds_cause/2",))
+    n = sum("info(conversion_native(adams_1907))" in m for m in ms)
+    if len(ms) != 1024 or n * 128 != 1024:
+        yield f"native in {n} of {len(ms)} horizons"
+
+
+scen("CV1", MOD, "Authority reads no argument (CV1)", MPC, [_mod(cv1)],
+     "products and land natural, settled, the positive addition a shadow; use common yes, IP absolute no, settled; "
+     "no holds/2, cleaving, note or obligation differs between runtimes or switches")
+scen("CV2", MOD, "On bare only the efficient and the material (CV2)", MPC, [_mod(cv2)],
+     "an argument typed by nothing available on every runtime; on bare rn10_products, rn10_land and the six for "
+     "the positive addition; use common and IP absolute without reason, rn10 sole, under every switch")
+scen("CV3", MOD, "A typing outside the sorts (CV3)", MPC,
+     [shown([], ("violation/1",), "violation(outside_domain(argues_from,2,teleology))",
+            "violation(outside_domain(argues_from,3,cosmos))", "violation(outside_domain(measures_as,2,impetus))",
+            "violation(outside_domain(measures_as,3,impetus))",
+            facts="argues_from(x_cv3,teleology,human). argues_from(x_cv3,final,cosmos). "
+                  "measures_as(m_cv3,impetus,final). measures_as(m_cv3,final,impetus).")],
+     "outside_domain, as L gives for every slot")
+scen("CV4", MOD, "A further reading never removes availability (CV4)", MPC, [_mod(cv4)],
+     "with a switch loaded, every argument available without it stays available, on every runtime")
+scen("CV5", MOD, "An end measured as a force (CV5)", ["modernity_measure"], [_mod(cv5)],
+     "cause_converted refused on every runtime, bare included, save hobbes, spinoza, hobbes_wl and spinoza_wl, "
+     "where conversion_native fires; one horizon in 128 native")
+
+
+# ---------- DG: the DAG ----------
+_L_OTHERS: dict = {}
+
+
+def _runtime_text_without_ops(text, name):
+    """schools.l with the runtime's own add, exclude and alter taken away"""
+    out, inside = [], False
+    for line in text.split("\n"):
+        if line.startswith("runtime "):
+            inside = line.split()[1] == name
+        elif inside and line.startswith("  ") and line.split()[0] in ("add", "exclude", "alter"):
+            continue
+        elif line and not line.startswith(" "):
+            inside = False
+        out.append(line)
+    return "\n".join(out)
+
+
+def clash_set(name, text=None):
+    """the parts on which a runtime's parents clash, its own add, exclude and alter taken away: ttc-l build's
+    refusals of it, collected one by one (each found is then mentioned, so that the next is reached)"""
+    from . import lang
+    if not _L_OTHERS:
+        _L_OTHERS.update({k: v for k, v in lang.sources().items() if k != "schools.lp"})
+    text = _runtime_text_without_ops(text if text is not None else (lang.L_DIR / "schools.l").read_text(), name)
+    found = []
+    while True:
+        srcs = dict(_L_OTHERS, **{"schools.lp": lang.parse(text, "schools.l")})
+        try:
+            lang.compile_runtimes(srcs)
+            return found
+        except lang.LError as exc:
+            m = re.search(rf"runtime {name}: its parents \w+ and \w+ clash on (\w+)", str(exc))
+            if not m:
+                return found
+            found.append(m.group(1))
+            text = re.sub(rf"(?m)^(runtime {name}( extends [^\n]*)?)$", rf"\1\n  add {m.group(1)}", text, count=1)
+
+
+DG1_WANT = {
+    "suarez_dm23": {"ends_in_nature", "ends_by_god_physics", "object_as_form"},
+    "descartes": {"ends_in_nature", "forms_in_nature"},
+    "hobbes": {"ends_in_nature", "forms_in_nature", "ends_by_god_physics", "object_as_form"},
+    "spinoza": {"ends_by_god_ethics", "ends_of_human_nature", "soul_as_form", "object_as_form"},
+    "locke": {"ends_in_nature", "forms_in_nature", "ends_by_god_physics", "ends_by_god_ethics", "ends_of_human_nature",
+              "soul_as_form", "object_as_form"},
+    "leibniz": {"forms_in_nature", "ends_by_god_physics"},
+    "angers": {"ends_in_nature", "forms_in_nature", "ends_of_human_nature", "soul_as_form", "object_as_form"},
+}
+DG4_WANT = {
+    "suarez_wl": {"ends_in_nature", "ends_by_god_physics", "ends_of_human_nature", "object_as_form"},
+    "hobbes_wl": {"ends_in_nature", "forms_in_nature", "ends_by_god_physics", "ends_of_human_nature", "object_as_form"},
+    "spinoza_wl": {"ends_by_god_ethics", "soul_as_form"},
+    "locke_wl": DG1_WANT["locke"],
+    "leibniz_wl": {"forms_in_nature", "ends_by_god_physics", "ends_of_human_nature", "object_as_form"},
+}
+
+
+def dg_clashes(names, want):
+    def test():
+        for n in names:
+            got = set(clash_set(n))
+            if got != want.get(n, set()):
+                yield (n, sorted(got ^ want.get(n, set())))
+    return test
+
+
+def dg2():
+    raised = {n for n in RECORD if clash_set(n)}
+    if raised != {"suarez_dm23", "descartes", "hobbes", "spinoza", "locke", "leibniz"}:
+        yield sorted(raised)
+    if not clash_set("angers"):
+        yield "angers raises none"
+
+
+def dg3():
+    lk, hb = horizon("locke"), horizon("hobbes")
+    if lk & PHYSICS != {"ends_by_god_physics"}:
+        yield ("physics", sorted(lk & PHYSICS))
+    if lk - PHYSICS != {"ends_by_god_ethics", "ends_desired", "self_preservation"}:
+        yield ("ethics", sorted(lk - PHYSICS))
+    # Found (scored red in part): two adds separate him from Hobbes, God's ends in nature as well as in ethics.
+    if (lk - hb, hb - lk) != ({"ends_by_god_physics", "ends_by_god_ethics"}, set()):
+        yield ("from hobbes", sorted(lk ^ hb))
+    if (lk - PHYSICS) - (hb - PHYSICS) != {"ends_by_god_ethics"}:
+        yield ("ethics from hobbes", sorted((lk - PHYSICS) ^ (hb - PHYSICS)))
+
+
+def dg6():
+    for wl, twin in WILL_LINE.items():
+        if horizon(wl) != horizon(twin):
+            yield (wl, sorted(horizon(wl) ^ horizon(twin)))
+        for sw in RUN_CONFIGS:
+            if mod_reports(_rt(wl, *sw)) != mod_reports(_rt(twin, *sw)):
+                yield (wl, sw)
+
+
+def dg7():
+    kt, hb, lz = horizon("kant"), horizon("hobbes"), horizon("leibniz")
+    if kt ^ hb != {"self_preservation", "form_of_law"}:
+        yield ("from hobbes", sorted(kt ^ hb))
+    if len(lz) != 9 or kt & lz != {"ends_desired"}:
+        yield ("from leibniz", sorted(kt & lz))
+    holders = {r for r in RECORD if "form_of_law" in horizon(r)}
+    if holders != {"kant"}:
+        yield ("form_of_law", sorted(holders))
+
+
+NOT_WILL_LINE = [r for r in E.RUNTIMES if r not in WILL_LINE]
+scen("DG1", MOD, "The DAG's clashes, before they are resolved (DG1)", MPC,
+     [_mod(dg_clashes(NOT_WILL_LINE, DG1_WANT))],
+     "ttc-l build refuses suarez_dm23, descartes, hobbes, spinoza, locke, leibniz and angers on the parts "
+     "predicted, and nothing else; none on form_of_law")
+scen("DG2", MOD, "The clashes against the record's nine (DG2)", MPC, [_mod(dg2)],
+     "raised at Suarez, Descartes, Hobbes, Spinoza, Locke and Leibniz; not at Grotius, Ockham or Bacon; Angers "
+     "raises its own")
+scen("DG3", MOD, "Locke's two horizons (DG3)", MPC, [_mod(dg3)],
+     "physics without forms or intrinsic ends; ethics with God's ends and self-preservation, without human ends "
+     "or the object; in ethics the add of ends_by_god_ethics alone separates him from Hobbes (found: in the whole "
+     "horizon the add of ends_by_god_physics too)")
+scen("DG4", MOD, "The will line's clashes (DG4)", MPC, [_mod(dg_clashes(sorted(WILL_LINE), DG4_WANT))],
+     "ttc-l build refuses suarez_wl, hobbes_wl, spinoza_wl, locke_wl and leibniz_wl on the parts predicted")
+scen("DG6", MOD, "The readings move the decisions, not the later horizons (DG6)", MPC, [_mod(dg6)],
+     "each node of the will line resolves to its twin's horizon, and gives on the case what its twin gives")
+scen("DG7", MOD, "Kant against Hobbes and Leibniz (DG7)", MPC, [_mod(dg7)],
+     "Kant and Hobbes differ on self-preservation and the form of the law only; of Leibniz's nine Kant keeps "
+     "ends_desired; no other node of the record holds form_of_law")
+
+
+# ---------- MP: the case on each runtime (PR1-PR8) ----------
+def mp_table(rts, configs=CONFIGS, hearing=None):
+    def test():
+        for rt in rts:
+            for sw in configs:
+                got = mod_reports(RN9C + [f"rt_{rt}", hearing] + list(sw)) if hearing else rt_report(rt, sw)
+                want = mp_expected(rt, sw[0] if sw else None, hearing)
+                if got != want:
+                    yield (rt, sw, sorted(set().union(*got) ^ set().union(*want)))
+    return test
+
+
+def mp_lost(rts, lost):
+    def test():
+        everything = mod_available(_rt("thomist"))
+        for rt in rts:
+            got = everything - mod_available(_rt(rt))
+            if got != set(lost):
+                yield (rt, sorted(got ^ set(lost)))
+    return test
+
+
+def mp3():
+    yield from mp_lost(WILL_READINGS + ("locke",), ["rn7_products", "rn7_land", "rn9", "rn13_products",
+                                                    "rn13_land", "rn22", "th57", "th66", "civ22"])()
+    for rt in WILL_READINGS:
+        if mod_reports(_rt(rt)) != mod_reports(_rt("locke")):
+            yield (rt, "not as locke")
+
+
+def mp6():
+    for sw in CONFIGS + (SW6,):
+        for parts in (MPC + list(sw), RN9C + [HEAR_LOCKE] + list(sw)):
+            hit = {a for r in phase_map(parts).values() for m in r for a in m if "contrary_reasoned" in a}
+            if hit:
+                yield (parts, sorted(hit)[:2])
+    for rt in E.RUNTIMES:
+        for parts in [_rt(rt, *sw) for sw in RUN_CONFIGS] + [RN9C + [f"rt_{rt}", HEAR_LOCKE]]:
+            hit = [a for m in mod_reports(parts) for a in m if "contrary_reasoned" in a]
+            if hit:
+                yield (parts, hit)
+
+
+def mp7():
+    for hearers, of in ((("episcopate_1891", "social_catholic", "angers"), "thomist"), (("smith", "george"), "locke"),
+                        (("marx", "lassalle"), "marx"), (("marx_social",), "hobbes")):
+        for h in hearers:
+            if mod_reports(_rt(h)) != mod_reports(_rt(of)):
+                yield (h, of)
+
+
+def mp8():
+    pm = phase_map(MPC)
+    forms = {"object_as_form", "form_of_law"}
+    if any(pm[h] != pm[h - forms] for h in pm):
+        yield "a form moves a report"
+    for rt in E.RUNTIMES:
+        if rt in ("kant", "kant_humanity", "kant_mm"):
+            continue
+        if mod_reports(_rt(rt)) != pm[horizon(rt) - forms]:
+            yield (rt, "differs from its horizon without the forms")
+    for rt, like in (("kant", "hobbes"), ("kant_mm", "hobbes"), ("kant_humanity", "marx")):
+        if mod_reports(_rt(rt)) != mod_reports(_rt(like)):
+            yield (rt, like)
+
+
+scen("MP1", MOD, "The Thomist group (PR1)", MPC, [_mod(mp_table(THOMIST_GROUP))],
+     "no without_reason and no sole_reason, under every switch")
+scen("MP2", MOD, "The record's middle (PR2)", MPC,
+     [_mod(mp_lost(MIDDLE, ["th66"])), _mod(mp_lost(("ockham_nominal",), ["rn7_products", "rn7_land", "rn9", "th66"])),
+      _mod(mp_table(MIDDLE + ("ockham_nominal",)))],
+     "th66 lost, nothing fires; ockham_nominal loses rn7, rn9 and th66, and nothing fires")
+scen("MP3", MOD, "The will readings, before Hobbes (PR3)", MPC, [_mod(mp3)],
+     "scotus_will, ockham_will and descartes_will lose rn7, rn9, rn13, rn22, th57, th66 and civ22, and give "
+     "exactly what locke gives")
+scen("MP4", MOD, "RN's sole reasons on property (PR4)", MPC,
+     [_mod(mp_table(HOBBES_GROUP + LOCKE_GROUP)), _mod(mp_table(E.RUNTIMES, ((),), HEAR_LOCKE))],
+     "rn10 at Hobbes's and Locke's groups as committed; rn10_products only under the Lockean hearing; none under "
+     "rn7_from_self, and at Locke's under rn7_under_providence and rn13_as_command, and at the will readings "
+     "under rn7_from_form; kant and bare rn10 throughout")
+scen("MP5", MOD, "The common destination and IP (PR5)", MPC, [_mod(mp_table(E.RUNTIMES))],
+     "use common without reason at Hobbes's group but under rn8_from_sustenance, at kant always; rn8 sole at "
+     "Locke's but under rn22_as_stewardship; rn22 at marx, lassalle, grotius_etiamsi, and kant_humanity; IP "
+     "without reason wherever the ends of human nature are traced")
+scen("MP6", MOD, "No contrary reasoned (PR6)", MPC, [_mod(mp6)],
+     "contrary_reasoned nowhere, under every switch and the Lockean hearing")
+scen("MP7", MOD, "Leo's hearers (PR7)", MPC, [_mod(mp7)],
+     "the Catholics in the Thomist group; Smith and George in Locke's; Marx and Lassalle in the group of human ends "
+     "without God's; marx_social in Hobbes's")
+scen("MP8", MOD, "The two forms idle (PR8)", MPC, [_mod(mp8)],
+     "no report depends on object_as_form or form_of_law; kant and kant_mm in Hobbes's group, kant_humanity in "
+     "the group of human ends without God's")
+
+
+# ---------- VM: the bridge ----------
+def _as_guest(reports):
+    return frozenset(frozenset(a.replace("info(sole_reason(", "info(guest_sole_reason(")
+                               .replace("info(without_reason(", "info(guest_without_reason(")
+                               for a in m if "contrary_reasoned" not in a) for m in reports)
+
+
+def vm1(hearing=None):
+    def test():
+        extra = ["linguae_rn9", hearing] if hearing else []
+        for rt in E.RUNTIMES:
+            for sw in (CONFIGS + (SW6,) if hearing is None else ((),)):
+                guest = mod_reports(MPC + extra + ["rt_thomist", guest_of(rt)] + list(sw), prefix=GUEST_PREFIX)
+                own = mod_reports(MPC + extra + [f"rt_{rt}"]) if hearing else rt_report(rt, sw)
+                if guest != _as_guest(own):
+                    yield (rt, sw, sorted(set().union(*guest) ^ set().union(*_as_guest(own))))
+                if hearing is None:
+                    runs = mod_run(MPC + ["rt_thomist", guest_of(rt)] + list(sw))
+                    seen = set.intersection(*[{E.split_args(a)[1][0] for a in m if a.startswith("guest_available_as(")}
+                                              for m in runs])
+                    own_av = (mod_available(_rt(rt, *sw)) if sw in RUN_CONFIGS
+                              else available_map(MPC + list(sw))[horizon(rt)])
+                    if seen != own_av:
+                        yield (rt, sw, "the guest follows other arguments", sorted(seen ^ own_av))
+    return test
+
+
+def _guest_sole(rt, hearing=None):
+    extra = ["linguae_rn9", hearing] if hearing else []
+    ms = mod_reports(MPC + extra + ["rt_thomist", guest_of(rt)], prefix=("info(guest_sole_reason(",))
+    return {E.split_args(E.split_args(a)[1][0])[1][1] for m in ms for a in m}
+
+
+def vm2():
+    for rt in E.RUNTIMES:
+        want = set()
+        if rt in HOBBES_GROUP + LOCKE_GROUP:
+            want |= {"rn10_products", "rn10_land"}
+        if rt in LOCKE_GROUP:
+            want.add("rn8")
+        if rt in HUMAN_ENDS:
+            want.add("rn22")
+        if _guest_sole(rt) != want:
+            yield (rt, sorted(_guest_sole(rt) ^ want))
+
+
+def vm3():
+    for rt in E.RUNTIMES:
+        m = set().union(*mod_project([f"rt_{rt}", f"vm_{rt}"], ("holds_cause/2", "guest_holds/2")))
+        own = {a[len("holds_cause("):] for a in m if a.startswith("holds_cause(")}
+        guest = {a[len("guest_holds("):] for a in m if a.startswith("guest_holds(")}
+        if not own or own != guest:
+            yield (rt, sorted(own ^ guest))
+    # no part vm_R, no guest: nothing held, followed or reported for one
+    if set().union(*mod_project(MPC + ["rt_thomist"], ("guest_holds/2", "guest_available_as/2") + GUEST_TERMS)):
+        yield "a guest without a part vm_R"
+
+
+scen("VM1", MOD, "The bridge: idle in the host, sole in the guest (VM1)", MPC, [_mod(vm1())],
+     "host thomist: guest_sole_reason with vm_R exactly where sole_reason fires on R, and guest_without_reason "
+     "where without_reason does, under every switch; the guest follows exactly the arguments available on R")
+scen("VM2", MOD, "What bridges (VM2)", MPC, [_mod(vm2)],
+     "rn10 to the guests of Hobbes's and Locke's groups; rn8 to Locke's; rn22 to the guests of human ends "
+     "without God's")
+scen("VM3", MOD, "A guest's horizon is its runtime's (VM3)", MPC, [_mod(vm3)],
+     "for every runtime R, the guest horizon of vm_R equals R's")
+
+
+# ---------- HE: hearing ----------
+# Per runtime on the case alone; beside each switch and all six over horizons_all, every horizon.
+HEARD_CONFIGS = ((),)
+
+
+def he1():
+    for rt in E.RUNTIMES:
+        for sw in HEARD_CONFIGS:
+            heard = mod_reports(RN9C + [f"rt_{rt}", HEAR_LOCKE] + list(sw))
+            fixture = mod_reports(_rt(rt, *sw), RN9_IN_ENGLISH)
+            if heard != fixture:
+                yield (rt, sw)
+    for sw in CONFIGS + (SW6,):
+        if phase_map(RN9C + [HEAR_LOCKE] + list(sw)) != phase_map(MPC + list(sw), RN9_IN_ENGLISH):
+            yield ("horizons_all", sw)
+
+
+def he2():
+    with E.rule_change(remove=[FORTIN]):
+        for rt in E.RUNTIMES:
+            for m in mod_run(RN9C + [f"rt_{rt}", HEAR_LOCKE]):
+                if "info(heard_short(here,rn9))" not in m or any(a.startswith("available_as(rn9,") for a in m):
+                    yield (rt, "rn9 reaches the hearer")
+            if mod_reports(RN9C + [f"rt_{rt}", HEAR_LOCKE]) != mod_reports(_rt(rt)):
+                yield (rt, "a report changes")
+
+
+IMPRESS = "assumed_fact(renders(rn_en_impress,rn_la_forma))"
+LITERAL_M = "assumed_fact(read_by(rn_la_forma,lex_la_1891))"
+
+
+def _cd(p):
+    return {"fh": "cd(formal,human)", "eh": "cd(efficient,human)", "mn": "cd(material,nature)",
+            "hu": "cd(final,human)", "fs": "cd(final,self)"}[p]
+
+
+def _heard(hearing, rt="default"):
+    return mod_run(RN9C + [f"rt_{rt}", hearing])
+
+
+def _lost(m, who="here"):
+    return {E.split_args(a[5:-1])[1][2] + ":" + E.split_args(a[5:-1])[1][3] for a in m
+            if a.startswith(f"info(lost_for({who},rn9,")}
+
+
+def _analogies(m, who="here"):
+    return {E.split_args(a[5:-1])[1][2] + ":" + E.split_args(a[5:-1])[1][3] for a in m
+            if a.startswith(f"info(heard_by_analogy({who},rn9,")}
+
+
+def he3_locke():
+    for m in _heard(HEAR_LOCKE):
+        carried = {E.split_args(a[5:-1])[1][2] for a in m if a.startswith("info(carried_for(here,rn9,")}
+        if carried != {_cd("eh"), _cd("fs"), _cd("mn")}:
+            yield ("carried", sorted(carried))
+        if _analogies(m) != {f"{_cd('eh')}:attribution", f"{_cd('fs')}:attribution"}:
+            yield ("analogy", sorted(_analogies(m)))
+        if "info(mode_for(here,rn_en_nature,rn_la_natura,univocal))" not in m:
+            yield "nature not univocal"
+        seal = "equivocal" if IMPRESS in m else "gap"
+        if _lost(m) != {f"{_cd('hu')}:no_carry", f"{_cd('fh')}:no_carry", f"{_cd('fh')}:{seal}"}:
+            yield ("lost", sorted(_lost(m)))
+
+
+def he3_schol():
+    for m in _heard("hear_en_1891_schol"):
+        if IMPRESS in m:
+            want = {f"{_cd('fh')}:attribution", f"{_cd('eh')}:attribution"}
+            if LITERAL_M in m:
+                want.add(f"{_cd('fh')}:proportionality")
+            elif "info(mode_for(here,rn_en_impress,rn_la_forma,univocal))" not in m:
+                yield "the metaphor reading not univocal"
+            if _lost(m) or _analogies(m) != want or "info(heard_short(here,rn9))" in m:
+                yield ("rendered", sorted(_lost(m)), sorted(_analogies(m)))
+        elif _lost(m) != {f"{_cd('fh')}:gap"} or "info(heard_short(here,rn9))" not in m or \
+                any(a.startswith("available_as(rn9,") for a in m) or \
+                _analogies(m) != {f"{_cd('eh')}:attribution"}:
+            yield ("gap", sorted(_lost(m)), sorted(_analogies(m)))
+
+
+def he3_2026():
+    for m in _heard("hear_en_2026"):
+        lost = {x for x in _lost(m) if x.endswith(":equivocal")}
+        if lost != {f"{_cd('fh')}:equivocal", f"{_cd('eh')}:equivocal"} or "info(heard_short(here,rn9))" not in m \
+                or any(a.startswith("available_as(rn9,") for a in m):
+            yield sorted(_lost(m))
+
+
+def he3_la():
+    for m in _heard("hear_la_1891"):
+        if _lost(m) or "info(heard_short(here,rn9))" in m or "available_as(rn9,rn9)" not in m:
+            yield sorted(_lost(m))
+
+
+def he3_unchanged():
+    for hearing in ("hear_la_1891", "hear_en_1891_schol", "hear_en_2026"):
+        for rt in E.RUNTIMES:
+            for sw in HEARD_CONFIGS:
+                if mod_reports(RN9C + [f"rt_{rt}", hearing] + list(sw)) != mod_reports(_rt(rt, *sw)):
+                    yield (hearing, rt, sw)
+        for sw in CONFIGS + (SW6,):
+            if phase_map(RN9C + [hearing] + list(sw)) != phase_map(MPC + list(sw)):
+                yield (hearing, "horizons_all", sw)
+
+
+def _by_horizon(m, who="here"):
+    return {E.split_args(a[5:-1])[1][2] for a in m if a.startswith(f"info(lost_by_horizon({who},rn9,")}
+
+
+def he4():
+    two = {_cd("fh"), _cd("hu")}
+    for rt in LOCKE_LIKE + HOBBES_LIKE + WILL_READINGS + ("kant", "bare"):
+        for m in mod_run(RN9C + [f"rt_{rt}", HEAR_LOCKE]):
+            enc = {x.split(":")[0] for x in _lost(m)}
+            hz = _by_horizon(m)
+            want_hz = two | {_cd("fs")} if rt in ("kant", "bare") else {_cd("hu")} if rt in WILL_READINGS else two
+            if hz != want_hz or (rt not in ("kant", "bare") and enc != two):
+                yield (rt, sorted(enc), sorted(hz))
+            if any(a.startswith("info(lost_by_horizon(here,") and not a.startswith("info(lost_by_horizon(here,rn9,")
+                   for a in m):
+                yield (rt, "lost by horizon, an argument not heard")
+        # an argument not heard loses nothing by horizon
+        if any(a.startswith("info(lost_by_horizon(") for m in mod_run(_rt(rt)) for a in m):
+            yield (rt, "lost by horizon with no hearing")
+
+
+def he5():
+    for rt in HEARERS:
+        got = mod_reports(RN9C + [f"rt_{rt}", "hearers_tongues"])
+        if rt == "george":
+            want = frozenset({frozenset({_sole("rn10_products", "property_in_products"), _sole("rn8", "use_common", "yes"),
+                                         _without("ip_absolute", "no")})})
+        else:
+            want = mod_reports(_rt(rt))
+        if got != want:
+            yield rt
+    for rt in ("george_hn", "episcopate_1891"):
+        if mod_reports(RN9C + [f"rt_{rt}", "hearers_tongues"]) != frozenset({frozenset()}):
+            yield (rt, "reports")
+    # who hears in what: George and his reading the English of 1891 by Locke's lexicon, the bishops the Latin
+    want = {"george": "hears_in(here,en_1891,lex_en_locke_1891)", "george_hn": "hears_in(here,en_1891,lex_en_locke_1891)",
+            "episcopate_1891": "hears_in(here,la_1891,lex_la_1891)"}
+    for rt in HEARERS:
+        got = {a for m in mod_project(RN9C + [f"rt_{rt}", "hearers_tongues"], ("hears_in(here,E,C)",)) for a in m}
+        if got != ({want[rt]} if rt in want else set()):
+            yield (rt, sorted(got))
+
+
+def he6():
+    yield from vm1(HEAR_LOCKE)()
+    for rt in E.RUNTIMES:
+        want = set()
+        if rt in LOCKE_GROUP:
+            want = {"rn10_products", "rn8"}
+        elif rt in ("kant", "bare"):
+            want = {"rn10_products", "rn10_land"}
+        elif rt in HOBBES_LIKE:
+            want = {"rn10_products"}
+        elif rt in HUMAN_ENDS:
+            want = {"rn22"}
+        if _guest_sole(rt, HEAR_LOCKE) != want:
+            yield (rt, sorted(_guest_sole(rt, HEAR_LOCKE)))
+    for m in mod_run(RN9C + ["rt_thomist", "vm_locke", HEAR_LOCKE]):
+        if _analogies(m, "guest") != {f"{_cd('eh')}:attribution", f"{_cd('fs')}:attribution"}:
+            yield ("guest's analogies", sorted(_analogies(m, "guest")))
+    for m in mod_run(RN9C + ["rt_thomist", "vm_locke", "hear_la_1891"]):
+        if _by_horizon(m, "guest") != {_cd("fh"), _cd("hu")} or _lost(m, "guest"):
+            yield ("vm_locke in the Latin", sorted(_by_horizon(m, "guest")), sorted(_lost(m, "guest")))
+        if any(a.startswith(("info(lost_by_horizon(here,", "info(lost_for(here,")) for a in m):
+            yield "the host hears"
+
+
+scen("HE1", MOD, "The switch retires: the English of 1891 under Locke, with Fortin's claim (HE1)", RN9C,
+     [_mod(he1)],
+     "on every runtime, alone and beside all six switches, every report as rn9_in_english gave; so the phase "
+     "diagram over horizons_all, beside each switch and all six")
+scen("HE2", MOD, "Without Fortin's claim (HE2)", RN9C, [_mod(he2)],
+     "heard_short(here,rn9); RN 9 does not reach the hearer; every report as committed")
+scen("HE3", MOD, "What crosses (HE3)", RN9C,
+     [_mod(he3_locke), _mod(he3_schol), _mod(he3_2026), _mod(he3_la), _mod(he3_unchanged)],
+     "Locke: (efficient, human) and (final, self) by attribution, (material, nature) univocally; (final, human) "
+     "and (formal, human) lost, the seal-word equivocal or a gap by branch. Scholastic: nothing lost where the "
+     "seal-word renders the form, a gap where it does not. 2026: lost by equivocation. Latin: as typed. The last "
+     "three change no report, on any runtime alone or beside all six switches, or over horizons_all beside each")
+scen("HE4", MOD, "The losses coincide (HE4)", RN9C, [_mod(he4)],
+     "under the Lockean hearing rn9 loses by encoding what it loses by horizon, (formal, human) and (final, "
+     "human); on the will readings the English also takes (formal, human); on bare and kant the horizon also "
+     "lacks (final, self)")
+scen("HE5", MOD, "The hearers' tongues (HE5)", RN9C + ["hearers_tongues"], [_mod(he5)],
+     "on george the sole reasons are rn10_products and rn8; george_hn and episcopate_1891 report nothing; every "
+     "other hearer as PR7")
+scen("HE6", MOD, "The VM, the guest hearing (HE6)", RN9C, [_mod(he6)],
+     "guest_sole_reason under the Lockean hearing where sole_reason fires on R with it; rn10_products and rn8 for "
+     "Locke's group, rn10_products for Hobbes's save vm_kant and vm_bare; the guest's two attributions; vm_locke "
+     "in the Latin loses (formal, human) and (final, human) by horizon and nothing by encoding")
+scen("HE7", MOD, "A premise on a form its argument does not argue from (HE7)", RN9C,
+     [shown(RN9C, ("violation/1",), "violation(premise_not_argued(rn9,cd(final,god_ethics)))",
+            facts="rests_on_form(rn9,cd(final,god_ethics),rn_la_persona)."),
+      shown(RN9C, ("violation/1",), absent=("violation(premise_not_argued(rn9,cd(formal,human)))",
+                                            "violation(premise_not_argued(rn9,cd(final,human)))"))],
+     "refused (premise_not_argued); rn9's own premises on forms are argued")
+
+
+# ---------- PH: the phases ----------
+def phase_map(parts, facts=""):
+    """each horizon of horizons_all (the cause parts it holds) -> its reports, a frozenset over branches"""
+    pairs = {f"holds_cause({c},{d})": p for p, (c, d) in CAUSE_PARTS.items()}
+    out: dict = {}
+    for m in mod_project(phase_base() + list(parts), REPORT_TERMS + ("holds_cause/2",), facts):
+        h = frozenset(pairs[a] for a in m if a in pairs)
+        out.setdefault(h, set()).add(frozenset(a for a in m if not a.startswith("holds_cause(")))
+    return {h: frozenset(v) for h, v in out.items()}
+
+
+def phases(pm):
+    """the order parameters (the parts a report depends on) and the phases (the classes of one report)"""
+    order = {p for p in CAUSE_PARTS if any(pm[h] != pm[h ^ {p}] for h in pm)}
+    classes: dict = {}
+    for h, r in pm.items():
+        classes.setdefault(r, set()).add(h)
+    return order, classes
+
+
+def _phase_of(pm):
+    return {rt: pm[horizon(rt)] for rt in E.RUNTIMES}
+
+
+GE_HN = {"ends_by_god_ethics", "ends_of_human_nature"}
+
+
+def ph_check(parts, order, n, same=(), apart=(), empty=0, facts=""):
+    """the order parameters, the number of phases, runtimes in one phase (same), runtimes alone or apart from
+    others (apart: pairs of a group and the runtimes it must not share a phase with), phases holding no runtime"""
+    def test():
+        pm = phase_map(parts, facts)
+        got_order, classes = phases(pm)
+        if len(pm) != 1024:
+            yield f"{len(pm)} horizons"
+        if got_order != set(order):
+            yield ("order", sorted(got_order))
+        if len(classes) != n:
+            yield ("phases", len(classes))
+        at = _phase_of(pm)
+        for group in same:
+            if len({at[r] for r in group}) != 1:
+                yield ("not one phase", group)
+        for group, others in apart:
+            if {at[r] for r in group} & {at[r] for r in others}:
+                yield ("not apart", group)
+        held = set(at.values())
+        if sum(1 for r in classes if r not in held) != empty:
+            yield ("phases with no runtime", sum(1 for r in classes if r not in held))
+    return test
+
+
+def ph1():
+    pm = phase_map(MPC)
+    order, classes = phases(pm)
+    if order != GE_HN or len(classes) != 4 or {len(v) for v in classes.values()} != {256}:
+        yield ("order", sorted(order), len(classes))
+    at = _phase_of(pm)
+    want = {THOMIST_GROUP: mp_expected("default"), HUMAN_ENDS: mp_expected("marx"),
+            LOCKE_GROUP: mp_expected("locke"), HOBBES_GROUP: mp_expected("hobbes")}
+    for group, report in want.items():
+        for rt in group:
+            if at[rt] != report:
+                yield (rt, "misplaced")
+    for report in want.values():
+        if not any(at[h] == report for h in HEARERS):
+            yield "a phase without a hearer of 1891"
+
+
+ALL_SIX = list(SW6)
+scen("PH1", MOD, "The phases as committed (PH1)", MPC, [_mod(ph1)],
+     "order parameters ends_of_human_nature and ends_by_god_ethics; four phases of a quarter each, Thomist, human "
+     "ends without God's, Lockean, Hobbesian, each holding a hearer of 1891; neither form an order parameter")
+scen("PH2", MOD, "The phases by switch and hearing (PH2)", MPC,
+     [_mod(ph_check(MPC + ["rn7_from_form"], GE_HN | {"soul_as_form"}, 6,
+                    apart=((WILL_READINGS, LOCKE_LIKE),), empty=1)),
+      _mod(ph_check(MPC + ["rn7_from_self"], GE_HN | {"self_preservation"}, 6,
+                    apart=((("bare", "kant"), HOBBES_LIKE),), empty=1)),
+      _mod(ph_check(RN9C + [HEAR_LOCKE], GE_HN | {"self_preservation"}, 6,
+                    apart=((("bare", "kant"), HOBBES_LIKE),), empty=1)),
+      _mod(ph_check(MPC + ["rn8_from_sustenance"], GE_HN | {"self_preservation"}, 4,
+                    same=(("bare", "kant"), HOBBES_LIKE + LOCKE_GROUP),
+                    apart=((("kant_humanity",), [r for r in E.RUNTIMES if r != "kant_humanity"]),))),
+      *(_mod(ph_check(MPC + [s], GE_HN, 4)) for s in ("rn7_under_providence", "rn13_as_command",
+                                                     "rn22_as_stewardship")),
+      _mod(ph_check(RN9C + [HEAR_LOCKE] + ALL_SIX, GE_HN | {"soul_as_form", "self_preservation"}, 6,
+                    same=(("bare", "kant"),),
+                    apart=((("kant_humanity",), [r for r in E.RUNTIMES if r != "kant_humanity"]),), empty=1)),
+      *(_mod(ph_check(RN9C + [h], GE_HN, 4)) for h in ("hear_la_1891", "hear_en_1891_schol", "hear_en_2026"))],
+     "rn7_from_form: soul_as_form joins, six phases, the will readings leave Locke's, one empty; rn7_from_self and "
+     "the Lockean hearing: self_preservation joins, six, bare and kant leave Hobbes's, one empty; "
+     "rn8_from_sustenance: four, bare and kant one, kant_humanity alone, Hobbes's joins Locke's; the other three "
+     "switches as PH1; all six with the hearing: six, one empty, bare and kant together, kant_humanity alone; "
+     "the other hearings as PH1")
+
+
+# ---------- SU, EX, and the mechanics ----------
+def su1():
+    """no part outside this step's writes argument/4, argues_from/3, reading_of/2 or measures_as/3"""
+    from . import lang
+    writers = set()
+    for f, src in lang.sources().items():
+        for i, it in enumerate(src.items):
+            if isinstance(it, lang.Part):
+                heads = E.signatures("\n".join(src.items[i + 1].lines), f)["heads"]
+                if heads & {("argument", 4), ("argues_from", 3), ("reading_of", 2), ("measures_as", 3)}:
+                    writers.add(it.name)
+    if writers != {"modernity_property", "modernity_measure", *SW6}:
+        yield sorted(writers)
+
+
+def ex1():
+    """EX1, reported: the record's DAG with its three contested edges removed, rebuilt; what changes on the case.
+    Found: every node keeps its horizon, so nothing does."""
+    from . import lang
+    text = (lang.L_DIR / "schools.l").read_text()
+    contested = re.findall(r"(?m)^  -- contested edge: (\w+) <- (\w+)", text)
+    record = [(c, p) for c, p in contested if c in RECORD]
+    if record != [("descartes", "suarez_dm23"), ("hobbes", "ockham"), ("locke", "hobbes")]:
+        yield ("marked", record)
+    for child, parent in record:
+        text = re.sub(rf"(?m)^(runtime {child} extends [^\n]*?), {parent}\b", r"\1", text)
+        text = re.sub(rf"(?m)^(runtime {child} extends ){parent}, ", r"\1", text)
+    srcs = dict({k: v for k, v in lang.sources().items() if k != "schools.lp"}, **{"schools.lp": lang.parse(text, "schools.l")})
+    rebuilt = lang.compile_runtimes(srcs)
+    for child, parent in record:
+        if parent in rebuilt["declared"][child]["extends"]:
+            yield (child, "edge kept")
+    for rt in E.RUNTIMES:
+        if frozenset(p for p in rebuilt["runtimes"][rt] if p in CAUSE_PARTS) != horizon(rt):
+            yield (rt, "changes")
+
+
+GERMAN = ("encoding(de_1891,deu,1880,1900). lexicon(lex_de_1891,de_1891,1891,dictionary). "
+          "hears_in(here,de_1891,lex_de_1891).")
+SNIPPET_Q = "question(q(mx)). value(q(mx),(a;b)). "
+
+
+def mm1():
+    """the reports' conditions: a value with no argument entered is not without reason; an argument for a value no
+    source supports reports nothing; a value without reason against an available argument is contrary_reasoned;
+    a source with one argument has no sole reason"""
+    def facts(s):
+        return SNIPPET_Q + s
+    r = mod_reports(["rt_bare"], facts("source(mx_s,3,truth,2000). supports(mx_s,q(mx),a)."))
+    if r != frozenset({frozenset()}):
+        yield ("no argument", r)
+    r = mod_reports(["rt_bare"], facts("argument(mx_x,mx_s,q(mx),b). argues_from(mx_x,final,human)."))
+    if r != frozenset({frozenset()}):
+        yield ("unsupported", r)
+    r = mod_reports(["rt_bare"], facts("source(mx_s,3,truth,2000). supports(mx_s,q(mx),a). "
+                                       "argument(mx_x,mx_s,q(mx),a). argues_from(mx_x,final,human). "
+                                       "argument(mx_y,mx_t,q(mx),b)."))
+    if r != frozenset({frozenset({"info(without_reason(q(mx),a))", "info(contrary_reasoned(q(mx),a,b))"})}):
+        yield ("contrary", r)
+
+
+def mm2():
+    """an argument on forms is heard only in a tongue its texts are in; heard in its own tongue it is heard as
+    typed, a premise on no form included"""
+    if "rn9" not in mod_available(RN9C + ["rt_default"]) or "rn9" not in mod_available(RN9C + ["rt_thomist", "vm_hobbes"]):
+        yield "with no hearing declared, rn9 is not heard as typed"
+    if "rn9" in mod_available(RN9C + ["rt_default"], GERMAN):
+        yield "rn9 reaches a hearer of a tongue it has no text in"
+    # the bridge is named only through the renderings of the argument's own forms
+    other = ("argument(x9,mx_s,q(mx),a). argues_from(x9,efficient,human). argues_from(x9,material,nature). "
+             "rests_on_form(x9,cd(material,nature),rn_la_natura).")
+    for m in mod_run(RN9C + ["rt_default", HEAR_LOCKE], other):
+        if "info(carried_for(here,x9,cd(material,nature)))" not in m or \
+                any(a.startswith("info(heard_by_analogy(here,x9,") for a in m):
+            yield ("another argument's bridge", sorted(a for a in m if "x9" in a))
+    # and only by the words the hearer gives the rendering and its host, where the rendering is analogical: an
+    # analogy of other words, or of a word beside one the two forms share, is no bridge
+    words = ("analogous(w_x,w_persona,metaphor,c_test). carries(w_x,w_persona,cd(efficient,human)). "
+             "analogous(w_forensic_self,w_y,metaphor,c_test). carries(w_forensic_self,w_y,cd(efficient,human)). "
+             "analogous(w_bene_esse,w_perfectio,attribution,c_test). carries(w_bene_esse,w_perfectio,cd(final,human)).")
+    for hearing, want in ((HEAR_LOCKE, {f"{_cd('eh')}:attribution", f"{_cd('fs')}:attribution"}),
+                          ("hear_en_1891_schol", None)):
+        for m in mod_run(RN9C + ["rt_default", hearing], words):
+            got = _analogies(m)
+            if (want is not None and got != want) or any(x.endswith(":metaphor") or x == f"{_cd('hu')}:attribution"
+                                                          for x in got):
+                yield (hearing, "a bridge by other words", sorted(got))
+    lean = RN9C + ["rt_bare", "soul_as_form", "ends_of_human_nature", "hear_la_1891"]
+    if "rn9" in mod_available(lean):
+        yield "rn9 heard in the Latin without self-preservation"
+    if "rn9" not in mod_available(lean + ["self_preservation"]):
+        yield "rn9 not heard in the Latin as typed"
+
+
+def mm3():
+    """the parts: horizons_all is loaded by no runtime; the retired switch is no part; the contested and
+    undocumented edges are marked; the ten parts hold one cause each, as horizons_all chooses them"""
+    from . import lang
+    if any("horizons_all" in ps for ps in E.RUNTIMES.values()):
+        yield "a runtime loads horizons_all"
+    if "rn9_in_english" in E.known_parts():
+        yield "rn9_in_english is a part"
+    text = (lang.L_DIR / "schools.l").read_text()
+    marks = re.findall(r"(?m)^  -- (contested|undocumented) edge: (\w+) <- (\w+)", text)
+    if marks != [("contested", "descartes", "suarez_dm23"), ("contested", "hobbes", "ockham"),
+                 ("contested", "locke", "hobbes"), ("contested", "hobbes_wl", "ockham_will"),
+                 ("contested", "locke_wl", "hobbes_wl"), ("undocumented", "angers", "smith"),
+                 ("undocumented", "george", "locke")]:
+        yield ("marks", marks)
+    for p, (c, d) in CAUSE_PARTS.items():
+        got = set().union(*mod_project(["rt_bare", p], ("holds_cause/2",)))
+        if {a for a in got if not a.startswith(("holds_cause(efficient,", "holds_cause(material,"))} != \
+                {f"holds_cause({c},{d})"}:
+            yield (p, sorted(got))
+    if E.RUNTIMES["default"][3:] != list(CAUSE_PARTS)[:9]:
+        yield ("default", E.RUNTIMES["default"])
+
+
+def su4():
+    """TTC-LINGUAE's named hearers (g_en_1891_locke, g_thomist_2026, g_locke_la) are no run's horizon and no guest:
+    the library computes nothing for them, and what their horizon lacks stays as entered"""
+    entered = {"info(lost_by_horizon(g_en_1891_locke,rn9,cd(formal,human)))",
+               "info(lost_by_horizon(g_locke_la,rn9,cd(formal,human)))"}
+    for parts in (["linguae_rn9"], RN9C):
+        for m in mod_project(parts, ("info(heard_short(G,A))", "info(heard_by_analogy(G,A,P,K))",
+                                     "info(lost_by_horizon(G,A,P))")):
+            if m != entered:
+                yield (parts, sorted(m ^ entered))
+    # where no argument is entered, a premise on a form is refused for nothing
+    if set().union(*mod_project(["linguae_rn9"], ("violation(premise_not_argued(A,P))",))):
+        yield "premise_not_argued with no argument entered"
+
+
+scen("SU4", MOD, "TTC-LINGUAE's hearings unchanged (SU4)", RN9C, [_mod(su4)],
+     "linguae_rn9 alone, and beside the case, declares no hearing for a run's horizon or a guest: no heard_short, "
+     "no heard_by_analogy, and lost_by_horizon only as entered; alone, its premises refuse nothing")
+scen("SU1", MOD, "No earlier case enters an argument (SU1)", MPC, [_mod(su1)],
+     "argument/4, argues_from/3, reading_of/2 and measures_as/3 are written only by this step's case, its "
+     "switches and the measure")
+scen("EX1", MOD, "The record's DAG without its contested edges (EX1, reported)", MPC, [_mod(ex1)],
+     "rebuilt without descartes <- suarez_dm23, hobbes <- ockham and locke <- hobbes: every node keeps its "
+     "horizon, so nothing on the case changes (found)")
+scen("MM1", MOD, "The reports' conditions", [], [_mod(mm1)],
+     "a value with no argument entered, or an argument for a value no source supports, reports nothing; a "
+     "value without reason against an available argument is contrary_reasoned")
+scen("MM2", MOD, "Heard in a tongue, or not at all", RN9C, [_mod(mm2)],
+     "no hearing declared, the argument is heard as typed, in the host and the VM; no text in the hearer's "
+     "tongue, it does not reach him; in its own tongue as typed, the premise on no form included")
+def mm4():
+    """each runtime gives on the case what its horizon gives over horizons_all, alone and beside all six switches,
+    and under the Lockean hearing"""
+    for rt in E.RUNTIMES:
+        for sw in RUN_CONFIGS:
+            if mod_reports(_rt(rt, *sw)) != phase_map(MPC + list(sw))[horizon(rt)]:
+                yield (rt, sw)
+        if mod_reports(RN9C + [f"rt_{rt}", HEAR_LOCKE]) != phase_map(RN9C + [HEAR_LOCKE])[horizon(rt)]:
+            yield (rt, HEAR_LOCKE)
+
+
+IDLE = (SNIPPET_Q + "source(mx_s,3,truth,2000). supports(mx_s,q(mx),a). argument(mx_h,mx_s,q(mx),a). "
+        "argues_from(mx_h,final,human). argument(mx_g,mx_s,q(mx),a). argues_from(mx_g,final,god_ethics).")
+
+
+def mm5():
+    """guest_sole_reason only for an argument idle in the host: sole in the guest and available in the host beside
+    another; sole in the guest and lost in the host, it is not reported"""
+    ms = mod_reports(["rt_locke", "vm_marx"], IDLE, prefix=REPORT_PREFIX + GUEST_PREFIX)
+    want = {"info(sole_reason(mx_s,mx_g,q(mx),a))"}
+    if ms != frozenset({frozenset(want)}):
+        yield ("lost in the host", sorted(set().union(*ms)))
+    ms = mod_reports(["rt_thomist", "vm_marx"], IDLE, prefix=GUEST_PREFIX)
+    if ms != frozenset({frozenset({"info(guest_sole_reason(mx_s,mx_h,q(mx),a))"})}):
+        yield ("idle in the host", sorted(set().union(*ms)))
+    ms = mod_reports(["rt_marx", "vm_marx"], IDLE, prefix=REPORT_PREFIX + GUEST_PREFIX)
+    if ms != frozenset({frozenset({"info(sole_reason(mx_s,mx_h,q(mx),a))"})}):
+        yield ("sole in the host as well", sorted(set().union(*ms)))
+
+
+scen("MM5", MOD, "Idle in the host, sole in the guest", [], [_mod(mm5)],
+     "an argument sole in the guest is reported only where the host holds it beside another: not where the host "
+     "lacks it, nor where it is sole there too")
+scen("MM4", MOD, "Each runtime gives what its horizon gives", MPC, [_mod(mm4)],
+     "on the case alone, beside all six switches, and heard in the English of 1891 under Locke, every runtime "
+     "reports what its horizon reports over horizons_all")
+scen("MM3", MOD, "The parts and the marks", [], [_mod(mm3)],
+     "horizons_all loaded by no runtime; rn9_in_english no part; contested and undocumented edges marked; each "
+     "of the ten parts one cause in one domain, default holding the first nine")
+
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

@@ -178,7 +178,7 @@ COVER = {
     "3.2.2.a5": ("rules", ["DP1", "DP2", "DP5", "SD1", "MS2", "MS2b", "DI3", "DI4", "DI5", "SD3", "AB1", "AB4"],
                  "the death penalty's history and verdict; legitimate defence; abortion and its penalty (c. 1397 §2; CCC 2272); just war"),
     "3.2.2.a6": ("rules", ["DI6", "DR1", "K11"], "IVF \"must not\" (Donum vitae); remarriage; the embryo's image"),
-    "3.2.2.a7": ("rules", ["SD2", "SD2b", "SD4"], "usury as two questions; social teaching typed (CCC 2423)"),
+    "3.2.2.a7": ("rules", ["SD2", "SD2b", "SD4", "CV1", "MP5"], "usury as two questions; social teaching typed (CCC 2423); property in products and in land natural, use common, their reasons traced by horizon (CCC 2402-2406)"),
     "3.2.2.a8": ("rules", ["SM7", "SM7c", "CC1", "CC3"], "the seal; CCC 2483 in its encodings, the definitive text governance"),
     "4.2.a2": ("case", ["PM5"], "'in heaven' is no place (CCC 2794): God located refused"),
 }

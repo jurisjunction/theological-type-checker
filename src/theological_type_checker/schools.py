@@ -29,10 +29,11 @@ def school_parts() -> set[str]:
 
 def boot_set() -> list[dict]:
     sp = school_parts()
-    # the stamped boot set (TTC-SCHOOLS): scenarios written later (RT, AC, LW, CR, MR, CX, PC, CO, PN, SAE, CC, SRC, LIT, NOV, EMP, LIN) are not in it
+    # the stamped boot set (TTC-SCHOOLS): scenarios written later (RT, AC, LW, CR, MR, CX, PC, CO, PN, SAE, CC, SRC, LIT, NOV, EMP, LIN,
+    # MOD) are not in it
     return [s for s in suite.S if s["group"] not in (suite.RT, suite.AC, suite.LW, suite.CR, suite.MR, suite.CX, suite.PC, suite.CO,
                                                        suite.PN, suite.SAE, suite.CC, suite.SRC, suite.LIT, suite.NOV, suite.EMP,
-                                                       suite.LIN)
+                                                       suite.LIN, suite.MOD)
             and not (sp & set(s["parts"]))]
 
 

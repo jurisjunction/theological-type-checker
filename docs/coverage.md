@@ -113,7 +113,7 @@ it, so this measures reach, not depth. The rule files cite
 | 2197–2257 | The fourth commandment | frontier |  |  |  |
 | 2258–2330 | The fifth commandment | rules | 7 | DP1, DP2, DP5, SD1, MS2, MS2b, DI3, DI4, DI5, SD3, AB1, AB4 | the death penalty's history and verdict; legitimate defence; abortion and its penalty (c. 1397 §2; CCC 2272); just war |
 | 2331–2400 | The sixth commandment | rules |  | DI6, DR1, K11 | IVF "must not" (Donum vitae); remarriage; the embryo's image |
-| 2401–2463 | The seventh commandment | rules | 1 | SD2, SD2b, SD4 | usury as two questions; social teaching typed (CCC 2423) |
+| 2401–2463 | The seventh commandment | rules | 1 | SD2, SD2b, SD4, CV1, MP5 | usury as two questions; social teaching typed (CCC 2423); property in products and in land natural, use common, their reasons traced by horizon (CCC 2402-2406) |
 | 2464–2513 | The eighth commandment | rules | 1 | SM7, SM7c, CC1, CC3 | the seal; CCC 2483 in its encodings, the definitive text governance |
 | 2514–2533 | The ninth commandment | frontier |  |  |  |
 | 2534–2557 | The tenth commandment | frontier |  |  |  |

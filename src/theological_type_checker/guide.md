@@ -321,6 +321,22 @@ A finding laid on a juridical question, how a canon reads, is refused as on a
 doctrinal one (`finding_on_a_doctrine`). See
 [ttc-linguae(7)](research/linguae-preregistration.md).
 
+## THE CAUSES
+
+| Fact | Meaning |
+| --- | --- |
+| `argument(A,S,Q,V)`, `argues_from(R,C,D)`, `reading_of(R,A)` | An argument of the source S for V on Q; the cause a reading rests on, C one of `material`, `formal`, `efficient`, `final`, in the domain D: `nature`, `god_physics`, `god_ethics`, `human`, `will`, `self`, `reason`; a further reading. An argument is its own first reading. A typing is an interpretation, entered; authority reads none of it (rule 14). |
+| parts `ends_in_nature`, `forms_in_nature`, `ends_by_god_physics`, `ends_by_god_ethics`, `ends_of_human_nature`, `soul_as_form`, `ends_desired`, `self_preservation`, `object_as_form`, `form_of_law` | A horizon: each part holds one cause in one domain (`holds_cause/2`), set by a runtime, never by a case. The efficient and material causes are held in every domain. `default` holds the first nine; `form_of_law` only `kant` and its readings. |
+| parts `rt_scotus_dpp` … `rt_kant`, the readings (`rt_scotus_will`, `rt_ockham_will`, `rt_ockham_nominal`, `rt_descartes_will`, `rt_grotius_etiamsi`, `rt_kant_humanity`, `rt_kant_mm`), the will line (`rt_suarez_wl` … `rt_leibniz_wl`), Leo's hearers (`rt_episcopate_1891` … `rt_lassalle`) | Modernities, a DAG by inheritance from the schools: each node a figure's horizon with the parents the record documents. A contested edge is marked in `schools.l` (`-- contested edge:`), and so is one with no documented reading. |
+| *output* `available_as(A,R)`, `info(without_reason(Q,V))`, `info(sole_reason(S,A,Q,V))`, `info(contrary_reasoned(Q,V,V2))` | A reading is available where every cause it argues from is held; one typed by nothing everywhere. Reported: a value supported in force, its arguments entered and none available; of a source's two or more arguments for a value, one alone available; a value without reason against an available argument for another. |
+| parts `vm_R` | The VM: R's horizon as the guest's (`guest_holds/2`), beside the host's, in one solve. `guest_without_reason/2`; `guest_sole_reason/4`, an argument idle in the host and sole in the guest. That it is an accommodation is never computed. |
+| parts `hear_la_1891`, `hear_en_1891_locke`, `hear_en_1891_schol`, `hear_en_2026`; `concludes_heard(A,L,C)` | With `linguae_rn9`: the run's own horizon (`here`), or the guest where a `vm_R` is loaded (`guest`), hears in a tongue by a lexicon. An argument on forms is heard as its hearing carries the premises, the premises on no form as typed; the heard typing replaces its own. One that loses a premise is short (`heard_short/2`) and reaches the hearer only where C claims that, heard under L, it still concludes; one with no text in his tongue, never. `heard_by_analogy/4`, the premise and the kind; `lost_by_horizon/3`, from the hearer's horizon. A premise on a form its argument does not argue from is refused (`premise_not_argued`). |
+| part `hearers_tongues`; `figure(F)` | Leo's hearers in their tongues: the node `george` (and `george_hn`) hears the English of 1891 under the Lockean lexicon, `episcopate_1891` the Latin; the rest as typed. |
+| `measures_as(M,C1,C2)` | A measure taking one cause as another. A final cause taken as an efficient one is refused (`cause_converted`), save where ends survive only as desire: `ends_desired`, no end in nature, in God's intention or in human nature, and neither form of the will's act (`conversion_native/1`). |
+| part `horizons_all` | Search: every horizon of the ten parts in one solve, beside `rt_bare` and default's other parts, never in a runtime. A case's order parameters are the parts its reports depend on; its phases, the classes of horizons with one report. |
+
+See [ttc-modernity(7)](research/modernity-preregistration.md).
+
 ## LIBRARY
 
 | Fact | Meaning |

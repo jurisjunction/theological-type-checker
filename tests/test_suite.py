@@ -265,9 +265,12 @@ def test_bare_runs_no_school():
 
 def test_default_runtime_is_the_relocated_statements():
     # TTC-LINGUAE (rule 7): default gains the part word_of_no_tongue, as the step predicts (METHOD, M1):
-    # the word is of no tongue (De Trinitate XV.10.19); saussure excludes it
-    assert engine.RUNTIMES["default"] == ["classical", "one_power", "word_of_no_tongue"]
-    assert engine.expand_runtimes(["trinity"]) == ["classical", "one_power", "word_of_no_tongue", "trinity"]
+    # the word is of no tongue (De Trinitate XV.10.19); saussure excludes it. TTC-MODERNITY (rule 7, SU2):
+    # default gains the first nine parts of the causes, as that step predicts, and nothing else changes
+    nine = ["ends_in_nature", "forms_in_nature", "ends_by_god_physics", "ends_by_god_ethics", "ends_of_human_nature",
+            "soul_as_form", "ends_desired", "self_preservation", "object_as_form"]
+    assert engine.RUNTIMES["default"] == ["classical", "one_power", "word_of_no_tongue", *nine]
+    assert engine.expand_runtimes(["trinity"]) == ["classical", "one_power", "word_of_no_tongue", *nine, "trinity"]
     assert engine.expand_runtimes(["trinity", "rt_bare"]) == ["trinity"]
 
 

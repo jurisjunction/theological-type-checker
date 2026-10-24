@@ -4,12 +4,30 @@
   "default": [
    "classical",
    "one_power",
-   "word_of_no_tongue"
+   "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form"
   ],
   "thomist": [
    "classical",
    "one_power",
    "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
    "th01",
    "th03",
    "th04",
@@ -29,6 +47,15 @@
    "classical",
    "one_power",
    "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
    "simplicity_scotist",
    "attributes_formal",
    "univocity_of_concept",
@@ -40,6 +67,15 @@
    "classical",
    "one_power",
    "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
    "simplicity_thomist",
    "attributes_by_reason",
    "suarez_esse",
@@ -50,6 +86,15 @@
   "palamite": [
    "classical",
    "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
    "simplicity_palamite",
    "palamite_energies",
    "monopatrism",
@@ -59,19 +104,740 @@
   "saussure": [
    "classical",
    "one_power",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
    "word_by_division"
   ],
   "vocal": [
    "classical",
    "one_power",
    "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
    "verbum_vocal"
   ],
   "lingual": [
    "classical",
    "one_power",
    "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
    "verbum_lingual"
+  ],
+  "scotus_dpp": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse",
+   "mixed_relations",
+   "transcendentals"
+  ],
+  "ockham": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "forms_in_nature",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse",
+   "mixed_relations",
+   "transcendentals"
+  ],
+  "suarez_dm23": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "bacon": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form"
+  ],
+  "descartes": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "hobbes": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_desired",
+   "self_preservation",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "spinoza": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_desired",
+   "self_preservation",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "hooker": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "th01",
+   "th03",
+   "th04",
+   "th05",
+   "th06",
+   "th21",
+   "th22",
+   "th24",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "mixed_relations",
+   "transcendentals",
+   "holds_premotion",
+   "one_place_circumscribed"
+  ],
+  "grotius": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "locke": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_desired",
+   "self_preservation",
+   "th01",
+   "th03",
+   "th04",
+   "th05",
+   "th06",
+   "th21",
+   "th22",
+   "th24",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "mixed_relations",
+   "transcendentals",
+   "holds_premotion",
+   "one_place_circumscribed",
+   "suarez_esse",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "leibniz": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse",
+   "ends_in_nature"
+  ],
+  "kant": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_desired",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse",
+   "form_of_law"
+  ],
+  "scotus_will": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse",
+   "mixed_relations",
+   "transcendentals"
+  ],
+  "ockham_will": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "forms_in_nature",
+   "ends_by_god_ethics",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse",
+   "mixed_relations",
+   "transcendentals"
+  ],
+  "ockham_nominal": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "forms_in_nature",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "ends_desired",
+   "self_preservation",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse",
+   "mixed_relations",
+   "transcendentals"
+  ],
+  "descartes_will": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_by_god_ethics",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "grotius_etiamsi": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "kant_humanity": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_desired",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse",
+   "form_of_law",
+   "ends_of_human_nature"
+  ],
+  "kant_mm": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_desired",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse",
+   "form_of_law",
+   "ends_in_nature",
+   "self_preservation"
+  ],
+  "suarez_wl": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "hobbes_wl": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_desired",
+   "self_preservation",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "spinoza_wl": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_desired",
+   "self_preservation",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "locke_wl": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_desired",
+   "self_preservation",
+   "th01",
+   "th03",
+   "th04",
+   "th05",
+   "th06",
+   "th21",
+   "th22",
+   "th24",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "mixed_relations",
+   "transcendentals",
+   "holds_premotion",
+   "one_place_circumscribed",
+   "suarez_esse",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "leibniz_wl": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse",
+   "ends_in_nature"
+  ],
+  "episcopate_1891": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "th01",
+   "th03",
+   "th04",
+   "th05",
+   "th06",
+   "th21",
+   "th22",
+   "th24",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "mixed_relations",
+   "transcendentals",
+   "holds_premotion",
+   "one_place_circumscribed",
+   "figure_episcopate_1891"
+  ],
+  "social_catholic": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "th01",
+   "th03",
+   "th04",
+   "th05",
+   "th06",
+   "th21",
+   "th22",
+   "th24",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "mixed_relations",
+   "transcendentals",
+   "holds_premotion",
+   "one_place_circumscribed"
+  ],
+  "smith": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_desired",
+   "self_preservation",
+   "th01",
+   "th03",
+   "th04",
+   "th05",
+   "th06",
+   "th21",
+   "th22",
+   "th24",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "mixed_relations",
+   "transcendentals",
+   "holds_premotion",
+   "one_place_circumscribed",
+   "suarez_esse",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "angers": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "th01",
+   "th03",
+   "th04",
+   "th05",
+   "th06",
+   "th21",
+   "th22",
+   "th24",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "mixed_relations",
+   "transcendentals",
+   "holds_premotion",
+   "one_place_circumscribed",
+   "suarez_esse",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse"
+  ],
+  "george": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_desired",
+   "self_preservation",
+   "th01",
+   "th03",
+   "th04",
+   "th05",
+   "th06",
+   "th21",
+   "th22",
+   "th24",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "mixed_relations",
+   "transcendentals",
+   "holds_premotion",
+   "one_place_circumscribed",
+   "suarez_esse",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse",
+   "figure_george"
+  ],
+  "george_hn": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_desired",
+   "self_preservation",
+   "th01",
+   "th03",
+   "th04",
+   "th05",
+   "th06",
+   "th21",
+   "th22",
+   "th24",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "mixed_relations",
+   "transcendentals",
+   "holds_premotion",
+   "one_place_circumscribed",
+   "suarez_esse",
+   "holds_concurrence",
+   "simplicity_scotist",
+   "attributes_formal",
+   "univocity_of_concept",
+   "scotus_esse",
+   "figure_george",
+   "ends_of_human_nature"
+  ],
+  "marx": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_of_human_nature",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form"
+  ],
+  "marx_social": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form"
+  ],
+  "lassalle": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form"
   ]
  },
  "declared": {
@@ -95,6 +861,42 @@
     [
      "add",
      "word_of_no_tongue"
+    ],
+    [
+     "add",
+     "ends_in_nature"
+    ],
+    [
+     "add",
+     "forms_in_nature"
+    ],
+    [
+     "add",
+     "ends_by_god_physics"
+    ],
+    [
+     "add",
+     "ends_by_god_ethics"
+    ],
+    [
+     "add",
+     "ends_of_human_nature"
+    ],
+    [
+     "add",
+     "soul_as_form"
+    ],
+    [
+     "add",
+     "ends_desired"
+    ],
+    [
+     "add",
+     "self_preservation"
+    ],
+    [
+     "add",
+     "object_as_form"
     ]
    ]
   },
@@ -295,6 +1097,689 @@
     [
      "add",
      "verbum_lingual"
+    ]
+   ]
+  },
+  "scotus_dpp": {
+   "extends": [
+    "scotist"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_in_nature"
+    ]
+   ]
+  },
+  "ockham": {
+   "extends": [
+    "scotus_dpp"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_by_god_physics"
+    ],
+    [
+     "exclude",
+     "object_as_form"
+    ]
+   ]
+  },
+  "suarez_dm23": {
+   "extends": [
+    "suarezian",
+    "scotus_dpp",
+    "ockham"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_in_nature"
+    ],
+    [
+     "add",
+     "ends_by_god_physics"
+    ],
+    [
+     "add",
+     "object_as_form"
+    ]
+   ]
+  },
+  "bacon": {
+   "extends": [
+    "default"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_in_nature"
+    ],
+    [
+     "exclude",
+     "forms_in_nature"
+    ]
+   ]
+  },
+  "descartes": {
+   "extends": [
+    "default",
+    "bacon",
+    "suarez_dm23"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_in_nature"
+    ],
+    [
+     "exclude",
+     "forms_in_nature"
+    ],
+    [
+     "exclude",
+     "ends_by_god_physics"
+    ]
+   ]
+  },
+  "hobbes": {
+   "extends": [
+    "default",
+    "bacon",
+    "descartes",
+    "ockham"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_in_nature"
+    ],
+    [
+     "exclude",
+     "forms_in_nature"
+    ],
+    [
+     "exclude",
+     "ends_by_god_physics"
+    ],
+    [
+     "exclude",
+     "ends_by_god_ethics"
+    ],
+    [
+     "exclude",
+     "ends_of_human_nature"
+    ],
+    [
+     "exclude",
+     "soul_as_form"
+    ],
+    [
+     "exclude",
+     "object_as_form"
+    ]
+   ]
+  },
+  "spinoza": {
+   "extends": [
+    "descartes",
+    "hobbes"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_in_nature"
+    ],
+    [
+     "exclude",
+     "forms_in_nature"
+    ],
+    [
+     "exclude",
+     "ends_by_god_physics"
+    ],
+    [
+     "exclude",
+     "ends_by_god_ethics"
+    ],
+    [
+     "exclude",
+     "ends_of_human_nature"
+    ],
+    [
+     "exclude",
+     "soul_as_form"
+    ],
+    [
+     "exclude",
+     "object_as_form"
+    ]
+   ]
+  },
+  "hooker": {
+   "extends": [
+    "thomist"
+   ],
+   "file": "schools.l",
+   "ops": []
+  },
+  "grotius": {
+   "extends": [
+    "suarez_dm23"
+   ],
+   "file": "schools.l",
+   "ops": []
+  },
+  "locke": {
+   "extends": [
+    "hooker",
+    "descartes",
+    "grotius",
+    "hobbes"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "ends_by_god_physics"
+    ],
+    [
+     "add",
+     "ends_by_god_ethics"
+    ],
+    [
+     "exclude",
+     "ends_in_nature"
+    ],
+    [
+     "exclude",
+     "forms_in_nature"
+    ],
+    [
+     "exclude",
+     "ends_of_human_nature"
+    ],
+    [
+     "exclude",
+     "soul_as_form"
+    ],
+    [
+     "exclude",
+     "object_as_form"
+    ]
+   ]
+  },
+  "leibniz": {
+   "extends": [
+    "suarez_dm23",
+    "descartes"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "forms_in_nature"
+    ],
+    [
+     "add",
+     "ends_by_god_physics"
+    ],
+    [
+     "add",
+     "ends_in_nature"
+    ]
+   ]
+  },
+  "kant": {
+   "extends": [
+    "leibniz"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_in_nature"
+    ],
+    [
+     "exclude",
+     "forms_in_nature"
+    ],
+    [
+     "exclude",
+     "ends_by_god_physics"
+    ],
+    [
+     "exclude",
+     "ends_by_god_ethics"
+    ],
+    [
+     "exclude",
+     "ends_of_human_nature"
+    ],
+    [
+     "exclude",
+     "soul_as_form"
+    ],
+    [
+     "exclude",
+     "self_preservation"
+    ],
+    [
+     "exclude",
+     "object_as_form"
+    ],
+    [
+     "add",
+     "form_of_law"
+    ]
+   ]
+  },
+  "scotus_will": {
+   "extends": [
+    "scotus_dpp"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_of_human_nature"
+    ],
+    [
+     "exclude",
+     "object_as_form"
+    ]
+   ]
+  },
+  "ockham_will": {
+   "extends": [
+    "ockham"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_of_human_nature"
+    ]
+   ]
+  },
+  "ockham_nominal": {
+   "extends": [
+    "ockham"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "soul_as_form"
+    ]
+   ]
+  },
+  "descartes_will": {
+   "extends": [
+    "descartes"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_of_human_nature"
+    ],
+    [
+     "exclude",
+     "object_as_form"
+    ]
+   ]
+  },
+  "grotius_etiamsi": {
+   "extends": [
+    "grotius"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_by_god_ethics"
+    ]
+   ]
+  },
+  "kant_humanity": {
+   "extends": [
+    "kant"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "ends_of_human_nature"
+    ]
+   ]
+  },
+  "kant_mm": {
+   "extends": [
+    "kant"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "ends_in_nature"
+    ],
+    [
+     "add",
+     "self_preservation"
+    ]
+   ]
+  },
+  "suarez_wl": {
+   "extends": [
+    "suarezian",
+    "scotus_will",
+    "ockham_will"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_in_nature"
+    ],
+    [
+     "add",
+     "ends_by_god_physics"
+    ],
+    [
+     "add",
+     "object_as_form"
+    ],
+    [
+     "add",
+     "ends_of_human_nature"
+    ]
+   ]
+  },
+  "hobbes_wl": {
+   "extends": [
+    "default",
+    "bacon",
+    "descartes_will",
+    "ockham_will"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_in_nature"
+    ],
+    [
+     "exclude",
+     "forms_in_nature"
+    ],
+    [
+     "exclude",
+     "ends_by_god_physics"
+    ],
+    [
+     "exclude",
+     "ends_by_god_ethics"
+    ],
+    [
+     "exclude",
+     "ends_of_human_nature"
+    ],
+    [
+     "exclude",
+     "soul_as_form"
+    ],
+    [
+     "exclude",
+     "object_as_form"
+    ]
+   ]
+  },
+  "spinoza_wl": {
+   "extends": [
+    "descartes_will",
+    "hobbes_wl"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_in_nature"
+    ],
+    [
+     "exclude",
+     "forms_in_nature"
+    ],
+    [
+     "exclude",
+     "ends_by_god_physics"
+    ],
+    [
+     "exclude",
+     "ends_by_god_ethics"
+    ],
+    [
+     "exclude",
+     "ends_of_human_nature"
+    ],
+    [
+     "exclude",
+     "soul_as_form"
+    ],
+    [
+     "exclude",
+     "object_as_form"
+    ]
+   ]
+  },
+  "locke_wl": {
+   "extends": [
+    "hooker",
+    "descartes_will",
+    "grotius",
+    "hobbes_wl"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "ends_by_god_physics"
+    ],
+    [
+     "add",
+     "ends_by_god_ethics"
+    ],
+    [
+     "exclude",
+     "ends_in_nature"
+    ],
+    [
+     "exclude",
+     "forms_in_nature"
+    ],
+    [
+     "exclude",
+     "ends_of_human_nature"
+    ],
+    [
+     "exclude",
+     "soul_as_form"
+    ],
+    [
+     "exclude",
+     "object_as_form"
+    ]
+   ]
+  },
+  "leibniz_wl": {
+   "extends": [
+    "suarez_wl",
+    "descartes_will"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "forms_in_nature"
+    ],
+    [
+     "add",
+     "ends_by_god_physics"
+    ],
+    [
+     "add",
+     "ends_in_nature"
+    ],
+    [
+     "add",
+     "ends_of_human_nature"
+    ],
+    [
+     "add",
+     "object_as_form"
+    ]
+   ]
+  },
+  "episcopate_1891": {
+   "extends": [
+    "thomist"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "figure_episcopate_1891"
+    ]
+   ]
+  },
+  "social_catholic": {
+   "extends": [
+    "thomist"
+   ],
+   "file": "schools.l",
+   "ops": []
+  },
+  "smith": {
+   "extends": [
+    "locke"
+   ],
+   "file": "schools.l",
+   "ops": []
+  },
+  "angers": {
+   "extends": [
+    "thomist",
+    "smith"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "ends_in_nature"
+    ],
+    [
+     "add",
+     "forms_in_nature"
+    ],
+    [
+     "add",
+     "ends_of_human_nature"
+    ],
+    [
+     "add",
+     "soul_as_form"
+    ],
+    [
+     "add",
+     "object_as_form"
+    ]
+   ]
+  },
+  "george": {
+   "extends": [
+    "locke"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "figure_george"
+    ]
+   ]
+  },
+  "george_hn": {
+   "extends": [
+    "george"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "ends_of_human_nature"
+    ]
+   ]
+  },
+  "marx": {
+   "extends": [
+    "default"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_in_nature"
+    ],
+    [
+     "exclude",
+     "forms_in_nature"
+    ],
+    [
+     "exclude",
+     "ends_by_god_physics"
+    ],
+    [
+     "exclude",
+     "ends_by_god_ethics"
+    ],
+    [
+     "exclude",
+     "soul_as_form"
+    ]
+   ]
+  },
+  "marx_social": {
+   "extends": [
+    "marx"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_of_human_nature"
+    ]
+   ]
+  },
+  "lassalle": {
+   "extends": [
+    "default"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_by_god_physics"
+    ],
+    [
+     "exclude",
+     "ends_by_god_ethics"
     ]
    ]
   }
