@@ -69,3 +69,20 @@ not what the Church has said.
 ## SEE ALSO
 
 [ttc-linguae(7)](linguae-preregistration.md), [ttc-repairs4(7)](repairs4-preregistration.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in `aa6565c`, stamped in
+`91c136b`. Encoded in `pair.l` (the support rule withdrawn; `practice_spoken/1`;
+the unanswered frontier; one literal added to the theological frontier's
+rule), `server.py` (`unanswered_frontier`, reported by `flywheel_status`),
+the suite (RF1, RF2), `tests/test_suite.py` (RF3), the guide in both copies,
+`docs/flywheel.md` and `docs/mcp.md`. All five held; the full suite: 894 passed, 16 skipped.
+
+| | Result |
+| --- | --- |
+| RF1 | Held (RF1). |
+| RF2 | Held (RF2). Added for RF5: a default beside a claim of practice puts the question on neither frontier. |
+| RF3 | Held. PR4 green, its expectation unchanged. `unanswered_frontier()` lists `by_practice_only(q(valid_form(baptism,sg_g1)))`, and the theological frontier names nothing of `sg_g1` (`test_unanswered_frontier_lists_what_no_source_answers`). |
+| RF4 | Held. Every scenario's atoms compared, main against the branch (666). The 13 runs that load `linguae_signed` (SG0–SG10, SGR, SG5a) gain exactly the atom of RF1, in every model; nothing else differs. |
+| RF5 | Held. Each removed in turn turns RF1, RF2 or PR4 red: the unanswered rule; each of its three body literals (`not has_support`, `not default`, `practice_spoken`); the theological rule's new literal; the `practice_spoken` rule; and the withdrawn support rule, restored. CL1 and PR4 clean. |

@@ -33,9 +33,11 @@ sides grow.
    readings) and the canon side (events, decrees, acts), linked by
    `classification/3` and `premise/3`. Every interpretive choice becomes a
    fact.
-3. **Find the frontier.** `flywheel_status` lists three things:
+3. **Find the frontier.** `flywheel_status` lists four things:
    - *theology*: sources cited but not encoded, questions without sources,
      ambiguous texts without readings
+   - *unanswered*: questions no source answers, which a claim of practice
+     speaks to; no lack of the encoding, but nothing to fix by encoding
    - *canon*: predicates no canon defines yet
    - *library*: works to fetch and read
 4. **Fill it.** For law, fetch the primary text (see
@@ -67,7 +69,7 @@ unaffected until you contribute.
 
 | Tool | Does |
 | --- | --- |
-| `flywheel_status` | Frontiers: theology, canon, library. Optionally the suite. |
+| `flywheel_status` | Frontiers: theology, unanswered, canon, library. Optionally the suite. |
 | `save_rules` | Save rules if the suite stays green; over a red test only with a stated reason for it. |
 | `save_case` | Save an ordered pair, `theology` then `canon`. Mixing the sides is refused. |
 | `save_scenario` | Record a result as a test, only if it passes now. |

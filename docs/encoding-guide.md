@@ -347,6 +347,7 @@ doctrinal one (`finding_on_a_doctrine`). See
 | `info(X)` | Noted. |
 | `info(interior_supplied(P,A,X))` | An interior a case supplied or disputed, named in every branch: a claim, never a finding (rule 3). |
 | `frontier(Layer,X)` | Still to encode or read. |
+| `frontier(unanswered,by_practice_only(Q))` | A question no source answers, which a claim of practice speaks to: no lack of the encoding, shown apart. |
 
 A value is *settled* if every main branch has it, *open* if some do, a
 *shadow* if only shadows do, *excluded* if none do.

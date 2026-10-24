@@ -149,6 +149,14 @@ def test_case_sides_are_kept_apart(tmp_path, monkeypatch):
         server.save_case("mixed", canon="source(s,3,truth,2000).")
 
 
+def test_unanswered_frontier_lists_what_no_source_answers():
+    # TTC-REPAIRS5 RF3: the signed form's validity, which only a claim of practice speaks to
+    pytest.importorskip("mcp")
+    from theological_type_checker import server
+    assert "by_practice_only(q(valid_form(baptism,sg_g1)))" in server.unanswered_frontier()
+    assert not any("sg_g1" in x for x in server.theology_frontier())
+
+
 def test_theology_frontier_reports_what_is_missing():
     facts = ("source(x,3,truth,2000). character(x,letter). cites(x,y). question(q(z)). value(q(z),a). value(q(z),b). "
              "source(w,3,truth,2001). ambiguous(w).")
