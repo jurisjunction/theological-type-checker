@@ -440,6 +440,19 @@ def theology_frontier() -> list[str]:
                 found.add(a[len("frontier(theology,"):-1])
     return sorted(found)
 
+
+def unanswered_frontier() -> list[str]:
+    """Questions no source answers, which a claim of practice speaks to, across
+    every case part: no lack of the encoding, shown apart (TTC-REPAIRS5)."""
+    found = set()
+    for name, (f, _, block) in _part_blocks().items():
+        if _part_kind(name, f, block)[0] != "case":
+            continue
+        for a in engine.solve([name], "one")["atoms"]:
+            if a.startswith("frontier(unanswered,"):
+                found.add(a[len("frontier(unanswered,"):-1])
+    return sorted(found)
+
 _NAME = re.compile(r"^[a-z][a-z0-9_]{0,47}$")
 
 
@@ -462,6 +475,7 @@ def flywheel_status(run_tests: bool = False) -> dict:
            "rule_files": [f.name for f in engine.personal_rule_files()],
            "scenarios": len(engine.personal_scenarios_raw()),
            "frontier": {"theology": theology_frontier(),
+                        "unanswered": unanswered_frontier(),
                         "canon": norms.check()["undefined_predicates"],
                         "library": [w.id for w in library.wanted()]},
            "norms_encoded": len(norms.graph()["norms"])}

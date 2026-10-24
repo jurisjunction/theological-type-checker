@@ -121,7 +121,7 @@ uses this to decide when to ask the person first.
 | Tool | Does |
 | --- | --- |
 | `library_fetch_list` | Physical copies, nearest library first. |
-| `flywheel_status` | The theology, canon and library frontiers. |
+| `flywheel_status` | The theology, unanswered, canon and library frontiers. |
 
 ### Prompts
 

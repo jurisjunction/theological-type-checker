@@ -4295,6 +4295,29 @@ scen("LP1", LIN, "An approval answers no question of carriage (the pair)", PMU +
       lin_on(PMU + ["linguae_pro_multis_canon"], info_none("teaching_from_law"))],
      "whether a version carries its source is not law's: entered as answered by an approval, refused", mode=B)
 
+# ---------- A question no source answers, shown apart (TTC-REPAIRS5) ---------
+# Predictions committed and stamped first: docs/research/repairs5-preregistration.md.
+RF = "repairs"
+RF_SG = "q(valid_form(baptism,sg_g1))"
+scen("RF1", RF, "A question only a claim of practice speaks to is unanswered, not lacking (TTC-REPAIRS5)", SGN,
+     [shown(SGN, ("frontier/2",), f"frontier(unanswered,by_practice_only({RF_SG}))",
+            absent=(f"frontier(theology,question_without_sources({RF_SG}))",))],
+     "the signed form's validity on the unanswered frontier, and off the theological one")
+scen("RF2", RF, "A question with no source and no claim stays on the theological frontier (TTC-REPAIRS5)", [],
+     [shown([], ("frontier/2",), "frontier(theology,question_without_sources(q(rf_z)))",
+            facts="question(q(rf_z)). value(q(rf_z),(a;b)).",
+            absent=("frontier(unanswered,by_practice_only(q(rf_z)))",)),
+      shown([], ("frontier/2",), facts="question(q(rf_y)). value(q(rf_y),(a;b)). source(rf_s,5,truth,2000). "
+                                       "supports(rf_s,q(rf_y),a). practice_teaches(rf_c,rf_p,q(rf_y)).",
+            absent=("frontier(unanswered,by_practice_only(q(rf_y)))",
+                    "frontier(theology,question_without_sources(q(rf_y)))")),
+      shown([], ("frontier/2",), facts="question(q(rf_x)). value(q(rf_x),(a;b)). default(q(rf_x),a). "
+                                       "practice_teaches(rf_c,rf_p,q(rf_x)).",
+            absent=("frontier(unanswered,by_practice_only(q(rf_x)))",))],
+     "no source and no claim: question_without_sources, as before; a source, or a default, beside a claim of "
+     "practice: neither")
+
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

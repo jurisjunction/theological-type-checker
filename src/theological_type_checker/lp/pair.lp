@@ -48,8 +48,14 @@ frontier(theology,cited_not_encoded(S1,S)) :- interprets(S,S1,_), not source(S1,
 has_support(Q) :- supports(_,Q,_).
 has_support(Q) :- reads(_,_,Q,_).
 has_support(Q) :- finding(_,Q,_,_).        % an empirical question answered by the sciences (TTC-EMPIRICA)
-has_support(Q) :- practice_teaches(_,_,Q). % a question a claim of practice speaks to, with no tier (TTC-LINGUAE)
-frontier(theology,question_without_sources(Q)) :- question(Q), not has_support(Q), not default(Q,_).
+frontier(theology,question_without_sources(Q)) :- question(Q), not has_support(Q), not default(Q,_),
+                                                  not practice_spoken(Q).
+% A question no source answers, which a claim of practice speaks to, is no
+% lack of the encoding: no source answers it, and the claim weighs with no
+% tier. It is shown apart, as unanswered (TTC-REPAIRS5).
+practice_spoken(Q) :- practice_teaches(_,_,Q).
+frontier(unanswered,by_practice_only(Q)) :- question(Q), not has_support(Q), not default(Q,_),
+                                            practice_spoken(Q).
 has_reading(S) :- reading(S,_).
 frontier(theology,ambiguous_without_readings(S)) :- ambiguous(S), not has_reading(S).
 has_form(S) :- character(S,_).
