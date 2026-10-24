@@ -846,6 +846,304 @@ part candidate of translation
 #program cand_conference.           % a conference decree contrary to universal law
 source(conf_2018,3,juridical,2018). conference(conf_2018). supports(conf_2018,q(translation_approval),detailed_recognitio).
 
+% ---------- The tongues: one word, many encodings (TTC-LINGUAE) ------------
+% Texts by encoding and date; what each form means, by its lexicon; what the
+% host's readings are, by their exegetes. Every meaning, reading and analogy
+% is a claim with its claimant (docs/research/linguae-sources.md).
+```
+
+part switch
+
+```clingo
+#program linguae_rn9.             % Rerum novarum 9 (Leo XIII, 15 May 1891) in five encodings (RN)
+% The Latin, promulgated: "ad conservandam vitam maximeque ad perficiendam"; "hoc ipso applicat ad
+% sese eam naturae corporeae partem, quam ipse percoluit, in qua velut formam quamdam personae suae
+% impressam reliquit". vatican.va's English, Italian, French and Spanish: their dates unknown, entered
+% as served (23 October 2026); their parents undeclared. The English is not Hedley's of 1891.
+encoding(la_1891,lat,1878,1903). encoding(en_1891,eng,1828,1913). encoding(en_2026,eng,2000,2026).
+encoding(it_2026,ita,2000,2026). encoding(fr_2026,fra,2000,2026). encoding(es_2026,spa,2000,2026).
+encoding_route((la_1891;en_1891;en_2026;it_2026;fr_2026;es_2026),written).
+text_of(rn_la,rn1891,la_1891,1891).
+text_of(rn_en,rn1891,en_2026,2026). text_of(rn_it,rn1891,it_2026,2026).
+text_of(rn_fr,rn1891,fr_2026,2026). text_of(rn_es,rn1891,es_2026,2026).
+form_in((rn_la_natura;rn_la_forma;rn_la_persona;rn_la_perficiendam),rn_la,n(9)).
+form_in((rn_en_nature;rn_en_impress;rn_en_personality;rn_en_wellbeing),rn_en,n(9)).
+form_in((rn_it_natura;rn_it_impronta;rn_it_personalita;rn_it_perfezionamento),rn_it,n(7)).
+form_in((rn_fr_nature;rn_fr_empreinte;rn_fr_personne;rn_fr_perfectionnement),rn_fr,n(9)).
+form_in((rn_es_naturaleza;rn_es_huella;rn_es_persona;rn_es_perfeccionamiento),rn_es,n(7)).
+% rn9's premises, as TTC-MODERNITY types it: a cause and a domain each, on the forms that bear them.
+rests_on_form(rn9,cd(formal,human),(rn_la_forma;rn_la_persona)).
+rests_on_form(rn9,cd(efficient,human),rn_la_persona).
+rests_on_form(rn9,cd(material,nature),rn_la_natura).
+rests_on_form(rn9,cd(final,human),rn_la_perficiendam).
+% "nature's field", "natura corporea", "nature materielle", "naturaleza corporea"; "life's well-being",
+% "perfezionamento", "perfectionnement", "perfeccionamiento": given for their Latin.
+renders(rn_en_nature,rn_la_natura). renders(rn_it_natura,rn_la_natura).
+renders(rn_fr_nature,rn_la_natura). renders(rn_es_naturaleza,rn_la_natura).
+renders(rn_en_personality,rn_la_persona). renders(rn_it_personalita,rn_la_persona).
+renders(rn_fr_personne,rn_la_persona). renders(rn_es_persona,rn_la_persona).
+renders(rn_en_wellbeing,rn_la_perficiendam). renders(rn_it_perfezionamento,rn_la_perficiendam).
+renders(rn_fr_perfectionnement,rn_la_perficiendam). renders(rn_es_perfeccionamiento,rn_la_perficiendam).
+% "impress", "impronta", "empreinte", "huella": the image of form (De anima II.12: wax takes "the
+% impress of a signet-ring"), or a gap where the form was: both run.
+disputed(renders(rn_en_impress,rn_la_forma)). disputed(renders(rn_it_impronta,rn_la_forma)).
+disputed(renders(rn_fr_empreinte,rn_la_forma)). disputed(renders(rn_es_huella,rn_la_forma)).
+% The lexicons. The Latin's own "velut ... quamdam" read as a metaphor is a reading of the host;
+% "personality" in the English of 1891, two lexicons: the scholastic (personalitas, "the dignity
+% and perfection of that thing to exist by itself", ST III q. 2 a. 2 ad 2; Webster 1828, "that which
+% constitutes an individual a distinct person") and the Lockean ("Person is a forensic term,
+% appropriating actions", Essay II.xxvii.26; happiness "the utmost pleasure", II.xxi.42).
+lexicon(lex_la_1891,la_1891,1891,dictionary). lexicon(lex_la_velut,la_1891,1891,commentary).
+lexicon(lex_en_schol_1891,en_1891,1891,dictionary). lexicon(lex_en_locke_1891,en_1891,1891,usage).
+lexicon(lex_en_2026,en_2026,2026,dictionary).
+lexicon(lex_it_2026,it_2026,2026,dictionary). lexicon(lex_fr_2026,fr_2026,2026,dictionary).
+lexicon(lex_es_2026,es_2026,2026,dictionary).
+signifies(rn_la_natura,w_natura_corporea,lex_la_1891). signifies(rn_la_persona,w_persona,lex_la_1891).
+signifies(rn_la_forma,w_forma,lex_la_1891). signifies(rn_la_forma,w_impressio,lex_la_velut).
+signifies(rn_la_perficiendam,w_perfectio,lex_la_1891).
+signifies(rn_en_nature,w_natura_corporea,(lex_en_schol_1891;lex_en_locke_1891;lex_en_2026)).
+signifies(rn_en_impress,w_impressio,(lex_en_schol_1891;lex_en_2026)).
+signifies(rn_en_personality,w_personalitas,lex_en_schol_1891).
+signifies(rn_en_personality,w_forensic_self,lex_en_locke_1891).
+signifies(rn_en_wellbeing,(w_perfectio;w_bene_esse),(lex_en_schol_1891;lex_en_2026)).
+signifies(rn_en_wellbeing,w_happiness,lex_en_locke_1891).
+signifies(rn_it_natura,w_natura_corporea,lex_it_2026). signifies(rn_it_impronta,w_impressio,lex_it_2026).
+signifies(rn_it_personalita,w_personalitas,lex_it_2026). signifies(rn_it_perfezionamento,w_perfectio,lex_it_2026).
+signifies(rn_fr_nature,w_natura_corporea,lex_fr_2026). signifies(rn_fr_empreinte,w_impressio,lex_fr_2026).
+signifies(rn_fr_personne,w_persona,lex_fr_2026). signifies(rn_fr_perfectionnement,w_perfectio,lex_fr_2026).
+signifies(rn_es_naturaleza,w_natura_corporea,lex_es_2026). signifies(rn_es_huella,w_impressio,lex_es_2026).
+signifies(rn_es_persona,w_persona,lex_es_2026). signifies(rn_es_perfeccionamiento,w_perfectio,lex_es_2026).
+% In the order of reason, each analogy with its claimant, and what it carries.
+analogous(w_impressio,w_forma,proportionality,aristotle_de_anima).
+analogous(w_personalitas,w_persona,attribution,aquinas_iii_2_2).
+analogous(w_forensic_self,w_persona,attribution,locke_essay).
+analogous(w_happiness,w_perfectio,attribution,locke_essay).
+broader(w_bene_esse,w_perfectio,lex_en_schol_1891).
+carries(w_impressio,w_forma,cd(formal,human)).
+carries(w_personalitas,w_persona,(cd(formal,human);cd(efficient,human))).
+carries(w_forensic_self,w_persona,cd(efficient,human)).
+carries(w_happiness,w_perfectio,cd(final,self)).
+% Hearings: horizons with a lexicon, never persons. The English of 1891 under Locke (TTC-MODERNITY's
+% switch rn9_in_english); a Thomist guest hearing the English of 2026, which declares no lexicon for
+% "personality"; a Lockean guest hearing the Latin.
+hears_in(g_en_1891_locke,en_1891,lex_en_locke_1891).
+hears_in(g_thomist_2026,en_2026,lex_en_2026).
+hears_in(g_locke_la,la_1891,lex_la_1891).
+% A Lockean horizon cannot hold the person's form: the person is "a forensic term".
+horizon_lacks((g_locke_la;g_en_1891_locke),cd(formal,human),locke_essay).
+```
+
+part candidate
+
+```clingo
+#program cand_word_dated.         % HYPOTHETICAL: words given a date, a year of a text, a place in the order (LW1)
+date_claim(w_persona,1891). text_year(w_forma,1891). happens_at(w_perfectio,leo_signs).
+```
+
+part candidate
+
+```clingo
+#program cand_word_as_root.       % HYPOTHETICAL: a perfect language taken as the word, the parent of a tongue (LW4)
+% Dante, De vulgari eloquentia I.6: a "certam formam locutionis" made with the first soul. Entered
+% as the word, it is refused; a proto-language entered as an encoding with its claimant is not.
+encoding(heb_biblical,hbo,-1000,-200). encoding(proto_ie,ine,-4500,-2500). encoding(la_classical,lat,-100,200).
+lexicon(lex_dve,la_1305,1305,commentary). encoding(la_1305,lat,1300,1310).
+text_of(dve,de_vulgari_eloquentia,la_1305,1305). form_in(dve_forma_locutionis,dve,n(1,6)).
+signifies(dve_forma_locutionis,w_forma_locutionis,lex_dve).
+encoding_from(heb_biblical,w_forma_locutionis,dante_dve).
+encoding_from(la_classical,proto_ie,handbook_ie).
+```
+
+part candidate
+
+```clingo
+#program cand_translation_order.  % HYPOTHETICAL: a translation dated before its parent; a cycle of translations (LW3)
+encoding(xx_lat,lat,1900,2000). encoding(xx_eng,eng,1900,2000).
+text_of(tx_early,src_x,xx_eng,1950). text_of(tx_parent,src_x,xx_lat,1960). made_from(tx_early,tx_parent).
+text_of(tx_a,src_y,xx_eng,1970). text_of(tx_b,src_y,xx_lat,1970). made_from(tx_a,tx_b). made_from(tx_b,tx_a).
+```
+
+part case
+
+```clingo
+#program linguae_ccc2483.         % CCC 2483, the right to know: two editions, five encodings (CC)
+question(q(lie_needs_right_hearer)). question_kind(q(lie_needs_right_hearer),doctrinal).
+value(q(lie_needs_right_hearer),(yes;no)).
+question(q(ccc_definitive_text)). question_kind(q(ccc_definitive_text),governance).
+value(q(ccc_definitive_text),(latin_typical;french_1992)).
+% The first edition (Fidei depositum, 1992): to lie is to lead into error "celui qui a le droit de la
+% connaitre". The Latin typical edition (Laetamur magnopere, 15 August 1997) drops the clause, and
+% "thus becomes the definitive text": a new edition, which changes the word. Its deletion defines
+% nothing; the question has no source in force once the first edition is withdrawn.
+source(ccc_ed1992,3,truth,1992). character(ccc_ed1992,catechism). withdrawn(ccc_ed1992,1997).
+supports(ccc_ed1992,q(lie_needs_right_hearer),yes).
+source(laetamur_1997,3,juridical,1997). character(laetamur_1997,apostolic_letter).
+supports(laetamur_1997,q(ccc_definitive_text),latin_typical).
+encoding(fr_1992,fra,1992,1997). encoding(en_1994,eng,1994,1997). encoding(la_1997,lat,1997,2026).
+encoding(fr_1997,fra,1997,2026). encoding(en_2000,eng,1997,2026). encoding(de_2026,deu,2000,2026).
+encoding_route((fr_1992;en_1994;la_1997;fr_1997;en_2000;de_2026),written).
+text_of(ccc_fr_1992,ccc_ed1992,fr_1992,1992).
+text_of(ccc_en_1994,ccc_ed1992,en_1994,1994). made_from(ccc_en_1994,ccc_fr_1992).     % vatican.va's English
+text_of(ccc_de_vatican,ccc_ed1992,de_2026,2026).                                       % vatican.va's German, its parent undocumented
+text_of(ccc_la_1997,ccc_ed1997,la_1997,1997). revises(ccc_la_1997,ccc_fr_1992).
+text_of(ccc_fr_1997,ccc_ed1997,fr_1997,1997). made_from(ccc_fr_1997,ccc_la_1997).
+text_of(ccc_en_2000,ccc_ed1997,en_2000,2000). made_from(ccc_en_2000,ccc_la_1997).      % the second edition, 1997-2000 [M]
+% Clause by clause: "Mentir, c'est parler ou agir contre la verite" / "to speak or act against the
+% truth"; "pour induire en erreur" / "in order to lead into error"; "celui qui a le droit de la
+% connaitre" / "someone who has the right to know the truth".
+form_in((ccc92_fr_contra;ccc92_fr_erreur;ccc92_fr_droit),ccc_fr_1992,n(2483)).
+form_in((ccc94_en_against;ccc94_en_error;ccc94_en_right),ccc_en_1994,n(2483)).
+form_in((ccc97_la_contra;ccc97_la_errorem),ccc_la_1997,n(2483)).
+renders(ccc94_en_against,ccc92_fr_contra). renders(ccc94_en_error,ccc92_fr_erreur).
+renders(ccc94_en_right,ccc92_fr_droit).
+lexicon(lex_fr_1992,fr_1992,1992,dictionary). lexicon(lex_en_1994,en_1994,1994,dictionary).
+lexicon(lex_la_1997,la_1997,1997,dictionary).
+signifies(ccc92_fr_contra,w_against_truth,lex_fr_1992). signifies(ccc94_en_against,w_against_truth,lex_en_1994).
+signifies(ccc92_fr_erreur,w_lead_into_error,lex_fr_1992). signifies(ccc94_en_error,w_lead_into_error,lex_en_1994).
+signifies(ccc92_fr_droit,w_right_to_truth,lex_fr_1992). signifies(ccc94_en_right,w_right_to_truth,lex_en_1994).
+signifies(ccc97_la_contra,w_against_truth,lex_la_1997). signifies(ccc97_la_errorem,w_lead_into_error,lex_la_1997).
+```
+
+part candidate of linguae_ccc2483
+
+```clingo
+#program cand_revision_rendered.  % HYPOTHETICAL: the Latin of 1997 entered as given for the French of 1992, and back (CC1)
+renders(ccc97_la_contra,ccc92_fr_contra). renders(ccc92_fr_erreur,ccc97_la_errorem).
+```
+
+part case
+
+```clingo
+#program linguae_pro_multis.      % "pro multis": the words over the chalice in six encodings (PM)
+% Christ died for all: "there is not, never has been, and never will be a single human being for
+% whom Christ did not suffer" (CCC 605; Quiersy, DH 624). The renderings answer nothing of it.
+question(q(died_for_all)). question_kind(q(died_for_all),doctrinal). value(q(died_for_all),(yes;no)).
+source(ccc_605,3,truth,1992). character(ccc_605,catechism). supports(ccc_605,q(died_for_all),yes).
+encoding(la_1970,lat,1965,2001). encoding(la_2002,lat,2002,2026). encoding(en_1973,eng,1965,2010).
+encoding(en_2011,eng,2011,2026). encoding(de_1975,deu,1965,2026). encoding(it_2020,ita,2000,2026).
+encoding(fr_2021,fra,2000,2026).
+encoding_route((la_1970;la_2002;en_1973;en_2011;de_1975;it_2020;fr_2021),written).
+text_of(missal_la_1970,missale_romanum_1970,la_1970,1970).
+text_of(missal_la_2002,missale_romanum_2002,la_2002,2002). revises(missal_la_2002,missal_la_1970).
+text_of(missal_en_1973,missale_romanum_1970,en_1973,1973). made_from(missal_en_1973,missal_la_1970).
+text_of(missal_de_1975,missale_romanum_1970,de_1975,1975). made_from(missal_de_1975,missal_la_1970).
+text_of(missal_en_2011,missale_romanum_2002,en_2011,2011). made_from(missal_en_2011,missal_la_2002).
+text_of(missal_it_2020,missale_romanum_2002,it_2020,2020). made_from(missal_it_2020,missal_la_2002).
+text_of(missal_fr_2021,missale_romanum_2002,fr_2021,2021). made_from(missal_fr_2021,missal_la_2002).  % [M]
+% "qui pro vobis et pro multis effundetur"; "for all" (1973); "for many" (2011); "fur alle" (1975);
+% "per tutti" (2020); "pour la multitude".
+form_in(pm_la70,missal_la_1970,consecratio(calix)). form_in(pm_la02,missal_la_2002,consecratio(calix)).
+form_in(pm_en73_all,missal_en_1973,consecratio(calix)). form_in(pm_en11_many,missal_en_2011,consecratio(calix)).
+form_in(pm_de75_alle,missal_de_1975,consecratio(calix)). form_in(pm_it20_tutti,missal_it_2020,consecratio(calix)).
+form_in(pm_fr21_multitude,missal_fr_2021,consecratio(calix)).
+renders(pm_en73_all,pm_la70). renders(pm_de75_alle,pm_la70). renders(pm_en11_many,pm_la02).
+renders(pm_it20_tutti,pm_la02). renders(pm_fr21_multitude,pm_la02).
+formula_of((pm_la70;pm_la02),eucharist).
+span_kind((pm_la70;pm_la02),anaphoral).
+lexicon(lex_la_missal,la_2002,2002,dictionary). lexicon(lex_en_1973,en_1973,1973,dictionary).
+lexicon(lex_en_2011,en_2011,2011,dictionary). lexicon(lex_de_1975,de_1975,1975,dictionary).
+lexicon(lex_it_2020,it_2020,2020,dictionary). lexicon(lex_fr_2021,fr_2021,2021,dictionary).
+% A survey of English hearers is a claim about a lexicon: "many" heard as "not all".
+lexicon(lex_en_not_all,en_2011,2011,usage).
+signifies((pm_la70;pm_la02),w_pro_multis,lex_la_missal).
+signifies(pm_en73_all,w_pro_multis,(lex_en_1973;lex_en_2011;lex_en_not_all)).
+signifies(pm_en11_many,w_pro_multis,(lex_en_2011;lex_en_not_all)).
+signifies(pm_de75_alle,w_pro_multis,lex_de_1975). signifies(pm_it20_tutti,w_pro_multis,lex_it_2020).
+signifies(pm_fr21_multitude,w_pro_multis,lex_fr_2021).
+% The host's readings, each with its exegete: many, how many unsaid; the Semitic "many" as all
+% (Isaiah 53; Arinze (a)); the Gentiles, and those for whom it avails (III q. 78 a. 3 ad 8).
+form_reading((pm_la70;pm_la02),r_open,vulgate_mk_14_24).
+form_reading((pm_la70;pm_la02),r_all,arinze_2006).
+form_reading((pm_la70;pm_la02),(r_gentiles;r_offered),aquinas_iii_78_3).
+admits(pm_en73_all,(r_all;r_gentiles),(lex_en_1973;lex_en_2011;lex_en_not_all)).
+admits(pm_de75_alle,(r_all;r_gentiles),lex_de_1975). admits(pm_it20_tutti,(r_all;r_gentiles),lex_it_2020).
+admits(pm_en11_many,(r_open;r_all;r_gentiles;r_offered),lex_en_2011).
+admits(pm_en11_many,r_not_all,lex_en_not_all).
+admits(pm_fr21_multitude,(r_open;r_all;r_gentiles;r_offered),lex_fr_2021).
+reading_holds(r_not_all,q(died_for_all),no).
+idiomatic(pm_en73_all,en_1973,lex_en_1973). idiomatic(pm_en11_many,en_2011,lex_en_2011).
+% The message, for Comme le prevoit: ICEL's exegesis of 1973.
+message((pm_la70;pm_la02),r_all,icel_1973).
+% An English hearing of 2011, by two lexicons.
+hears_in(g_en_2011,en_2011,(lex_en_2011;lex_en_not_all)).
+% The claims of a mode. Arinze, CDW, 17 October 2006 (Prot. 467/05/L): "For many is a faithful
+% translation of pro multis"; "for all" is "rather an explanation of the sort that belongs properly to
+% catechesis". Benedict XVI to Zollitsch, 14 April 2012: "keine reine Ubersetzung, sondern eine
+% Interpretation". The approvals judge the sense too (CDF, 1974): the recognitio of the English of
+% 2011 (communicated 23 June 2010) and the Italian Missal's approval by the Congregation (16 July
+% 2019 [S: La Civilta Cattolica]), each in the unit of the whole act.
+source(arinze_2006,3,juridical,2006). dicastery(arinze_2006). character(arinze_2006,letter).
+source(benedict_2012,3,truth,2012). papal_form(benedict_2012,ordinary). character(benedict_2012,letter).
+source(recognitio_en_2010,3,juridical,2010). dicastery(recognitio_en_2010).
+source(confirmatio_it_2019,3,juridical,2019). dicastery(confirmatio_it_2019).
+mode_claim(arinze_2006,pm_en11_many,pm_la02,univocal,word).
+mode_claim(benedict_2012,pm_de75_alle,pm_la70,interpretation,word).
+mode_claim(recognitio_en_2010,pm_en11_many,pm_la02,univocal,act).
+mode_claim(confirmatio_it_2019,pm_it20_tutti,pm_la02,univocal,act).
+catechesis_rule(arinze_2006,(pm_en73_all;pm_de75_alle;pm_it20_tutti),r_all).
+```
+
+part candidate of linguae_pro_multis
+
+```clingo
+#program cand_rendering_answers.  % HYPOTHETICAL: "Christ died for all" rested on "for all", and "not for all" on "for many" (PM6)
+source(s_for_all,5,truth,2010). supports(s_for_all,q(died_for_all),yes).
+rests_on_rendering(s_for_all,q(died_for_all),pm_en73_all).
+source(s_not_all,5,truth,2012). supports(s_not_all,q(died_for_all),no).
+rests_on_rendering(s_not_all,q(died_for_all),pm_en11_many).
+```
+
+part candidate of linguae_pro_multis
+
+```clingo
+#program cand_mode_fixed.         % HYPOTHETICAL: Arinze's claim treated as fixing the mode (LM1)
+fixes_mode(arinze_2006,pm_en11_many,pm_la02).
+```
+
+part switch of linguae_pro_multis
+
+```clingo
+#program linguae_heard_by_rule.   % CDF, Declaration of 25 January 1974: an approved version expresses "exactly the
+                                  % sense intended by the Church", and is to be understood by the Latin (LM1)
+source(cdf_1974,3,truth,1974). dicastery(cdf_1974). character(cdf_1974,declaration).
+hearing_rule(cdf_1974,pm_en73_all,pm_la70). hears_under(g_en_2011,cdf_1974).
+```
+
+part candidate of linguae_pro_multis
+
+```clingo
+#program cand_hearings.           % HYPOTHETICAL: a hearing entered for a person, and one by no lexicon (LM3)
+created_person(reader_x). hears_in(reader_x,en_2011,lex_en_2011).
+hears_in(g_nolex,en_2011,lex_unknown).
+```
+
+part switch
+
+```clingo
+#program linguae_ecst.            % "Et cum spiritu tuo": a test case, the same pair under two regimes (LM2)
+% "And also with you" (1973), "And with your spirit" (2011). Readings: the whole person, "It is also
+% possible to translate spirit here as denoting the whole person", and "a person's inner being or
+% self" (Arichea and Hatton, 1995); "they do not refer to his soul, but to the grace of the Holy
+% Spirit" (Theodore of Mopsuestia, through Davoren 2011). The message of a returned greeting: "just
+% that: a greeting" (Cones).
+encoding(la_1970,lat,1965,2001). encoding(la_2002,lat,2002,2026). encoding(en_1973,eng,1965,2010).
+encoding(en_2011,eng,2011,2026).
+encoding_route((la_1970;la_2002;en_1973;en_2011),written).
+text_of(missal_la_1970,missale_romanum_1970,la_1970,1970).
+text_of(missal_la_2002,missale_romanum_2002,la_2002,2002). revises(missal_la_2002,missal_la_1970).
+text_of(missal_en_1973,missale_romanum_1970,en_1973,1973). made_from(missal_en_1973,missal_la_1970).
+text_of(missal_en_2011,missale_romanum_2002,en_2011,2011). made_from(missal_en_2011,missal_la_2002).
+form_in(ecst_la70,missal_la_1970,ordo(salutatio)). form_in(ecst_la02,missal_la_2002,ordo(salutatio)).
+form_in(ecst_en73,missal_en_1973,ordo(salutatio)). form_in(ecst_en11,missal_en_2011,ordo(salutatio)).
+renders(ecst_en73,ecst_la70). renders(ecst_en11,ecst_la02).
+lexicon(lex_en_1973,en_1973,1973,dictionary). lexicon(lex_en_2011,en_2011,2011,dictionary).
+form_reading((ecst_la70;ecst_la02),(r_person;r_inner),arichea_hatton_1995).
+form_reading((ecst_la70;ecst_la02),r_charism,theodore_mopsuestia).
+admits(ecst_en73,r_person,lex_en_1973).
+admits(ecst_en11,(r_person;r_inner;r_charism),lex_en_2011).
+message((ecst_la70;ecst_la02),r_person,cones).
+hears_in(g_en_1973,en_1973,lex_en_1973).
+
 % ---------- Custom (cc. 23-28): a mechanism demo -----------------------
 ```
 
@@ -1636,6 +1934,266 @@ classification(q(valid_form(baptism,we_baptize)),form(baptism,we_baptize),valid_
 source(cdf_responsum_2020,3,truth,2020). character(cdf_responsum_2020,responses).
 supports(cdf_responsum_2020,q(valid_form(baptism,we_baptize)),no).
 
+```
+
+part case
+
+```clingo
+#program linguae_we_baptize.      % The form of baptism in its encodings, beside we_baptize (BF)
+% Which features belong to the substance is teaching: the sacrament is performed where "the act which
+% is performed through the minister himself, is expressed with the invocation of the Holy Trinity"
+% (Florence, DH 1314; III q. 66 a. 5). The step reads the features and leaves the validity of each
+% form to the sources that answer it.
+question(q(form_substance(baptism))). question_kind(q(form_substance(baptism)),doctrinal).
+value(q(form_substance(baptism)),(yes;no)).
+classification(q(form_substance(baptism)),feature(baptism,(minister_act;trinity_invoked)),of_substance).
+source(florence_1439,3,truth,1439). character(florence_1439,conciliar_decree).
+supports(florence_1439,q(form_substance(baptism)),yes).
+encoding(la_1969,lat,1962,2026). encoding(en_1969,eng,1965,2026). encoding(la_1439,lat,1400,1500).
+encoding(en_2020,eng,2000,2026). encoding(it_2020,ita,2000,2026). encoding(la_746,lat,700,800).
+encoding(la_1273,lat,1250,1300).
+encoding_route((la_1969;en_1969;la_1439;en_2020;it_2020;la_746;la_1273),written).
+% "Ego te baptizo in nomine Patris et Filii et Spiritus Sancti"; "I baptize you in the name of the
+% Father, and of the Son, and of the Holy Spirit" (the rites of 1969 [M]).
+text_of(ordo_bapt_1969,ordo_baptismi_parvulorum,la_1969,1969). form_in(bf_la_ego,ordo_bapt_1969,n(60)).
+text_of(rite_bapt_en_1969,ordo_baptismi_parvulorum,en_1969,1969). made_from(rite_bapt_en_1969,ordo_bapt_1969).
+form_in(bf_en_i,rite_bapt_en_1969,n(60)).
+% The Greek form as Florence gives it, "Baptizatur talis servus Christi in nomine Patris ..." [M,
+% the Latin], and its Byzantine English, "The servant of God (name) is baptized in the name of the
+% Father, and of the Son, and of the Holy Spirit" (Roman Malyj Trebnyk, 1952; served undated).
+text_of(florence_armenians,florence_1439,la_1439,1439). form_in(bf_la_greek,florence_armenians,dh(1314)).
+text_of(trebnyk_en,roman_malyj_trebnyk,en_2020,2026). form_in(bf_en_byz,trebnyk_en,baptism).
+% "We baptize you in the name of the Father and of the Son and of the Holy Spirit" (the CDF's question,
+% 24 June 2020); "a nome della comunita noi ti battezziamo" (its Note).
+text_of(cdf_dubium_2020,cdf_responsa_2020,en_2020,2020). form_in(bf_en_we,cdf_dubium_2020,dubium(1)).
+text_of(cdf_nota_2020,cdf_responsa_2020,it_2020,2020). form_in(bf_it_we,cdf_nota_2020,nota).
+% Zachary to Boniface (c. 746): "Baptizo te in nomine patria. et filia et spiritus Sancti", corrupt at
+% its end; "in nomine matris", corrupt at its start (III q. 60 a. 7 ad 3).
+text_of(zachary_746,zachary_to_boniface,la_746,746). form_in(bf_la_zachary,zachary_746,ep(746)).
+text_of(summa_iii_60,summa_theologiae,la_1273,1273). form_in(bf_la_matris,summa_iii_60,st(3,60,7)).
+renders(bf_en_i,bf_la_ego).
+formula_of(bf_la_ego,baptism).
+form_for((bf_en_i;bf_la_greek;bf_en_byz;bf_en_we;bf_it_we;bf_la_zachary;bf_la_matris),baptism).
+lexicon(lex_la_1969,la_1969,1969,dictionary). lexicon(lex_en_1969,en_1969,1969,dictionary).
+signifies(bf_la_ego,w_forma_baptismi,lex_la_1969). signifies(bf_en_i,w_forma_baptismi,lex_en_1969).
+% The features, each read from its encoding's grammar, or as the act that gives the form states it.
+form_feature(bf_la_ego,minister_act,expressed,florence_1439). form_feature(bf_la_ego,trinity_invoked,yes,florence_1439).
+form_feature(bf_en_i,minister_act,expressed,grammar_en). form_feature(bf_en_i,trinity_invoked,yes,grammar_en).
+form_feature(bf_la_greek,minister_act,unexpressed,florence_1439). form_feature(bf_la_greek,trinity_invoked,yes,florence_1439).
+form_feature(bf_en_byz,minister_act,unexpressed,grammar_en). form_feature(bf_en_byz,trinity_invoked,yes,grammar_en).
+form_feature(bf_en_we,minister_act,other_agent,cdf_nota_2020). form_feature(bf_en_we,trinity_invoked,yes,grammar_en).
+form_feature(bf_it_we,minister_act,other_agent,cdf_nota_2020).
+% Number: te marks the one baptized singular; English "you" does not.
+form_reading(bf_la_ego,r_singular,grammar_la). admits(bf_en_i,(r_singular;r_plural),grammar_en).
+corruption_at(bf_la_zachary,end). corruption_at(bf_la_matris,start).
+% Who each form names as the one who acts: the minister; the assembly ("ministerialmente - non
+% collegialmente", the Note).
+form_agent(bf_la_ego,minister,grammar_la). form_agent(bf_en_i,minister,grammar_en).
+form_agent((bf_en_we;bf_it_we),assembly,cdf_nota_2020).
+```
+
+part switch of linguae_we_baptize
+
+```clingo
+#program linguae_icon_baptism.    % the Grammar of the Icon loaded beside the forms of baptism (BF5)
+uses(icon).
+acton(minister,recipient).                    % D: the minister acts on the one baptized (III q. 66 a. 5)
+side_by_side(assembly,minister,baptism).      % S: the assembly ordered with him to the baptism
+```
+
+part case
+
+```clingo
+#program linguae_signed.          % HYPOTHETICAL (rule 6): forms in sign; no approved signed form exists (SG)
+% In danger of death a deaf lay person baptizes an infant by pouring, signing the form in ASL; two
+% transcribers later give it, in a gloss and in HamNoSys. Whether the baptism stands is the parish's
+% question (c. 869 §1). Load with we_baptize and linguae_we_baptize.
+question(q(human_language(ase))). question_kind(q(human_language(ase)),empirical).
+value(q(human_language(ase)),(yes;no)).
+question(q(signifies_by_convention(ase))). question_kind(q(signifies_by_convention(ase)),empirical).
+value(q(signifies_by_convention(ase)),(yes;no)).
+% The findings, each from its year (Stokoe 1960; Frishberg 1975; Klima and Bellugi 1979; Petitto and
+% Marentette 1991; Hickok, Bellugi and Klima 1996). A claim of an earlier century weighs nothing on
+% an empirical question: Seton, Sign Talk (1918), "Its syntax is simple and primitive".
+finding(stokoe_1960,q(human_language(ase)),yes,1960).
+finding(klima_bellugi_1979,q(human_language(ase)),yes,1979).
+finding(petitto_1991,q(human_language(ase)),yes,1991).
+finding(hickok_1996,q(human_language(ase)),yes,1996).
+finding(frishberg_1975,q(signifies_by_convention(ase)),yes,1975).
+finding(klima_bellugi_1979t,q(signifies_by_convention(ase)),yes,1979).
+source(seton_1918,5,truth,1918). supports(seton_1918,q(human_language(ase)),no).
+% Whether the signed form is a "verborum forma": no source answers it. Peters (2008) holds sacraments
+% celebrated "solely in sign" valid, resting on the practice of deaf clergy: a claim, with no tier.
+question(q(valid_form(baptism,sg_g1))). question_kind(q(valid_form(baptism,sg_g1)),doctrinal).
+value(q(valid_form(baptism,sg_g1)),(yes;no)).
+practice_teaches(peters_2008,unvoiced_practice,q(valid_form(baptism,sg_g1))).
+% Thomas, twice: a vox is "sonus ab ore animalis prolatus" (In Peryerm. I lect. 4 n. 3); words,
+% because they "can be formed in various ways for the purpose of signifying" (III q. 60 a. 6).
+source(aquinas_verbum,5,truth,1273). promoted(aquinas_verbum,4,1567). ambiguous(aquinas_verbum).
+reading(aquinas_verbum,(thomas_definition;thomas_reason)).
+:- read_as(aquinas_verbum,thomas_definition), read_as(verbum,verbum_lingual).
+:- read_as(aquinas_verbum,thomas_reason), read_as(verbum,verbum_vocal).
+% ASL from 1817 (Hartford); Black ASL a variety of it (McCaskill et al., 2011), not an encoding made
+% from it; a homesign, with no finding of a community's language.
+encoding(ase_2026,ase,1817,2026). encoding(ase_black,ase,1817,2026). encoding(homesign_g,homesign,1990,2026).
+encoding_route((ase_2026;ase_black;homesign_g),manual).
+variety_of(ase_black,ase_2026,mccaskill_2011).
+% The lexicons, each dated, with its kind: Bar-Tzur's interpreter's gloss (2001, HEAVENLY-FATHER);
+% the NCOD's register for interpreters (2011); Lifeprint (everyday FATHER, a 5-hand at the forehead);
+% the ASL Signbank (2017), identifiers and no definitions.
+lexicon(bar_tzur_2001,ase_2026,2001,gloss). lexicon(ncod_2011,ase_2026,2011,register).
+lexicon(lifeprint,ase_2026,2026,dictionary). lexicon(asl_signbank,ase_2026,2017,database).
+text_of(t_bap_signed,bap_signed_record,ase_2026,2026). form_in(sg_g1,t_bap_signed,perf(1)).
+signifies(sg_g1,w_forma_baptismi,ncod_2011). signifies(sg_g1,signbank_baptize,asl_signbank).
+% A rendering of the approved English, and through it of the Latin.
+host_declared(sg_g1,bf_en_i,ncod_2011).
+form_reading(bf_en_i,(r_singular;r_plural),grammar_en).
+admits(sg_g1,r_singular,meier_1990).
+% IX-1 BAPTIZE IX-2 NAME FATHER SON HOLY-SPIRIT, under the religious register: a point at the signer
+% is first person; the addressee is a point's target, gradient (Liddell 2003).
+form_feature(sg_g1,minister_act,expressed,meier_1990).
+form_feature(sg_g1,trinity_invoked,yes,bar_tzur_2001).
+form_feature(sg_g1,addressee,deictic,liddell_2003).
+notated(sg_g1,gloss_a,transcriber_a). notation_kind(gloss_a,gloss). notation_tier(gloss_a,gloss,full).
+token(sg_g1,gloss_a,1,ix_1). token(sg_g1,gloss_a,2,baptize). token(sg_g1,gloss_a,3,ix_2).
+token(sg_g1,gloss_a,4,name). token(sg_g1,gloss_a,5,father). token(sg_g1,gloss_a,6,son).
+token(sg_g1,gloss_a,7,holy_spirit).
+presumes(ix_2,second_person,meier_1990).
+notated(sg_g1,hamnosys_b,transcriber_b). notation_kind(hamnosys_b,hamnosys).
+notation_tier(hamnosys_b,manual,full). notation_tier(hamnosys_b,nonmanual,partial).
+notated(sg_g1,stokoe_c,transcriber_c). notation_kind(stokoe_c,stokoe). notation_tier(stokoe_c,manual,full).
+notated(sg_g1,signwriting_d,transcriber_d). notation_kind(signwriting_d,signwriting).
+notation_tier(signwriting_d,(manual;nonmanual),full).
+notated(sg_g1,elan_e,annotator_e). notation_kind(elan_e,annotation).
+notation_tier(elan_e,(manual;nonmanual;gloss),full).
+% BAPTIZE signed as immersion; the water poured.
+depicts(sg_g1,immersion,transcriber_a).
+rite_given(bap_signed,baptism,lay_d,infant_d,sg_g1). manner_used(bap_signed,infusion).
+```
+
+part switch of linguae_signed
+
+```clingo
+#program linguae_signed_subject.  % HYPOTHETICAL: a third transcriber gives no subject token (ASL drops arguments) (SG3, SG4)
+notated(sg_g1,gloss_h,transcriber_h). notation_kind(gloss_h,gloss). notation_tier(gloss_h,gloss,full).
+token(sg_g1,gloss_h,1,baptize). token(sg_g1,gloss_h,2,ix_2). token(sg_g1,gloss_h,3,name).
+token(sg_g1,gloss_h,4,father). token(sg_g1,gloss_h,5,son). token(sg_g1,gloss_h,6,holy_spirit).
+form_feature(sg_g1,minister_act,unexpressed,transcriber_h).
+```
+
+part switch of linguae_signed
+
+```clingo
+#program linguae_signed_father.   % HYPOTHETICAL: FATHER read under the everyday lexicon, a human father (SG3)
+form_feature(sg_g1,trinity_invoked,no,lifeprint).
+```
+
+part switch of linguae_signed
+
+```clingo
+#program linguae_signed_moods.    % HYPOTHETICAL: one gloss for two performances, a statement and a yes/no question (SG4)
+text_of(t_moods,moods_record,ase_2026,2026). form_in((sg_stmt;sg_ynq),t_moods,perf(1)).
+notated((sg_stmt;sg_ynq),gloss_f,transcriber_f). notation_kind(gloss_f,gloss). notation_tier(gloss_f,gloss,full).
+notated((sg_stmt;sg_ynq),elan_g,annotator_g). notation_kind(elan_g,annotation).
+notation_tier(elan_g,(manual;nonmanual;gloss),full).
+nonmanual_mark(sg_ynq,elan_g,brows_raised).
+```
+
+part switch of linguae_signed
+
+```clingo
+#program linguae_signed_see.      % HYPOTHETICAL: the form in Signing Exact English (1972), a manual code of English (SG2)
+encoding(see_1972,eng,1972,2026). encoding_route(see_1972,manual). code_of(see_1972,en_1969).
+lexicon(gustason_1972,see_1972,1972,dictionary).
+text_of(t_bap_see,bap_see_record,see_1972,2026). form_in(sg_see,t_bap_see,perf(1)).
+host_declared(sg_see,bf_en_i,gustason_1972).
+signifies(sg_see,w_forma_baptismi,gustason_1972).
+admits(sg_see,(r_singular;r_plural),gustason_1972).
+```
+
+part switch of linguae_signed
+
+```clingo
+#program linguae_signed_homesign. % HYPOTHETICAL: consent given in a homesign, made without a model of a language (SG0)
+text_of(t_home,homesign_record,homesign_g,2026). form_in(sg_home,t_home,perf(1)).
+consent_given(m_home,party_h,sg_home).
+```
+
+part case
+
+```clingo
+#program linguae_signed_mass.     % HYPOTHETICAL: a deaf priest consecrates in ASL, without voice (SG5a)
+% The Holy Office (1957): "ex institutione Christi, ille solus valide celebrat, qui verba consecratoria
+% pronuntiat" [S]; "pronuntiat" read as spoken, or as expressed against the merely mental. Two dates
+% are reported for it: 8 March 1957 (McNamara) and 23 May 1957 (Peters, AAS 49 (1957) 370).
+question(q(valid_form(eucharist,ase_institution))). question_kind(q(valid_form(eucharist,ase_institution)),doctrinal).
+value(q(valid_form(eucharist,ase_institution)),(yes;no)).
+source(holy_office_1957,3,truth,1957). character(holy_office_1957,responses). ambiguous(holy_office_1957).
+reading(holy_office_1957,(pronuntiat_spoken;pronuntiat_expressed)).
+reads(holy_office_1957,pronuntiat_spoken,q(valid_form(eucharist,ase_institution)),no).
+:- read_as(holy_office_1957,pronuntiat_spoken), read_as(verbum,verbum_lingual).
+:- read_as(holy_office_1957,pronuntiat_expressed), read_as(verbum,verbum_vocal).
+date_claimed(holy_office_1957,19570308,mcnamara_2008). date_claimed(holy_office_1957,19570523,peters_2008).
+text_of(t_mass_signed,mass_record,ase_2026,2026). form_in(ase_institution,t_mass_signed,perf(1)).
+rite_given(mass_signed,eucharist,deaf_priest_s,faithful_s,ase_institution).
+```
+
+part case
+
+```clingo
+#program linguae_signed_practice. % HYPOTHETICAL: the Church's practice, weighed at its tiers (SG5)
+% Notitiae 2 (1966) n. 95: the celebrant "eodem tempore verba profert et simul illa gestibus
+% significat"; England and Wales (1992): "The celebrant must always pronounce all the words"; the
+% USCCB (2017): the deaf may confess and consent "in sign language, if sign language is their
+% primary means of communication"; Peters (2008): sacraments celebrated "solely in sign" valid and
+% licit, resting on the practice of deaf clergy.
+question(q(voice_required(celebrant))). question_kind(q(voice_required(celebrant)),governance).
+value(q(voice_required(celebrant)),(yes;no)).
+question(q(sign_admitted(party))). question_kind(q(sign_admitted(party)),governance).
+value(q(sign_admitted(party)),(yes;no)).
+source(notitiae_1966,3,juridical,1966). dicastery(notitiae_1966). supports(notitiae_1966,q(voice_required(celebrant)),yes).
+source(ew_1992,3,juridical,1992). conference(ew_1992). supports(ew_1992,q(voice_required(celebrant)),yes).
+source(usccb_2017,3,juridical,2017). conference(usccb_2017). supports(usccb_2017,q(sign_admitted(party)),yes).
+source(peters_2008,5,truth,2008). supports(peters_2008,q(voice_required(celebrant)),no).
+```
+
+part candidate of linguae_signed
+
+```clingo
+#program cand_validity_from_practice.  % HYPOTHETICAL: the validity of the signed form rested on practice alone (SG5)
+source(cand_practice_v,5,truth,2008). supports(cand_practice_v,q(valid_form(baptism,sg_g1)),yes).
+rests_on_practice(cand_practice_v,q(valid_form(baptism,sg_g1)),unvoiced_practice).
+```
+
+part candidate of linguae_signed
+
+```clingo
+#program cand_finding_on_form.    % HYPOTHETICAL: a finding entered on the validity of the form, and on how c. 1104 §2 reads (SG0)
+question(q(verba_1104(ase))). question_kind(q(verba_1104(ase)),juridical). value(q(verba_1104(ase)),(yes;no)).
+finding(stokoe_1960,q(valid_form(baptism,sg_g1)),yes,1960).
+finding(stokoe_1960,q(verba_1104(ase)),yes,1960).
+```
+
+part candidate of linguae_signed
+
+```clingo
+#program cand_gloss_as_word.      % HYPOTHETICAL: the gloss's English label entered as the sign's word (SG4)
+signifies(sg_g1,baptize,lifeprint).
+```
+
+part candidate of linguae_signed
+
+```clingo
+#program cand_verba_two_ways.     % HYPOTHETICAL: c. 1104 §2 read with verba as signs, beside a runtime reading c. 849's as sounds (SG-R)
+canon_verbum(c1104_2,lingual).
+```
+
+part candidate of linguae_signed
+
+```clingo
+#program cand_asl_in_time.        % HYPOTHETICAL: a lexicon dated before ASL; Black ASL entered as descended from ASL (SG9)
+lexicon(epee_1776,ase_2026,1776,dictionary).
+encoding_from(ase_black,ase_2026,cand_claimant).
 ```
 
 part case

@@ -35,7 +35,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | L | a language for libraries, compiled to clingo: declarations as metaclasses; runtimes by inheritance, three combinators, clashes refused; slots declared once, with sorts, domains, layers and sentences; parts naming their case; premises kept apart from conclusions | done ([ttc-l(7)](research/l-preregistration.md)) |
 | churches | other Churches and ecclesial communities: succession, sacraments, *subsistit in* | to predict, after L |
 | senses | the senses and the routes to words: sensibles typed, schemes by culture, the interior senses; words by hearing, sight, hand and touch; perception's claims as premises | to predict, after L |
-| language | one word, many encodings: a form type-checked under its encoding at its date, by any route (heard, signed, written, touched), as a sign of the word; the encodings in time as a DAG, etymology a partial trace of forms through it; the word itself outside time; each encoding encodable, none required | to predict, after the senses |
+| language | one word, many encodings: a form type-checked under its encoding at its date, by any route (heard, signed, written, touched), as a sign of the word; the encodings in time as a DAG, etymology a partial trace of forms through it; the word itself outside time; each encoding encodable, none required | done, before the senses ([ttc-linguae(7)](research/linguae-preregistration.md)) |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
@@ -735,7 +735,21 @@ schemes and `conclusion` gate.
   suffices: no text known here settles it; to be entered disputed until
   the sources are read.
 
-### language (after the senses)
+### language (before the senses)
+
+Done ([ttc-linguae(7)](research/linguae-preregistration.md)), with forms
+given, not perceived: the word of no tongue on the default runtime and
+Saussure's division as the runtime `saussure`; encodings, texts and forms
+with their dates and lineage; a rendering's mode computed by lexicons with
+claimants (univocal, analogical, equivocal, a gap, an interpretation),
+indexed by hearing; claims of a mode weighed, never fixing; three regimes of
+translation as switches; *Rerum novarum* 9, CCC 2483, *pro multis*, the form
+of baptism, and forms in sign with the runtimes `vocal` and `lingual`;
+c. 838 at its two dates, and cc. 849-850, 869, 983, 990, 1104-1108,
+1119-1120 for rites and consent in sign. Left: perceiving a form (the
+senses); etymology as a trace; the order of reason as a DAG of its own;
+TTC-MODERNITY's predictions revised to `hears_in/3`; the Italian drafts of
+*Rerum novarum*. The notes below remain.
 
 The rung above the senses: not all of human language, but the ability to
 type-check a word in any encoding someone enters, whatever the route it

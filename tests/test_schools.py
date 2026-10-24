@@ -23,6 +23,10 @@ BOOT_B = {
     "thomist": (["AN4", "FQ13", "FQ19", "K7", "K9", "UN1", "UN2"], ["FQ19"]),
     "scotist": ([], []),
     "suarezian": (["AN4", "FQ19"], ["FQ19"]),
+    # TTC-LINGUAE (M1): the runtimes of the word and of verbum change nothing in the boot set
+    "saussure": ([], []),
+    "vocal": ([], []),
+    "lingual": ([], []),
 }
 PAIRS = {
     ("thomist", "scotist"): ["composition_in_god", "received_esse_without_real_distinction"],

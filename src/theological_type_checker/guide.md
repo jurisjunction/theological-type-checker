@@ -29,8 +29,9 @@ compiled text.
    with `classification/3` and `premise/3`.
 5. Run `check`. Read the result as branches, not verdicts. A run uses the
    default runtime unless it names one (`rt_thomist`, `rt_scotist`,
-   `rt_suarezian`, `rt_palamite`; `rt_bare` for none; two for a pair).
-   Name a runtime when the answer depends on a school.
+   `rt_suarezian`, `rt_palamite`; `rt_saussure`, `rt_vocal`, `rt_lingual`;
+   `rt_bare` for none; two for a pair). Name a runtime when the answer
+   depends on a school.
 6. If you disagree with the result, use `fix_method`. If you agree, use
    `save_scenario`.
 7. A red test is a finding. Open each with `read_test` before deciding
@@ -192,6 +193,11 @@ compiled text.
 | `vigil_mass(C,F)`, `mass_formulary(M,F)` | GNLY 11: a Solemnity's own Vigil Mass, owed at an evening Mass on the eve when the evening is the Solemnity's; held only at an hour that is evening on every reading (c. 14). No such rule binds a Sunday's eve. |
 | `mass_at(M,D,HHMM)`, `holy_day_of_obligation(D)`, `assists_at(P,M)` | cc. 1246–1248: a Mass in a Catholic rite on a Sunday or holy day, or in the evening of the day before, meets its obligation, whatever its formulary (`meets_obligation/2`). "Evening" is read from noon or from 2 p.m.; between them c. 14 reads the obligation narrowly (`declined_in_doubt_of_law/3`), unless an authentic interpretation settles it. Enter the holy days as the conference has them (c. 1246 §2); Sundays are computed. Of a person who assists, the checker says only that the obligation is met, never that anyone failed it. |
 | `juridic_person(J)`, `group(J)`, `moral_person(J)`, `represents(P,J)` | cc. 113-118: only a physical person acts; a fiction acts through those who represent it and bears no interior, sin or delict. The Church and the Apostolic See are moral persons by divine ordinance. |
+| `version_approval(A,T)`, `act_date(A,D)` | c. 838 at the approval's date: as it read before 1 October 2017, or as *Magnum principium* amended it (`approved_under/2`). |
+| `can_speak(P)` | c. 1104 §2, for liceity only (c. 10): consent by signs that are not verba is illicit for a party who can speak (`consent_illicit/3`); disputed, both ways. |
+| `assistant_perceived(M,What,V)` | c. 1108 §2: what the assistant perceived (`celebration`, `consent`; `yes`, `no`, `disputed`), entered, never derived. The celebration perceived and not the consent: "recipit" read both ways (`recipit_read/2`). Not received, the form fails. No route enters. |
+| `interpreter(E,I)`, `interpreter_fidelity(M,established)`, `knows_encoding(P,E)` | c. 1106: the pastor assists only when sure of the interpreter (`assistance_illicit/2`). cc. 990, 983 §2, 1386 §2: a confession through an interpreter binds him to secrecy, under penalty (`bound_to_secrecy/2`); permitted, never required (`obliged_through_interpreter/2`, refused). Beside the canon: `assistant_outside_encoding/1`. |
+| `rite_by(M,S)`, `recognitio(S)` | c. 1120: a conference's norm taken as the rite needs the recognitio (`rite_without_recognitio`). cc. 846 §1, 1119: a rite or consent given in a signed language, read as the rite kept or changed (`rite_read/2`); c. 850: not in urgent necessity (`only_validity_required/1`). c. 869 §1: a form in doubt, its signs not *verba* or a feature of the substance given two ways (`form_in_doubt/1`), baptism conditionally (`to_be_baptized/2`). |
 
 A new canon goes under `% @norm id | citation | source`. New slots go under
 `% @input name/arity | meaning`. A norm that defines one person's delict by
@@ -205,7 +211,7 @@ codes; untagged, a norm is its own code's). See [ttc-canon(5)](canon-law-layer.m
 | --- | --- |
 | `classification(Q,E,Kind)` | Theological question Q classifies event E. Where Q holds `no`, the law treats E as not of that kind. |
 | `premise(N,Q,V)` | Norm N presupposes V on Q. Applied where Q holds otherwise: violation. |
-| `law_answers(Q)` | A claim that a canon-law result fixes Q: refused where Q is doctrinal. |
+| `law_answers(Q)` | A claim that a canon-law result fixes Q: refused where Q is doctrinal, or asks whether a version carries its source (`q(carries(F2,F1))`, `q(carries(T2,T1))`): an approval is governance (c. 838). |
 
 Law never answers a doctrinal question (`teaching_from_law`).
 
@@ -286,6 +292,34 @@ See [ttc-novissima(7)](research/novissima-preregistration.md).
 | `doubt_one_or_more(E,Date)`, `born_together(E,C)` | Conjoined twins: under CIC 1917 c. 748 one baptized absolutely, the rest conditionally (`to_be_baptized/2`); after 1983 no canon answers. Whether one human being or several is computed both ways. |
 
 See [ttc-empirica(7)](research/empirica-preregistration.md).
+
+## THE TONGUES
+
+| Fact | Meaning |
+| --- | --- |
+| `encoding(E,T,From,To)`, `encoding_route(E,written\|manual)`, `encoding_from(E2,E1,C)`, `variety_of(E2,E1,C)`, `code_of(E2,E1)` | A tongue in a script, or a signed language, by its ISO 639-3 code, over a span of years; its descent, a claim; a variety; a manual code of a tongue. A word as an encoding's parent is refused on every runtime (`word_as_root`); a variety entered as descended, `variety_entered_as_descent`. |
+| `text_of(T,S,E,Y)`, `made_from(T2,T1)`, `revises(T2,T1)` | One encoding of one edition of a source, dated; a translation's parent; a new edition, which changes the word and is no rendering. Refused: a text made before its parent (`made_before_parent`), a cycle (`translation_cycle`). Shown: `superseded_encoding(T,T2)`, T encoding an edition T2 revises. |
+| `form_in(F,T,Locus)`, `renders(F2,F1)`, `host_declared(F2,F1,C)` | A form, a span of a text, as given; F2 given for F1, both ways under `disputed(renders(F2,F1))`; a rendering of a rendering, against its declared host and that host's host. No mode between editions, or between a code and its tongue (`no_mode/3`). |
+| `lexicon(C,E,Y,K)`, `signifies(F,W,C)` | A lexicon of E at its year, of a kind (a `database` gives no meanings); what a form means by it. Rival lexicons both ways (`read_by/2`). Refused: a meaning by no lexicon (`meaning_without_lexicon`), a lexicon outside its encoding's span (`lexicon_out_of_span`). |
+| `analogous(W2,W1,K,C)`, `broader(W2,W1,C)`, `carries(W2,W1,P)` | In the order of reason, W2 said of W1 by `attribution`, `proportionality` or `metaphor`; W2 covering W1 and more; what an analogical rendering whose words are W2 for W1 carries. Refused: `analogy_without_kind`, `equivocation_carried`. |
+| `form_reading(F,R,C)`, `admits(F,R,C)`, `reading_holds(R,Q,V)` | A host form's reading, by its exegete; a reading a lexicon admits; what a reading holds on a question. Shown: `closes/3`, `opens/3`, `interpretation/3` (a reading kept, another closed). |
+| `rests_on_form(A,P,F)` | The argument A's premise P rests on the host form F. Shown: `carried/3`, `carried_in(A,E,P)`, `lost_in(A,E,P,Why)` (`gap`, `equivocal`, `no_carry`), `gap/2`, `premise_by_analogy/3`. |
+| `hears_in(G,E,C)`, `hears_under(G,C)`, `hearing_rule(C,F2,F1)`, `horizon_lacks(G,P,C)` | A horizon, a runtime or a guest, hearing in E by a lexicon; rival lexicons both ways. Never a person (`hearing_of_a_person`), never by no lexicon (`hearing_without_lexicon`). Under a rule of hearing a version admits exactly its host's readings (`heard_by_rule/3`). Each relation has its twin by hearing (`mode_for/4`, `closes_for/4`, `interpretation_for/4`, `carried_for/3`, `lost_for/4`); what a horizon cannot hold, apart (`lost_by_horizon/3`). |
+| *output* `info(mode(F2,F1,M))`, `info(extent(F2,F1,X))` | Computed, never entered: `univocal` where both forms mean one word (the default's part `word_of_no_tongue`; on `rt_saussure`, only within one encoding); `analogical` where an analogy is declared; `equivocal` otherwise; `wider` or `narrower` by `broader/3`. On the default runtime a word given a date or a place in time is refused (`word_dated`). |
+| `mode_claim(C,F2,F1,M,U)`, `fixes_mode(C,F2,F1)` | C states a mode, or `interpretation`, in the unit U (`word`, `passage`, `act`, `sense`, `recipients`): it weighs at C's tier (`mode_claim_weighs/4`) and never fixes (`mode_fixed_by_claim`). In the unit of the word, `mode_claim_agrees/3` or `mode_claim_differs/3`; two claims on one pair, `units_differ/4`. |
+| `catechesis_rule(C,F2,R)`, `message(F1,R,C)`, `span_kind(F,K)`, `idiomatic(F2,E,C)`, `unrendered(F2,F1,W)`, `order_changed(F2,F1,C)` | What the regimes read: a reading sent to catechesis; the message named (CLP 6); a host in an `anaphoral` or `biblical` text; a rendering keeping its tongue's character; a host word left without counterpart; an order changed where the tongue allows it kept. |
+| parts `regime_la`, `regime_clp`, `regime_mp` | Three regimes of the faithful, none preferred. LA: nothing closed, no word unrendered, the order kept (`faithful/2`); what a rendering opens, `for_catechesis/2`. CLP: the hearing admits the message, no reading it admits answers a doctrinal question against its sources (`contrary_for/4`), and no insertion in an anaphoral or biblical text, itself disputed (`faithful_for/3`). MP: nothing closed, the Latin deciding (`latin_decides/2`); the tongue; the addressees as CLP; a sacramental form also word for word (`word_for_word_required/2`). |
+| `rests_on_rendering(S,Q,F2)` | A doctrinal value rested on what a rendering closes: refused (`rendering_answers`); Q keeps its own sources. |
+| `formula_of(F,K)`, `form_for(F,K)`, `form_feature(F,Ft,V,C)`, `corruption_at(F,Where)`, `form_agent(F,X,C)` | The Church's form of K; a form used for K; what a form expresses (`minister_act`: `expressed`, `unexpressed`, `other_agent`; `trinity_invoked`; `addressee`), rival claims both ways, compared by feature with the Church's form (`feature_mode/4`; an unexpressed act a gap, no defect). Corrupt at the end, `read_by_accommodation`; at the start, `sense_lost`. With the Grammar of the Icon an assembly named as the one who acts is refused (`cophase_as_agent`). Which features are of the substance is teaching (`classification(Q,feature(K,Ft),of_substance)`). |
+| `rite_given(E,K,M,R,F)`, `consent_given(M,P,F)`, `confession_given(A,P,F)` | A rite, a consent, a confession given by a form. A manual form is a verbum on `rt_lingual` from the year findings fix `q(human_language(T))` and `q(signifies_by_convention(T))`, never on `rt_vocal`; the default runs both (`read_as(verbum,verbum_vocal)`, `read_as(verbum,verbum_lingual)`). A confession raises no such question. Shown: `read_as_verba/1`, `read_as_signa/1`; a manual code with no finding of its own, `no_claimant/2`. |
+| `canon_verbum(L,R)` | Candidate only: a canon's reading of *verba* entered beside the runtime's. Read one way in c. 849 and another in c. 1104 §2, refused (`verba_read_two_ways`). |
+| `notated(F,N,C)`, `notation_kind(N,K)`, `notation_tier(N,Tier,Extent)`, `token(F,N,I,T)`, `presumes(T,Cat,C)`, `nonmanual_mark(F,N,M)` | A performance given in a notation by its transcriber, a claim. Shown: `notation_gap/3`, `notation_partial/3`, `transcriptions_differ/3`, `gloss_presumes_category/2`, `clause_read/3`. A gloss token entered as a word is refused (`gloss_as_word`). |
+| `depicts(F,M,C)`, `manner_used(E,M)` | A sign depicting a manner beside the matter used: `iconic_manner_differs/2`, never a refusal. |
+| `practice_teaches(C,S,Q)`, `rests_on_practice(S2,Q,S)`, `date_claimed(S,D,C)` | That a practice teaches: a claim with its claimant and no tier (`practice_claim/3`). A doctrinal value resting on practice alone is refused (`validity_from_practice`). Two days claimed for one act: `dated_two_ways/3`. |
+
+A finding laid on a juridical question, how a canon reads, is refused as on a
+doctrinal one (`finding_on_a_doctrine`). See
+[ttc-linguae(7)](research/linguae-preregistration.md).
 
 ## LIBRARY
 

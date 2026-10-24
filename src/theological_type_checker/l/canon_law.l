@@ -2064,8 +2064,8 @@ delegated(P,M) :- marriage(M,P,T), delegation(_,O,P,general,TD), ordinary(O), TD
 delegated(P,M) :- marriage(M,P,T), delegation(_,O,P,M,TD), pastor_of(O,Tr), held_in(M,Tr), TD <= T.
 delegated(P,M) :- marriage(M,P,T), delegation(_,O,P,general,TD), pastor_of(O,Tr), held_in(M,Tr), TD <= T.
 valid_form(M) :- form_1983(M), marriage(M,P,T), delegated(P,M), not governance_invalid_at(P,T), not lacks_priest(M),
-                 not few_witnesses(M).
-valid_form(M) :- form_1983(M), common_error(M), not lacks_priest(M), not few_witnesses(M).
+                 not few_witnesses(M), not receipt_failed(M).
+valid_form(M) :- form_1983(M), common_error(M), not lacks_priest(M), not few_witnesses(M), not receipt_failed(M).
 priest_required(M) :- priest_required_by(M,_).
 lacks_priest(M) :- priest_required(M), marriage(M,A,_), not priest(A).
 % Two witnesses (TTC-OFFICE PW1): a number given below two fails the form;
@@ -2082,7 +2082,7 @@ in_own_territory(M,P) :- marriage(M,P,_), ordinary_of(P,T), held_in(M,T).
 in_own_territory(M,P) :- marriage(M,P,_), ordinary_of(P,D), held_in(M,T), within(T,D).
 latin_party(M) :- spouse(M,Q), latin_faithful(Q).
 valid_form(M) :- form_1983(M), marriage(M,P,T), in_own_territory(M,P), latin_party(M),
-                 not governance_invalid_at(P,T), not lacks_priest(M), not few_witnesses(M).
+                 not governance_invalid_at(P,T), not lacks_priest(M), not few_witnesses(M), not receipt_failed(M).
 ```
 
 norm cic:521 | c. 521 §1: to be appointed pastor validly, one must be in the sacred order of the presbyterate | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann515-552_en.html
@@ -2104,7 +2104,7 @@ norm cic:1127 | c. 1127 §1: in a mixed marriage the form of c. 1108 is observed
 
 ```clingo
 liceity_only(M) :- form_1983(M), spouse(M,P), latin_faithful(P), spouse(M,Q), eastern_noncatholic(Q).
-valid_form(M) :- liceity_only(M), marriage(M,A,_), sacred_minister(A), not lacks_priest(M).
+valid_form(M) :- liceity_only(M), marriage(M,A,_), sacred_minister(A), not lacks_priest(M), not receipt_failed(M).
 sacred_minister(A) :- priest(A).
 sacred_minister(A) :- deacon(A).
 ```
@@ -2443,6 +2443,250 @@ violation(weighing_against_law(T,N)) :- sets_aside(T,N,salus_animarum).
 ```
 
 end
+
+```clingo
+
+% ---------- The tongues: who approves a version; forms in sign (TTC-LINGUAE) ----
+% Who approves a version is law (c. 838); whether a version carries its
+% source is not (pair.lp). A form signed in a signed language meets the
+% canons of form (cc. 849, 869, 1104 §2, 1108 §2), each read as the runtime
+% reads verba (linguae.lp). What a party, an assistant or an interpreter
+% did is an outward fact, entered, never derived (rule 3).
+% The texts and the laws that enacted them (TTC-SOURCES TX): c. 838 before
+% and after Magnum principium (3 September 2017; "a die I mensis Octobris
+% anni MMXVII"), and the canons of form read here, from the Code of 1983.
+enacted_by(c838_text_1983,code1983). part_of(n838_1983,c838_text_1983).
+promulgated(mp2017,20170903). vacatio_set(mp2017,20171001).
+enacted_by(c838_text_2017,mp2017). part_of(n838_2017,c838_text_2017).
+revokes(mp2017,c838_text_1983,expressly).
+enacted_by(c869_text_1983,code1983). part_of(n869_1,c869_text_1983).
+enacted_by(c850_text_1983,code1983). part_of(n850,c850_text_1983).
+enacted_by(c1104_text_1983,code1983). part_of(n1104_2,c1104_text_1983).
+enacted_by(c1106_text_1983,code1983). part_of(n1106,c1106_text_1983).
+enacted_by(c1108_2_text_1983,code1983). part_of(n1108_2,c1108_2_text_1983).
+enacted_by(c1119_text_1983,code1983). part_of(n1119,c1119_text_1983).
+enacted_by(c1120_text_1983,code1983). part_of(n1120,c1120_text_1983).
+enacted_by(c990_text_1983,code1983). part_of(n990,c990_text_1983).
+enacted_by(c983_2_text_1983,code1983). part_of(n983_2,c983_2_text_1983).
+part_of(n1386_2,book6_2021).
+% Readings no authentic interpretation answers (rule 2): a rite given in a
+% signed language, the approved rite kept or changed (c. 846 §1, c. 1119);
+% what "recipit" asks of the assistant (c. 1108 §2).
+reading_option(c846,rite_kept). reading_option(c846,rite_changed).
+needs_reading(c846,E) :- rite_given(E,_,_,_,F), manual_form(F), not urgent_baptism(E), act_date(E,T), norm_in_force(n846,T).
+reading_option(c1119,rite_kept). reading_option(c1119,rite_changed).
+needs_reading(c1119,M) :- consent_given(M,_,F), manual_form(F), given_for(F,_), marriage(M,_,T), norm_in_force(n1119,T).
+reading_option(c1108_2,recipit_celebration). reading_option(c1108_2,recipit_consent).
+needs_reading(c1108_2,M) :- perceived(M,celebration), not perceived(M,consent), marriage(M,_,T), norm_in_force(n1108_2,T).
+```
+
+slot version_approval(A: act, T: text)
+  means "version_approval(A, T): the act A approves the version T (recognitio, or confirmatio)"
+  say "{A} approves the version {T}"
+
+slot can_speak(P: person)
+  means "can_speak(P): the party can speak (c. 1104 §2), an outward fact"
+  say "{P} can speak"
+
+slot assistant_perceived(M: act, What: category, V: category)
+  means "assistant_perceived(M, celebration | consent, yes | no | disputed): what the assistant at the marriage M perceived, entered, never derived"
+  say "at {M} the assistant perceived the {What}: {V}"
+
+slot interpreter(E: act, I: person)
+  means "interpreter(E, I): the marriage or the confession E goes through the interpreter I"
+  say "{E} goes through the interpreter {I}"
+
+slot interpreter_fidelity(M: act, V: category)
+  means "interpreter_fidelity(M, established): the pastor is certain of the interpreter's trustworthiness (c. 1106)"
+  say "at {M} the interpreter's trustworthiness is {V}"
+
+slot knows_encoding(P: person, E: encoding)
+  means "knows_encoding(P, E): P reads the forms of E"
+  say "{P} reads {E}"
+
+slot obliged_through_interpreter(P: person, A: act)
+  means "candidate only: obliged_through_interpreter(P, A), a penitent held obliged to confess through an interpreter"
+  say "{P} is held obliged to confess through an interpreter in {A}"
+
+slot rite_by(M: act, S: source)
+  means "rite_by(M, S): the celebration M follows the norm S as its rite"
+  say "{M} follows {S} as its rite"
+
+slot recognitio(S: source)
+  means "recognitio(S): the conference's rite S has the Apostolic See's recognitio (c. 1120)"
+  say "{S} has the recognitio of the Apostolic See"
+
+norm cic:838 | c. 838 §§2-3 (1983): the Apostolic See reviews (recognoscere) the translations of the liturgical books into vernacular languages; the conferences of bishops prepare the translations and publish them after the prior review of the Holy See | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann834-878_en.html
+
+```clingo
+% c. 838 as it read before 1 October 2017 and after: the approval of a
+% version is placed under the text in force at its date.
+approved_under(T,n838_1983) :- version_approval(A,T), act_date(A,D), norm_in_force(n838_1983,D).
+```
+
+norm mp2017:838 | c. 838 §§2-3 as amended by Magnum principium (3 September 2017), in force "a die I mensis Octobris anni MMXVII": the Apostolic See is to review (recognoscere) the adaptations approved by the conferences, and to confirm (confirmatio) the versions they prepare and approve, "fideliter et convenienter intra limites definitos accommodatas" | https://www.vatican.va/content/francesco/la/motu_proprio/documents/papa-francesco-motu-proprio_20170903_magnum-principium.html
+
+```clingo
+approved_under(T,n838_2017) :- version_approval(A,T), act_date(A,D), norm_in_force(n838_2017,D).
+```
+
+end
+
+```clingo
+info(approved_under(T,N)) :- approved_under(T,N).
+```
+
+norm cic:869 | c. 869 §1: if there is a doubt whether a person was baptized, or whether baptism was conferred validly, and the doubt remains after serious investigation, baptism is to be conferred on that person conditionally | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann834-878_en.html
+
+```clingo
+% Whether a form in a signed language is a "verborum forma" (c. 849), no source
+% of tiers 1 to 3 answers (c. 841; Gestis verbisque n. 31 sends such doubts to
+% the Dicastery). Where the runtime reads its signs as no verba, or the form
+% is contrary on a feature of the substance, the doubt remains (linguae.lp).
+baptize_869(R) :- rite_given(E,baptism,_,R,F), form_in_doubt(F), act_date(E,T), norm_in_force(n869_1,T).
+```
+
+end
+
+```clingo
+info(to_be_baptized(R,conditionally)) :- baptize_869(R).
+```
+
+norm cic:850 | c. 850: baptism is administered according to the order prescribed in the approved liturgical books, except in a case of urgent necessity, in which only those things required for the validity of the sacrament must be observed; with c. 846 §1 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann834-878_en.html
+
+```clingo
+% No approved text of a rite in a signed language exists (c. 838). A rite
+% given in one is read as the approved rite kept, or as changed (c. 846 §1):
+% no authentic interpretation answers it. In urgent necessity a baptism needs
+% only what validity needs, so the question does not arise.
+urgent_baptism(E) :- rite_given(E,baptism,_,R,_), act_date(E,T), danger_of_death(R,T), norm_in_force(n850,T).
+illicit_change(M,E) :- read_for(c846,rite_changed,E), rite_given(E,_,M,_,_).
+```
+
+end
+
+```clingo
+info(only_validity_required(E)) :- urgent_baptism(E).
+info(rite_read(E,R)) :- read_for(c846,R,E).
+```
+
+norm cic:1104 | c. 1104 §2: the spouses are to express their matrimonial consent in words; if they cannot speak, through equivalent signs ("Sponsi consensum matrimonialem verbis exprimant; si vero loqui non possunt, signis aequipollentibus"); no clause makes it invalidating (c. 10) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1095-1107_en.html
+
+```clingo
+% For liceity only. Whether the signs of a signed language are verba or signa
+% aequipollentia is the runtime's reading (linguae.lp); that a party can
+% speak is an outward fact, computed both ways where disputed.
+speaks(P) :- can_speak(P).
+{ speaks(P) } :- disputed(can_speak(P)).
+illicit_1104(M,P) :- consent_given(M,P,F), signa(F), speaks(P), marriage(M,_,T), norm_in_force(n1104_2,T).
+```
+
+end
+
+```clingo
+info(consent_illicit(M,P,c1104_2)) :- illicit_1104(M,P).
+assumed_fact(can_speak(P))        :- disputed(can_speak(P)), speaks(P).
+assumed_fact(false(can_speak(P))) :- disputed(can_speak(P)), not speaks(P).
+```
+
+norm cic:1106 | c. 1106: marriage can be contracted through an interpreter; the pastor is not to assist at it, however, unless he is certain of the trustworthiness of the interpreter | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1095-1107_en.html
+
+```clingo
+assistance_unsure(M) :- interpreter(M,_), marriage(M,_,T), not interpreter_fidelity(M,established), norm_in_force(n1106,T).
+```
+
+end
+
+```clingo
+info(assistance_illicit(M,c1106)) :- assistance_unsure(M).
+```
+
+norm cic:1108_2 | c. 1108 §2: the one who assists at a marriage is understood only as the person who, present, asks for the manifestation of the consent of the contracting parties and receives it in the name of the Church ("exquirit manifestationem contrahentium consensus eamque nomine Ecclesiae recipit") | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
+
+```clingo
+% Whether the assistant received the consent is a fact of the external forum,
+% entered (yes, no, disputed), never derived (rule 3). What "recipit" asks is a
+% reading no authentic interpretation answers: that he perceive the
+% celebration, or the consent as consent; where the two part, both (rule 2).
+% Both readings are blind to the route: no encoding enters this canon (SG10).
+perceived(M,W) :- assistant_perceived(M,W,yes).
+{ perceived(M,W) } :- assistant_perceived(M,W,disputed).
+received_by_assistant(M) :- perceived(M,consent).
+received_by_assistant(M) :- perceived(M,celebration), read_for(c1108_2,recipit_celebration,M).
+receipt_failed(M) :- assistant_perceived(M,_,_), not received_by_assistant(M), marriage(M,_,T), norm_in_force(n1108_2,T).
+```
+
+end
+
+```clingo
+assumed_fact(assistant_perceived(M,W))        :- assistant_perceived(M,W,disputed), perceived(M,W).
+assumed_fact(false(assistant_perceived(M,W))) :- assistant_perceived(M,W,disputed), not perceived(M,W).
+info(consent_received(M))     :- assistant_perceived(M,_,_), received_by_assistant(M).
+info(consent_not_received(M)) :- receipt_failed(M).
+info(recipit_read(M,R))       :- read_for(c1108_2,R,M).
+% Reported beside the canon, never read by it: the assistant reads no form of
+% the consent's encoding, and there is no interpreter.
+consent_encoding(M,E) :- consent_given(M,_,F), form_enc(F,E).
+reads_consent(A,E)    :- knows_encoding(A,E2), same_tongue(E,E2).
+info(assistant_outside_encoding(M)) :- marriage(M,A,_), consent_encoding(M,E), not reads_consent(A,E), not interpreter(M,_).
+```
+
+norm cic:1119 | c. 1119: outside a case of necessity, in the celebration of marriage the rites prescribed in the liturgical books approved by the Church or received through legitimate customs are to be observed; with c. 846 §1 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
+
+```clingo
+% A consent signed as a rendering of the approved formula is read as the rite
+% kept, or as the rite changed (c. 846 §1): two readings, no authentic
+% interpretation.
+illicit_change(A,M) :- read_for(c1119,rite_changed,M), marriage(M,A,_).
+```
+
+end
+
+```clingo
+info(rite_read(M,R)) :- read_for(c1119,R,M).
+```
+
+norm cic:1120 | c. 1120: the conference of bishops can produce its own rite of marriage, to be reviewed by the Holy See, in keeping with the usages of places and peoples, the law still requiring that the one who assists be present, ask for the manifestation of consent and receive it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
+
+```clingo
+% A conference's norm that offers a practice is no rite: as a rite, it needs
+% the recognitio (the USCCB's Guidelines, 2017, weigh as practice).
+rite_unreviewed(M,S) :- rite_by(M,S), not recognitio(S), marriage(M,_,T), norm_in_force(n1120,T).
+```
+
+end
+
+```clingo
+violation(rite_without_recognitio(S,M)) :- rite_unreviewed(M,S).
+```
+
+norm cic:990 | c. 990: no one is prohibited from confessing through an interpreter, provided that abuses and scandals are avoided and without prejudice to the prescript of c. 983 §2 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann959-997_en.html
+
+```clingo
+% Permitted, never required: a case that enters an obligation to confess
+% through an interpreter is refused. The internal forum is never computed.
+interpreted_confession(A,I) :- confession_given(A,_,_), interpreter(A,I), act_date(A,T), norm_in_force(n990,T).
+violation(interpreter_required(P,A)) :- obliged_through_interpreter(P,A).
+```
+
+norm cic:983_2 | c. 983 §2: the interpreter, if there is one, and all others who in any way have knowledge of sins from confession are also obliged to observe secrecy | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann959-997_en.html
+
+```clingo
+bound_to_secrecy(I,A) :- interpreted_confession(A,I), act_date(A,T), norm_in_force(n983_2,T).
+```
+
+norm cic2021:1386_2 | c. 1386 §2: an interpreter and the others mentioned in c. 983 §2 who violate the secret are to be punished with a just penalty, not excluding excommunication | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib6-cann1364-1399_en.html
+
+```clingo
+secret_under_penalty(I,A) :- bound_to_secrecy(I,A), act_date(A,T), norm_in_force(n1386_2,T).
+```
+
+end
+
+```clingo
+info(bound_to_secrecy(I,A))      :- bound_to_secrecy(I,A).
+info(secret_under_penalty(I,A))  :- secret_under_penalty(I,A).
+```
 
 ```clingo
 

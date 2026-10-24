@@ -161,6 +161,20 @@ human being or several are born, one is baptized absolutely and the rest
 conditionally. The Code of 1983 has no such canon; the number stays a
 disputed fact on the theological side (`empirica.lp`).
 
+The tongues (TTC-LINGUAE): c. 838 in two texts, that of 1983 and that of
+*Magnum principium* (in force 1 October 2017); an approval of a version
+falls under the text in force at its date, and answers no question of
+whether the version carries its source (the pair). For rites and consent
+in sign: c. 849 and c. 1104 §2 read *verba* two ways, by runtime (`vocal`,
+`lingual`); c. 869 §1 gives baptism under condition only where the form is
+doubted; c. 850, in urgent necessity, asks only what validity needs; c. 1104
+§2 never invalidates; c. 1106 makes assistance through an interpreter
+illicit unless his trustworthiness is entered; c. 1108 §2's *recipit* is
+read two ways (the celebration perceived, or the consent itself), the route
+never entering it; cc. 1119-1120, the rite kept or changed, and no rite
+without the *recognitio*; c. 990 permits an interpreter, c. 983 §2 binds him,
+and c. 1386 §2 is reported, never applied (`linguae.lp` for the forms).
+
 ## SOURCES
 
 [iuscangreg](https://www.iuscangreg.it/) (Faculty of Canon Law, Pontifical

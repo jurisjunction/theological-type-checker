@@ -16,6 +16,7 @@ from . import engine as E
 from . import suite
 
 SCHOOLS = ["thomist", "scotist", "suarezian", "palamite"]
+TONGUES = ["saussure", "vocal", "lingual"]       # booted alone (TTC-LINGUAE M1), never paired
 DH1330_DEPOSIT = "distinction(opposition)."      # encoding A, in every solve (part dh1330_deposit, everywhere)
 
 
@@ -28,9 +29,10 @@ def school_parts() -> set[str]:
 
 def boot_set() -> list[dict]:
     sp = school_parts()
-    # the stamped boot set (TTC-SCHOOLS): scenarios written later (RT, AC, LW, CR, MR, CX, PC, CO, PN, SAE, CC, SRC, LIT, NOV, EMP) are not in it
+    # the stamped boot set (TTC-SCHOOLS): scenarios written later (RT, AC, LW, CR, MR, CX, PC, CO, PN, SAE, CC, SRC, LIT, NOV, EMP, LIN) are not in it
     return [s for s in suite.S if s["group"] not in (suite.RT, suite.AC, suite.LW, suite.CR, suite.MR, suite.CX, suite.PC, suite.CO,
-                                                       suite.PN, suite.SAE, suite.CC, suite.SRC, suite.LIT, suite.NOV, suite.EMP)
+                                                       suite.PN, suite.SAE, suite.CC, suite.SRC, suite.LIT, suite.NOV, suite.EMP,
+                                                       suite.LIN)
             and not (sp & set(s["parts"]))]
 
 
@@ -90,7 +92,7 @@ def main(argv=None):
     print(f"boot set: {len(x.scen)} scenarios; DH 1330 {'deposit (A)' if x.a else 'a Thomist reading (B)'}")
     bare = x.boot("bare")
     print(f"\nbare      changed {bare['changed']}\n          red     {bare['red']}")
-    for r in SCHOOLS:
+    for r in SCHOOLS + TONGUES:
         b = x.boot(r)
         print(f"{r:9} changed {b['changed']}\n          red     {b['red']}")
     print()
