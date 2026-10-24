@@ -117,30 +117,70 @@ def test_l_refuses(text, why):
 # expectation is that table, not anything the compiler computes. Restated
 # (rule 7) by TTC-LINGUAE M1, as predicted: default gains the part
 # word_of_no_tongue, which its children inherit after default's own parts,
-# and the runtimes saussure, vocal and lingual are added.
+# and the runtimes saussure, vocal and lingual are added. Restated again by
+# TTC-MODERNITY (SU2), as predicted: default gains the first nine of the ten
+# parts of the causes, which every school inherits after default's own parts,
+# and nothing else changes; the new runtimes are pinned by their horizons below.
+NINE = ["ends_in_nature", "forms_in_nature", "ends_by_god_physics", "ends_by_god_ethics", "ends_of_human_nature",
+        "soul_as_form", "ends_desired", "self_preservation", "object_as_form"]
 HAND_WRITTEN = {
     "bare": [],
-    "default": ["classical", "one_power", "word_of_no_tongue"],
-    "thomist": ["classical", "one_power", "word_of_no_tongue", "th01", "th03", "th04", "th05", "th06", "th21",
+    "default": ["classical", "one_power", "word_of_no_tongue", *NINE],
+    "thomist": ["classical", "one_power", "word_of_no_tongue", *NINE, "th01", "th03", "th04", "th05", "th06", "th21",
                 "th22", "th24", "simplicity_thomist", "attributes_by_reason", "mixed_relations", "transcendentals",
                 "holds_premotion", "one_place_circumscribed"],
-    "scotist": ["classical", "one_power", "word_of_no_tongue", "simplicity_scotist", "attributes_formal",
+    "scotist": ["classical", "one_power", "word_of_no_tongue", *NINE, "simplicity_scotist", "attributes_formal",
                 "univocity_of_concept", "scotus_esse", "mixed_relations", "transcendentals"],
-    "suarezian": ["classical", "one_power", "word_of_no_tongue", "simplicity_thomist", "attributes_by_reason",
+    "suarezian": ["classical", "one_power", "word_of_no_tongue", *NINE, "simplicity_thomist", "attributes_by_reason",
                   "suarez_esse", "mixed_relations", "transcendentals", "holds_concurrence"],
-    "palamite": ["classical", "word_of_no_tongue", "simplicity_palamite", "palamite_energies", "monopatrism",
+    "palamite": ["classical", "word_of_no_tongue", *NINE, "simplicity_palamite", "palamite_energies", "monopatrism",
                  "no_divine_contraction", "grace_uncreated"],
-    "saussure": ["classical", "one_power", "word_by_division"],
-    "vocal": ["classical", "one_power", "word_of_no_tongue", "verbum_vocal"],
-    "lingual": ["classical", "one_power", "word_of_no_tongue", "verbum_lingual"],
+    "saussure": ["classical", "one_power", *NINE, "word_by_division"],
+    "vocal": ["classical", "one_power", "word_of_no_tongue", *NINE, "verbum_vocal"],
+    "lingual": ["classical", "one_power", "word_of_no_tongue", *NINE, "verbum_lingual"],
+}
+# TTC-MODERNITY: each new runtime's horizon, the cause parts it holds, from the
+# design's tables (the record's, the readings, the will line, the hearers), by
+# hand: the nine traced as each row says; form_of_law only where Kant adds it.
+_ALL9 = set(NINE)
+_TRACE = lambda *xs: _ALL9 - set(xs)  # noqa: E731
+_DESIRE = {"ends_desired", "self_preservation"}
+_LOCKE = {"ends_by_god_physics", "ends_by_god_ethics", "ends_desired", "self_preservation"}
+MODERNITY_HORIZONS = {
+    "scotus_dpp": _TRACE("ends_in_nature"),
+    "ockham": _TRACE("ends_in_nature", "ends_by_god_physics", "object_as_form"),
+    "suarez_dm23": _TRACE("ends_in_nature"),
+    "bacon": _TRACE("ends_in_nature", "forms_in_nature"),
+    "descartes": _TRACE("ends_in_nature", "forms_in_nature", "ends_by_god_physics"),
+    "hobbes": _DESIRE, "spinoza": _DESIRE, "hooker": _ALL9, "grotius": _TRACE("ends_in_nature"), "locke": _LOCKE,
+    "leibniz": _ALL9, "kant": {"ends_desired", "form_of_law"},
+    "scotus_will": _TRACE("ends_in_nature", "ends_of_human_nature", "object_as_form"),
+    "ockham_will": _TRACE("ends_in_nature", "ends_by_god_physics", "object_as_form", "ends_of_human_nature"),
+    "ockham_nominal": _TRACE("ends_in_nature", "ends_by_god_physics", "object_as_form", "soul_as_form"),
+    "descartes_will": _TRACE("ends_in_nature", "forms_in_nature", "ends_by_god_physics", "ends_of_human_nature",
+                             "object_as_form"),
+    "grotius_etiamsi": _TRACE("ends_in_nature", "ends_by_god_ethics"),
+    "kant_humanity": {"ends_desired", "form_of_law", "ends_of_human_nature"},
+    "kant_mm": {"ends_desired", "form_of_law", "ends_in_nature", "self_preservation"},
+    "suarez_wl": _TRACE("ends_in_nature"), "hobbes_wl": _DESIRE, "spinoza_wl": _DESIRE, "locke_wl": _LOCKE,
+    "leibniz_wl": _ALL9,
+    "episcopate_1891": _ALL9, "social_catholic": _ALL9, "smith": _LOCKE, "angers": _ALL9, "george": _LOCKE,
+    "george_hn": _LOCKE | {"ends_of_human_nature"},
+    "marx": _TRACE("ends_in_nature", "forms_in_nature", "ends_by_god_physics", "ends_by_god_ethics", "soul_as_form"),
+    "marx_social": {"ends_desired", "self_preservation", "object_as_form"},
+    "lassalle": _TRACE("ends_by_god_physics", "ends_by_god_ethics"),
 }
 
 
 def test_the_runtimes_compile_to_the_hand_written_lists():
     # RU1: order included; the engine reads what L compiles
     compiled = lang.compile_runtimes(lang.sources())
-    assert compiled["runtimes"] == HAND_WRITTEN and list(compiled["runtimes"]) == list(HAND_WRITTEN)
-    assert engine.RUNTIMES == HAND_WRITTEN
+    old = {k: v for k, v in compiled["runtimes"].items() if k in HAND_WRITTEN}
+    assert old == HAND_WRITTEN and list(compiled["runtimes"])[:len(HAND_WRITTEN)] == list(HAND_WRITTEN)
+    assert set(compiled["runtimes"]) == set(HAND_WRITTEN) | set(MODERNITY_HORIZONS)
+    cause = set(NINE) | {"form_of_law"}
+    assert {k: set(v) & cause for k, v in compiled["runtimes"].items() if k in MODERNITY_HORIZONS} == MODERNITY_HORIZONS
+    assert engine.RUNTIMES == compiled["runtimes"]
     assert compiled["declared"]["palamite"] == {"extends": ["default"], "file": "schools.l", "ops": [
         ["exclude", "one_power"], ["add", "simplicity_palamite"], ["add", "palamite_energies"],
         ["add", "monopatrism"], ["add", "no_divine_contraction"], ["add", "grace_uncreated"]]}
@@ -438,7 +478,8 @@ def test_each_sort_is_declared_in_the_lowest_layer_whose_slots_use_it():
 CLOSED = {"tier", "force", "question_kind", "papal_form", "character", "conciliar_act", "shown_condition",
           "object", "presence_mode", "nature", "sacrament", "teaching_type", "valence",
           "table_rank",   # TTC-CALENDAR: the Table of Liturgical Days, 1..13
-          "tmode", "akind", "unit"}   # TTC-LINGUAE: a mode claimed, a kind of analogy, a claim's unit
+          "tmode", "akind", "unit",   # TTC-LINGUAE: a mode claimed, a kind of analogy, a claim's unit
+          "cause", "domain"}   # TTC-MODERNITY: the four causes, and where each is held
 
 
 def _domain_args():

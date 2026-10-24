@@ -54,6 +54,10 @@ slot declared_by_authority(P: person)
   means "declared_by_authority(P): P's adherence declared by competent authority"
   say "competent authority has declared the adherence of {P}"
 
+slot figure(F: school)
+  means "figure(F): the runtime is the node of the figure F (TTC-MODERNITY), for the hearers' tongues"
+  say "the runtime is the node of {F}"
+
 slot internal_forum_actor(A: person)
   means "internal_forum_actor(A): one who acts in the internal forum (a confessor)"
   say "{A} acts in the internal forum"
@@ -3216,4 +3220,181 @@ part switch of replies_hyp
 ```clingo
 #program replies_specific.        % HYPOTHETICAL: the 2023 reply approved in forma specifica (RP3)
 in_forma_specifica(rp_c).
+```
+
+```clingo
+
+% ---------- The four causes: property and its modernities (TTC-MODERNITY) -----
+% Real texts. An argument is typed as what it says, which no tongue owns, and
+% every typing is an interpretive fact, entered and open to dispute
+% (docs/research/modernity-sources.md, modernity-hearers.md). Authority
+% reads no argument: the sources hold their values by form (rule 14).
+```
+
+part case
+
+```clingo
+#program modernity_property.      % Rerum novarum (15 May 1891) on property, with Thomas and his readers (TTC-MODERNITY)
+% Property by nature is two questions: RN's opponents granted property in products and denied it in
+% land, and RN argues "non modo terrenorum fructuum, sed ipsius terrae dominatum" (RN 7).
+question(q(property_in_products)). question_kind(q(property_in_products),doctrinal).
+value(q(property_in_products),(natural;positive_addition)).
+question(q(property_in_land)). question_kind(q(property_in_land),doctrinal).
+value(q(property_in_land),(natural;positive_addition)).
+question(q(use_common)). question_kind(q(use_common),doctrinal). value(q(use_common),(yes;no)).
+question(q(ip_absolute)). question_kind(q(ip_absolute),doctrinal). value(q(ip_absolute),(yes;no)).
+% The sources, each at its tier by form.
+source(rn_1891,3,truth,1891). papal_form(rn_1891,ordinary). character(rn_1891,encyclical).
+supports(rn_1891,(q(property_in_products);q(property_in_land)),natural). supports(rn_1891,q(use_common),yes).
+source(th57,5,truth,1271). promoted(th57,4,1567).    % ST II-II q. 57 a. 3: the field, as to its cultivation
+supports(th57,q(property_in_land),natural).
+source(th66,5,truth,1271). promoted(th66,4,1567).    % ST II-II q. 66 aa. 1-2: use common, division "superadded"
+supports(th66,q(use_common),yes).
+source(gs69,3,truth,1965). conciliar(gs69). character(gs69,conciliar_constitution). supports(gs69,q(use_common),yes).
+source(ca30,3,truth,1991). papal_form(ca30,ordinary). character(ca30,encyclical). supports(ca30,q(use_common),yes).
+source(ccc2403,3,truth,1992). character(ccc2403,catechism). supports(ccc2403,q(use_common),yes).
+source(civ22,3,truth,2009). papal_form(civ22,ordinary). character(civ22,encyclical). supports(civ22,q(ip_absolute),no).
+source(suarez_dl,5,truth,1612).    % De legibus II.14: division by agreement, after Scotus
+source(grotius_dibp,5,truth,1625). % DIBP II.2.2
+source(hobbes_l24,5,truth,1651).   % Lev. 24: propriety the effect of the commonwealth
+supports((suarez_dl;grotius_dibp;hobbes_l24),(q(property_in_products);q(property_in_land)),positive_addition).
+source(locke27,5,truth,1689). supports(locke27,q(property_in_products),natural).   % 2T §27: labour mixed
+source(locke25,5,truth,1689). supports(locke25,q(use_common),yes).                 % 2T §25: given in common
+% The arguments, each typed by the causes it rests on.
+% RN 7: reason links "the future with the present"; provision for needs that recur.
+argument(rn7_products,rn_1891,q(property_in_products),natural). argument(rn7_land,rn_1891,q(property_in_land),natural).
+argues_from((rn7_products;rn7_land),final,human). argues_from((rn7_products;rn7_land),formal,human).
+% RN 9, as its Latin divides it and as Hittinger reads it: "ad conservandam vitam maximeque ad
+% perficiendam"; "velut formam quamdam personae suae impressam reliquit". Its premises on forms are
+% linguae_rn9's; "ad conservandam vitam" rests on no form.
+argument(rn9,rn_1891,q(property_in_land),natural).
+argues_from(rn9,efficient,human). argues_from(rn9,material,nature). argues_from(rn9,formal,human).
+argues_from(rn9,final,self). argues_from(rn9,final,human).
+% RN 10: "effectae res caussam sequuntur a qua effectae sunt"; improvements "solo inhaerent miscenturque penitus".
+argument(rn10_products,rn_1891,q(property_in_products),natural). argues_from(rn10_products,efficient,human).
+argument(rn10_land,rn_1891,q(property_in_land),natural).
+argues_from(rn10_land,efficient,human). argues_from(rn10_land,material,nature).
+% RN 13: "Sanctissima naturae lex est", that the father provide for those he begot.
+argument(rn13_products,rn_1891,q(property_in_products),natural). argument(rn13_land,rn_1891,q(property_in_land),natural).
+argues_from((rn13_products;rn13_land),final,human).
+% RN 8: the earth given in common, "partem nullam cuique assignavit"; RN 22: II-II q. 66 a. 2, quoted.
+argument(rn8,rn_1891,q(use_common),yes). argues_from(rn8,final,god_ethics).
+argument(rn22,rn_1891,q(use_common),yes). argues_from(rn22,final,human).
+argument(th57,th57,q(property_in_land),natural). argues_from(th57,final,human).
+argument(th66,th66,q(use_common),yes). argues_from(th66,final,nature). argues_from(th66,final,human).
+argument(gs69,gs69,q(use_common),yes). argument(ccc2403,ccc2403,q(use_common),yes).
+argument(ca30,ca30,q(use_common),yes). argues_from((gs69;ccc2403;ca30),final,god_ethics).
+argument(civ22,civ22,q(ip_absolute),no). argues_from(civ22,final,human).
+% The positive addition, by the will's act: Suarez, Grotius, Hobbes.
+argument(suarez_dl_products,suarez_dl,q(property_in_products),positive_addition).
+argument(suarez_dl_land,suarez_dl,q(property_in_land),positive_addition).
+argument(grotius_dibp_products,grotius_dibp,q(property_in_products),positive_addition).
+argument(grotius_dibp_land,grotius_dibp,q(property_in_land),positive_addition).
+argument(hobbes_l24_products,hobbes_l24,q(property_in_products),positive_addition).
+argument(hobbes_l24_land,hobbes_l24,q(property_in_land),positive_addition).
+argues_from((suarez_dl_products;suarez_dl_land;grotius_dibp_products;grotius_dibp_land;
+             hobbes_l24_products;hobbes_l24_land),efficient,will).
+argument(locke27,locke27,q(property_in_products),natural).
+argues_from(locke27,efficient,human). argues_from(locke27,final,self). argues_from(locke27,material,nature).
+argument(locke25,locke25,q(use_common),yes). argues_from(locke25,final,god_ethics).
+% Fortin's reading, a claim with its claimant: heard in the English of 1891 under Locke, RN 9 still
+% concludes for land, as Locke's argument "almost textually" (TS 53, 1992, p. 214).
+concludes_heard(rn9,lex_en_locke_1891,fortin_1992).
+```
+
+part switch of modernity_property
+
+```clingo
+#program rn7_from_form.           % RN 7 from reason alone: reason links "the future with the present"
+reading_of(rn7_products_form,rn7_products). reading_of(rn7_land_form,rn7_land).
+argues_from((rn7_products_form;rn7_land_form),formal,human).
+```
+
+part switch of modernity_property
+
+```clingo
+#program rn7_from_self.           % RN 7 from self-preservation: "ius ille suum ad vitam corpusque tuendum"
+reading_of(rn7_products_self,rn7_products). reading_of(rn7_land_self,rn7_land).
+argues_from((rn7_products_self;rn7_land_self),final,self).
+```
+
+part switch of modernity_property
+
+```clingo
+#program rn7_under_providence.    % RN 7 under God's government: "sub lege aeterna, sub potestate omnia
+reading_of(rn7_products_providence,rn7_products). reading_of(rn7_land_providence,rn7_land).   % providentissime gubernantis Dei"
+argues_from((rn7_products_providence;rn7_land_providence),final,god_ethics).
+```
+
+part switch of modernity_property
+
+```clingo
+#program rn13_as_command.         % RN 13 as the Maker's command, read as Locke reads the same duty (2T §§56, 63, 66)
+reading_of(rn13_products_command,rn13_products). reading_of(rn13_land_command,rn13_land).
+argues_from((rn13_products_command;rn13_land_command),final,god_ethics).
+```
+
+part switch of modernity_property
+
+```clingo
+#program rn8_from_sustenance.     % RN 8 from the sustenance of all: "quoniam nemo est mortalium, quin alatur eo,
+reading_of(rn8_sustenance,rn8).   % quod agri efferunt"
+argues_from(rn8_sustenance,final,self).
+```
+
+part switch of modernity_property
+
+```clingo
+#program rn22_as_stewardship.     % RN 22, the owner as steward: "velut minister providentiae divinae"
+reading_of(rn22_stewardship,rn22).
+argues_from(rn22_stewardship,final,god_ethics).
+```
+
+part switch
+
+```clingo
+#program modernity_measure.       % Henry Adams, The Education XXV: the Virgin draws, as an end does, and "both
+measures_as(adams_1907,final,efficient).   % energies acted as interchangeable force on man"
+```
+
+```clingo
+% The hearings (TTC-MODERNITY HE): the run's own horizon, or the VM's guest
+% where one is loaded, hears in a tongue of linguae_rn9, by its lexicon.
+% vatican.va's English stands in for the English of 1891.
+```
+
+part switch
+
+```clingo
+#program hear_la_1891.            % the Latin, promulgated
+hears_in(H,la_1891,lex_la_1891) :- hearer(H).
+```
+
+part switch
+
+```clingo
+#program hear_en_1891_locke.      % the English of 1891, "personality" the forensic self (Essay II.xxvii.26)
+hears_in(H,en_1891,lex_en_locke_1891) :- hearer(H).
+```
+
+part switch
+
+```clingo
+#program hear_en_1891_schol.      % the English of 1891, "personality" the scholastic personalitas
+hears_in(H,en_1891,lex_en_schol_1891) :- hearer(H).
+```
+
+part switch
+
+```clingo
+#program hear_en_2026.            % the English of 2026
+hears_in(H,en_2026,lex_en_2026) :- hearer(H).
+```
+
+part switch of modernity_property
+
+```clingo
+#program hearers_tongues.         % Leo's hearers in their tongues: George replies in English, and restates RN 9-10
+hears_in(here,en_1891,lex_en_locke_1891) :- figure(george).   % as "Industry expended on land gives ownership in
+hears_in(here,la_1891,lex_la_1891)       :- figure(episcopate_1891).   % the land itself"; the bishops read the Latin
 ```

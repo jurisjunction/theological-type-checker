@@ -36,6 +36,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | churches | other Churches and ecclesial communities: succession, sacraments, *subsistit in* | to predict, after L |
 | senses | the senses and the routes to words: sensibles typed, schemes by culture, the interior senses; words by hearing, sight, hand and touch; perception's claims as premises | to predict, after L |
 | language | one word, many encodings: a form type-checked under its encoding at its date, by any route (heard, signed, written, touched), as a sign of the word; the encodings in time as a DAG, etymology a partial trace of forms through it; the word itself outside time; each encoding encodable, none required | done, before the senses ([ttc-linguae(7)](research/linguae-preregistration.md)) |
+| modernity | the four causes as a library; a horizon as the causes a runtime holds; a DAG of modernities from Scotus to Kant, its contested edges marked, with readings, a will line and Leo's hearers; the VM; hearing joined to the tongues; a case's phases over every horizon | done ([ttc-modernity(7)](research/modernity-preregistration.md)) |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
@@ -748,8 +749,8 @@ of baptism, and forms in sign with the runtimes `vocal` and `lingual`;
 c. 838 at its two dates, and cc. 849-850, 869, 983, 990, 1104-1108,
 1119-1120 for rites and consent in sign. Left: perceiving a form (the
 senses); etymology as a trace; the order of reason as a DAG of its own;
-TTC-MODERNITY's predictions revised to `hears_in/3`; the Italian drafts of
-*Rerum novarum*. The notes below remain.
+the Italian drafts of *Rerum novarum*. TTC-MODERNITY's predictions were
+revised to `hears_in/3` and are encoded. The notes below remain.
 
 The rung above the senses: not all of human language, but the ability to
 type-check a word in any encoding someone enters, whatever the route it
@@ -877,6 +878,34 @@ came by.
   checker's verdicts makes the checker's word the warrant, which it never
   is (L); the labels a model learns from come from people and
   instruments, and the checker refuses what fails.
+
+### modernity (after language)
+
+Done ([ttc-modernity(7)](research/modernity-preregistration.md)): the four
+causes by domain as a library (`causae.l`); ten parts, each one cause in one
+domain, the first nine in `default`, the form of the law only in Kant's;
+the record's DAG of modernities as runtimes by inheritance, with the
+readings, a will line below them and Leo's hearers of 1891; a trace that
+leaves authority untouched and reports a value held without reason and an
+act left with one; the VM, a guest horizon inside the host; hearing joined
+to TTC-LINGUAE, a premise lost leaving a shorter argument that reaches its
+hearer only on a claim; Adams's measure, refused save where ends survive as
+desire; the property case of *Rerum novarum* on every runtime and over every
+horizon. Left:
+
+- The cases that add order parameters (PH3): usury, lying, contraception,
+  the death penalty, religious liberty, each with its phases predicted
+  before stamping. The two forms of the will's act enter there.
+- The German and French of 1891 and their lexicons, for Marx, Lassalle and
+  the French Catholics; RN 7's and RN 13's forms; a rebuttal slot, for a
+  dispute about the object inside a cause both sides hold.
+- `ockham_nominal`'s propagation through the will line; metaphysics as a
+  field of its own beside physics and ethics.
+- The modernities inherit the metaphysical schools' parts: `suarez_dm23`
+  holds the Suarezian simplicity and the Scotist formal distinction of the
+  attributes, so it and the twenty nodes below it refuse
+  `composition_in_god` on their own (TTC-MODERNITY, SCORING). Which of a
+  school's parts a modernity keeps is to be read, node by node.
 
 ## AMENDMENTS AND REPAIRS
 
