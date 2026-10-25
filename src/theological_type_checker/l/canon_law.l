@@ -1014,7 +1014,7 @@ violation(penalty_without_law(M)) :- lacuna(M), penal_matter(M), equity_rule(M,_
 
 ```
 
-norm cic:85 | c. 85: dispensation relaxes a merely ecclesiastical law in a particular case; c. 86: laws defining what essentially constitutes an institute or juridic act are not subject to dispensation | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann85-93_en.html
+norm cic:85 | c. 85: dispensation relaxes a merely ecclesiastical law in a particular case; c. 86: laws defining what essentially constitutes an institute or juridic act are not subject to dispensation | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib1-cann35-93_en.html
 
 ```clingo
 dispensable(L) :- law_kind(L,ecclesiastical), not defines_essentials(L).
@@ -2034,7 +2034,7 @@ info(to_be_imposed(P,N,E,K)) :- to_be_imposed(P,N,E), penalty(N,K), past(E).
 
 ```
 
-norm cic:1117 | c. 1117: the form must be observed if at least one of the parties was baptized in the Catholic Church or received into it (as amended by Omnium in mentem, 2009; until then, "and has not defected from it by a formal act"), without prejudice to c. 1127 §2 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
+norm cic:1117 | c. 1117: the form must be observed if at least one of the parties was baptized in the Catholic Church or received into it (as amended by Omnium in mentem, 2009; until then, "and has not defected from it by a formal act"), without prejudice to c. 1127 §2 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
 
 ```clingo
 promulgated(oim2009,20091026). aas_issue(oim2009,20100108).   % names no date; AAS 102 (2010) 8-10, issue of 8 January 2010 (c. 8 §1)
@@ -2052,7 +2052,7 @@ form_binds(M) :- form_code(M,_), not form_excused(M).
 
 ```
 
-norm cic:1108 | c. 1108 §1 and c. 1111: the form requires assistance by the ordinary, the pastor, or a priest delegated by either (the pastor within his territory), and two witnesses; c. 144 §2 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
+norm cic:1108 | c. 1108 §1 and c. 1111: the form requires assistance by the ordinary, the pastor, or a priest delegated by either (the pastor within his territory), and two witnesses; c. 144 §2 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
 
 ```clingo
 % A rule of the layer fires only under the text in force at the event's date
@@ -2073,7 +2073,7 @@ lacks_priest(M) :- priest_required(M), marriage(M,A,_), not priest(A).
 few_witnesses(M) :- witnesses(M,N), N < 2.
 ```
 
-norm cic:1109 | c. 1109: the local ordinary and the pastor, unless excommunicated, interdicted or suspended from office or declared such by sentence or decree, assist validly by virtue of office within their territory at the marriages of subjects and non-subjects, provided one party is of the Latin Church | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
+norm cic:1109 | c. 1109: the local ordinary and the pastor, unless excommunicated, interdicted or suspended from office or declared such by sentence or decree, assist validly by virtue of office within their territory at the marriages of subjects and non-subjects, provided one party is of the Latin Church | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
 
 ```clingo
 % TTC-OFFICE PO1: by office, within the territory.
@@ -2085,7 +2085,7 @@ valid_form(M) :- form_1983(M), marriage(M,P,T), in_own_territory(M,P), latin_par
                  not governance_invalid_at(P,T), not lacks_priest(M), not few_witnesses(M), not receipt_failed(M).
 ```
 
-norm cic:521 | c. 521 §1: to be appointed pastor validly, one must be in the sacred order of the presbyterate | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann515-552_en.html
+norm cic:521 | c. 521 §1: to be appointed pastor validly, one must be in the sacred order of the presbyterate | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib2-cann460-572_en.html
 
 ```clingo
 % TTC-OFFICE PO3: a pastor is a priest.
@@ -2149,7 +2149,7 @@ info(marriage(M,few_witnesses)) :- few_witnesses(M), past(M), form_binds(M), not
 
 ```
 
-norm cic:1103 | c. 1103: a marriage is invalid if entered into because of force or grave fear from without, even when inflicted unintentionally, so that a person is compelled to choose marriage in order to be freed from it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1095-1107_en.html
+norm cic:1103 | c. 1103: a marriage is invalid if entered into because of force or grave fear from without, even when inflicted unintentionally, so that a person is compelled to choose marriage in order to be freed from it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
 
 ```clingo
 act_of(P,M) :- spouse(M,P).
@@ -2524,7 +2524,7 @@ norm cic:838 | c. 838 §§2-3 (1983): the Apostolic See reviews (recognoscere) t
 approved_under(T,n838_1983) :- version_approval(A,T), act_date(A,D), norm_in_force(n838_1983,D).
 ```
 
-norm mp2017:838 | c. 838 §§2-3 as amended by Magnum principium (3 September 2017), in force "a die I mensis Octobris anni MMXVII": the Apostolic See is to review (recognoscere) the adaptations approved by the conferences, and to confirm (confirmatio) the versions they prepare and approve, "fideliter et convenienter intra limites definitos accommodatas" | https://www.vatican.va/content/francesco/la/motu_proprio/documents/papa-francesco-motu-proprio_20170903_magnum-principium.html
+norm mp2017:838 | c. 838 §§2-3 as amended by Magnum principium (3 September 2017), in force "a die I mensis Octobris anni MMXVII": the Apostolic See is to review (recognoscere) the adaptations approved by the conferences, and to confirm (confirmatio) the versions they prepare and approve, "fideliter et convenienter intra limites definitos accommodatas" | https://www.vatican.va/archive/aas/documents/2017/acta-ottobre2017.pdf
 
 ```clingo
 approved_under(T,n838_2017) :- version_approval(A,T), act_date(A,D), norm_in_force(n838_2017,D).
@@ -2570,7 +2570,7 @@ info(only_validity_required(E)) :- urgent_baptism(E).
 info(rite_read(E,R)) :- read_for(c846,R,E).
 ```
 
-norm cic:1104 | c. 1104 §2: the spouses are to express their matrimonial consent in words; if they cannot speak, through equivalent signs ("Sponsi consensum matrimonialem verbis exprimant; si vero loqui non possunt, signis aequipollentibus"); no clause makes it invalidating (c. 10) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1095-1107_en.html
+norm cic:1104 | c. 1104 §2: the spouses are to express their matrimonial consent in words; if they cannot speak, through equivalent signs ("Sponsi consensum matrimonialem verbis exprimant; si vero loqui non possunt, signis aequipollentibus"); no clause makes it invalidating (c. 10) | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
 
 ```clingo
 % For liceity only. Whether the signs of a signed language are verba or signa
@@ -2589,7 +2589,7 @@ assumed_fact(can_speak(P))        :- disputed(can_speak(P)), speaks(P).
 assumed_fact(false(can_speak(P))) :- disputed(can_speak(P)), not speaks(P).
 ```
 
-norm cic:1106 | c. 1106: marriage can be contracted through an interpreter; the pastor is not to assist at it, however, unless he is certain of the trustworthiness of the interpreter | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1095-1107_en.html
+norm cic:1106 | c. 1106: marriage can be contracted through an interpreter; the pastor is not to assist at it, however, unless he is certain of the trustworthiness of the interpreter | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
 
 ```clingo
 assistance_unsure(M) :- interpreter(M,_), marriage(M,_,T), not interpreter_fidelity(M,established), norm_in_force(n1106,T).
@@ -2601,7 +2601,7 @@ end
 info(assistance_illicit(M,c1106)) :- assistance_unsure(M).
 ```
 
-norm cic:1108_2 | c. 1108 §2: the one who assists at a marriage is understood only as the person who, present, asks for the manifestation of the consent of the contracting parties and receives it in the name of the Church ("exquirit manifestationem contrahentium consensus eamque nomine Ecclesiae recipit") | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
+norm cic:1108_2 | c. 1108 §2: the one who assists at a marriage is understood only as the person who, present, asks for the manifestation of the consent of the contracting parties and receives it in the name of the Church ("exquirit manifestationem contrahentium consensus eamque nomine Ecclesiae recipit") | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
 
 ```clingo
 % Whether the assistant received the consent is a fact of the external forum,
@@ -2631,7 +2631,7 @@ reads_consent(A,E)    :- knows_encoding(A,E2), same_tongue(E,E2).
 info(assistant_outside_encoding(M)) :- marriage(M,A,_), consent_encoding(M,E), not reads_consent(A,E), not interpreter(M,_).
 ```
 
-norm cic:1119 | c. 1119: outside a case of necessity, in the celebration of marriage the rites prescribed in the liturgical books approved by the Church or received through legitimate customs are to be observed; with c. 846 §1 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
+norm cic:1119 | c. 1119: outside a case of necessity, in the celebration of marriage the rites prescribed in the liturgical books approved by the Church or received through legitimate customs are to be observed; with c. 846 §1 | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
 
 ```clingo
 % A consent signed as a rendering of the approved formula is read as the rite
@@ -2646,7 +2646,7 @@ end
 info(rite_read(M,R)) :- read_for(c1119,R,M).
 ```
 
-norm cic:1120 | c. 1120: the conference of bishops can produce its own rite of marriage, to be reviewed by the Holy See, in keeping with the usages of places and peoples, the law still requiring that the one who assists be present, ask for the manifestation of consent and receive it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1108-1123_en.html
+norm cic:1120 | c. 1120: the conference of bishops can produce its own rite of marriage, to be reviewed by the Holy See, in keeping with the usages of places and peoples, the law still requiring that the one who assists be present, ask for the manifestation of consent and receive it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
 
 ```clingo
 % A conference's norm that offers a practice is no rite: as a rite, it needs
