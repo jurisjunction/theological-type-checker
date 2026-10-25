@@ -174,8 +174,6 @@
    "soul_as_form",
    "ends_desired",
    "self_preservation",
-   "simplicity_scotist",
-   "attributes_formal",
    "univocity_of_concept",
    "scotus_esse",
    "mixed_relations",
@@ -199,10 +197,7 @@
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "bacon": [
    "classical",
@@ -232,10 +227,7 @@
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "hobbes": [
    "classical",
@@ -243,16 +235,10 @@
    "word_of_no_tongue",
    "ends_desired",
    "self_preservation",
-   "simplicity_thomist",
-   "attributes_by_reason",
-   "suarez_esse",
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "spinoza": [
    "classical",
@@ -266,10 +252,7 @@
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "hooker": [
    "classical",
@@ -317,10 +300,7 @@
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "locke": [
    "classical",
@@ -331,9 +311,7 @@
    "ends_desired",
    "self_preservation",
    "th01",
-   "th03",
    "th04",
-   "th05",
    "th06",
    "th21",
    "th22",
@@ -344,12 +322,8 @@
    "transcendentals",
    "holds_premotion",
    "one_place_circumscribed",
-   "suarez_esse",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "leibniz": [
    "classical",
@@ -369,10 +343,7 @@
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
    "univocity_of_concept",
-   "scotus_esse",
    "ends_in_nature"
   ],
   "kant": [
@@ -386,10 +357,7 @@
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
    "univocity_of_concept",
-   "scotus_esse",
    "form_of_law"
   ],
   "scotus_will": [
@@ -418,8 +386,6 @@
    "soul_as_form",
    "ends_desired",
    "self_preservation",
-   "simplicity_scotist",
-   "attributes_formal",
    "univocity_of_concept",
    "scotus_esse",
    "mixed_relations",
@@ -434,8 +400,6 @@
    "ends_of_human_nature",
    "ends_desired",
    "self_preservation",
-   "simplicity_scotist",
-   "attributes_formal",
    "univocity_of_concept",
    "scotus_esse",
    "mixed_relations",
@@ -455,10 +419,7 @@
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "grotius_etiamsi": [
    "classical",
@@ -477,10 +438,7 @@
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "kant_humanity": [
    "classical",
@@ -493,10 +451,7 @@
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
    "univocity_of_concept",
-   "scotus_esse",
    "form_of_law",
    "ends_of_human_nature"
   ],
@@ -511,10 +466,7 @@
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
    "univocity_of_concept",
-   "scotus_esse",
    "form_of_law",
    "ends_in_nature",
    "self_preservation"
@@ -537,10 +489,7 @@
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "hobbes_wl": [
    "classical",
@@ -548,16 +497,10 @@
    "word_of_no_tongue",
    "ends_desired",
    "self_preservation",
-   "simplicity_thomist",
-   "attributes_by_reason",
-   "suarez_esse",
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "spinoza_wl": [
    "classical",
@@ -571,10 +514,7 @@
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "locke_wl": [
    "classical",
@@ -585,9 +525,7 @@
    "ends_desired",
    "self_preservation",
    "th01",
-   "th03",
    "th04",
-   "th05",
    "th06",
    "th21",
    "th22",
@@ -598,12 +536,8 @@
    "transcendentals",
    "holds_premotion",
    "one_place_circumscribed",
-   "suarez_esse",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "leibniz_wl": [
    "classical",
@@ -623,10 +557,7 @@
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
    "univocity_of_concept",
-   "scotus_esse",
    "ends_in_nature"
   ],
   "episcopate_1891": [
@@ -695,9 +626,7 @@
    "ends_desired",
    "self_preservation",
    "th01",
-   "th03",
    "th04",
-   "th05",
    "th06",
    "th21",
    "th22",
@@ -708,12 +637,8 @@
    "transcendentals",
    "holds_premotion",
    "one_place_circumscribed",
-   "suarez_esse",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "angers": [
    "classical",
@@ -742,12 +667,8 @@
    "transcendentals",
    "holds_premotion",
    "one_place_circumscribed",
-   "suarez_esse",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
-   "univocity_of_concept",
-   "scotus_esse"
+   "univocity_of_concept"
   ],
   "george": [
    "classical",
@@ -758,9 +679,7 @@
    "ends_desired",
    "self_preservation",
    "th01",
-   "th03",
    "th04",
-   "th05",
    "th06",
    "th21",
    "th22",
@@ -771,12 +690,8 @@
    "transcendentals",
    "holds_premotion",
    "one_place_circumscribed",
-   "suarez_esse",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
    "univocity_of_concept",
-   "scotus_esse",
    "figure_george"
   ],
   "george_hn": [
@@ -788,9 +703,7 @@
    "ends_desired",
    "self_preservation",
    "th01",
-   "th03",
    "th04",
-   "th05",
    "th06",
    "th21",
    "th22",
@@ -801,12 +714,8 @@
    "transcendentals",
    "holds_premotion",
    "one_place_circumscribed",
-   "suarez_esse",
    "holds_concurrence",
-   "simplicity_scotist",
-   "attributes_formal",
    "univocity_of_concept",
-   "scotus_esse",
    "figure_george",
    "ends_of_human_nature"
   ],
@@ -1125,6 +1034,11 @@
     [
      "exclude",
      "object_as_form"
+    ],
+    [
+     "carry",
+     "formal",
+     "simplicity"
     ]
    ]
   },
@@ -1147,6 +1061,16 @@
     [
      "add",
      "object_as_form"
+    ],
+    [
+     "express",
+     "by_reason",
+     "simplicity"
+    ],
+    [
+     "express",
+     "by_reason",
+     "esse"
     ]
    ]
   },
@@ -1224,6 +1148,11 @@
     [
      "exclude",
      "object_as_form"
+    ],
+    [
+     "carry",
+     "by_reason",
+     "simplicity"
     ]
    ]
   },
@@ -1501,6 +1430,16 @@
     [
      "add",
      "ends_of_human_nature"
+    ],
+    [
+     "express",
+     "by_reason",
+     "simplicity"
+    ],
+    [
+     "express",
+     "by_reason",
+     "esse"
     ]
    ]
   },
@@ -1540,6 +1479,11 @@
     [
      "exclude",
      "object_as_form"
+    ],
+    [
+     "carry",
+     "by_reason",
+     "simplicity"
     ]
    ]
   },
@@ -1783,5 +1727,563 @@
     ]
    ]
   }
- }
+ },
+ "alleles": {
+  "simplicity": {
+   "by_reason": [
+    "simplicity_thomist",
+    "attributes_by_reason"
+   ],
+   "formal": [
+    "simplicity_scotist",
+    "attributes_formal"
+   ],
+   "energetic": [
+    "simplicity_palamite"
+   ],
+   "synonymous": [
+    "simplicity_synonymous"
+   ]
+  },
+  "esse": {
+   "real": [
+    "th03",
+    "th05"
+   ],
+   "by_reason": [
+    "suarez_esse"
+   ],
+   "scotus": [
+    "scotus_esse"
+   ]
+  }
+ },
+ "loci": {
+  "bare": {
+   "simplicity": {
+    "expressed": null,
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   }
+  },
+  "default": {
+   "simplicity": {
+    "expressed": null,
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   }
+  },
+  "thomist": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": []
+   },
+   "esse": {
+    "expressed": "real",
+    "carried": []
+   }
+  },
+  "scotist": {
+   "simplicity": {
+    "expressed": "formal",
+    "carried": []
+   },
+   "esse": {
+    "expressed": "scotus",
+    "carried": []
+   }
+  },
+  "suarezian": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": []
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": []
+   }
+  },
+  "palamite": {
+   "simplicity": {
+    "expressed": "energetic",
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   }
+  },
+  "saussure": {
+   "simplicity": {
+    "expressed": null,
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   }
+  },
+  "vocal": {
+   "simplicity": {
+    "expressed": null,
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   }
+  },
+  "lingual": {
+   "simplicity": {
+    "expressed": null,
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   }
+  },
+  "scotus_dpp": {
+   "simplicity": {
+    "expressed": "formal",
+    "carried": []
+   },
+   "esse": {
+    "expressed": "scotus",
+    "carried": []
+   }
+  },
+  "ockham": {
+   "simplicity": {
+    "expressed": null,
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "scotus",
+    "carried": []
+   }
+  },
+  "suarez_dm23": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   }
+  },
+  "bacon": {
+   "simplicity": {
+    "expressed": null,
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   }
+  },
+  "descartes": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   }
+  },
+  "hobbes": {
+   "simplicity": {
+    "expressed": null,
+    "carried": [
+     "by_reason",
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": null,
+    "carried": [
+     "by_reason",
+     "scotus"
+    ]
+   }
+  },
+  "spinoza": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   }
+  },
+  "hooker": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": []
+   },
+   "esse": {
+    "expressed": "real",
+    "carried": []
+   }
+  },
+  "grotius": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   }
+  },
+  "locke": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": null,
+    "carried": [
+     "by_reason",
+     "real",
+     "scotus"
+    ]
+   }
+  },
+  "leibniz": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   }
+  },
+  "kant": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   }
+  },
+  "scotus_will": {
+   "simplicity": {
+    "expressed": "formal",
+    "carried": []
+   },
+   "esse": {
+    "expressed": "scotus",
+    "carried": []
+   }
+  },
+  "ockham_will": {
+   "simplicity": {
+    "expressed": null,
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "scotus",
+    "carried": []
+   }
+  },
+  "ockham_nominal": {
+   "simplicity": {
+    "expressed": null,
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "scotus",
+    "carried": []
+   }
+  },
+  "descartes_will": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   }
+  },
+  "grotius_etiamsi": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   }
+  },
+  "kant_humanity": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   }
+  },
+  "kant_mm": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   }
+  },
+  "suarez_wl": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   }
+  },
+  "hobbes_wl": {
+   "simplicity": {
+    "expressed": null,
+    "carried": [
+     "by_reason",
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": null,
+    "carried": [
+     "by_reason",
+     "scotus"
+    ]
+   }
+  },
+  "spinoza_wl": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   }
+  },
+  "locke_wl": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": null,
+    "carried": [
+     "by_reason",
+     "real",
+     "scotus"
+    ]
+   }
+  },
+  "leibniz_wl": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   }
+  },
+  "episcopate_1891": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": []
+   },
+   "esse": {
+    "expressed": "real",
+    "carried": []
+   }
+  },
+  "social_catholic": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": []
+   },
+   "esse": {
+    "expressed": "real",
+    "carried": []
+   }
+  },
+  "smith": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": null,
+    "carried": [
+     "by_reason",
+     "real",
+     "scotus"
+    ]
+   }
+  },
+  "angers": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "real",
+    "carried": [
+     "by_reason",
+     "scotus"
+    ]
+   }
+  },
+  "george": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": null,
+    "carried": [
+     "by_reason",
+     "real",
+     "scotus"
+    ]
+   }
+  },
+  "george_hn": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": null,
+    "carried": [
+     "by_reason",
+     "real",
+     "scotus"
+    ]
+   }
+  },
+  "marx": {
+   "simplicity": {
+    "expressed": null,
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   }
+  },
+  "marx_social": {
+   "simplicity": {
+    "expressed": null,
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   }
+  },
+  "lassalle": {
+   "simplicity": {
+    "expressed": null,
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   }
+  }
+ },
+ "re_expressed": []
 }

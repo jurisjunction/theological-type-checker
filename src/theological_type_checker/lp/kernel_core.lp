@@ -271,6 +271,22 @@ violation(composition_in_god(X,Y,K,R)) :- simplicity(R), god_distinction(X,Y,K),
 violation(change_in_god(G))  :- immutability(_), changes(G).
 violation(modal_collapse(X)) :- necessary(X), contingent(X).
 
+% ---------- The last end and latria (deposit; TTC-LOCI) ----------------
+% The blessed "vident divinam essentiam visione intuitiva et etiam faciali,
+% nulla mediante creatura", and "ex tali visione et fruitione ... sunt vere
+% beatae" (Benedictus Deus, DH 1000-1001); the world is made "ad Dei
+% gloriam" (Dei Filius, can. 1.5, DH 3025). What is taken as the last end
+% of the rational creature, and is not God, is refused.
+violation(last_end_not_god(X)) :- last_end(X), not god(X), not divine(X).
+% Images are given "honoratoriam ... adorationem", "non tamen ... ueram
+% latrian, quae ... solam diuinam naturam decet", and "imaginis enim honor
+% ad primitiuum transit" (Nicaea II, the horos, ACO II.3 p. 827; DH 601).
+% Latria that terminates in what is not God is refused; honour that
+% terminates in God, through an image or not, faults nothing. Both rules
+% read what a library lowers (substitutio.lp), and neither decides a
+% school question.
+violation(latria_to_creature(P)) :- latria_to(P), not god(P), not divine(P).
+
 % ---------- A11  Sorted predicates ------------------------------------
 violation(sort_clash(X,S1,S2)) :- sort(X,S1), sort(X,S2), S1 < S2.
 

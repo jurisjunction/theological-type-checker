@@ -5231,7 +5231,10 @@ def su1():
 
 def ex1():
     """EX1, reported: the record's DAG with its three contested edges removed, rebuilt; what changes on the case.
-    Found: every node keeps its horizon, so nothing does."""
+    Found: every node keeps its horizon, so nothing does. Amended by TTC-LOCI (rule 7, stated in its SCORING): a
+    child's own `carry` at a locus resolves what it inherits; where the edges removed leave nothing to carry there
+    (the by_reason of hobbes and hobbes_wl, inherited only through descartes <- suarez_dm23), L refuses it, so the
+    rebuild drops it."""
     from . import lang
     text = (lang.L_DIR / "schools.l").read_text()
     contested = re.findall(r"(?m)^  -- contested edge: (\w+) <- (\w+)", text)
@@ -5241,8 +5244,22 @@ def ex1():
     for child, parent in record:
         text = re.sub(rf"(?m)^(runtime {child} extends [^\n]*?), {parent}\b", r"\1", text)
         text = re.sub(rf"(?m)^(runtime {child} extends ){parent}, ", r"\1", text)
-    srcs = dict({k: v for k, v in lang.sources().items() if k != "schools.lp"}, **{"schools.lp": lang.parse(text, "schools.l")})
-    rebuilt = lang.compile_runtimes(srcs)
+    others = {k: v for k, v in lang.sources().items() if k != "schools.lp"}
+    dropped = []
+    while True:
+        srcs = dict(others, **{"schools.lp": lang.parse(text, "schools.l")})
+        try:
+            rebuilt = lang.compile_runtimes(srcs)
+            break
+        except lang.LError as exc:
+            m = re.search(r"runtime (\w+): cannot carry (\w+) at (\w+): it would not express it", str(exc))
+            if not m:
+                raise
+            dropped.append(m.groups())
+            text = re.sub(rf"(?ms)^(runtime {m.group(1)}\b.*?)^  carry {m.group(2)} at {m.group(3)}\n", r"\1", text,
+                          count=1)
+    if dropped != [("hobbes", "by_reason", "simplicity"), ("hobbes_wl", "by_reason", "simplicity")]:
+        yield ("carries dropped", dropped)
     for child, parent in record:
         if parent in rebuilt["declared"][child]["extends"]:
             yield (child, "edge kept")
@@ -5355,7 +5372,8 @@ scen("SU1", MOD, "No earlier case enters an argument (SU1)", MPC, [_mod(su1)],
      "switches and the measure")
 scen("EX1", MOD, "The record's DAG without its contested edges (EX1, reported)", MPC, [_mod(ex1)],
      "rebuilt without descartes <- suarez_dm23, hobbes <- ockham and locke <- hobbes: every node keeps its "
-     "horizon, so nothing on the case changes (found)")
+     "horizon, so nothing on the case changes (found); the two Hobbes' carry at simplicity, left with nothing to "
+     "resolve, dropped with the edges (TTC-LOCI)")
 scen("MM1", MOD, "The reports' conditions", [], [_mod(mm1)],
      "a value with no argument entered, or an argument for a value no source supports, reports nothing; a "
      "value without reason against an available argument is contrary_reasoned")
@@ -5401,6 +5419,455 @@ scen("MM4", MOD, "Each runtime gives what its horizon gives", MPC, [_mod(mm4)],
 scen("MM3", MOD, "The parts and the marks", [], [_mod(mm3)],
      "horizons_all loaded by no runtime; rn9_in_english no part; contested and undocumented edges marked; each "
      "of the ten parts one cause in one domain, default holding the first nine")
+
+
+# ---------- Loci, substitution, the icon (TTC-LOCI) -----------------------------
+# Predictions committed and stamped first: docs/research/loci-preregistration.md.
+# The suite names LO1-LO6 AL1-AL6 (LO is the liturgy's), SU1-SU3 LS1-LS3 (SU is
+# the modernity's); SB and IC keep their names, and LQ pins the library's
+# mechanics. EX1, reported, boots the modernities on TTC-SCHOOLS's boot set
+# (tests/test_schools.py, TTC_SLOW).
+
+LCI = "loci"   # LOC is the liturgy's parts
+LOCI_CASES = ("loci_spinoza", "loci_mammon", "loci_icon", "loci_adams")
+LOCI_FAULTS = ("violation/1", "info(substitution_faults(C,T,X,V,L))", "info(necessity_faults(C,T,X,V,L))",
+               "read_as/2", "assumed_fact/1")
+# The 21 runtimes of TTC-MODERNITY's finding (SCORING, Not predicted): suarez_dm23 and every node below it.
+FINDING_21 = ("suarez_dm23", "descartes", "hobbes", "spinoza", "grotius", "locke", "leibniz", "kant", "descartes_will",
+              "grotius_etiamsi", "kant_humanity", "kant_mm", "suarez_wl", "hobbes_wl", "spinoza_wl", "locke_wl",
+              "leibniz_wl", "smith", "angers", "george", "george_hn")
+
+
+def loci_of(rt, locus):
+    """(the allele a runtime expresses at a locus, or None; the alleles it carries)"""
+    from . import lang
+    st = lang.compile_runtimes(lang.sources())["loci"][rt][locus]
+    return st["expressed"], tuple(st["carried"])
+
+
+def _loci_table(locus):
+    from . import lang
+    return {rt: (st[locus]["expressed"], tuple(st[locus]["carried"]))
+            for rt, st in lang.compile_runtimes(lang.sources())["loci"].items()}
+
+
+def _below(*roots):
+    """the runtimes that descend from any of roots (roots aside)"""
+    from . import lang
+    declared = lang.compile_runtimes(lang.sources())["declared"]
+    out, frontier = set(), set(roots)
+    while frontier:
+        nxt = {c for c, d in declared.items() if set(d["extends"]) & frontier} - out
+        out |= nxt
+        frontier = nxt
+    return out - set(roots)
+
+
+# THE DESIGN's two loci, pasted
+LOCI_DECLARED = {"simplicity": {"by_reason": ["simplicity_thomist", "attributes_by_reason"],
+                                "formal": ["simplicity_scotist", "attributes_formal"],
+                                "energetic": ["simplicity_palamite"], "synonymous": ["simplicity_synonymous"]},
+                 "esse": {"real": ["th03", "th05"], "by_reason": ["suarez_esse"], "scotus": ["scotus_esse"]}}
+
+
+def al1():
+    """L compiles every runtime of the base, as its sources compile; the refusals, on toy sources (test_l.py)"""
+    from . import lang
+    if lang.check():
+        yield ("differs", lang.check())
+    if lang.compile_runtimes(lang.sources())["alleles"] != LOCI_DECLARED:
+        yield ("alleles", lang.compile_runtimes(lang.sources())["alleles"])
+    toy = "".join(f"part switch\n```clingo\n#program {p}.\n```\n" for p in "abc")
+    for decls, why in (("locus p\n  allele one = a\nlocus q\n  allele two = a\n", "declared at two loci"),
+                       ("locus p\n  allele one = a, z\n", "which is not a part"),
+                       ("locus p\n  allele one = a, b\nruntime r\n  add a\n", "holds part of the allele"),
+                       ("locus p\n  allele one = a\n  allele two = b\nruntime r\n  add a\nruntime s extends r\n"
+                        "  express two at p\n", "cannot express two")):
+        try:
+            lang.compile_runtimes({"x.lp": lang.parse("layer schools\n" + toy + decls, "x.l")})
+            yield ("not refused", why)
+        except lang.LError as exc:
+            if why not in str(exc):
+                yield (why, str(exc))
+    src = toy + "locus p\n  allele one = a\nruntime r\n  add a\nruntime s extends r\n  carry one at p\n" \
+                "runtime t extends s\n  express one at p\n"
+    if lang.compile_runtimes({"x.lp": lang.parse("layer schools\n" + src, "x.l")})["re_expressed"] != [["t", "p", "one"]]:
+        yield "re_expressed not reported"
+
+
+SCHOOLS4 = ("thomist", "scotist", "suarezian", "palamite")
+NONE_AT_ALL = ("bare", "default", "bacon", "saussure", "vocal", "lingual", "marx", "marx_social", "lassalle")
+
+
+def al2():
+    """LO2, at simplicity, from the prediction's words"""
+    by_reason = {"thomist", "suarezian", "hooker", "suarez_dm23", "suarez_wl"}
+    by_reason |= _below(*by_reason) - {"hobbes", "hobbes_wl"}
+    want = {rt: ("by_reason", None) for rt in by_reason}
+    want.update({rt: ("formal", None) for rt in ("scotist", "scotus_dpp", "scotus_will")})
+    want["palamite"] = ("energetic", None)
+    want.update({rt: (None, ("formal",)) for rt in ("ockham", "ockham_will", "ockham_nominal")})
+    want.update({rt: (None, ("by_reason", "formal")) for rt in ("hobbes", "hobbes_wl")})
+    want.update({rt: (None, ()) for rt in NONE_AT_ALL})
+    got = _loci_table("simplicity")
+    if set(got) != set(want):
+        yield ("runtimes", sorted(set(got) ^ set(want)))
+    for rt, (e, k) in want.items():
+        if got.get(rt, (None, ()))[0] != e or (k is not None and got[rt][1] != k):
+            yield (rt, got.get(rt))
+
+
+def al3():
+    """LO3, at esse, from the prediction's words"""
+    real = {"thomist", "hooker", "episcopate_1891", "social_catholic", "angers"}
+    scotus = {"scotist", "scotus_dpp", "ockham", "ockham_will", "ockham_nominal", "scotus_will"}
+    all3 = {"locke", "locke_wl", "smith", "george", "george_hn"}
+    two = {"hobbes", "hobbes_wl"}
+    by_reason = {"suarezian", "suarez_dm23", "suarez_wl"}
+    by_reason |= _below(*by_reason) - real - all3 - two
+    want = {rt: ("real", None) for rt in real}
+    want.update({rt: ("scotus", None) for rt in scotus})
+    want.update({rt: ("by_reason", None) for rt in by_reason})
+    want.update({rt: (None, ("by_reason", "real", "scotus")) for rt in all3})
+    want.update({rt: (None, ("by_reason", "scotus")) for rt in two})
+    want.update({rt: (None, ()) for rt in NONE_AT_ALL + ("palamite",)})
+    got = _loci_table("esse")
+    if set(got) != set(want):
+        yield ("runtimes", sorted(set(got) ^ set(want)))
+    for rt, (e, k) in want.items():
+        if got.get(rt, (None, ()))[0] != e or (k is not None and got[rt][1] != k):
+            yield (rt, got.get(rt))
+
+
+def _inherited_whole():
+    """each runtime's parts as L built them before the loci: the base's sources, the loci and the runtimes'
+    express and carry taken away"""
+    from . import lang
+    srcs = lang.sources()
+    for src in srcs.values():
+        src.items = [it for it in src.items if not isinstance(it, lang.Locus)]
+        for it in src.items:
+            if isinstance(it, lang.Runtime):
+                it.ops = [op for op in it.ops if op[0] not in ("express", "carry")]
+    return lang.compile_runtimes(srcs)["runtimes"]
+
+
+COMPOSITION = ("violation(composition_in_god(", "violation(received_esse_without_real_distinction(")
+
+
+def al4():
+    """LO4: no runtime refuses composition_in_god or received_esse_without_real_distinction, alone or on the
+    property case; against each runtime's parts inherited whole, the 21 lose exactly composition_in_god, and the
+    rest lose nothing"""
+    whole = _inherited_whole()
+    lost = set()
+    for rt in E.RUNTIMES:
+        for case in ([], MPC):
+            now = {frozenset(m) for m in solve(case + [f"rt_{rt}"], "all")["all_models"]}
+            before = {frozenset(m) for m in solve(case + ["rt_bare"] + whole[rt], "all")["all_models"]}
+            if any(a.startswith(COMPOSITION) for m in now for a in m):
+                yield (rt, case, "refuses")
+            if {frozenset(a for a in m if not a.startswith(COMPOSITION[0])) for m in before} != now:
+                yield (rt, case, "changes beyond composition_in_god")
+            if before != now:
+                lost.add(rt)
+    if lost != set(FINDING_21):
+        yield ("lose", sorted(lost ^ set(FINDING_21)))
+
+
+def al5():
+    """LO5: the four schools express their own alleles, whole, and are unchanged (the boot and pair tables of
+    TTC-SCHOOLS are tests/test_schools.py's, TTC_SLOW)"""
+    want = {"thomist": ("by_reason", "real"), "scotist": ("formal", "scotus"), "suarezian": ("by_reason", "by_reason"),
+            "palamite": ("energetic", None)}
+    whole = _inherited_whole()
+    for rt, (s, e) in want.items():
+        if (loci_of(rt, "simplicity"), loci_of(rt, "esse")) != ((s, ()), (e, ())):
+            yield (rt, loci_of(rt, "simplicity"), loci_of(rt, "esse"))
+        if E.RUNTIMES[rt] != whole[rt]:
+            yield (rt, "parts changed")
+
+
+def al6():
+    """LO6: no runtime of the base re-expresses a carried allele"""
+    from . import lang
+    got = lang.compile_runtimes(lang.sources())["re_expressed"]
+    if got:
+        yield got
+
+
+scen("AL1", LCI, "L compiles the base's loci, and refuses what it must (LO1)", [], [_mod(al1)],
+     "every runtime compiles; a part at two loci, an allele naming no part, a runtime holding part of an allele, an "
+     "express of an allele not inherited refused; re_expressed reported")
+scen("AL2", LCI, "The alleles at simplicity (LO2)", [], [_mod(al2)],
+     "by_reason: the Thomist, Suarezian and Hooker, suarez_dm23 and suarez_wl by express, and all below but hobbes "
+     "and hobbes_wl; formal: Scotus's three; energetic: palamite; Ockham's three carry formal; the two Hobbes carry "
+     "both; the rest nothing")
+scen("AL3", LCI, "The alleles at esse (LO3)", [], [_mod(al3)],
+     "real: the Thomist, Hooker, the bishops, the social Catholics, Angers; scotus: Scotus's and Ockham's; "
+     "by_reason: Suarez and all below save Angers, the Lockeans (carrying all three) and the two Hobbes (two)")
+scen("AL4", LCI, "No runtime refuses composition on its own (LO4)", MPC, [_mod(al4)],
+     "no composition_in_god nor received_esse_without_real_distinction, alone or on the property case; the 21 lose "
+     "exactly composition_in_god, the rest nothing")
+scen("AL5", LCI, "The four schools express their own (LO5)", [], [_mod(al5)],
+     "thomist by_reason and real, scotist formal and scotus, suarezian by_reason at both, palamite energetic; "
+     "their parts unchanged")
+scen("AL6", LCI, "Nothing re-expressed (LO6)", [], [_mod(al6)], "re_expressed is empty")
+
+
+def _every_rt(parts, shows=LOCI_FAULTS, facts=""):
+    """each runtime -> its projection of the run"""
+    return {rt: mod_project(list(parts) + [f"rt_{rt}"], shows, facts) for rt in E.RUNTIMES}
+
+
+SPINOZA_A = frozenset({"read_as(ethica_1677,pantheist)", "violation(being_from_non_god(natura,natura_naturata))",
+                       "violation(modal_collapse(natura))"}
+                      | {f"info(substitution_faults({c},ethica_1677,natura,being_from_non_god,deposit))"
+                         for c in ("jacobi_1785", "borge_2025")}
+                      | {f"info(necessity_faults({c},ethica_1677,natura,modal_collapse,kernel))"
+                         for c in ("jacobi_1785", "borge_2025")})
+SPINOZA_B = frozenset({"read_as(ethica_1677,naturans)", "violation(modal_collapse(natura_naturata))",
+                       "info(necessity_faults(nadler_2002,ethica_1677,natura_naturata,modal_collapse,kernel))"})
+
+
+def sb1():
+    for rt, ms in _every_rt(["loci_spinoza"]).items():
+        if ms != frozenset({SPINOZA_A, SPINOZA_B}):
+            yield (rt, sorted(set().union(*ms) ^ (SPINOZA_A | SPINOZA_B)))
+
+
+MAMMON = frozenset({"violation(last_end_not_god(money))",
+                    "info(substitution_faults(mccarraher_2019,capitalist_order,money,last_end_not_god,deposit))"})
+LAST_END_RULE = "violation(last_end_not_god(X)) :- last_end(X), not god(X), not divine(X)."
+
+
+def sb2():
+    for rt, ms in _every_rt(["loci_mammon"]).items():
+        if ms != frozenset({MAMMON}):
+            yield (rt, sorted(set().union(*ms)))
+    with E.rule_change(remove=[LAST_END_RULE]):
+        for rt, ms in _every_rt(["loci_mammon"]).items():
+            if ms != frozenset({frozenset()}):
+                yield (rt, "without the rule", sorted(set().union(*ms)))
+
+
+HEARINGS = ("hear_la_1891", "hear_en_1891_locke", "hear_en_1891_schol", "hear_en_2026", "hearers_tongues")
+
+
+def sb3():
+    """a pure trace faults nowhere: the property case on every runtime, alone and beside all six switches, under
+    no hearing and each; each switch alone, under no hearing and each, over every horizon (horizons_all)"""
+    for rt in E.RUNTIMES:
+        for sw in RUN_CONFIGS:
+            for h in (None,) + HEARINGS:
+                parts = (RN9C + [h] if h else MPC) + [f"rt_{rt}"] + list(sw)
+                ms = mod_project(parts, ("violation/1",))
+                if ms != frozenset({frozenset()}):
+                    yield (rt, sw, h, sorted(set().union(*ms))[:2])
+    for sw in SW6:
+        for h in (None,) + HEARINGS:
+            parts = phase_base() + (RN9C + [h] if h else MPC) + [sw]
+            ms = mod_project(parts, ("violation/1",))
+            if ms != frozenset({frozenset()}):
+                yield ("horizons_all", sw, h, sorted(set().union(*ms))[:2])
+
+
+NATIVE = ("hobbes", "spinoza", "hobbes_wl", "spinoza_wl")
+
+
+def sb4():
+    """the two readings of Education XXV on two layers: Adams's measure at the library's, refused save where native
+    (CV5); McCarraher's idol at the deposit, on every runtime"""
+    for rt, ms in _every_rt(["loci_adams", "modernity_measure"], ("violation/1", "info(conversion_native(M))")).items():
+        want = {"violation(latria_to_creature(dynamo))"}
+        want.add("info(conversion_native(adams_1907))" if rt in NATIVE
+                 else "violation(cause_converted(adams_1907,final,efficient))")
+        if ms != frozenset({frozenset(want)}):
+            yield (rt, sorted(set().union(*ms)))
+
+
+PERSON_LOWERED = ("violation(last_end_not_god(money))", "violation(modal_collapse(natura))",
+                  "violation(latria_to_creature(a_reader))")
+
+
+def sb5():
+    """refused, each of the three, and lowered nowhere (rule 3)"""
+    ms = mod_project(["cand_substitution_person"], LOCI_FAULTS)
+    if ms != frozenset({frozenset({"violation(substitution_of_a_person(a_reader))"})}):
+        yield sorted(set().union(*ms))
+    one = {"substitutes": "created_person(a_reader). substitutes(x_c,a_reader,money,god,last_end).",
+           "necessitates": "created_person(a_reader). inanimate(natura). necessitates(x_c,a_reader,natura).",
+           "honour": "created_person(a_reader). honour(a_reader,a_reader,latria,x_c)."}
+    for slot, facts in one.items():
+        got = set().union(*mod_project([], ("violation/1",), facts))
+        if got != {"violation(substitution_of_a_person(a_reader))"}:
+            yield (slot, sorted(got))
+    # the same, of a text: each lowered and faulting
+    text = {"substitutes(x_c,a_text,money,god,last_end).": PERSON_LOWERED[0],
+            "inanimate(natura). necessitates(x_c,a_text,natura).": PERSON_LOWERED[1],
+            "honour(a_reader,a_reader,latria,x_c).": PERSON_LOWERED[2]}
+    for facts, atom in text.items():
+        if set().union(*mod_project([], ("violation/1",), facts)) != {atom}:
+            yield ("of a text", facts)
+
+
+scen("SB1", LCI, "Spinoza's God, two readings (SB1)", ["loci_spinoza"], [_mod(sb1)],
+     "on every runtime, spinoza and bare included: on A being_from_non_god(natura, natura_naturata) (deposit) and "
+     "modal_collapse(natura) (kernel); on B modal_collapse(natura_naturata) only, no substitution")
+scen("SB2", LCI, "Mammon as the last end (SB2)", ["loci_mammon"], [_mod(sb2)],
+     "last_end_not_god(money), of the deposit, on every runtime; without the new rule, nothing")
+scen("SB3", LCI, "A pure trace faults nowhere (SB3)", MPC, [_mod(sb3)],
+     "no violation on the property case, on any runtime, under any switch or hearing")
+scen("SB4", LCI, "The dynamo on two layers (SB4)", ["loci_adams", "modernity_measure"], [_mod(sb4)],
+     "Adams's measure refused save where native (CV5); McCarraher's idol latria_to_creature(dynamo) on every "
+     "runtime, hobbes included")
+scen("SB5", LCI, "Never of a person (SB5)", ["cand_substitution_person"], [_mod(sb5)],
+     "a substitution, a necessity or an honour entered of a person refused (substitution_of_a_person) and lowered "
+     "nowhere; of a text, each lowered")
+
+
+def ic1():
+    for rt, ms in _every_rt(["loci_icon"], ("violation/1",)).items():
+        if ms != frozenset({frozenset({"violation(latria_to_creature(idol))"})}):
+            yield (rt, sorted(set().union(*ms)))
+    alone = {"honour(image_of_christ,christ,veneration,nicaea_ii).", "honour(image_of_christ,christ,latria,thomists).",
+             "honour(image_of_a_saint,a_saint,dulia,aquinas)."}
+    for facts in alone:
+        if set().union(*mod_project([], ("violation/1",), "divine(christ). " + facts)):
+            yield ("faults", facts)
+
+
+def ic3():
+    """the terminus decides, not the sign"""
+    to_itself = "divine(christ). honour(image_of_christ,image_of_christ,latria,x_c)."
+    to_christ = "divine(christ). honour(image_of_christ,christ,latria,x_c)."
+    if set().union(*mod_project([], ("violation/1",), to_itself)) != {"violation(latria_to_creature(image_of_christ))"}:
+        yield "latria terminating in the image itself does not fault"
+    if set().union(*mod_project([], ("violation/1",), to_christ)):
+        yield "latria passing to Christ faults"
+
+
+scen("IC1", LCI, "The image of Christ and of a saint fault nothing (IC1)", ["loci_icon"], [_mod(ic1)],
+     "Nicaea II's veneration and the Thomists' latria terminate in Christ, dulia in the saint: nothing, on every "
+     "runtime")
+scen("IC2", LCI, "The idol faults (IC2)", ["loci_icon"],
+     [has("latria_to_creature(idol)"), count("latria_to_creature", 1)], "latria terminating in the sign")
+scen("IC3", LCI, "The terminus decides, not the sign (IC3)", [], [_mod(ic3)],
+     "the same image given latria that terminates in itself faults; given latria that passes to Christ, not")
+
+
+def lq1():
+    """a substitution entered as disputed: one branch with it, faulting, one without"""
+    facts = "disputed(substitutes(x_c,x_t,x_m,god,last_end))."
+    want = frozenset({frozenset({"assumed_fact(substitutes(x_c,x_t,x_m,god,last_end))",
+                                 "violation(last_end_not_god(x_m))",
+                                 "info(substitution_faults(x_c,x_t,x_m,last_end_not_god,deposit))"}),
+                      frozenset({"assumed_fact(false(substitutes(x_c,x_t,x_m,god,last_end)))"})})
+    got = mod_project([], LOCI_FAULTS, facts)
+    if got != want:
+        yield sorted(set().union(*got))
+
+
+def lq2():
+    """the deposit's two rules: the last end, or latria, that is God or a divine person faults nothing; a creature
+    in God's place as the giver of being gives being to every other creature, and only to creatures"""
+    for facts in ("god(g). substitutes(x_c,x_t,g,g,last_end).", "divine(s). substitutes(x_c,x_t,s,g,last_end).",
+                  "god(g). honour(altar,g,latria,x_c).", "divine(s). honour(image_of_s,s,latria,x_c).",
+                  "god(g). inanimate(x_z). substitutes(x_c,x_t,g,g,giver_of_being).",
+                  "substitutes(x_c,x_t,x_alone,god,giver_of_being).", "necessitates(x_c,x_t,x_no_creature)."):
+        if set().union(*mod_project(["rt_bare"], LOCI_FAULTS, facts)):          # no fault, so no report
+            yield ("faults", facts)
+    # a report stands where the rule it names fires, and only there
+    runs = [[c] for c in LOCI_CASES] + [["cand_substitution_person"]]
+    for parts in runs:
+        for m in mod_project(parts, LOCI_FAULTS):
+            for a in m:
+                if a.startswith(("info(substitution_faults(", "info(necessity_faults(")):
+                    _c, _t, x, v, _l = E.split_args(a[len("info("):-1])[1]
+                    if not any(b.startswith(f"violation({v}({x}") for b in m):
+                        yield (parts, a, "without its rule")
+    facts = "inanimate(x_n;x_z1). organism(x_z2). substitutes(x_c,x_t,x_n,god,giver_of_being). being(x_p,x_q)."
+    want = {"violation(being_from_non_god(x_n,x_z1))", "violation(being_from_non_god(x_n,x_z2))",
+            "violation(being_from_non_god(x_p,x_q))"}
+    if set().union(*mod_project(["rt_bare"], ("violation/1",), facts)) != want:
+        yield ("giver of being", sorted(set().union(*mod_project(["rt_bare"], ("violation/1",), facts))))
+
+
+scen("LQ1", LCI, "A substitution disputed, both ways", [], [_mod(lq1)],
+     "one branch with it, faulting on last_end_not_god and reported; one without")
+scen("LQ2", LCI, "What God is faults nothing; being given to every other creature", [], [_mod(lq2)],
+     "the last end or latria terminating in God or a divine person: nothing; in God's place as giver of being, X "
+     "gives being to every other creature, itself and what is no creature aside")
+
+
+def ls1():
+    """SU1, the part this suite can check: no part but this step's writes substitutes/5, necessitates/3 or
+    honour/4, and last_end/1 and latria_to/1 are lowered only by the library (the rest is the full suite)"""
+    new = {("substitutes", 5), ("necessitates", 3), ("honour", 4)}
+    for name, (f, _note, block) in _part_blocks_l().items():
+        if E.signatures(block, f)["heads"] & new and name not in LOCI_CASES + ("cand_substitution_person",):
+            yield (name, f)
+    for pred in ("last_end", "latria_to"):
+        files = {f for f, text in E.base_texts().items() if (pred, 1) in E.signatures(text, f)["heads"]}
+        if files != {"substitutio.lp"}:
+            yield (pred, sorted(files))
+
+
+def _part_blocks_l():
+    """each part of the base -> (its file, its #program line's note, its text)"""
+    out = {}
+    for f, text in E.base_texts().items():
+        chunks = re.split(r"(?m)^(#program\s+\w+\s*\..*)$", text)
+        for head, body in zip(chunks[1::2], chunks[2::2]):
+            out[re.match(r"#program\s+(\w+)", head).group(1)] = (f, head, body)
+    return out
+
+
+def ls2():
+    """SU2: the two deposit rules labelled deposit in docs/layers.csv, and the reports' layers as it labels the
+    rules they name"""
+    import csv
+    path = pathlib.Path(__file__).resolve().parents[2] / "docs" / "layers.csv"
+    rows = list(csv.DictReader(path.open())) if path.is_file() else []
+    if not rows:
+        return
+    label = {}
+    for r in rows:
+        m = re.match(r"violation\((\w+)\(", r["statement"])
+        if m and r["file"] == "kernel_core.lp":
+            label[m.group(1)] = r["layer"]
+    want = {"last_end_not_god": "deposit", "latria_to_creature": "deposit", "being_from_non_god": "deposit",
+            "modal_collapse": "kernel"}
+    if {k: label.get(k) for k in want} != want:
+        yield {k: label.get(k) for k in want}
+    lp = (E.LP_DIR / "kernel_core.lp").read_text().splitlines()
+    for r in rows:
+        if r["file"] == "kernel_core.lp" and r["statement"].startswith(("violation(last_end_not_god", "violation(latria_to")):
+            if lp[int(r["line"]) - 1].strip() != r["statement"]:
+                yield ("line", r["line"], r["statement"])
+
+
+def ls3():
+    """SU3: the guide in both copies, with the vocabulary"""
+    pkg = (E.LP_DIR.parent / "guide.md").read_text()
+    doc = E.LP_DIR.parents[2] / "docs" / "encoding-guide.md"
+    if doc.is_file() and doc.read_text().split("\n", 2)[2] != pkg:
+        yield "copies differ"
+    for word in ("`substitutes(C,T,X,Y,R)`", "`necessitates(C,T,X)`", "`honour(S,P,K,C)`", "`express`", "`carry`",
+                 "`substitution_faults(C,T,X,V,L)`", "`necessity_faults(C,T,X,V,L)`", "`latria_to_creature`",
+                 "`last_end_not_god`", "`substitution_of_a_person`"):
+        if word not in pkg:
+            yield word
+
+
+scen("LS1", LCI, "No earlier part enters a substitution (SU1)", [], [_mod(ls1)],
+     "substitutes/5, necessitates/3 and honour/4 written only by this step's cases; last_end/1 and latria_to/1 "
+     "lowered only by substitutio.lp")
+scen("LS2", LCI, "The deposit's two rules labelled (SU2)", [], [_mod(ls2)],
+     "last_end_not_god and latria_to_creature deposit in docs/layers.csv, at their lines; the reports' layers as "
+     "it labels being_from_non_god and modal_collapse")
+scen("LS3", LCI, "The guide gains the vocabulary (SU3)", [], [_mod(ls3)],
+     "both copies identical, with the slots, the reports, the refusals and express and carry")
 
 
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------

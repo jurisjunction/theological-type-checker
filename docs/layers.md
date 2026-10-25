@@ -92,6 +92,16 @@ redundant (`person(X) :- incarnate(X)`). The counts above predate it.
 Every new statement turns a test red when deleted
 ([ttc-creed(7)](research/creed-preregistration.md)).
 
+TTC-LOCI added two rules to `kernel_core.lp`, both deposit, each what a
+tier-1 text defines: the last end of the rational creature is God
+(`last_end_not_god`; *Benedictus Deus*, DH 1000-1001; *Dei Filius*, DH
+3025), and latria is due to God alone (`latria_to_creature`; Nicaea II,
+DH 601). Each reads only what the library `substitutio.lp` lowers, decides
+no school question, and turns a test red when deleted
+([ttc-loci(7)](research/loci-preregistration.md)). Added to the table's
+counts, which predate TTC-CREED, the deposit has 23 statements, 17 of them
+needed outside the theory.
+
 Earlier: after the split, 187 statements: deposit 17 / 13 / 4 / 0, kernel
 106 / 95 / 8 / 3, school 4 / 4 / 0 / 0, icon 60 / 0 / 50 / 10. Before the
 split, 183, of which icon 49 / 4 / 38 / 7. Before the kernel's world, 177,
@@ -112,6 +122,7 @@ By section. Per statement, with reasons and the red tests: `docs/layers.csv`.
 | `kernel_core` | finitude | 1 | kernel | out 1 |
 | `kernel_core` | A10 image and dignity | 7 | deposit | out 4, icon-only 3 |
 | `kernel_core` | the attributes as defined | 7 | deposit 4, kernel 3 | out 3, icon-only 4 |
+| `kernel_core` | the last end and latria | 2 | deposit | out 2 |
 | `kernel_core` | A11, communicatio | 7 | kernel | out 6, icon-only 1 |
 | `kernel_analogy` | sorts | 3 | kernel | out 3 |
 | `kernel_analogy` | bridges | 3 | kernel | out 3 |

@@ -5,6 +5,22 @@ layer schools
 sort person
   means "a person a case names, physical or juridic, or a group"
 
+-- The loci (TTC-LOCI): a school's reading of one question is an allele, its
+-- parts travelling together. A child whose parents express two alleles at a
+-- locus carries both and expresses neither, unless it says which; silent, it
+-- runs on the deposit's simplicity (allowed(defined, ...)) and the deposit's
+-- silence on esse. Compiled to runtimes.json with the runtimes.
+locus simplicity
+  allele by_reason = simplicity_thomist, attributes_by_reason
+  allele formal = simplicity_scotist, attributes_formal
+  allele energetic = simplicity_palamite
+  allele synonymous = simplicity_synonymous
+
+locus esse
+  allele real = th03, th05
+  allele by_reason = suarez_esse
+  allele scotus = scotus_esse
+
 -- The runtimes (TTC-SCHOOLS; TTC-L, RU). Each is a school's parts loaded
 -- whole; compiled to runtimes.json, which the engine reads.
 runtime bare
@@ -58,12 +74,19 @@ runtime scotus_dpp extends scotist
 runtime ockham extends scotus_dpp
   -- Quodl. II q. 2: that natural agents' ends are directed by anyone cannot be shown; exterior acts neutral [S]
   exclude ends_by_god_physics, object_as_form
+  -- Ord. I d. 2 q. 1 (OTh II 17-18): no formal distinction between the essence and the wisdom, "and I deny
+  -- it universally" [S: Kilcullen]; his own reading, the attributes as terms, is no allele yet (TTC-LOCI)
+  carry formal at simplicity
 
 runtime suarez_dm23 extends suarezian, scotus_dpp, ockham
   -- DM 23.10 nn. 5-7: "non sit propria causalitas finalis" in natural agents; DM 24.2 n. 14;
   -- De bonitate disp. 7 s. 1 n. 6: the moral object specifies the act
   exclude ends_in_nature
   add ends_by_god_physics, object_as_form
+  -- DM 7.1.4-5: the attributes distinct by a distinction of reason "quae habet fundamentum in re"; DM 30.3.4-5,
+  -- against "distinctionem formalem seu ex natura rei inter divinas perfectiones"; DM 31.1.12-13: essence and
+  -- esse distinct by reason, "solam distinctionem rationis" (TTC-LOCI), as the suarezian runtime reads him
+  express by_reason at simplicity, esse
 
 runtime bacon extends default
   -- NO II.2, II.17: final causes corrupt the sciences "nisi in hominis actionibus"; forms are laws
@@ -79,6 +102,9 @@ runtime hobbes extends default, bacon, descartes, ockham
   -- Lev. 6, 11, 14, 15, 46; De corpore X.7: "no such finis ultimus"; the right of nature, for preservation
   exclude ends_in_nature, forms_in_nature, ends_by_god_physics, ends_by_god_ethics, ends_of_human_nature
   exclude soul_as_form, object_as_form
+  -- Lev. 31: in the attributes "we are not to consider the signification of Philosophicall Truth; but the
+  -- signification of Pious Intention"; his own reading, the attributes as honours, is no allele yet (TTC-LOCI)
+  carry by_reason at simplicity
 
 runtime spinoza extends descartes, hobbes
   -- E I App.: final causes "humana ... figmenta"; IV Praef.; III p7: conatus; IV p59
@@ -145,11 +171,15 @@ runtime suarez_wl extends suarezian, scotus_will, ockham_will
   -- De legibus II.6 nn. 5, 13; De bonitate disp. 7
   exclude ends_in_nature
   add ends_by_god_physics, object_as_form, ends_of_human_nature
+  -- DM 7.1.4-5, 30.3.4-5, 31.1.12-13, as suarez_dm23 (TTC-LOCI)
+  express by_reason at simplicity, esse
 
 runtime hobbes_wl extends default, bacon, descartes_will, ockham_will
   -- contested edge: hobbes_wl <- ockham_will (as hobbes <- ockham)
   exclude ends_in_nature, forms_in_nature, ends_by_god_physics, ends_by_god_ethics, ends_of_human_nature
   exclude soul_as_form, object_as_form
+  -- Lev. 31, as hobbes (TTC-LOCI)
+  carry by_reason at simplicity
 
 runtime spinoza_wl extends descartes_will, hobbes_wl
   exclude ends_in_nature, forms_in_nature, ends_by_god_physics, ends_by_god_ethics, ends_of_human_nature

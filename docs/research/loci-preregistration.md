@@ -341,3 +341,125 @@ Real texts; every substitution and honour is a reading with its claimant.
 
 [ttc-modernity(7)](modernity-preregistration.md), [ttc-schools(7)](schools-preregistration.md),
 [ttc-linguae(7)](linguae-preregistration.md), [ttc-layers(7)](../layers.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in `18c0048`, stamped in
+`81deb79`. Encoded in `lang.py` (the declaration `locus`, with its
+alleles; a runtime's `express` and `carry`; inheritance at a locus; the
+refusals; `re_expressed`; `runtimes.json` records `alleles`, `loci` and
+`re_expressed`), `schools.l` (the two loci; the resolutions of
+`suarez_dm23`, `suarez_wl`, `ockham`, `hobbes` and `hobbes_wl`, each with
+its text in an L comment), `kernel_core.l` (`last_end_not_god` and
+`latria_to_creature`, under the deposit, each with its text, and their
+results), `substitutio.l` (new, a library: the sorts `role`, `honour_kind`
+and `text_or_order`; `substitutes/5`, `necessitates/3`, `honour/4`; the
+dispute; the lowering; the reports `substitution_faults/5` and
+`necessity_faults/5`; `substitution_of_a_person`), `icon_history.l`
+(`loci_spinoza`, `loci_mammon`, `loci_icon`, `loci_adams` and the
+HYPOTHETICAL `cand_substitution_person`), `engine.py` (the library
+registered), `schools.py` (the group kept out of the stamped boot set), the
+suite (19 scenarios, group `loci`, and TTC-MODERNITY's EX1 amended, below),
+`tests/test_l.py` (L's loci on toy sources; the closed sorts restated),
+`tests/test_schools.py` (EX1), `docs/l.md`, the guide in both copies,
+`docs/layers.csv` and `docs/layers.md`, the roadmap and the coverage index.
+The suite names LO1-LO6 `AL1`-`AL6` (LO is the liturgy's) and SU1-SU3
+`LS1`-`LS3` (SU is TTC-MODERNITY's); `LQ1` and `LQ2` pin the library's
+mechanics. Of 17 predictions, 16 held and SU1 is red in part; EX1 is
+reported. The full suite: 975 passed, 50 skipped; TTC_SLOW `test_schools`: 49 passed, the 15 of TTC-SCHOOLS and the 34 of EX1.
+
+| | Result |
+| --- | --- |
+| LO1 | Held (AL1; `tests/test_l.py`). Every runtime compiles, as its sources compile. Refused on toy sources: a part at two loci; an allele naming what is not a part; a runtime holding part of an allele and not the rest; an `express` of an allele not inherited; a `carry` of one the child would not express. `re_expressed` reported where a child expresses an allele every parent only carries. The further refusals, and the syntax, under Readings. |
+| LO2 | Held (AL2), exactly, at all 42 runtimes. The checker and the plain model agree on every runtime at both loci, carried alleles included, so neither is wrong. |
+| LO3 | Held (AL3), exactly. `angers` expresses `real` and carries `by_reason` and `scotus`, as the model has it. |
+| LO4 | Held (AL4). No runtime refuses `composition_in_god` or `received_esse_without_real_distinction`, alone or on the property case. Against each runtime's parts as L inherited them whole (the loci and the runtimes' `express` and `carry` taken away), the twenty-one lose exactly the three atoms of `composition_in_god(…,formal,thomist)`, alone and on the property case, and the other twenty-one lose nothing. Every scenario before the encoding (707, 64,868 models) gives the same atoms in every model, main against the branch. |
+| LO5 | Held (AL5): the four schools express their own alleles, whole, and their parts are unchanged. TTC_SLOW `test_schools`: the boot and pair tables of TTC-SCHOOLS unchanged; P1-P6 stand. |
+| LO6 | Held (AL6): `re_expressed` is empty. |
+| SB1 | Held (SB1), on all 42, `spinoza` and `bare` included. On A, `being_from_non_god(natura,natura_naturata)` and `modal_collapse(natura)`, reported for Jacobi and for Borge (`substitution_faults(…,being_from_non_god,deposit)`, `necessity_faults(…,modal_collapse,kernel)`); on B, `modal_collapse(natura_naturata)` only, reported for Nadler, and no substitution fault. |
+| SB2 | Held (SB2): `last_end_not_god(money)`, reported of the deposit, on all 42; with the rule removed, no violation on any. |
+| SB3 | Held (SB3): no violation on the property case on any runtime, alone and beside all six switches, under no hearing, each of the four hearings and the hearers' tongues; nor under each switch alone, over every horizon of `horizons_all`. |
+| SB4 | Held (SB4): `latria_to_creature(dynamo)` on all 42, `hobbes` included; Adams's measure as CV5, refused on 38 and native at `hobbes`, `spinoza`, `hobbes_wl` and `spinoza_wl`. |
+| SB5 | Held (SB5): `substitution_of_a_person(a_reader)` for each of the three slots, alone and together, and nothing lowered; the same facts entered of a text are each lowered and fault. |
+| IC1 | Held (IC1), on all 42: Nicaea II's veneration and the Thomists' latria terminate in Christ, dulia in the saint; each alone faults nothing. |
+| IC2 | Held (IC2): `latria_to_creature(idol)`, once. |
+| IC3 | Held (IC3). |
+| SU1 | Red in part. No expectation about an earlier result changed: the earlier scenarios' atoms are as before in every model (LO4), and CL1 and PR4 are clean. Two earlier tests changed, which the prediction did not foresee, each stated where it stands (rule 7). (1) TTC-MODERNITY's EX1 rebuilds the record's DAG without its three contested edges; L refused the rebuild, because `hobbes` and `hobbes_wl` say `carry by_reason` at simplicity, an allele they inherit only through `descartes <- suarez_dm23`, and a `carry` of an allele the child would not express does not compile. The rebuild now drops a carry so refused (the two Hobbes', and no other), and its expectation stands: every node keeps its horizon. (2) The closed sorts of `test_l` gain the design's two, `role` and `honour_kind`, as each step that declares a closed sort restates them. |
+| SU2 | Held. The 17 new statements (15 in `substitutio.lp`, 2 in `kernel_core.lp`) were each deleted in turn, and each turned a test of the group red; then each body literal alone (31): 11 removals leave their rule unsafe, and each of the other 20 turned a test red. None survives. Each resolution and each allele of `schools.l`, removed, turns AL1, AL2, AL3 or AL5 red, or is refused by L. L's refusals are each tested (`test_l`). The two deposit rules are labelled `deposit` in `docs/layers.csv`, at their lines, with their red tests; `docs/layers.md`'s summary and inventory are updated (LS2). |
+| SU3 | Held (LS3): the guide's SUBSTITUTION, identical in both copies. |
+| EX1 | Reported (`tests/test_schools.py`, TTC_SLOW): On TTC-SCHOOLS's boot set (210 scenarios) each of the 33 changes exactly what one school changes, and the stamped rows are unchanged, so the 33 are pinned beside them. As `thomist` (AN4, FQ13, FQ19, K7, K9, UN1 and UN2 changed; FQ19 red): the nine that hold Thomas's parts through Hooker or the Thomist runtime, `hooker`, `locke`, `locke_wl`, `smith`, `george`, `george_hn`, `episcopate_1891`, `social_catholic` and `angers`. As `suarezian` (AN4 and FQ19 changed; FQ19 red): the thirteen that express the distinction of reason through Suárez, `suarez_dm23`, `suarez_wl`, `descartes`, `descartes_will`, `spinoza`, `spinoza_wl`, `grotius`, `grotius_etiamsi`, `leibniz`, `leibniz_wl`, `kant`, `kant_humanity` and `kant_mm`. Nothing, as `scotist`: the eleven that express Scotus's simplicity or none, `scotus_dpp`, `scotus_will`, `ockham`, `ockham_will`, `ockham_nominal`, `bacon`, `hobbes`, `hobbes_wl`, `marx`, `marx_social` and `lassalle`. Before the loci the twenty-one refused `composition_in_god` on their own, which would have changed every scenario of the boot (TTC-MODERNITY, SU2). `locke` and its line change as the Thomist runtime, not as Suárez: through Hooker they hold Th. 1, 4, 6, 21, 22 and 24 and Thomas's readings, though at esse they carry all three alleles; they hold `holds_premotion` and `holds_concurrence` both, an inheritance no locus yet reads. |
+
+### Readings
+
+- **The syntax.** An allele's name repeats across loci (`by_reason`), so
+  a runtime says `express a at l, ...` and `carry a at l`; `at` may be left
+  out where one locus has an allele of that name. "`express by_reason` at
+  both loci" is one declaration naming both.
+- **An allele a runtime adds whole itself, it expresses**, carrying what its
+  parents express otherwise. THE DESIGN is silent; the model joins such an
+  allele to the parents' and would carry both. No runtime of the base adds
+  an allele below a parent that expresses one, so the two agree.
+- **Further refusals**, closest to "a part declared at two loci": a part in
+  two alleles of one locus; a locus declared twice or with no allele; an
+  allele given twice. Also refused: a runtime adding two alleles at a
+  locus; `express` beside an allele it adds; `express` and `carry` at one
+  locus; an allele or locus that does not exist; an allele named at two
+  loci without `at`. A runtime that excludes every part of an allele its
+  parents express drops it, neither expressed nor carried; none does.
+- **`re_expressed`** is recorded in `runtimes.json` and printed by
+  `ttc-l build`.
+- **A pair is not a child**: unchanged; `engine.expand_runtimes` loads both
+  runtimes of a pair whole (`test_l`).
+- **The disputed reading of the *Ethics*.** Entered as the base enters a
+  disputed reading of a text: `ambiguous(ethica_1677)` with the readings
+  `pantheist` and `naturans`, one branch each (`read_as/2`), the source at
+  tier 5. A's claimants are Jacobi and Borge, B's Nadler. The design's
+  disputed substitution (a branch with it and one without) is implemented
+  for `substitutes/5` alone, as its words have it, and tested on a snippet
+  (LQ1).
+- **What is not God is a creature.** `natura` and `natura_naturata` are
+  typed `inanimate`: the kernel's sorts are grades, and the whole of nature
+  is none of them. `natura` is entered on both readings; on B nothing is
+  claimed of it. "Every creature Z other than X" is `natura_naturata` on A,
+  the "…" of SB1. The Y a substitution displaces is named (`god`) and read
+  by no rule.
+- **"Not God"** in both deposit rules is neither `god/1` nor `divine/1`.
+  Christ enters as `divine(christ)`: the terminus of latria is his person,
+  and `incarnate/1` brings the kernel's two operations, which `bare`
+  refuses for want of `classical`.
+- **"Of a person"** is the text or order T of a substitution or a necessity,
+  and the sign S of an honour; an honour's terminus may be a person (the
+  saint). SB5 names substitutions and honours; a necessity read of a person
+  is refused too, by rule 3. Refused and lowered nowhere, so no fault is
+  reported of a person's reading.
+- **The reports** read the fault of the rule they name (`violation/1`), so
+  that each stands where its rule fires and only there (LQ2), and vanishes
+  with the rule (SB2). The library declares the read, `use violation/1`,
+  since the norm graph counts a predicate read in a body and derived only
+  as an output as undefined (Not predicted).
+- **"Relative latria."** The Thomists' reading enters with them as
+  claimant (`thomists`), its kind `latria`, the sort having no relative
+  latria; Thomas's text is cited in the case. The saint's image and the
+  idol enter with Thomas as claimant (II-II q. 84 a. 1 ad 1; q. 94 a. 1).
+- **The cases** are switches, as `modernity_measure` is: they state no
+  question (SO2). `loci_adams` holds McCarraher's reading; Adams's own is
+  `modernity_measure`, loaded beside it.
+- **SB3's runs**: every runtime alone and beside all six switches, under
+  each hearing; each switch alone over `horizons_all`, as TTC-MODERNITY
+  ran the case.
+- **EX1's boots** are pinned in `tests/test_schools.py`, beside the
+  stamped tables, which they leave unchanged.
+
+### Not predicted
+
+- **The norm graph reads no violation.** A rule that reads `violation/1`
+  in its body, the first in the base, leaves `violation/1` undefined for
+  `norms.py`, which takes `violation` and `info` heads as outputs, not as
+  predicates derived: CL1 turned red. The library declares the read with
+  `use`, which the graph counts as an input; `norms.py` is unchanged. A
+  report that read the deposit's relations instead was tried and refused by
+  SB2: with the rule removed, it still named it.
+- **A carry depends on its edges.** Without `descartes <- suarez_dm23`,
+  neither Hobbes inherits the distinction of reason, and his `carry` is
+  refused: a resolution at a locus is a reading of what the node inherits,
+  and moves with its contested edges (SU1).
