@@ -52,7 +52,8 @@ in it alone.
 | `norm id \| citation \| url` | `% @norm id \| citation \| url` | A canon, with its source (house rule 4). |
 | `end`, `temporal id`, `recursive id`, `stratum id divine\|supreme\|common` | `% @end`, `% @temporal id`, … | As norms.py reads them. |
 | `part model\|case\|switch\|candidate\|date\|search [of case]` | nothing | The kind of the `#program` block below, and its case. A case states its questions (`question/1`), or is the canon half of one, by its name; a switch is loaded with a case or a model to change it. A switch or candidate names the case whose matter it changes or tests with `of`; one of a model, a school or the creed names none. |
-| `runtime name [extends parent, ...]` + `add p, ...`, `exclude p, ...`, `alter p -> q` | `runtimes.json` | A school's parts, loaded whole, by inheritance. |
+| `runtime name [extends parent, ...]` + `add p, ...`, `exclude p, ...`, `alter p -> q`, `express a [at l, ...]`, `carry a [at l, ...]` | `runtimes.json` | A school's parts, loaded whole, by inheritance. |
+| `locus name` + `allele a = p, ...` | `runtimes.json` | A question the schools read differently, and its alleles: each a set of parts that travel together (LOCI). |
 | ```` ```clingo ```` … ```` ``` ```` | its lines | Raw clingo. |
 
 Attributes are indented two spaces under their declaration. Strings are
@@ -63,7 +64,8 @@ appends, `exclude` removes, `alter p -> q` puts `q` where `p` was; a
 runtime records what it excludes and inherits the record. Two parents
 **clash** on a part one has and the other excludes; the child must then
 say `add`, `exclude` or `alter` for it, or it does not compile. No order
-between parents decides. A part a runtime names must exist.
+between parents decides. A part a runtime names must exist. A runtime
+inherits at a locus as LOCI says.
 
 A slot's side, for a case, is its layer's: theology (kernel, theory,
 schools, authority), canon (canon, pair), either (libraries, library).
@@ -107,6 +109,38 @@ rule 6), never in a snippet; another part writing it does not compile.
 answer to the suite.
 
 Lines beginning `--` are comments of L's and are not compiled.
+
+## LOCI
+
+A locus is declared with its alleles; an allele's parts travel together.
+A runtime **expresses** an allele when it holds all its parts. At each
+locus a runtime expresses one allele or none, and **carries** the others
+it inherits:
+
+- Parents expressing one allele: the child expresses it.
+- Parents expressing two or more: the child carries them all and
+  expresses none, and their parts are not loaded.
+- An allele the child adds whole itself, it expresses.
+- `express a` expresses an allele the child inherits, expressed or
+  carried, and carries the rest; one that every parent only carries is
+  reported (`re_expressed`, printed by **ttc-l build**).
+- `carry a` silences the allele the child would express: its parts are
+  not loaded, and it passes on as carried.
+- Carried alleles are inherited as carried.
+
+`at l, ...` names the loci; it may be left out where one locus has an
+allele of that name. `runtimes.json` records the alleles (`alleles`),
+per runtime and locus the allele expressed and those carried (`loci`),
+and `re_expressed`. Two runtimes named in one run (a pair) are no child:
+the engine loads both whole.
+
+Refused: a locus declared twice or with no allele; an allele given twice,
+or naming what is not a part; a part at two loci, or in two alleles of
+one; a runtime holding part of an allele and not the rest, or adding two
+alleles at one locus; an `express` of an allele it does not inherit, or
+beside an allele it adds; a `carry` of an allele it would not express;
+`express` and `carry` at one locus; an allele or locus that does not
+exist, and an allele named at two loci without `at`.
 
 ## EXIT STATUS
 
@@ -154,7 +188,7 @@ question(q(earth_moves)). question_kind(q(earth_moves),empirical).
 ## SEE ALSO
 
 [ttc-l(7)](research/l-preregistration.md), [ttc(1)](../README.md),
-[ttc-encoding(5)](encoding-guide.md)
+[ttc-encoding(5)](encoding-guide.md), [ttc-loci(7)](research/loci-preregistration.md)
 
 ## CAVEATS
 
@@ -166,10 +200,18 @@ The grammar guarantees form, not fidelity. An open sort admits any term,
 and a well-typed fact can be the wrong fact; that is for the tests with
 answers people gave.
 
+A locus is bookkeeping of inheritance, and only that: the genetic words
+name no fitness and no selection. A runtime that carries two alleles holds
+none of the schools' readings, which is not to hold the deposit's against
+them.
+
 ## BUGS
 
 The GBNF is tested against a small recognizer of its own subset, not yet
 against llama.cpp's parser.
+
+Two loci are declared, simplicity and esse. Ockham's and Hobbes's own
+readings of the attributes (as terms, as honours) are no alleles yet.
 
 Most of the base is still raw clingo in fences. A tag's text is kept as
 it was written, and often repeats the arguments.

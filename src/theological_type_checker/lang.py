@@ -380,10 +380,13 @@ class Runtime(Decl):
     """A school's parts, loaded whole: a set, kept in the order of first
     mention. `extends` takes one or more parents; `add` appends, `exclude`
     removes, `alter X -> Y` puts Y where X was. A runtime records what it
-    excludes, and inherits the record. Compiles to runtimes.json, not to a
-    rule file."""
+    excludes, and inherits the record. At a locus (TTC-LOCI), `express A`
+    expresses an allele it inherits, expressed or carried, and `carry A`
+    silences one it would express; `at L, ...` names the loci, and may be
+    left out where one locus has an allele of that name. Compiles to
+    runtimes.json, not to a rule file."""
     keyword = "runtime"
-    attributes = ("add", "exclude", "alter")
+    attributes = ("add", "exclude", "alter", "express", "carry")
 
     def parse(self, head):
         m = re.match(rf"^({NAME})(?: extends ({NAME}(?:, {NAME})*))?$", head)
@@ -402,6 +405,13 @@ class Runtime(Decl):
                 raise LError(self.where, line, "expected `alter part -> part`")
             self.ops.append(("alter", m.group(1), m.group(2), line))
             return
+        if key in ("express", "carry"):
+            m = re.match(rf"^({NAME})(?: at ({NAME}(?:, {NAME})*))?$", value.strip())
+            if not m:
+                raise LError(self.where, line, f"expected `{key} allele [at locus, ...]`")
+            loci = m.group(2).split(", ") if m.group(2) else [None]
+            self.ops += [(key, m.group(1), locus, line) for locus in loci]
+            return
         names = [n.strip() for n in value.split(",")]
         if not names or not all(re.match(rf"^{NAME}$", n) for n in names):
             raise LError(self.where, line, f"expected `{key} part, part, ...`")
@@ -417,9 +427,9 @@ class Runtime(Decl):
                 group.clear()
         last = None
         for kind, a, b, _ in self.ops:
-            if kind == "alter":
+            if kind in ("alter", "express", "carry"):
                 flush(last)
-                lines.append(f"  alter {a} -> {b}")
+                lines.append(f"  alter {a} -> {b}" if kind == "alter" else f"  {kind} {a}" + (f" at {b}" if b else ""))
                 last = None
                 continue
             if kind != last:
@@ -428,6 +438,34 @@ class Runtime(Decl):
             last = kind
         flush(last)
         return lines
+
+
+class Locus(Decl):
+    """A question the schools read differently (TTC-LOCI): its alleles, each
+    a set of parts that travel together (`allele name = part, part`). A
+    runtime expresses an allele when it holds all its parts. Compiles to
+    runtimes.json, not to a rule file."""
+    keyword = "locus"
+    attributes = ("allele",)
+
+    def parse(self, head):
+        if not re.match(rf"^{NAME}$", head):
+            raise LError(self.where, self.line, "expected `locus name`")
+        self.name = head
+        self.alleles: dict[str, list[str]] = {}
+
+    def attribute(self, key, value, line):
+        if key not in self.attributes:
+            raise LError(self.where, line, f"`locus` has no attribute `{key}`")
+        m = re.match(rf"^({NAME})\s*=\s*({NAME}(?:\s*,\s*{NAME})*)$", value.strip())
+        if not m:
+            raise LError(self.where, line, "expected `allele name = part, part, ...`")
+        if m.group(1) in self.alleles:
+            raise LError(self.where, line, f"locus {self.name}: allele {m.group(1)} given twice")
+        self.alleles[m.group(1)] = [p.strip() for p in m.group(2).split(",")]
+
+    def source(self):
+        return [f"locus {self.name}"] + [f"  allele {a} = {', '.join(ps)}" for a, ps in self.alleles.items()]
 
 
 class Fence:
@@ -541,12 +579,48 @@ def parse(text: str, name: str = "<l>") -> Source:
     return Source(name, items)
 
 
+def compile_loci(srcs: dict[str, Source]) -> dict[str, dict[str, list[str]]]:
+    """The loci, each its alleles by name, each a list of parts (TTC-LOCI). A
+    locus is declared once; an allele names parts that exist, and a part is
+    declared at one locus, in one allele."""
+    parts = {d.name for src in srcs.values() for d in src.decls(Part)}
+    out: dict[str, dict[str, list[str]]] = {}
+    where: dict[str, tuple[str, str]] = {}
+    for src in srcs.values():
+        for d in src.decls(Locus):
+            if d.name in out:
+                raise LError(d.where, d.line, f"locus {d.name} declared twice")
+            if not d.alleles:
+                raise LError(d.where, d.line, f"locus {d.name} has no allele")
+            for allele, ps in d.alleles.items():
+                for p in ps:
+                    if p not in parts:
+                        raise LError(d.where, d.line, f"locus {d.name}: allele {allele} names {p}, which is not a part")
+                    if p in where:
+                        at, other = where[p]
+                        raise LError(d.where, d.line, f"part {p} is declared at two loci ({at}, allele {other}; "
+                                     f"{d.name}, allele {allele})" if at != d.name else
+                                     f"part {p} is declared in two alleles of {d.name} ({other}, {allele})")
+                    where[p] = (d.name, allele)
+            out[d.name] = dict(d.alleles)
+    return out
+
+
 def compile_runtimes(srcs: dict[str, Source]) -> dict:
     """The runtimes, each a list of parts, with what each declares. A part a
     runtime names must exist; a parent must be declared, with no cycle; two
     parents that disagree on a part (one has it, the other excludes it) are
     a clash, refused until the child says `add`, `exclude` or `alter` for
-    it. No order between parents decides."""
+    it. No order between parents decides.
+
+    At each locus (TTC-LOCI) a runtime expresses one allele or none, and
+    carries the rest it inherits. Parents expressing one allele: the child
+    expresses it; two or more: it carries them all and expresses none, and
+    their parts are not loaded. An allele the runtime adds whole itself it
+    expresses. `express A` expresses an inherited allele, expressed or
+    carried (one every parent only carries is reported, `re_expressed`);
+    `carry A` silences the allele it would express. A runtime holding part of
+    an allele and not the rest does not compile."""
     decls = [d for src in srcs.values() for d in src.decls(Runtime)]
     by_name: dict[str, Runtime] = {}
     for d in decls:
@@ -554,7 +628,83 @@ def compile_runtimes(srcs: dict[str, Source]) -> dict:
             raise LError(d.where, d.line, f"runtime {d.name} declared twice")
         by_name[d.name] = d
     parts = {d.name for src in srcs.values() for d in src.decls(Part)}
-    done: dict[str, tuple[list, set]] = {}
+    loci = compile_loci(srcs)
+    done: dict[str, tuple[list, set, dict]] = {}
+    re_expressed: list[list[str]] = []
+
+    def locus_of(d, allele, locus, line):
+        if locus is not None:
+            if locus not in loci:
+                raise LError(d.where, line, f"runtime {d.name}: no locus named {locus}")
+            if allele not in loci[locus]:
+                raise LError(d.where, line, f"runtime {d.name}: locus {locus} has no allele {allele}")
+            return locus
+        at = [n for n, alleles in loci.items() if allele in alleles]
+        if not at:
+            raise LError(d.where, line, f"runtime {d.name}: no locus has an allele {allele}")
+        if len(at) > 1:
+            raise LError(d.where, line, f"runtime {d.name}: {allele} is an allele at {', '.join(at)}; "
+                         f"say `at` which")
+        return at[0]
+
+    def at_loci(d, have, excluded, inherited):
+        """each locus's expressed allele and carried alleles; the parts of the
+        alleles not expressed are taken out of `have`"""
+        said: dict[str, list[tuple]] = {}
+        for kind, a, b, line in d.ops:
+            if kind in ("express", "carry"):
+                said.setdefault(locus_of(d, a, b, line), []).append((kind, a, line))
+        state = {}
+        for locus, alleles in loci.items():
+            expressed = {st[locus][0] for _, _, st in inherited if st[locus][0]}
+            carried = set().union(*(st[locus][1] for _, _, st in inherited)) if inherited else set()
+            held = []
+            for allele, ps in alleles.items():
+                got = [p for p in ps if p in have]
+                if got and len(got) < len(ps):
+                    rest = [p for p in ps if p not in have]
+                    raise LError(d.where, d.line, f"runtime {d.name}: holds part of the allele {allele} at {locus} "
+                                 f"({', '.join(got)}) and not the rest ({', '.join(rest)})")
+                if got:
+                    held.append(allele)
+            dropped = {a for a in expressed if a not in held and all(p in excluded for p in alleles[a])}
+            own = [a for a in held if a not in expressed]
+            kept = [a for a in held if a in expressed]
+            if len(own) > 1:
+                raise LError(d.where, d.line, f"runtime {d.name}: adds two alleles at {locus} ({', '.join(own)}); "
+                             "a runtime expresses one")
+            would = own[0] if own else (kept[0] if len(kept) == 1 else None)
+            inherits = (expressed | carried) - dropped
+            ops = said.get(locus, [])
+            if len(ops) > 1:
+                raise LError(d.where, ops[1][2], f"runtime {d.name}: says {ops[0][0]} and {ops[1][0]} at {locus}; "
+                             "one allele is expressed at a locus, or none")
+            expr = would
+            if ops:
+                kind, a, line = ops[0]
+                if kind == "express":
+                    if a not in inherits:
+                        raise LError(d.where, line, f"runtime {d.name}: cannot express {a} at {locus}: it inherits "
+                                     "it neither expressed nor carried")
+                    if own and own[0] != a:
+                        raise LError(d.where, line, f"runtime {d.name}: adds {own[0]} at {locus} and expresses {a}; "
+                                     "one allele is expressed at a locus")
+                    if a not in expressed:
+                        re_expressed.append([d.name, locus, a])
+                    expr = a
+                else:
+                    if a != would:
+                        raise LError(d.where, line, f"runtime {d.name}: cannot carry {a} at {locus}: it would not "
+                                     "express it")
+                    expr = None
+            carries = (inherits | set(held)) - {expr}
+            for allele, ps in alleles.items():
+                if allele != expr:
+                    have[:] = [p for p in have if p not in ps]
+            if expr:
+                have += [p for p in alleles[expr] if p not in have]
+            state[locus] = (expr, frozenset(carries))
+        return state
 
     def resolve(name, trail=()):
         if name in done:
@@ -567,17 +717,18 @@ def compile_runtimes(srcs: dict[str, Source]) -> dict:
             raise LError(d.where, d.line, "runtimes extend each other in a cycle: "
                          + " -> ".join(t.name for t in trail + (d,)))
         inherited = [resolve(p, trail + (d,)) for p in d.parents]
-        mentioned = {a for _, a, _, _ in d.ops} | {b for k, _, b, _ in d.ops if k == "alter"}
-        for i, (has_i, _) in enumerate(inherited):
-            for j, (_, excl_j) in enumerate(inherited):
+        part_ops = [op for op in d.ops if op[0] in ("add", "exclude", "alter")]
+        mentioned = {a for _, a, _, _ in part_ops} | {b for k, _, b, _ in part_ops if k == "alter"}
+        for i, (has_i, _, _) in enumerate(inherited):
+            for j, (_, excl_j, _) in enumerate(inherited):
                 for part in sorted(set(has_i) & excl_j):
                     if i != j and part not in mentioned:
                         raise LError(d.where, d.line, f"runtime {d.name}: its parents {d.parents[i]} and "
                                      f"{d.parents[j]} clash on {part} (one has it, the other excludes it); "
                                      f"say `add {part}`, `exclude {part}` or `alter {part} -> ...`")
-        have = list(dict.fromkeys(p for has, _ in inherited for p in has))
-        excluded = set().union(*(e for _, e in inherited)) if inherited else set()
-        for kind, a, b, line in d.ops:
+        have = list(dict.fromkeys(p for has, _, _ in inherited for p in has))
+        excluded = set().union(*(e for _, e, _ in inherited)) if inherited else set()
+        for kind, a, b, line in part_ops:
             for name_ in (a, b):
                 if name_ and name_ not in parts:
                     raise LError(d.where, line, f"runtime {d.name}: no part named {name_}")
@@ -597,14 +748,21 @@ def compile_runtimes(srcs: dict[str, Source]) -> dict:
                 have[have.index(a)] = b
                 excluded.add(a)
                 excluded.discard(b)
-        done[name] = (have, excluded)
+        state = at_loci(d, have, excluded, inherited)
+        done[name] = (have, excluded, state)
         return done[name]
 
     out = {"runtimes": {}, "declared": {}}
     for d in decls:
         out["runtimes"][d.name] = resolve(d.name)[0]
         out["declared"][d.name] = {"extends": d.parents, "file": d.where,
-                                   "ops": [[k, a] if k != "alter" else [k, a, b] for k, a, b, _ in d.ops]}
+                                   "ops": [[k, a] if b is None else [k, a, b] for k, a, b, _ in d.ops]}
+    if loci:
+        out["alleles"] = loci
+        out["loci"] = {d.name: {locus: {"expressed": done[d.name][2][locus][0],
+                                        "carried": sorted(done[d.name][2][locus][1])} for locus in loci}
+                       for d in decls}
+        out["re_expressed"] = re_expressed
     return out
 
 
@@ -870,11 +1028,14 @@ def main(argv=None):
             srcs = sources(a.l)
             validate(srcs)
             outputs = {a.lp / name: text for name, text in compiled(srcs).items()}
-            outputs[RUNTIMES_JSON] = runtimes_text(compile_runtimes(srcs))
+            rts = compile_runtimes(srcs)
+            outputs[RUNTIMES_JSON] = runtimes_text(rts)
             for p, text in outputs.items():
                 if not p.is_file() or p.read_text() != text:
                     p.write_text(text)
                     print(f"wrote {p.name}")
+            for name, locus, allele in rts.get("re_expressed", []):
+                print(f"re_expressed: runtime {name} expresses {allele} at {locus}, which every parent only carries")
             return 0
         bad = check(a.l, a.lp)
         for name in bad:

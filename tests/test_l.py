@@ -235,6 +235,102 @@ def test_a_runtime_l_refuses(decls, why):
         _runtimes(decls)
 
 
+# ---------- LO: loci and alleles (TTC-LOCI LO1) -----------------------------
+# Toy sources: two loci, p and q; at p the alleles one = {a, b} and two = {c},
+# at q the alleles one = {d} and alt = {e}.
+LOCI_PARTS = "".join(f"part switch\n```clingo\n#program {p}.\n```\n" for p in "abcdef")
+LOCI = "locus p\n  allele one = a, b\n  allele two = c\nlocus q\n  allele one = d\n  allele alt = e\n"
+SCHOOLS = "runtime r1\n  add a, b, d\nruntime r2\n  add c, e\n"
+
+
+def _loci(decls, loci=LOCI):
+    return lang.compile_runtimes({"x.lp": lang.parse("layer schools\n" + LOCI_PARTS + loci + SCHOOLS + decls, "x.l")})
+
+
+def test_an_allele_is_expressed_by_holding_its_parts_and_inherited_where_the_parents_agree():
+    out = _loci("runtime c1 extends r1\nruntime c2 extends r1, bare\nruntime bare\n")
+    assert out["alleles"] == {"p": {"one": ["a", "b"], "two": ["c"]}, "q": {"one": ["d"], "alt": ["e"]}}
+    assert out["loci"]["r1"] == {"p": {"expressed": "one", "carried": []}, "q": {"expressed": "one", "carried": []}}
+    assert out["loci"]["c1"] == out["loci"]["c2"] == out["loci"]["r1"]
+    assert out["runtimes"]["c2"] == ["a", "b", "d"] and out["re_expressed"] == []
+
+
+def test_parents_expressing_two_alleles_leave_both_carried_and_neither_loaded():
+    out = _loci("runtime child extends r1, r2\n  add f\nruntime grandchild extends child\n")
+    assert out["runtimes"]["child"] == ["f"]
+    assert out["loci"]["child"] == {"p": {"expressed": None, "carried": ["one", "two"]},
+                                    "q": {"expressed": None, "carried": ["alt", "one"]}}
+    assert out["loci"]["grandchild"] == out["loci"]["child"]           # carried, inherited as carried
+
+
+def test_express_chooses_an_inherited_allele_and_carries_the_rest():
+    out = _loci("runtime child extends r1, r2\n  express two at p\n  express one at q\n")
+    assert out["runtimes"]["child"] == ["d", "c"]          # the order of first mention kept
+    assert out["loci"]["child"] == {"p": {"expressed": "two", "carried": ["one"]},
+                                    "q": {"expressed": "one", "carried": ["alt"]}}
+    assert out["declared"]["child"]["ops"] == [["express", "two", "p"], ["express", "one", "q"]]
+    assert out["re_expressed"] == []
+
+
+def test_carry_silences_an_allele_and_passes_it_on_carried():
+    out = _loci("runtime child extends r1\n  carry one at p\nruntime grandchild extends child, r2\n")
+    assert out["runtimes"]["child"] == ["d"]
+    assert out["loci"]["child"]["p"] == {"expressed": None, "carried": ["one"]}
+    # the grandchild's parents express two only at q; at p r2's two, with one carried
+    assert out["loci"]["grandchild"]["p"] == {"expressed": "two", "carried": ["one"]}
+    assert out["loci"]["grandchild"]["q"] == {"expressed": None, "carried": ["alt", "one"]}
+    assert out["runtimes"]["grandchild"] == ["c"]
+
+
+def test_expressing_what_every_parent_only_carries_is_reported():
+    # LO1: re_expressed
+    out = _loci("runtime child extends r1\n  carry one at p\nruntime again extends child\n  express one at p\n")
+    assert out["re_expressed"] == [["again", "p", "one"]]
+    assert out["runtimes"]["again"] == ["d", "a", "b"] and out["loci"]["again"]["p"] == {"expressed": "one",
+                                                                                          "carried": []}
+
+
+def test_an_allele_named_at_one_locus_needs_no_at():
+    out = _loci("runtime child extends r1, r2\n  express alt\n")
+    assert out["loci"]["child"]["q"] == {"expressed": "alt", "carried": ["one"]}
+
+
+@pytest.mark.parametrize("loci,decls,why", [
+    # LO1: a part at two loci; an allele with a part that is not a part
+    (LOCI + "locus r\n  allele x = a\n", "", "part a is declared at two loci (p, allele one; r, allele x)"),
+    ("locus p\n  allele one = a\n  allele two = a, c\n", "", "part a is declared in two alleles of p (one, two)"),
+    ("locus p\n  allele one = a, nowhere\n", "", "allele one names nowhere, which is not a part"),
+    (LOCI + "locus p\n  allele z = f\n", "", "locus p declared twice"),
+    ("locus p\n  allele one = a\n  allele one = b\n", "", "allele one given twice"),
+    ("locus p\n  allele one: a\n", "", "expected `allele name = part, part, ...`"),
+    # LO1: a runtime holding part of an allele and not the rest
+    (LOCI, "runtime child extends r1\n  exclude b\n", "runtime child: holds part of the allele one at p (a) and not "
+                                                       "the rest (b)"),
+    (LOCI, "runtime half\n  add a\n", "holds part of the allele one at p"),
+    # LO1: an express of an allele not inherited; a carry of one not expressed
+    (LOCI, "runtime child extends r1\n  express two at p\n", "runtime child: cannot express two at p: it inherits it "
+                                                              "neither expressed nor carried"),
+    (LOCI, "runtime child extends r1, r2\n  carry one at p\n", "runtime child: cannot carry one at p: it would not "
+                                                                "express it"),
+    (LOCI, "runtime child extends r1\n  express one\n", "one is an allele at p, q; say `at` which"),
+    (LOCI, "runtime child extends r1\n  express one at nowhere\n", "no locus named nowhere"),
+    (LOCI, "runtime child extends r1\n  express nobody at p\n", "locus p has no allele nobody"),
+    (LOCI, "runtime child extends r1, r2\n  express one at p\n  carry two at p\n", "says express and carry at p"),
+    (LOCI, "runtime child\n  add a, b, c\n", "adds two alleles at p (one, two)"),
+    (LOCI, "runtime child extends r1\n  express to p\n", "expected `express allele [at locus, ...]`"),
+])
+def test_the_loci_l_refuses(loci, decls, why):
+    with pytest.raises(lang.LError, match=re.escape(why)):
+        _loci(decls, loci)
+
+
+def test_a_pair_named_in_one_run_is_no_child():
+    # TTC-LOCI: the engine loads both runtimes of a pair whole; their clash stands
+    assert engine.expand_runtimes(["rt_thomist", "rt_scotist"]) == list(dict.fromkeys(
+        engine.RUNTIMES["thomist"] + engine.RUNTIMES["scotist"]))
+    assert {"simplicity_thomist", "simplicity_scotist"} <= set(engine.expand_runtimes(["rt_thomist", "rt_scotist"]))
+
+
 def test_a_hand_edit_to_the_runtimes_fails_the_check(tmp_path):
     rj = tmp_path / "runtimes.json"
     rj.write_text(lang.RUNTIMES_JSON.read_text().replace('"th24",\n', "", 1))
@@ -479,7 +575,8 @@ CLOSED = {"tier", "force", "question_kind", "papal_form", "character", "concilia
           "object", "presence_mode", "nature", "sacrament", "teaching_type", "valence",
           "table_rank",   # TTC-CALENDAR: the Table of Liturgical Days, 1..13
           "tmode", "akind", "unit",   # TTC-LINGUAE: a mode claimed, a kind of analogy, a claim's unit
-          "cause", "domain"}   # TTC-MODERNITY: the four causes, and where each is held
+          "cause", "domain",   # TTC-MODERNITY: the four causes, and where each is held
+          "role", "honour_kind"}   # TTC-LOCI: the place a substitution puts a creature in; the kinds of honour
 
 
 def _domain_args():

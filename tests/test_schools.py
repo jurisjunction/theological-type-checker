@@ -72,6 +72,34 @@ def test_pair(x, pair):
     assert sorted(x.clashes(*pair)) == PAIRS[pair]
 
 
+# TTC-LOCI EX1, reported: the 33 runtimes of TTC-MODERNITY, free of the inherited clash, booted on the boot set.
+# Each changes what one school changes: the Thomist's where it holds Thomas's parts through Hooker or the
+# Thomist runtime, the Suarezian's where it expresses the distinction of reason through Suarez, and nothing where
+# it expresses no simplicity (Scotus's line, Ockham's, both Hobbes, Bacon, Marx, Lassalle). The stamped rows above
+# are unchanged.
+AS_THOMIST = ("hooker", "locke", "locke_wl", "episcopate_1891", "social_catholic", "smith", "angers", "george",
+              "george_hn")
+AS_SUAREZIAN = ("suarez_dm23", "descartes", "spinoza", "grotius", "leibniz", "kant", "descartes_will", "grotius_etiamsi",
+                "kant_humanity", "kant_mm", "suarez_wl", "spinoza_wl", "leibniz_wl")
+AS_NOTHING = ("scotus_dpp", "ockham", "bacon", "hobbes", "scotus_will", "ockham_will", "ockham_nominal", "hobbes_wl",
+              "marx", "marx_social", "lassalle")
+BOOT_MODERNITY = {**{r: BOOT_B["thomist"] for r in AS_THOMIST}, **{r: BOOT_B["suarezian"] for r in AS_SUAREZIAN},
+                  **{r: ([], []) for r in AS_NOTHING}}
+
+
+def test_the_modernities_are_the_runtimes_of_their_step():
+    from theological_type_checker import engine
+    from theological_type_checker.schools import SCHOOLS, TONGUES
+    assert set(BOOT_MODERNITY) == set(engine.RUNTIMES) - {"bare", "default", *SCHOOLS, *TONGUES}
+    assert len(BOOT_MODERNITY) == 33
+
+
+@pytest.mark.parametrize("rt", sorted(BOOT_MODERNITY))
+def test_boot_modernity(x, rt):
+    b = x.boot(rt)
+    assert (b["changed"], b["red"]) == BOOT_MODERNITY[rt]
+
+
 def test_dh1330_deposit():
     from theological_type_checker import suite
     from theological_type_checker.schools import encoding, run

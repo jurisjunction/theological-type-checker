@@ -1992,6 +1992,51 @@ hears_in(H,en_2026,lex_en_2026) :- hearer(H).
 hears_in(here,en_1891,lex_en_locke_1891) :- figure(george).   % as "Industry expended on land gives ownership in
 hears_in(here,la_1891,lex_la_1891)       :- figure(episcopate_1891).   % the land itself"; the bishops read the Latin
 
+% ---------- Substitution, and the icon against the idol (TTC-LOCI) -----------
+% Real texts. Every substitution and every honour is a reading with its
+% claimant, of a text, an order or a sign, never of a person (rule 3); the
+% deposit's rules decide (docs/research/loci-sources.md, modernity-mammon.md).
+#program loci_spinoza.            % Spinoza, Ethica (1677): "Praeter Deum nulla dari neque concipi potest substantia" (I p14);
+% "In rerum natura nullum datur contingens" (I p29); "Res nullo alio modo, neque alio ordine a Deo produci
+% potuerunt, quam productae sunt" (I p33); "God or Nature" (IV Praef.). Two readings, a disputed reading of the
+% text: both run. On either, what is not God is a creature (Dei Filius, DH 3001): typed here as what merely
+% is, the kernel's sorts being grades and the whole of nature none of them.
+source(ethica_1677,5,truth,1677). ambiguous(ethica_1677). reading(ethica_1677,(pantheist;naturans)).
+inanimate(natura).                % Nature, "Deus, seu Natura"
+inanimate(natura_naturata).       % "id omne quod ex necessitate Dei naturae ... sequitur" (I p29 schol.)
+% A, the pantheist (Jacobi, Ueber die Lehre des Spinoza, 1785; Borge 2025): God is Nature, naturata included.
+% Nature is put in God's place as the giver of being, and held necessary.
+substitutes((jacobi_1785;borge_2025),ethica_1677,natura,god,giver_of_being) :- read_as(ethica_1677,pantheist).
+necessitates((jacobi_1785;borge_2025),ethica_1677,natura) :- read_as(ethica_1677,pantheist).
+% B (Nadler 2002): God is natura naturans, and what follows from him, natura naturata, is held necessary
+% (I p29, p33). Nothing is put in God's place; free creation is still denied.
+necessitates(nadler_2002,ethica_1677,natura_naturata) :- read_as(ethica_1677,naturans).
+#program loci_mammon.             % McCarraher, The Enchantments of Mammon (2019): money "occupies the ontological throne
+% from which God has been evicted". Thomas makes avarice like idolatry by a likeness, the covetous man
+% subjecting himself to a creature "for use, not for worship" (II-II q. 118 a. 5 ad 4; I-II q. 2 a. 1): so
+% money enters as the last end, not as latria.
+substitutes(mccarraher_2019,capitalist_order,money,god,last_end).
+#program loci_icon.               % Nicaea II, the horos (787; ACO II.3, pp. 826-827; DH 601): to images "honoratoriam ...
+% adorationem", "non tamen ... ueram latrian"; "imaginis enim honor ad primitiuum transit". Thomas, ST III q. 25
+% a. 3: the image of Christ adored "adoratione latriae", since "motus qui est in imaginem inquantum est imago,
+% est unus et idem cum illo qui est in rem"; as a thing, "nulla reverentia". "Relative latria" is the
+% Thomists' term, not his, and their reading enters with them as claimant.
+divine(christ).
+honour(image_of_christ,christ,veneration,nicaea_ii).
+honour(image_of_christ,christ,latria,thomists).
+honour(image_of_a_saint,a_saint,dulia,aquinas).   % II-II q. 84 a. 1 ad 1: "quod pertinet ad duliam"
+honour(idol,idol,latria,aquinas).                 % II-II q. 94 a. 1: divine worship to any creature, "superstitiosum est"
+#program loci_adams.              % The Education of Henry Adams XXV (1907): "he began to feel the forty-foot dynamos as a
+% moral force, much as the early Christians felt the Cross"; "Before the end, one began to pray to it". Adams's own
+% reading is the measure (modernity_measure). McCarraher's: the dynamo "an occult mechanism, a graven image of
+% capitalist modernity" (The Enchantments of Mammon, p. 179, as Nichols quotes it).
+honour(dynamo,dynamo,latria,mccarraher_2019).
+#program cand_substitution_person.   % HYPOTHETICAL: a substitution, a necessity and an honour entered of a person (SB5)
+created_person(a_reader). inanimate(natura).
+substitutes(x_claimant,a_reader,money,god,last_end).
+necessitates(x_claimant,a_reader,natura).
+honour(a_reader,a_reader,latria,x_claimant).
+
 % ---------- domains (L) ---------------------------------------------
 #program base.
 in_sort(sacrament,(baptism;confirmation;eucharist;penance;anointing;orders(episcopate);orders(presbyterate);orders(diaconate);matrimony)).

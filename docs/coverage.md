@@ -18,8 +18,8 @@ a test checks the file is current and every scenario named exists.
 
 ## SUMMARY
 
-Of 87 units: 48 touched by rules, 5 by cases only,
-34 frontier. A unit counts as touched if one rule reaches
+Of 87 units: 49 touched by rules, 5 by cases only,
+33 frontier. A unit counts as touched if one rule reaches
 it, so this measures reach, not depth. The rule files cite
 56 of the Catechism's 2,865 paragraphs by number (the column
 "Cited"). The Prologue (1–25) is frontier.
@@ -89,12 +89,12 @@ it, so this measures reach, not depth. The rule files cite
 
 ## PART THREE: LIFE IN CHRIST
 
-24 units: 15 under rules, 0 under cases only, 9 frontier.
+24 units: 16 under rules, 0 under cases only, 8 frontier.
 
 | CCC | Unit | Status | Cited | Scenarios | The base holds |
 | --- | --- | --- | --- | --- | --- |
 | 1701–1715 | Man: the image of God | rules |  | K11, X3 | the image; personhood |
-| 1716–1729 | Our vocation to beatitude | frontier |  |  |  |
+| 1716–1729 | Our vocation to beatitude | rules |  | SB2, LQ1 | God the last end, seen (DH 1000); no creature taken as it, riches included (CCC 1723) |
 | 1730–1748 | Man's freedom | rules | 1 | AC1, AC5, AC8 | imputability, ignorance, fear |
 | 1749–1761 | The morality of human acts | rules | 7 | MS1, MS2, MS2c, VD1, DI2 | the sources of morality; double effect; may, must not; "direct" as a reading |
 | 1762–1775 | The morality of the passions | rules |  | AC3 | undeliberate passion mitigates |
@@ -107,7 +107,7 @@ it, so this measures reach, not depth. The rule files cite
 | 1950–1986 | The moral law | rules |  | LW1, LW4, LW7, LW7b, OB1, OB2 | eternal, natural, divine and human law; affirmative precepts |
 | 1987–2029 | Grace and justification | rules | 1 | GR1, GR2, GR3, GR4, GR5, GR6, B6 | necessity, cooperation, efficacy, resisted grace |
 | 2030–2051 | The Church, mother and teacher | rules |  | B10, B12, DR3 | the magisterium in morals |
-| 2084–2141 | The first commandment | rules |  | FD1, FD5, CN2, SX8 | heresy, apostasy and schism (CCC 2089; c. 751); dissent, not schism |
+| 2084–2141 | The first commandment | rules |  | FD1, FD5, CN2, SX8, IC1, IC2, IC3, SB4 | heresy, apostasy and schism (CCC 2089; c. 751); dissent, not schism; the honour of an image passes to its prototype, latria to God alone, the idol refused (CCC 2112-2114, 2129-2132) |
 | 2142–2167 | The second commandment | frontier |  |  |  |
 | 2168–2195 | The third commandment | frontier |  |  |  |
 | 2197–2257 | The fourth commandment | frontier |  |  |  |

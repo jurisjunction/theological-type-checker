@@ -37,6 +37,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | senses | the senses and the routes to words: sensibles typed, schemes by culture, the interior senses; words by hearing, sight, hand and touch; perception's claims as premises | to predict, after L |
 | language | one word, many encodings: a form type-checked under its encoding at its date, by any route (heard, signed, written, touched), as a sign of the word; the encodings in time as a DAG, etymology a partial trace of forms through it; the word itself outside time; each encoding encodable, none required | done, before the senses ([ttc-linguae(7)](research/linguae-preregistration.md)) |
 | modernity | the four causes as a library; a horizon as the causes a runtime holds; a DAG of modernities from Scotus to Kant, its contested edges marked, with readings, a will line and Leo's hearers; the VM; hearing joined to the tongues; a case's phases over every horizon | done ([ttc-modernity(7)](research/modernity-preregistration.md)) |
+| loci | the schools' readings as alleles at loci, carried and expressed; a substitution for God entered as a claim of a text or an order, lowered onto the deposit, faulting there; the last end and latria in the deposit; the icon against the idol | done ([ttc-loci(7)](research/loci-preregistration.md)) |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
@@ -904,8 +905,34 @@ horizon. Left:
 - The modernities inherit the metaphysical schools' parts: `suarez_dm23`
   holds the Suarezian simplicity and the Scotist formal distinction of the
   attributes, so it and the twenty nodes below it refuse
-  `composition_in_god` on their own (TTC-MODERNITY, SCORING). Which of a
-  school's parts a modernity keeps is to be read, node by node.
+  `composition_in_god` on their own (TTC-MODERNITY, SCORING). Done for
+  simplicity and esse by TTC-LOCI, below; the schools' other parts
+  (univocity, the mixed relations, the transcendentals, premotion and
+  concurrence) are still inherited whole.
+
+### loci (after modernity)
+
+Done ([ttc-loci(7)](research/loci-preregistration.md)): a school's reading of
+one question as an allele at a locus (L's `locus`, `express`, `carry`); a
+child whose parents express two alleles carries both and runs on the
+deposit's definition alone; simplicity and esse declared, Suárez's,
+Ockham's and Hobbes's resolutions with their texts, so no runtime refuses
+`composition_in_god` on its own; a substitution for God (`substitutio.l`)
+entered as a claim of a text or an order, never of a person, lowered onto
+the deposit's relations and faulting there, a necessity beside it; the
+deposit's last end (*Benedictus Deus*) and latria (Nicaea II); honour typed
+by its terminus. Left:
+
+- Ockham's and Hobbes's own readings of the attributes (as terms, as
+  honours) as alleles; more loci (univocity, the mixed relations,
+  premotion and concurrence); the inherited expressions the records have
+  no text for (Spinoza's distinction of reason through Descartes, Locke's
+  simplicity through Hooker).
+- *Dei Filius* can. 1.3 (DH 3023), one substance of God and of all things,
+  as a deposit rule; Spinoza's I p14 falls under it on both readings.
+- The commentators on III q. 25 a. 3 (Cajetan, Vázquez, Suárez's
+  *De Incarnatione* disp. 54), and relative veneration's school
+  (Bellarmine, Bossuet, Petavius) as a claimant beside the Thomists.
 
 ## AMENDMENTS AND REPAIRS
 
@@ -1223,6 +1250,8 @@ To run on the system. None enters the kernel.
     consensu Ecclesiae, irreformabiles" (DH 3074); growth "in eodem
     dogmate, eodem sensu eademque sententia" (Vincent, DH 3020).
   - Heresy is a partial trace taken as the whole (*hairesis*, a choosing).
+    A substitution, entered as a reading of a text, now faults on the
+    deposit (TTC-LOCI).
   - The end is the whole seen, not decoherence reversed: nothing is
     undone (the branching history above).
   - **The measure: independent records.** An outcome is objective when

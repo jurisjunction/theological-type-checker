@@ -339,6 +339,19 @@ doctrinal one (`finding_on_a_doctrine`). See
 
 See [ttc-modernity(7)](research/modernity-preregistration.md).
 
+## SUBSTITUTION
+
+| Fact | Meaning |
+| --- | --- |
+| loci `simplicity`, `esse` | A school's reading of one question is an allele, its parts travelling together (`schools.l`; ttc-l(1)). At simplicity: `by_reason` (`simplicity_thomist`, `attributes_by_reason`), `formal` (`simplicity_scotist`, `attributes_formal`), `energetic`, `synonymous`. At esse: `real` (`th03`, `th05`), `by_reason` (`suarez_esse`), `scotus` (`scotus_esse`). A runtime whose parents express two alleles carries both and expresses neither, running on the deposit's simplicity and its silence on esse, unless it says `express`; `carry` silences one. `runtimes.json` records, per runtime and locus, the allele expressed and those carried. Two runtimes named in one run are no child: both load whole. |
+| `substitutes(C,T,X,Y,R)`, `disputed(substitutes(C,T,X,Y,R))` | The claimant C reads the text or order T as putting X in the place of Y, in the role R: `giver_of_being` or `last_end`. Disputed, both ways. Lowered onto the deposit's relations: X gives being to every other creature (`being_from_non_god`, DH 800), or is taken as the last end (`last_end_not_god`, DH 1000-1001). Shown: `substitution_faults(C,T,X,V,L)`, the rule V and its layer L. A pure trace faults nowhere. |
+| `necessitates(C,T,X)` | C reads T as holding the creature X necessary: a denial of free creation, no substitution. Lowered onto `necessary/1`; the kernel's `modal_collapse` decides, on the deposit's contingency (DH 3002, 3025). Shown: `necessity_faults(C,T,X,V,L)`. |
+| `honour(S,P,K,C)` | By C's reading, honour of the kind K (`latria`, `veneration`, `hyperdulia`, `dulia`) given to the sign S terminates in P: an icon's prototype, an idol's own sign. Latria that terminates in what is not God is refused (`latria_to_creature`, Nicaea II, DH 601); honour that terminates in God, through an image or not, faults nothing. The terminus decides, not the sign. |
+| `created_person(T)` with any of the three | A substitution or a necessity read of a person, or an honour given to a person as its sign, is refused (`substitution_of_a_person`) and lowered nowhere (rule 3): the checker types a text, an order or a sign, never a soul. |
+| parts `loci_spinoza`, `loci_mammon`, `loci_icon`, `loci_adams` | The *Ethics*, a disputed reading: A (Jacobi, Borge), Nature in God's place as the giver of being and held necessary; B (Nadler), *natura naturata* held necessary. McCarraher's money as the last end. The image of Christ under Nicaea II's reading and the Thomists', a saint's image, an idol. McCarraher's dynamo, beside Adams's measure (`modernity_measure`). |
+
+See [ttc-loci(7)](research/loci-preregistration.md).
+
 ## LIBRARY
 
 | Fact | Meaning |
