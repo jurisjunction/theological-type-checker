@@ -116,3 +116,33 @@ is where the Rota itself would branch. Exhibits and expert reports.
 
 docs/research/replies-preregistration.md, docs/canon-law-layer.md,
 docs/flywheel.md.
+
+## SCORING
+
+Scored on the encoding (branch `rota`: step 1 at `841917a`, steps 2-3 at
+`22d8c1f`), against the predictions above as committed and stamped
+(`8a37450`, stamp `c2cd56a`). The branch starts at `c2cd56a`, after
+TTC-MODERNITY (`85e9e46`) reached `main`; the base it is compared with is
+`c2cd56a`, not `f932d62`.
+
+| Prediction | Result |
+| --- | --- |
+| RO1 | **Hit.** RO1: `consent_vitiated_by/2` engages the three grounds answered affirmatively (prolis; fidei, sacramenti) and none of the three answered negatively (c. 1098 and c. 1095 2° in the dolus case; sacramenti in the other). |
+| RO2 | **Hit.** RO2: one model; no `c1098_reading/2`, no `assumed_fact/1`. |
+| RO3 | **Hit.** RO3: with any one or any two of the three switches (`rota_dolus_act`, `rota_dolus_purpose`, `rota_dolus_gravity`), c. 1098 is not engaged; with all three, it is. |
+| FI1 | **Partly.** *Not proved* and *contrary proved* compute alike: each enters nothing. One slot, `finds/5`, read by no norm. Two things the prediction did not see. The compiler refuses a slot no rule reads (SO3), so one rule reads it: `info(sentence_found/5)`, which names each finding in every branch, as `act.lp` names a supplied interior; it is not a norm, and `test_findings_are_read_by_no_norm` keeps it the only reader beside the check of the sort. And the base did hold a paragraph, as `locus` (n(9)), but in linguae's layer, above canon law's, where a canon slot may not reach; a sort `paragraph` was added. With the closed sort `sentence_finding`, the slot brings two sorts. |
+| RE1 | **Hit, and emptier than stated.** RE1: the dolus sentence's reading of c. 1098 changes no computed outcome; c. 1098 before the Code still branches on the reading (k12). Run with and without `rota_readings`, the four cases and the consent parts give 128 models and the same atoms: the reading is not even named. It holds by construction (no authority rank is entered for the Rota, so `authentic_reading/3` cannot fire). The prediction's *weighs* has nothing in the base behind it: a particular reply weighs (`weighs_only/2`, TTC-REPLIES), a reading a sentence applies does not yet. |
+| SU1 | **Miss.** Two expectations changed in step 1 and one was widened in step 2, each stated in its commit (rule 7): `test_one_presumption` (c. 1101 §1's presumption joins the presumptions raised), and `test_no_motive_is_read` (TTC-SOURCES AU7), which now admits `deceit/5` as a premise c. 1098 and CCEO c. 821 read, and as the name of an element in a sentence's finding. The 707 scenarios at `c2cd56a`, each run on `c2cd56a` and on the branch and the outputs compared: 686 unchanged, 21 changed. In the 21, nothing is removed and no count of models changes; 302 lines `info(presumed_consent(P,M))` are added, c. 1101 §1's presumption named for each spouse of a marriage, and 13 lines `info(marriage(M,invalid_consent,G))`, the ground (c. 1103, CCEO c. 825) beside the `info(marriage(M,invalid_consent))` the base already showed. `pytest -q`: 933 passed, 16 skipped at `c2cd56a` (894 at `f932d62`, before TTC-MODERNITY); 949 passed, 16 skipped on the branch: 933 and the 16 new tests. |
+| CL1 | **Hit.** CL1: 128 norms, 418 edges, no vicious cycle, nothing undefined, no unused input; PR4 clean. |
+
+Each new rule has a test that fails without it (rule 5). In step 1, the
+condition that no one is their own deceiver (`P != O`) taken out turns MC3
+red (k28). In step 2, `info(sentence_found/5)` taken out, the compiler
+refuses `finds/5` (no rule reads it) and the test of its readers fails.
+
+Two findings of method. The suite's checks are written as what must and
+must not appear, so an added line passes them: SU1's 21 changed scenarios
+all stayed green, and only the comparison of outputs shows them. And a test
+that bars a word reads names as well as rules: AU7 caught a switch named
+for the premise it enters, and the switch was renamed (`rota_dolus_act`),
+not the test changed.
