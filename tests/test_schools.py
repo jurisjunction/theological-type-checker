@@ -1,6 +1,11 @@
-"""The boot and pair tables of TTC-SCHOOLS(7), pinned. Slow (about six minutes):
+"""The boot and pair tables of TTC-SCHOOLS(7), pinned. Slow (about an hour here; DH 1330 alone takes half):
 
-    TTC_SLOW=1 pytest -q tests/test_schools.py
+    TTC_SLOW=1 python3 -m pytest -q tests/test_schools.py
+
+The boots of TTC-MODERNITY's 33 runtimes (TTC-LOCI, EX1) take about as long
+again, and run only when asked:
+
+    TTC_SLOW=1 TTC_SLOW_MODERNITY=1 python3 -m pytest -q tests/test_schools.py
 """
 import os
 
@@ -94,6 +99,7 @@ def test_the_modernities_are_the_runtimes_of_their_step():
     assert len(BOOT_MODERNITY) == 33
 
 
+@pytest.mark.skipif(not os.environ.get("TTC_SLOW_MODERNITY"), reason="slower: set TTC_SLOW_MODERNITY=1 too")
 @pytest.mark.parametrize("rt", sorted(BOOT_MODERNITY))
 def test_boot_modernity(x, rt):
     b = x.boot(rt)
