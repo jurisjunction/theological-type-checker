@@ -303,6 +303,25 @@ def test_equity_is_never_computed():
     assert derived == [("canon_law.lp", "{ equity_rule(M,R) } :- disputed(equity_rule(M,R)).")], derived
 
 
+# The premises of the consent canons are input (TTC-ROTA; rule 3): each is
+# derived by one rule only, the choice that computes it disputed.
+def test_consent_premises_are_never_derived():
+    import re
+    premises = ("intended", "deceit", "quality_gravely_disturbs", "condition", "fulfilled", "ground_at_issue")
+    derived = []
+    for f in sorted(engine.LP_DIR.glob("*.lp")):
+        code = re.sub(r"%.*", "", f.read_text())
+        for st in re.split(r"(?<=\.)\s", code):
+            st = " ".join(st.split())
+            if ":-" in st and re.match(r"\{?\s*(" + "|".join(premises) + r")\s*\(", st.split(":-")[0].strip()):
+                derived.append((f.name, st))
+    assert derived == [("canon_law.lp", "{ intended(P,M,Q) } :- disputed(intended(P,M,Q))."),
+                       ("canon_law.lp", "{ deceit(D,O,P,M,Q) } :- disputed(deceit(D,O,P,M,Q))."),
+                       ("canon_law.lp", "{ quality_gravely_disturbs(Q) } :- disputed(quality_gravely_disturbs(Q))."),
+                       ("canon_law.lp", "{ condition(C,M,P,K) } :- disputed(condition(C,M,P,K))."),
+                       ("canon_law.lp", "{ fulfilled(C) } :- disputed(fulfilled(C)).")], derived
+
+
 # TTC-MORAL MO1: every rule that speaks of a person's sin, grace or reception rests
 # on a claim (interior/3, or act.lp's due_defence, or another such predicate);
 # none is derived from outward facts alone.
@@ -404,7 +423,9 @@ def test_one_presumption():
             if m:
                 raised.add((f.name, m.group(1)))
     assert derived == [("act.lp", "presumed(X) :- raises(X), not rebutted(X).")], derived
-    assert raised == {("canon_law.lp", "imputability"), ("sacrament.lp", "intention")}, raised
+    # TTC-ROTA: c. 1101 §1's presumption of consent, in the same shape.
+    assert raised == {("canon_law.lp", "imputability"), ("canon_law.lp", "consent_conforms"),
+                      ("sacrament.lp", "intention")}, raised
 
 
 # Presence is typed by mode (TTC-CHRIST PM1): outside the candidates, no rule
@@ -650,11 +671,23 @@ def test_reading_of_c8_disputed_before_the_publications_date():
 
 
 # TTC-SOURCES AU7: a refused attribution is a fact about dates. No rule names
-# a motive (rule 3): no forgery, fraud or deceit, in any rule file's code.
+# a motive (rule 3): no forgery, fraud or deceit, in any rule file's code. One
+# exception, TTC-ROTA: c. 1098 and CCEO c. 821 name deceit themselves. There it
+# is a premise a case enters, never derived (test_consent_premises_are_never_
+# derived), and only those canons' grounds read it.
 def test_no_motive_is_read():
     for f, txt in engine.base_texts().items():
         code = "\n".join(line.split("%")[0] for line in txt.splitlines()).lower()
-        assert not re.search(r"\bforge|fraud|deceit|deceiv|counterfeit", code), f
+        for st in re.split(r"(?<=\.)\s", code):
+            if not re.search(r"\bforge|fraud|deceit|deceiv|counterfeit", st):
+                continue
+            assert not re.search(r"\bforge|fraud|counterfeit", st), (f, st)
+            assert set(re.findall(r"\w*decei\w*", st)) <= {"deceit", "deceived_to_consent"}, (f, st)
+            if ":-" in st:
+                assert f in ("canon_law.lp", "canon_cceo.lp"), (f, st)
+                assert re.search(r"\b(deceit|deceived_to_consent)\s*\(", st.split(":-")[-1]), (f, st)
+            else:
+                assert f == "canon_cases.lp" and re.match(r"\s*(disputed\()?deceit\(", st), (f, st)
 
 
 # TTC-SOURCES TX: a rule of the form fires only under the text in force at

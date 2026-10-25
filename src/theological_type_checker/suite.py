@@ -5403,6 +5403,90 @@ scen("MM3", MOD, "The parts and the marks", [], [_mod(mm3)],
      "of the ten parts one cause in one domain, default holding the first nine")
 
 
+# ---------- The consent canons (TTC-ROTA) -----------------------------------
+# cc. 1095-1103 and CCEO cc. 818-826, moved into the base from a personal layer.
+# Each premise is entered, or entered disputed; a ground is engaged on the
+# premises a branch holds, and the dubium is answered ground by ground. Each
+# control differs from its case by one element.
+MC = "consent"
+DECL_READ = "c1098_reading(k12,declarative_of_natural_law)"
+POS_READ = "c1098_reading(k12,merely_positive)"
+scen("MC1", MC, "c. 1095 nn. 1-3 and c. 1096: a ground to each claim", ["consent_canons"],
+     [info_all("marriage(k1,invalid_consent,n1095_1)", "marriage(k2,invalid_consent,n1095_2)",
+               "marriage(k3,invalid_consent,n1095_3)", "marriage(k4,invalid_consent,n1096)",
+               "marriage(k2,invalid_consent))", "marriage(k3,invalid_consent))", "marriage(k4,invalid_consent))")],
+     "reason lacking, a grave defect of discretion, a psychic incapacity, ignorance of what marriage is: each engages "
+     "its own ground, and the consent is vitiated", mode=B)
+scen("MC2", MC, "c. 1097: the person, and a quality intended directly and principally", ["consent_canons"],
+     [info_all("marriage(k5,invalid_consent,n1097_1)", "marriage(k6,invalid_consent,n1097_2)"),
+      info_none("marriage(k7,invalid_consent")],
+     "error about the person; error about a quality only with the claim that it was intended directly and "
+     "principally; the same error as the cause of the contract engages nothing", mode=B)
+scen("MC3", MC, "c. 1098: the four elements together", ["consent_canons"],
+     [info_all("marriage(k8,invalid_consent,n1098)", "marriage(k11,invalid_consent,n1098)"),
+      info_none("marriage(k9,invalid_consent", "marriage(k10,invalid_consent", "marriage(k28,invalid_consent",
+                "c1098_reading(k8,", "c1098_reading(k11,")],
+     "deceit, its purpose, the quality's gravity and the consent: engaged, whoever deceives, a party or not; with "
+     "the purpose or the gravity not entered, or the deceived as their own deceiver, not; after the Code no "
+     "reading is asked", mode=B)
+scen("MC4", MC, "c. 1098 before the Code: the reading branches", ["consent_canons"],
+     [branches_n(2), under(DECL_READ, info_all("marriage(k12,invalid_consent,n1098)")),
+      under(POS_READ, info_none("marriage(k12,invalid_consent"))],
+     "a marriage of 1980 with the four elements: engaged where c. 1098 declares the natural law, not where it is "
+     "merely positive law; neither preferred", mode=B)
+scen("MC5", MC, "c. 1101: the presumption, and each species of exclusion", ["consent_canons"],
+     [info_all("presumed_consent(a13,k13)", "marriage(k14,invalid_consent,n1101_prolis)",
+               "marriage(k15,invalid_consent,n1101_total)", "marriage(k16,invalid_consent,n1101_fidei)",
+               "marriage(k17,invalid_consent,n1101_sacramenti)", "marriage(k18,invalid_consent,n1101_coniugum)",
+               "marriage(k19,invalid_consent,n1101_element)", "marriage(k20,invalid_consent,n1101_property)"),
+      info_none("presumed_consent(a14,k14)")],
+     "the celebration raises the presumption of §1; a claimed positive act of the will rebuts it and engages the "
+     "species excluded", mode=B)
+scen("MC6", MC, "c. 1102: a future condition dated, a past or present one unfulfilled", ["consent_canons"],
+     [info_all("marriage(k21,invalid_consent,n1102_1)", "marriage(k23,invalid_consent,n1102_2)",
+               "marriage(k25,invalid_consent,n1102_2)"),
+      info_none("marriage(k22,invalid_consent", "marriage(k24,invalid_consent")],
+     "§1 from the Code only; §2 on the outward fact, unfulfilled engaged and fulfilled not", mode=B)
+scen("MC7", MC, "c. 1103 named, and the dubium answered", ["consent_canons"],
+     [info_all("marriage(k26,invalid_consent,n1103)", "marriage(k27,invalid_consent,n1103)",
+               "ground(k2,n1095_2,engaged)", "ground(k2,n1095_2,engaged_by(n1095_2))",
+               "ground(k2,cceo818_2,engaged_by(n1095_2))", "ground(k7,n1097_2,not_engaged)")],
+     "fear and force named as c. 1103's ground; a ground formulated is engaged by its own canon or its twin, and a "
+     "ground with no premise under it is not engaged", mode=B)
+scen("MC8", MC, "An Eastern party: CCEO cc. 818-826", ["consent_eastern"],
+     [info_all(*[f"marriage({m},invalid_consent,{g})" for m, g in (
+          ("h1", "cceo818_1"), ("h2", "cceo818_2"), ("h3", "cceo818_3"), ("h4", "cceo819"), ("h5", "cceo820_1"),
+          ("h6", "cceo820_2"), ("h7", "cceo824_total"), ("h8", "cceo821"), ("h9", "cceo824_prolis"),
+          ("h10", "cceo824_fidei"), ("h11", "cceo824_sacramenti"), ("h12", "cceo824_coniugum"),
+          ("h13", "cceo824_element"), ("h14", "cceo824_property"), ("h15", "cceo825"), ("h16", "cceo826"),
+          ("h17", "cceo825"))],
+               *[f"ground({m},{g},engaged_by({e}))" for m, g, e in (
+                   ("h1", "n1095_1", "cceo818_1"), ("h2", "n1095_2", "cceo818_2"), ("h3", "n1095_3", "cceo818_3"),
+                   ("h4", "n1096", "cceo819"), ("h5", "n1097_1", "cceo820_1"), ("h6", "n1097_2", "cceo820_2"),
+                   ("h7", "n1101_total", "cceo824_total"), ("h8", "n1098", "cceo821"),
+                   ("h9", "n1101_prolis", "cceo824_prolis"), ("h10", "n1101_fidei", "cceo824_fidei"),
+                   ("h11", "n1101_sacramenti", "cceo824_sacramenti"), ("h12", "n1101_coniugum", "cceo824_coniugum"),
+                   ("h13", "n1101_element", "cceo824_element"), ("h14", "n1101_property", "cceo824_property"),
+                   ("h15", "n1103", "cceo825"), ("h16", "n1102_2", "cceo826"), ("h20", "n1102_1", "cceo826"))]),
+      info_none("invalid_consent,n10", "invalid_consent,n11")],
+     "the Eastern faithful's consent is read by their own code, never the Latin; the Latin ground a tribunal "
+     "formulates is engaged by its twin; a condition, even past and fulfilled, engages c. 826", mode=B)
+scen("MC9", MC, "An Eastern party before 1991", ["consent_eastern"],
+     [info_all("no_eastern_code_in_force(e18,h18)"), info_none("marriage(h18,invalid_consent"),
+      under("c1098_reading(h19,declarative_of_natural_law)", info_all("marriage(h19,invalid_consent,cceo821)")),
+      under("c1098_reading(h19,merely_positive)", info_none("marriage(h19,invalid_consent"))],
+     "no Eastern code read before 1 October 1991; deceit asks the reading of c. 1098 there too", mode=B)
+scen("MC10", MC, "Each premise disputed, computed both ways", ["consent_disputed"],
+     [branches_n(32)]
+     + [branch_facts(f"assumed_fact({x}", every=False) for x in (
+         "intended(g1,j1,", "deceit(d_j2,", "quality_gravely_disturbs(addiction)", "condition(c_j4,", "fulfilled(c_j5)")]
+     + [branch_facts(f"assumed_fact(false({x}", every=False) for x in (
+         "intended(g1,j1,", "deceit(d_j2,", "quality_gravely_disturbs(addiction)", "condition(c_j4,", "fulfilled(c_j5)")]
+     + [branch_facts(f"marriage({m},invalid_consent,{g})", every=False) for m, g in (
+         ("j1", "n1097_2"), ("j2", "n1098"), ("j3", "n1098"), ("j4", "n1102_2"), ("j5", "n1102_2"))],
+     "a disputed premise is never decided: one branch each way, and the ground engaged on one", mode=B)
+
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

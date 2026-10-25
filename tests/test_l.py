@@ -479,7 +479,8 @@ CLOSED = {"tier", "force", "question_kind", "papal_form", "character", "concilia
           "object", "presence_mode", "nature", "sacrament", "teaching_type", "valence",
           "table_rank",   # TTC-CALENDAR: the Table of Liturgical Days, 1..13
           "tmode", "akind", "unit",   # TTC-LINGUAE: a mode claimed, a kind of analogy, a claim's unit
-          "cause", "domain"}   # TTC-MODERNITY: the four causes, and where each is held
+          "cause", "domain",   # TTC-MODERNITY: the four causes, and where each is held
+          "condition_time"}    # TTC-ROTA: c. 1102, a condition about the past, the present or the future
 
 
 def _domain_args():

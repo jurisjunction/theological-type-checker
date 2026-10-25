@@ -5,6 +5,9 @@ layer canon
 sort table_rank 1..13
   means "a number of the Table of Liturgical Days, in order of precedence (GNLY 59)"
 
+sort condition_time {past, present, future}
+  means "the time a condition placed on consent concerns (c. 1102)"
+
 sort celebration
   means "a celebration of the liturgical year, by the name of its day in the calendar in use"
 
@@ -19,6 +22,9 @@ sort norm
 
 sort penalty
   means "a penalty or censure"
+
+sort quality
+  means "a quality of a person (cc. 1097 §2, 1098), as a term: quality(Q) where a claim names it, Q where the law reads it"
 
 sort situation
   means "an outward situation of a person (c. 915)"
@@ -351,6 +357,30 @@ slot spouse(Marriage: act, Person: person)
   means "spouse(Marriage, Person): one who gave consent to the marriage"
   say "{Person} gave consent to the marriage {Marriage}"
 
+slot ground_at_issue(Marriage: act, Ground: norm)
+  means "ground_at_issue(M, G): the tribunal has formulated the ground G on the marriage M (the dubium); G is a consent norm's id (n1095_2, n1101_prolis, ...)"
+  say "the tribunal has formulated the ground {Ground} on the marriage {Marriage}"
+
+slot intended(Person: person, Marriage: act, Quality: quality)
+  means "intended(P, M, quality(Q)): a claim that P directly and principally intended the quality Q of the other party in consenting to M (c. 1097 §2); supplied, never derived"
+  say "it is claimed that {Person}, consenting to {Marriage}, directly and principally intended {Quality}"
+
+slot deceit(Act: act, Deceiver: person, Deceived: person, Marriage: act, Quality: quality)
+  means "deceit(D, Deceiver, Deceived, M, quality(Q)): an outward act D of deceit about the quality Q of the other partner, by which the deceived entered the marriage M (c. 1098); the deceiver may be anyone, a party or not; its purpose is a claim of interior/3 (to_obtain_consent)"
+  say "by the act {Act}, {Deceiver} deceived {Deceived} about the other partner's {Quality}, to the marriage {Marriage}"
+
+slot quality_gravely_disturbs(Quality: quality)
+  means "quality_gravely_disturbs(Q): that Q of its very nature can gravely disturb the partnership of conjugal life (c. 1098); a reading of the quality, entered by the case"
+  say "{Quality} of its very nature can gravely disturb the partnership of conjugal life"
+
+slot condition(Condition: condition, Marriage: act, Person: person, Time: condition_time)
+  means "condition(C, M, P, past | present | future): P's consent to M was made to depend on the condition C (c. 1102)"
+  say "{Person} made consent to {Marriage} depend on {Condition}, a condition about the {Time}"
+
+slot fulfilled(Condition: condition)
+  means "fulfilled(C): the condition C was fulfilled; an outward fact"
+  say "the condition {Condition} was fulfilled"
+
 use claims_necessity/2 "the agent publicly claims a state of necessity for the act"
 
 slot asserts(Text: source, Claim: claim, Date: date)
@@ -642,6 +672,24 @@ assumed_fact(F)      :- disputed(F), F = common_error(A), common_error(A).
 assumed_fact(false(F)) :- disputed(F), F = common_error(A), not common_error(A).
 assumed_fact(F)      :- disputed(F), F = appears_otherwise(P,E), appears_otherwise(P,E).
 assumed_fact(false(F)) :- disputed(F), F = appears_otherwise(P,E), not appears_otherwise(P,E).
+% The premises of the consent canons (cc. 1097 §2, 1098, 1102): a case enters
+% each, or enters it disputed where one passage asserts it and another denies
+% it; no rule derives them (rule 3).
+{ intended(P,M,Q) } :- disputed(intended(P,M,Q)).
+{ deceit(D,O,P,M,Q) } :- disputed(deceit(D,O,P,M,Q)).
+{ quality_gravely_disturbs(Q) } :- disputed(quality_gravely_disturbs(Q)).
+{ condition(C,M,P,K) } :- disputed(condition(C,M,P,K)).
+{ fulfilled(C) } :- disputed(fulfilled(C)).
+assumed_fact(F)      :- disputed(F), F = intended(P,M,Q), intended(P,M,Q).
+assumed_fact(false(F)) :- disputed(F), F = intended(P,M,Q), not intended(P,M,Q).
+assumed_fact(F)      :- disputed(F), F = deceit(D,O,P,M,Q), deceit(D,O,P,M,Q).
+assumed_fact(false(F)) :- disputed(F), F = deceit(D,O,P,M,Q), not deceit(D,O,P,M,Q).
+assumed_fact(F)      :- disputed(F), F = quality_gravely_disturbs(Q), quality_gravely_disturbs(Q).
+assumed_fact(false(F)) :- disputed(F), F = quality_gravely_disturbs(Q), not quality_gravely_disturbs(Q).
+assumed_fact(F)      :- disputed(F), F = condition(C,M,P,K), condition(C,M,P,K).
+assumed_fact(false(F)) :- disputed(F), F = condition(C,M,P,K), not condition(C,M,P,K).
+assumed_fact(F)      :- disputed(F), F = fulfilled(C), fulfilled(C).
+assumed_fact(false(F)) :- disputed(F), F = fulfilled(C), not fulfilled(C).
 
 % The Churches sui iuris a case may name (data; the list is not complete),
 % and the Eastern Churches not in full communion (TTC-CCEO).
@@ -667,6 +715,12 @@ promulgated(pxii1948,19480801). vacatio_set(pxii1948,19490101).
 % defection until Omnium in mentem.
 enacted_by(form_text_1983,code1983). part_of(n1108_1,form_text_1983).
 enacted_by(c1117_text_1983,code1983). part_of(n1117_1983,c1117_text_1983).
+% The consent canons of 1983 (cc. 1095-1102). They state what consent is, and
+% the Rota reads them of marriages before the Code; two are dated: c. 1098
+% (its reading, below) and c. 1102 §1, where CIC 1917 c. 1092 read a future
+% condition otherwise.
+enacted_by(consent_text_1983,code1983).
+part_of((n1095;n1096;n1097;n1098;n1101;n1102),consent_text_1983).
 
 % An instruction and the law it executes (TTC-SOURCES GN4). Summorum Pontificum
 % (7 July 2007), "observed from the fourteenth day of September"; Universae
@@ -746,6 +800,13 @@ reading_option(c1247,R) :- evening_from(R,_).
 narrower(evening_from_noon,evening_from_two).
 obliging(c1247).
 needs_reading(c1247,M) :- on_the_eve(M,_), evening_possible(M), not evening_certain(M).
+% c. 1098: whether it reaches a marriage before 27 November 1983. The Rota has
+% read it as declarative of the natural law and as merely positive law; no
+% authentic interpretation decides (c. 17), so a marriage of that time branches
+% on the reading where deceit is entered, and neither is preferred. CCEO c. 821
+% asks the same of an Eastern marriage before 1 October 1991 (canon_cceo.lp).
+reading_option(c1098,declarative_of_natural_law). reading_option(c1098,merely_positive).
+needs_reading(c1098,M) :- deceit(_,_,P,M,_), latin_consent_read(M,P), marriage(M,_,T), not norm_in_force(n1098,T).
 
 % ---------- Book I: general norms ------------------------------------------
 ```
@@ -2149,6 +2210,90 @@ info(marriage(M,few_witnesses)) :- few_witnesses(M), past(M), form_binds(M), not
 
 ```
 
+norm cic:1095 | c. 1095: "The following are incapable of contracting marriage: 1° those who lack the sufficient use of reason; 2° those who suffer from a grave defect of discretion of judgment concerning the essential matrimonial rights and duties mutually to be handed over and accepted; 3° those who are not able to assume the essential obligations of marriage for causes of a psychic nature" | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
+
+```clingo
+% The consent canons, cc. 1095-1102 with c. 1103 (TTC-ROTA): the grounds a
+% tribunal formulates, read from the claims a case supplies (TTC-ACT, rule 3).
+% Each element is a premise, entered or entered disputed, never derived; the
+% law makes of them what it makes, ground by ground, and finds nothing about a
+% soul. Conduct before and after the wedding is a case's evidence for a
+% claim, never a rule's premise.
+%
+% The Latin canons bind the Latin faithful (c. 1); silence ascribes to the
+% Latin Church (c. 111). An Eastern party's consent is read by CCEO cc.
+% 818-826 (canon_cceo.lp). 1° is act.lp's actus hominis: no human act, no
+% consent (c. 1057 §2).
+latin_consent_read(M,P) :- spouse(M,P), not eastern_faithful(P).
+consent_vitiated_by(M,n1095_1) :- latin_consent_read(M,P), removes_voluntary(P,M,no_reason).
+consent_vitiated_by(M,n1095_2) :- latin_consent_read(M,P), interior(P,M,discretion(grave_defect)).
+consent_vitiated_by(M,n1095_3) :- latin_consent_read(M,P), interior(P,M,incapacity(assume_obligations,psychic)).
+```
+
+norm cic:1096 | c. 1096 §1: "For matrimonial consent to exist, the contracting parties must be at least not ignorant that marriage is a permanent partnership between a man and a woman ordered to the procreation of offspring by means of some sexual cooperation"; §2: "This ignorance is not presumed after puberty" | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
+
+```clingo
+consent_vitiated_by(M,n1096) :- latin_consent_read(M,P), ignorance(P,M,fact(nature_of_marriage),_).
+```
+
+norm cic:1097 | c. 1097 §1: "Error concerning the person renders a marriage invalid"; §2: "Error concerning a quality of the person does not render a marriage invalid even if it is the cause for the contract, unless this quality is directly and principally intended" | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
+
+```clingo
+% §2 composes two claims: the error, and that the quality was intended
+% directly and principally. An error that was only the cause of the contract
+% (causam dans) engages nothing.
+consent_vitiated_by(M,n1097_1) :- latin_consent_read(M,P), interior(P,M,error_of(person)).
+consent_vitiated_by(M,n1097_2) :- latin_consent_read(M,P), interior(P,M,error_of(quality(Q))), intended(P,M,quality(Q)).
+```
+
+norm cic:1098 | c. 1098: "A person contracts invalidly who enters into a marriage deceived by malice, perpetrated to obtain consent, concerning some quality of the other partner which by its very nature can gravely disturb the partnership of conjugal life" | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
+
+```clingo
+% Four elements: the deceit (an outward act), its purpose (the deceiver's
+% interior, a claim), the quality's gravity (a reading of the quality), and the
+% deceived party's consent. Whether the canon reaches a marriage before 27
+% November 1983 is c. 1098's reading (above): the Code's force, or the reading
+% that it declares the natural law. The canon does not say who deceives: a
+% party or anyone else; the quality is the other partner's, and no one is their
+% own deceiver.
+deceived_to_consent(M,P,Q) :- deceit(D,O,P,M,quality(Q)), spouse(M,P), P != O, interior(O,D,to_obtain_consent).
+c1098_reaches(M,P) :- latin_consent_read(M,P), marriage(M,_,T), norm_in_force(n1098,T).
+c1098_reaches(M,P) :- latin_consent_read(M,P), read_for(c1098,declarative_of_natural_law,M).
+consent_vitiated_by(M,n1098) :- deceived_to_consent(M,P,Q), quality_gravely_disturbs(Q), c1098_reaches(M,P).
+info(c1098_reading(M,R)) :- read_for(c1098,R,M).
+```
+
+norm cic:1101 | c. 1101 §1: "The internal consent of the mind is presumed to conform to the words and signs used in celebrating the marriage"; §2: "If, however, either or both of the parties by a positive act of the will exclude marriage itself, some essential element of marriage, or some essential property of marriage, the party contracts invalidly" | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
+
+```clingo
+% §1 is a presumption of the external forum (act.lp's shape): raised by the
+% celebration, standing where no exclusion is claimed. §2 reads a claim of a
+% positive act of the will; what was excluded names the species the tribunals
+% formulate. The bonum coniugum is the Rota's reading of "essential element"
+% (c. 1055 §1), kept as its own species.
+raises(consent_conforms(P,M)) :- spouse(M,P), marriage(M,_,_).
+rebutted(consent_conforms(P,M)) :- spouse(M,P), interior(P,M,positive_will(excludes(_))).
+excludes(P,M,X) :- spouse(M,P), interior(P,M,positive_will(excludes(X))).
+consent_vitiated_by(M,n1101_total)      :- latin_consent_read(M,P), excludes(P,M,matrimony).
+consent_vitiated_by(M,n1101_prolis)     :- latin_consent_read(M,P), excludes(P,M,bonum_prolis).
+consent_vitiated_by(M,n1101_fidei)      :- latin_consent_read(M,P), excludes(P,M,bonum_fidei).
+consent_vitiated_by(M,n1101_sacramenti) :- latin_consent_read(M,P), excludes(P,M,bonum_sacramenti).
+consent_vitiated_by(M,n1101_coniugum)   :- latin_consent_read(M,P), excludes(P,M,bonum_coniugum).
+consent_vitiated_by(M,n1101_element)    :- latin_consent_read(M,P), excludes(P,M,essential_element(_)).
+consent_vitiated_by(M,n1101_property)   :- latin_consent_read(M,P), excludes(P,M,essential_property(_)).
+```
+
+norm cic:1102 | c. 1102 §1: "A marriage subject to a condition about the future cannot be contracted validly"; §2: "A marriage entered into subject to a condition about the past or the present is valid or not insofar as that which is subject to the condition exists or not"; §3: "The condition mentioned in §2, however, cannot be placed licitly without the written permission of the local ordinary" | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann998-1165_en.html
+
+```clingo
+% §1 is the law of 1983 (CIC 1917 c. 1092 read a future condition otherwise),
+% so it is dated. §2 turns on an outward fact, fulfilled or not. The codes
+% differ here (CCEO c. 826), so the canon reaches the Latin faithful only.
+consent_vitiated_by(M,n1102_1) :- condition(_,M,P,future), latin_consent_read(M,P), marriage(M,_,T), norm_in_force(n1102,T).
+consent_vitiated_by(M,n1102_2) :- condition(C,M,P,past), latin_consent_read(M,P), not fulfilled(C).
+consent_vitiated_by(M,n1102_2) :- condition(C,M,P,present), latin_consent_read(M,P), not fulfilled(C).
+```
+
 norm cic:1103 | c. 1103: a marriage is invalid if entered into because of force or grave fear from without, even when inflicted unintentionally, so that a person is compelled to choose marriage in order to be freed from it | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann1095-1107_en.html
 
 ```clingo
@@ -2156,6 +2301,30 @@ act_of(P,M) :- spouse(M,P).
 consent_vitiated(M) :- spouse(M,P), removes_voluntary(P,M,violence).
 consent_vitiated(M) :- spouse(M,P), actus_humanus(P,M), grave_fear(P,M), fear_from_without(P,M), chosen_to_escape(P,M).
 info(marriage(M,invalid_consent)) :- consent_vitiated(M).
+% the same, named as the ground a tribunal formulates
+consent_vitiated_by(M,n1103) :- latin_consent_read(M,P), removes_voluntary(P,M,violence).
+consent_vitiated_by(M,n1103) :- latin_consent_read(M,P), actus_humanus(P,M), grave_fear(P,M), fear_from_without(P,M), chosen_to_escape(P,M).
+```
+
+end
+
+```clingo
+% ---------- The grounds, into the bond and out to the tribunal (TTC-ROTA) ------
+consent_vitiated(M) :- consent_vitiated_by(M,_).
+info(marriage(M,invalid_consent,G)) :- consent_vitiated_by(M,G).
+info(presumed_consent(P,M)) :- presumed(consent_conforms(P,M)).
+% The dubium, answered ground by ground: engaged on this branch's premises, or
+% not. A ground the tribunal formulates by its Latin canon is engaged by the
+% Eastern twin for an Eastern party (same_ground/2, canon_cceo.lp), and the
+% result names which canon engaged it. A ground formulated with no premise
+% under it is not engaged.
+same_ground(G,G) :- ground_at_issue(_,G).
+same_ground(B,A) :- same_ground(A,B).
+ground_engaged_by(M,G,G2) :- ground_at_issue(M,G), consent_vitiated_by(M,G2), same_ground(G,G2).
+ground_engaged(M,G) :- ground_engaged_by(M,G,_).
+info(ground(M,G,engaged))        :- ground_engaged(M,G).
+info(ground(M,G,engaged_by(G2))) :- ground_engaged_by(M,G,G2).
+info(ground(M,G,not_engaged))    :- ground_at_issue(M,G), not ground_engaged(M,G).
 
 % ---------- Book IV: the sacraments, through sacrament.lp (TTC-CHRIST) ---------
 ```

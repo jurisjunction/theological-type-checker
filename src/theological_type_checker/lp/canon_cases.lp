@@ -1099,3 +1099,88 @@ today(20261010).
 baptized_in(p_mn,catholic). communion_at_issue(p_mn).
 act_date(e_mn,20260601). warned(p_mn,e_mn,ordinary).
 interior(p_mn,e_mn,pertinacious).                                                    % obstinacy claimed
+#program consent_canons.          % HYPOTHETICAL: the Latin consent canons, a marriage to each ground and its controls (TTC-ROTA; MC1-MC6)
+today(20261010).
+% c. 1095: reason lacking (1°), a grave defect of discretion (2°), a psychic incapacity (3°)
+spouse(k1,a1). interior(a1,k1,reason(lacking)).
+spouse(k2,a2). interior(a2,k2,discretion(grave_defect)).
+spouse(k3,a3). interior(a3,k3,incapacity(assume_obligations,psychic)).
+% c. 1096
+spouse(k4,a4). interior(a4,k4,ignorance(fact(nature_of_marriage),invincible)).
+% c. 1097: the person; a quality intended directly and principally; the same error, the quality only the cause
+spouse(k5,a5). interior(a5,k5,error_of(person)).
+spouse(k6,a6). interior(a6,k6,error_of(quality(profession))). intended(a6,k6,quality(profession)).
+spouse(k7,a7). interior(a7,k7,error_of(quality(profession))).
+% c. 1098, after the Code: the four elements (k8), and by one not a party (k11); the purpose not entered (k9),
+% the gravity not entered (k10), the deceived as their own deceiver (k28); before the Code, the four elements
+% (k12): the reading branches
+marriage(k8,pr_k,19900601).  spouse(k8,(a8;b8)).   deceit(d8,b8,a8,k8,quality(sterility)).   interior(b8,d8,to_obtain_consent).
+marriage(k9,pr_k,19900601).  spouse(k9,(a9;b9)).   deceit(d9,b9,a9,k9,quality(sterility)).
+marriage(k10,pr_k,19900601). spouse(k10,(a10;b10)). deceit(d10,b10,a10,k10,quality(debts)).   interior(b10,d10,to_obtain_consent).
+marriage(k11,pr_k,19900601). spouse(k11,(a11;b11)). deceit(d11,c11,a11,k11,quality(sterility)). interior(c11,d11,to_obtain_consent).
+marriage(k12,pr_k,19800601). spouse(k12,(a12;b12)). deceit(d12,b12,a12,k12,quality(sterility)). interior(b12,d12,to_obtain_consent).
+marriage(k28,pr_k,19900601). spouse(k28,(a28;b28)). deceit(d28,a28,a28,k28,quality(sterility)). interior(a28,d28,to_obtain_consent).
+quality_gravely_disturbs(sterility).
+% c. 1101: §1 the presumption raised (k13) and rebutted (k14); §2 each species
+marriage(k13,pr_k,19900601). spouse(k13,a13).
+marriage(k14,pr_k,19900601). spouse(k14,a14). interior(a14,k14,positive_will(excludes(bonum_prolis))).
+spouse(k15,a15). interior(a15,k15,positive_will(excludes(matrimony))).
+spouse(k16,a16). interior(a16,k16,positive_will(excludes(bonum_fidei))).
+spouse(k17,a17). interior(a17,k17,positive_will(excludes(bonum_sacramenti))).
+spouse(k18,a18). interior(a18,k18,positive_will(excludes(bonum_coniugum))).
+spouse(k19,a19). interior(a19,k19,positive_will(excludes(essential_element(sexual_cooperation)))).
+spouse(k20,a20). interior(a20,k20,positive_will(excludes(essential_property(unity)))).
+% c. 1102: a future condition after the Code (k21) and before it (k22); a past condition unfulfilled (k23),
+% a present one fulfilled (k24) and unfulfilled (k25)
+marriage(k21,pr_k,19900601). spouse(k21,a21). condition(c21,k21,a21,future).
+marriage(k22,pr_k,19800601). spouse(k22,a22). condition(c22,k22,a22,future).
+spouse(k23,a23). condition(c23,k23,a23,past).
+spouse(k24,a24). condition(c24,k24,a24,present). fulfilled(c24).
+spouse(k25,a25). condition(c25,k25,a25,present).
+% c. 1103: grave fear from without (k26) and force (k27)
+spouse(k26,a26). interior(a26,k26,fear(grave,extrinsic,unjust)). interior(a26,k26,escape_choice).
+spouse(k27,a27). interior(a27,k27,violence).
+% the dubium: a ground engaged, one formulated by the Eastern twin, and one with no premise under it
+ground_at_issue(k2,n1095_2). ground_at_issue(k2,cceo818_2). ground_at_issue(k7,n1097_2).
+#program consent_eastern.         % HYPOTHETICAL: an Eastern Catholic party's consent, read by CCEO cc. 818-826 (TTC-ROTA; MC7-MC8)
+today(20261010).
+baptized_in((e1;e2;e3;e4;e5;e6;e7;e8;e9;e10;e11;e12;e13;e14;e15;e16;e17;e18;e19;e20;f8;f19),catholic).
+ascribed((e1;e2;e3;e4;e5;e6;e7;e8;e9;e10;e11;e12;e13;e14;e15;e16;e17;e18;e19;e20;f8;f19),melkite).
+marriage((h1;h2;h3;h4;h5;h6;h7;h8;h9;h10;h11;h12;h13;h14;h15;h16;h17;h20),pr_h,20000601).
+marriage((h18;h19),pr_h,19850601).
+spouse(h1,e1).   interior(e1,h1,reason(lacking)).
+spouse(h2,e2).   interior(e2,h2,discretion(grave_defect)).
+spouse(h3,e3).   interior(e3,h3,incapacity(assume_obligations,psychic)).
+spouse(h4,e4).   interior(e4,h4,ignorance(fact(nature_of_marriage),invincible)).
+spouse(h5,e5).   interior(e5,h5,error_of(person)).
+spouse(h6,e6).   interior(e6,h6,error_of(quality(profession))). intended(e6,h6,quality(profession)).
+spouse(h7,e7).   interior(e7,h7,positive_will(excludes(matrimony))).
+spouse(h8,(e8;f8)). deceit(d_h8,f8,e8,h8,quality(sterility)). interior(f8,d_h8,to_obtain_consent).
+spouse(h9,e9).   interior(e9,h9,positive_will(excludes(bonum_prolis))).
+spouse(h10,e10). interior(e10,h10,positive_will(excludes(bonum_fidei))).
+spouse(h11,e11). interior(e11,h11,positive_will(excludes(bonum_sacramenti))).
+spouse(h12,e12). interior(e12,h12,positive_will(excludes(bonum_coniugum))).
+spouse(h13,e13). interior(e13,h13,positive_will(excludes(essential_element(sexual_cooperation)))).
+spouse(h14,e14). interior(e14,h14,positive_will(excludes(essential_property(unity)))).
+spouse(h15,e15). interior(e15,h15,fear(grave,extrinsic,unjust)). interior(e15,h15,escape_choice).
+spouse(h16,e16). condition(c_h16,h16,e16,past). fulfilled(c_h16).
+spouse(h17,e17). interior(e17,h17,violence).
+% before the Eastern Code: a grave defect of discretion (h18), and deceit, read both ways (h19)
+spouse(h18,e18). interior(e18,h18,discretion(grave_defect)).
+spouse(h19,(e19;f19)). deceit(d_h19,f19,e19,h19,quality(sterility)). interior(f19,d_h19,to_obtain_consent).
+quality_gravely_disturbs(sterility).
+spouse(h20,e20). condition(c_h20,h20,e20,future).
+% the dubium, each ground formulated by its Latin canon
+ground_at_issue(h1,n1095_1). ground_at_issue(h2,n1095_2). ground_at_issue(h3,n1095_3). ground_at_issue(h4,n1096).
+ground_at_issue(h5,n1097_1). ground_at_issue(h6,n1097_2). ground_at_issue(h7,n1101_total). ground_at_issue(h8,n1098).
+ground_at_issue(h9,n1101_prolis). ground_at_issue(h10,n1101_fidei). ground_at_issue(h11,n1101_sacramenti).
+ground_at_issue(h12,n1101_coniugum). ground_at_issue(h13,n1101_element). ground_at_issue(h14,n1101_property).
+ground_at_issue(h15,n1103). ground_at_issue(h16,n1102_2). ground_at_issue(h20,n1102_1).
+#program consent_disputed.        % HYPOTHETICAL: each premise of the consent canons entered disputed, computed both ways (TTC-ROTA; MC9)
+today(20261010).
+spouse(j1,(g1;i1)). interior(g1,j1,error_of(quality(profession))). disputed(intended(g1,j1,quality(profession))).
+marriage(j2,pr_j,19900601). spouse(j2,(g2;i2)). disputed(deceit(d_j2,i2,g2,j2,quality(sterility))). interior(i2,d_j2,to_obtain_consent).
+marriage(j3,pr_j,19900601). spouse(j3,(g3;i3)). deceit(d_j3,i3,g3,j3,quality(addiction)). interior(i3,d_j3,to_obtain_consent).
+disputed(quality_gravely_disturbs(addiction)). quality_gravely_disturbs(sterility).
+spouse(j4,g4). disputed(condition(c_j4,j4,g4,past)).
+spouse(j5,g5). condition(c_j5,j5,g5,past). disputed(fulfilled(c_j5)).

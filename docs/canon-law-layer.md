@@ -48,12 +48,13 @@ It types the claims; the canons give the effects.
 
 | Claim (`interior(P, A, …)`) | Library | Read by |
 | --- | --- | --- |
-| `violence`, `reason(lacking)`, `reason(habitually_lacking)` | no human act (ST I-II q. 1 a. 1; q. 6 a. 5) | cc. 125 §1, 1103, 1321–1323 |
+| `violence`, `reason(lacking)`, `reason(habitually_lacking)` | no human act (ST I-II q. 1 a. 1; q. 6 a. 5) | cc. 125 §1, 1095 1°, 1103, 1321–1323 |
 | `ignorance(Of, Kind)`, `error(…)`, `inadvertence(…)` | without fault, with fault, gross | cc. 1323 n. 2, 1324 §1 n. 9, 1325; culpa |
 | `fear(Grade, Origin, How)`, `escape_choice` | a mixed voluntary (q. 6 a. 6) | cc. 125 §2, 1103, 1323 n. 4, 1324 §1 n. 5 |
 | `necessity`, `chance`, `defence(moderate)`, `believed(C, Kind)` | | cc. 1323 nn. 3–5, 7; 1324 §1 n. 8 |
 | `reason(imperfect)`, `passion(grave, unstimulated)` | | c. 1324 §1 nn. 1, 3 |
 | `deliberate`, `negligence` | dolus, culpa (c. 1321 §§2–3) | c. 1321; `punishes_culpa/1` |
+| `discretion(grave_defect)`, `incapacity(assume_obligations,psychic)`, `error_of(…)`, `positive_will(excludes(…))`, `to_obtain_consent` | claims about the person at consent | cc. 1095 2°–3°, 1097, 1098, 1101 §2; CCEO cc. 818, 820, 821, 824 |
 
 No rule derives `interior/3` (`test_interior_is_never_derived`). The
 library presupposes that creatures act: on the bare runtime no human act
@@ -217,11 +218,11 @@ wrong.
 | persons | 1; 11; 96; 111 §1 (2016); 113–120 (physical and juridic persons, moral persons by divine ordinance); 205 |
 | delicts | 751 with 1364 §1 (and 1983); 1371 n. 1 (1983, 1998); 1365; 1382 (1983); 1387; 1379 §1 n. 2; 1386 §1; 1398 (1983) and 1397 §2, with the interpretation of 1988; 1398 §1 n. 1 with the Dicastery's art. 6 n. 1 (2021); 1399 |
 | imputability | 1321 §§2–4; 1322; 1323; 1324 §1 nn. 1, 3, 4, 5, 8, 9, §3; 1325; 1328 §1; 1329 §2; 1355 |
-| juridic acts, consent | 125 §§1–2; 1103 |
+| juridic acts, consent | 125 §§1–2; 1095–1098; 1101 §§1–2; 1102 §§1–2 (§1 dated); 1103; the dubium, ground by ground |
 | procedure | 1717 §1; 1342 §1 with 1720 n. 1; 124 §2; 1353; 1752 |
 | effects | 1331 §1 n. 1, §2 n. 2; 1335 §2 |
 | sacraments | 882; 966, 976, 144 §2; 1108 §§1, 3, 1111, 1127 §1 (1983, 2016) |
-| Eastern Code | 696 §§1–2; 828; 834 §2; 1402; 1436 §§1–2 (1998); 1450 §2; 1459 §1 |
+| Eastern Code | 696 §§1–2; 818–821; 824–826; 828; 834 §2; 1402; 1436 §§1–2 (1998); 1450 §2; 1459 §1 |
 
 ## SEE ALSO
 
