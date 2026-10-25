@@ -670,11 +670,23 @@ def test_reading_of_c8_disputed_before_the_publications_date():
                    "assumed_fact(reading(c8_elsewhere,lx,from_publication))"}, got
 
 
+# TTC-ROTA FI1: a sentence's findings are an index of its reasoning. No norm
+# reads finds/5: only the check of its sort, and the rule that names each
+# finding in every branch (info(sentence_found/5)). A finding of proved enters
+# its premise, and nothing derives one from a finding.
+def test_findings_are_read_by_no_norm():
+    readers = [(f, st) for f, st in _heads_and_bodies() if ":-" in st and re.search(r"\bfinds\s*\(", st.split(":-", 1)[1])]
+    assert all("outside_domain(finds," in st or st.lstrip().startswith("info(sentence_found(") for _, st in readers), readers
+    assert any(st.lstrip().startswith("info(sentence_found(") for _, st in readers), readers
+
+
 # TTC-SOURCES AU7: a refused attribution is a fact about dates. No rule names
 # a motive (rule 3): no forgery, fraud or deceit, in any rule file's code. One
 # exception, TTC-ROTA: c. 1098 and CCEO c. 821 name deceit themselves. There it
 # is a premise a case enters, never derived (test_consent_premises_are_never_
-# derived), and only those canons' grounds read it.
+# derived), and only those canons' grounds read it. A Rotal sentence's finding
+# may name it as an element of c. 1098 (finds/5), which no norm reads
+# (test_findings_are_read_by_no_norm).
 def test_no_motive_is_read():
     for f, txt in engine.base_texts().items():
         code = "\n".join(line.split("%")[0] for line in txt.splitlines()).lower()
@@ -687,7 +699,7 @@ def test_no_motive_is_read():
                 assert f in ("canon_law.lp", "canon_cceo.lp"), (f, st)
                 assert re.search(r"\b(deceit|deceived_to_consent)\s*\(", st.split(":-")[-1]), (f, st)
             else:
-                assert f == "canon_cases.lp" and re.match(r"\s*(disputed\()?deceit\(", st), (f, st)
+                assert f == "canon_cases.lp" and re.match(r"\s*((disputed\()?deceit\(|finds\()", st), (f, st)
 
 
 # TTC-SOURCES TX: a rule of the form fires only under the text in force at

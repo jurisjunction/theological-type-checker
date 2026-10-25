@@ -5487,6 +5487,53 @@ scen("MC10", MC, "Each premise disputed, computed both ways", ["consent_disputed
      "a disputed premise is never decided: one branch each way, and the ground engaged on one", mode=B)
 
 
+# ---------- The Roman Rota: four sentences (TTC-ROTA) -----------------------
+# Public record: each sentence's marriage, parties, grounds and decisions, and
+# as premises the elements it found proved (RO1, RO2). The dolus case with the
+# premises it lacks entered by switches, HYPOTHETICAL (RO3). The Rota's reading
+# of c. 1098, entered as its sentence's act, weighs and changes nothing (RE1).
+RS = "rota"
+ROTA = ["rota_19901025_dolus", "rota_19951019_prolis", "rota_19910502_sacramenti", "rota_19901025_fidei"]
+DOLUS = ["rota_19901025_dolus"]
+DOLUS_NULL = "info(marriage(m_r_dolus,invalid_consent,n1098))"
+DOLUS_LACKS = ["rota_dolus_act", "rota_dolus_purpose", "rota_dolus_gravity"]
+
+
+def same_facts_without(extra_part):
+    """every branch, with its facts, the same with and without a part"""
+    def chk(r):
+        r2 = solve([p for p in r["_parts"] if p != extra_part], "branches")
+        key = lambda x: sorted((b["status"], tuple(sorted(b["facts"]))) for b in x["branches"])
+        ok = r["models"] == r2["models"] and key(r) == key(r2)
+        return ok, f"{r['models']} branches, the same facts with and without {extra_part}" if ok else "facts differ"
+    return chk
+
+
+scen("RO1", RS, "The Rota's six decisions", ROTA,
+     [info_all("marriage(m_r_prolis,invalid_consent,n1101_prolis)", "marriage(m_r_fidei,invalid_consent,n1101_sacramenti)",
+               "marriage(m_r_fidei,invalid_consent,n1101_fidei)", "ground(m_r_prolis,n1101_prolis,engaged)",
+               "ground(m_r_fidei,n1101_sacramenti,engaged)", "ground(m_r_fidei,n1101_fidei,engaged)",
+               "ground(m_r_dolus,n1098,not_engaged)", "ground(m_r_dolus,n1095_2,not_engaged)",
+               "ground(m_r_sacramenti,n1101_sacramenti,not_engaged)"),
+      info_none("marriage(m_r_dolus,invalid_consent", "marriage(m_r_sacramenti,invalid_consent")],
+     "affirmative where the Rota found the exclusions proved; negative where it found deceit, discretion or the "
+     "exclusion not proved", mode=B)
+scen("RO2", RS, "No sentence branches", ROTA,
+     [branches_n(1), info_none("c1098_reading(", "assumed_fact(")],
+     "c. 1101 is not dated, and the one c. 1098 marriage (1987) was celebrated with the canon in force", mode=B)
+scen("RO3", RS, "The dolus case fails on each element alone", DOLUS,
+     [shown(DOLUS + [p for p in DOLUS_LACKS if p != q], ("info/1",), absent=(DOLUS_NULL,)) for q in DOLUS_LACKS]
+     + [shown(DOLUS + [q], ("info/1",), absent=(DOLUS_NULL,)) for q in DOLUS_LACKS]
+     + [shown(DOLUS + DOLUS_LACKS, ("info/1",), DOLUS_NULL), info_none("marriage(m_r_dolus,invalid_consent")],
+     "any one or two of the deceit, its purpose and the quality's gravity entered: not engaged; all three: "
+     "engaged", mode=B)
+scen("RE1", RS, "A Rotal reading weighs", ROTA + ["consent_canons", "consent_eastern", "consent_disputed", "rota_readings"],
+     [same_facts_without("rota_readings"), under(DECL_READ, info_all("marriage(k12,invalid_consent,n1098)")),
+      under(POS_READ, info_none("marriage(k12,invalid_consent"))],
+     "the dolus sentence's reading of c. 1098 (the quality is not a motive), entered as its act: no branch and no "
+     "fact changes, and the reading before the Code still branches", mode=B)
+
+
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
 def _expect_check(e):
     kind = e.get("kind")

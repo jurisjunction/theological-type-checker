@@ -1099,7 +1099,7 @@ today(20261010).
 baptized_in(p_mn,catholic). communion_at_issue(p_mn).
 act_date(e_mn,20260601). warned(p_mn,e_mn,ordinary).
 interior(p_mn,e_mn,pertinacious).                                                    % obstinacy claimed
-#program consent_canons.          % HYPOTHETICAL: the Latin consent canons, a marriage to each ground and its controls (TTC-ROTA; MC1-MC6)
+#program consent_canons.          % HYPOTHETICAL: the Latin consent canons, a marriage to each ground and its controls (TTC-ROTA; MC1-MC7)
 today(20261010).
 % c. 1095: reason lacking (1°), a grave defect of discretion (2°), a psychic incapacity (3°)
 spouse(k1,a1). interior(a1,k1,reason(lacking)).
@@ -1142,7 +1142,7 @@ spouse(k26,a26). interior(a26,k26,fear(grave,extrinsic,unjust)). interior(a26,k2
 spouse(k27,a27). interior(a27,k27,violence).
 % the dubium: a ground engaged, one formulated by the Eastern twin, and one with no premise under it
 ground_at_issue(k2,n1095_2). ground_at_issue(k2,cceo818_2). ground_at_issue(k7,n1097_2).
-#program consent_eastern.         % HYPOTHETICAL: an Eastern Catholic party's consent, read by CCEO cc. 818-826 (TTC-ROTA; MC7-MC8)
+#program consent_eastern.         % HYPOTHETICAL: an Eastern Catholic party's consent, read by CCEO cc. 818-826 (TTC-ROTA; MC8-MC9)
 today(20261010).
 baptized_in((e1;e2;e3;e4;e5;e6;e7;e8;e9;e10;e11;e12;e13;e14;e15;e16;e17;e18;e19;e20;f8;f19),catholic).
 ascribed((e1;e2;e3;e4;e5;e6;e7;e8;e9;e10;e11;e12;e13;e14;e15;e16;e17;e18;e19;e20;f8;f19),melkite).
@@ -1176,7 +1176,7 @@ ground_at_issue(h5,n1097_1). ground_at_issue(h6,n1097_2). ground_at_issue(h7,n11
 ground_at_issue(h9,n1101_prolis). ground_at_issue(h10,n1101_fidei). ground_at_issue(h11,n1101_sacramenti).
 ground_at_issue(h12,n1101_coniugum). ground_at_issue(h13,n1101_element). ground_at_issue(h14,n1101_property).
 ground_at_issue(h15,n1103). ground_at_issue(h16,n1102_2). ground_at_issue(h20,n1102_1).
-#program consent_disputed.        % HYPOTHETICAL: each premise of the consent canons entered disputed, computed both ways (TTC-ROTA; MC9)
+#program consent_disputed.        % HYPOTHETICAL: each premise of the consent canons entered disputed, computed both ways (TTC-ROTA; MC10)
 today(20261010).
 spouse(j1,(g1;i1)). interior(g1,j1,error_of(quality(profession))). disputed(intended(g1,j1,quality(profession))).
 marriage(j2,pr_j,19900601). spouse(j2,(g2;i2)). disputed(deceit(d_j2,i2,g2,j2,quality(sterility))). interior(i2,d_j2,to_obtain_consent).
@@ -1184,3 +1184,63 @@ marriage(j3,pr_j,19900601). spouse(j3,(g3;i3)). deceit(d_j3,i3,g3,j3,quality(add
 disputed(quality_gravely_disturbs(addiction)). quality_gravely_disturbs(sterility).
 spouse(j4,g4). disputed(condition(c_j4,j4,g4,past)).
 spouse(j5,g5). condition(c_j5,j5,g5,past). disputed(fulfilled(c_j5)).
+#program rota_19901025_dolus.     % c. 1098, and c. 1095 2° subordinately: negative on both (TTC-ROTA; RO1-RO3)
+% The Roman Rota, coram Burke, 25 October 1990; English version: Studia canonica 26 (1992)
+% 235-243; https://cormacburke.me.ke/node/395.html. Public record. The court of first instance
+% had found a scheme of the respondent and the respondent's family to marry for property (§35).
+today(20261010).
+marriage(m_r_dolus,pp_r_dolus,19870711). spouse(m_r_dolus,(pet_r_dolus;resp_r_dolus)).
+ground_at_issue(m_r_dolus,n1098). ground_at_issue(m_r_dolus,n1095_2).
+issuer(rota_19901025_dolus,rota).
+finds(rota_19901025_dolus,m_r_dolus,ground(n1098),negative,n(38)).
+finds(rota_19901025_dolus,m_r_dolus,ground(n1095_2),negative,n(38)).
+finds(rota_19901025_dolus,m_r_dolus,element(n1098,deceit),not_proved,n(35)).
+finds(rota_19901025_dolus,m_r_dolus,element(n1098,to_obtain_consent),not_proved,n(36)).
+finds(rota_19901025_dolus,m_r_dolus,element(n1098,quality_gravely_disturbs),not_proved,n(36)).
+finds(rota_19901025_dolus,m_r_dolus,element(n1095_2,discretion(grave_defect)),contrary_proved,n(37)).
+#program rota_dolus_act.          % HYPOTHETICAL: the deceit the Rota found not proved (§35), entered (RO3)
+deceit(d_r_dolus,resp_r_dolus,pet_r_dolus,m_r_dolus,quality(mercenary_interest)).
+#program rota_dolus_purpose.      % HYPOTHETICAL: its purpose, found not proved (§36), entered (RO3)
+interior(resp_r_dolus,d_r_dolus,to_obtain_consent).
+#program rota_dolus_gravity.      % HYPOTHETICAL: the quality's gravity, found not proved (§36), entered (RO3)
+quality_gravely_disturbs(mercenary_interest).
+#program rota_19951019_prolis.    % c. 1101 §2, the bonum prolis: affirmative (TTC-ROTA; RO1)
+% The Roman Rota, coram Burke, 19 October 1995, in third instance;
+% https://cormacburke.me.ke/node/425.html. Public record. Married in 1981: the sentence
+% gives no day, so no date is entered.
+today(20261010).
+spouse(m_r_prolis,(pet_r_prolis;resp_r_prolis)).
+ground_at_issue(m_r_prolis,n1101_prolis).
+interior(pet_r_prolis,m_r_prolis,positive_will(excludes(bonum_prolis))).            % proved (§29)
+issuer(rota_19951019_prolis,rota). nullity_sentence(rota_19951019_prolis,m_r_prolis,19951019).
+prohibited_to_marry(pet_r_prolis).        % "without first referring the matter to the local Ordinary"
+finds(rota_19951019_prolis,m_r_prolis,ground(n1101_prolis),affirmative,n(30)).
+finds(rota_19951019_prolis,m_r_prolis,element(n1101_prolis,positive_will(excludes(bonum_prolis))),proved,n(29)).
+#program rota_19910502_sacramenti. % c. 1101 §2, the bonum sacramenti: negative (TTC-ROTA; RO1)
+% The Roman Rota, coram Burke, 2 May 1991; English version: Forum 2 (1991) 2: 106-124;
+% https://cormacburke.me.ke/node/397.html. Public record. A mixed marriage; the sentence does
+% not name the priest who assisted.
+today(20261010).
+marriage(m_r_sacramenti,pp_r_sacramenti,19780722). spouse(m_r_sacramenti,(pet_r_sacramenti;resp_r_sacramenti)).
+ground_at_issue(m_r_sacramenti,n1101_sacramenti).
+issuer(rota_19910502_sacramenti,rota).
+finds(rota_19910502_sacramenti,m_r_sacramenti,ground(n1101_sacramenti),negative,n(35)).
+finds(rota_19910502_sacramenti,m_r_sacramenti,element(n1101_sacramenti,positive_will(excludes(bonum_sacramenti))),not_proved,n(35)).
+#program rota_19901025_fidei.     % c. 1101 §2, the bonum sacramenti and the bonum fidei: affirmative on both (TTC-ROTA; RO1)
+% The Roman Rota, coram Burke, 25 October 1990, on a new proposition of the case (c. 1644 §1);
+% English version: The Jurist 51 (1991) 216-226; https://cormacburke.me.ke/node/394.html.
+% Public record. Married in February 1982: the sentence gives no day, so no date is entered.
+today(20261010).
+spouse(m_r_fidei,(pet_r_fidei;resp_r_fidei)).
+ground_at_issue(m_r_fidei,(n1101_sacramenti;n1101_fidei)).
+interior(pet_r_fidei,m_r_fidei,positive_will(excludes(bonum_sacramenti))).          % proved (§26)
+interior(pet_r_fidei,m_r_fidei,positive_will(excludes(bonum_fidei))).               % proved (§26)
+issuer(rota_19901025_fidei,rota). nullity_sentence(rota_19901025_fidei,m_r_fidei,19901025).
+finds(rota_19901025_fidei,m_r_fidei,ground(n1101_sacramenti),affirmative,n(32)).
+finds(rota_19901025_fidei,m_r_fidei,ground(n1101_fidei),affirmative,n(32)).
+finds(rota_19901025_fidei,m_r_fidei,element(n1101_sacramenti,positive_will(excludes(bonum_sacramenti))),proved,n(26)).
+finds(rota_19901025_fidei,m_r_fidei,element(n1101_fidei,positive_will(excludes(bonum_fidei))),proved,n(26)).
+#program rota_readings.           % the Rota's readings, each the sentence applying it (TTC-ROTA; RE1)
+% The Rota judges; it does not legislate. Its sentence binds the parties to the case (c. 16 §3),
+% and no rank is entered for it: a reading it applies is never authentic.
+applies_reading(rota_19901025_dolus,c1098,quality_not_a_motive).    % §36, citing the In iure

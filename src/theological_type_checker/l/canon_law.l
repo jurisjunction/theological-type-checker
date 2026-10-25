@@ -8,6 +8,12 @@ sort table_rank 1..13
 sort condition_time {past, present, future}
   means "the time a condition placed on consent concerns (c. 1102)"
 
+sort paragraph
+  means "a numbered paragraph of a sentence or decree, as a term (n(36))"
+
+sort sentence_finding {affirmative, negative, proved, not_proved, contrary_proved, not_reached, not_discussed}
+  means "what a sentence found: on a ground, affirmative or negative; on an element of it, proved, not proved, contrary proved, not reached or not discussed"
+
 sort celebration
   means "a celebration of the liturgical year, by the name of its day in the calendar in use"
 
@@ -380,6 +386,10 @@ slot condition(Condition: condition, Marriage: act, Person: person, Time: condit
 slot fulfilled(Condition: condition)
   means "fulfilled(C): the condition C was fulfilled; an outward fact"
   say "the condition {Condition} was fulfilled"
+
+slot finds(Sentence: act, Marriage: act, On: claim, Finding: sentence_finding, Para: paragraph)
+  means "finds(S, M, On, Finding, Para): what the sentence S found at the paragraph Para, on a ground of the marriage M (ground(G): affirmative or negative) or on an element of one (element(G, X), X the premise's name or claim: proved, not_proved, contrary_proved, not_reached, not_discussed). An index of the sentence's reasoning, read by no norm; an element found proved is entered as its premise"
+  say "on {On} of the marriage {Marriage}, the sentence {Sentence} found {Finding} ({Para})"
 
 use claims_necessity/2 "the agent publicly claims a state of necessity for the act"
 
@@ -2325,6 +2335,11 @@ ground_engaged(M,G) :- ground_engaged_by(M,G,_).
 info(ground(M,G,engaged))        :- ground_engaged(M,G).
 info(ground(M,G,engaged_by(G2))) :- ground_engaged_by(M,G,G2).
 info(ground(M,G,not_engaged))    :- ground_at_issue(M,G), not ground_engaged(M,G).
+% A sentence's findings, ground by ground and element by element, named in
+% every branch with their paragraphs: an index of its reasoning, read by no
+% norm. A finding of proved is entered as its premise; nothing is derived from
+% a finding (TTC-ROTA FI1).
+info(sentence_found(S,M,On,F,Para)) :- finds(S,M,On,F,Para).
 
 % ---------- Book IV: the sacraments, through sacrament.lp (TTC-CHRIST) ---------
 ```

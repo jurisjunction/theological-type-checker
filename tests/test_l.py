@@ -480,7 +480,8 @@ CLOSED = {"tier", "force", "question_kind", "papal_form", "character", "concilia
           "table_rank",   # TTC-CALENDAR: the Table of Liturgical Days, 1..13
           "tmode", "akind", "unit",   # TTC-LINGUAE: a mode claimed, a kind of analogy, a claim's unit
           "cause", "domain",   # TTC-MODERNITY: the four causes, and where each is held
-          "condition_time"}    # TTC-ROTA: c. 1102, a condition about the past, the present or the future
+          "condition_time",    # TTC-ROTA: c. 1102, a condition about the past, the present or the future
+          "sentence_finding"}  # TTC-ROTA: what a sentence found, on a ground or on an element
 
 
 def _domain_args():

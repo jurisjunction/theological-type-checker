@@ -193,6 +193,11 @@ Gregorian University):
 
 vatican.va carries the current English text, including the 2021 Book VI.
 
+Four sentences of the Roman Rota, *coram* Burke, are cases, from the ponens'
+collection ([cormacburke.me.ke](https://cormacburke.me.ke/)): the public record of
+TTC-ROTA. Each holds its facts and decisions, as premises the elements it found
+proved, and with `finds/5` every finding with its paragraph.
+
 ## THE NORM GRAPH
 
 Norm A *feeds* norm B if B uses what A derives. Definitions feed delicts,
@@ -219,6 +224,7 @@ wrong.
 | delicts | 751 with 1364 §1 (and 1983); 1371 n. 1 (1983, 1998); 1365; 1382 (1983); 1387; 1379 §1 n. 2; 1386 §1; 1398 (1983) and 1397 §2, with the interpretation of 1988; 1398 §1 n. 1 with the Dicastery's art. 6 n. 1 (2021); 1399 |
 | imputability | 1321 §§2–4; 1322; 1323; 1324 §1 nn. 1, 3, 4, 5, 8, 9, §3; 1325; 1328 §1; 1329 §2; 1355 |
 | juridic acts, consent | 125 §§1–2; 1095–1098; 1101 §§1–2; 1102 §§1–2 (§1 dated); 1103; the dubium, ground by ground |
+| jurisprudence | four Rotal sentences (1095 2°, 1098, 1101 §2) as cases; a reading a sentence applies is never authentic (16 §3) |
 | procedure | 1717 §1; 1342 §1 with 1720 n. 1; 124 §2; 1353; 1752 |
 | effects | 1331 §1 n. 1, §2 n. 2; 1335 §2 |
 | sacraments | 882; 966, 976, 144 §2; 1108 §§1, 3, 1111, 1127 §1 (1983, 2016) |

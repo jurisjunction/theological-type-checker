@@ -104,6 +104,7 @@
 % @input quality_gravely_disturbs/1 | quality_gravely_disturbs(Q): that Q of its very nature can gravely disturb the partnership of conjugal life (c. 1098); a reading of the quality, entered by the case
 % @input condition/4 | condition(C, M, P, past | present | future): P's consent to M was made to depend on the condition C (c. 1102)
 % @input fulfilled/1 | fulfilled(C): the condition C was fulfilled; an outward fact
+% @input finds/5 | finds(S, M, On, Finding, Para): what the sentence S found at the paragraph Para, on a ground of the marriage M (ground(G): affirmative or negative) or on an element of one (element(G, X), X the premise's name or claim: proved, not_proved, contrary_proved, not_reached, not_discussed). An index of the sentence's reasoning, read by no norm; an element found proved is entered as its premise
 % @input claims_necessity/2 | the agent publicly claims a state of necessity for the act
 % @input asserts/3 | asserts(Text, Claim, Date): a text's claim about the juridical situation
 % @input disputed/1 | a fact whose truth is disputed
@@ -1296,6 +1297,11 @@ ground_engaged(M,G) :- ground_engaged_by(M,G,_).
 info(ground(M,G,engaged))        :- ground_engaged(M,G).
 info(ground(M,G,engaged_by(G2))) :- ground_engaged_by(M,G,G2).
 info(ground(M,G,not_engaged))    :- ground_at_issue(M,G), not ground_engaged(M,G).
+% A sentence's findings, ground by ground and element by element, named in
+% every branch with their paragraphs: an index of its reasoning, read by no
+% norm. A finding of proved is entered as its premise; nothing is derived from
+% a finding (TTC-ROTA FI1).
+info(sentence_found(S,M,On,F,Para)) :- finds(S,M,On,F,Para).
 
 % ---------- Book IV: the sacraments, through sacrament.lp (TTC-CHRIST) ---------
 % @norm cic:842 | c. 842 §1: a person who has not received baptism cannot be admitted validly to the other sacraments | https://www.vatican.va/archive/cod-iuris-canonici/eng/documents/cic_lib4-cann834-878_en.html
@@ -1615,5 +1621,7 @@ violation(collective_declaration(S,C)) :- treated_as_declaring(S,C), asserts(S,s
 % ---------- domains (L) ---------------------------------------------
 in_sort(table_rank,1..13).
 in_sort(condition_time,(past;present;future)).
+in_sort(sentence_finding,(affirmative;negative;proved;not_proved;contrary_proved;not_reached;not_discussed)).
 violation(outside_domain(condition,4,Time)) :- condition(_,_,_,Time), not in_sort(condition_time,Time).
+violation(outside_domain(finds,4,Finding)) :- finds(_,_,_,Finding,_), not in_sort(sentence_finding,Finding).
 violation(outside_domain(celebration_on,3,R)) :- celebration_on(_,_,R), not in_sort(table_rank,R).

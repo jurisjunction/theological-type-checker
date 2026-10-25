@@ -162,6 +162,7 @@ compiled text.
 | `intended(P,M,quality(Q))`, `deceit(D,Deceiver,Deceived,M,quality(Q))` with `interior(Deceiver,D,to_obtain_consent)`, `quality_gravely_disturbs(Q)` | c. 1097 §2: the quality intended directly and principally, beside the error. c. 1098: the deceit (by anyone, a party or not, about the other partner's quality), its purpose, the quality's gravity (a reading of the quality), and the deceived party's consent, all four; before 27 November 1983 the canon's reading branches (`c1098_reading/2`). Premises, never derived; each may be entered `disputed`. |
 | `condition(C,M,P,Time)`, `fulfilled(C)` | c. 1102: Time is `past`, `present` or `future`; §1 dated from the Code, §2 on the outward fact. CCEO c. 826 admits no condition. |
 | `ground_at_issue(M,G)` | The dubium: the ground a tribunal has formulated, by its canon's id (`n1095_2`, `n1101_prolis`, `cceo818_2`, …). Answered `ground(M,G,engaged)`, `engaged_by(G2)` (its twin in the other code), or `not_engaged`. |
+| `finds(S,M,On,Finding,Para)` | What a sentence found, at a paragraph `n(N)`: on a ground, `ground(G)`, `affirmative` or `negative`; on an element, `element(G,X)`, `proved`, `not_proved`, `contrary_proved`, `not_reached` or `not_discussed`. An index of the sentence's reasoning, read by no norm: an element found proved is entered as its premise, and any other finding enters nothing. |
 | `interior(P,A,Claim)` | What a case claims of the agent's knowledge, will or freedom: `ignorance(Of,Kind)`, `error(…)`, `fear(Grade,Origin,How)`, `violence`, `reason(…)`, `passion(…)`, `necessity`, `deliberate`, `negligence`, … Never derived; read by the human-act library (`act.lp`). |
 | `disputed(F)` | Computed both ways: `heard/2`, `common_error/1`, `appears_otherwise/2`, `interior/3`, and the consent canons' premises below. |
 | `authentic_reading(C,R,Act)` | The legislator's reading (c. 16 §1). Its reach: `interpretation_form(Act,F)` (F: `law` or `particular`), `particular_matter(Act,E)`, `promulgated(Act,Date)` (c. 16 §§2–3). |
@@ -366,6 +367,7 @@ See [ttc-modernity(7)](research/modernity-preregistration.md).
 | `violation(outside_domain(Slot,N,V))` | Argument N of a slot holds V, outside its sort: a tier, a force, a character, a nature, a mode of presence, … (ttc-l(1)). |
 | `info(X)` | Noted. |
 | `info(interior_supplied(P,A,X))` | An interior a case supplied or disputed, named in every branch: a claim, never a finding (rule 3). |
+| `info(sentence_found(S,M,On,F,Para))` | A sentence's finding at its paragraph, named in every branch: an index of its reasoning, read by no norm (TTC-ROTA). |
 | `frontier(Layer,X)` | Still to encode or read. |
 | `frontier(unanswered,by_practice_only(Q))` | A question no source answers, which a claim of practice speaks to: no lack of the encoding, shown apart. |
 
