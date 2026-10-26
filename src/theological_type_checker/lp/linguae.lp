@@ -55,6 +55,7 @@
 % @input carries/3 | carries(W2, W1, P): an analogical rendering whose words are W2 for W1 carries the premise P
 % @input renders/2 | renders(F2, F1): F2 is given for F1
 % @input host_declared/3 | host_declared(F2, F1, C): a rendering of a rendering declares its host, by C
+% @input measured_by/3 | measured_by(F1, F2, C): C takes the form F2 as the measure of F1; no descent (TTC-PENDET)
 % @input rests_on_form/3 | rests_on_form(A, P, F): the argument A's premise P rests on the host form F
 % @input hears_in/3 | hears_in(G, E, C): the horizon G hears in E by the lexicon C; never a person
 % @input hears_under/2 | hears_under(G, C): the horizon G hears under C's rule of hearing
@@ -238,6 +239,40 @@ lost_text(A,T2,P)  :- lost_at(A,T2,P,_).
 carried_at(A,T2,P) :- rests_on_form(A,_,F1), rendering(F2,F1), form_in(F2,T2,_), carried(F2,F1,P).
 info(carried_in(A,E,P))   :- carried_at(A,T2,P), not lost_text(A,T2,P), text_enc(T2,E).
 info(lost_in(A,E,P,Why))  :- lost_at(A,T2,P,Why), text_enc(T2,E).
+
+% ---------- A measure, beside descent (TTC-PENDET MS) -----------------------
+% C takes F2 as the measure of F1, as a person may take the tongue he prays
+% in. F1 is then read as given for F2: its mode, its readings closed and
+% opened, its interpretations. No descent follows (no made_from/2; LW3 does
+% not see it), and a measure carries nothing: carriage follows descent only.
+% The measure's admitted readings count as its host readings, and the
+% measured form's host readings as what it admits, so a pair is read either
+% way. An analogy is found whichever of its two words the measure has; the
+% word declared prior stays prior as to the thing, "quantum ad rem
+% significatam", and the measure's own word is prior as to us, "quantum ad
+% impositionem nominis" (I q. 13 a. 6).
+measured_pair(F1,F2) :- measured_by(F1,F2,_).
+m_across(F1,F2) :- measured_pair(F1,F2), form_enc(F1,E1), form_enc(F2,E2), E1 != E2.
+m_one_word(F1,F2) :- measured_pair(F1,F2), means_now(F1,W), means_now(F2,W), words_one.
+m_one_word(F1,F2) :- measured_pair(F1,F2), means_now(F1,W), means_now(F2,W), not m_across(F1,F2).
+% m_analogy(F1,F2,K,Prior,W2): the analogy of kind K, the word declared prior, the measure's word.
+m_analogy(F1,F2,K,W2,W2) :- measured_pair(F1,F2), means_now(F1,W1), means_now(F2,W2), analogous(W1,W2,K,_),
+                            not m_one_word(F1,F2).
+m_analogy(F1,F2,K,W1,W2) :- measured_pair(F1,F2), means_now(F1,W1), means_now(F2,W2), analogous(W2,W1,K,_),
+                            not m_one_word(F1,F2).
+m_analogical(F1,F2) :- m_analogy(F1,F2,_,_,_).
+m_mode(F1,F2,univocal)   :- m_one_word(F1,F2).
+m_mode(F1,F2,analogical) :- m_analogical(F1,F2).
+m_mode(F1,F2,equivocal)  :- measured_pair(F1,F2), worded(F2), not m_one_word(F1,F2), not m_analogical(F1,F2).
+info(mode(F1,F2,M))          :- m_mode(F1,F2,M).
+info(analogy_kind(F1,F2,K))  :- m_analogy(F1,F2,K,_,_).
+info(prius_rei(F1,F2,W))     :- m_analogy(F1,F2,_,W,_).
+info(prius_nobis(F1,F2,W))   :- m_analogy(F1,F2,_,_,W).
+m_closes(F1,F2,R) :- measured_pair(F1,F2), admitted(F2,R), host_typed(F1), not host_reading(F1,R).
+m_opens(F1,F2,R)  :- measured_pair(F1,F2), host_reading(F1,R), typed(F2), not admitted(F2,R).
+info(closes(F1,F2,R)) :- m_closes(F1,F2,R).
+info(opens(F1,F2,R))  :- m_opens(F1,F2,R).
+info(interpretation(F1,F2,R)) :- m_closes(F1,F2,_), admitted(F2,R), host_reading(F1,R).
 
 % ---------- Hearings: a horizon with a lexicon, never a person (LM1, LM3) ----
 violation(hearing_of_a_person(G))   :- hears_in(G,_,_), person(G).

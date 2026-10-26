@@ -312,6 +312,7 @@ See [ttc-empirica(7)](research/empirica-preregistration.md).
 | `catechesis_rule(C,F2,R)`, `message(F1,R,C)`, `span_kind(F,K)`, `idiomatic(F2,E,C)`, `unrendered(F2,F1,W)`, `order_changed(F2,F1,C)` | What the regimes read: a reading sent to catechesis; the message named (CLP 6); a host in an `anaphoral` or `biblical` text; a rendering keeping its tongue's character; a host word left without counterpart; an order changed where the tongue allows it kept. |
 | parts `regime_la`, `regime_clp`, `regime_mp` | Three regimes of the faithful, none preferred. LA: nothing closed, no word unrendered, the order kept (`faithful/2`); what a rendering opens, `for_catechesis/2`. CLP: the hearing admits the message, no reading it admits answers a doctrinal question against its sources (`contrary_for/4`), and no insertion in an anaphoral or biblical text, itself disputed (`faithful_for/3`). MP: nothing closed, the Latin deciding (`latin_decides/2`); the tongue; the addressees as CLP; a sacramental form also word for word (`word_for_word_required/2`). |
 | `rests_on_rendering(S,Q,F2)` | A doctrinal value rested on what a rendering closes: refused (`rendering_answers`); Q keeps its own sources. |
+| `measured_by(F1,F2,C)` | C takes the form F2 as the measure of F1 (a regime's, a lexicon's, a profession's), never a hearing. F1 is read as given for F2: its mode, `closes`, `opens`, `interpretation`, the measure's admitted readings counting as host readings. No descent: no `made_from/2`, no `made_before_parent`, no carriage. An analogy is found whichever word the measure has: `prius_rei(F1,F2,W)`, the word declared prior, prior as to the thing; `prius_nobis(F1,F2,W)`, the measure's own word, prior as to us (I q. 13 a. 6). |
 | `formula_of(F,K)`, `form_for(F,K)`, `form_feature(F,Ft,V,C)`, `corruption_at(F,Where)`, `form_agent(F,X,C)` | The Church's form of K; a form used for K; what a form expresses (`minister_act`: `expressed`, `unexpressed`, `other_agent`; `trinity_invoked`; `addressee`), rival claims both ways, compared by feature with the Church's form (`feature_mode/4`; an unexpressed act a gap, no defect). Corrupt at the end, `read_by_accommodation`; at the start, `sense_lost`. With the Grammar of the Icon an assembly named as the one who acts is refused (`cophase_as_agent`). Which features are of the substance is teaching (`classification(Q,feature(K,Ft),of_substance)`). |
 | `rite_given(E,K,M,R,F)`, `consent_given(M,P,F)`, `confession_given(A,P,F)` | A rite, a consent, a confession given by a form. A manual form is a verbum on `rt_lingual` from the year findings fix `q(human_language(T))` and `q(signifies_by_convention(T))`, never on `rt_vocal`; the default runs both (`read_as(verbum,verbum_vocal)`, `read_as(verbum,verbum_lingual)`). A confession raises no such question. Shown: `read_as_verba/1`, `read_as_signa/1`; a manual code with no finding of its own, `no_claimant/2`. |
 | `canon_verbum(L,R)` | Candidate only: a canon's reading of *verba* entered beside the runtime's. Read one way in c. 849 and another in c. 1104 §2, refused (`verba_read_two_ways`). |
@@ -371,6 +372,18 @@ word, never a model of a mind (rule 3).
 | *output* `violation(profession_as_guest(R))` | `vm_guest(R)` for a runtime of the layer, on any run: refused. No part `vm_R` is made for one. |
 
 See [ttc-professio(7)](research/professio-preregistration.md).
+
+## LIFTED
+
+| Fact | Meaning |
+| --- | --- |
+| *output* `lifted(X,O)` | X is lifted above the order O (`tongues`, `levels`, `ends`): every node of it is referred to X, and X is no node of it. Derived, never entered (a snippet writing it is refused at the gate): every word above the tongues; God (`god/1`) above the levels (A11) and the ends; a divine person above the ends, as *Benedictus Deus* is entered. No rank: a term at the top of an order is in it. |
+| *output* `info(lifted_filed(X,O,V))` | A lifted term entered as a node of its order, beside the base's own refusal V of it: `word_dated`, `word_as_root`, `god_inside_level_order`. The refusals stand as they are. |
+| `role_order(R,O)` | The library's table: a substitution's role is the lifted place of an order, `giver_of_being` of the levels, `last_end` of the ends. |
+| *output* `violation(two_lifted(O,Y,X))` | Room for one: a substitution, read of a text or an order, puts X in the place of Y, where Y is lifted above O and X is not. Y must be typed: God named and not entered `god(G)` holds no lifted place. |
+| parts `pendet`, `pendet_thomas` | Mt 22:40, "hang" read as end and as summary, beside Rom 13:9, the Fathers through the Catena, Thomas and Hobbes, each argument typed by its causes; `q(law_hangs)`, `q(precepts_bind)`. `pendet_thomas` types the summary by the object and the end together (I-II q. 99 a. 1 ad 2): a sibling case, since a reading that adds a premise is no switch. |
+
+See [ttc-pendet(7)](research/pendet-preregistration.md).
 
 ## LIBRARY
 

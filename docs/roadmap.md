@@ -39,6 +39,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | modernity | the four causes as a library; a horizon as the causes a runtime holds; a DAG of modernities from Scotus to Kant, its contested edges marked, with readings, a will line and Leo's hearers; the VM; hearing joined to the tongues; a case's phases over every horizon | done ([ttc-modernity(7)](research/modernity-preregistration.md)) |
 | loci | the schools' readings as alleles at loci, carried and expressed; a substitution for God entered as a claim of a text or an order, lowered onto the deposit, faulting there; the last end and latria in the deposit; the icon against the idol | done ([ttc-loci(7)](research/loci-preregistration.md)) |
 | professio | a runtime of one's own, declared in L in the personal layer and compiled by the base's rules; run, booted and compared as a profession, never heard through and never a guest of the VM; saved through the connector | done ([ttc-professio(7)](research/professio-preregistration.md)) |
+| pendet | a term lifted above an order, reached by every node of it and no node of it; room for one; a measure that changes where one stands and not what one reaches; the law hanging on its end (Mt 22:40) | done ([ttc-pendet(7)](research/pendet-preregistration.md)) |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
@@ -934,6 +935,26 @@ by its terminus. Left:
 - The commentators on III q. 25 a. 3 (Cajetan, Vázquez, Suárez's
   *De Incarnatione* disp. 54), and relative veneration's school
   (Bellarmine, Bossuet, Petavius) as a claimant beside the Thomists.
+
+### pendet (after loci)
+
+Done ([ttc-pendet(7)](research/pendet-preregistration.md)): one relation,
+`lifted/2` (`pendet.l`), derived, never entered: the word above the tongues,
+God above the levels and the ends; the base's refusals reported beside it
+(`lifted_filed`); room for one (`two_lifted`), a substitution putting a
+creature in a lifted place; a measure beside descent (`measured_by/3`), which
+changes the order of naming and never the mode, prior as to the thing and
+prior as to us; Mt 22:40, "hang" as end and as summary, with its sibling as
+Thomas reads it, over every horizon. Left:
+
+- TTC-LOCI's cases name God `god` and do not type him, so room for one fires
+  in none of them (TTC-PENDET, SCORING): a step that types the one displaced
+  in each substitution.
+- Whether the precepts bind has no act of the magisterium in the case: only
+  Thomas (tier 4) and Hobbes (tier 5), so it stays open.
+- Nothing lifted above God (SCG I.34) touches Scotus's univocity of the
+  concept of being; a refusal waits for the school's locus.
+- A measure under hearing (`mode_for/4` and its twins) and between editions.
 
 ## AMENDMENTS AND REPAIRS
 
