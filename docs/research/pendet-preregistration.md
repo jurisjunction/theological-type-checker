@@ -260,3 +260,127 @@ dispute.
 
 [ttc-loci(7)](loci-preregistration.md), [ttc-linguae(7)](linguae-preregistration.md),
 [ttc-modernity(7)](modernity-preregistration.md), [ttc-professio(7)](professio-preregistration.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in `f3d98c9`, stamped in
+`1d675c7`; encoded on `f2e706d` (`main`, TTC-PROFESSIO merged). Encoded in `pendet.l` (new, a library: the sort `order`; the
+library's table `role_order/2`; `lifted/2`, derived; `lifted_filed/3`
+beside the base's three refusals; `two_lifted/3`; their results),
+`linguae.l` (the slot `measured_by/3`; what a measure computes, by rules of
+its own; the results `prius_rei/3` and `prius_nobis/3`), `icon_history.l`
+(the cases `pendet` and `pendet_thomas`, Mt 22:40 and Rom 13:9 at tier 0 with
+their readings), `engine.py` (the library registered), `schools.py` (the
+group kept out of the stamped boot set), the suite (15 scenarios, group
+`pendet`), `tests/test_l.py` (a name at two arities; the closed sorts
+restated), `docs/l.md`, the guide in both copies (THE TONGUES, and LIFTED)
+and the roadmap. The suite names MS1-MS3 `ME1`-`ME3` (MS is morality's) and
+SU1-SU2 `PD1`-`PD2` (SU is TTC-MODERNITY's); `PQ1` and `PQ2` pin the
+mechanics. Of 13 predictions, 9 held and 4 are red in part: LF3, PE1, PE4 and
+SU1. The full suite: 1023 passed, 54 skipped. The stamped boot set of TTC-SCHOOLS is unchanged, the group kept out of it.
+
+| | Result |
+| --- | --- |
+| LF1 | Held (LF1). On all 42 runtimes, `bare` and `saussure` included, with `linguae_rn9` and the kernel's `world`: `lifted(W,tongues)` for exactly the words the case names, `lifted(god,levels)` and `lifted(god,ends)`, and a divine person above the ends (Readings). A snippet writing `lifted/2` is refused at the gate `conclusion`. |
+| LF2 | Held (LF2). One `lifted_filed` per atom, naming it: WO1 three (`w_persona`, `w_forma`, `w_perfectio`, `word_dated`), WO4 one (`word_as_root`), X8 one (`god_inside_level_order`), and LX1's snippet its two dated words. Every scenario before the encoding (726, 64,918 models), and every runtime alone and on the property case, gives the same atoms in every model, main against the branch, save exactly those five atoms in WO1, WO4 and X8. |
+| LF3 | Red in part (LF3). On all 42: `loci_spinoza` B, `loci_icon` and `loci_adams` gain nothing, as predicted. `loci_mammon` and `loci_spinoza` A gain nothing either, against the prediction. The relation lifts God where God is typed (`god/1`), as A11 and *Benedictus Deus* (as TTC-LOCI enters it) read him; TTC-LOCI's cases name the one displaced `god` and type him nowhere (its Readings: "named (`god`) and read by no rule"), so the place has no lifted term. With `god(god).` entered beside them, each gives exactly what LF3 predicts, on every runtime. The prediction took the name for the typing; the checker reads only what is typed. Neither the cases nor the rule were changed to fit; the test pins the result as a finding (rule 7). |
+| LF4 | Held (LF4). |
+| MS1 | Held (ME1). A text dated before the text it is measured by, measured either way or both ways at once: no `made_before_parent`, no `translation_cycle`, and no `made_after`, `renders_text` or gap follows. `made_from/2` on the same dates is refused, and leaves a gap. |
+| MS2 | Held (ME2). The 25 rendering pairs (RN 9, 16; CCC 2483, 3; *pro multis*, 5; "we baptize", 1), each host measured by its rendering, in every branch (128, 4, 4 and 4), on `default` and on `rt_saussure`, where every pair across tongues is equivocal or analogical: the measured mode is the rendering's; `closes` and `opens` trade places, pair by pair; and every other atom of every branch is as without the measure, so no premise is carried. |
+| MS3 | Held (ME3). Every analogy of attribution of the four cases ("personality" for *personae* under both lexicons of 1891, and "personalità"; "well-being" as happiness for *perficiendam* under Locke's) stays one of attribution under the reversed measure. `prius_rei` names the Latin's word whichever way the measure runs; `prius_nobis` names the measure's own word, the English or Italian under the reversed measure and the Latin under the other. |
+| PE1 | Red in part (PE1). `q(law_hangs)` holds yes, settled (Mt 22:40 at tier 0, both readings yes); no `holds/2`, branch status, cleaving, weight or note differs between the 42 runtimes, on either case. `q(precepts_bind)` is open, yes preferred: its sources are Thomas (tier 4 from 1567) and Hobbes (tier 5), which weigh and never cleave, so both values stay in main branches. The prediction assumed the design's sources settle the question; they cannot. |
+| PE2 | Held (PE2), every row, on every runtime: nothing at the twenty of the first row; `sole_reason(mt22_40,mt_end,q(law_hangs),yes)` at the ten of the second; `sole_reason(mt22_40,mt_summary,…)` at `marx`, `marx_social`, `lassalle`, `grotius_etiamsi`; `without_reason(q(law_hangs),yes)` at the eight of the last, where `hobbes_l26`, the command, stays available for `q(precepts_bind)`. |
+| PE3 | Held (PE3): over the 1,024 horizons the order parameters are exactly `ends_by_god_ethics`, `soul_as_form` and `object_as_form`; four phases, 128, 256 (summary), 256 (end) and 384 (nothing). |
+| PE4 | Red in part (PE4). On `pendet_thomas` the summary row is gone: `marx`, `marx_social`, `lassalle` and `grotius_etiamsi` report nothing, none of Mt 22:40's arguments available to them; every other row is as PE2; the same three order parameters, three phases of 128, 256 and 640: all as predicted. "The law hangs there on Raban's two tables alone" holds at `marx` and `marx_social` only: `lassalle` and `grotius_etiamsi` hold the soul as form, so Pseudo-Chrysostom's image, (formal, human), reaches them beside Raban's tables. |
+| SU1 | Red in part. No earlier result changed but LF2's atoms (LF2), and CL1 and PR4 are clean, Mt 22:40 and Rom 13:9 entering with their readings (PD1). Two earlier expectations are restated, which the prediction did not except, each stated where it stands (rule 7): the closed sorts of `test_l` gain `order`, as each step that declares a closed sort restates them; and TTC-MODERNITY's SU1, which pins the parts that write `argument/4` and `argues_from/3` to that step's, gains this step's two cases, which type their arguments by the causes as a case of that study does. |
+| SU2 | Held. Each new statement was deleted in turn (29: 10 in `pendet.lp`, 19 in `linguae.lp`; the cases' facts are data), and each turned a test of the group red; then each body literal alone (42): 8 removals leave their rule unsafe, and of the other 34, 33 turn a test red. Closed on the way: a reading opened only by a typed measure, a mode only where the measure means something, an analogy never where the two forms mean one word, and nothing for a pair no one measures (`PQ2`, its toy forms grown until each of these turned red); and no prior without a measure (ME2). One literal survives, by design: `measured_pair(F1,F2)` in `m_across/2`, a guard that grounds the rule only on measured pairs, which is all that reads it; removed, more is grounded and nothing read changes. Each rule and slot of the step has a test that fails without it. The guide's THE TONGUES and LIFTED, identical in both copies (PD2). |
+
+PE2-PE4's rows were computed beforehand with a plain model. The checker and
+the model agree on every runtime the model holds and over every horizon, on
+both cases. On PE4's last clause they agree too, against the prediction's
+words: the model also gives `lassalle` and `grotius_etiamsi` Pseudo-Chrysostom
+beside Raban, so the clause, not the model, is wrong. The model has no
+authority and no lift, so PE1 and LF3 are outside it.
+
+### Readings
+
+- **God, lifted.** "God" is `god/1`, as A11 (`god_inside_level_order`) and
+  TTC-LOCI's *Benedictus Deus* (`last_end_not_god`) read him. Above the ends
+  a divine person too, since TTC-LOCI enters *Benedictus Deus* with "not
+  `god/1`, not `divine/1`": the Son put in God's place as the last end is no
+  second term. Above the levels God alone, as A11 has it, so a divine person
+  put in God's place as the giver of being is one (`PQ1`), as the kernel's
+  `being_from_non_god` faults it too.
+- **The words, on every runtime.** "On every runtime" is read as written:
+  `lifted(W,tongues)` holds on `bare` and `saussure` as on `default`. The
+  relation is the base's; the refusal `word_dated` stays the default's
+  (`word_of_no_tongue`), and `lifted_filed` stands only beside it.
+- **Beside the refusal.** `lifted_filed` reads the refusal it names
+  (`violation/1`, declared with `use`, as TTC-LOCI's reports read theirs), so
+  it stands where that refusal fires and only there. A `lifted/2` literal in
+  it would be implied by the refusal's own body, and is left out.
+- **The order's table.** L refuses a sort no slot uses, and `lifted/2`,
+  `lifted_filed` and `two_lifted` are results. "The role says the order"
+  enters as the library's table `role_order(R,O)`, a slot as `cause_domain/1`
+  is, with its two facts in the library.
+- **Room for one.** `two_lifted` reads `substitutes/5` (the lowered
+  `read_in/4` drops the one displaced), never of a person (rule 3), and only
+  where X is not itself lifted above the order: God put in his own place, or
+  a divine person above the ends, is no second term. A disputed substitution
+  runs both ways (`PQ1`).
+- **One name, two arities.** L keys a slot by its name and its arity, as
+  clingo keys a predicate: `measured_by/2` (`saeculum.l`, a duration's
+  measure) and `measured_by/3` (`linguae.l`) are two slots, each with its
+  sorts, its sentence, its `@input` tag and its rule in the grammar
+  (`test_l`). THE DESIGN's name is kept. Saeculum's results are unchanged:
+  every scenario's atoms compared (LF2).
+- **What a measure computes.** F1 read as given for F2, as the same outputs
+  on the pair (F1, F2): `info(mode/3)`, `info(analogy_kind/3)` (MS3 asks the
+  kind), `info(closes/3)`, `info(opens/3)` and `info(interpretation/3)`.
+  They are computed by rules of their own (`m_mode/3`, `m_closes/3`, …), so
+  that nothing downstream reads a measure: no carriage, no gap, no regime's
+  faithful, no hearing twin. The extent (`broader/3`) is not computed under a
+  measure, and editions and codes are not excepted (`no_mode/3`): THE DESIGN
+  names neither. The equivocal mode asks the measure worded, F2 standing as
+  host.
+- **Prior.** In `analogous(W2,W1,K,C)` the word declared prior is W1, whose
+  ratio W2 is said of. `prius_rei` and `prius_nobis` are given for every kind
+  of analogy, as THE DESIGN words them; MS3 tests attribution. `prius_nobis`
+  names the measure's word in the analogy found.
+- **"Either way"** (MS3) is the measure run both ways: the host measured by
+  its rendering, and the rendering by its host.
+- **The pairs of MS2** are the renderings of each branch. Where a disputed
+  rendering does not hold (the seal-words of RN 9), the measure still reads
+  the pair: a measure is no rendering.
+- **Rom 13:9's readings**, which THE DESIGN does not name: `r_whole_law`, the
+  whole law summed in one word (I-II q. 99 a. 1 ad 2, "tota lex impletur in
+  hoc uno mandato"; Gal 5:14, through *De Trinitate* VIII.7 in the Catena),
+  yes on `q(law_hangs)`; and `r_second_table`, the list the verse sums, silent
+  on it. So the evidence record's bearing is kept: Rom 13:9 sums the second
+  table, and its reading of the whole law is an extension. Neither reading
+  moves a report.
+- **The arguments are entered on every branch**, as the readings are not
+  exclusive: a reading of Mt 22:40 branches its authority, never its
+  arguments.
+- **The sources.** Scripture at tier 0, Matthew dated 80 and Romans 57, as
+  the base dates Mt 1:25 and Rom 8:19. Augustine at 5, a Doctor from 1298 (as
+  `augustine`); Thomas at 5, from 1567 at 4 (as `th57`); Raban,
+  Pseudo-Chrysostom and Hobbes at 5. The Fathers' years are [M]. Both
+  questions are typed doctrinal.
+- **TTC-PROFESSIO's guard stands.** A measure declares no hearing
+  (`hears_in/3`) and names no guest, so `profession_heard` and
+  `profession_as_guest` read nothing of it; it is a claim with its
+  claimant, as the CAVEATS have it.
+- **The sibling.** `pendet_thomas` repeats the case whole, the two summary
+  arguments typed by (formal, will) and (final, god_ethics) together, and is
+  run alone.
+
+### Not predicted
+
+- **The cases' God is a name.** Every substitution TTC-LOCI enters names God
+  `god` without `god(god)`, so the place each one takes holds no lifted term
+  (LF3). Typing the one displaced, in the cases or by a rule of the role, is
+  left to a step of its own (the roadmap).
+- **The precepts bind on no act.** The case's question whether the precepts
+  bind has no source of tiers 1 to 3, so the checker leaves it open and
+  prefers yes by weight (PE1).

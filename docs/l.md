@@ -73,7 +73,9 @@ inherits at a locus as LOCI says.
 
 A slot's side, for a case, is its layer's: theology (kernel, theory,
 schools, authority), canon (canon, pair), either (libraries, library).
-`save_case` refuses a slot of the other side. A slot declared twice, a
+`save_case` refuses a slot of the other side. A slot is a name at one
+arity, as clingo's predicate is: `measured_by/2` (the time's) and
+`measured_by/3` (the tongues') are two slots. A slot declared twice, a
 slot no rule reads, and a `use` of a predicate no file declares or
 derives do not compile.
 

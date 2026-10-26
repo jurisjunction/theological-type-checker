@@ -440,6 +440,24 @@ def test_a_use_of_a_derived_predicate_and_a_slot_read_compile():
                                       "a.l")})
 
 
+def test_a_name_at_two_arities_is_two_slots():
+    # TTC-PENDET: a slot is its name and its arity, as clingo's predicate is. The time's measured_by/2
+    # (saeculum.l) and the tongues' measured_by/3 (linguae.l) are two slots, each with its own sorts and
+    # sentence, and the grammar keeps them apart.
+    two = 'slot p(X: s, Y: s)\n  means "m2"\n  say "{X} p {Y}"\n'
+    srcs = {"a.lp": lang.parse('layer kernel\n' + SORT_S + SLOT_P + two + '```clingo\nq :- p(1).\nr :- p(1,2).\n```\n',
+                               "a.l")}
+    lang.validate(srcs)
+    assert {sig: d.attrs["means"] for sig, d in lang.slots(srcs).items()} == {("p", 1): "m", ("p", 2): "m2"}
+    base = lang.slots(lang.sources())
+    assert (base[("measured_by", 2)].where, base[("measured_by", 3)].where) == ("saeculum.l", "linguae.l")
+    assert [a for a, _ in base[("measured_by", 2)].args] == ["X", "M"]
+    assert [s for _, s in base[("measured_by", 3)].args] == ["form", "form", "claimant"]
+    from theological_type_checker import gbnf
+    g = gbnf.grammar(only={"measured_by/2", "measured_by/3"})
+    assert g.count('"measured_by("') == 2
+
+
 def test_a_part_is_a_case_where_it_states_its_questions():
     # SO2: a case writes question/1 (a candidate, model, date or search aside),
     # or bears the name of one that does (the canon half of the pair); any
@@ -576,7 +594,8 @@ CLOSED = {"tier", "force", "question_kind", "papal_form", "character", "concilia
           "table_rank",   # TTC-CALENDAR: the Table of Liturgical Days, 1..13
           "tmode", "akind", "unit",   # TTC-LINGUAE: a mode claimed, a kind of analogy, a claim's unit
           "cause", "domain",   # TTC-MODERNITY: the four causes, and where each is held
-          "role", "honour_kind"}   # TTC-LOCI: the place a substitution puts a creature in; the kinds of honour
+          "role", "honour_kind",   # TTC-LOCI: the place a substitution puts a creature in; the kinds of honour
+          "order"}   # TTC-PENDET: an order a term is lifted above
 
 
 def _domain_args():

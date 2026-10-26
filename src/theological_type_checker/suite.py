@@ -5217,7 +5217,9 @@ scen("PH2", MOD, "The phases by switch and hearing (PH2)", MPC,
 
 # ---------- SU, EX, and the mechanics ----------
 def su1():
-    """no part outside this step's writes argument/4, argues_from/3, reading_of/2 or measures_as/3"""
+    """no part outside this step's writes argument/4, argues_from/3, reading_of/2 or measures_as/3. Amended by
+    TTC-PENDET (rule 7, stated in its SCORING): its two cases, pendet and pendet_thomas, type their arguments by the
+    causes, as a case of this study does, and are written in beside this step's"""
     from . import lang
     writers = set()
     for f, src in lang.sources().items():
@@ -5226,7 +5228,7 @@ def su1():
                 heads = E.signatures("\n".join(src.items[i + 1].lines), f)["heads"]
                 if heads & {("argument", 4), ("argues_from", 3), ("reading_of", 2), ("measures_as", 3)}:
                     writers.add(it.name)
-    if writers != {"modernity_property", "modernity_measure", *SW6}:
+    if writers != {"modernity_property", "modernity_measure", *SW6, "pendet", "pendet_thomas"}:
         yield sorted(writers)
 
 
@@ -5370,7 +5372,7 @@ scen("SU4", MOD, "TTC-LINGUAE's hearings unchanged (SU4)", RN9C, [_mod(su4)],
      "no heard_by_analogy, and lost_by_horizon only as entered; alone, its premises refuse nothing")
 scen("SU1", MOD, "No earlier case enters an argument (SU1)", MPC, [_mod(su1)],
      "argument/4, argues_from/3, reading_of/2 and measures_as/3 are written only by this step's case, its "
-     "switches and the measure")
+     "switches and the measure, and by TTC-PENDET's two cases (amended there)")
 scen("EX1", MOD, "The record's DAG without its contested edges (EX1, reported)", MPC, [_mod(ex1)],
      "rebuilt without descartes <- suarez_dm23, hobbes <- ockham and locke <- hobbes: every node keeps its "
      "horizon, so nothing on the case changes (found); the two Hobbes' carry at simplicity, left with nothing to "
@@ -5869,6 +5871,432 @@ scen("LS2", LCI, "The deposit's two rules labelled (SU2)", [], [_mod(ls2)],
      "it labels being_from_non_god and modal_collapse")
 scen("LS3", LCI, "The guide gains the vocabulary (SU3)", [], [_mod(ls3)],
      "both copies identical, with the slots, the reports, the refusals and express and carry")
+
+
+# ---------- Lifted, the measure, the law hanging on its end (TTC-PENDET) --------
+# Predictions committed and stamped first: docs/research/pendet-preregistration.md.
+# The suite names MS1-MS3 ME1-ME3 (MS is morality's) and SU1-SU2 PD1-PD2 (SU is
+# the modernity's); LF and PE keep their names, and PQ pins the mechanics. PD1's
+# other half, every earlier scenario's atoms compared before and after in every
+# model, is a run beside the suite (SCORING).
+
+PDT = "pendet"
+PEND = ["pendet"]
+PEND_T = ["pendet_thomas"]
+LIFT_SHOWS = ("lifted/2", "info(lifted_filed(X,O,V))", "violation(two_lifted(O,Y,X))")
+FILED = {"word_dated": "tongues", "word_as_root": "tongues", "god_inside_level_order": "levels"}
+LANG_CASES = {"rn9": RN9, "ccc2483": CCC, "pro_multis": PMU, "we_baptize": BAP}
+MEASURED = ("info(mode(", "info(analogy_kind(", "info(prius_rei(", "info(prius_nobis(", "info(closes(", "info(opens(",
+            "info(interpretation(")
+
+
+def lf1():
+    """on every runtime: lifted(W,tongues) for exactly the words a loaded case names; lifted(G,levels) and
+    lifted(G,ends) for God, and above the ends a divine person, as TTC-LOCI enters Benedictus Deus; a snippet that
+    writes lifted/2 refused at the gate"""
+    for rt in E.BASE_RUNTIMES:
+        for m in mod_project(RN9 + ["world", f"rt_{rt}"], ("lifted/2", "word/1"), "divine(d_x)."):
+            words = {a[len("word("):-1] for a in m if a.startswith("word(")}
+            want = {f"lifted({w},tongues)" for w in words} | {"lifted(god,levels)", "lifted(god,ends)",
+                                                              "lifted(d_x,ends)"}
+            got = {a for a in m if a.startswith("lifted(")}
+            if not words or got != want:
+                yield (rt, sorted(got ^ want)[:3])
+    try:
+        E.solve([], "one", facts="lifted(w_x,tongues).")
+        yield "lifted/2 written by a snippet, and not refused"
+    except E.SnippetError as exc:
+        if exc.gate != "conclusion":
+            yield ("refused at", exc.gate)
+
+
+def lf2():
+    """every model in which word_dated, word_as_root or god_inside_level_order fires has one lifted_filed per atom,
+    naming it, and none other: WO1, WO4, X8 and LX1's two dated words (the rest of LF2 is the atoms compared)"""
+    runs = ((RN9 + ["cand_word_dated"], ""), (["cand_word_as_root"], ""), (["family", "cand_apex"], ""),
+            ([], "analogous(w_a,w_b,likeness,c). date_claim(w_a,1900). date_claim(w_b,1900)."))
+    for parts, facts in runs:
+        for m in mod_project(parts, ("violation/1", "info(lifted_filed(X,O,V))"), facts):
+            want = set()
+            for a in m:
+                if a.startswith("violation("):
+                    name, args = E.split_args(a[len("violation("):-1])
+                    if name in FILED:
+                        want.add(f"info(lifted_filed({args[0]},{FILED[name]},{name}))")
+            got = {a for a in m if a.startswith("info(lifted_filed(")}
+            if not want or got != want:
+                yield (parts, sorted(got ^ want))
+
+
+def _two_lifted(parts, facts=""):
+    return {frozenset(a for a in m if a.startswith(("violation(two_lifted(", "read_as(")))
+            for m in mod_project(parts, ("violation/1", "read_as/2"), facts)}
+
+
+SPIN_A, SPIN_B = "read_as(ethica_1677,pantheist)", "read_as(ethica_1677,naturans)"
+
+
+def lf3():
+    """room for one, on every runtime. As the cases stand nothing fires: TTC-LOCI's cases name God `god` as the one
+    displaced and do not type him (god/1), so the place has no lifted term. With God typed, exactly the atoms LF3
+    predicts: two_lifted(ends,god,money) on loci_mammon, two_lifted(levels,god,natura) on loci_spinoza's reading A
+    and nothing on B, nothing on loci_icon and loci_adams"""
+    typed = {"loci_mammon": {frozenset({"violation(two_lifted(ends,god,money))"})},
+             "loci_spinoza": {frozenset({SPIN_A, "violation(two_lifted(levels,god,natura))"}), frozenset({SPIN_B})},
+             "loci_icon": {frozenset()}, "loci_adams": {frozenset()}}
+    for case, want in typed.items():
+        as_they_stand = {frozenset(a for a in w if a.startswith("read_as(")) for w in want}
+        for rt in E.BASE_RUNTIMES:
+            if _two_lifted([case, f"rt_{rt}"]) != as_they_stand:
+                yield (case, rt, "as the cases stand")
+            if _two_lifted([case, f"rt_{rt}"], "god(god).") != want:
+                yield (case, rt, "God typed", sorted(set().union(*_two_lifted([case, f"rt_{rt}"], "god(god)."))))
+
+
+def lf4():
+    """no runtime, alone or on the property case, gives lifted_filed or two_lifted"""
+    for rt in E.BASE_RUNTIMES:
+        for case in ([], MPC):
+            got = set().union(*mod_project(case + [f"rt_{rt}"], LIFT_SHOWS[1:]))
+            if got:
+                yield (rt, case, sorted(got))
+
+
+scen("LF1", PDT, "The lifted relation, derived (LF1)", [], [_mod(lf1)],
+     "on every runtime the words a case names lifted above the tongues, God above the levels and the ends, a divine "
+     "person above the ends; lifted/2 written by a snippet refused at the gate")
+scen("LF2", PDT, "Never filed: the refusals named by the relation (LF2)", [], [_mod(lf2)],
+     "one lifted_filed per word_dated, word_as_root and god_inside_level_order, naming it (WO1, WO4, X8, LX1's words)")
+scen("LF3", PDT, "Room for one (LF3)", [], [_mod(lf3)],
+     "Scored red in part: as the cases stand nothing fires, since TTC-LOCI names God `god` and types him nowhere; "
+     "with god(god) entered, two_lifted(ends,god,money) on loci_mammon and two_lifted(levels,god,natura) on "
+     "loci_spinoza A, nothing on B, loci_icon or loci_adams, on every runtime")
+scen("LF4", PDT, "No runtime lifts or files anything alone (LF4)", MPC, [_mod(lf4)],
+     "no lifted_filed and no two_lifted on any runtime, alone or on the property case")
+
+
+_ME_TEXTS = ("encoding(xx_lat,lat,1900,2000). encoding(xx_eng,eng,1900,2000). "
+             "text_of(tx_early,src_x,xx_eng,1950). text_of(tx_parent,src_x,xx_lat,1960). "
+             "form_in(f_early,tx_early,n(1)). form_in(f_parent,tx_parent,n(1)). rests_on_form(a_x,p_x,f_parent). ")
+
+
+def me1():
+    """a measure implies no descent: measured_by with the dates reversed, either way or both ways at once, raises no
+    made_before_parent and no translation_cycle, and no made_after, renders_text or gap follows; made_from on the
+    same dates is refused, and leaves a gap"""
+    shows = ("violation/1", "made_after/2", "renders_text/2", "info(gap(F,T))")
+    for facts in ("measured_by(f_parent,f_early,x_c).", "measured_by(f_early,f_parent,x_c).",
+                  "measured_by(f_parent,f_early,x_c). measured_by(f_early,f_parent,x_c)."):
+        got = set().union(*mod_project([], shows, _ME_TEXTS + facts))
+        if got:
+            yield (facts, sorted(got))
+    got = set().union(*mod_project([], shows, _ME_TEXTS + "made_from(tx_early,tx_parent)."))
+    if not {"violation(made_before_parent(tx_early,tx_parent))", "info(gap(f_parent,tx_early))"} <= got:
+        yield ("made_from", sorted(got))
+
+
+def _pairs(parts):
+    """the rendering pairs of a run, (rendering, host), in any branch"""
+    return sorted({tuple(E.split_args(a)[1]) for m in mod_project(parts, ("rendering/2",)) for a in m})
+
+
+def _of_pair(m, prefix, f1, f2):
+    """the last argument of each info atom of the prefix on the pair (f1, f2), in the model m"""
+    out = set()
+    for a in m:
+        if a.startswith(f"info({prefix}("):
+            args = E.split_args(a[len("info("):-1])[1]
+            if args[:2] == [f1, f2]:
+                out.add(args[-1])
+    return out
+
+
+ME_SHOWS = ("rendering/2", "info/1", "assumed_fact/1", "read_as/2", "holds/2")
+
+
+def me2():
+    """for every rendering pair of the four language cases, in every branch: the host measured by its rendering gives
+    the rendering's mode; closes and opens trade places, pair by pair; and nothing else changes, so no premise is
+    carried by the measure; on the default runtime and on rt_saussure, where renderings across tongues are equivocal"""
+    for name, parts in [(n, ps + rt) for n, ps in LANG_CASES.items() for rt in ([], ["rt_saussure"])]:
+        pairs = _pairs(parts)
+        facts = " ".join(f"measured_by({h},{r},x_m)." for r, h in pairs)
+        before = mod_project(parts, ME_SHOWS)
+        after = mod_project(parts, ME_SHOWS, facts)
+        hosts = {(h, r) for r, h in pairs}
+
+        def own(a):
+            if not a.startswith(MEASURED):
+                return False
+            return tuple(E.split_args(a[len("info("):-1])[1][:2]) in hosts
+        if {frozenset(a for a in m if not own(a)) for m in after} != before or len(after) != len(before):
+            yield (name, "something else changed")
+        if any(a.startswith(("info(prius_rei(", "info(prius_nobis(")) for m in before for a in m):
+            yield (name, "a prior with no measure")
+        for m in after:
+            for r, h in pairs:
+                if f"rendering({r},{h})" not in m:
+                    continue
+                if _of_pair(m, "mode", h, r) != _of_pair(m, "mode", r, h) or not _of_pair(m, "mode", r, h):
+                    yield (name, r, h, "mode")
+                if _of_pair(m, "closes", h, r) != _of_pair(m, "opens", r, h) or \
+                        _of_pair(m, "opens", h, r) != _of_pair(m, "closes", r, h):
+                    yield (name, r, h, "readings")
+
+
+def me3():
+    """every analogy of attribution of the four cases stays one under the reversed measure; prius_rei names the
+    host's word, the Latin's, whichever way the measure runs, and prius_nobis the measure's own word: RN 9's
+    personality under both lexicons of 1891, and happiness for perficiendam, among them"""
+    seen = set()
+    for name, parts in LANG_CASES.items():
+        pairs = _pairs(parts)
+        for reverse in (True, False):
+            facts = " ".join(f"measured_by({h},{r},x_m)." if reverse else f"measured_by({r},{h},x_m)." for r, h in pairs)
+            for m in mod_project(parts, ("rendering/2", "info/1", "means_now/2"), facts):
+                words = {}
+                for a in m:
+                    if a.startswith("means_now("):
+                        f, w = E.split_args(a)[1]
+                        words.setdefault(f, set()).add(w)
+                for r, h in pairs:
+                    if f"rendering({r},{h})" not in m or "attribution" not in _of_pair(m, "analogy_kind", r, h):
+                        continue
+                    f1, f2 = (h, r) if reverse else (r, h)
+                    seen |= {(r, w) for w in words.get(r, ())}
+                    if "attribution" not in _of_pair(m, "analogy_kind", f1, f2):
+                        yield (name, r, h, reverse, "not attribution")
+                    if _of_pair(m, "prius_rei", f1, f2) != words.get(h) or \
+                            _of_pair(m, "prius_nobis", f1, f2) != words.get(f2):
+                        yield (name, r, h, reverse, "prius")
+    want = {("rn_en_personality", "w_personalitas"), ("rn_en_personality", "w_forensic_self"),
+            ("rn_en_wellbeing", "w_happiness")}
+    if not want <= seen:
+        yield ("not found", sorted(want - seen))
+
+
+scen("ME1", PDT, "A measure implies no descent (MS1)", [], [_mod(me1)],
+     "measured_by with the dates reversed: no made_before_parent, no cycle, no descent; made_from on them refused")
+scen("ME2", PDT, "The host measured by its rendering (MS2)", [], [_mod(me2)],
+     "in every pair of RN 9, CCC 2483, pro multis and we baptize, in every branch, on default and rt_saussure: the "
+     "rendering's mode; closes and opens traded; nothing carried, nothing else changed")
+scen("ME3", PDT, "Prior as to the thing, prior as to us (MS3)", [], [_mod(me3)],
+     "attribution stays attribution under the reversed measure; prius_rei the Latin's word either way, prius_nobis "
+     "the measure's")
+
+
+HANGS, BINDS = "q(law_hangs)", "q(precepts_bind)"
+PE_SOLE_END = f"info(sole_reason(mt22_40,mt_end,{HANGS},yes))"
+PE_SOLE_SUMMARY = f"info(sole_reason(mt22_40,mt_summary,{HANGS},yes))"
+PE_NO_REASON = f"info(without_reason({HANGS},yes))"
+PE_NOTHING = SCHOOL_RTS + ("default", "saussure", "vocal", "lingual", "scotus_dpp", "hooker", "suarez_dm23", "suarez_wl",
+                           "descartes", "grotius", "leibniz", "leibniz_wl", "bacon", "episcopate_1891", "social_catholic",
+                           "angers")
+PE_END = ("locke", "locke_wl", "smith", "george", "george_hn", "ockham", "ockham_will", "ockham_nominal") + WILL_READINGS
+PE_SUMMARY = ("marx", "marx_social", "lassalle", "grotius_etiamsi")
+PE_NONE = ("hobbes", "hobbes_wl", "spinoza", "spinoza_wl", "kant", "kant_humanity", "kant_mm", "bare")
+PE_ROWS = ((PE_NOTHING, frozenset()), (PE_END, frozenset({PE_SOLE_END})), (PE_SUMMARY, frozenset({PE_SOLE_SUMMARY})),
+           (PE_NONE, frozenset({PE_NO_REASON})))
+
+
+def _pe_authority(case, rt):
+    """the case's authority on a runtime, as CV1 reads it: the library's reports and the runtime's own notes aside"""
+    own = set().union(*mod_project([f"rt_{rt}"], ("info/1",)))
+    return frozenset(frozenset(a for a in m if not a.startswith(CAUSAE_INFO) and a not in own)
+                     for m in mod_project(case + [f"rt_{rt}"], AUTH_SHOWS))
+
+
+def pe1():
+    """authority reads no argument: law_hangs yes, settled; no holds/2, branch or note differs between runtimes, on
+    either case. Scored red in part: precepts_bind is open, yes preferred, for only a Doctor (tier 4) and Hobbes
+    (tier 5) hold it, and neither cleaves"""
+    r = solve(PEND, "branches")
+    want = {f"{HANGS}=yes": "settled", f"{HANGS}=no": "excluded", f"{BINDS}=yes": "open", f"{BINDS}=no": "open"}
+    got = {qv: classify(r, qv) for qv in want}
+    if got != want or preferred_value(r, BINDS) != "yes":
+        yield (got, preferred_value(r, BINDS))
+    for case in (PEND, PEND_T):
+        ref = _pe_authority(case, "default")
+        for rt in E.BASE_RUNTIMES:
+            if _pe_authority(case, rt) != ref:
+                yield (case, rt)
+
+
+def _pe_rows(case, rows):
+    for group, report in rows:
+        for rt in group:
+            got = mod_reports(case + [f"rt_{rt}"])
+            if got != frozenset({report}):
+                yield (case, rt, sorted(set().union(*got)))
+    if set().union(*(g for g, _ in rows)) != set(E.BASE_RUNTIMES):
+        yield ("rows", sorted(set(E.BASE_RUNTIMES) ^ set().union(*(g for g, _ in rows))))
+
+
+def pe2():
+    """the rows of PE2, every runtime in one; where the law hangs on nothing the precepts keep the command"""
+    yield from _pe_rows(PEND, PE_ROWS)
+    for rt in PE_NONE:
+        if "hobbes_l26" not in mod_available(PEND + [f"rt_{rt}"]):
+            yield (rt, "the command unavailable")
+
+
+PE_ORDER = {"ends_by_god_ethics", "soul_as_form", "object_as_form"}
+
+
+def _pe_phases(case, want):
+    pm = phase_map(case)
+    order, classes = phases(pm)
+    if len(pm) != 1024 or order != PE_ORDER:
+        yield (case, len(pm), sorted(order))
+    got = {r: len(hs) for r, hs in classes.items()}
+    if got != want:
+        yield (case, {tuple(sorted(set().union(*r))): n for r, n in got.items()})
+
+
+def pe3():
+    """over horizons_all: the order parameters ends_by_god_ethics, soul_as_form and object_as_form; four phases, an
+    eighth hanging the law on nothing, a quarter only as summary, a quarter only as end, three eighths nothing"""
+    yield from _pe_phases(PEND, {frozenset({frozenset({PE_NO_REASON})}): 128,
+                                 frozenset({frozenset({PE_SOLE_SUMMARY})}): 256,
+                                 frozenset({frozenset({PE_SOLE_END})}): 256, frozenset({frozenset()}): 384})
+
+
+HANGING = {"mt_end", "mt_summary", "rom_summary", "aug_end", "raban_tables", "pschrys_image", "th_finis"}
+
+
+def pe4():
+    """pendet_thomas: the summary-only row gone, its four runtimes reporting nothing, none of Mt 22:40's arguments
+    available to them; every other row as PE2; the same order parameters, three phases. Scored red in part: the law
+    hangs on Raban's two tables alone at marx and marx_social only; lassalle and grotius_etiamsi hold the soul as
+    form, and Pseudo-Chrysostom's image reaches them too"""
+    rows = ((PE_NOTHING + PE_SUMMARY, frozenset()),) + PE_ROWS[1:2] + PE_ROWS[3:]
+    yield from _pe_rows(PEND_T, rows)
+    for rt, want in (("marx", {"raban_tables"}), ("marx_social", {"raban_tables"}),
+                     ("lassalle", {"raban_tables", "pschrys_image"}),
+                     ("grotius_etiamsi", {"raban_tables", "pschrys_image"})):
+        got = mod_available(PEND_T + [f"rt_{rt}"]) & HANGING
+        if got != want:
+            yield (rt, sorted(got))
+    yield from _pe_phases(PEND_T, {frozenset({frozenset({PE_NO_REASON})}): 128,
+                                   frozenset({frozenset({PE_SOLE_END})}): 256, frozenset({frozenset()}): 640})
+
+
+scen("PE1", PDT, "Authority reads no argument (PE1)", PEND, [_mod(pe1)],
+     "law_hangs yes, settled; nothing of authority differs between runtimes. Scored red in part: precepts_bind open, "
+     "yes preferred, held only by Thomas (tier 4) and Hobbes (tier 5)")
+scen("PE2", PDT, "The law hanging, by runtime (PE2)", PEND, [_mod(pe2)],
+     "nothing on the Thomist side; mt_end sole for Locke's and Ockham's lines; mt_summary sole for Marx, Lassalle and "
+     "the etiamsi; without reason where neither end nor object nor soul is held, the command still binding")
+scen("PE3", PDT, "The phases of pendet (PE3)", PEND, [_mod(pe3)],
+     "order parameters ends_by_god_ethics, soul_as_form, object_as_form; 128, 256, 256 and 384 horizons")
+scen("PE4", PDT, "Thomas's reading, a sibling case (PE4)", PEND_T, [_mod(pe4)],
+     "the summary row gone, none of Mt 22:40's arguments left to it; the rest as PE2; the same order parameters, "
+     "128, 256 and 640. Scored red in part: Raban's tables alone at marx and marx_social, Pseudo-Chrysostom's "
+     "image beside them at lassalle and grotius_etiamsi")
+
+
+def pd1():
+    """SU1, the part this suite can check: no part but this step's writes measured_by/3, and none writes lifted/2,
+    lifted_filed or two_lifted; Mt 22:40 and Rom 13:9 enter with their readings, so the frontier stays empty (PR4)
+    and the norm graph well founded (CL1)"""
+    for name, (f, _note, block) in _part_blocks_l().items():
+        heads = E.signatures(block, f)["heads"]
+        if ("measured_by", 3) in heads or ("lifted", 2) in heads or ("role_order", 2) in heads:
+            yield (name, f)
+    for case in (PEND, PEND_T):
+        r = solve(case, "one")
+        if [a for a in r["atoms"] if a.startswith("frontier(")] or r["violations"]:
+            yield (case, "frontier or violation")
+        for s in ("mt22_40", "rom13_9"):
+            if not any(a == f"read_as({s},{x})" for b in solve(case, "branches")["branches"] for a in b["assume"]
+                       for x in ("r_end", "r_summary", "r_whole_law", "r_second_table")):
+                yield (case, s, "no reading")
+    from .norms import check
+    c = check()
+    if c["vicious_cycles"] or c["undefined_predicates"] or c.get("unused_inputs"):
+        yield ("norms", c["undefined_predicates"], c.get("unused_inputs"))
+
+
+def pd2():
+    """SU2: the guide in both copies, identically, with the vocabulary"""
+    pkg = (E.LP_DIR.parent / "guide.md").read_text()
+    doc = E.LP_DIR.parents[2] / "docs" / "encoding-guide.md"
+    if doc.is_file() and doc.read_text().split("\n", 2)[2] != pkg:
+        yield "copies differ"
+    for word in ("`lifted(X,O)`", "`info(lifted_filed(X,O,V))`", "`violation(two_lifted(O,Y,X))`", "`role_order(R,O)`",
+                 "`measured_by(F1,F2,C)`", "`prius_rei(F1,F2,W)`", "`prius_nobis(F1,F2,W)`", "`pendet`",
+                 "`pendet_thomas`"):
+        if word not in pkg:
+            yield word
+
+
+def pq1():
+    """room for one, its conditions: the role's order; Y lifted there; X not lifted there (God himself, or a divine
+    person above the ends); never of a person; a disputed substitution both ways"""
+    two = ("violation(two_lifted(O,Y,X))",)
+    cases = {"god(g). substitutes(c,t,x,g,giver_of_being).": {"violation(two_lifted(levels,g,x))"},
+             "god(g). substitutes(c,t,x,g,last_end).": {"violation(two_lifted(ends,g,x))"},
+             "substitutes(c,t,x,y,last_end).": set(),
+             "god(g). substitutes(c,t,g,g,last_end).": set(),
+             "god(g). divine(s). substitutes(c,t,s,g,last_end).": set(),
+             "god(g). divine(s). substitutes(c,t,s,g,giver_of_being).": {"violation(two_lifted(levels,g,s))"},
+             "god(g). created_person(r). substitutes(c,r,x,g,last_end).": set()}
+    for facts, want in cases.items():
+        got = set().union(*mod_project(["rt_bare"], two, facts))
+        if got != want:
+            yield (facts, sorted(got))
+    got = mod_project(["rt_bare"], two + ("assumed_fact/1",), "god(g). disputed(substitutes(c,t,x,g,last_end)).")
+    if got != frozenset({frozenset({"assumed_fact(substitutes(c,t,x,g,last_end))", "violation(two_lifted(ends,g,x))"}),
+                         frozenset({"assumed_fact(false(substitutes(c,t,x,g,last_end)))"})}):
+        yield ("disputed", sorted(set().union(*got)))
+
+
+_PQ_TEXTS = (_X_TEXTS + "text_of(t_b,s_x,e_y,1960). form_in((f_b;f_c;f_e;f_k;f_m;f_p),t_b,n(1)). "
+             "form_in((f_d;f_g;f_h;f_n),t_a,n(1)). signifies((f_a;f_d;f_n),w_a,lx). signifies(f_h,w_h,lx). "
+             "signifies(f_n,w_k,lx). signifies(f_b,w_b,ly). signifies(f_e,w_a,ly). signifies((f_k;f_m),w_k,ly). "
+             "signifies(f_p,w_p,ly). analogous(w_k,w_a,attribution,c). form_reading(f_a,r_1,c). "
+             "admits(f_b,(r_1;r_2),ly). admits(f_k,r_3,ly). admits(f_p,r_1,ly). ")
+PQ_MEASURES = (("f_a", "f_b"), ("f_a", "f_c"), ("f_c", "f_a"), ("f_c", "f_b"), ("f_d", "f_a"), ("f_e", "f_a"),
+               ("f_a", "f_g"), ("f_a", "f_h"), ("f_a", "f_k"), ("f_k", "f_a"), ("f_k", "f_b"), ("f_b", "f_k"),
+               ("f_n", "f_a"), ("f_a", "f_n"), ("f_a", "f_p"))
+
+
+def pq2():
+    """the measure, its conditions, on toy forms: a mode only where the measure means something; one word within an
+    encoding or of no tongue; an analogy either way, the prior word and the measure's, and never where the two mean
+    one word; a reading closed only of a typed host, one opened only by a typed measure; an interpretation only where
+    one is closed; nothing for a pair no one measures (f_m)"""
+    facts = _PQ_TEXTS + " ".join(f"measured_by({a},{b},m)." for a, b in PQ_MEASURES)
+    shows = ("info(mode(F1,F2,M))", "info(closes(F1,F2,R))", "info(opens(F1,F2,R))", "info(interpretation(F1,F2,R))",
+             "info(analogy_kind(F1,F2,K))", "info(prius_rei(F1,F2,W))", "info(prius_nobis(F1,F2,W))")
+    want = {"info(mode(f_a,f_b,equivocal))", "info(closes(f_a,f_b,r_2))", "info(interpretation(f_a,f_b,r_1))",
+            "info(mode(f_c,f_a,equivocal))", "info(mode(f_c,f_b,equivocal))", "info(mode(f_d,f_a,univocal))",
+            "info(mode(f_e,f_a,univocal))", "info(mode(f_a,f_h,equivocal))",
+            "info(mode(f_a,f_k,analogical))", "info(analogy_kind(f_a,f_k,attribution))",
+            "info(prius_rei(f_a,f_k,w_a))", "info(prius_nobis(f_a,f_k,w_k))",
+            "info(closes(f_a,f_k,r_3))", "info(opens(f_a,f_k,r_1))",
+            "info(mode(f_k,f_a,analogical))", "info(analogy_kind(f_k,f_a,attribution))",
+            "info(prius_rei(f_k,f_a,w_a))", "info(prius_nobis(f_k,f_a,w_a))",
+            "info(mode(f_k,f_b,equivocal))", "info(mode(f_b,f_k,equivocal))", "info(mode(f_n,f_a,univocal))", "info(mode(f_a,f_n,univocal))",
+            "info(mode(f_a,f_p,equivocal))"}
+    for rt, w in (("default", want), ("saussure", want - {"info(mode(f_e,f_a,univocal))"}
+                                                   | {"info(mode(f_e,f_a,equivocal))"})):
+        got = set().union(*mod_project([f"rt_{rt}"], shows, facts))
+        if got != w:
+            yield (rt, sorted(got ^ w))
+
+
+scen("PQ1", PDT, "Room for one: its conditions", [], [_mod(pq1)],
+     "each role its order; God and a divine person above the ends no second term; a divine person below the levels "
+     "is; nothing of a person; disputed, both ways")
+scen("PQ2", PDT, "The measure: its conditions", [], [_mod(pq2)],
+     "no mode where the measure means nothing; no reading closed of an untyped host, none opened by an untyped "
+     "measure; an interpretation; univocal within an encoding on rt_saussure, equivocal across")
+scen("PD1", PDT, "No earlier part enters a measure or a lift (SU1)", [], [_mod(pd1)],
+     "measured_by/3 written by no part, lifted/2 and role_order/2 by none; the cases' Scripture read, the frontier "
+     "empty, the norm graph well founded")
+scen("PD2", PDT, "The guide gains the vocabulary (SU2)", [], [_mod(pd2)],
+     "both copies identical, with the relation, its reports, the measure and the cases")
 
 
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------

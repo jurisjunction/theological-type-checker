@@ -2037,6 +2037,78 @@ substitutes(x_claimant,a_reader,money,god,last_end).
 necessitates(x_claimant,a_reader,natura).
 honour(a_reader,a_reader,latria,x_claimant).
 
+% ---------- "Hang": the law on its end, and summed (TTC-PENDET) --------------
+% Real texts. "In his duobus mandatis universa lex pendet, et prophetae" (Mt
+% 22:40, Clementine; Greek κρέμαται, the law its subject, the prophets added).
+% Every typing is an interpretive fact, entered and open to dispute
+% (docs/research/pendet-sources.md); authority reads no argument (rule 14).
+% The Fathers are read through the Catena on Mt 22:39-40, in the Oxford
+% translation (1842); their Latin is unread, and their years are [M].
+#program pendet.                  % Mt 22:40, "hang" read as end and as summary (TTC-PENDET)
+question(q(law_hangs)). question_kind(q(law_hangs),doctrinal). value(q(law_hangs),(yes;no)).
+question(q(precepts_bind)). question_kind(q(precepts_bind),doctrinal). value(q(precepts_bind),(yes;no)).
+% Mt 22:40, two readings, both yes: the end (Augustine: "'Hang,' that is, refer thither as their end"); the
+% summary, as Rom 13:9 sums the commandments in one word. Its arguments: the end, God's for human action;
+% the summary, the precepts as contained in the object of love.
+source(mt22_40,0,truth,80). ambiguous(mt22_40). reading(mt22_40,(r_end;r_summary)).
+reads(mt22_40,(r_end;r_summary),q(law_hangs),yes).
+argument(mt_end,mt22_40,q(law_hangs),yes). argues_from(mt_end,final,god_ethics).
+argument(mt_summary,mt22_40,q(law_hangs),yes). argues_from(mt_summary,formal,will).
+% Rom 13:9, "in hoc verbo instauratur" (Clementine; "recapitulatur", Nova Vulgata; ἀνακεφαλαιοῦται): the
+% commandments it lists are the second table's. Read as the whole law summed in one word (I-II q. 99 a. 1
+% ad 2: "tota lex impletur in hoc uno mandato"; Gal 5:14, through De Trinitate VIII.7 in the Catena), yes;
+% read as the second table only, the list it sums, it says nothing of the law and the prophets.
+source(rom13_9,0,truth,57). ambiguous(rom13_9). reading(rom13_9,(r_whole_law;r_second_table)).
+reads(rom13_9,r_whole_law,q(law_hangs),yes).
+argument(rom_summary,rom13_9,q(law_hangs),yes). argues_from(rom_summary,formal,will).
+% Augustine, Quaestiones Evangeliorum I.33 (c. 400): "'Hang,' that is, refer thither as their end."
+source(aug_qe,5,truth,400). promoted(aug_qe,4,1298). supports(aug_qe,q(law_hangs),yes).
+argument(aug_end,aug_qe,q(law_hangs),yes). argues_from(aug_end,final,god_ethics).
+% Raban (c. 822): "the commandments of the first table to the love of God, those of the second to the love of
+% our neighbour."
+source(raban,5,truth,822). supports(raban,q(law_hangs),yes).
+argument(raban_tables,raban,q(law_hangs),yes). argues_from(raban_tables,formal,will).
+% Pseudo-Chrysostom (c. 430), under v. 39: "who loves man is as who loves God;" for man is God's image,
+% "wherein God is loved, as a King is honoured in his statue."
+source(pschrys,5,truth,430). supports(pschrys,q(law_hangs),yes).
+argument(pschrys_image,pschrys,q(law_hangs),yes). argues_from(pschrys_image,formal,human).
+% Thomas: the precepts "sunt unum secundum ordinem ad unum finem, sunt tamen multa" (I-II q. 99 a. 1);
+% "finis praecepti caritas est" (ad 2; II-II q. 44 a. 1); a. 3 s.c. cites Mt 22:40.
+source(th_99_1,5,truth,1271). promoted(th_99_1,4,1567). supports(th_99_1,q(law_hangs),yes).
+argument(th_finis,th_99_1,q(law_hangs),yes). argues_from(th_finis,final,god_ethics).
+% Whether the precepts bind: law "quaedam rationis ordinatio ad bonum commune" (I-II q. 90 a. 4); "Law in
+% generall, is not Counsell, but Command" (Leviathan 26, 1651).
+source(th_90_4,5,truth,1271). promoted(th_90_4,4,1567). supports(th_90_4,q(precepts_bind),yes).
+argument(th_ordinatio,th_90_4,q(precepts_bind),yes). argues_from(th_ordinatio,final,human).
+source(hobbes_l26,5,truth,1651). supports(hobbes_l26,q(precepts_bind),yes).
+argument(hobbes_l26,hobbes_l26,q(precepts_bind),yes). argues_from(hobbes_l26,efficient,will).
+#program pendet_thomas.           % Mt 22:40 as Thomas reads the summary, grounded in the end (I-II q. 99 a. 1 ad 2)
+% The sibling of pendet: in I-II q. 99 a. 1 the summary is the objection (Rom 13:9, "instauratur"), and the
+% reply grounds it in the end, "finis praecepti caritas est", "et ideo tota lex impletur in hoc uno mandato".
+% Both summary arguments are typed by the object and the end together. A reading that adds a premise is a
+% sibling case, not a switch: a further reading only adds availability (TTC-MODERNITY, CV4).
+question(q(law_hangs)). question_kind(q(law_hangs),doctrinal). value(q(law_hangs),(yes;no)).
+question(q(precepts_bind)). question_kind(q(precepts_bind),doctrinal). value(q(precepts_bind),(yes;no)).
+source(mt22_40,0,truth,80). ambiguous(mt22_40). reading(mt22_40,(r_end;r_summary)).
+reads(mt22_40,(r_end;r_summary),q(law_hangs),yes).
+argument(mt_end,mt22_40,q(law_hangs),yes). argues_from(mt_end,final,god_ethics).
+argument(mt_summary,mt22_40,q(law_hangs),yes). argues_from(mt_summary,formal,will). argues_from(mt_summary,final,god_ethics).
+source(rom13_9,0,truth,57). ambiguous(rom13_9). reading(rom13_9,(r_whole_law;r_second_table)).
+reads(rom13_9,r_whole_law,q(law_hangs),yes).
+argument(rom_summary,rom13_9,q(law_hangs),yes). argues_from(rom_summary,formal,will). argues_from(rom_summary,final,god_ethics).
+source(aug_qe,5,truth,400). promoted(aug_qe,4,1298). supports(aug_qe,q(law_hangs),yes).
+argument(aug_end,aug_qe,q(law_hangs),yes). argues_from(aug_end,final,god_ethics).
+source(raban,5,truth,822). supports(raban,q(law_hangs),yes).
+argument(raban_tables,raban,q(law_hangs),yes). argues_from(raban_tables,formal,will).
+source(pschrys,5,truth,430). supports(pschrys,q(law_hangs),yes).
+argument(pschrys_image,pschrys,q(law_hangs),yes). argues_from(pschrys_image,formal,human).
+source(th_99_1,5,truth,1271). promoted(th_99_1,4,1567). supports(th_99_1,q(law_hangs),yes).
+argument(th_finis,th_99_1,q(law_hangs),yes). argues_from(th_finis,final,god_ethics).
+source(th_90_4,5,truth,1271). promoted(th_90_4,4,1567). supports(th_90_4,q(precepts_bind),yes).
+argument(th_ordinatio,th_90_4,q(precepts_bind),yes). argues_from(th_ordinatio,final,human).
+source(hobbes_l26,5,truth,1651). supports(hobbes_l26,q(precepts_bind),yes).
+argument(hobbes_l26,hobbes_l26,q(precepts_bind),yes). argues_from(hobbes_l26,efficient,will).
+
 % ---------- domains (L) ---------------------------------------------
 #program base.
 in_sort(sacrament,(baptism;confirmation;eucharist;penance;anointing;orders(episcopate);orders(presbyterate);orders(diaconate);matrimony)).
