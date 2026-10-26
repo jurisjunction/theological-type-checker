@@ -695,3 +695,139 @@ def test_no_rule_derives_a_state_after_death():
             head = st.split(":-", 1)[0]
             assert not re.search(r"\b(placed_in|in_hell|damned|in_glory|in_purgatory|saved)\s*\(", head), (f, st)
             assert not re.search(r"\bholds\(q\(in_glory\(", head), (f, st)
+
+
+# ---------- TTC-PROFESSIO: a runtime of the personal layer, run as a profession ---------
+# Toy layers in temporary folders, with neutral names; the suite itself runs with the layer off.
+def _layer(tmp_path, monkeypatch, runtimes, rules=None):
+    from theological_type_checker import lang
+    home = tmp_path / "home"
+    (home / "runtimes").mkdir(parents=True)
+    for name, text in runtimes.items():
+        (home / "runtimes" / f"{name}.l").write_text(text)
+    for name, text in (rules or {}).items():
+        (home / "rules").mkdir(exist_ok=True)
+        (home / "rules" / f"{name}.lp").write_text(text)
+    lang.write_layer(home)
+    monkeypatch.setenv("TTC_HOME", str(home))
+    return home
+
+
+TOY = {"toy": "runtime toy extends thomist\n"}
+HEARD = ["modernity_property", "linguae_rn9", "hear_en_1891_locke"]
+
+
+def _profession(r):
+    return sorted({a for m in (r["all_models"] or [r["atoms"]]) for a in m if "violation(profession_" in a})
+
+
+def _every_atom(parts):
+    """every atom of every model, shown or not: one set each"""
+    import clingo
+    ctl = clingo.Control(["0"], logger=lambda code, msg: None)
+    for text in engine.base_texts().values():
+        ctl.add("base", [], text)
+    ctl.add("base", [], engine.runtime_facts(parts))
+    ctl.ground([("base", [])] + [(p, []) for p in engine.expand_runtimes(parts)])
+    out = set()
+    ctl.solve(on_model=lambda m: out.add(frozenset(str(s) for s in m.symbols(atoms=True))))
+    return out
+
+
+def test_with_the_layer_off_no_runtime_of_its_own_and_no_mark():
+    # PF1: the suite runs with the layer disabled
+    assert engine.ttc_home() is None and engine.personal_runtimes() == {}
+    assert dict(engine.RUNTIMES) == engine.BASE_RUNTIMES and engine.runtime_facts(["rt_thomist"]) == ""
+
+
+def test_a_profession_runs_as_its_parts_save_the_mark(tmp_path, monkeypatch):
+    # PF3: on the property case of TTC-MODERNITY, rt_toy gives what rt_thomist gives, save profession(toy)
+    _layer(tmp_path, monkeypatch, TOY)
+    assert engine.is_runtime("rt_toy") and engine.RUNTIMES["toy"] == engine.BASE_RUNTIMES["thomist"]
+    toy = engine.solve(["modernity_property", "rt_toy"], "branches")
+    thomist = engine.solve(["modernity_property", "rt_thomist"], "branches")
+    assert toy["models"] == thomist["models"] > 1
+    assert sorted(map(sorted, toy["all_models"])) == sorted(map(sorted, thomist["all_models"]))
+    every_toy, every_thomist = _every_atom(["modernity_property", "rt_toy"]), _every_atom(["modernity_property",
+                                                                                          "rt_thomist"])
+    assert {m - {"profession(toy)"} for m in every_toy} == every_thomist
+    assert all("profession(toy)" in m and "personal_runtime(toy)" in m for m in every_toy)
+    assert not any("profession(" in a for m in every_thomist for a in m)
+
+
+def test_a_part_of_the_layers_rules_is_loaded_by_its_runtime(tmp_path, monkeypatch):
+    # PF4, run: the part grounds where the runtime is named, and only there
+    _layer(tmp_path, monkeypatch, {"toy": "runtime toy extends thomist\n  add toy_part\n"},
+           {"toy": "#program toy_part.\ninfo(toy_part_loaded).\n"})
+    assert "info(toy_part_loaded)" in engine.solve(["rt_toy"], "one")["atoms"]
+    assert "info(toy_part_loaded)" not in engine.solve(["rt_thomist"], "one")["atoms"]
+
+
+@pytest.mark.parametrize("spoil,why", [
+    ("touch", "runtimes.json is older than its sources (runtimes/toy.l)"),
+    ("edit", "runtimes.json is not what its sources compile to"),
+    ("remove", "runtimes.json is missing beside its sources (runtimes/toy.l)"),
+    ("source", "do not compile: runtimes/toy.l:2: runtime toy: no part named nowhere"),
+])
+def test_a_stale_table_is_refused_at_load(tmp_path, monkeypatch, spoil, why):
+    # PF5: refused at the gate `runtimes`, naming why
+    import os
+    home = _layer(tmp_path, monkeypatch, TOY)
+    table, src = home / "runtimes.json", home / "runtimes" / "toy.l"
+    assert engine.solve(["rt_toy"], "one")["sat"]
+    if spoil == "touch":
+        os.utime(src, ns=(table.stat().st_mtime_ns + 10**9,) * 2)
+    elif spoil == "edit":
+        table.write_text(table.read_text().replace('"th24",\n', "", 1))
+    elif spoil == "remove":
+        table.unlink()
+    else:
+        src.write_text("runtime toy extends thomist\n  add nowhere\n")
+        os.utime(table, ns=(src.stat().st_mtime_ns + 10**9,) * 2)
+    for parts in (["rt_toy"], ["sspx"]):
+        with pytest.raises(engine.SnippetError) as e:
+            engine.solve(parts, "one")
+        assert e.value.gate == "runtimes" and why in str(e.value), str(e.value)
+
+
+def test_a_profession_is_never_heard_through(tmp_path, monkeypatch):
+    # PG1: a hearing for the run's own horizon on a run of a profession is refused; the same parts on a base
+    # runtime are not; a profession hosting a base runtime's guest, which hears, is not heard itself
+    _layer(tmp_path, monkeypatch, TOY)
+    assert _profession(engine.solve(HEARD + ["rt_toy"], "branches")) == ["violation(profession_heard(toy))"]
+    r = engine.solve(HEARD + ["rt_toy"], "branches")
+    assert all("violation(profession_heard(toy))" in m for m in r["all_models"])
+    for rt in ("rt_thomist", "rt_locke", "rt_palamite"):
+        assert _profession(engine.solve(HEARD + [rt], "branches")) == []
+    assert _profession(engine.solve(HEARD + ["rt_toy", "vm_thomist"], "branches")) == []
+
+
+def test_a_profession_is_never_a_guest(tmp_path, monkeypatch):
+    # PG2: vm_guest(R) entered for a personal runtime is refused, on its own run and on another's; no part
+    # vm_R exists for it; a base runtime's guest is not refused, on a run of a profession or not
+    _layer(tmp_path, monkeypatch, TOY)
+    assert "vm_toy" not in engine.known_parts() and "vm_thomist" in engine.known_parts()
+    for parts in (["rt_toy"], ["rt_thomist"], []):
+        assert _profession(engine.solve(parts, "one", facts="vm_guest(toy).")) == [
+            "violation(profession_as_guest(toy))"]
+    for parts in (["rt_toy", "vm_thomist"], ["rt_thomist", "vm_thomist"], ["rt_toy", "vm_bare"]):
+        assert _profession(engine.solve(parts, "one")) == []
+
+
+def test_the_guard_adds_nothing_where_there_is_no_hearing_and_no_vm(tmp_path, monkeypatch):
+    # PG3, here; the boot set in tests/test_schools.py (TTC_SLOW)
+    _layer(tmp_path, monkeypatch, TOY)
+    for parts in (["rt_toy"], ["modernity_property", "rt_toy"], ["sspx", "lattice", "rt_toy"], ["rt_thomist", "rt_toy"]):
+        assert _profession(engine.solve(parts, "branches")) == [], parts
+
+
+def test_the_suite_names_the_bases_runtimes_and_a_projection_marks_a_profession(tmp_path, monkeypatch):
+    # PF1, with the layer on: the suite's scenarios iterate the base's runtimes, never the layer's; a run
+    # projected (mod_project) is marked as a solve is
+    import inspect
+    import re
+    assert not re.search(r"\bE\.RUNTIMES\b", inspect.getsource(suite))
+    _layer(tmp_path, monkeypatch, TOY)
+    assert "toy" in engine.RUNTIMES and "toy" not in engine.BASE_RUNTIMES
+    got = suite.mod_project(HEARD + ["rt_toy"], ("violation/1",))
+    assert all("violation(profession_heard(toy))" in m for m in got) and got

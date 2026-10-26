@@ -6,6 +6,9 @@ The boots of TTC-MODERNITY's 33 runtimes (TTC-LOCI, EX1) take about as long
 again, and run only when asked:
 
     TTC_SLOW=1 TTC_SLOW_MODERNITY=1 python3 -m pytest -q tests/test_schools.py
+
+TTC-PROFESSIO's toy runtimes, a personal layer in a temporary folder, boot
+on the same set with TTC_SLOW (at the end).
 """
 import os
 
@@ -125,3 +128,62 @@ def test_dh1330_deposit():
                                                            "TH14", "TH15", "TH15c", "TH20b"]
     newly_red = sorted(i for i in a if not a[i][2] and b[i][2])
     assert newly_red == ["FQ1", "FQ19", "FQ3", "FQ4", "FQ7", "TH14", "TH15", "TH15c", "TH20b"]
+
+
+# TTC-PROFESSIO PG3, PX2, PX3: runtimes of a toy personal layer, booted on the boot set (encoding B). A profession
+# changes what its parts change: the toy extending thomist as thomist does, and each scenario under a toy as under
+# its parts loaded with no runtime named (rt_bare and the parts); the guard adds no violation. The starting point
+# (thomist and palamite, its clash on one_power resolved either way) carries both alleles at simplicity, so no
+# composition_in_god falls under the reading thomist or palamite. Its boots under each resolution are reported
+# (PX3), pinned here.
+PROFESSIO = ("runtime toy_thomist extends thomist\n"
+             "runtime toy_add extends thomist, palamite\n  add one_power\n"
+             "runtime toy_exclude extends thomist, palamite\n  exclude one_power\n")
+# PX3, reported: either way, what the Palamite runtime changes and FQ13, K7 and K9 besides, as the Thomist runtime
+# changes them; red, exactly the Palamite runtime's red. The two resolutions give the same atoms in every model.
+PX3_CHANGED = ["AN1", "AN11", "AN2", "AN3", "AN4", "AN5", "B7", "B8", "DS3", "FQ13", "K1c", "K7", "K9", "L1", "L2",
+               "L3", "L4", "M2", "M3", "M4", "M5", "R1", "R2", "S1", "S2", "S3", "S5", "S6", "S7", "S8", "S9", "T1",
+               "T1b", "T2", "T3a", "T3b", "T3c", "UN1", "UN2", "UN3", "X1", "X10", "X2", "X3", "X4", "X5", "X5b",
+               "X6", "X7", "X8", "X9"]
+PX3_RED = ["AN1", "AN10", "AN11", "AN3", "AN9", "DS3", "FQ13", "FQ16", "L2", "L4", "M1", "M2", "M3", "M4", "M5", "S2",
+           "S3", "S7", "S8", "S9", "T6c", "UN2", "X1", "X5b"]
+PX3 = {"toy_add": (PX3_CHANGED, PX3_RED), "toy_exclude": (PX3_CHANGED, PX3_RED)}
+
+
+@pytest.fixture(scope="module")
+def toy_home(tmp_path_factory):
+    from theological_type_checker import lang
+    home = tmp_path_factory.mktemp("home")
+    (home / "runtimes").mkdir()
+    (home / "runtimes" / "toys.l").write_text(PROFESSIO)
+    lang.write_layer(home)
+    return home
+
+
+@pytest.fixture(scope="module")
+def px():
+    return Experiment()
+
+
+@pytest.mark.parametrize("rt", ["toy_thomist", "toy_add", "toy_exclude"])
+def test_a_profession_boots_as_its_parts(px, toy_home, monkeypatch, rt):
+    # PG3, PX2
+    from theological_type_checker import engine
+    from theological_type_checker.schools import run
+    monkeypatch.setenv("TTC_HOME", str(toy_home))
+    got = px.results((rt,))
+    plain = {s["id"]: run({**s, "parts": list(s["parts"]) + ["rt_bare"] + list(engine.RUNTIMES[rt])}) for s in px.scen}
+    assert {i: got[i][0] for i in got} == {i: plain[i][0] for i in plain}
+    every = {v for i in got for v in got[i][1]}
+    assert not [v for v in every if "profession_" in v]
+    assert not [v for v in every if "composition_in_god(" in v and v.endswith(("thomist))", "palamite))"))]
+    b = px.boot(rt)
+    assert (b["changed"], b["red"]) == (BOOT_B["thomist"] if rt == "toy_thomist" else PX3[rt])
+
+
+def test_the_starting_point_boots_alike_under_either_resolution(px, toy_home, monkeypatch):
+    # PX3, reported: the clash on one_power is a choice the build forces, and on the boot set it changes nothing
+    monkeypatch.setenv("TTC_HOME", str(toy_home))
+    assert px.results(("toy_add",)) == px.results(("toy_exclude",))
+    pal = px.boot("palamite")
+    assert set(pal["changed"]) | {"FQ13", "K7", "K9"} == set(PX3_CHANGED) and pal["red"] == PX3_RED

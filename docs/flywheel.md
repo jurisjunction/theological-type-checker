@@ -60,6 +60,8 @@ reading you still owe.
 | `~/.ttc/rules/*.lp` | your canons and rules |
 | `~/.ttc/rules/case_*.lp` | cases, each an ordered pair under its own part |
 | `~/.ttc/rules/consulted.lp` | sources checked against the original |
+| `~/.ttc/runtimes/*.l` | runtimes of your own, in L ([ttc-l(1)](l.md)) |
+| `~/.ttc/runtimes.json` | those runtimes, compiled with the base |
 | `~/.ttc/scenarios.json` | results you confirmed |
 
 Keep `~/.ttc` in git, and push it wherever you like. The public base is
@@ -72,6 +74,7 @@ unaffected until you contribute.
 | `flywheel_status` | Frontiers: theology, unanswered, canon, library. Optionally the suite. |
 | `save_rules` | Save rules if the suite stays green; over a red test only with a stated reason for it. |
 | `save_case` | Save an ordered pair, `theology` then `canon`. Mixing the sides is refused. |
+| `save_runtime` | Save a runtime of your own, the parts you hold, only if L compiles it with the base. |
 | `save_scenario` | Record a result as a test, only if it passes now. |
 | `mark_consulted` | Record a source as checked against the original. |
 | `library_fetch_list` | Physical copies, nearest library first. |

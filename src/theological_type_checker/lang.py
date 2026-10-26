@@ -19,6 +19,7 @@ import json
 import pathlib
 import re
 import sys
+from typing import Iterable
 
 HERE = pathlib.Path(__file__).resolve().parent
 L_DIR = HERE / "l"
@@ -546,6 +547,11 @@ class Source:
 
 
 def parse(text: str, name: str = "<l>") -> Source:
+    return Source(name, _items(text, name))
+
+
+def _items(text: str, name: str) -> list:
+    """The declarations and fences of an L text, in order."""
     items: list = []
     fence: list[str] | None = None
     fence_line = 0
@@ -576,7 +582,28 @@ def parse(text: str, name: str = "<l>") -> Source:
         items.append(current)
     if fence is not None:
         raise LError(name, fence_line, "a fence is never closed")
-    return Source(name, items)
+    return items
+
+
+class LayerSource:
+    """One .l file of the personal layer's runtimes ($TTC_HOME/runtimes/*.l,
+    TTC-PROFESSIO): runtimes only, and comments. Any other declaration, a
+    `layer` among them, or a fence, does not compile. Its runtimes are
+    compiled with the base's sources (compile_layer)."""
+
+    def __init__(self, name: str, items: list):
+        for d in items:
+            if not isinstance(d, Runtime):
+                what = "a fence of clingo" if isinstance(d, Fence) else f"`{d.keyword}`"
+                raise LError(name, d.line, f"declares {what}: a file of the layer's runtimes declares runtimes only")
+        self.name, self.items = name, items
+
+    def decls(self, kind):
+        return [d for d in self.items if isinstance(d, kind)]
+
+
+def parse_layer(text: str, name: str) -> LayerSource:
+    return LayerSource(name, _items(text, name))
 
 
 def compile_loci(srcs: dict[str, Source]) -> dict[str, dict[str, list[str]]]:
@@ -606,7 +633,7 @@ def compile_loci(srcs: dict[str, Source]) -> dict[str, dict[str, list[str]]]:
     return out
 
 
-def compile_runtimes(srcs: dict[str, Source]) -> dict:
+def compile_runtimes(srcs: dict[str, Source], parts: Iterable[str] = ()) -> dict:
     """The runtimes, each a list of parts, with what each declares. A part a
     runtime names must exist; a parent must be declared, with no cycle; two
     parents that disagree on a part (one has it, the other excludes it) are
@@ -620,14 +647,17 @@ def compile_runtimes(srcs: dict[str, Source]) -> dict:
     expresses. `express A` expresses an inherited allele, expressed or
     carried (one every parent only carries is reported, `re_expressed`);
     `carry A` silences the allele it would express. A runtime holding part of
-    an allele and not the rest does not compile."""
+    an allele and not the rest does not compile.
+
+    `parts` names parts beyond the sources' own: those of the personal
+    layer's rule files, which its runtimes may name (TTC-PROFESSIO)."""
     decls = [d for src in srcs.values() for d in src.decls(Runtime)]
     by_name: dict[str, Runtime] = {}
     for d in decls:
         if d.name in by_name:
             raise LError(d.where, d.line, f"runtime {d.name} declared twice")
         by_name[d.name] = d
-    parts = {d.name for src in srcs.values() for d in src.decls(Part)}
+    parts = {d.name for src in srcs.values() for d in src.decls(Part)} | set(parts)
     loci = compile_loci(srcs)
     done: dict[str, tuple[list, set, dict]] = {}
     re_expressed: list[list[str]] = []
@@ -768,6 +798,81 @@ def compile_runtimes(srcs: dict[str, Source]) -> dict:
 
 def runtimes_text(compiled: dict) -> str:
     return json.dumps(compiled, indent=1, ensure_ascii=False) + "\n"
+
+
+# ---------- the personal layer's runtimes (TTC-PROFESSIO) -------------------
+def layer_files(home: pathlib.Path) -> list[pathlib.Path]:
+    """The layer's runtime sources, $TTC_HOME/runtimes/*.l."""
+    d = home / "runtimes"
+    return sorted(d.glob("*.l")) if d.is_dir() else []
+
+
+def layer_sources(home: pathlib.Path, replace: dict[str, str] | None = None) -> dict[str, LayerSource]:
+    """The layer's runtime files, each by its place in the layer
+    (`runtimes/<name>.l`); `replace` gives a text in place of a file's, or
+    of a file not yet written."""
+    texts = {f"runtimes/{f.name}": f.read_text() for f in layer_files(home)}
+    texts.update(replace or {})
+    return {name: parse_layer(text, name) for name, text in sorted(texts.items())}
+
+
+def layer_parts(home: pathlib.Path) -> set[str]:
+    """The parts of the layer's own rule files ($TTC_HOME/rules/*.lp), by
+    their #program lines."""
+    d = home / "rules"
+    texts = [f.read_text() for f in sorted(d.glob("*.lp"))] if d.is_dir() else []
+    return {m.group(1) for t in texts for m in re.finditer(r"^#program\s+(\w+)\s*\.", t, re.M)}
+
+
+def compile_layer(home: pathlib.Path, replace: dict[str, str] | None = None,
+                  srcs: dict[str, Source] | None = None) -> dict:
+    """The layer's runtimes, compiled with the base's sources and refused by
+    their rules: each may extend the base's runtimes and the layer's, and
+    name the base's parts and those of the layer's rule files. A runtime
+    whose name a base runtime has does not compile. The table is the base's
+    form, with the layer's runtimes only."""
+    srcs = sources() if srcs is None else srcs
+    layer = layer_sources(home, replace)
+    base = {d.name: d for src in srcs.values() for d in src.decls(Runtime)}
+    mine = []
+    for src in layer.values():
+        for d in src.decls(Runtime):
+            if d.name in base:
+                b = base[d.name]
+                raise LError(d.where, d.line, f"runtime {d.name}: the base has a runtime of that name "
+                             f"({b.where}:{b.line})")
+            mine.append(d.name)
+    full = compile_runtimes({**srcs, **layer}, layer_parts(home))
+    out = {"runtimes": {n: full["runtimes"][n] for n in mine}, "declared": {n: full["declared"][n] for n in mine}}
+    if "alleles" in full:
+        out["alleles"] = full["alleles"]
+        out["loci"] = {n: full["loci"][n] for n in mine}
+        out["re_expressed"] = [x for x in full["re_expressed"] if x[0] in mine]
+    return out
+
+
+def layer_stale(home: pathlib.Path, srcs: dict[str, Source] | None = None) -> str | None:
+    """Why the layer's runtimes.json is not as its sources compile, or None:
+    missing beside its sources, older than one of them, or not what they
+    compile to. A source L refuses raises its refusal."""
+    table, files = home / "runtimes.json", layer_files(home)
+    if not files and not table.is_file():
+        return None
+    if not table.is_file():
+        return "runtimes.json is missing beside its sources (" + ", ".join(f"runtimes/{f.name}" for f in files) + ")"
+    newer = [f"runtimes/{f.name}" for f in files if f.stat().st_mtime_ns > table.stat().st_mtime_ns]
+    if newer:
+        return f"runtimes.json is older than its sources ({', '.join(newer)})"
+    if table.read_text() != runtimes_text(compile_layer(home, srcs=srcs)):
+        return "runtimes.json is not what its sources compile to"
+    return None
+
+
+def write_layer(home: pathlib.Path, srcs: dict[str, Source] | None = None) -> dict:
+    """Compile the layer's runtimes and write $TTC_HOME/runtimes.json."""
+    rts = compile_layer(home, srcs=srcs)
+    (home / "runtimes.json").write_text(runtimes_text(rts))
+    return rts
 
 
 def slots(srcs: dict[str, Source]) -> dict[tuple[str, int], Slot]:
@@ -1013,6 +1118,8 @@ def main(argv=None):
                     help="gbnf: only this slot (repeatable)")
     ap.add_argument("--l", type=pathlib.Path, default=L_DIR, help="the sources (default: the package's l/)")
     ap.add_argument("--lp", type=pathlib.Path, default=LP_DIR, help="the rule files (default: the package's lp/)")
+    ap.add_argument("--home", type=pathlib.Path, default=None, metavar="DIR",
+                    help="build or check also the personal layer's runtimes (DIR/runtimes/*.l) with the base")
     a = ap.parse_args(argv)
     try:
         if a.command == "gbnf":
@@ -1034,15 +1141,26 @@ def main(argv=None):
                 if not p.is_file() or p.read_text() != text:
                     p.write_text(text)
                     print(f"wrote {p.name}")
-            for name, locus, allele in rts.get("re_expressed", []):
+            again = rts.get("re_expressed", [])
+            if a.home:
+                mine = compile_layer(a.home, srcs=srcs)
+                if layer_stale(a.home, srcs):
+                    write_layer(a.home, srcs)
+                    print(f"wrote {a.home / 'runtimes.json'}")
+                again = again + mine.get("re_expressed", [])
+            for name, locus, allele in again:
                 print(f"re_expressed: runtime {name} expresses {allele} at {locus}, which every parent only carries")
             return 0
         bad = check(a.l, a.lp)
+        stale = layer_stale(a.home, sources(a.l)) if a.home else None
         for name in bad:
             print(f"differs from its source: {name}")
-        if not bad:
-            print(f"{len(build(a.l))} rule files and the runtimes, each as its source compiles")
-        return 1 if bad else 0
+        if stale:
+            print(f"differs from its sources: {a.home / 'runtimes.json'}: {stale}")
+        if not bad and not stale:
+            print(f"{len(build(a.l))} rule files and the runtimes, each as its source compiles"
+                  + (", and the layer's runtimes" if a.home else ""))
+        return 1 if bad or stale else 0
     except LError as exc:
         print(f"refused: {exc}", file=sys.stderr)
         return 2

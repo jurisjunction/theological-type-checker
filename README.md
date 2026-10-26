@@ -75,6 +75,7 @@ Requires Python 3.10 and clingo, which is installed automatically.
 | --- | --- |
 | `src/theological_type_checker/lp/` | The rule base. |
 | `~/.ttc/rules/*.lp` | Personal rules and cases. |
+| `~/.ttc/runtimes/*.l`, `~/.ttc/runtimes.json` | Personal runtimes, in L, and their compiled table. |
 | `~/.ttc/scenarios.json` | Personal regression tests. |
 | `~/.config/ttc-mcp/tokens` | One line per remote client: name, hash of its token. |
 

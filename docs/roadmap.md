@@ -38,6 +38,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | language | one word, many encodings: a form type-checked under its encoding at its date, by any route (heard, signed, written, touched), as a sign of the word; the encodings in time as a DAG, etymology a partial trace of forms through it; the word itself outside time; each encoding encodable, none required | done, before the senses ([ttc-linguae(7)](research/linguae-preregistration.md)) |
 | modernity | the four causes as a library; a horizon as the causes a runtime holds; a DAG of modernities from Scotus to Kant, its contested edges marked, with readings, a will line and Leo's hearers; the VM; hearing joined to the tongues; a case's phases over every horizon | done ([ttc-modernity(7)](research/modernity-preregistration.md)) |
 | loci | the schools' readings as alleles at loci, carried and expressed; a substitution for God entered as a claim of a text or an order, lowered onto the deposit, faulting there; the last end and latria in the deposit; the icon against the idol | done ([ttc-loci(7)](research/loci-preregistration.md)) |
+| professio | a runtime of one's own, declared in L in the personal layer and compiled by the base's rules; run, booted and compared as a profession, never heard through and never a guest of the VM; saved through the connector | done ([ttc-professio(7)](research/professio-preregistration.md)) |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 ## NEXT STEPS IN DETAIL
