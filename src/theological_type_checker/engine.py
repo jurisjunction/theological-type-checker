@@ -17,6 +17,7 @@ import json
 import os
 import pathlib
 import re
+from collections.abc import Mapping
 from typing import Iterable
 
 import clingo
@@ -30,9 +31,32 @@ FILES = ["kernel_core.lp", "kernel_analogy.lp", "icon_theory.lp", "icon_models.l
 # parts, loaded whole. A scenario names one as the part "rt_<name>", or two for
 # a pair; naming none runs it on "default". "rt_bare" loads no runtime at all.
 # Declared in L (l/schools.l: `runtime`, by inheritance; TTC-L, RU) and
-# compiled to runtimes.json, which is read here.
-RUNTIMES: dict[str, list[str]] = json.loads(
+# compiled to runtimes.json, which is read here. The personal layer's
+# runtimes ($TTC_HOME/runtimes/*.l, compiled to $TTC_HOME/runtimes.json) are
+# added when the layer is on (TTC-PROFESSIO): RUNTIMES holds both.
+BASE_RUNTIMES: dict[str, list[str]] = json.loads(
     (pathlib.Path(__file__).resolve().parent / "runtimes.json").read_text())["runtimes"]
+
+
+class _Runtimes(Mapping):
+    """The base's runtimes, and the personal layer's when it is on. A name the
+    base has is answered without the layer; any other, or a listing, reads
+    the layer's table, refused when stale (personal_runtime_table)."""
+
+    def __getitem__(self, name):
+        return BASE_RUNTIMES[name] if name in BASE_RUNTIMES else personal_runtimes()[name]
+
+    def __contains__(self, name):
+        return name in BASE_RUNTIMES or name in personal_runtimes()
+
+    def __iter__(self):
+        return iter({**BASE_RUNTIMES, **personal_runtimes()})
+
+    def __len__(self):
+        return len(BASE_RUNTIMES) + len(personal_runtimes())
+
+
+RUNTIMES: Mapping[str, list[str]] = _Runtimes()
 
 
 def is_runtime(part: str) -> bool:
@@ -44,6 +68,17 @@ def expand_runtimes(parts) -> list[str]:
     named = [p[3:] for p in parts if is_runtime(p)] or ["default"]
     rest = [p for p in parts if not is_runtime(p)]
     return list(dict.fromkeys([q for r in named for q in RUNTIMES[r]] + rest))
+
+
+def runtime_facts(parts) -> str:
+    """What the engine adds to a solve for the personal layer's runtimes
+    (TTC-PROFESSIO): `personal_runtime(R)` for each, and `profession(R)` for
+    each the run expands. Nothing when the layer has none."""
+    mine = personal_runtimes()
+    if not mine:
+        return ""
+    run = [p[3:] for p in parts if p.startswith("rt_") and p[3:] in mine]
+    return " ".join([f"personal_runtime({r})." for r in mine] + [f"profession({r})." for r in dict.fromkeys(run)])
 
 
 # Rule-base overrides for the "fix method": text added to the base, and
@@ -64,6 +99,7 @@ REFUSAL_GATES = {
     "layer": "a fact on the wrong side of a case (house rule 1)",
     "conclusion": "a head, or a constraint, on what the base concludes: premises only (TTC-L CG)",
     "input": "an argument the tool cannot take",
+    "runtimes": "the personal layer's runtimes.json, older than its sources or not what they compile to",
 }
 
 
@@ -141,6 +177,47 @@ def personal_rule_files() -> list[pathlib.Path]:
     if not home or not (home / "rules").is_dir():
         return []
     return sorted((home / "rules").glob("*.lp"))
+
+
+_LAYER_TABLE: dict = {}
+
+
+def personal_runtime_table() -> dict:
+    """The personal layer's runtimes ($TTC_HOME/runtimes.json, TTC-PROFESSIO),
+    the base's form; empty with no layer, or one with no runtimes. Refused
+    at load (the gate `runtimes`) when it is missing beside its sources,
+    older than one of them, or not what they compile to with the base and
+    the layer's rules, as `ttc-l check` refuses the base's."""
+    home = ttc_home()
+    if not home:
+        return {}
+    from . import lang
+    files = lang.layer_files(home)
+    table = home / "runtimes.json"
+    if not files and not table.is_file():
+        return {}
+    watched = [*files, table, *personal_rule_files()]
+    key = (str(home), tuple((str(p), p.stat().st_mtime_ns, p.stat().st_size) for p in watched if p.is_file()))
+    if key not in _LAYER_TABLE:
+        try:
+            why = lang.layer_stale(home)
+            got = json.loads(table.read_text()) if why is None else SnippetError(
+                f"the personal layer's {why}: rebuild it (save_runtime, or ttc-l build --home {home})",
+                "runtimes", "runtimes.json", text=why)
+        except lang.LError as exc:
+            got = SnippetError(f"the personal layer's runtimes do not compile: {exc}", "runtimes", exc.where,
+                               exc.line, text=exc.message)
+        _LAYER_TABLE.clear()
+        _LAYER_TABLE[key] = got
+    got = _LAYER_TABLE[key]
+    if isinstance(got, SnippetError):
+        raise got
+    return got
+
+
+def personal_runtimes() -> dict[str, list[str]]:
+    """The personal layer's runtimes, each its parts (personal_runtime_table)."""
+    return personal_runtime_table().get("runtimes", {})
 
 
 def personal_scenarios_raw() -> list[dict]:
@@ -553,6 +630,9 @@ def solve(parts, mode="one", facts="", max_models=0, timeout=None, show=()):
     ctl = clingo.Control(nmodels, logger=lambda code, msg: logs.append(msg))
     for f, text in base_texts().items():
         ctl.add("base", [], text)
+    marks = runtime_facts(parts)
+    if marks:
+        ctl.add("base", [], marks)
     if extra:
         ctl.add("base", [], extra)
     if show:

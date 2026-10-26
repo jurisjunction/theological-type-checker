@@ -37,6 +37,13 @@
 %  autem non habet locum nisi in iis rebus quae sensum et voluntatem
 %  habent" (Hobbes, De corpore X.7).
 %
+%  A profession (TTC-PROFESSIO): a runtime of the personal layer is the
+%  parts a person says he holds, on his own word, never a model of a mind
+%  (rule 3). The engine names the layer's runtimes (personal_runtime/1) and
+%  marks a run of one (profession/1). It runs, boots and compares as any
+%  runtime does, and is never heard through: a hearing for the run's own
+%  horizon on it is refused, and so is the VM's guest named for one.
+%
 %  @library  (read by norms.py: its predicates count as defined)
 % ===================================================================
 
@@ -47,6 +54,8 @@
 % @input concludes_heard/3 | concludes_heard(A, L, C): C claims that A, heard under the lexicon L and shorter there, still concludes
 % @input cause_domain/1 | cause_domain(D): the library's, a domain in which it holds the efficient and the material cause
 % @input vm_guest/1 | vm_guest(R): the part vm_R loads R's horizon as the VM's guest
+% @input personal_runtime/1 | personal_runtime(R): the engine's, never a case's: R is a runtime of the personal layer, a profession
+% @input profession/1 | profession(R): the engine's, never a case's: the run expands R, a runtime of the personal layer
 % @input supported/2 | icon_authority.lp: a value some source in force supports
 % @input hears_form/2 | linguae.lp
 % @input heard_argument/2 | linguae.lp
@@ -103,6 +112,14 @@ info(lost_by_horizon(G,A,cd(C,D))) :- horizon_run(G), heard_argument(G,A), argue
 % A premise on a form that its argument, entered, does not argue from.
 violation(premise_not_argued(A,cd(C,D))) :- rests_on_form(A,cd(C,D),_), argument(A,_,_,_),
                                             not argues_from(A,C,D).
+
+% ---------- A profession (TTC-PROFESSIO) -------------------------------------
+% Never a hearer: a hearing declared for the run's own horizon on a run of a
+% profession. A guest of the VM hears where one is loaded; a base runtime's,
+% hosted by a profession, is no hearing of it.
+violation(profession_heard(R)) :- profession(R), hears_in(here,_,_).
+% Never a guest: no part vm_R is made for one, and vm_guest(R) is refused.
+violation(profession_as_guest(R)) :- personal_runtime(R), vm_guest(R).
 
 % ---------- Availability (CV, VM) -------------------------------------------
 reading_rec(A,A) :- argument(A,_,_,_).

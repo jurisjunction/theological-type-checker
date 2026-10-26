@@ -963,3 +963,113 @@ def test_what_the_grammar_alone_holds_reaches_no_rule_file():
             if isinstance(item, lang.Runtime):
                 item.parents, item.ops = [], []
     assert lang.compiled(srcs) == before
+
+
+# ---------- PF: the personal layer's runtimes (TTC-PROFESSIO) --------------
+# Toy layers in temporary folders, with neutral names; never a real ~/.ttc.
+def _home(tmp_path, runtimes, rules=None):
+    home = tmp_path / "home"
+    (home / "runtimes").mkdir(parents=True)
+    for name, text in runtimes.items():
+        (home / "runtimes" / f"{name}.l").write_text(text)
+    if rules:
+        (home / "rules").mkdir()
+        for name, text in rules.items():
+            (home / "rules" / f"{name}.lp").write_text(text)
+    return home
+
+
+def test_a_runtime_of_the_layer_compiles_with_the_base_and_the_base_is_unchanged(tmp_path):
+    # PF1, PF3: a toy extending thomist, and one extending it; the base's table is as before
+    home = _home(tmp_path, {"mine": "-- a comment of L's\nruntime mine extends thomist\n",
+                            "more": "runtime more extends mine, default\n  exclude holds_premotion\n"})
+    before = lang.runtimes_text(lang.compile_runtimes(lang.sources()))
+    out = lang.compile_layer(home)
+    assert list(out["runtimes"]) == ["mine", "more"] and set(out) == {"runtimes", "declared", "alleles", "loci",
+                                                                       "re_expressed"}
+    assert out["runtimes"]["mine"] == engine.BASE_RUNTIMES["thomist"]
+    assert out["runtimes"]["more"] == [p for p in engine.BASE_RUNTIMES["thomist"] if p != "holds_premotion"]
+    assert out["declared"]["more"] == {"extends": ["mine", "default"], "file": "runtimes/more.l",
+                                       "ops": [["exclude", "holds_premotion"]]}
+    assert out["loci"]["mine"] == {"simplicity": {"expressed": "by_reason", "carried": []},
+                                   "esse": {"expressed": "real", "carried": []}}
+    assert out["alleles"] == lang.compile_runtimes(lang.sources())["alleles"]
+    assert lang.runtimes_text(lang.compile_runtimes(lang.sources())) == before == lang.RUNTIMES_JSON.read_text()
+
+
+@pytest.mark.parametrize("text,line,why", [
+    # PF2: each refused, naming the file and line
+    ("runtime mine extends thomist\n  add nowhere\n", 2, "runtime mine: no part named nowhere"),
+    ("runtime mine extends thomist, palamite\n", 1, "its parents thomist and palamite clash on one_power"),
+    ("runtime mine extends thomist\n  exclude attributes_by_reason\n", 1,
+     "runtime mine: holds part of the allele by_reason at simplicity (simplicity_thomist) and not the rest "
+     "(attributes_by_reason)"),
+    ("runtime mine extends yours\nruntime yours extends mine\n", 1, "runtimes extend each other in a cycle"),
+    ("runtime mine extends ghost\n", 1, "no runtime named ghost"),
+    ("runtime thomist extends default\n", 1, "runtime thomist: the base has a runtime of that name (schools.l:33)"),
+    ("runtime mine extends thomist\nslot mine_p(X: claim)\n  means \"m\"\n", 2,
+     "declares `slot`: a file of the layer's runtimes declares runtimes only"),
+    ("layer schools\nruntime mine extends thomist\n", 1, "declares `layer`"),
+    ("runtime mine extends thomist\n```clingo\nq.\n```\n", 2, "declares a fence of clingo"),
+    ("runtime mine extends thomist\nruntime mine\n", 2, "runtime mine declared twice"),
+])
+def test_the_layers_runtimes_are_refused_by_the_bases_rules(tmp_path, text, line, why):
+    home = _home(tmp_path, {"mine": text})
+    with pytest.raises(lang.LError) as e:
+        lang.compile_layer(home)
+    assert (e.value.where, e.value.line) == ("runtimes/mine.l", line)
+    assert why in e.value.message and str(e.value).startswith(f"runtimes/mine.l:{line}: ")
+
+
+def test_a_runtime_of_the_layer_may_name_a_part_of_its_rules(tmp_path):
+    # PF4: a part of $TTC_HOME/rules/*.lp, by its #program line; absent, it does not compile
+    rules = {"mine": "#program mine_part.   % the layer's own\ninfo(mine_part_loaded).\n"}
+    home = _home(tmp_path, {"mine": "runtime mine extends thomist\n  add mine_part\n"}, rules)
+    assert lang.layer_parts(home) == {"mine_part"}
+    assert lang.compile_layer(home)["runtimes"]["mine"] == engine.BASE_RUNTIMES["thomist"] + ["mine_part"]
+    (home / "rules" / "mine.lp").write_text("% the part withdrawn\n")
+    with pytest.raises(lang.LError, match="runtime mine: no part named mine_part") as e:
+        lang.compile_layer(home)
+    assert (e.value.where, e.value.line) == ("runtimes/mine.l", 2)
+
+
+def test_a_stale_table_is_found_and_ttc_l_builds_and_checks_the_layer(tmp_path, capsys):
+    # PF5, as ttc-l check refuses the base's: missing, older than a source, not what the sources compile to
+    import os
+    home = _home(tmp_path, {"mine": "runtime mine extends thomist\n"})
+    lp = tmp_path / "lp"                                     # the base's files as they stand, built nowhere else
+    shutil.copytree(lang.LP_DIR, lp)
+    table = home / "runtimes.json"
+    assert "missing" in lang.layer_stale(home)
+    assert lang.main(["check", "--home", str(home)]) == 1
+    assert lang.main(["build", "--lp", str(lp), "--home", str(home)]) == 0 and lang.layer_stale(home) is None
+    assert f"wrote {table}" in capsys.readouterr().out
+    assert lang.main(["check", "--home", str(home)]) == 0
+    src = home / "runtimes" / "mine.l"
+    os.utime(src, ns=(table.stat().st_mtime_ns + 10**9,) * 2)
+    assert lang.layer_stale(home) == "runtimes.json is older than its sources (runtimes/mine.l)"
+    lang.write_layer(home)
+    table.write_text(table.read_text().replace('"th24",\n', "", 1))
+    assert lang.layer_stale(home) == "runtimes.json is not what its sources compile to"
+    assert lang.main(["check", "--home", str(home)]) == 1
+    src.write_text("runtime mine extends thomist\n  add nowhere\n")
+    assert lang.main(["build", "--lp", str(lp), "--home", str(home)]) == 2   # refused, naming the file and line
+    assert "runtimes/mine.l:2: runtime mine: no part named nowhere" in capsys.readouterr().err
+
+
+# ---------- PX: a test of the starting point -------------------------------
+def test_the_starting_point_is_refused_on_exactly_one_power(tmp_path):
+    # PX1: thomist holds one_power from default; palamite excludes it, for monopatrism
+    home = _home(tmp_path, {"start": "runtime start extends thomist, palamite\n"})
+    with pytest.raises(lang.LError, match=re.escape("its parents thomist and palamite clash on one_power")):
+        lang.compile_layer(home)
+    for way in ("add", "exclude"):                       # resolved, nothing else is refused
+        (home / "runtimes" / "start.l").write_text(f"runtime start extends thomist, palamite\n  {way} one_power\n")
+        out = lang.compile_layer(home)
+        # PX2: at simplicity both carried, neither expressed, their parts not loaded; at esse real
+        assert out["loci"]["start"] == {"simplicity": {"expressed": None, "carried": ["by_reason", "energetic"]},
+                                        "esse": {"expressed": "real", "carried": []}}
+        parts = out["runtimes"]["start"]
+        assert not {"simplicity_thomist", "attributes_by_reason", "simplicity_palamite"} & set(parts)
+        assert {"th03", "th05", "monopatrism", "palamite_energies"} <= set(parts)
+        assert ("one_power" in parts) == (way == "add")

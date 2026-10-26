@@ -251,10 +251,12 @@ def test_every_tool_says_whether_it_writes():
     hints = {t.name: t.annotations for t in anyio.run(server.server.list_tools)}
     assert all(None not in (a.read_only_hint, a.destructive_hint, a.open_world_hint) for a in hints.values())
     writers = {n for n, a in hints.items() if not a.read_only_hint}
-    assert writers == {"save_rules", "save_case", "save_scenario", "mark_consulted"}
+    # restated (rule 7) by TTC-PROFESSIO, as its design has it: save_runtime writes the layer's runtimes and can
+    # replace one; before, the writers were the other four and the tools that replace a file save_rules, save_case
+    assert writers == {"save_rules", "save_case", "save_runtime", "save_scenario", "mark_consulted"}
     opens_home = re.compile(r"(?<!\w)_home\(\)")                     # the one way a tool gets a folder to write in
     assert writers == {n for n in hints if opens_home.search(inspect.getsource(getattr(server, n)))}
-    assert {n for n, a in hints.items() if a.destructive_hint} == {"save_rules", "save_case"}
+    assert {n for n, a in hints.items() if a.destructive_hint} == {"save_rules", "save_case", "save_runtime"}
     assert {n for n, a in hints.items() if a.open_world_hint} == {"library_fetch_list"}
 
 
@@ -298,7 +300,8 @@ def test_over_http_only_the_tools_that_read_are_served_unless_asked():
     from theological_type_checker import server
     every = {t.name for t in anyio.run(server.server.list_tools)}
     read_only = {t.name for t in anyio.run(server.server_read_only.list_tools)}
-    assert server.WRITERS == {"save_rules", "save_case", "save_scenario", "mark_consulted"}
+    # restated (rule 7) by TTC-PROFESSIO: save_runtime is a writer, served over HTTP only with --writers
+    assert server.WRITERS == {"save_rules", "save_case", "save_runtime", "save_scenario", "mark_consulted"}
     assert read_only == every - server.WRITERS
     assert server.http_server() is server.server_read_only and server.http_server(writers=True) is server.server
     assert "save_rules" not in server.server_read_only.instructions and "save_rules" in server.server.instructions
@@ -306,3 +309,60 @@ def test_over_http_only_the_tools_that_read_are_served_unless_asked():
         names = [sorted(str(getattr(x, "uri_template", None) or getattr(x, "uri", None) or x.name)
                         for x in anyio.run(getattr(srv, listing))) for srv in (server.server, server.server_read_only)]
         assert names[0] == names[1] and names[0]
+
+
+# ---------- save_runtime and list_parts (TTC-PROFESSIO PS) ----------------------
+@pytest.mark.parametrize("source,where,line,why", [
+    ("runtime mine extends thomist\n  add nowhere\n", "runtimes/mine.l", 2, "no part named nowhere"),
+    ("runtime mine extends thomist, palamite\n", "runtimes/mine.l", 1, "clash on one_power"),
+    ("runtime mine extends thomist\nslot mine_p(X: claim)\n  means \"m\"\n", "runtimes/mine.l", 2, "declares `slot`"),
+    ("runtime other extends thomist\n", "runtimes/mine.l", None, "the source declares no runtime mine"),
+    ("runtime mine extends theirs\n", "runtimes/mine.l", 1, "no runtime named theirs"),
+])
+def test_save_runtime_refused_writes_nothing(tmp_path, monkeypatch, source, where, line, why):
+    # PS1: the reply names the refusal; neither the source nor the table is written
+    pytest.importorskip("mcp")
+    monkeypatch.setenv("TTC_HOME", str(tmp_path))
+    from theological_type_checker import server
+    r = server.save_runtime("mine", source)
+    assert r["saved"] is False and (r["refusal"]["where"], r["refusal"]["line"]) == (where, line)
+    assert why in r["refusal"]["message"]
+    assert list(tmp_path.iterdir()) == []
+
+
+def test_save_runtime_writes_the_source_and_the_table_and_lists_it(tmp_path, monkeypatch):
+    # PS2: written only once it compiles; its parts and loci returned; run as rt_<name>; listed, marked personal
+    pytest.importorskip("mcp")
+    monkeypatch.setenv("TTC_HOME", str(tmp_path))
+    from theological_type_checker import lang, server
+    r = server.save_runtime("mine", "runtime mine extends thomist\n  exclude holds_premotion")
+    assert r["saved"] is True and r["runtime"] == "mine" and r["declares"] == ["mine"]
+    assert r["parts"] == [p for p in engine.BASE_RUNTIMES["thomist"] if p != "holds_premotion"]
+    assert r["loci"] == {"simplicity": {"expressed": "by_reason", "carried": []},
+                         "esse": {"expressed": "real", "carried": []}}
+    assert (tmp_path / "runtimes" / "mine.l").read_text() == "runtime mine extends thomist\n  exclude holds_premotion\n"
+    assert (tmp_path / "runtimes.json").read_text() == lang.runtimes_text(lang.compile_layer(tmp_path))
+    assert lang.layer_stale(tmp_path) is None and engine.solve(["rt_mine"], "one")["sat"]
+    rows = {x["part"]: x for x in server.list_parts("runtime")}
+    assert rows["rt_mine"]["file"] == "personal/runtimes/mine.l" and rows["rt_thomist"]["file"] == "schools.l"
+    assert rows["rt_mine"]["note"] == ", ".join(r["parts"]) and "rt_mine" in {x["part"] for x in server.list_parts()}
+    g = json.loads(server.grammar_resource())["runtimes"]["mine"]
+    assert (g["extends"], g["ops"]) == (["thomist"], [["exclude", "holds_premotion"]])
+    # a refused save leaves what was written; a second runtime may extend the first
+    before = (tmp_path / "runtimes.json").read_text()
+    assert server.save_runtime("mine", "runtime mine extends nowhere_at_all\n")["saved"] is False
+    assert (tmp_path / "runtimes.json").read_text() == before and engine.solve(["rt_mine"], "one")["sat"]
+    assert server.save_runtime("more", "runtime more extends mine\n  add holds_premotion\n")["saved"] is True
+    assert engine.RUNTIMES["more"] == r["parts"] + ["holds_premotion"]
+
+
+def test_save_runtime_boots_where_asked(tmp_path, monkeypatch):
+    # PS2: boot=True returns its boot on TTC-SCHOOLS's boot set, here two of its scenarios
+    pytest.importorskip("mcp")
+    monkeypatch.setenv("TTC_HOME", str(tmp_path))
+    from theological_type_checker import schools, server, suite
+    two = [s for s in suite.S if s["id"] in ("K7", "K1")]
+    monkeypatch.setattr(schools, "boot_set", lambda: two)
+    r = server.save_runtime("mine", "runtime mine extends thomist\n", boot=True)
+    assert r["boot"] == {"changed": ["K7"], "red": []}
+    assert "boot" not in server.save_runtime("mine", "runtime mine extends thomist\n")

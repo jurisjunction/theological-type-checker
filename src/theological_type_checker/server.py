@@ -44,8 +44,8 @@ not verdicts. When the checker and a text disagree, ask which is wrong, and
 test the checker's side with `fix_method`.
 
 It grows with use: `flywheel_status` shows the frontier (theology, canon,
-library); `save_rules`, `save_case` (theology, then canon), `save_scenario`
-and `mark_consulted` record what the person has confirmed;
+library); `save_rules`, `save_case` (theology, then canon), `save_runtime`,
+`save_scenario` and `mark_consulted` record what the person has confirmed;
 `library_fetch_list` gives the books still owed, nearest library first.
 
 Never compute anyone's interior. The checker shows that a claim is
@@ -57,8 +57,8 @@ ill-formed. It does not show that a well-formed claim is true.
 # the answers of all. The tools that write stay on the person's own machine
 # (stdio), or are served over HTTP only with `--writers`.
 INSTRUCTIONS_READ_ONLY = INSTRUCTIONS.replace("""It grows with use: `flywheel_status` shows the frontier (theology, canon,
-library); `save_rules`, `save_case` (theology, then canon), `save_scenario`
-and `mark_consulted` record what the person has confirmed;
+library); `save_rules`, `save_case` (theology, then canon), `save_runtime`,
+`save_scenario` and `mark_consulted` record what the person has confirmed;
 `library_fetch_list` gives the books still owed, nearest library first.""",
 """Over this connection the checker only reads. `flywheel_status` shows the
 frontier (theology, canon, library); `library_fetch_list` gives the books
@@ -220,12 +220,16 @@ def list_parts(kind: str | None = None) -> list[dict]:
     ablations), candidate (positions written as rules, usually to show they
     fail), date (asof_YYYY), search (optimisation runs), runtime (a school's
     parts loaded whole: name it as rt_<name>; with none named a run uses
-    rt_default, and rt_bare loads none).
+    rt_default, and rt_bare loads none). The personal layer's runtimes are
+    listed beside the base's, marked personal: their file is under personal/.
     """
     rows = []
     if kind in (None, "runtime"):
         rows += [{"part": f"rt_{n}", "kind": "runtime", "of": None, "file": "schools.l",
-                  "note": ", ".join(ps) or "no runtime", "questions": []} for n, ps in engine.RUNTIMES.items()]
+                  "note": ", ".join(ps) or "no runtime", "questions": []} for n, ps in engine.BASE_RUNTIMES.items()]
+        mine = engine.personal_runtime_table()           # the layer's, marked personal (TTC-PROFESSIO)
+        rows += [{"part": f"rt_{n}", "kind": "runtime", "of": None, "file": "personal/" + mine["declared"][n]["file"],
+                  "note": ", ".join(ps) or "no runtime", "questions": []} for n, ps in mine.get("runtimes", {}).items()]
         if kind == "runtime":
             return rows
     for name, (f, comment, block) in _part_blocks().items():
@@ -515,6 +519,48 @@ def save_rules(name: str, rules: str, force: bool = False, reasons: dict[str, st
     return {"saved": True, "file": str(home / "rules" / f"{name}.lp"), **report}
 
 
+@_tool(writes=True, overwrites=True)
+def save_runtime(name: str, source: str, boot: bool = False) -> dict:
+    """Save a runtime of the person's own to the personal layer
+    ($TTC_HOME/runtimes/<name>.l): a profession, the parts he says he holds,
+    part by part, on his word, never a model of a mind. `source` is L that
+    declares runtimes only, one of them `name` ("runtime name extends
+    thomist" with its `add`, `exclude`, `alter`, `express`, `carry`; see
+    ttc-l(1)). It is compiled first, with the base and the layer: refused by
+    L's rules (an unknown part, an unresolved clash, part of an allele, a
+    cycle, a name the base has), nothing is written and the refusal is
+    returned. Otherwise the source and $TTC_HOME/runtimes.json are written,
+    and the runtime's parts and loci returned; with boot=True also its boot
+    on TTC-SCHOOLS's boot set (slow). Run it as rt_<name>. It is never heard
+    through and never a guest of the VM (profession_heard,
+    profession_as_guest)."""
+    if not _NAME.match(name):
+        raise ValueError("name must be lowercase letters, digits and underscores")
+    home = engine.ttc_home() or _home()             # _home() says how to configure one, where there is none
+    where = f"runtimes/{name}.l"
+    source = source if source.endswith("\n") else source + "\n"
+    try:
+        own = lang.layer_sources(home, {where: source})[where]
+        if name not in {d.name for d in own.decls(lang.Runtime)}:
+            raise lang.LError(where, None, f"the source declares no runtime {name}")
+        table = lang.compile_layer(home, {where: source})
+    except lang.LError as exc:
+        return {"saved": False, "reason": "L refuses the source: nothing is written",
+                "refusal": {"where": exc.where, "line": exc.line, "message": str(exc)}}
+    home = _home()                                  # its folders made only now, once the source compiles
+    (home / "runtimes").mkdir(exist_ok=True)
+    (home / where).write_text(source)
+    lang.write_layer(home)                            # after the source: never older than it
+    _BASELINE.clear()
+    out = {"saved": True, "file": str(home / where), "table": str(home / "runtimes.json"), "runtime": name,
+           "declares": [d.name for d in own.decls(lang.Runtime)],
+           "parts": table["runtimes"][name], "loci": table.get("loci", {}).get(name, {})}
+    if boot:
+        from . import schools
+        out["boot"] = schools.Experiment().boot(name)
+    return out
+
+
 def _layer_lint(text, layer):
     """Refuse a slot of the other side: each slot's side is its declaring
     file's (lang.sides), theology, canon or either (TTC-L, LY)."""
@@ -696,7 +742,7 @@ def grammar() -> dict:
         kind, of = _part_kind(name, f, block)
         parts[name] = {"file": f, "kind": kind, "of": of, "note": comment,
                        "questions": sorted(set(re.findall(r"question\((q\([^)]*\)+)\)", block)))}
-    declared = lang.compile_runtimes(srcs)["declared"]
+    declared = {**lang.compile_runtimes(srcs)["declared"], **engine.personal_runtime_table().get("declared", {})}
     runtimes = {k: {"parts": list(ps), "extends": declared.get(k, {}).get("extends", []),
                     "ops": declared.get(k, {}).get("ops", [])} for k, ps in engine.RUNTIMES.items()}
     tools = {t.name: {"description": inspect.cleandoc(t.description or ""), "parameters": t.parameters}

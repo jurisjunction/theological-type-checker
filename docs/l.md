@@ -7,8 +7,8 @@
 ## SYNOPSIS
 
 ```
-ttc-l build [--l dir] [--lp dir]
-ttc-l check [--l dir] [--lp dir]
+ttc-l build [--l dir] [--lp dir] [--home dir]
+ttc-l check [--l dir] [--lp dir] [--home dir]
 ttc-l gbnf [--side theology|canon] [--slot name/n ...]
 ```
 
@@ -27,6 +27,10 @@ a fence opening with `#program` (the part's name is read from that line),
 and, through clingo's own parser, to check the slots against the rules.
 
 Edit the `.l` file, then build. Never edit a rule file by hand.
+
+With `--home`, both also compile the personal layer's runtimes with the
+base (THE LAYER'S RUNTIMES): **build** writes `dir/runtimes.json` where
+it is not as its sources compile, and **check** fails where it is not.
 
 **ttc-l gbnf** writes the slots and sorts as a GBNF grammar, for an
 encoder held to it in constrained decoding (llama.cpp; xgrammar and
@@ -142,11 +146,40 @@ beside an allele it adds; a `carry` of an allele it would not express;
 `express` and `carry` at one locus; an allele or locus that does not
 exist, and an allele named at two loci without `at`.
 
+## THE LAYER'S RUNTIMES
+
+A personal layer (`$TTC_HOME`, ttc-flywheel(7)) may declare runtimes in
+`runtimes/*.l`: runtimes only, and comments. Any other declaration, a
+`layer` among them, or a fence, does not compile. They are compiled with
+the base's sources and refused by its rules, each naming the file
+(`runtimes/name.l`) and the line: a part that does not exist, an
+unresolved clash, part of an allele, a cycle, a parent that does not
+exist. A runtime of the layer may extend the base's runtimes and the
+layer's, and name the base's parts and those of the layer's own rule files
+(`rules/*.lp`, by their `#program` lines). One whose name a base runtime
+has does not compile.
+
+The table goes to `$TTC_HOME/runtimes.json`, in the base's form, with the
+layer's runtimes only, each with its loci. The engine adds it to its
+runtimes when the layer is on. A table missing beside its sources, older
+than one of them, or not what they compile to is refused at load, at the
+gate `runtimes` (ttc-encoding(5)), and every run with it, until it is
+rebuilt (`ttc-l build --home`, or `save_runtime`, ttc-mcp(8)).
+
+A runtime of the layer is a profession. Expanding one adds the fact
+`profession(R)` to the solve, and with the layer on every solve holds
+`personal_runtime(R)` for each of its runtimes. It runs, boots and
+compares as any runtime does. No part `vm_R` is made for it. A hearing for
+the run's own horizon on a run of a profession is refused
+(`profession_heard`), and so is `vm_guest(R)` for one, on any run
+(`profession_as_guest`).
+
 ## EXIT STATUS
 
 0 when the base is as its sources compile; 1 when a rule file or
-`runtimes.json` differs, or a rule file has no source; 2 when a source is
-refused (the file, the line and why).
+`runtimes.json` differs, or a rule file has no source, or, with `--home`,
+the layer's `runtimes.json` is not as its sources compile; 2 when a source
+is refused (the file, the line and why).
 
 ## EXAMPLES
 
@@ -181,6 +214,12 @@ question(q(earth_moves)). question_kind(q(earth_moves),empirical).
 `src/theological_type_checker/runtimes.json`
 : the compiled runtimes, read by the engine.
 
+`$TTC_HOME/runtimes/*.l`
+: the personal layer's runtimes.
+
+`$TTC_HOME/runtimes.json`
+: the layer's runtimes, compiled with the base; added to the engine's.
+
 `tools/lp2l`
 : the converter that wrote the first sources from the hand-written base
   (TTC-L, METHOD 1); kept for the record.
@@ -188,7 +227,8 @@ question(q(earth_moves)). question_kind(q(earth_moves),empirical).
 ## SEE ALSO
 
 [ttc-l(7)](research/l-preregistration.md), [ttc(1)](../README.md),
-[ttc-encoding(5)](encoding-guide.md), [ttc-loci(7)](research/loci-preregistration.md)
+[ttc-encoding(5)](encoding-guide.md), [ttc-loci(7)](research/loci-preregistration.md),
+[ttc-professio(7)](research/professio-preregistration.md), [ttc-flywheel(7)](flywheel.md)
 
 ## CAVEATS
 
@@ -205,7 +245,17 @@ name no fitness and no selection. A runtime that carries two alleles holds
 none of the schools' readings, which is not to hold the deposit's against
 them.
 
+A runtime of the layer is the parts a person says he holds, on his own
+word: a profession, not a portrait. Nothing infers it from him, and it
+says nothing of his interior (house rule 3). Its name stays in his layer
+(house rule 13).
+
 ## BUGS
+
+The guard reads names. A rule file of the layer that loads a guest's
+horizon under a name that is no runtime of the layer is answered by the
+suite (`save_rules`), not by the guard. A stale table refuses every run
+while the layer is on.
 
 The GBNF is tested against a small recognizer of its own subset, not yet
 against llama.cpp's parser.

@@ -33,7 +33,9 @@ compiled text.
    default runtime unless it names one (`rt_thomist`, `rt_scotist`,
    `rt_suarezian`, `rt_palamite`; `rt_saussure`, `rt_vocal`, `rt_lingual`;
    `rt_bare` for none; two for a pair). Name a runtime when the answer
-   depends on a school.
+   depends on a school. A runtime of the person's own is saved to the
+   personal layer with `save_runtime` and run as any other (THE LAYER'S
+   RUNTIMES).
 6. If you disagree with the result, use `fix_method`. If you agree, use
    `save_scenario`.
 7. A red test is a finding. Open each with `read_test` before deciding
@@ -352,6 +354,26 @@ See [ttc-modernity(7)](research/modernity-preregistration.md).
 
 See [ttc-loci(7)](research/loci-preregistration.md).
 
+## THE LAYER'S RUNTIMES
+
+A personal layer may declare runtimes, in L, in `$TTC_HOME/runtimes/*.l`:
+runtimes only. `save_runtime` compiles one with the base and the layer and
+writes it only if it compiles: the base's refusals apply (an unknown part,
+an unresolved clash, part of an allele, a cycle), and a name the base has
+is refused. The table, `$TTC_HOME/runtimes.json`, is refused at load
+when it is not as its sources compile (the gate `runtimes`). A runtime of
+the layer may extend the base's and name the parts of the layer's rule
+files. It is a profession: the parts a person says he holds, on his own
+word, never a model of a mind (rule 3).
+
+| Fact | Meaning |
+| --- | --- |
+| `profession(R)`, `personal_runtime(R)` | The engine's, never a case's: the run expands R, a runtime of the layer; R is one. A profession runs, boots and compares as any runtime does. |
+| *output* `violation(profession_heard(R))` | A hearing declared for the run's own horizon (`hears_in(here,…)`) on a run of a profession: refused. A base runtime's guest of the VM, hosted by it, hears; that is no hearing of it. |
+| *output* `violation(profession_as_guest(R))` | `vm_guest(R)` for a runtime of the layer, on any run: refused. No part `vm_R` is made for one. |
+
+See [ttc-professio(7)](research/professio-preregistration.md).
+
 ## LIBRARY
 
 | Fact | Meaning |
@@ -406,6 +428,7 @@ A refused run returns one JSON object: `refused`, `gate`, `where` (`facts`,
 | `layer` | A slot of the other side of a case (THE PAIR): each slot's side is its layer's, and a library's slots (`interior/3`, `act_of/2`) go on either (ttc-l(1)). |
 | `conclusion` | A head on what the base concludes (a predicate it derives or shows that no slot declares: `eff_tier/2`, `holds/2`, `theorem/1`), a slot declared hypothetical, or a constraint that reads a conclusion, directly or through a helper of the snippet's. `read_as/2` may be read. The refusal names the slots the conclusion is drawn from. A switch's flag (`monopatrism`, `gen_policy/1`, `closure_mode/1`) is chosen by loading its part; a theory's own vocabulary (`bridge/3`, `mode/3`, `rel/3`) changes through `fix_method`. |
 | `input` | An argument the tool cannot take. |
+| `runtimes` | The personal layer's `runtimes.json` missing beside its sources, older than one of them, or not what they compile to (THE LAYER'S RUNTIMES); every run, until it is rebuilt. |
 
 Results come with their keys sorted. `ttc://grammar`, read off L, holds
 the slots with their sorts, sides, meanings and sentences; the sorts; the

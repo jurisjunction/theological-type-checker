@@ -85,16 +85,16 @@ The server keeps no session, so a restart loses nothing.
 ## TOOLS
 
 Each tool declares whether it writes. The `save_*` tools and
-`mark_consulted` write; `save_rules` and `save_case` can replace a file;
-`library_fetch_list` reaches the network. The rest only read. A client
-uses this to decide when to ask the person first.
+`mark_consulted` write; `save_rules`, `save_case` and `save_runtime` can
+replace a file; `library_fetch_list` reaches the network. The rest only
+read. A client uses this to decide when to ask the person first.
 
 ### Reading
 
 | Tool | Does |
 | --- | --- |
 | `guide` | The encoding manual, [ttc-encoding(5)](encoding-guide.md). Read it first. |
-| `list_parts`, `read_part` | Models, cases, switches, candidates, each with its kind and case (L's; the personal layer's by name); the source of one. |
+| `list_parts`, `read_part` | Models, cases, switches, candidates, each with its kind and case (L's; the personal layer's by name); runtimes, the personal layer's beside the base's, marked personal (their file under `personal/`); the source of one. |
 
 ### Checking
 
@@ -114,6 +114,7 @@ uses this to decide when to ask the person first.
 | --- | --- |
 | `fix_method` | Add or remove rules, rerun everything, report gains and losses. Writes nothing. |
 | `save_rules`, `save_case`, `save_scenario` | Write to `$TTC_HOME`, and only if the suite stays green. `save_rules` with `force` needs a stated reason for each red test. |
+| `save_runtime` | A runtime of the person's own, in L, to `$TTC_HOME/runtimes/<name>.l`, with the layer's table: compiled first with the base and the layer, and written only if it compiles; a refusal is returned, naming the file and line. Returns the runtime's parts and loci; with `boot`, its boot on TTC-SCHOOLS's boot set. It runs as `rt_<name>`, a profession: never heard through, never a guest of the VM ([ttc-l(1)](l.md), THE LAYER'S RUNTIMES). |
 | `mark_consulted` | Record a source as checked against print. |
 
 ### Library and status
@@ -158,8 +159,9 @@ snippet's rules can write conclusions (a tier, a theorem) as well as
 premises; nothing refuses that yet ([ttc-l(7)](research/l-preregistration.md)).
 
 The server writes only inside `$TTC_HOME`, and only through `save_*` and
-`mark_consulted`. Network access is limited to the library lookups, and to
-those services only.
+`mark_consulted`; `save_runtime` writes nothing it has not compiled.
+Network access is limited to the library lookups, and to those services
+only.
 
 Over HTTP the URL is the only credential. Whoever holds it can call every
 tool the server offers: by default those that read; with `--writers`,
@@ -180,7 +182,8 @@ and reading the note as one is `collective_declaration`.
 
 ## SEE ALSO
 
-[ttc(1)](../README.md), [ttc-flywheel(7)](flywheel.md), [ttc-library(1)](library.md)
+[ttc(1)](../README.md), [ttc-flywheel(7)](flywheel.md), [ttc-library(1)](library.md),
+[ttc-l(1)](l.md), [ttc-professio(7)](research/professio-preregistration.md)
 
 ## BUGS
 

@@ -51,6 +51,13 @@ sort measure
 %  autem non habet locum nisi in iis rebus quae sensum et voluntatem
 %  habent" (Hobbes, De corpore X.7).
 %
+%  A profession (TTC-PROFESSIO): a runtime of the personal layer is the
+%  parts a person says he holds, on his own word, never a model of a mind
+%  (rule 3). The engine names the layer's runtimes (personal_runtime/1) and
+%  marks a run of one (profession/1). It runs, boots and compares as any
+%  runtime does, and is never heard through: a hearing for the run's own
+%  horizon on it is refused, and so is the VM's guest named for one.
+%
 ```
 
 library
@@ -89,6 +96,14 @@ slot cause_domain(D: domain)
 slot vm_guest(R: horizon)
   means "vm_guest(R): the part vm_R loads R's horizon as the VM's guest"
   say "the guest of the VM has the horizon of {R}"
+
+slot personal_runtime(R: horizon)
+  means "personal_runtime(R): the engine's, never a case's: R is a runtime of the personal layer, a profession"
+  say "{R} is a runtime of the personal layer"
+
+slot profession(R: horizon)
+  means "profession(R): the engine's, never a case's: the run expands R, a runtime of the personal layer"
+  say "the run is of {R}, a profession"
 
 result holds_cause(C: cause, D: domain)
   say "the horizon holds the {C} cause in {D}"
@@ -131,6 +146,12 @@ result heard_short(G: horizon, A: claim)
 
 result heard_by_analogy(G: horizon, A: claim, P: premise, K: akind)
   say "the premise {P} of {A} reaches {G} through a rendering by analogy of {K}"
+
+result profession_heard(R: horizon)
+  say "a hearing is declared for the run's own horizon, and the run is of {R}, a profession: refused"
+
+result profession_as_guest(R: horizon)
+  say "{R}, a profession, is the guest of the VM: refused"
 
 use supported/2 "icon_authority.lp: a value some source in force supports"
 
@@ -195,6 +216,14 @@ info(lost_by_horizon(G,A,cd(C,D))) :- horizon_run(G), heard_argument(G,A), argue
 % A premise on a form that its argument, entered, does not argue from.
 violation(premise_not_argued(A,cd(C,D))) :- rests_on_form(A,cd(C,D),_), argument(A,_,_,_),
                                             not argues_from(A,C,D).
+
+% ---------- A profession (TTC-PROFESSIO) -------------------------------------
+% Never a hearer: a hearing declared for the run's own horizon on a run of a
+% profession. A guest of the VM hears where one is loaded; a base runtime's,
+% hosted by a profession, is no hearing of it.
+violation(profession_heard(R)) :- profession(R), hears_in(here,_,_).
+% Never a guest: no part vm_R is made for one, and vm_guest(R) is refused.
+violation(profession_as_guest(R)) :- personal_runtime(R), vm_guest(R).
 
 % ---------- Availability (CV, VM) -------------------------------------------
 reading_rec(A,A) :- argument(A,_,_,_).
