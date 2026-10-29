@@ -1069,6 +1069,8 @@ def test_a_stale_table_is_found_and_ttc_l_builds_and_checks_the_layer(tmp_path, 
     assert lang.layer_stale(home) == "runtimes.json is older than its sources (runtimes/mine.l)"
     lang.write_layer(home)
     table.write_text(table.read_text().replace('"th24",\n', "", 1))
+    # the source's time was set a second ahead; the table is newer than it by its own time, not the clock's
+    os.utime(table, ns=(src.stat().st_mtime_ns + 10**9,) * 2)
     assert lang.layer_stale(home) == "runtimes.json is not what its sources compile to"
     assert lang.main(["check", "--home", str(home)]) == 1
     src.write_text("runtime mine extends thomist\n  add nowhere\n")
