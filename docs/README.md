@@ -73,6 +73,7 @@ a step was read from, with how sure each item is.
 | professio | [ttc-professio(7)](research/professio-preregistration.md) | | scored |
 | pendet | [ttc-pendet(7)](research/pendet-preregistration.md) | [sources](research/pendet-sources.md) | scored |
 | rerum | [ttc-rerum(7)](research/rerum-preregistration.md) | [sources](research/rerum-sources.md) | predicted |
+| verbum | [ttc-verbum(7)](research/verbum-preregistration.md) | [sources](research/verbum-sources.md) | predicted |
 
 ## BUGS
 
