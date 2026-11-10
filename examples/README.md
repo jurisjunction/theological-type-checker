@@ -13,4 +13,4 @@
 
 ## BUGS
 
-Two examples. The suite has 232 more.
+Two examples. The suite holds the rest: `ttc-suite --show ID` prints any one.

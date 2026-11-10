@@ -6,9 +6,10 @@
 
 ## DESCRIPTION
 
-Each entry is machine-checked; test IDs are in parentheses. None is a
-verdict on a disputed question. Each reports the structure of a dispute,
-not its winner.
+Each entry is machine-checked; test IDs, or the predictions a step
+scored, are in parentheses. §32 is a study of language-model agents,
+scored from its runs. None is a verdict on a disputed question. Each
+reports the structure of a dispute, not its winner.
 
 ### 1. Univocity of mode costs something (S3, S4, UN1–UN3)
 
@@ -834,7 +835,333 @@ Predictions were stamped first ([ttc-empirica(7)](research/empirica-preregistrat
   reading; the embryo treated as a person on all. CIC 1917 c. 748 computed
   the doubt without deciding it.
 
-### 31. Method
+### 31. L: the rule base declared (RG, RU, SO, LY, TY, OF, SY, IS, CG)
+
+Predictions were stamped first ([ttc-l(7)](research/l-preregistration.md)).
+Most results are tests of `tests/test_l.py`.
+
+- **Declared, nothing moved** (RG, RU, M1). The 27 rule files of the time
+  compiled from L byte for byte; runtimes by inheritance reproduced the
+  hand table, order included; no scenario's atoms changed through the
+  stages that only declared.
+- **A slot was defined too narrowly** (SO1). "A predicate read and never
+  derived" left out the central inputs (`source/4`, `supports/3`,
+  `character/2`, `interior/3`), which some rule also derives. Amended: a
+  predicate the base reads that a case enters.
+- **The libraries serve both sides** (LY). The language put them on the
+  theology side; the canon cases write their slots in 79 of 123 parts.
+  Absolutions and consecrations, first read in a library, are the canon
+  layer's: the hand list was right and the rule was wrong.
+- **A case is a part that states its questions** (SO2). Every other part
+  is a switch. This reproduced the old kinds everywhere but nine parts of
+  `canon_cases.l`; 22 parts of that file enter theology's slots, listed in
+  a test.
+- **Sorts found five facts outside them** (TY3): matrimony missing from a
+  sort the rules read, a valence no rule read, and a candidate refused
+  twice for a mode no one knows.
+- **Premises kept from conclusions** (CG). A snippet that writes a tier, a
+  theorem or a constraint on a result is refused at a gate. It caught six
+  of the suite's own snippets (CG2, against the prediction); each was
+  restated as a premise or a loaded switch, and no expectation changed.
+- **The gate was too strict for agents** (CG7). Of 30 refusals in one set
+  of agent runs, 22 were `priest/1`, a premise the base also derives.
+  Nine such predicates became slots, the rest stay refused, and a
+  refusal names the slots a conclusion is drawn from.
+
+### 32. Agents with and without the checker (H1–H9)
+
+Predictions were stamped first
+([ttc-agents(7)](research/agents-preregistration.md),
+[ttc-agents-m(7)](research/agents-ablation-preregistration.md)). The human
+answer keys are predicted, not yet run
+([ttc-agents-k(7)](research/agents-human-key-preregistration.md)).
+
+- **More right inside the base's coverage** (H1). On 126 dated questions
+  of canon law: 80.2% unaided, 92.1% with the checker (McNemar
+  p = 0.0003). The gain fell on the smaller models; the largest scored
+  95.2% either way.
+- **No better at abstaining** (H3, failed). Where the facts or the law
+  leave the answer open, agents with the checker abstained no more often
+  (37.0% against 42.6%).
+- **Most of the gain is the manual** (H7). The encoding guide alone,
+  without the solver, reached 89.7%: four-fifths of the gain. The solver
+  added what the study could detect only where the manual states no date.
+- **What the agents found in the base.** A Latin–Eastern wedding before
+  a delegated deacon in 2012 (D13) is invalid in every branch, though the
+  two codes disagreed until 2016; the key says undetermined, and the human
+  keys are to decide. A delegation or a date
+  a case leaves open cannot be held open (`disputed/1` admits few
+  predicates). A text not encoded (the norm of 1967 for deacons) is not
+  reported as missing. Agents overrode the checker on 52 of 176 answers
+  and were wrong on 15.
+
+### 33. The form of marriage by office (PO1–PO5, PW1–PW2)
+
+Predictions were stamped first ([ttc-office(7)](research/office-preregistration.md)).
+
+- **By office, within the territory** (PO1, PO2). The pastor and the local
+  ordinary assist validly within their territory, under both Codes;
+  outside it, or once declared excommunicated, they do not. A pastor is a
+  priest (c. 521 §1), so a Latin and a Ukrainian Catholic marrying before
+  the Latin pastor in 2018 marry validly with no `priest/1` entered (PO3).
+- **Two witnesses** (PW1, PW2). One witness fails the form in 1950 and in
+  2019; silence is no defect. Before an Eastern non-Catholic priest, one
+  witness keeps it.
+- **The pastor delegates** (PO5, not predicted). Only an ordinary could
+  delegate; c. 1111 §1 (CIC 1917 c. 1095 §2) lets the pastor, within his
+  parish.
+- **The norm graph refused the first placement.** Filed under c. 1109,
+  the delegation made cc. 1108 and 1109 feed each other, and through
+  `priest/1` the penal canons fed the form: five vicious cycles. Filed
+  under the canons whose texts name it, the graph is clean.
+
+### 34. One root: original sin and the descent from Adam (DS, DD, DC)
+
+Predictions were stamped first ([ttc-descent(7)](research/descent-preregistration.md)).
+
+- **In each as his own** (DS1, DS2). A human being claimed free of
+  original sin is refused (DH 1512–1513); the incarnate and Mary are not
+  (DH 301, 1516). Said of a people or a juridic person, the claim is
+  refused as a fiction, not as a human being.
+- **A tier-3 teaching weighs where it is entered** (DD2, DD3). With
+  *Humani generis* loaded, the descent of all from Adam is settled and its
+  denial a live shadow of the encyclical, refused in the main branch only.
+  Without it, the denial is silent.
+- **Against it is error, not heresy** (DD4). A contrary profession carries
+  `erroneous` and the note `authentic` in the main branch, never
+  `heretical`; a doubt is not censured.
+- **Silence is kept** (DS3). No rule derives a descent, or its denial,
+  from what a case leaves out.
+
+### 35. Repairs found by real cases (LW13, SX24–SX26, AC13–AC21)
+
+Predictions were stamped first
+([ttc-repairs(7)](research/repairs-preregistration.md),
+[2](research/repairs2-preregistration.md),
+[3](research/repairs3-preregistration.md),
+[4](research/repairs4-preregistration.md)).
+
+- **Whose choice, a right regulated, a decision's reach** (LW13). A law
+  narrowing a choice the higher law leaves to its own legislator binds; a
+  narrowing of a right of the faithful binds only where its regulation for
+  the common good (c. 223 §2) is entered, and is computed both ways where
+  disputed; a decision on recourse settles that law and no other
+  (cc. 1739, 16 §3). No score was recorded for this step.
+- **The Pontiff's own act and the last recourse** (SX24, SX25). A decree
+  approved in specific form admits no recourse and is suspended by none
+  (c. 333 §3); the Dicastery's decision on a recourse against its own
+  decree is the last (SST art. 24 §1).
+- **A decree takes effect when made known** (SX26; c. 54 §1).
+- **What c. 1321 §4 presumes** (AC13–AC15). The presumption of
+  imputability became a disputed reading: imputability alone, or dolus.
+  On the first nothing is incurred without a source. Five reds were not
+  predicted (SX15, AC5, SM7, AB3, AS3); each is restated with its reason
+  (rule 7).
+- **What gross ignorance supplies** (AC15). Counted as dolus, as dolus
+  only where affected, or as a bar to excuse only: three readings, asked
+  only where gross ignorance attends a delict.
+- **Circumstances, and the deed imputed in its cause** (AC16–AC21).
+  Mitigating and aggravating circumstances as claims; culpable
+  drunkenness mitigates and the disturbance deliberately sought
+  aggravates (cc. 1324 §1 n. 2, 1326 §1 n. 4). In this last repair no
+  test went red.
+
+### 36. The liturgical day (LW14)
+
+Predictions were stamped first ([ttc-calendar(7)](research/calendar-preregistration.md)).
+
+- **A weekday computed, a day ranked** (CD1, CP). The weekday from the
+  date, never entered; the day's celebration by the Table of Liturgical
+  Days. The prediction let an optional memorial be kept on too many days;
+  GNLY 60 keeps it only on a day of the Table's no. 9 or 13.
+- **The evening** (CE). A Sunday or a Solemnity begins on the evening
+  before; a Feast does not. A Solemnity's own Vigil Mass is owed only when
+  the evening is the Solemnity's (GNLY 61: after a Sunday of Advent it is
+  the Sunday's), and only at an hour that is evening on every reading
+  (c. 14). No rule binds the formulary on the eve of a Sunday.
+- **The obligation met** (CO). Any Mass in a Catholic rite on the day or
+  its evening meets it (c. 1248 §1). "Evening" read from noon or from
+  2 p.m. is a doubt of law, so c. 14 reads the obligation narrowly: a Mass
+  at 1 p.m. meets it. Nothing is said of anyone who did not (rule 3).
+- **Not encoded**: whether one Mass meets two obligations.
+
+### 37. The manner of speaking (MA1–MA8, HG1)
+
+Predictions were stamped first ([ttc-manner(7)](research/manner-preregistration.md)).
+
+- **An act that says it settles nothing** (MA1–MA5). Its own word that it
+  is limited stops it cleaving: both values stay open, nothing is owed to
+  it, and no contrary profession is censured. Another's word about it
+  changes nothing. A reaffirmed encyclical still cleaves.
+- **No limit on a definition** (MA6, MA7). A definition that says it
+  limits itself is refused; the contrary stays excluded and the censure
+  heretical.
+- **The hierarchy of truths is no grade** (HG1). Ranking a defined truth
+  "lower" to lower its assent is refused, by any author, the definition's
+  own included.
+- **The limit and the shape are independent** (MA8). A limited act that
+  answers an empirical question is still refused for answering a fact.
+
+### 38. A witness apart from the claim (WN, WC, WR, WD)
+
+Predictions were stamped first ([ttc-witness(7)](research/witness-preregistration.md)).
+
+- **"I say X is OUM" shows nothing** (WN1–WN3). A condition of LG 25
+  counts only through a witness who is neither the claim nor its claimant
+  nor one who grades it; without one, the claim stays unshown.
+- **Communion is never judged by the teaching in question** (WC2). A
+  witness who counts the bishops in communion by their answer on the very
+  question is refused.
+- **Who first stated a claim** (WR). The note names the first to state it
+  (`first_stated`), or that no one did; a reply in another's name is
+  attributed, and keeps its own tier.
+- **Found on the way.** `outranked/2` names two things: a source
+  outranked on a question (the authority layer) and a celebration
+  outranked on a day (the calendar). Wherever a source is outranked, the
+  calendar's note fires, said as "omitted (GNLY 60)". See BUGS.
+
+### 39. A particular reply weighs and never cleaves (RP1–RP4)
+
+Predictions were stamped first ([ttc-replies(7)](research/replies-preregistration.md)).
+
+- **Found in a canonists' thread.** Three replies of one office to single
+  bishops settled a question against another office's reply by their
+  dates alone, and none was counted in any weight: every juridical source
+  cleaved, and none weighed.
+- **Now** (RP1–RP3). A reply the encoder marks particular weighs, and
+  never cleaves; both values stay open and the weight states a
+  preference. In specific form, the same (RP3). A teaching letter, marked,
+  still cleaves (RP4).
+
+### 40. The tongues: one word, many encodings (WO, RN, CC, PX, BF, SG, LM, LX)
+
+Predictions were stamped first ([ttc-linguae(7)](research/linguae-preregistration.md)).
+Of 42 predictions, 40 held.
+
+- **A word outside time, its forms dated** (WO). A form is typed under its
+  encoding at its date; on the Saussurean runtime no rendering between two
+  encodings is univocal. Dante's *forma locutionis* is refused as an
+  encoding's parent on every runtime; Proto-Indo-European, an encoding
+  with its claimant, is not.
+- **A rendering's mode computed, never entered** (RN, CC). *Rerum
+  novarum* 9 in four vernaculars: French and Spanish univocal, Italian by
+  attribution, English by attribution under the scholastic lexicon of 1891
+  and, under the Lockean, only as (efficient, human).
+- ***Pro multis*** (PX). The renderings and their approvals, each under
+  the text of c. 838 in force at its date. One prediction was red in part
+  (PX5): two claims on different pairs do not differ "in unit" as the
+  design defines it.
+- **Baptismal forms** (BF). "We baptize" refused, *Ego te baptizo*, "I
+  baptize" and the Greek passive not; nothing without the theory.
+- **Signed forms** (SG). That a sign language is a human language, and
+  signifies by convention, is fixed by findings from 1960 and 1975; a
+  finding on the form's validity, or on how c. 1104 §2 reads, is refused.
+  Thomas is read two ways on *verbum*; two runtimes decide it, and
+  `default` does not. A doubted feature of the substance gives baptism
+  under condition (c. 869 §1).
+- **Found on the way.** The signed form's validity has no source; PR4
+  went red until a claim of practice counted as support (withdrawn in
+  §41).
+
+### 41. A question no source answers (RF1–RF2)
+
+Predictions were stamped first ([ttc-repairs5(7)](research/repairs5-preregistration.md)).
+
+- **Unanswered, and shown** (RF1–RF2). The support TTC-LINGUAE gave a
+  claim of practice is withdrawn: a question answered only by one stands on
+  a frontier of its own, `unanswered_frontier`, reported by
+  `flywheel_status`, and not on the theological one. All five predictions
+  held.
+
+### 42. The four causes and the modernities (CV, DG, MP, VM, HE, PH, MM)
+
+Predictions were stamped first ([ttc-modernity(7)](research/modernity-preregistration.md)).
+Of 37 predictions, 35 held.
+
+- **The causes as a library** (CV). Every argument of the property case
+  (*Rerum novarum*) is typed by the causes it argues from; the case's
+  branches are the same on every runtime. On `bare`, only arguments typed
+  by nothing survive.
+- **A DAG of modernities** (DG). 33 runtimes from Scotus to Kant, with the
+  will line and Leo's hearers, each a horizon of the causes it holds;
+  contested edges marked. Clashes are raised at six nodes; against the
+  record, in substance at Suárez, Descartes, Locke and Leibniz, in part at
+  Hobbes and Spinoza.
+- **Locke's ends** (DG3, red in part). His own adds are two, God's ends in
+  ethics and in physics; only the ethical moves a report here.
+- **The Lockean hearing** (HE). The English of 1891 under Locke's lexicon
+  carries three pairs of cause and domain and loses two, by no carriage
+  and by equivocation; TTC-LINGUAE's RN4, left unscored there, held
+  here.
+- **Phases** (PH). Over 1,024 horizons, two order parameters (God's ends
+  in ethics, the ends of human nature), four phases, a hearer of 1891 in
+  each.
+- **Not predicted.** The modernities inherit the schools' metaphysics:
+  `suarez_dm23` and the twenty runtimes below it refuse
+  `composition_in_god` on their own. Nothing in the case reads it.
+
+### 43. Loci: the schools' readings as alleles; substitutions for God (AL, SB, IC, LS, LQ)
+
+Predictions were stamped first ([ttc-loci(7)](research/loci-preregistration.md)).
+Of 17 predictions, 16 held.
+
+- **Alleles at loci** (AL). A school's reading of simplicity or of *esse*
+  is an allele, its parts travelling together; a child of two readings
+  carries both and expresses neither unless it says which. With it, no
+  modernity refuses `composition_in_god` on its own, and the 21 that did
+  lose exactly that.
+- **A substitution for God faults on the deposit** (SB). Spinoza's
+  *Ethics* on the pantheist reading, as being from what is not God and as
+  modal collapse; on the other reading, modal collapse only. Money as the
+  last end (`last_end_not_god`; DH 1000–1001); a dynamo honoured with
+  latria. Each is read of a text or an order: entered of a person, it is
+  refused (rule 3).
+- **The icon against the idol** (IC). Nicaea II's veneration and latria
+  terminate in Christ, dulia in the saint; the idol faults.
+- **A carry moves with its edges** (LS1, red in part). Without a
+  contested edge, a runtime's `carry` names an allele it no longer
+  inherits, and L refuses it.
+- **The norm graph read no violation.** A rule reading `violation/1` in
+  its body, the first, turned CL1 red; it is declared with `use`.
+
+### 44. A runtime of one's own (PF, PG, PS, PX)
+
+Predictions were stamped first ([ttc-professio(7)](research/professio-preregistration.md)).
+Of 14 predictions, 13 held. Most results are tests.
+
+- **Declared in the personal layer, compiled by the base's rules** (PF).
+  Refused, naming its file and line: an unknown part, a clash, part of an
+  allele, a cycle, a name the base has, a slot. A stale table is refused
+  at load.
+- **A profession, never heard through** (PG). It runs as its parts; no
+  text is heard through it, and it is never a guest of the VM.
+- **Saved through the connector** (PS). `save_runtime` writes nothing it
+  has not compiled.
+- **Not predicted.** The suite ran every runtime the engine knew, so a
+  person's runtime would have run in the base's scenarios; it now reads
+  the base's only. `one_power` is inert under monopatrism (PX3).
+
+### 45. A term lifted above an order (LF, ME, PE, PD, PQ)
+
+Predictions were stamped first ([ttc-pendet(7)](research/pendet-preregistration.md)).
+Of 13 predictions, 9 held and 4 are red in part.
+
+- **Lifted, reached by every node and by none** (LF1, LF2). The word
+  above its tongues, God above the levels and the ends. Five refusals
+  already in the base now name the lifted term.
+- **The cases' God was a name** (LF3, red in part). TTC-LOCI's
+  substitutions name God without typing him, so the place they take holds
+  no lifted term; typed, each gives what was predicted.
+- **A measure changes where one stands, not what one reaches** (ME).
+  Measuring a text by its rendering trades `closes` and `opens` and the
+  prior *quoad nos*; *prius rei* and every other atom stay.
+- **The law hanging on its end** (PE). Mt 22:40 settles that the law
+  hangs; whether the precepts bind has no source of tiers 1 to 3, and stays
+  open (PE1, against the prediction). Over the 42 runtimes, the end is
+  the sole reason it hangs at ten, the summary at four, and at eight
+  there is none.
+
+### 46. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius
@@ -851,11 +1178,22 @@ Predictions were stamped first ([ttc-empirica(7)](research/empirica-preregistrat
   after death (`test_no_rule_derives_a_state_after_death`).
 - **Non-diagnosis is a type rule.** The Dicastery's own return procedure
   (2026) states it.
+- **The fix method has blind spots.** It appends the rules it adds outside
+  every norm block, so a canon rule it replaces drops out of the norm
+  graph (TTC-MANNER). And a fix whose case is not yet in the suite cannot
+  be judged by the suite alone: it reports no loss (TTC-REPLIES).
+- **Mutation testing reaches body literals.** Since TTC-LINGUAE each new
+  statement, then each body literal of each new rule, is removed in turn;
+  a literal whose removal turns nothing red is idle and goes.
+- **Slips of method are recorded where they happen**: an encoding begun
+  before its predictions commit (TTC-CALENDAR), a merge committed before
+  the tests ran (TTC-REPAIRS4). Neither changed a prediction.
 
 ## SEE ALSO
 
 [ttc(7)](guide-for-theologians-and-canonists.md), [ttc-core(5)](core-edition.md),
-[research/warrants-and-prior-art.md](research/warrants-and-prior-art.md)
+[research/warrants-and-prior-art.md](research/warrants-and-prior-art.md),
+[intro(7)](README.md) (every step's predictions and scoring)
 
 ## STANDARDS
 
@@ -903,3 +1241,7 @@ Predictions were stamped first ([ttc-empirica(7)](research/empirica-preregistrat
 
 The theory changed every time it met a new case. This is the intended
 behaviour.
+
+`outranked/2` names a source outranked on a question and a celebration
+outranked on a day, so the calendar's `omitted` note fires on outranked
+sources (§38): in `sspx` and `remarriage`, for example. Not yet repaired.

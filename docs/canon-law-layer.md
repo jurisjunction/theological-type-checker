@@ -211,17 +211,26 @@ wrong.
 
 ## ENCODED
 
+Every `@norm` block is listed here; a test fails when one is not
+(`test_every_norm_is_listed_as_encoded`). A canon can be named in a
+block's citation without a block of its own.
+
 | Area | Canons |
 | --- | --- |
-| general | 7, 8 §1 (computed); 9; 14; 16 §§1–3 (with the dates of §2); 17; 18; 19; 20; 21; 85, 86; 97 §1; 135 §2; 200–203; 333 §3; grants until competently revoked |
-| persons | 1; 11; 96; 111 §1 (2016); 113–120 (physical and juridic persons, moral persons by divine ordinance); 205 |
-| delicts | 751 with 1364 §1 (and 1983); 1371 n. 1 (1983, 1998); 1365; 1382 (1983); 1387; 1379 §1 n. 2; 1386 §1; 1398 (1983) and 1397 §2, with the interpretation of 1988; 1398 §1 n. 1 with the Dicastery's art. 6 n. 1 (2021); 1399 |
-| imputability | 1321 §§2–4; 1322; 1323; 1324 §1 nn. 1, 3, 4, 5, 8, 9, §3; 1325; 1328 §1; 1329 §2; 1355 |
-| juridic acts, consent | 125 §§1–2; 1103 |
-| procedure | 1717 §1; 1342 §1 with 1720 n. 1; 124 §2; 1353; 1752 |
+| general | 6 §1; 7, 8 §§1–2 (computed); 9; 14; 16 §§1–3 (with the dates of §2); 17; 18; 19; 20; 21; 29; 33 §1; 54 §1; 85, 86; 97 §1; 135 §2; 200–203; 333 §3; grants until competently revoked |
+| persons | 1; 11; 96; 111 §1 (2016); 113–120 (physical and juridic persons, moral persons by divine ordinance); 205; 223 §2 |
+| offices | 521 §1 |
+| juridic acts | 125 §§1–2 |
+| delicts | 751 with 1364 §1 (and 1983); 1371 n. 1 (1983, 1998); 1365; 1382 (1983); 1387; 1379 §1 n. 2; 1386 §§1–2; 1398 (1983) and 1397 §2, with the interpretation of 1988; 1398 §1 n. 1 with the Dicastery's art. 6 n. 1 (2021); 1399 |
+| imputability | 1321 §§2–4; 1322; 1323; 1324 §1 nn. 1, 3, 4, 5, 8, 9, §3; 1325; 1326 §1 nn. 3–4; 1328 §1; 1329 §2; 1355 |
+| procedure | 1717 §1; 1342 §1 with 1720 n. 1; 124 §2; 1353; 1643; 1682 §1; 1739; 1752; the Dicastery's art. 24 §1 (2021) |
 | effects | 1331 §1 n. 1, §2 n. 2; 1335 §2 |
-| sacraments | 882; 966, 976, 144 §2; 1108 §§1, 3, 1111, 1127 §1 (1983, 2016) |
-| Eastern Code | 696 §§1–2; 828; 834 §2; 1402; 1436 §§1–2 (1998); 1450 §2; 1459 §1 |
+| sacraments | 838 §§2–4 (1983, 2017); 842 §1; 845; 846 §1; 850; 869 §1; 882; 912; 915; 916; 966, 976, 144 §2; 983 §§1–2; 990 |
+| marriage | 1057 §1; 1103; 1104 §2; 1106; 1108 §§1–3, 1111 (1983, 2016); 1109; 1117; 1119; 1120; 1127 §1 (1983, 2016); 1141; 1142; 1143 §1 |
+| times | 1246–1248 |
+| Code of 1917 | 748; 1094; 1095 §1 n. 2; 1099 §1 |
+| Eastern Code | 696 §§1–2; 828; 834 §2; 1402 (2023); 1436 §§1–2 (1998); 1450 §2; 1459 §1 |
+| outside the codes | *Rex pacificus* (1234); *Sacramentum ordinis* (1947); *Indulgentiarum doctrina*, norm 4 (1967); *Redemptionis Sacramentum* 21 (2004); General Norms for the Liturgical Year 3, 11, 59–61 |
 
 ## SEE ALSO
 
@@ -230,10 +239,10 @@ wrong.
 
 ## BUGS
 
-About two dozen canons out of 1752. The rest is the frontier.
+A small part of the Code. The rest of its 1752 canons is the frontier.
 
 Of the Dicastery for the Doctrine of the Faith's norms on reserved delicts
-(2021), only art. 6 n. 1 is encoded. Neither are c. 1313 (the more
+(2021), only art. 6 n. 1 and art. 24 §1 are encoded. Neither are c. 1313 (the more
 favourable law after a change), c. 1328 §2, c. 1332 (interdict), c. 1352,
 and remission beyond c. 1355's dates (c. 1355 §2; *Misericordia et misera*
 12). Of the Eastern Code, a selection (ENCODED): its particular law,

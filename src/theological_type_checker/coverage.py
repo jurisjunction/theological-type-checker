@@ -16,6 +16,7 @@ entered by hand. The report says what the base touches, not how well.
 """
 from __future__ import annotations
 
+import argparse
 import pathlib
 import re
 import sys
@@ -250,9 +251,11 @@ DOC = pathlib.Path(__file__).resolve().parents[2] / "docs" / "coverage.md"
 
 
 def main(argv=None):
-    argv = sys.argv[1:] if argv is None else argv
+    ap = argparse.ArgumentParser(prog="ttc-coverage", description="How much of the Catechism the base touches.")
+    ap.add_argument("--write", action="store_true", help=f"write {DOC.relative_to(DOC.parents[1])} instead of printing")
+    a = ap.parse_args(argv)
     text = report()
-    if "--write" in argv:
+    if a.write:
         DOC.write_text(text)
         print(f"wrote {DOC}")
     else:

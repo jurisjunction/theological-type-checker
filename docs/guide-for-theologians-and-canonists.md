@@ -51,8 +51,11 @@ They are inputs, never outputs.
 | N(x, y) | x gives itself to y, face to face |
 | S(x, y, t) | x and y are ordered together to t |
 
-There are thirteen axioms, each with a warrant independent of what it
-explains. See [ttc-core(5)](core-edition.md). Derived results include
+The kernel holds what every school needs to state its disagreements; the
+schools run on it as runtimes, and one theory, the *Grammar of the Icon*,
+runs on them ([ttc-layers(7)](layers.md)). The theory has thirteen axioms,
+each with a warrant independent of what it explains. See
+[ttc-core(5)](core-edition.md). Derived results include
 c. 1084 (impotence invalidates, sterility does not), c. 1057 §1 (no human
 power supplies consent), the uniqueness of total gift (c. 1056; FC 19), and
 *Donum vitae*'s child's right.
@@ -61,6 +64,7 @@ power supplies consent), the uniqueness of total gift (c. 1056; FC 19), and
 
 | Tier | Assent | Example |
 | --- | --- | --- |
+| 0 | — (read, never raw; DV 10–12) | Scripture |
 | 1 | divine and Catholic faith (c. 750 §1) | conciliar definitions |
 | 2 | firm assent (c. 750 §2) | definitive teaching |
 | 3 | religious submission (c. 752) | encyclicals; curial acts |
@@ -69,6 +73,11 @@ power supplies consent), the uniqueness of total gift (c. 1056; FC 19), and
 
 The rules:
 
+- Scripture enters only through its readings; no branch holds a value
+  contrary to the reading it takes (DV 11), and tier 1 proposes it.
+- A tier is computed from the form, its conditions shown (DH 3074; LG 25),
+  never taken on anyone's word. A statement about a teaching's tier is a
+  claim, computed both ways (c. 749 §3).
 - Tier 1 deletes contrary branches.
 - Tiers 2–3 cleave a contrary branch into a **shadow**, which names the
   acts whose relaxation would restore it.
@@ -79,12 +88,21 @@ The rules:
 - The force of tier 2 is an assumption until a strictly higher tier fixes
   it.
 
+### libraries
+
+What many cases need is written once, as a library, and called: the human
+act, law, morality and sin, grace, Christ, the sacraments, faith, time,
+authorship, the liturgy, the last things, the empirical, language, the
+four causes, substitutions for God, a term lifted above an order. A
+library types the claims; the teaching or the canon gives the effects.
+
 ### canon
 
 Canons are dated rules with no weight: canonists fill gaps (c. 19), never
 in penal cases. A canon-law question branches only on disputed facts,
 disputed readings without an authentic interpretation (c. 16), or the
-internal forum. See [ttc-canon(5)](canon-law-layer.md).
+internal forum. Two codes, the Latin and the Eastern, are siblings, chosen
+by ascription. See [ttc-canon(5)](canon-law-layer.md).
 
 ### the ordered pair
 

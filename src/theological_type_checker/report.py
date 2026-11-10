@@ -272,8 +272,8 @@ def render(parts: list[str], facts: str = "", name: str = "case", atoms: bool = 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="ttc-say", description="The checker's answer as plain text, said through "
                                  "the base's templates; no model between the solver and the reader.")
-    ap.add_argument("case", nargs="?", type=pathlib.Path, help="a facts file (clingo); tags: % @label, "
-                    "% @encoded-by, % @case")
+    ap.add_argument("case", nargs="?", type=pathlib.Path, help="a facts file (clingo); tags: %% @label, "
+                    "%% @encoded-by, %% @case")
     ap.add_argument("--parts", default="", help="parts of the base to load, comma-separated")
     ap.add_argument("--brief", action="store_true", help="sentences only, without the atoms under them")
     ap.add_argument("--no-entered", action="store_true", help="leave out the facts entered")
