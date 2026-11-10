@@ -1190,7 +1190,32 @@ Of 8 predictions, 7 held and 1 is red in part.
   restated. Aristotle, without God's ends, falls with Marx on the property
   case.
 
-### 47. Method
+### 47. The Word and the light (VB, VQ, VS)
+
+Predictions were stamped first ([ttc-verbum(7)](research/verbum-preregistration.md)),
+after an independent review that built the design in a scratch copy.
+Of 8 predictions, 8 held; the review had caught three blockers first.
+
+- **The form in three ways** (VB2, VB3). Soap's form and end are now in
+  the Word before the soap, as its idea, wherever the horizon holds the
+  ideas in God. A premise grounded in the soap, through the word, is
+  reported with that cause, both in the Word.
+- **Thomas and Bonaventure, both ways** (VB1, VB4). On Thomas's reading
+  the premise is judged in a light participated from the uncreated light,
+  its principle and not its object; on Bonaventure's the eternal reason
+  rules the judgment, and the idea of the very cause it rests on is
+  contuited in part. Neither refuses the other.
+- **The ontologist's two claims** (VB5, VQ3). A created intellect's own
+  light typed as God, and a sight of things in God by the intellect's
+  natural power, are refused on every runtime, of an angel as of a man. A
+  vision by grace has no slot. The review caught the first draft refusing
+  what Thomas teaches of Christ's soul and of Paul in rapture.
+- **The censure at its tier** (VB6). The Holy Office's 1861 decree cleaves
+  the branch that ontologism may safely be taught, and deletes nothing.
+  Entered without its form it raised a frontier item: a tier-3 teaching
+  must show its character.
+
+### 48. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

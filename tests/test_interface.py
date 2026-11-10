@@ -344,7 +344,9 @@ def test_save_runtime_writes_the_source_and_the_table_and_lists_it(tmp_path, mon
                          "ideas": {"expressed": "in_the_word", "carried": []},
                          "prime_matter": {"expressed": "never_without_form", "carried": []},
                          "terminus": {"expressed": "in_the_thing", "carried": []},
-                         "adaequatio": {"expressed": "by_things", "carried": []}}
+                         "adaequatio": {"expressed": "by_things", "carried": []},
+                         # TTC-VERBUM SU1 (rule 7): the locus lumen, thomist's allele
+                         "lumen": {"expressed": "participated", "carried": []}}
     assert (tmp_path / "runtimes" / "mine.l").read_text() == "runtime mine extends thomist\n  exclude holds_premotion\n"
     assert (tmp_path / "runtimes.json").read_text() == lang.runtimes_text(lang.compile_layer(tmp_path))
     assert lang.layer_stale(tmp_path) is None and engine.solve(["rt_mine"], "one")["sat"]

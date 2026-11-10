@@ -43,6 +43,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | rota | published Rotal sentences as cases of the consent canons, the Rota's findings as their premises, its readings as acts that weigh | predicted; encoded and scored on a branch, not merged ([ttc-rota(7)](research/rota-preregistration.md)) |
 | personae | juridic persons (cc. 114–117, 1257 §2) and two duties of clerics (cc. 285 §4, 286) | predicted; an exploratory layer on a branch ([ttc-personae(7)](research/personae-preregistration.md)) |
 | rerum | things by their causes; God neither form nor matter of a thing, nor a second cause; the word between the thing and the argument, and the direction of the measure; a natural question as a joint work; the schools' readings at four loci; Plato and Aristotle merged | done ([ttc-rerum(7)](research/rerum-preregistration.md)) |
+| verbum | the cause in the thing and the premise resting on it, both in the Word; Thomas's participated light and Bonaventure's contuited reason as two alleles; the ontologist's two claims refused on both; the censure of 1861 at its tier | done ([ttc-verbum(7)](research/verbum-preregistration.md)) |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 The repairs, the agent studies and the smaller steps are not foundation

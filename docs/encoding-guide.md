@@ -412,6 +412,20 @@ See [ttc-pendet(7)](research/pendet-preregistration.md).
 
 See [ttc-rerum(7)](research/rerum-preregistration.md).
 
+## THE WORD AND THE LIGHT
+
+| Fact | Meaning |
+| --- | --- |
+| the Word | The person begotten (`gen(begetting,_,W)`, the part `trinity`; I q. 34 a. 2). Nothing else names it; without `trinity` nothing below is reported. |
+| before the thing | Shown: `before_the_thing(P,X,W)`, P a formal or final cause of the natural thing X and not an end of use, in the Word W before the thing, as its idea, where `exemplar_of(W,X)` and `made_through(W,X)` and the horizon holds the ideas in God. The maker's end is in her. |
+| locus `lumen` | How the light by which a premise is judged stands to the Word. `participated` (`light_participated`, `rt_thomist`): a participated likeness of the uncreated light, said of the Word by appropriation, the principle of knowing and not its object (I q. 84 a. 5); every grounded premise `in_participated_light(A,W)`. `contuited` (`light_contuited`, `rt_bonaventure`): the eternal reason rule and motive, with the created reason, in part (*De scientia Christi* q. 4); every grounded premise `under_eternal_reason(A,W)`, and the idea of the cause it rests on `idea_contuited(A,P,W)`. On either, `both_in_the_word(A,X,P,W,L)` where the premise is grounded in a cause before the thing. The motive reason is never a cause among a judgment's causes. |
+| `light_of(K,L)` | The created intellect's own light, its power, in an intellect of kind K, said to be L. L God, K not `divine`: refused (`light_typed_uncreated`, I q. 12 a. 2). The uncreated light by which Bonaventure has certainty had is not this slot. |
+| `seen_in(K,X,E)` | An intellect of kind K said to see X in E as in an object known, by its natural power. E God, K not `divine`: refused, of an angel as of a man (`seen_by_nature`, I q. 12 aa. 4-5). A vision by grace (the blessed, Christ's soul, rapture) has no slot and is not refused. |
+| part `rt_bonaventure` | Concordia's parts, with the light contuited. |
+| parts `cand_ontologism`, `cand_motive_as_cause`, `ontologism_1861` | The ontologist's two claims, refused on every runtime; the motive reason read as an efficient cause, refused as God a second cause; the Holy Office's decree of 1861, that ontologism cannot safely be taught, at tier 3: it cleaves the contrary branch and deletes nothing. |
+
+See [ttc-verbum(7)](research/verbum-preregistration.md).
+
 ## LIBRARY
 
 | Fact | Meaning |

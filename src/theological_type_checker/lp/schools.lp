@@ -226,3 +226,6 @@ guest_holds(final,(nature;human;will;self)). guest_holds(formal,(nature;human;wi
 #program vm_concordia.            vm_guest(concordia).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
 guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
+#program vm_bonaventure.          vm_guest(bonaventure).
+guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)

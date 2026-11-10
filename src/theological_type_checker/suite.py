@@ -5489,7 +5489,9 @@ LOCI_DECLARED = {"simplicity": {"by_reason": ["simplicity_thomist", "attributes_
                  "prime_matter": {"never_without_form": ["matter_never_without_form"],
                                   "can_be_without_form": ["matter_can_be_without_form"]},
                  "terminus": {"in_the_thing": ["knowing_ends_in_things"], "in_the_idea": ["ideas_as_objects"]},
-                 "adaequatio": {"by_things": ["things_measure_us"], "by_the_mind": ["mind_prescribes"]}}
+                 "adaequatio": {"by_things": ["things_measure_us"], "by_the_mind": ["mind_prescribes"]},
+                 # amended by TTC-VERBUM (rule 7, SU1): the light
+                 "lumen": {"participated": ["light_participated"], "contuited": ["light_contuited"]}}
 
 
 def al1():
@@ -5519,7 +5521,8 @@ def al1():
 
 SCHOOLS4 = ("thomist", "scotist", "suarezian", "palamite")
 NONE_AT_ALL = ("bare", "default", "bacon", "saussure", "vocal", "lingual", "marx", "marx_social", "lassalle",
-               "plato", "aristotle", "concordia")   # TTC-RERUM, restated by rule 7: no allele at these loci
+               "plato", "aristotle", "concordia",   # TTC-RERUM, restated by rule 7: no allele at these loci
+               "bonaventure")   # TTC-VERBUM SU1, restated by rule 7: as concordia
 
 
 def al2():
@@ -6111,7 +6114,8 @@ PE_SOLE_SUMMARY = f"info(sole_reason(mt22_40,mt_summary,{HANGS},yes))"
 PE_NO_REASON = f"info(without_reason({HANGS},yes))"
 PE_NOTHING = SCHOOL_RTS + ("default", "saussure", "vocal", "lingual", "scotus_dpp", "hooker", "suarez_dm23", "suarez_wl",
                            "descartes", "grotius", "leibniz", "leibniz_wl", "bacon", "episcopate_1891", "social_catholic",
-                           "angers", "plato", "concordia")   # the last two TTC-RERUM's, restated by rule 7
+                           "angers", "plato", "concordia",   # the last two TTC-RERUM's, restated by rule 7
+                           "bonaventure")   # TTC-VERBUM SU1, restated by rule 7: as concordia
 PE_END = ("locke", "locke_wl", "smith", "george", "george_hn", "ockham", "ockham_will", "ockham_nominal") + WILL_READINGS
 PE_SUMMARY = ("marx", "marx_social", "lassalle", "grotius_etiamsi",
               "aristotle")   # TTC-RERUM, restated by rule 7: human ends held, God's excluded
@@ -6466,7 +6470,7 @@ def qn3():
 
 def qv1():
     """rendering_hyp: cause_rendered for m_render on every runtime, and neither cause_converted nor
-    conversion_native for it; for m_convert cause_converted on 41 runtimes and conversion_native on the four; a word
+    conversion_native for it; for m_convert cause_converted on 42 runtimes and conversion_native on the four; a word
     analogous to the end that carries none renders nothing"""
     shows = ("info(cause_rendered(M,W,W1,K))", "violation(cause_converted(M,C1,C2))", "info(conversion_native(M))")
     for rt, got in _rt_union(["rendering_hyp"], shows).items():
@@ -6485,7 +6489,8 @@ def qv1():
 
 QL1_TABLE = {
     ("ideas", "in_the_word"): {"thomist", "hooker", "episcopate_1891", "social_catholic", "locke", "locke_wl", "smith",
-                               "angers", "george", "george_hn", "concordia"},
+                               "angers", "george", "george_hn", "concordia",
+                               "bonaventure"},   # TTC-VERBUM SU1 (rule 7): bonaventure as concordia
     ("ideas", "energies"): {"palamite"}, ("ideas", "creatures_known"): {"ockham_nominal"},
     ("ideas", "subsisting"): {"plato"}, ("ideas", "no_exemplar"): {"aristotle"},
     ("prime_matter", "never_without_form"): {"thomist", "hooker", "episcopate_1891", "social_catholic", "angers"},
@@ -6493,7 +6498,8 @@ QL1_TABLE = {
                                    "lingual", "scotus_dpp", "ockham", "suarez_dm23", "bacon", "hooker", "grotius",
                                    "scotus_will", "ockham_will", "ockham_nominal", "grotius_etiamsi", "suarez_wl",
                                    "episcopate_1891", "social_catholic", "marx", "marx_social", "lassalle", "plato",
-                                   "aristotle", "concordia"},
+                                   "aristotle", "concordia",
+                                   "bonaventure"},   # TTC-VERBUM SU1 (rule 7): bonaventure as concordia
     ("terminus", "in_the_idea"): {"descartes", "descartes_will", "spinoza", "spinoza_wl", "locke", "locke_wl", "smith",
                                   "george", "george_hn"},
     ("adaequatio", "by_the_mind"): {"kant", "kant_humanity", "kant_mm"},
@@ -6510,7 +6516,8 @@ def ql1():
     if "scotist" not in can_be or len(can_be) != 21:
         yield ("can_be_without_form", sorted(can_be))
     by_things = _loci("adaequatio", "by_things")
-    if len(by_things) != 41 or "bare" in by_things or by_things & QL1_TABLE[("adaequatio", "by_the_mind")]:
+    # TTC-VERBUM SU1 (rule 7): 41 become 42 with bonaventure
+    if len(by_things) != 42 or "bare" in by_things or by_things & QL1_TABLE[("adaequatio", "by_the_mind")]:
         yield ("by_things", len(by_things))
     loci = d["loci"]
     both = {rt for rt, ls in loci.items() if ls["prime_matter"]["expressed"] is None and
@@ -6625,7 +6632,7 @@ def qt3():
 
 
 def qt4():
-    """cand_human_measure: natural_form_measured_by_us(soap,amphiphilic_form) on the 41 of by_things, prescribed and
+    """cand_human_measure: natural_form_measured_by_us(soap,amphiphilic_form) on the 42 of by_things, prescribed and
     no violation on the three of by_the_mind, nothing on bare; soap's own intellect_measures nothing anywhere"""
     shows = ("violation(natural_form_measured_by_us(X,P))", "info(prescribed(X,P))")
     by_things, by_mind = _loci("adaequatio", "by_things"), _loci("adaequatio", "by_the_mind")
@@ -6653,7 +6660,7 @@ ENDS_IN_WORD = {"info(ends_in_the_word(w_usus,cleaning))", "info(ends_in_the_wor
 
 
 def qt5():
-    """grounded for the three chains on the 27 of in_the_thing; ends_in_the_word for the three principles on the 9
+    """grounded for the three chains on the 28 of in_the_thing; ends_in_the_word for the three principles on the 9
     of in_the_idea; neither on the 8 that carry both and bare"""
     thing, idea = _loci("terminus", "in_the_thing"), _loci("terminus", "in_the_idea")
     for rt, got in _rt_union(SOAP, ("grounded/3", "info(ends_in_the_word(W,P))")).items():
@@ -6693,7 +6700,8 @@ def qt6():
             want = want | {will}
         if got != want:
             yield (rt, row, sorted(got ^ want))
-    if sum(len(v) for v in QT6_TABLE.values()) + 18 != len(E.BASE_RUNTIMES):
+    # TTC-VERBUM SU1 (rule 7): the 18 that trace nothing become 19 with bonaventure
+    if sum(len(v) for v in QT6_TABLE.values()) + 19 != len(E.BASE_RUNTIMES):
         yield "the table does not cover the runtimes"
 
 
@@ -6732,18 +6740,18 @@ def qt8():
         rows.setdefault(three, set()).add(rt)
         if ("a_logos" in avail) != (rt in logos):
             yield (rt, "a_logos", "a_logos" in avail)
-    new = {"plato", "aristotle", "concordia"}
+    new = {"plato", "aristotle", "concordia", "bonaventure"}   # TTC-VERBUM SU1 (rule 7): bonaventure as concordia
     counts = {k: len(v - new) for k, v in rows.items()}
     want = {frozenset({"a_maker", "a_god", "a_nature"}): 14, frozenset({"a_maker", "a_god"}): 12,
             frozenset({"a_maker", "a_nature"}): 1, frozenset({"a_maker"}): 14, frozenset(): 1}
     if counts != want:
         yield ("counts", {tuple(sorted(k)): v for k, v in counts.items()})
-    if not ({"plato", "concordia"} <= rows.get(frozenset({"a_maker", "a_god", "a_nature"}), set())
+    if not ({"plato", "concordia", "bonaventure"} <= rows.get(frozenset({"a_maker", "a_god", "a_nature"}), set())
             and "aristotle" in rows.get(frozenset({"a_maker", "a_nature"}), set())
             and "lassalle" in rows.get(frozenset({"a_maker", "a_nature"}), set())
             and "bare" in rows.get(frozenset(), set())):
         yield ("rows", {tuple(sorted(k)): sorted(v) for k, v in rows.items()})
-    if len(logos) != 14:
+    if len(logos) != 15:   # TTC-VERBUM SU1 (rule 7): bonaventure as concordia
         yield ("logos", sorted(logos))
 
 
@@ -6783,7 +6791,7 @@ def qi2():
 
 def ql2():
     """cand_matter_alone: matter_in_act_without_form on the 5 of never_without_form, matter_without_form_by_power on
-    the 21 of can_be_without_form, nothing on the other 19"""
+    the 21 of can_be_without_form, nothing on the other 20"""
     never, can = _loci("prime_matter", "never_without_form"), _loci("prime_matter", "can_be_without_form")
     shows = ("violation(matter_in_act_without_form(P))", "info(matter_without_form_by_power(P))")
     for rt, got in _rt_union(["cand_matter_alone"], shows).items():
@@ -6791,12 +6799,13 @@ def ql2():
                 {"info(matter_without_form_by_power(prime_matter))"} if rt in can else set())
         if got != want:
             yield (rt, sorted(got))
-    if (len(never), len(can), len(E.BASE_RUNTIMES) - len(never) - len(can)) != (5, 21, 19):
+    # TTC-VERBUM SU1 (rule 7): the 19 with neither become 20 with bonaventure
+    if (len(never), len(can), len(E.BASE_RUNTIMES) - len(never) - len(can)) != (5, 21, 20):
         yield ("counts", len(never), len(can))
 
 
 def ql3():
-    """soap: grounded_in_the_word(a_logos,soap,son) on the 11 of in_the_word and on palamite, with
+    """soap: grounded_in_the_word(a_logos,soap,son) on the 12 of in_the_word and on palamite, with
     exemplar_as_energy(son,soap) there; plato faults, no grounded_in_the_word; ockham_nominal idea_is_the_creature,
     aristotle no_exemplar; nothing elsewhere"""
     word = _loci("ideas", "in_the_word")
@@ -6987,7 +6996,7 @@ scen("QN3", RRM, "A conflict with a definition, reserved (QN3)", [], [_mod(qn3)]
      "three models on the two diagnoses, q(world_began) settled yes, reserved_to_the_author in each; below tier 1, "
      "conflict_with_reformable and q(one_root) as DD2")
 scen("QV1", RRM, "CV5 kept, and a rendering (QV1)", [], [_mod(qv1)],
-     "cause_rendered for m_render on every runtime, no conversion; m_convert converted on 41, native on four")
+     "cause_rendered for m_render on every runtime, no conversion; m_convert converted on 42, native on four")
 scen("QL1", RRM, "The loci, as the compiler gives them (QL1)", [], [_mod(ql1)],
      "the expressed and carried alleles at ideas, prime_matter, terminus and adaequatio as QL1's table; no re_expressed")
 scen("QD2", RRM, "God neither form nor matter, nor a second cause (QD2)", [], [_mod(qd2)],
@@ -7005,10 +7014,10 @@ scen("QT2", RRM, "The maker of the becoming (QT2)", [], [_mod(qt2)],
      "artifact, the soap natural (rule 5)")
 scen("QT3", RRM, "Art through nature (QT3)", [], [_mod(qt3)], "substance_by_art_alone(soapmaker,soap)")
 scen("QT4", RRM, "The direction of the measure (QT4)", [], [_mod(qt4)],
-     "soap's form measured by us refused on the 41 of by_things, prescribed on the three of by_the_mind, nothing on "
+     "soap's form measured by us refused on the 42 of by_things, prescribed on the three of by_the_mind, nothing on "
      "bare; an end of use measured by us faults nothing")
 scen("QT5", RRM, "The edge: grounded, or ending in the word (QT5)", [], [_mod(qt5)],
-     "grounded for the three chains on the 27 of in_the_thing; ends_in_the_word on the 9 of in_the_idea; neither on "
+     "grounded for the three chains on the 28 of in_the_thing; ends_in_the_word on the 9 of in_the_idea; neither on "
      "the 8 carriers and bare")
 scen("QT6", RRM, "The trace in the thing (QT6)", [], [_mod(qt6)],
      "traced_in_thing as QT6's table: final and formal on 17, final on 9, formal on kant_mm, (final,will) on bare")
@@ -7021,9 +7030,9 @@ scen("QI1", RRM, "Knower kinds, never persons (QI1)", [], [_mod(qi1)],
 scen("QI2", RRM, "Praise through a knower (QI2)", [], [_mod(qi2)],
      "through the man and the incarnate Son to God; an oak refused; a man to a man reported, no latria")
 scen("QL2", RRM, "Prime matter, two alleles (QL2)", [], [_mod(ql2)],
-     "refused on the 5 of never_without_form, by divine power on the 21, nothing on the 19")
+     "refused on the 5 of never_without_form, by divine power on the 21, nothing on the 20")
 scen("QL3", RRM, "The ideas, five alleles (QL3)", [], [_mod(ql3)],
-     "grounded_in_the_word on the 11 and palamite, as an energy there; plato faults; ockham_nominal the creature "
+     "grounded_in_the_word on the 12 and palamite, as an energy there; plato faults; ockham_nominal the creature "
      "known; aristotle no exemplar; a creature as exemplar refused where the ideas are in God (rule 5)")
 scen("QL4", RRM, "Ockham measured; only names (QL4)", [], [_mod(ql4)],
      "the measure's mode analogical, by attribution, Thomas's idea prior as to the thing, Ockham's word as to us; "
@@ -7045,6 +7054,259 @@ scen("RM1", RRM, "No earlier part enters the new slots (SU1)", [], [_mod(rm1)],
      "well founded")
 scen("RM2", RRM, "The guide gains the vocabulary (SU2)", [], [_mod(rm2)],
      "both copies identical, with the slots, the reports, the loci, the runtimes and the cases")
+
+
+# ---------- TTC-VERBUM: the Word and the light ------------------------------
+# Predictions committed and stamped first (docs/research/verbum-preregistration.md). The suite names SU1-SU2
+# VS1-VS2 (SU is TTC-MODERNITY's, RM TTC-RERUM's).
+VBM = "verbum"
+PARTICIPATED = {"thomist", "hooker", "episcopate_1891", "social_catholic", "locke", "locke_wl", "smith", "angers",
+                "george", "george_hn"}
+THE_FOUR = {"thomist", "hooker", "episcopate_1891", "social_catholic"}
+VERBUM_SHOWS = ("info(before_the_thing(P,X,W))", "info(both_in_the_word(A,X,P,W,L))", "info(in_participated_light(A,W))",
+                "info(under_eternal_reason(A,W))", "info(idea_contuited(A,P,W))")
+BEFORE = {"info(before_the_thing(amphiphilic_form,soap,son))", "info(before_the_thing(interfaces_end,soap,son))"}
+VERBUM_PARTS = ("cand_ontologism", "cand_motive_as_cause", "ontologism_1861")
+
+
+def _verbum(rt_got, kinds):
+    return {a for a in rt_got if a.startswith(tuple(f"info({k}(" for k in kinds))}
+
+
+def vb1():
+    """the locus lumen as the compiler gives it: participated on the ten, contuited on bonaventure, none on the other 35;
+    no re_expressed; bonaventure as concordia at the four loci of TTC-RERUM"""
+    d = json.loads((E.LP_DIR.parent / "runtimes.json").read_text())
+    if _loci("lumen", "participated") != PARTICIPATED:
+        yield ("participated", sorted(_loci("lumen", "participated") ^ PARTICIPATED))
+    if _loci("lumen", "contuited") != {"bonaventure"}:
+        yield ("contuited", sorted(_loci("lumen", "contuited")))
+    none = {rt for rt, ls in d["loci"].items() if ls["lumen"]["expressed"] is None}
+    if len(none) != 35 or len(E.BASE_RUNTIMES) != 46:
+        yield ("none", len(none), len(E.BASE_RUNTIMES))
+    if d["re_expressed"]:
+        yield ("re_expressed", d["re_expressed"])
+    for locus in ("ideas", "prime_matter", "terminus", "adaequatio"):
+        if d["loci"]["bonaventure"][locus] != d["loci"]["concordia"][locus]:
+            yield ("bonaventure", locus, d["loci"]["bonaventure"][locus])
+    if set(E.BASE_RUNTIMES["bonaventure"]) != set(E.BASE_RUNTIMES["concordia"]) | {"light_contuited"}:
+        yield ("bonaventure's parts", sorted(set(E.BASE_RUNTIMES["bonaventure"]) ^ set(E.BASE_RUNTIMES["concordia"])))
+
+
+# rule 5 (found by deleting body literals): what each condition of the Word's rules excludes. Gold grounded on the
+# Thomist line but made through the Word with no exemplar, or with an exemplar and not made through him, or made as an
+# artifact; a premise grounded in soap's matter; either light on a horizon with no ideas in God; a creature begotten.
+VERBUM_GUARDS = (
+    (["locke_essence", "trinity"], "made_through(son,gold)."),
+    (["locke_essence", "trinity"], "exemplar_of(son,gold)."),
+    (["locke_essence", "trinity"], "makes(goldsmith,gold,accidental). exemplar_of(son,gold). made_through(son,gold)."),
+    (SOAP, "argument(a_mat,soap_t,q(soap_for_an_end),yes). argues_from(a_mat,material,nature). "
+           "rests_on_form(a_mat,cd(material,nature),f_mat). signifies(f_mat,w_materia,lex_soap). "
+           "conceived_as(fat,w_materia,human)."),
+    (SOAP, "gen(begetting,adam,seth)."),
+)
+VERBUM_IDEAS = ("info(before_the_thing(", "info(both_in_the_word(", "info(idea_contuited(")
+
+
+def _verbum_guards():
+    for parts, facts in VERBUM_GUARDS:
+        for rt in ("thomist", "bonaventure"):
+            got = set().union(*mod_project(parts + [f"rt_{rt}"], VERBUM_SHOWS, facts))
+            bad = {a for a in got if a.startswith(VERBUM_IDEAS) and ("gold" in a or "fat" in a)} | \
+                  {a for a in got if "seth" in a}
+            if bad:
+                yield (rt, facts[:30], sorted(bad))
+    for flag in ("light_participated", "light_contuited"):
+        got = set().union(*mod_project(SOAP + ["rt_default", flag], VERBUM_SHOWS))
+        if {a for a in got if a.startswith(VERBUM_IDEAS)}:
+            yield ("no ideas in God", flag, sorted(got))
+
+
+def vb2():
+    """soap: before_the_thing for amphiphilic_form and interfaces_end on the 13 whose ideas are in God, and on no other;
+    never for cleaning, fat, lye, the soap-maker or the bar"""
+    god = _loci("ideas", "in_the_word") | _loci("ideas", "energies")
+    if len(god) != 13 or "bonaventure" not in god or "palamite" not in god:
+        yield ("the 13", sorted(god))
+    for rt, got in _rt_union(SOAP, ("info(before_the_thing(P,X,W))",)).items():
+        want = BEFORE if rt in god else set()
+        if got != want:
+            yield (rt, sorted(got ^ want))
+    yield from _verbum_guards()
+
+
+def vb3():
+    """soap: both_in_the_word(a_nature,soap,P,son,participated) for the two P on the four; contuited on bonaventure;
+    on no other runtime, concordia and palamite included; never of a_maker, a_god, a_logos"""
+    for rt, got in _rt_union(SOAP, ("info(both_in_the_word(A,X,P,W,L))",)).items():
+        light = "participated" if rt in THE_FOUR else "contuited" if rt == "bonaventure" else None
+        want = {f"info(both_in_the_word(a_nature,soap,{p},son,{light}))" for p in ("amphiphilic_form", "interfaces_end")
+                } if light else set()
+        if got != want:
+            yield (rt, sorted(got ^ want))
+
+
+def vb4():
+    """what each allele reaches: in_participated_light for a_maker and a_nature on the four; under_eternal_reason for
+    both and idea_contuited for a_nature's two causes on bonaventure; neither allele's reports on the other's runtimes;
+    on the six other runtimes of participated no in_participated_light and no both_in_the_word; on the other 35 none"""
+    for rt, got in _rt_union(SOAP, VERBUM_SHOWS).items():
+        want = set()
+        if rt in THE_FOUR:
+            want = {"info(in_participated_light(a_maker,son))", "info(in_participated_light(a_nature,son))"}
+        elif rt == "bonaventure":
+            want = {"info(under_eternal_reason(a_maker,son))", "info(under_eternal_reason(a_nature,son))",
+                    "info(idea_contuited(a_nature,amphiphilic_form,son))",
+                    "info(idea_contuited(a_nature,interfaces_end,son))"}
+        reach = _verbum(got, ("in_participated_light", "under_eternal_reason", "idea_contuited"))
+        if reach != want:
+            yield (rt, sorted(reach ^ want))
+        if rt in PARTICIPATED - THE_FOUR and _verbum(got, ("both_in_the_word",)):
+            yield (rt, "both_in_the_word")
+
+
+def vb5():
+    """cand_ontologism: light_typed_uncreated(human,son) and seen_by_nature(human,soap,son), nothing for God's own
+    knowing, on every runtime, bare included"""
+    want = {"violation(light_typed_uncreated(human,son))", "violation(seen_by_nature(human,soap,son))"}
+    shows = ("violation(light_typed_uncreated(K,L))", "violation(seen_by_nature(K,X,E))")
+    for rt, got in _rt_union(SOAP + ["cand_ontologism"], shows).items():
+        if got != want:
+            yield (rt, sorted(got ^ want))
+
+
+def vb6():
+    """ontologism_1861, alone: on every runtime no in the main branch, yes a live shadow cleaved by holy_office_1861; no
+    branch assumes t2_truth; nothing deleted; the case adds no violation"""
+    q = "q(ontologism_safe_to_teach)"
+    for rt in E.BASE_RUNTIMES:
+        base = set(solve([f"rt_{rt}"], "branches")["violations"])
+        r = solve(["ontologism_1861", f"rt_{rt}"], "branches")
+        got = sorted((b["values"][0], b["status"], tuple(b["cleaved"]), bool(b["t2"]), tuple(b["assume"]))
+                     for b in r["branches"] if any(v.startswith(q) for v in b["values"]))
+        want = [(f"{q}=no", "main", (), False, ()), (f"{q}=yes", "live_shadow", ("holy_office_1861",), False, ())]
+        if got != want:
+            yield (rt, got)
+        if set(r["violations"]) - base:
+            yield (rt, sorted(set(r["violations"]) - base))
+
+
+def vs1():
+    """SU1, the part this suite can check: no earlier part writes the new slots; this step's cases alone give no
+    theological frontier; the norm graph well founded"""
+    new = {("light_of", 2), ("seen_in", 3)}
+    for name, (f, _note, block) in _part_blocks_l().items():
+        if E.signatures(block, f)["heads"] & new and name not in VERBUM_PARTS:
+            yield (name, f)
+    for p in VERBUM_PARTS:
+        if [a for a in solve([p], "one")["atoms"] if a.startswith("frontier(theology,")]:
+            yield (p, "frontier")
+    from .norms import check
+    c = check()
+    if c["vicious_cycles"] or c["undefined_predicates"] or c.get("unused_inputs"):
+        yield ("norms", c["undefined_predicates"], c.get("unused_inputs"))
+
+
+def vs2():
+    """SU2: the guide in both copies, identically, with the vocabulary"""
+    pkg = (E.LP_DIR.parent / "guide.md").read_text()
+    doc = E.LP_DIR.parents[2] / "docs" / "encoding-guide.md"
+    if doc.is_file() and doc.read_text().split("\n", 2)[2] != pkg:
+        yield "copies differ"
+    for word in ("`light_of(K,L)`", "`seen_in(K,X,E)`", "`rt_bonaventure`", "`lumen`", "`both_in_the_word(A,X,P,W,L)`",
+                 "`before_the_thing(P,X,W)`", "`ontologism_1861`"):
+        if word not in pkg:
+            yield word
+
+
+def vq1():
+    """without trinity no person is begotten, so none is the Word: nothing of VB2-VB4 on any runtime"""
+    for rt, got in _rt_union(["soap", "world"], VERBUM_SHOWS).items():
+        if got:
+            yield (rt, sorted(got))
+
+
+def vq2():
+    """cand_motive_as_cause: god_as_second_cause(j_soap,efficient,son) on every runtime, nothing for the agent intellect;
+    a fit, soap on bonaventure gives no god_as_second_cause"""
+    shows = ("violation(god_as_second_cause(X,C,P))",)
+    for rt, got in _rt_union(SOAP + ["cand_motive_as_cause"], shows).items():
+        if got != {"violation(god_as_second_cause(j_soap,efficient,son))"}:
+            yield (rt, sorted(got))
+    if set().union(*mod_project(SOAP + ["rt_bonaventure"], shows)):
+        yield "soap on bonaventure"
+
+
+def vq3():
+    """light_of(divine,son) and light_of(human,agent_intellect) refuse nothing; seen_in(angelic,soap,son) gives
+    seen_by_nature(angelic,soap,son) on every runtime; a thing seen in a creature refuses nothing; a person in a kind's
+    place is outside the sort"""
+    shows = ("violation(light_typed_uncreated(K,L))", "violation(seen_by_nature(K,X,E))")
+    got = set().union(*mod_project(SOAP, shows, "light_of(divine,son). light_of(human,agent_intellect)."))
+    if got:
+        yield ("light", sorted(got))
+    for rt, got in _rt_union(SOAP, shows, "seen_in(angelic,soap,son).").items():
+        if got != {"violation(seen_by_nature(angelic,soap,son))"}:
+            yield (rt, sorted(got))
+    # rule 5 (found by deleting body literals): a thing seen in a creature is no vision of God; and a person in a
+    # kind's place is outside the sort
+    got = set().union(*mod_project(SOAP, ("violation/1",), "seen_in(human,soap,mirror). light_of(peter,x). "
+                                                           "seen_in(peter,x,son)."))
+    want = {"violation(outside_domain(light_of,1,peter))", "violation(outside_domain(seen_in,1,peter))"}
+    if {a for a in got if "seen_by_nature(human,soap,mirror)" in a} or not want <= got:
+        yield ("guards", sorted(a for a in got if "mirror" in a or "peter" in a))
+    got = set().union(*mod_project(SOAP + ["cand_ontologism"], ("violation/1",)))
+    if any(x.startswith("violation(outside_domain(") for x in got):
+        yield ("kinds in their sort", sorted(x for x in got if "outside_domain" in x))
+
+
+def vq4():
+    """locke_essence, with trinity, on thomist: in_participated_light(a_gold,son) and no before_the_thing"""
+    got = set().union(*mod_project(["locke_essence", "trinity", "rt_thomist"], VERBUM_SHOWS))
+    if got != {"info(in_participated_light(a_gold,son))"}:
+        yield sorted(got)
+
+
+def vq5():
+    """vm_bonaventure holds as its host does (VM3)"""
+    m = set().union(*mod_project(["rt_bonaventure", "vm_bonaventure"], ("holds_cause/2", "guest_holds/2")))
+    own = {a[len("holds_cause("):] for a in m if a.startswith("holds_cause(")}
+    guest = {a[len("guest_holds("):] for a in m if a.startswith("guest_holds(")}
+    if not own or own != guest:
+        yield sorted(own ^ guest)
+
+
+scen("VB1", VBM, "The locus lumen, as the compiler gives it (VB1)", [], [_mod(vb1)],
+     "participated on the ten of the Thomist line, contuited on bonaventure, none on the other 35; no re_expressed; "
+     "bonaventure as concordia at the four loci")
+scen("VB2", VBM, "Before the thing, in the Word (VB2)", [], [_mod(vb2)],
+     "soap's form and its end before the thing in the Son on the 13 whose ideas are in God; never the end of use, the "
+     "matter, the maker or the bar")
+scen("VB3", VBM, "Both in the Word, both ways (VB3)", [], [_mod(vb3)],
+     "a_nature's two causes and its premise both in the Word, participated on the four, contuited on bonaventure; "
+     "nowhere else")
+scen("VB4", VBM, "What each allele reaches (VB4)", [], [_mod(vb4)],
+     "the participated light for both grounded premises on the four; the eternal reason for both and the idea "
+     "contuited for a_nature's causes on bonaventure; neither elsewhere")
+scen("VB5", VBM, "The ontologist's two claims, refused on both and everywhere (VB5)", [], [_mod(vb5)],
+     "the light typed as God and a vision by nature refused on every runtime, bare included; God's knowing stands")
+scen("VB6", VBM, "The censure of 1861 at its tier (VB6)", [], [_mod(vb6)],
+     "no in the main branch, yes a live shadow cleaved by the decree, no t2, nothing deleted, no violation added")
+scen("VQ1", VBM, "No Word without the processions (VQ1)", [], [_mod(vq1)],
+     "without trinity nothing of the Word or the light on any runtime")
+scen("VQ2", VBM, "The motive reason is no second cause (VQ2)", [], [_mod(vq2)],
+     "the reading that makes it one refused on every runtime; soap on bonaventure gives none")
+scen("VQ3", VBM, "God's light and knowing stand; an angel's nature does not see (VQ3)", [], [_mod(vq3)],
+     "nothing for God or for the agent intellect; an angel's vision by nature refused on every runtime")
+scen("VQ4", VBM, "Gold on the Thomist runtime (VQ4)", [], [_mod(vq4)],
+     "the participated light for a_gold, no cause before the thing")
+scen("VQ5", VBM, "Bonaventure's guest part (VQ5)", [], [_mod(vq5)],
+     "the guest holds what the host holds")
+scen("VS1", VBM, "No earlier part enters the new slots (SU1)", [], [_mod(vs1)],
+     "light_of and seen_in written only by this step's parts; its cases alone leave the frontier empty; the norm "
+     "graph well founded")
+scen("VS2", VBM, "The guide gains the vocabulary (SU2)", [], [_mod(vs2)],
+     "both copies identical, with the slots, the reports, the locus, the runtime and the cases")
 
 
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------

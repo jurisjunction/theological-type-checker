@@ -38,7 +38,7 @@ does not check them for truth. Its layers are used as an ordered pair
   sin, grace, Christ, the sacraments, faith, time, authorship, the
   liturgy, the last things, the empirical, language, the four causes,
   substitutions for God, a term lifted above an order, the intellect,
-  things by their causes.
+  things by their causes, the Word and the light.
 - **canon**: canons as dated yes/no rules, in two codes (the Latin, the
   Eastern), chosen by ascription. A canon-law question branches only on
   disputed facts, disputed readings, or the internal forum, which **ttc**
@@ -100,7 +100,7 @@ rule file of the same name in `lp/`, which the solver reads.
 | schools: runtimes, readings, loci | `schools.l`, `icon_metaphysics.l` |
 | the *Grammar of the Icon* | `icon_theory.l`, `icon_models.l`, `icon_tests.l` |
 | authority: tiers, branches; the cases | `icon_authority.l`, `icon_history.l` |
-| libraries | `act.l`, `law.l`, `moral.l`, `grace.l`, `christ.l`, `sacrament.l`, `faith.l`, `saeculum.l`, `sources.l`, `liturgy.l`, `novissima.l`, `empirica.l`, `linguae.l`, `causae.l`, `substitutio.l`, `pendet.l`, `intellectus.l`, `rerum.l` |
+| libraries | `act.l`, `law.l`, `moral.l`, `grace.l`, `christ.l`, `sacrament.l`, `faith.l`, `saeculum.l`, `sources.l`, `liturgy.l`, `novissima.l`, `empirica.l`, `linguae.l`, `causae.l`, `substitutio.l`, `pendet.l`, `intellectus.l`, `rerum.l`, `verbum.l` |
 | canon | `canon_law.l` (Latin), `canon_cceo.l` (Eastern), `canon_cases.l` |
 | the ordered pair, the frontier | `pair.l` |
 | works and fetch lists | `library.l` |
