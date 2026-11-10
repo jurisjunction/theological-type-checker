@@ -6,7 +6,7 @@
 
 ## DESCRIPTION
 
-Source verification only, compiled 10 November 2026. It designs no rules and is an evidence record, so it keeps prose (rule 10). Each item gives the claim, the locus, a short quotation exactly as the fetch tool returned it, the URL, a status and anything still owed. Quotations are under 40 words, except the essay's, which is this work's own.
+Source verification only, compiled 10 November 2026, and revised the same day after an independent review: A1, A2, B4 and B7 reached through second copies, C3's n. 9 added and n. 10 quoted in full. It designs no rules and is an evidence record, so it keeps prose (rule 10). Each item gives the claim, the locus, a short quotation exactly as the fetch tool returned it, the URL, a status and anything still owed. Quotations are under 40 words, except the essay's, which is this work's own.
 
 Every check went through the fetch tool or the search tool. Hosts were not asked for URLs that had not come back from a search, so some items rest on a second copy of the text or a secondary source. Where that happens the item says so.
 
@@ -26,13 +26,16 @@ Locus: decree of the Holy Office, seven propositions; DH 2841–2847 [M].
 - Ontologism "maintains that God and divine ideas are the first object of our intelligence and the intuition of God the first act of our intellectual knowledge" (Wikipedia, as above).
 - The system "claims descent from Plato* and Augustine*" (biblicaltraining.org, as above; the asterisks are the page's).
 
-Status: **verified (secondary)** for the censure, its year and its note. Owed: the decree's text and its DH numbers (Denzinger–Hünermann, 2841–2847). The first two propositions are recalled, not fetched: "Immediata Dei cognitio, habitualis saltem, intellectui humano essentialis est, ita ut sine ea nihil cognoscere possit: siquidem est ipsum lumen intellectuale"; "Esse illud, quod in omnibus et sine quo nihil intelligimus, est esse divinum" [M]. Owed too: whether the decree was approved by the pope in a form that the record's tier table reads otherwise than the Holy Office's other acts (tier 3).
+- The ontologists held "that the created intelligence knows God Himself intuitively and properly as object. Their philosophical-religious system, known as ontologism, was condemned by a decree of the Holy Office in 1861 (Denzinger 284147)." (https://encyclopedia.com/religion/encyclopedias-almanacs-transcripts-and-maps/beatific-vision; *New Catholic Encyclopedia*, "Beatific Vision"; the page's "284147" is 2841–47 with the dash lost)
+
+Status: **verified (secondary)** for the censure, its year, its note and its Denzinger numbers. Owed: the decree's text and its day (18 September, [M]). The first two propositions are recalled, not fetched: "Immediata Dei cognitio, habitualis saltem, intellectui humano essentialis est, ita ut sine ea nihil cognoscere possit: siquidem est ipsum lumen intellectuale"; "Esse illud, quod in omnibus et sine quo nihil intelligimus, est esse divinum" [M]. Owed too: whether the decree was approved by the pope in a form that the record's tier table reads otherwise than the Holy Office's other acts (tier 3).
 
 **A2. Vienne, *Ad nostrum* (1312): the light of glory.**
+- "The necessity of this help is a dogma of the Catholic faith, defined in the Council of Vienne against the beguines and Beghards, who held that "the soul does not need the light of glory to elevate it to see God and to enjoy God in blessedness" (Enchiridion symbolorum, 895)." (https://encyclopedia.com/religion/encyclopedias-almanacs-transcripts-and-maps/light-glory; *New Catholic Encyclopedia*, "Light of Glory")
 - "The definition of the beatific vision was dogmatized at the the Council of Vienne in 1311 (Denz., n. 475; old, n. 403)." (https://taylormarshall.com/?p=1549; the page's doubled article kept)
 - "In 1312, the Council and Clement's papal bull, Ad nostrum qui, condemned the Beguines and Beghards movement … as heretical." (https://en.wikipedia.com/wiki/Council_of_Vienne)
 
-Status: **owed**. Only secondary reports were reached. The error the decree condemns, that the soul does not need the light of glory raising it to see God (DH 895, Denz. 475), is [M]; so is the form of the condemnation. The page that lists the council's decrees (https://sermonindex.net/books/church-councils-down-through-the-ages/19) gives decree 28 in its contents ("the Beghards or Beguines - 8 errors") and not its text.
+Status: **verified (secondary)**, two reports agreeing on the error and its number (DH 895). Owed: the Latin, and the form of the condemnation. The page that lists the council's decrees (https://sermonindex.net/books/church-councils-down-through-the-ages/19) gives decree 28 in its contents ("the Beghards or Beguines - 8 errors") and not its text.
 
 **A3. *Benedictus Deus* (1336).**
 Locus: DH 1000–1002. The souls of the blessed see the divine essence by an intuitive vision, no creature mediating as the object seen [M]. The record enters the constitution in `novissima.l` (TTC-NOVISSIMA), as its header says: "Benedictus Deus (1336, DH 1000-1002; CCC 1023)".
@@ -40,7 +43,7 @@ Status: **owed** here (not refetched).
 
 **A4. John 1:3, 9.**
 "Omnia per ipsum facta sunt"; "Erat lux vera, quae illuminat omnem hominem venientem in hunc mundum" [M]. The creed's "per quem omnia facta sunt" (DH 150) is TTC-RERUM's A-series.
-Status: **owed** (Vulgate not fetched).
+Status: **owed** (Vulgate not fetched). John 1:9 is quoted by *Christus unus* n. 9 (C3), "Erat lux vera, quae illuminat omnem hominem etc."; 1:3 is not reached.
 
 ## B. THOMAS
 
@@ -68,17 +71,25 @@ Status: **verified**.
 URL: https://bkv.unifr.ch/works/sth/compare/summe-der-theologie/86/summa-theologiae
 Status: **verified**.
 
-**B4. ST I q. 12 a. 11: whether any man in this life can see God's essence.**
-The question is listed, "(11) Can any man see God's essence in this life?" (https://www3.nd.edu/~afreddos/summa-translation/Part%201/st1-ques12.pdf, Freddoso's translation). The answer, no, save by rapture, is [M].
-Status: **owed** (the article's text).
+**B4. ST I q. 12 aa. 4, 11: natural power, and this life.**
+- "since neither angels nor men are self-subsistent beings, their created intellects cannot know God as He is in Himself by their natural powers (see Summa theologiae 1a, 12.4; 1a, 64.1 ad 2; 1a2ae, 5.5" (*New Catholic Encyclopedia*, "Beatific Vision", as A1)
+- a. 11 is listed, "(11) Can any man see God's essence in this life?" (https://www3.nd.edu/~afreddos/summa-translation/Part%201/st1-ques12.pdf, Freddoso's translation).
 
-**B5. ST I q. 34 aa. 2–3: the Word.**
-"Verbum" the proper name of the person of the Son (a. 2); the Word expressive and operative of creatures, since God in knowing himself knows every creature (a. 3) [M].
+Status: **verified (secondary)** for a. 4. Owed: the text of both articles; a. 11's answer, no, save by rapture, is [M].
+
+**B5. ST I q. 34 aa. 2–3, I q. 39 a. 8: the Word, and appropriation.**
+"Verbum" the proper name of the person of the Son (a. 2); the Word expressive and operative of creatures, since God in knowing himself knows every creature (a. 3); what is common to the three said of one by appropriation (I q. 39 a. 8; *In Ioan.* c. 1 lect. 5, on "lux vera") [M].
 Status: **owed**.
 
 **B6. *De veritate* q. 1 a. 2.**
 "Res ergo naturalis, inter duos intellectus constituta, secundum adaequationem ad utrumque vera dicitur" — TTC-RERUM's record, verified there.
 Status: **verified** (in that record).
+
+**B7. ST II-II q. 175 a. 3: Paul in rapture.**
+- The sed contra, Augustine in the English: "possibly God's very substance was seen by some while yet in this life: for instance by Moses, and by Paul who in rapture heard unspeakable words" (https://www.ccel.org/ccel/Aquinas/summa.SS_Q175_A3.html).
+- *De veritate* q. 13 a. 2, the reply, in the English: the opinion that Paul did not see God through his essence "is contrary to what Augustine says, for he states expressly that, when Paul was enraptured, he saw God through His essence." (https://www.clerus.org/bibliaclerusonline/EN/g3e.htm)
+
+Status: **verified (secondary)**, in translation. Owed: the Latin of II-II q. 175 a. 3's answer. Thomas's Christ's soul knowing all things in the Word (III q. 10 a. 2) is [M].
 
 ## C. BONAVENTURE
 
@@ -101,7 +112,8 @@ Status: **verified (secondary), with restorations marked**. Owed: the first way 
 Locus: Quaracchi V, 567–574 (the sermon); nn. 18–19 at V, 572.
 - n. 6: "Ad cognitionem enim scientialem necessario requiritur veritas immutabilis ex parte scibilis,"; "Est etiam magister cognitionis, quae est per rationem, et hoc, in quantum est veritas."
 - n. 9: "Requiritur etiam secundo ad huiusmodi congitionem certitudo ex parte scientis." (the page's spelling)
-- n. 10: "Lux ergo intellectus creati sibi non sufficit ad certam comprehensionem rei cuiuscumque"
+- n. 9: "Talis autem lux non est lux intelligentiae creatae, sed Sapientiae increatae, quae Christus est."; and John 1:9, "Erat lux vera, quae illuminat omnem hominem etc." (cited as "Ioannes primo").
+- n. 10: "Lux ergo intellectus creati sibi non sufficit ad certam comprehensionem rei cuiuscumque absque luce Verbi aeterni."
 - n. 17, of the intellectual actions "quibus anima percipit ipsam veritatem immutabilem": God "cooperatur sicut obiectum et ratio motiva."
 - n. 18, of Plato: "despecto mundo sensibili, totam certitudinem cognitionis reducere voluit ad illas ideas; et hoc ponendo, licet videretur stabilire viam sapientiae, quae procedit secundum rationes aeternas, destruebat tamen viam scientiae, quae procedit secundum rationes creatas"; Aristotle the reverse, "illa superiore neglecta."
 - nn. 18–19: Plato the word of wisdom, Aristotle the word of knowledge; "Uterque autem sermo … datus est Augustino" (TTC-RERUM's D4a).
@@ -141,5 +153,5 @@ Status: **verified** (the source file). The essay's checker note says of the ste
 
 - **Second-hand Latin.** C1 and C2 are the corpus as books and an article quote it, not the Quaracchi page. C2's restorations are marked.
 - **The censure's words.** That ontologism was censured in 1861 as not safely taught is verified only through secondary sources. Its propositions are recalled (A1). The design reads the censure's note, "tuto tradi non possunt", and not its propositions.
-- **The light of glory.** DH 895 is reached only through Marshall's report of Denz. 475 (A2). The design rests no rule on it.
+- **The light of glory.** DH 895 is reached through two secondary reports (A2); its Latin is owed. The design rests no rule on it.
 - **The sermon's "obiectum".** *Christus unus* n. 17 says that God cooperates in the intellectual act "sicut obiectum et ratio motiva". *De scientia Christi* q. 4 says that the eternal reason is attained "ex parte", "non … in sua omnimoda claritate", "cum ratione creata". The design reads the sermon by the question, which is the disputed and more exact text; the reading is noted, not proved.
