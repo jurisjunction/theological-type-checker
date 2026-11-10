@@ -243,23 +243,23 @@ classified as schismatic, c. 1364 does not apply. See
 
 ## FILES
 
-`src/theological_type_checker/lp/`:
+The theory and what it stands on, in `src/theological_type_checker/l/`
+(compiled to `lp/`; every file: [ttc(1)](../README.md), FILES):
 
 | File | Contents |
 | --- | --- |
-| `kernel_core.lp` | the kernel and the deposit's rules: sorts, relations, origin, creation, image and dignity, the attributes as defined, predication |
-| `kernel_analogy.lp` | bridges, modes, crossing guards, the kernel's sorts |
-| `icon_theory.lp` | the Grammar of the Icon: N, A4a–A10 as the theory states them, its bridges and sorts |
-| `icon_models.lp` | models |
-| `icon_tests.lp` | candidates, switches |
-| `icon_metaphysics.lp` | the 24 Theses, Thomas's readings, rival readings (switches) |
-| `schools.lp` | the runtimes' shared and new parts: the classical base, one spirative power, Scotus's univocity and *esse*, readings of the 1914 decree, DH 1330 as deposit |
-| `kernel_world.lp` | the kernel's own creatures, from stones to angels, and the positions it refuses |
-| `icon_authority.lp` | branches |
-| `icon_history.lp` | cases |
-| `canon_law.lp`, `canon_cases.lp` | canon law |
-| `pair.lp` | the ordered pair and the frontier |
-| `library.lp` | works and fetch lists |
+| `kernel_core.l` | the kernel and the deposit's rules: sorts, relations, origin, creation, image and dignity, the attributes as defined, predication |
+| `kernel_analogy.l` | bridges, modes, crossing guards, the kernel's sorts |
+| `kernel_world.l` | the kernel's own creatures, from stones to angels, and the positions it refuses |
+| `icon_theory.l` | the Grammar of the Icon: N, A4a–A10 as the theory states them, its bridges and sorts |
+| `icon_models.l` | models |
+| `icon_tests.l` | candidates, switches |
+| `icon_metaphysics.l` | the 24 Theses, Thomas's readings, rival readings (switches) |
+| `schools.l` | the runtimes and their shared parts: the classical base, one spirative power, Scotus's univocity and *esse*, readings of the 1914 decree, DH 1330 as deposit; the loci |
+| `icon_authority.l` | tiers and branches |
+| `icon_history.l` | cases |
+| `canon_law.l`, `canon_cases.l` | canon law |
+| `pair.l` | the ordered pair and the frontier |
 
 ## DIAGNOSTICS
 

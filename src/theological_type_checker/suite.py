@@ -6,6 +6,7 @@ historical backtest and case, with what each is expected to show.
     ttc-suite --show ID       # print every derived atom for one scenario
     ttc-suite --with PART     # add a part to every scenario (e.g. a9_universal)
 """
+import argparse
 import pathlib
 import re
 import sys
@@ -6339,21 +6340,25 @@ def run(ids=None, extra=()):
 
 
 def main(argv=None):
-    argv = sys.argv[1:] if argv is None else argv
-    if "--show" in argv:
-        sid = argv[argv.index("--show") + 1]
-        s = next(x for x in S if x["id"] == sid)
+    ap = argparse.ArgumentParser(prog="ttc-suite", description="Run the regression suite; exit 1 if any scenario fails.")
+    ap.add_argument("--md", metavar="FILE", type=pathlib.Path, help="also write the report as a markdown table")
+    ap.add_argument("--show", metavar="ID", help="print every derived atom for one scenario, and exit")
+    ap.add_argument("--with", dest="extra", metavar="PART", help="add a part to every scenario (e.g. a9_universal)")
+    a = ap.parse_args(argv)
+    if a.show:
+        s = next((x for x in S if x["id"] == a.show), None)
+        if s is None:
+            ap.error(f"no scenario {a.show}")
         r = solve(s["parts"], s["mode"])
         print("\n".join(r["atoms"]) or "(no atoms)")
         return 0
-    extra = [argv[argv.index("--with") + 1]] if "--with" in argv else []   # e.g. --with a9_universal
-    rows = run(extra=extra)
+    rows = run(extra=[a.extra] if a.extra else [])
     failed = sum(not r["ok"] for r in rows)
     for r in rows:
         print(f"[{'pass' if r['ok'] else 'FAIL'}] {r['id']:4} {r['name']}\n        expected: {r['expected']}\n        got:      {r['got']}")
     print(f"\n{len(rows) - failed}/{len(rows)} passed")
-    if "--md" in argv:
-        path = pathlib.Path(argv[argv.index("--md") + 1])
+    if a.md:
+        path = a.md
         lines = ["| ID | Group | Test | Expected | Got | Result |", "| --- | --- | --- | --- | --- | --- |"]
         lines += ["| " + " | ".join(str(x).replace("|", "/") for x in (r["id"], r["group"], r["name"], r["expected"], r["got"],
                                                                          "pass" if r["ok"] else "FAIL")) + " |" for r in rows]

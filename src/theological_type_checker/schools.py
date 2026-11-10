@@ -7,6 +7,7 @@ Boot: run the boot set with a runtime in place of default; a scenario changes
 when its violations change (in any branch) and is red when its checks fail.
 Pair: a clash is a violation present under two runtimes and under neither alone.
 """
+import argparse
 import contextlib
 import itertools
 import re
@@ -88,8 +89,11 @@ class Experiment:
 
 
 def main(argv=None):
-    argv = sys.argv[1:] if argv is None else argv
-    x = Experiment("--dh1330" in argv)
+    ap = argparse.ArgumentParser(prog="ttc-schools", description="Boot each school runtime alone, and the "
+                                 "schools in pairs, on the boot set (TTC-SCHOOLS(7)).")
+    ap.add_argument("--dh1330", action="store_true", help="encoding A: DH 1330 as deposit (default B: a Thomist reading)")
+    a = ap.parse_args(argv)
+    x = Experiment(a.dh1330)
     print(f"boot set: {len(x.scen)} scenarios; DH 1330 {'deposit (A)' if x.a else 'a Thomist reading (B)'}")
     bare = x.boot("bare")
     print(f"\nbare      changed {bare['changed']}\n          red     {bare['red']}")

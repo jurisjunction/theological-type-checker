@@ -40,7 +40,61 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | loci | the schools' readings as alleles at loci, carried and expressed; a substitution for God entered as a claim of a text or an order, lowered onto the deposit, faulting there; the last end and latria in the deposit; the icon against the idol | done ([ttc-loci(7)](research/loci-preregistration.md)) |
 | professio | a runtime of one's own, declared in L in the personal layer and compiled by the base's rules; run, booted and compared as a profession, never heard through and never a guest of the VM; saved through the connector | done ([ttc-professio(7)](research/professio-preregistration.md)) |
 | pendet | a term lifted above an order, reached by every node of it and no node of it; room for one; a measure that changes where one stands and not what one reaches; the law hanging on its end (Mt 22:40) | done ([ttc-pendet(7)](research/pendet-preregistration.md)) |
+| rota | published Rotal sentences as cases of the consent canons, the Rota's findings as their premises, its readings as acts that weigh | predicted; encoded and scored on a branch, not merged ([ttc-rota(7)](research/rota-preregistration.md)) |
+| personae | juridic persons (cc. 114–117, 1257 §2) and two duties of clerics (cc. 285 §4, 286) | predicted; an exploratory layer on a branch ([ttc-personae(7)](research/personae-preregistration.md)) |
+| rerum | things by their causes; God neither form nor matter of a thing, nor a second cause; the word between the thing and the argument, and the direction of the measure; a natural question as a joint work; the schools' readings at four loci | predicted ([ttc-rerum(7)](research/rerum-preregistration.md)) |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
+
+The repairs, the agent studies and the smaller steps are not foundation
+steps; every step's page, with its state, is listed in
+[intro(7)](README.md), RESEARCH.
+
+## OPEN
+
+### theory
+
+- A modal type on every axiom: *is*, *ought*, *called*, *held in trust*.
+- Sources for the bridges, so that tier 1 can overrule a mode.
+- A grade-A retrodiction: derive first, date it, then look.
+- Not encoded: c. 1098 (fraud; VS 78; TTC-ROTA's, on its branch), P8
+  (banded differentiation), P11 (liturgy), PC 5.
+
+### canon
+
+- Frontier: c. 1332, c. 1352, c. 1313, c. 1328 §2, remission (c. 1355 §2;
+  *Misericordia et misera* 12), the rest of the Dicastery's norms of 2021
+  (art. 6 n. 1 and art. 24 §1 are encoded), and the PCLT note of 24 August
+  1996.
+- *Ad sanctam beati Petri sedem*: DH 2010–2012 shows two of five
+  conditions; read the full bull (Bullarium Romanum) for the other three
+  (TTC-PENAL FO2).
+- Book IV marriage law as rules: cc. 1084, 1091, 1134–1135 (c. 1057 §1 and
+  the form are encoded; the consent canons are TTC-ROTA's).
+- Authentic interpretations from iuscangreg `risposte.php` (that of 1988
+  on c. 1398 is encoded).
+- The outcome of the SSPX recourse.
+
+### library
+
+- Run the WorldCat client against the live service and fix what breaks.
+- Call numbers from local catalogues.
+- `cites_work` for every source in the base, not only those encoded so far.
+
+### cases
+
+- Religious liberty, nineteenth century to *Dignitatis humanae*.
+- Orders in separated communities beyond the Anglican case (the churches
+  step).
+- *Fiducia supplicans* (2023): teaching or governance?
+
+The Filioque (FQ, with the PCPCU clarification of 1995) and usury (SD2)
+are done.
+
+### research
+
+Bañares on cc. 1057, 1084 and 1091, and Fornés on cc. 1134–1135, are
+unread. They may already contain what the theory claims is new. See
+`ttc-library`.
 
 ## NEXT STEPS IN DETAIL
 
