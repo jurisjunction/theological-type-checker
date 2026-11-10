@@ -18,6 +18,7 @@
 % @input angel/1 | angel(X): X is an angel, a spiritual created person (DH 800)
 % @input being/2 | being(P, X): a claim that P gives X its being; the kernel derives it from God for every creature (A1)
 % @input bodily/1 | bodily(M): a mode of presence that is bodily (natural, sacramental)
+% @input cause_of/3 | cause_of(X, C, P): P is the C cause of the creature X, in the order of creatures (TTC-RERUM); never God, who is typed by being/2 and the lifted term
 % @input changes_in/2 | changes_in(X, K): a change said of X in nature K (hum or div)
 % @input claims/5 | claims(C, P, X, Y, R): claim C that X is P (receptive or donative) toward Y in relation R
 % @input conjoined/2 | conjoined(Y, X): Y joined to X as another subject (Nestorius)
@@ -36,6 +37,8 @@
 % @input incarnate/1 | incarnate(X): X is the Son incarnate: divine, of a human nature
 % @input lacks/2 | lacks(X, P): a claim that X lacks P (a rational soul)
 % @input less/2 | less(X, Y): a claim that X ranks below Y
+% @input made_through/2 | made_through(W, X): X is made through W, as the creed says all things are made through the Son (DH 150)
+% @input nothing_but_matter/1 | nothing_but_matter(C): the claim C that there is nothing but matter (Dei Filius can. 1.2, DH 3022)
 % @input next/2 | next(E1, E2): E2 follows E1 in the order of events
 % @input os_reserved/1 | os_reserved(X): X is not included in Trent's decree on original sin (sess. V, DH 1516)
 % @input organism/1 | organism(X): a living creature
@@ -49,6 +52,8 @@
 % @input sentence/3 | sentence(S, T, P): the sentence S predicates P of the term T
 % @input simplicity/1 | simplicity(R): God's simplicity, as R reads it
 % @input sort/2 | sort(X, S): X typed of sort S
+% @input subsisting_form/1 | subsisting_form(S): S is a form that subsists, as the human soul does (I q. 75 a. 2; DH 902)
+% @input subsists_apart/1 | subsists_apart(E): E is claimed to subsist of itself, apart from God and from any creature
 % @input term_sort/2 | term_sort(T, S): the term T names a suppositum or a nature
 % @input unary_name/1 | unary_name(P): a predicate said of persons one at a time
 % @input unsafe_unqualified/1 | unsafe_unqualified(P): the predicate P needs a qualification when said of Christ
@@ -287,6 +292,46 @@ violation(last_end_not_god(X)) :- last_end(X), not god(X), not divine(X).
 % school question.
 violation(latria_to_creature(P)) :- latria_to(P), not god(P), not divine(P).
 
+% ---------- Creation and its causes (deposit; TTC-RERUM) ---------------
+% "Si quis dixerit, res finitas ... e divina substantia emanasse": no
+% creature originates from God as from a principle of its own substance
+% (Dei Filius can. 1.4, DH 3024). The Son is "genitum, non factum" (DH
+% 150): his begetting and the Spirit's procession are orig_div, and the
+% nativity's source is Mary.
+violation(origin_from_god(P,X)) :- orig_cr(P,X), ind_sort(P,div).
+% "unam eandemque esse Dei et rerum omnium substantiam vel essentiam"
+% (can. 1.3, DH 3023); God neither the form of things nor their matter: "Deus
+% esset anima mundi", "principium formale omnium rerum", "materiam primam"
+% (I q. 3 a. 8).
+violation(god_as_form_or_matter(X,C,P)) :- cause_of(X,C,P), C = (formal;material), ind_sort(P,div).
+% "praeter materiam nihil esse" (can. 1.2, DH 3022).
+violation(only_matter(C)) :- nothing_but_matter(C).
+% "per quem omnia facta sunt" (DH 150): made through a divine person, never
+% through a creature. It gives no being/2: being has one giver (A1, A3; DH
+% 800, 1331). An untyped W is no divine person.
+violation(made_through_a_creature(W,X)) :- made_through(W,X), not ind_sort(W,div).
+% "unum universorum principium; Creator omnium visibilium et invisibilium"
+% (Lateran IV, DH 800): what subsists of itself is God or a creature.
+violation(uncreated_beside_god(E)) :- subsists_apart(E), not ind_sort(E,div), not creature(E).
+
+% ---------- Causes in things (kernel; TTC-RERUM) -----------------------
+% Forms and accidents "non dicuntur entia quasi ipsa sint, sed quia eis
+% aliquid est" (I q. 45 a. 4): a form is a quo, not a quod. The subsisting
+% soul is the exception, a form that subsists (I q. 75 a. 2), the form of
+% the body (DH 902), created immediately (DH 3896), and so a creature. A
+% material cause typed a creature stands, as materia ex qua (Physics II.3).
+creature(S) :- subsisting_form(S).
+violation(quo_as_quod(X,P)) :- cause_of(X,formal,P), creature(P), not subsisting_form(P).
+% God works "in all things intimately", and the effect is not "partly from
+% God and partly from the natural agent" but "wholly from both" in different
+% orders (I q. 105 a. 5; SCG III.70). God is the first efficient and the
+% last final cause (DH 3004; I q. 2 a. 3; I q. 44 aa. 1, 4), typed by
+% being/2 and by the term lifted above the ends (TTC-PENDET), never as a
+% cause among the causes of a thing. Every school holds this: kernel, not
+% deposit. An argument may still rest on God's causality, in the domains
+% god_physics and god_ethics (causae.lp).
+violation(god_as_second_cause(X,C,P)) :- cause_of(X,C,P), C = (efficient;final), ind_sort(P,div).
+
 % ---------- A11  Sorted predicates ------------------------------------
 violation(sort_clash(X,S1,S2)) :- sort(X,S1), sort(X,S2), S1 < S2.
 
@@ -315,7 +360,9 @@ verdict(S,well_typed)          :- welltyped(S), not needs_q(S).
 % ---------- domains (L) ---------------------------------------------
 in_sort(presence_mode,(natural;sacramental;immensity;circumscriptive;definitive)).
 in_sort(nature,(hum;div)).
+in_sort(cause,(material;formal;efficient;final)).
 violation(outside_domain(bodily,1,M)) :- bodily(M), not in_sort(presence_mode,M).
+violation(outside_domain(cause_of,2,C)) :- cause_of(_,C,_), not in_sort(cause,C).
 violation(outside_domain(changes_in,2,K)) :- changes_in(_,K), not in_sort(nature,K).
 violation(outside_domain(in_nature,2,K)) :- in_nature(_,K), not in_sort(nature,K).
 violation(outside_domain(pred_nature,2,K)) :- pred_nature(_,K), not in_sort(nature,K).

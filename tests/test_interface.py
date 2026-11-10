@@ -338,8 +338,13 @@ def test_save_runtime_writes_the_source_and_the_table_and_lists_it(tmp_path, mon
     r = server.save_runtime("mine", "runtime mine extends thomist\n  exclude holds_premotion")
     assert r["saved"] is True and r["runtime"] == "mine" and r["declares"] == ["mine"]
     assert r["parts"] == [p for p in engine.BASE_RUNTIMES["thomist"] if p != "holds_premotion"]
+    # TTC-RERUM SU1 (rule 7): four loci more, thomist's alleles at each
     assert r["loci"] == {"simplicity": {"expressed": "by_reason", "carried": []},
-                         "esse": {"expressed": "real", "carried": []}}
+                         "esse": {"expressed": "real", "carried": []},
+                         "ideas": {"expressed": "in_the_word", "carried": []},
+                         "prime_matter": {"expressed": "never_without_form", "carried": []},
+                         "terminus": {"expressed": "in_the_thing", "carried": []},
+                         "adaequatio": {"expressed": "by_things", "carried": []}}
     assert (tmp_path / "runtimes" / "mine.l").read_text() == "runtime mine extends thomist\n  exclude holds_premotion\n"
     assert (tmp_path / "runtimes.json").read_text() == lang.runtimes_text(lang.compile_layer(tmp_path))
     assert lang.layer_stale(tmp_path) is None and engine.solve(["rt_mine"], "one")["sat"]

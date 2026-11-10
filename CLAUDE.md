@@ -18,7 +18,7 @@ then `ttc-l build`; never edit a rule file by hand (`ttc-l check` fails):
 | the Grammar of the Icon (one theory) | `icon_theory.lp`, `icon_models.lp`, `icon_tests.lp` |
 | schools (runtimes, readings, switches) | `schools.lp`, `icon_metaphysics.lp` |
 | authority (teaching) | `icon_authority.lp`, `icon_history.lp` |
-| libraries: the human act, law, morality and sin, grace, Christ, the sacraments, faith, time, authorship, the liturgy, the last things, the empirical, language, the four causes, substitutions for God, a term lifted above an order | `act.lp`, `law.lp`, `moral.lp`, `grace.lp`, `christ.lp`, `sacrament.lp`, `faith.lp`, `saeculum.lp`, `sources.lp`, `liturgy.lp`, `novissima.lp`, `empirica.lp`, `linguae.lp`, `causae.lp`, `substitutio.lp`, `pendet.lp` |
+| libraries: the human act, law, morality and sin, grace, Christ, the sacraments, faith, time, authorship, the liturgy, the last things, the empirical, language, the four causes, substitutions for God, a term lifted above an order, the intellect, things by their causes | `act.lp`, `law.lp`, `moral.lp`, `grace.lp`, `christ.lp`, `sacrament.lp`, `faith.lp`, `saeculum.lp`, `sources.lp`, `liturgy.lp`, `novissima.lp`, `empirica.lp`, `linguae.lp`, `causae.lp`, `substitutio.lp`, `pendet.lp`, `intellectus.lp`, `rerum.lp` |
 | canon (law) | `canon_law.lp` (Latin), `canon_cceo.lp` (Eastern), `canon_cases.lp` |
 | pair, frontier | `pair.lp` |
 | library | `library.lp` |

@@ -262,8 +262,9 @@ while the layer is on.
 The GBNF is tested against a small recognizer of its own subset, not yet
 against llama.cpp's parser.
 
-Two loci are declared, simplicity and esse. Ockham's and Hobbes's own
-readings of the attributes (as terms, as honours) are no alleles yet.
+Six loci are declared: simplicity and esse (TTC-LOCI); ideas,
+prime_matter, terminus and adaequatio (TTC-RERUM). Ockham's and Hobbes's
+own readings of the attributes (as terms, as honours) are no alleles yet.
 
 Most of the base is still raw clingo in fences. A tag's text is kept as
 it was written, and often repeats the arguments.
