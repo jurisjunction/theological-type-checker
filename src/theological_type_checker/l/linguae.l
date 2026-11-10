@@ -177,6 +177,10 @@ slot measured_by(F1: form, F2: form, C: claimant)
   means "measured_by(F1, F2, C): C takes the form F2 as the measure of F1; no descent (TTC-PENDET)"
   say "{C} takes {F2} as the measure of {F1}"
 
+slot nothing_but_names(C: claim, W: word)
+  means "nothing_but_names(C, W): the claim C that the universal word W has no ground in the singulars (TTC-RERUM)"
+  say "{C} says the universal {W} is nothing but a name"
+
 slot rests_on_form(A: claim, P: premise, F: form)
   means "rests_on_form(A, P, F): the argument A's premise P rests on the host form F"
   say "the premise {P} of {A} rests on {F}"
@@ -323,6 +327,9 @@ use fixed_by/3 "empirica.lp: a finding fixes an empirical question"
 
 use person/1 "the kernel"
 
+result only_names(C: claim, W: word)
+  say "{C} says the universal {W} is nothing but a name: refused, the nature understood being in the singulars (I q. 85 a. 2 ad 2), the universal a natural sign (Summa logicae I c. 15)"
+
 result prius_rei(F1: form, F2: form, W: word)
   say "with {F2} the measure of {F1}, {W} is prior as to the thing: the word the analogy is declared of"
 
@@ -368,6 +375,14 @@ word_in_time(W) :- word(W), date_claim(W,_).
 word_in_time(W) :- word(W), text_year(W,_).
 word_in_time(W) :- word(W), in_order(W).
 violation(word_dated(W)) :- word_in_time(W), words_one.
+
+% ---------- Only names (TTC-RERUM) -------------------------------------------
+% The nature understood "non est nisi in singularibus", the intention of
+% universality in the intellect (I q. 85 a. 2 ad 2); even Ockham's universal
+% is a natural sign, "intentio animae nata praedicari de multis" (Summa
+% logicae I cc. 14-15). That a universal word has no ground at all is
+% refused.
+violation(only_names(C,W)) :- nothing_but_names(C,W).
 
 % ---------- What a form means: one lexicon per branch ------------------------
 % A database of forms gives no meanings: its entries are identifiers, not

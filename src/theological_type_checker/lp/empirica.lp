@@ -57,6 +57,10 @@
 % @input divides_the_soul/1 | candidate only: the soul of E divided between the twins
 % @input doubt_one_or_more/2 | canon_law.lp: a birth at which it is doubted whether one human being or several
 % @input denies_descent/2 | denies_descent(X, R): a claim that X, a human being, does not descend from Adam by generation, for the reason R (many_first_parents, before_adam, separate_creation)
+% @input question_part/2 | question_part(Q1, Q): Q1 is a part of the joint whole Q, a natural question composed of parts each of its own kind (TTC-RERUM)
+% @input claims_conflict/4 | claims_conflict(C, F, Q1, V): C says the finding F conflicts with the value V on Q1
+% @input resenses/3 | resenses(F, S, R): the finding F is said to give the text S another sense, R (Dei Filius can. 4.3, DH 3043)
+% @input scheme_term/3 | scheme_term(T, Q, S): T is a term of the total that Q asks, under the scheme S
 % @input question_kind/2 | icon_authority.lp
 % @input holds/2 | icon_authority.lp
 % @input supports/3 | icon_authority.lp
@@ -71,7 +75,8 @@
 % ---------- The empirical kind (EM) ------------------------------------------
 empirical(Q) :- question_kind(Q,empirical).
 later_finding(F) :- finding(F,Q,_,Y), finding(F2,Q,_,Y2), F2 != F, Y2 > Y, asof(A), Y2 <= A.
-fixed_by(Q,V,F)  :- finding(F,Q,V,Y), empirical(Q), asof(A), Y <= A, not later_finding(F).
+fixed_by(Q,V,F)  :- finding(F,Q,V,Y), empirical(Q), asof(A), Y <= A, not later_finding(F),
+                    not opinion_for_finding(F).
 :- holds(Q,W), fixed_by(Q,V,_), W != V.
 info(fixed_by_finding(Q,V,F)) :- fixed_by(Q,V,F).
 violation(act_answers_a_fact(S,Q))       :- supports(S,Q,_), empirical(Q), in_force(S), source(S,T,_,_), T >= 1, T <= 3.
@@ -79,6 +84,53 @@ violation(fact_censured_as_heresy(S,Q))  :- censures_as_heresy(S,Q,_), empirical
 violation(fact_censured_in_faith(S,Q))   :- censures_in_faith(S,Q,_), empirical(Q), in_force(S).
 violation(finding_on_a_doctrine(F,Q))    :- finding(F,Q,_,Y), question_kind(Q,doctrinal), asof(A), Y <= A.
 violation(doctrine_rests_on_finding(S,Q,F)) :- rests_on_finding(S,Q,F), question_kind(Q,doctrinal), in_force(S).
+
+% ---------- A joint work (TTC-RERUM) ------------------------------------------
+% A question of natural philosophy may be a whole composed of parts, each of
+% its own kind: "duplicem esse ordinem cognitionis", the disciplines each
+% "in suo ambitu propriis ... principiis et propria methodo" (Dei Filius ch.
+% 4, DH 3015, 3019). A joint whole is entered by question_kind(Q,natural)
+% and its parts, never by question/1.
+info(joint_part(Q,Q1,K)) :- question_part(Q1,Q), question_kind(Q1,K).
+violation(part_of_no_natural_question(Q1,Q)) :- question_part(Q1,Q), not question_kind(Q,natural).
+part_within(Q1,Q) :- question_part(Q1,Q).
+part_within(Q1,Q) :- question_part(Q1,Q2), part_within(Q2,Q).
+violation(part_cycle(Q)) :- part_within(Q,Q).
+% A claimed conflict. "Nulla tamen umquam inter fidem et rationem vera
+% dissensio esse potest. Inanis autem huius contradictionis species inde
+% potissimum oritur, quod vel fidei dogmata ad mentem Ecclesiae intellecta
+% et exposita non fuerint, vel opinionum commenta pro rationis effatis
+% habeantur" (DH 3017). Against a value a tier-1 source in force supports,
+% the claim is computed both ways, on the two diagnoses, and neither is
+% preferred; on the second the finding fixes nothing. The value is
+% untouched on both, and the question is reported reserved, never resolved.
+% Below tier 1 nothing branches: the base's shadows already carry a
+% reformable teaching.
+defined_value(Q1,V) :- supports(S,Q1,V), in_force(S), eff_tier(S,1).
+conflict_at_definition(C,F,Q1) :- claims_conflict(C,F,Q1,V), defined_value(Q1,V).
+misread_dogma(C,Q1)    :- conflict_at_definition(C,F,Q1), not opinion_for_finding(F).
+opinion_for_finding(F) :- conflict_at_definition(C,F,Q1), not misread_dogma(C,Q1).
+assumed_fact(misread_dogma(C,Q1)) :- misread_dogma(C,Q1).
+assumed_fact(opinion_for_finding(F)) :- opinion_for_finding(F).
+info(reserved_to_the_author(Q,F,Q1)) :- conflict_at_definition(_,F,Q1), question_part(Q1,Q).
+info(conflict_with_reformable(C,F,Q1)) :- claims_conflict(C,F,Q1,V), not defined_value(Q1,V).
+% "Si quis dixerit, fieri posse, ut dogmatibus ab Ecclesia propositis aliquando
+% secundum progressum scientiae sensus tribuendus sit alius" (can. 4.3, DH
+% 3043): a definition is not re-read by a finding. Scripture, read and never
+% raw, may be: reported.
+violation(dogma_resensed_by_finding(F,S)) :- resenses(F,S,_), in_force(S), eff_tier(S,1).
+info(scripture_read_by_finding(F,S,R))    :- resenses(F,S,R), eff_tier(S,0).
+
+% ---------- Decomposition and the oracle (TTC-RERUM) ---------------------------
+% "There is not a unique way to compute quantities related with such
+% intuitive chemical concepts" (Andres et al., 2019): the terms of a
+% scheme split a computed total, and are never parts of a thing and never
+% its causes. A simulation is a method a finding may be reached by.
+scheme_of(Q,S) :- scheme_term(_,Q,S).
+info(scheme_relative(Q)) :- scheme_of(Q,S1), scheme_of(Q,S2), S1 < S2.
+violation(term_as_part(T))    :- scheme_term(T,_,_), creature(T).
+violation(term_as_cause(T,X)) :- scheme_term(T,_,_), cause_of(X,_,T).
+info(fixed_by_simulation(Q,V,F)) :- fixed_by(Q,V,F), method(F,simulation).
 
 % ---------- The Fathers' consent, outside faith and morals (GL) --------------
 claimed_consent(S) :- consent_claimant(S,_).

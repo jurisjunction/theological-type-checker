@@ -2108,6 +2108,158 @@ source(th_90_4,5,truth,1271). promoted(th_90_4,4,1567). supports(th_90_4,q(prece
 argument(th_ordinatio,th_90_4,q(precepts_bind),yes). argues_from(th_ordinatio,final,human).
 source(hobbes_l26,5,truth,1651). supports(hobbes_l26,q(precepts_bind),yes).
 argument(hobbes_l26,hobbes_l26,q(precepts_bind),yes). argues_from(hobbes_l26,efficient,will).
+#program soap.                    % a bar of soap divided into its causes, not its parts (TTC-RERUM); run with trinity and world
+% A symposium on soap (2026), the case's text: Thomas's paper "Between Two Intellects". Every typing
+% below is an interpretive fact, entered and open to dispute. Soap is sodium stearate, "an alkali salt
+% of fatty acids" whose "detergent properties ... are due to the alkali-fatty acid compounds" (21 CFR
+% 701.20(a)); Chevreul (1823): "the acid part of the fat combined with the alkali to form a salt, that
+% is to say a soap".
+inanimate(soap; bar; fat; lye). created_person(soapmaker).
+% Art gives the bar its shape, an accidental form; the soap is made by nature's powers under art's
+% direction, "as bread is produced by fire" (III q. 75 a. 6 ad 1).
+makes(soapmaker,soap,by_nature). makes(soapmaker,bar,accidental).
+cause_of(soap,material,(fat;lye)). cause_of(soap,formal,amphiphilic_form).
+cause_of(soap,efficient,(soapmaker;lye)).
+% The ends: to clean, the maker's, an end of use; to gather where water and oil meet, by similitude.
+cause_of(soap,final,(cleaning;interfaces_end)). end_of_use(soap,cleaning).
+intellect_measures(human,soap,cleaning).
+% "per quem omnia facta sunt" (DH 150); the exemplar in the Word (I q. 44 a. 3).
+exemplar_of(son,soap). made_through(son,soap).
+conceived_as(cleaning,w_usus,human). conceived_as(interfaces_end,w_finis,human).
+conceived_as(amphiphilic_form,w_forma,human).
+% Whether soap is for an end: a question of natural philosophy, which no tier and no finding settles.
+question(q(soap_for_an_end)). question_kind(q(soap_for_an_end),natural). value(q(soap_for_an_end),(yes;no)).
+about(q(soap_for_an_end),soap).
+source(soap_t,5,truth,2026). supports(soap_t,q(soap_for_an_end),yes).
+encoding(en_soap,eng,2000,2026). encoding_route(en_soap,written).
+text_of(soap_text,soap_t,en_soap,2026). lexicon(lex_soap,en_soap,2026,usage).
+form_in((f_use;f_end;f_form;f_idea),soap_text,section(ix)).
+signifies(f_use,w_usus,lex_soap). signifies(f_end,w_finis,lex_soap). signifies(f_form,w_forma,lex_soap).
+signifies(f_idea,w_idea_divina,lex_soap).
+% Four arguments that soap is for washing: from its maker's end; from its own nature, its end and its
+% form; from God's intention for natural things; from its exemplar.
+argument(a_maker,soap_t,q(soap_for_an_end),yes). argues_from(a_maker,final,will).
+rests_on_form(a_maker,cd(final,will),f_use).
+argument(a_nature,soap_t,q(soap_for_an_end),yes). argues_from(a_nature,final,nature). argues_from(a_nature,formal,nature).
+rests_on_form(a_nature,cd(final,nature),f_end). rests_on_form(a_nature,cd(formal,nature),f_form).
+argument(a_god,soap_t,q(soap_for_an_end),yes). argues_from(a_god,final,god_physics).
+argument(a_logos,soap_t,q(soap_for_an_end),yes). argues_from(a_logos,formal,god_physics).
+rests_on_form(a_logos,cd(formal,god_physics),f_idea).
+#program micelle.                 % soap's gathering, as the chemistry has it (TTC-RERUM)
+% "Above the CMC, the solubility of the surfactant within the aqueous solution has been exceeded"; "The
+% driving mechanism for micellization is the transfer of hydrocarbon chains from water into the oil-like
+% interior", "the hydrophobic effect" (Tanford, The Hydrophobic Effect, 1973; his text owed in print).
+question(q(micelles_above_cmc)). question_kind(q(micelles_above_cmc),empirical).
+value(q(micelles_above_cmc),(yes;no)). finding(tanford_1973_cmc,q(micelles_above_cmc),yes,1973).
+question(q(micellization_entropic)). question_kind(q(micellization_entropic),empirical).
+value(q(micellization_entropic),(yes;no)). finding(tanford_1973_entropy,q(micellization_entropic),yes,1973).
+% Why stearate gathers: a joint whole, its parts each of their own kind.
+question_kind(q(stearate_gathers),natural).
+question_part((q(micelles_above_cmc);q(micellization_entropic)),q(stearate_gathers)).
+#program eda.                     % an energy decomposition: terms of a scheme, not parts and not causes (TTC-RERUM)
+% "there is not a unique way to compute quantities related with such intuitive chemical concepts" (Andres
+% et al., J. Comput. Chem. 40, 2019); "the energy components, which are not uniquely defined" (Phipps et
+% al., Chem. Soc. Rev. 44, 2015). That the water dimer binds, fixed by a computation; its terms under
+% SAPT (Jeziorski, Moszynski and Szalewicz, Chem. Rev. 94, 1994) and under an absolutely localized
+% variational scheme.
+question(q(dimer_binds)). question_kind(q(dimer_binds),empirical). value(q(dimer_binds),(yes;no)).
+finding(jeziorski_1994,q(dimer_binds),yes,1994). method(jeziorski_1994,simulation).
+scheme_term((t_elst;t_exch;t_ind;t_disp),q(dimer_binds),sapt).
+scheme_term((t_frz;t_pol;t_ct),q(dimer_binds),almo).
+question_kind(q(why_dimer_binds),natural). question_part(q(dimer_binds),q(why_dimer_binds)).
+#program locke_essence.           % gold, its form, and where knowing ends (TTC-RERUM)
+% The real essence "the very being of any thing, whereby it is, what it is" (Locke, Essay III.iii.15);
+% the mind "hath no other immediate object but its own ideas" (IV.1). Typed as a form of gold under
+% the word for gold.
+inanimate(gold). cause_of(gold,formal,gold_form). conceived_as(gold_form,w_aurum,human).
+question(q(gold_has_a_form)). question_kind(q(gold_has_a_form),natural). value(q(gold_has_a_form),(yes;no)).
+about(q(gold_has_a_form),gold).
+source(locke_essay_3,5,truth,1690). supports(locke_essay_3,q(gold_has_a_form),yes).
+encoding(en_1690,eng,1650,1750). encoding_route(en_1690,written).
+text_of(locke_essay_text,locke_essay_3,en_1690,1690). lexicon(lex_en_1690,en_1690,1690,usage).
+form_in(f_gold,locke_essay_text,iii_3_15). signifies(f_gold,w_aurum,lex_en_1690).
+argument(a_gold,locke_essay_3,q(gold_has_a_form),yes). argues_from(a_gold,formal,nature).
+rests_on_form(a_gold,cd(formal,nature),f_gold).
+#program joint_beginning.         % the world's origin as a joint whole (TTC-RERUM; load with beginning)
+question_kind(q(world_origin),natural).
+question_part((q(world_began);q(universe_expanding);q(age_of_universe)),q(world_origin)).
+#program joint_galileo.           % the heavens as a joint whole (TTC-RERUM; load with galileo)
+question_kind(q(the_heavens),natural).
+question_part((q(earth_moves);q(sun_at_rest)),q(the_heavens)).
+#program joint_one_root.          % the human origin as a joint whole (TTC-RERUM; load with one_root)
+question_kind(q(human_origin),natural). question_part(q(one_root),q(human_origin)).
+#program joint_method_being.      % what a body is, as a joint whole (TTC-RERUM; load with world and method_being)
+question_kind(q(what_a_body_is),natural). question_part(q(bodies_of_cells),q(what_a_body_is)).
+#program ockham_measure.          % Ockham measured: Thomas's idea by Ockham's (TTC-RERUM; TTC-PENDET's measure)
+% Thomas: "plures ideae sunt in mente divina ut intellectae ab ipso" (I q. 15 a. 2). Ockham: the divine
+% ideas the creatures themselves as known (Ord. I d. 35 q. 5; OTh IV owed in print). Each form in its own
+% encoding; the analogy declared with Thomas's idea prior; Ockham's form taken as the measure.
+source(aquinas_q15,5,truth,1268). promoted(aquinas_q15,4,1567).
+source(ockham_ord_i_d35,5,truth,1318).
+encoding(la_schol,lat,1250,1350). encoding(la_ockham,lat,1300,1350).
+encoding_route((la_schol;la_ockham),written).
+text_of(st_i_15,aquinas_q15,la_schol,1268). text_of(ord_i_35,ockham_ord_i_d35,la_ockham,1318).
+lexicon(lex_la_schol,la_schol,1268,commentary). lexicon(lex_la_ockham,la_ockham,1318,commentary).
+form_in(f_idea_th,st_i_15,a2). form_in(f_idea_oc,ord_i_35,q5).
+signifies(f_idea_th,w_idea_divina,lex_la_schol). signifies(f_idea_oc,w_creatura_cognita,lex_la_ockham).
+analogous(w_creatura_cognita,w_idea_divina,attribution,aquinas_i_13_6).
+measured_by(f_idea_th,f_idea_oc,ockham_ord_i_d35).
+#program cand_emanation.          % creatures emanated from the divine substance (refused, Dei Filius can. 1.4, DH 3024; load with world)
+gen(emanation,god,peter).
+#program cand_world_soul.         % "Deus esset anima mundi" (refused, I q. 3 a. 8; load with world)
+cause_of(cosmos,formal,god).
+#program cand_almarician.         % God "principium formale omnium rerum ... opinio Almarianorum" (refused, I q. 3 a. 8)
+cause_of(peter,formal,god).
+#program cand_dinant.             % David of Dinant "stultissime posuit Deum esse materiam primam" (refused, I q. 3 a. 8)
+cause_of(stone,material,god).
+#program cand_god_second_cause.   % God an efficient cause of a stone, the Son its final cause (refused; load with world, trinity)
+cause_of(stone,efficient,god). cause_of(stone,final,son).
+#program cand_only_matter.        % "praeter materiam nihil esse" (refused, Dei Filius can. 1.2, DH 3022)
+nothing_but_matter(c_materialism).
+#program cand_made_through_creature. % the demiurge, through whom the world was made (refused, DH 150; untyped)
+made_through(demiurge,peter).
+#program cand_form_as_thing.      % the oak's form typed as a thing (refused, I q. 45 a. 4; load with world)
+cause_of(oak,formal,oak_form). inanimate(oak_form).
+#program cand_soul_as_form.       % a subsisting form the formal cause of a man (I q. 75 a. 2; DH 902): stands
+cause_of(peter,formal,soul_of_peter). subsisting_form(soul_of_peter).
+#program cand_art_alone.          % the soap made by art alone (refused, III q. 75 a. 6 ad 1)
+makes(soapmaker,soap,by_art_alone).
+#program cand_human_measure.      % soap's form said measured by our intellect (refused where things measure us)
+intellect_measures(human,soap,amphiphilic_form).
+#program cand_matter_alone.       % prime matter in act without any form (I q. 66 a. 1 ad 3; Opus Oxoniense II d. 12 q. 1)
+exists_without_form(prime_matter).
+#program cand_design.             % a design argument's typing: God an efficient cause of a flagellum, its end a force (load with world)
+cause_of(flagellum,efficient,god). measures_as(m_design,final,efficient).
+#program cand_praise.             % praise through a knower (GS 14): load with world, trinity and creed
+voiced_through(stone,peter,god). voiced_through(water,son,father).
+voiced_through(lion,oak,god). voiced_through(star,peter,anna).
+#program cand_term_as_cause.      % a term of a scheme typed as a cause (refused)
+cause_of(dimer,efficient,t_disp).
+#program cand_term_as_part.       % a term of a scheme typed as a part (refused)
+inanimate(t_elst).
+#program cand_nothing_but_names.  % the universal no more than a name (refused, I q. 85 a. 2 ad 2)
+nothing_but_names(c_names,w_humanitas).
+#program cand_premise_without_thing. % an argument from nature's end, with no cause in a thing entered
+question_kind(q(pwt_whole),natural).
+source(pwt_t,5,truth,2026). argument(a_pwt,pwt_t,q(pwt_whole),yes). argues_from(a_pwt,final,nature).
+#program natural_taught_hyp.      % HYPOTHETICAL: a definition on whether soap is for an end (QN1)
+source(def_n,1,truth,2026). hypothetical_warrant(def_n). supports(def_n,q(soap_for_an_end),yes).
+#program conflict_hyp.            % HYPOTHETICAL: a finding claimed to conflict with a definition (QN3; with beginning, joint_beginning)
+question(q(cosmos_eternal)). question_kind(q(cosmos_eternal),empirical). value(q(cosmos_eternal),(yes;no)).
+finding(f_hyp,q(cosmos_eternal),yes,2020).
+claims_conflict(claimant_hyp,f_hyp,q(world_began),yes).
+#program conflict_reformable_hyp. % HYPOTHETICAL: a finding claimed to conflict with a teaching below tier 1 (with one_root, joint_one_root)
+question(q(many_first_parents)). question_kind(q(many_first_parents),empirical).
+value(q(many_first_parents),(yes;no)). finding(f_hyp_r,q(many_first_parents),yes,2020).
+claims_conflict(claimant_hyp_r,f_hyp_r,q(one_root),yes).
+#program resense_hyp.             % HYPOTHETICAL: a finding said to give a definition and a text of Scripture another sense (with beginning, galileo)
+resenses(f_hyp_t0,lateran_iv_1215,at_t_zero).
+resenses(bradley_1729,josh10_12,by_appearances).
+#program rendering_hyp.           % HYPOTHETICAL: a word for force that renders an end, and one that converts it (QV1)
+measures_as(m_render,final,efficient). measure_word(m_render,w_driving_force).
+analogous(w_driving_force,w_finis,proportionality,c_hyp).
+carries(w_driving_force,w_finis,cd(final,nature)).
+measures_as(m_convert,final,efficient).
 
 % ---------- domains (L) ---------------------------------------------
 #program base.

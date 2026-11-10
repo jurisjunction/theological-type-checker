@@ -42,7 +42,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | pendet | a term lifted above an order, reached by every node of it and no node of it; room for one; a measure that changes where one stands and not what one reaches; the law hanging on its end (Mt 22:40) | done ([ttc-pendet(7)](research/pendet-preregistration.md)) |
 | rota | published Rotal sentences as cases of the consent canons, the Rota's findings as their premises, its readings as acts that weigh | predicted; encoded and scored on a branch, not merged ([ttc-rota(7)](research/rota-preregistration.md)) |
 | personae | juridic persons (cc. 114–117, 1257 §2) and two duties of clerics (cc. 285 §4, 286) | predicted; an exploratory layer on a branch ([ttc-personae(7)](research/personae-preregistration.md)) |
-| rerum | things by their causes; God neither form nor matter of a thing, nor a second cause; the word between the thing and the argument, and the direction of the measure; a natural question as a joint work; the schools' readings at four loci | predicted ([ttc-rerum(7)](research/rerum-preregistration.md)) |
+| rerum | things by their causes; God neither form nor matter of a thing, nor a second cause; the word between the thing and the argument, and the direction of the measure; a natural question as a joint work; the schools' readings at four loci; Plato and Aristotle merged | done ([ttc-rerum(7)](research/rerum-preregistration.md)) |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 The repairs, the agent studies and the smaller steps are not foundation

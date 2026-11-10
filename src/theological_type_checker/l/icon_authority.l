@@ -8,7 +8,7 @@ sort tier 0..5
 sort force {truth, juridical, protective}
   means "a source's force"
 
-sort question_kind {doctrinal, governance, juridical, empirical}
+sort question_kind {doctrinal, governance, juridical, empirical, natural}
   means "a question's type; it decides lex posterior"
 
 sort papal_form {ex_cathedra, definitive_declaration, legislative, ordinary}
@@ -294,7 +294,7 @@ slot question(Q: question)
   say "{Q} is asked"
 
 slot question_kind(Q: question, K: question_kind)
-  means "question_kind(Q, K): the type of Q: doctrinal, governance, juridical, empirical"
+  means "question_kind(Q, K): the type of Q: doctrinal, governance, juridical, empirical, natural (a question of natural philosophy, answered by availability in a horizon; TTC-RERUM)"
   say "{Q} is a {K} question"
 
 slot reading(S: source, R: reading)
@@ -401,6 +401,9 @@ result condition_without_witness(S: source, C: shown_condition)
 result claim_unstated(S: source, C: claimant)
   say "{C} is entered as claiming {S} as ordinary universal magisterium, but is not entered as stating it in its own words"
 
+result natural_question_taught(S: source, Q: question)
+  say "{S}, in force at a tier of teaching, supports a value on {Q}, a question of natural philosophy: it neither deletes, cleaves nor weighs there"
+
 result first_stated(S: source, C: claimant, Y: year)
   say "the claim on {S} is first stated in words by {C}, in {Y}"
 
@@ -425,6 +428,14 @@ in_force(S)     :- source(S,_,_,Y), asof(A), Y <= A, not relaxed(S), not withdra
 % A question the sciences answer: no tier deletes, cleaves or weighs on it.
 % Findings fix it from their year (empirica.lp).
 empirical_q(Q) :- question_kind(Q,empirical).
+% A question of natural philosophy (TTC-RERUM) joins the empirical kind in
+% every exemption above, and in no other rule: no finding fixes it
+% (empirica.lp), and an act answering it is not refused as answering a
+% fact. It is answered by availability in a horizon (causae.lp). A source
+% of tiers 1 to 3 that supports a value on one is reported.
+empirical_q(Q) :- question_kind(Q,natural).
+info(natural_question_taught(S,Q)) :- question_kind(Q,natural), supports(S,Q,_), in_force(S), eff_tier(S,T),
+                                      T >= 1, T <= 3.
 
 % ---------- Ambiguous texts: one branch per reading -------------------
 % a source marked ambiguous but given no readings is a frontier item, not a contradiction

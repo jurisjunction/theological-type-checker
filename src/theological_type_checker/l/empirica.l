@@ -5,6 +5,9 @@ layer libraries
 sort finding
   means "a finding of the sciences"
 
+sort scheme
+  means "a scheme of decomposition, by its name: a way of splitting a computed total into terms (TTC-RERUM)"
+
 ```clingo
 % ===================================================================
 %  The empirical kind; how many human beings (TTC-EMPIRICA)
@@ -127,6 +130,61 @@ slot denies_descent(X: entity, R: category)
   means "denies_descent(X, R): a claim that X, a human being, does not descend from Adam by generation, for the reason R (many_first_parents, before_adam, separate_creation)"
   say "{X} is claimed not to descend from Adam, for {R}"
 
+slot question_part(Q1: question, Q: question)
+  means "question_part(Q1, Q): Q1 is a part of the joint whole Q, a natural question composed of parts each of its own kind (TTC-RERUM)"
+  say "{Q1} is a part of the joint whole {Q}"
+
+slot claims_conflict(C: claimant, F: finding, Q1: question, V: value)
+  means "claims_conflict(C, F, Q1, V): C says the finding F conflicts with the value V on Q1"
+  say "{C} says the finding {F} conflicts with {V} on {Q1}"
+
+slot resenses(F: finding, S: source, R: reading)
+  means "resenses(F, S, R): the finding F is said to give the text S another sense, R (Dei Filius can. 4.3, DH 3043)"
+  say "the finding {F} is said to give {S} the sense {R}"
+
+slot scheme_term(T: entity, Q: question, S: scheme)
+  means "scheme_term(T, Q, S): T is a term of the total that Q asks, under the scheme S"
+  say "under {S}, {T} is a term of the total that {Q} asks"
+
+result joint_part(Q: question, Q1: question, K: question_kind)
+  say "{Q1}, a {K} question, is a part of the joint whole {Q}"
+
+result part_of_no_natural_question(Q1: question, Q: question)
+  say "{Q1} is entered as a part of {Q}, which is no question of natural philosophy: refused"
+
+result part_cycle(Q: question)
+  say "{Q} is a part of itself: refused"
+
+result misread_dogma(C: claimant, Q1: question)
+  say "on this branch the conflict {C} claims on {Q1} rests on a dogma not understood as the Church understands it (DH 3017)"
+
+result opinion_for_finding(F: finding)
+  say "on this branch {F} is an opinion taken for a finding of reason (DH 3017), and fixes nothing"
+
+result reserved_to_the_author(Q: question, F: finding, Q1: question)
+  say "a conflict is claimed between the finding {F} and a definition on {Q1}, a part of {Q}: reserved, never resolved here (DH 3017)"
+
+result conflict_with_reformable(C: claimant, F: finding, Q1: question)
+  say "{C} claims the finding {F} conflicts with a teaching on {Q1} below tier 1: nothing branches"
+
+result dogma_resensed_by_finding(F: finding, S: source)
+  say "the finding {F} is said to give {S}, a definition, another sense: refused (Dei Filius can. 4.3, DH 3043)"
+
+result scripture_read_by_finding(F: finding, S: source, R: reading)
+  say "the finding {F} is said to read {S}, a text of Scripture, as {R}: reported"
+
+result scheme_relative(Q: question)
+  say "{Q} is split into terms by two schemes: its terms are relative to a scheme"
+
+result term_as_part(T: entity)
+  say "{T}, a term of a scheme, is typed as a creature: a term is no part of a thing"
+
+result term_as_cause(T: entity, X: entity)
+  say "{T}, a term of a scheme, is typed as a cause of {X}: a term is no cause"
+
+result fixed_by_simulation(Q: question, V: value, F: finding)
+  say "{Q} is fixed {V} by {F}, a finding reached by simulation"
+
 use question_kind/2 "icon_authority.lp"
 
 use holds/2 "icon_authority.lp"
@@ -152,7 +210,8 @@ use of_kind/2 "from the theological side (pair.lp): in this branch the thing is 
 % ---------- The empirical kind (EM) ------------------------------------------
 empirical(Q) :- question_kind(Q,empirical).
 later_finding(F) :- finding(F,Q,_,Y), finding(F2,Q,_,Y2), F2 != F, Y2 > Y, asof(A), Y2 <= A.
-fixed_by(Q,V,F)  :- finding(F,Q,V,Y), empirical(Q), asof(A), Y <= A, not later_finding(F).
+fixed_by(Q,V,F)  :- finding(F,Q,V,Y), empirical(Q), asof(A), Y <= A, not later_finding(F),
+                    not opinion_for_finding(F).
 :- holds(Q,W), fixed_by(Q,V,_), W != V.
 info(fixed_by_finding(Q,V,F)) :- fixed_by(Q,V,F).
 violation(act_answers_a_fact(S,Q))       :- supports(S,Q,_), empirical(Q), in_force(S), source(S,T,_,_), T >= 1, T <= 3.
@@ -160,6 +219,53 @@ violation(fact_censured_as_heresy(S,Q))  :- censures_as_heresy(S,Q,_), empirical
 violation(fact_censured_in_faith(S,Q))   :- censures_in_faith(S,Q,_), empirical(Q), in_force(S).
 violation(finding_on_a_doctrine(F,Q))    :- finding(F,Q,_,Y), question_kind(Q,doctrinal), asof(A), Y <= A.
 violation(doctrine_rests_on_finding(S,Q,F)) :- rests_on_finding(S,Q,F), question_kind(Q,doctrinal), in_force(S).
+
+% ---------- A joint work (TTC-RERUM) ------------------------------------------
+% A question of natural philosophy may be a whole composed of parts, each of
+% its own kind: "duplicem esse ordinem cognitionis", the disciplines each
+% "in suo ambitu propriis ... principiis et propria methodo" (Dei Filius ch.
+% 4, DH 3015, 3019). A joint whole is entered by question_kind(Q,natural)
+% and its parts, never by question/1.
+info(joint_part(Q,Q1,K)) :- question_part(Q1,Q), question_kind(Q1,K).
+violation(part_of_no_natural_question(Q1,Q)) :- question_part(Q1,Q), not question_kind(Q,natural).
+part_within(Q1,Q) :- question_part(Q1,Q).
+part_within(Q1,Q) :- question_part(Q1,Q2), part_within(Q2,Q).
+violation(part_cycle(Q)) :- part_within(Q,Q).
+% A claimed conflict. "Nulla tamen umquam inter fidem et rationem vera
+% dissensio esse potest. Inanis autem huius contradictionis species inde
+% potissimum oritur, quod vel fidei dogmata ad mentem Ecclesiae intellecta
+% et exposita non fuerint, vel opinionum commenta pro rationis effatis
+% habeantur" (DH 3017). Against a value a tier-1 source in force supports,
+% the claim is computed both ways, on the two diagnoses, and neither is
+% preferred; on the second the finding fixes nothing. The value is
+% untouched on both, and the question is reported reserved, never resolved.
+% Below tier 1 nothing branches: the base's shadows already carry a
+% reformable teaching.
+defined_value(Q1,V) :- supports(S,Q1,V), in_force(S), eff_tier(S,1).
+conflict_at_definition(C,F,Q1) :- claims_conflict(C,F,Q1,V), defined_value(Q1,V).
+misread_dogma(C,Q1)    :- conflict_at_definition(C,F,Q1), not opinion_for_finding(F).
+opinion_for_finding(F) :- conflict_at_definition(C,F,Q1), not misread_dogma(C,Q1).
+assumed_fact(misread_dogma(C,Q1)) :- misread_dogma(C,Q1).
+assumed_fact(opinion_for_finding(F)) :- opinion_for_finding(F).
+info(reserved_to_the_author(Q,F,Q1)) :- conflict_at_definition(_,F,Q1), question_part(Q1,Q).
+info(conflict_with_reformable(C,F,Q1)) :- claims_conflict(C,F,Q1,V), not defined_value(Q1,V).
+% "Si quis dixerit, fieri posse, ut dogmatibus ab Ecclesia propositis aliquando
+% secundum progressum scientiae sensus tribuendus sit alius" (can. 4.3, DH
+% 3043): a definition is not re-read by a finding. Scripture, read and never
+% raw, may be: reported.
+violation(dogma_resensed_by_finding(F,S)) :- resenses(F,S,_), in_force(S), eff_tier(S,1).
+info(scripture_read_by_finding(F,S,R))    :- resenses(F,S,R), eff_tier(S,0).
+
+% ---------- Decomposition and the oracle (TTC-RERUM) ---------------------------
+% "There is not a unique way to compute quantities related with such
+% intuitive chemical concepts" (Andres et al., 2019): the terms of a
+% scheme split a computed total, and are never parts of a thing and never
+% its causes. A simulation is a method a finding may be reached by.
+scheme_of(Q,S) :- scheme_term(_,Q,S).
+info(scheme_relative(Q)) :- scheme_of(Q,S1), scheme_of(Q,S2), S1 < S2.
+violation(term_as_part(T))    :- scheme_term(T,_,_), creature(T).
+violation(term_as_cause(T,X)) :- scheme_term(T,_,_), cause_of(X,_,T).
+info(fixed_by_simulation(Q,V,F)) :- fixed_by(Q,V,F), method(F,simulation).
 
 % ---------- The Fathers' consent, outside faith and morals (GL) --------------
 claimed_consent(S) :- consent_claimant(S,_).

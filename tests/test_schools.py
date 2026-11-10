@@ -2,7 +2,7 @@
 
     TTC_SLOW=1 python3 -m pytest -q tests/test_schools.py
 
-The boots of TTC-MODERNITY's 33 runtimes (TTC-LOCI, EX1) take about as long
+The boots of TTC-MODERNITY's 33 runtimes and TTC-RERUM's three (TTC-LOCI, EX1) take about as long
 again, and run only when asked:
 
     TTC_SLOW=1 TTC_SLOW_MODERNITY=1 python3 -m pytest -q tests/test_schools.py
@@ -91,15 +91,18 @@ AS_SUAREZIAN = ("suarez_dm23", "descartes", "spinoza", "grotius", "leibniz", "ka
                 "kant_humanity", "kant_mm", "suarez_wl", "spinoza_wl", "leibniz_wl")
 AS_NOTHING = ("scotus_dpp", "ockham", "bacon", "hobbes", "scotus_will", "ockham_will", "ockham_nominal", "hobbes_wl",
               "marx", "marx_social", "lassalle")
+# TTC-RERUM SU1 (rule 7): the 33 become 36. Plato, Aristotle and their merge express no reading of simplicity or
+# esse, and nothing on the boot set asks about a thing, so each changes nothing.
+AS_NOTHING_RERUM = ("plato", "aristotle", "concordia")
 BOOT_MODERNITY = {**{r: BOOT_B["thomist"] for r in AS_THOMIST}, **{r: BOOT_B["suarezian"] for r in AS_SUAREZIAN},
-                  **{r: ([], []) for r in AS_NOTHING}}
+                  **{r: ([], []) for r in AS_NOTHING + AS_NOTHING_RERUM}}
 
 
 def test_the_modernities_are_the_runtimes_of_their_step():
     from theological_type_checker import engine
     from theological_type_checker.schools import SCHOOLS, TONGUES
     assert set(BOOT_MODERNITY) == set(engine.RUNTIMES) - {"bare", "default", *SCHOOLS, *TONGUES}
-    assert len(BOOT_MODERNITY) == 33
+    assert len(BOOT_MODERNITY) == 36
 
 
 @pytest.mark.skipif(not os.environ.get("TTC_SLOW_MODERNITY"), reason="slower: set TTC_SLOW_MODERNITY=1 too")

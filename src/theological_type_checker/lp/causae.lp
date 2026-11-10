@@ -51,6 +51,7 @@
 % @input argues_from/3 | argues_from(R, C, D): the reading R rests on the cause C in the domain D; an argument is its own first reading
 % @input reading_of/2 | reading_of(R, A): R is a further reading of the argument A
 % @input measures_as/3 | measures_as(M, C1, C2): the measure M takes a cause C1 as a cause C2
+% @input measure_word/2 | measure_word(M, W): the measure M names the cause it measures with the word W (TTC-RERUM)
 % @input concludes_heard/3 | concludes_heard(A, L, C): C claims that A, heard under the lexicon L and shorter there, still concludes
 % @input cause_domain/1 | cause_domain(D): the library's, a domain in which it holds the efficient and the material cause
 % @input vm_guest/1 | vm_guest(R): the part vm_R loads R's horizon as the VM's guest
@@ -153,11 +154,16 @@ info(guest_sole_reason(S,A,Q,V)) :- sole_in(guest,S,A,Q,V), avail(here,A), other
 desire_only :- holds_cause(final,will), not holds_cause(final,nature), not holds_cause(final,god_physics),
                not holds_cause(final,god_ethics), not holds_cause(final,human), not holds_cause(formal,will),
                not holds_cause(formal,reason).
-violation(cause_converted(M,final,efficient)) :- measures_as(M,final,efficient), not desire_only.
-info(conversion_native(M)) :- measures_as(M,final,efficient), desire_only.
+violation(cause_converted(M,final,efficient)) :- measures_as(M,final,efficient), not desire_only, not rendered(M).
+info(conversion_native(M)) :- measures_as(M,final,efficient), desire_only, not rendered(M).
+% A rendering is not a conversion (TTC-RERUM): a word for force said of the
+% end by analogy, and carrying it, names the end and measures nothing as a
+% force.
+rendering_word(M,W,W1,K) :- measure_word(M,W), analogous(W,W1,K,_), carries(W,W1,cd(final,_)).
+rendered(M) :- rendering_word(M,_,_,_).
+info(cause_rendered(M,W,W1,K)) :- rendering_word(M,W,W1,K).
 
 % ---------- domains (L) ---------------------------------------------
-in_sort(cause,(material;formal;efficient;final)).
 in_sort(domain,(nature;god_physics;god_ethics;human;will;self;reason)).
 violation(outside_domain(argues_from,2,C)) :- argues_from(_,C,_), not in_sort(cause,C).
 violation(outside_domain(argues_from,3,D)) :- argues_from(_,_,D), not in_sort(domain,D).

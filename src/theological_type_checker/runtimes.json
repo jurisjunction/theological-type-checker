@@ -13,7 +13,9 @@
    "soul_as_form",
    "ends_desired",
    "self_preservation",
-   "object_as_form"
+   "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us"
   ],
   "thomist": [
    "classical",
@@ -28,6 +30,8 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "th01",
    "th03",
    "th04",
@@ -41,7 +45,9 @@
    "mixed_relations",
    "transcendentals",
    "holds_premotion",
-   "one_place_circumscribed"
+   "one_place_circumscribed",
+   "ideas_in_the_word",
+   "matter_never_without_form"
   ],
   "scotist": [
    "classical",
@@ -56,12 +62,15 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "simplicity_scotist",
    "attributes_formal",
    "univocity_of_concept",
    "scotus_esse",
    "mixed_relations",
-   "transcendentals"
+   "transcendentals",
+   "matter_can_be_without_form"
   ],
   "suarezian": [
    "classical",
@@ -76,6 +85,8 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "simplicity_thomist",
    "attributes_by_reason",
    "suarez_esse",
@@ -95,11 +106,14 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "simplicity_palamite",
    "palamite_energies",
    "monopatrism",
    "no_divine_contraction",
-   "grace_uncreated"
+   "grace_uncreated",
+   "ideas_as_energies"
   ],
   "saussure": [
    "classical",
@@ -113,6 +127,8 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "word_by_division"
   ],
   "vocal": [
@@ -128,6 +144,8 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "verbum_vocal"
   ],
   "lingual": [
@@ -143,6 +161,8 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "verbum_lingual"
   ],
   "scotus_dpp": [
@@ -157,12 +177,15 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "simplicity_scotist",
    "attributes_formal",
    "univocity_of_concept",
    "scotus_esse",
    "mixed_relations",
-   "transcendentals"
+   "transcendentals",
+   "matter_can_be_without_form"
   ],
   "ockham": [
    "classical",
@@ -174,10 +197,13 @@
    "soul_as_form",
    "ends_desired",
    "self_preservation",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "univocity_of_concept",
    "scotus_esse",
    "mixed_relations",
-   "transcendentals"
+   "transcendentals",
+   "matter_can_be_without_form"
   ],
   "suarez_dm23": [
    "classical",
@@ -191,13 +217,16 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "simplicity_thomist",
    "attributes_by_reason",
    "suarez_esse",
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "univocity_of_concept"
+   "univocity_of_concept",
+   "matter_can_be_without_form"
   ],
   "bacon": [
    "classical",
@@ -209,7 +238,9 @@
    "soul_as_form",
    "ends_desired",
    "self_preservation",
-   "object_as_form"
+   "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us"
   ],
   "descartes": [
    "classical",
@@ -221,13 +252,16 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "things_measure_us",
    "simplicity_thomist",
    "attributes_by_reason",
    "suarez_esse",
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "univocity_of_concept"
+   "univocity_of_concept",
+   "matter_can_be_without_form",
+   "ideas_as_objects"
   ],
   "hobbes": [
    "classical",
@@ -235,10 +269,12 @@
    "word_of_no_tongue",
    "ends_desired",
    "self_preservation",
+   "things_measure_us",
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "univocity_of_concept"
+   "univocity_of_concept",
+   "matter_can_be_without_form"
   ],
   "spinoza": [
    "classical",
@@ -246,13 +282,16 @@
    "word_of_no_tongue",
    "ends_desired",
    "self_preservation",
+   "things_measure_us",
    "simplicity_thomist",
    "attributes_by_reason",
    "suarez_esse",
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "univocity_of_concept"
+   "univocity_of_concept",
+   "matter_can_be_without_form",
+   "ideas_as_objects"
   ],
   "hooker": [
    "classical",
@@ -267,6 +306,8 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "th01",
    "th03",
    "th04",
@@ -280,7 +321,9 @@
    "mixed_relations",
    "transcendentals",
    "holds_premotion",
-   "one_place_circumscribed"
+   "one_place_circumscribed",
+   "ideas_in_the_word",
+   "matter_never_without_form"
   ],
   "grotius": [
    "classical",
@@ -294,13 +337,16 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "simplicity_thomist",
    "attributes_by_reason",
    "suarez_esse",
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "univocity_of_concept"
+   "univocity_of_concept",
+   "matter_can_be_without_form"
   ],
   "locke": [
    "classical",
@@ -310,6 +356,7 @@
    "ends_by_god_ethics",
    "ends_desired",
    "self_preservation",
+   "things_measure_us",
    "th01",
    "th04",
    "th06",
@@ -322,8 +369,10 @@
    "transcendentals",
    "holds_premotion",
    "one_place_circumscribed",
+   "ideas_in_the_word",
    "holds_concurrence",
-   "univocity_of_concept"
+   "univocity_of_concept",
+   "ideas_as_objects"
   ],
   "leibniz": [
    "classical",
@@ -337,6 +386,7 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "things_measure_us",
    "simplicity_thomist",
    "attributes_by_reason",
    "suarez_esse",
@@ -344,6 +394,7 @@
    "transcendentals",
    "holds_concurrence",
    "univocity_of_concept",
+   "matter_can_be_without_form",
    "ends_in_nature"
   ],
   "kant": [
@@ -358,7 +409,9 @@
    "transcendentals",
    "holds_concurrence",
    "univocity_of_concept",
-   "form_of_law"
+   "matter_can_be_without_form",
+   "form_of_law",
+   "mind_prescribes"
   ],
   "scotus_will": [
    "classical",
@@ -370,12 +423,15 @@
    "soul_as_form",
    "ends_desired",
    "self_preservation",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "simplicity_scotist",
    "attributes_formal",
    "univocity_of_concept",
    "scotus_esse",
    "mixed_relations",
-   "transcendentals"
+   "transcendentals",
+   "matter_can_be_without_form"
   ],
   "ockham_will": [
    "classical",
@@ -386,10 +442,13 @@
    "soul_as_form",
    "ends_desired",
    "self_preservation",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "univocity_of_concept",
    "scotus_esse",
    "mixed_relations",
-   "transcendentals"
+   "transcendentals",
+   "matter_can_be_without_form"
   ],
   "ockham_nominal": [
    "classical",
@@ -400,10 +459,14 @@
    "ends_of_human_nature",
    "ends_desired",
    "self_preservation",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "univocity_of_concept",
    "scotus_esse",
    "mixed_relations",
-   "transcendentals"
+   "transcendentals",
+   "matter_can_be_without_form",
+   "ideas_creatures_known"
   ],
   "descartes_will": [
    "classical",
@@ -413,13 +476,16 @@
    "soul_as_form",
    "ends_desired",
    "self_preservation",
+   "things_measure_us",
    "simplicity_thomist",
    "attributes_by_reason",
    "suarez_esse",
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "univocity_of_concept"
+   "univocity_of_concept",
+   "matter_can_be_without_form",
+   "ideas_as_objects"
   ],
   "grotius_etiamsi": [
    "classical",
@@ -432,13 +498,16 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "simplicity_thomist",
    "attributes_by_reason",
    "suarez_esse",
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "univocity_of_concept"
+   "univocity_of_concept",
+   "matter_can_be_without_form"
   ],
   "kant_humanity": [
    "classical",
@@ -452,7 +521,9 @@
    "transcendentals",
    "holds_concurrence",
    "univocity_of_concept",
+   "matter_can_be_without_form",
    "form_of_law",
+   "mind_prescribes",
    "ends_of_human_nature"
   ],
   "kant_mm": [
@@ -467,7 +538,9 @@
    "transcendentals",
    "holds_concurrence",
    "univocity_of_concept",
+   "matter_can_be_without_form",
    "form_of_law",
+   "mind_prescribes",
    "ends_in_nature",
    "self_preservation"
   ],
@@ -483,13 +556,16 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "simplicity_thomist",
    "attributes_by_reason",
    "suarez_esse",
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "univocity_of_concept"
+   "univocity_of_concept",
+   "matter_can_be_without_form"
   ],
   "hobbes_wl": [
    "classical",
@@ -497,10 +573,12 @@
    "word_of_no_tongue",
    "ends_desired",
    "self_preservation",
+   "things_measure_us",
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "univocity_of_concept"
+   "univocity_of_concept",
+   "matter_can_be_without_form"
   ],
   "spinoza_wl": [
    "classical",
@@ -508,13 +586,16 @@
    "word_of_no_tongue",
    "ends_desired",
    "self_preservation",
+   "things_measure_us",
    "simplicity_thomist",
    "attributes_by_reason",
    "suarez_esse",
    "mixed_relations",
    "transcendentals",
    "holds_concurrence",
-   "univocity_of_concept"
+   "univocity_of_concept",
+   "matter_can_be_without_form",
+   "ideas_as_objects"
   ],
   "locke_wl": [
    "classical",
@@ -524,6 +605,7 @@
    "ends_by_god_ethics",
    "ends_desired",
    "self_preservation",
+   "things_measure_us",
    "th01",
    "th04",
    "th06",
@@ -536,8 +618,10 @@
    "transcendentals",
    "holds_premotion",
    "one_place_circumscribed",
+   "ideas_in_the_word",
    "holds_concurrence",
-   "univocity_of_concept"
+   "univocity_of_concept",
+   "ideas_as_objects"
   ],
   "leibniz_wl": [
    "classical",
@@ -551,6 +635,7 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "things_measure_us",
    "simplicity_thomist",
    "attributes_by_reason",
    "suarez_esse",
@@ -558,6 +643,7 @@
    "transcendentals",
    "holds_concurrence",
    "univocity_of_concept",
+   "matter_can_be_without_form",
    "ends_in_nature"
   ],
   "episcopate_1891": [
@@ -573,6 +659,8 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "th01",
    "th03",
    "th04",
@@ -587,6 +675,8 @@
    "transcendentals",
    "holds_premotion",
    "one_place_circumscribed",
+   "ideas_in_the_word",
+   "matter_never_without_form",
    "figure_episcopate_1891"
   ],
   "social_catholic": [
@@ -602,6 +692,8 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
    "th01",
    "th03",
    "th04",
@@ -615,7 +707,9 @@
    "mixed_relations",
    "transcendentals",
    "holds_premotion",
-   "one_place_circumscribed"
+   "one_place_circumscribed",
+   "ideas_in_the_word",
+   "matter_never_without_form"
   ],
   "smith": [
    "classical",
@@ -625,6 +719,7 @@
    "ends_by_god_ethics",
    "ends_desired",
    "self_preservation",
+   "things_measure_us",
    "th01",
    "th04",
    "th06",
@@ -637,8 +732,10 @@
    "transcendentals",
    "holds_premotion",
    "one_place_circumscribed",
+   "ideas_in_the_word",
    "holds_concurrence",
-   "univocity_of_concept"
+   "univocity_of_concept",
+   "ideas_as_objects"
   ],
   "angers": [
    "classical",
@@ -653,6 +750,7 @@
    "ends_desired",
    "self_preservation",
    "object_as_form",
+   "things_measure_us",
    "th01",
    "th03",
    "th04",
@@ -667,6 +765,8 @@
    "transcendentals",
    "holds_premotion",
    "one_place_circumscribed",
+   "ideas_in_the_word",
+   "matter_never_without_form",
    "holds_concurrence",
    "univocity_of_concept"
   ],
@@ -678,6 +778,7 @@
    "ends_by_god_ethics",
    "ends_desired",
    "self_preservation",
+   "things_measure_us",
    "th01",
    "th04",
    "th06",
@@ -690,8 +791,10 @@
    "transcendentals",
    "holds_premotion",
    "one_place_circumscribed",
+   "ideas_in_the_word",
    "holds_concurrence",
    "univocity_of_concept",
+   "ideas_as_objects",
    "figure_george"
   ],
   "george_hn": [
@@ -702,6 +805,7 @@
    "ends_by_god_ethics",
    "ends_desired",
    "self_preservation",
+   "things_measure_us",
    "th01",
    "th04",
    "th06",
@@ -714,8 +818,10 @@
    "transcendentals",
    "holds_premotion",
    "one_place_circumscribed",
+   "ideas_in_the_word",
    "holds_concurrence",
    "univocity_of_concept",
+   "ideas_as_objects",
    "figure_george",
    "ends_of_human_nature"
   ],
@@ -726,7 +832,9 @@
    "ends_of_human_nature",
    "ends_desired",
    "self_preservation",
-   "object_as_form"
+   "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us"
   ],
   "marx_social": [
    "classical",
@@ -734,7 +842,9 @@
    "word_of_no_tongue",
    "ends_desired",
    "self_preservation",
-   "object_as_form"
+   "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us"
   ],
   "lassalle": [
    "classical",
@@ -746,7 +856,57 @@
    "soul_as_form",
    "ends_desired",
    "self_preservation",
-   "object_as_form"
+   "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us"
+  ],
+  "plato": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
+   "ideas_subsisting"
+  ],
+  "aristotle": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_of_human_nature",
+   "soul_as_form",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
+   "ideas_no_exemplar"
+  ],
+  "concordia": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
+   "soul_as_form",
+   "ideas_in_the_word"
   ]
  },
  "declared": {
@@ -806,6 +966,14 @@
     [
      "add",
      "object_as_form"
+    ],
+    [
+     "add",
+     "knowing_ends_in_things"
+    ],
+    [
+     "add",
+     "things_measure_us"
     ]
    ]
   },
@@ -870,6 +1038,14 @@
     [
      "add",
      "one_place_circumscribed"
+    ],
+    [
+     "add",
+     "ideas_in_the_word"
+    ],
+    [
+     "add",
+     "matter_never_without_form"
     ]
    ]
   },
@@ -902,6 +1078,10 @@
     [
      "add",
      "transcendentals"
+    ],
+    [
+     "add",
+     "matter_can_be_without_form"
     ]
    ]
   },
@@ -966,6 +1146,10 @@
     [
      "add",
      "grace_uncreated"
+    ],
+    [
+     "add",
+     "ideas_as_energies"
     ]
    ]
   },
@@ -1109,6 +1293,10 @@
     [
      "exclude",
      "ends_by_god_physics"
+    ],
+    [
+     "add",
+     "ideas_as_objects"
     ]
    ]
   },
@@ -1243,6 +1431,11 @@
     [
      "exclude",
      "object_as_form"
+    ],
+    [
+     "express",
+     "in_the_idea",
+     "terminus"
     ]
    ]
   },
@@ -1308,6 +1501,10 @@
     [
      "add",
      "form_of_law"
+    ],
+    [
+     "add",
+     "mind_prescribes"
     ]
    ]
   },
@@ -1348,6 +1545,10 @@
     [
      "exclude",
      "soul_as_form"
+    ],
+    [
+     "add",
+     "ideas_creatures_known"
     ]
    ]
   },
@@ -1560,6 +1761,11 @@
     [
      "exclude",
      "object_as_form"
+    ],
+    [
+     "express",
+     "in_the_idea",
+     "terminus"
     ]
    ]
   },
@@ -1726,6 +1932,67 @@
      "ends_by_god_ethics"
     ]
    ]
+  },
+  "plato": {
+   "extends": [
+    "default"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "soul_as_form"
+    ],
+    [
+     "add",
+     "ideas_subsisting"
+    ]
+   ]
+  },
+  "aristotle": {
+   "extends": [
+    "default"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "ends_by_god_physics"
+    ],
+    [
+     "exclude",
+     "ends_by_god_ethics"
+    ],
+    [
+     "add",
+     "ideas_no_exemplar"
+    ]
+   ]
+  },
+  "concordia": {
+   "extends": [
+    "plato",
+    "aristotle"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "soul_as_form"
+    ],
+    [
+     "add",
+     "ends_by_god_physics"
+    ],
+    [
+     "add",
+     "ends_by_god_ethics"
+    ],
+    [
+     "add",
+     "ideas_in_the_word"
+    ]
+   ]
   }
  },
  "alleles": {
@@ -1756,6 +2023,47 @@
    "scotus": [
     "scotus_esse"
    ]
+  },
+  "ideas": {
+   "in_the_word": [
+    "ideas_in_the_word"
+   ],
+   "energies": [
+    "ideas_as_energies"
+   ],
+   "creatures_known": [
+    "ideas_creatures_known"
+   ],
+   "subsisting": [
+    "ideas_subsisting"
+   ],
+   "no_exemplar": [
+    "ideas_no_exemplar"
+   ]
+  },
+  "prime_matter": {
+   "never_without_form": [
+    "matter_never_without_form"
+   ],
+   "can_be_without_form": [
+    "matter_can_be_without_form"
+   ]
+  },
+  "terminus": {
+   "in_the_thing": [
+    "knowing_ends_in_things"
+   ],
+   "in_the_idea": [
+    "ideas_as_objects"
+   ]
+  },
+  "adaequatio": {
+   "by_things": [
+    "things_measure_us"
+   ],
+   "by_the_mind": [
+    "mind_prescribes"
+   ]
   }
  },
  "loci": {
@@ -1765,6 +2073,22 @@
     "carried": []
    },
    "esse": {
+    "expressed": null,
+    "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": null,
+    "carried": []
+   },
+   "adaequatio": {
     "expressed": null,
     "carried": []
    }
@@ -1777,6 +2101,22 @@
    "esse": {
     "expressed": null,
     "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "thomist": {
@@ -1786,6 +2126,22 @@
    },
    "esse": {
     "expressed": "real",
+    "carried": []
+   },
+   "ideas": {
+    "expressed": "in_the_word",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "never_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
     "carried": []
    }
   },
@@ -1797,6 +2153,22 @@
    "esse": {
     "expressed": "scotus",
     "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "suarezian": {
@@ -1806,6 +2178,22 @@
    },
    "esse": {
     "expressed": "by_reason",
+    "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
     "carried": []
    }
   },
@@ -1817,6 +2205,22 @@
    "esse": {
     "expressed": null,
     "carried": []
+   },
+   "ideas": {
+    "expressed": "energies",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "saussure": {
@@ -1826,6 +2230,22 @@
    },
    "esse": {
     "expressed": null,
+    "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
     "carried": []
    }
   },
@@ -1837,6 +2257,22 @@
    "esse": {
     "expressed": null,
     "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "lingual": {
@@ -1847,6 +2283,22 @@
    "esse": {
     "expressed": null,
     "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "scotus_dpp": {
@@ -1856,6 +2308,22 @@
    },
    "esse": {
     "expressed": "scotus",
+    "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
     "carried": []
    }
   },
@@ -1868,6 +2336,22 @@
    },
    "esse": {
     "expressed": "scotus",
+    "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
     "carried": []
    }
   },
@@ -1883,6 +2367,22 @@
     "carried": [
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "bacon": {
@@ -1892,6 +2392,22 @@
    },
    "esse": {
     "expressed": null,
+    "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
     "carried": []
    }
   },
@@ -1907,6 +2423,24 @@
     "carried": [
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_idea",
+    "carried": [
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "hobbes": {
@@ -1923,6 +2457,25 @@
      "by_reason",
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": null,
+    "carried": [
+     "in_the_idea",
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "spinoza": {
@@ -1937,6 +2490,24 @@
     "carried": [
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_idea",
+    "carried": [
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "hooker": {
@@ -1946,6 +2517,22 @@
    },
    "esse": {
     "expressed": "real",
+    "carried": []
+   },
+   "ideas": {
+    "expressed": "in_the_word",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "never_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
     "carried": []
    }
   },
@@ -1961,6 +2548,22 @@
     "carried": [
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "locke": {
@@ -1977,6 +2580,27 @@
      "real",
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": "in_the_word",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": [
+     "can_be_without_form",
+     "never_without_form"
+    ]
+   },
+   "terminus": {
+    "expressed": "in_the_idea",
+    "carried": [
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "leibniz": {
@@ -1991,6 +2615,25 @@
     "carried": [
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": null,
+    "carried": [
+     "in_the_idea",
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "kant": {
@@ -2005,6 +2648,27 @@
     "carried": [
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": null,
+    "carried": [
+     "in_the_idea",
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_the_mind",
+    "carried": [
+     "by_things"
+    ]
    }
   },
   "scotus_will": {
@@ -2014,6 +2678,22 @@
    },
    "esse": {
     "expressed": "scotus",
+    "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
     "carried": []
    }
   },
@@ -2027,6 +2707,22 @@
    "esse": {
     "expressed": "scotus",
     "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "ockham_nominal": {
@@ -2038,6 +2734,22 @@
    },
    "esse": {
     "expressed": "scotus",
+    "carried": []
+   },
+   "ideas": {
+    "expressed": "creatures_known",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
     "carried": []
    }
   },
@@ -2053,6 +2765,24 @@
     "carried": [
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_idea",
+    "carried": [
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "grotius_etiamsi": {
@@ -2067,6 +2797,22 @@
     "carried": [
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "kant_humanity": {
@@ -2080,6 +2826,27 @@
     "expressed": "by_reason",
     "carried": [
      "scotus"
+    ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": null,
+    "carried": [
+     "in_the_idea",
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_the_mind",
+    "carried": [
+     "by_things"
     ]
    }
   },
@@ -2095,6 +2862,27 @@
     "carried": [
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": null,
+    "carried": [
+     "in_the_idea",
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_the_mind",
+    "carried": [
+     "by_things"
+    ]
    }
   },
   "suarez_wl": {
@@ -2109,6 +2897,22 @@
     "carried": [
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "hobbes_wl": {
@@ -2125,6 +2929,25 @@
      "by_reason",
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": null,
+    "carried": [
+     "in_the_idea",
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "spinoza_wl": {
@@ -2139,6 +2962,24 @@
     "carried": [
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_idea",
+    "carried": [
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "locke_wl": {
@@ -2155,6 +2996,27 @@
      "real",
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": "in_the_word",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": [
+     "can_be_without_form",
+     "never_without_form"
+    ]
+   },
+   "terminus": {
+    "expressed": "in_the_idea",
+    "carried": [
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "leibniz_wl": {
@@ -2169,6 +3031,25 @@
     "carried": [
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": null,
+    "carried": [
+     "in_the_idea",
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "episcopate_1891": {
@@ -2179,6 +3060,22 @@
    "esse": {
     "expressed": "real",
     "carried": []
+   },
+   "ideas": {
+    "expressed": "in_the_word",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "never_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "social_catholic": {
@@ -2188,6 +3085,22 @@
    },
    "esse": {
     "expressed": "real",
+    "carried": []
+   },
+   "ideas": {
+    "expressed": "in_the_word",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "never_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
     "carried": []
    }
   },
@@ -2205,6 +3118,27 @@
      "real",
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": "in_the_word",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": [
+     "can_be_without_form",
+     "never_without_form"
+    ]
+   },
+   "terminus": {
+    "expressed": "in_the_idea",
+    "carried": [
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "angers": {
@@ -2220,6 +3154,27 @@
      "by_reason",
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": "in_the_word",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "never_without_form",
+    "carried": [
+     "can_be_without_form"
+    ]
+   },
+   "terminus": {
+    "expressed": null,
+    "carried": [
+     "in_the_idea",
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "george": {
@@ -2236,6 +3191,27 @@
      "real",
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": "in_the_word",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": [
+     "can_be_without_form",
+     "never_without_form"
+    ]
+   },
+   "terminus": {
+    "expressed": "in_the_idea",
+    "carried": [
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "george_hn": {
@@ -2252,6 +3228,27 @@
      "real",
      "scotus"
     ]
+   },
+   "ideas": {
+    "expressed": "in_the_word",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": [
+     "can_be_without_form",
+     "never_without_form"
+    ]
+   },
+   "terminus": {
+    "expressed": "in_the_idea",
+    "carried": [
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "marx": {
@@ -2261,6 +3258,22 @@
    },
    "esse": {
     "expressed": null,
+    "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
     "carried": []
    }
   },
@@ -2272,6 +3285,22 @@
    "esse": {
     "expressed": null,
     "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
    }
   },
   "lassalle": {
@@ -2281,6 +3310,103 @@
    },
    "esse": {
     "expressed": null,
+    "carried": []
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
+   }
+  },
+  "plato": {
+   "simplicity": {
+    "expressed": null,
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   },
+   "ideas": {
+    "expressed": "subsisting",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
+   }
+  },
+  "aristotle": {
+   "simplicity": {
+    "expressed": null,
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   },
+   "ideas": {
+    "expressed": "no_exemplar",
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
+   }
+  },
+  "concordia": {
+   "simplicity": {
+    "expressed": null,
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   },
+   "ideas": {
+    "expressed": "in_the_word",
+    "carried": [
+     "no_exemplar",
+     "subsisting"
+    ]
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
     "carried": []
    }
   }

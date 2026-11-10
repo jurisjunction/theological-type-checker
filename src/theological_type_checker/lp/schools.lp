@@ -128,12 +128,14 @@ figure(episcopate_1891).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
 #program vm_thomist.              vm_guest(thomist).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 #program vm_scotist.              vm_guest(scotist).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
 #program vm_suarezian.            vm_guest(suarezian).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
 #program vm_palamite.             vm_guest(palamite).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 #program vm_saussure.             vm_guest(saussure).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
 #program vm_vocal.                vm_guest(vocal).
@@ -156,10 +158,12 @@ guest_holds(final,(will;self)).
 guest_holds(final,(will;self)).
 #program vm_hooker.               vm_guest(hooker).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 #program vm_grotius.              vm_guest(grotius).
 guest_holds(final,(god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
 #program vm_locke.                vm_guest(locke).
 guest_holds(final,(god_physics;god_ethics;will;self)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 #program vm_leibniz.              vm_guest(leibniz).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
 #program vm_kant.                 vm_guest(kant).
@@ -170,6 +174,7 @@ guest_holds(final,(god_physics;god_ethics;will;self)). guest_holds(formal,(natur
 guest_holds(final,(god_ethics;will;self)). guest_holds(formal,(nature;human)).
 #program vm_ockham_nominal.       vm_guest(ockham_nominal).
 guest_holds(final,(god_ethics;human;will;self)). guest_holds(formal,nature).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 #program vm_descartes_will.       vm_guest(descartes_will).
 guest_holds(final,(god_ethics;will;self)). guest_holds(formal,human).
 #program vm_grotius_etiamsi.      vm_guest(grotius_etiamsi).
@@ -186,23 +191,38 @@ guest_holds(final,(will;self)).
 guest_holds(final,(will;self)).
 #program vm_locke_wl.             vm_guest(locke_wl).
 guest_holds(final,(god_physics;god_ethics;will;self)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 #program vm_leibniz_wl.           vm_guest(leibniz_wl).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
 #program vm_episcopate_1891.      vm_guest(episcopate_1891).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 #program vm_social_catholic.      vm_guest(social_catholic).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 #program vm_smith.                vm_guest(smith).
 guest_holds(final,(god_physics;god_ethics;will;self)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 #program vm_angers.               vm_guest(angers).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 #program vm_george.               vm_guest(george).
 guest_holds(final,(god_physics;god_ethics;will;self)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 #program vm_george_hn.            vm_guest(george_hn).
 guest_holds(final,(god_physics;god_ethics;human;will;self)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 #program vm_marx.                 vm_guest(marx).
 guest_holds(final,(human;will;self)). guest_holds(formal,will).
 #program vm_marx_social.          vm_guest(marx_social).
 guest_holds(final,(will;self)). guest_holds(formal,will).
 #program vm_lassalle.             vm_guest(lassalle).
 guest_holds(final,(nature;human;will;self)). guest_holds(formal,(nature;human;will)).
+#program vm_plato.                vm_guest(plato).
+guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;will)).
+guest_holds(formal,god_physics).                % the Forms apart (TTC-RERUM)
+#program vm_aristotle.            vm_guest(aristotle).
+guest_holds(final,(nature;human;will;self)). guest_holds(formal,(nature;human;will)).
+#program vm_concordia.            vm_guest(concordia).
+guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)

@@ -56,6 +56,7 @@
 % @input renders/2 | renders(F2, F1): F2 is given for F1
 % @input host_declared/3 | host_declared(F2, F1, C): a rendering of a rendering declares its host, by C
 % @input measured_by/3 | measured_by(F1, F2, C): C takes the form F2 as the measure of F1; no descent (TTC-PENDET)
+% @input nothing_but_names/2 | nothing_but_names(C, W): the claim C that the universal word W has no ground in the singulars (TTC-RERUM)
 % @input rests_on_form/3 | rests_on_form(A, P, F): the argument A's premise P rests on the host form F
 % @input hears_in/3 | hears_in(G, E, C): the horizon G hears in E by the lexicon C; never a person
 % @input hears_under/2 | hears_under(G, C): the horizon G hears under C's rule of hearing
@@ -133,6 +134,14 @@ word_in_time(W) :- word(W), date_claim(W,_).
 word_in_time(W) :- word(W), text_year(W,_).
 word_in_time(W) :- word(W), in_order(W).
 violation(word_dated(W)) :- word_in_time(W), words_one.
+
+% ---------- Only names (TTC-RERUM) -------------------------------------------
+% The nature understood "non est nisi in singularibus", the intention of
+% universality in the intellect (I q. 85 a. 2 ad 2); even Ockham's universal
+% is a natural sign, "intentio animae nata praedicari de multis" (Summa
+% logicae I cc. 14-15). That a universal word has no ground at all is
+% refused.
+violation(only_names(C,W)) :- nothing_but_names(C,W).
 
 % ---------- What a form means: one lexicon per branch ------------------------
 % A database of forms gives no meanings: its entries are identifiers, not

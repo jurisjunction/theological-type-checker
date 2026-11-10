@@ -123,21 +123,27 @@ def test_l_refuses(text, why):
 # and nothing else changes; the new runtimes are pinned by their horizons below.
 NINE = ["ends_in_nature", "forms_in_nature", "ends_by_god_physics", "ends_by_god_ethics", "ends_of_human_nature",
         "soul_as_form", "ends_desired", "self_preservation", "object_as_form"]
+# TTC-RERUM SU1 (rule 7): default and every school gain knowing_ends_in_things and things_measure_us after
+# default's own; thomist ideas_in_the_word and matter_never_without_form, scotist matter_can_be_without_form,
+# palamite ideas_as_energies, each after its own.
+RERUM_DEFAULT = ["knowing_ends_in_things", "things_measure_us"]
 HAND_WRITTEN = {
     "bare": [],
-    "default": ["classical", "one_power", "word_of_no_tongue", *NINE],
-    "thomist": ["classical", "one_power", "word_of_no_tongue", *NINE, "th01", "th03", "th04", "th05", "th06", "th21",
-                "th22", "th24", "simplicity_thomist", "attributes_by_reason", "mixed_relations", "transcendentals",
-                "holds_premotion", "one_place_circumscribed"],
-    "scotist": ["classical", "one_power", "word_of_no_tongue", *NINE, "simplicity_scotist", "attributes_formal",
-                "univocity_of_concept", "scotus_esse", "mixed_relations", "transcendentals"],
-    "suarezian": ["classical", "one_power", "word_of_no_tongue", *NINE, "simplicity_thomist", "attributes_by_reason",
-                  "suarez_esse", "mixed_relations", "transcendentals", "holds_concurrence"],
-    "palamite": ["classical", "word_of_no_tongue", *NINE, "simplicity_palamite", "palamite_energies", "monopatrism",
-                 "no_divine_contraction", "grace_uncreated"],
-    "saussure": ["classical", "one_power", *NINE, "word_by_division"],
-    "vocal": ["classical", "one_power", "word_of_no_tongue", *NINE, "verbum_vocal"],
-    "lingual": ["classical", "one_power", "word_of_no_tongue", *NINE, "verbum_lingual"],
+    "default": ["classical", "one_power", "word_of_no_tongue", *NINE, *RERUM_DEFAULT],
+    "thomist": ["classical", "one_power", "word_of_no_tongue", *NINE, *RERUM_DEFAULT, "th01", "th03", "th04", "th05",
+                "th06", "th21", "th22", "th24", "simplicity_thomist", "attributes_by_reason", "mixed_relations",
+                "transcendentals", "holds_premotion", "one_place_circumscribed", "ideas_in_the_word",
+                "matter_never_without_form"],
+    "scotist": ["classical", "one_power", "word_of_no_tongue", *NINE, *RERUM_DEFAULT, "simplicity_scotist",
+                "attributes_formal", "univocity_of_concept", "scotus_esse", "mixed_relations", "transcendentals",
+                "matter_can_be_without_form"],
+    "suarezian": ["classical", "one_power", "word_of_no_tongue", *NINE, *RERUM_DEFAULT, "simplicity_thomist",
+                  "attributes_by_reason", "suarez_esse", "mixed_relations", "transcendentals", "holds_concurrence"],
+    "palamite": ["classical", "word_of_no_tongue", *NINE, *RERUM_DEFAULT, "simplicity_palamite", "palamite_energies",
+                 "monopatrism", "no_divine_contraction", "grace_uncreated", "ideas_as_energies"],
+    "saussure": ["classical", "one_power", *NINE, *RERUM_DEFAULT, "word_by_division"],
+    "vocal": ["classical", "one_power", "word_of_no_tongue", *NINE, *RERUM_DEFAULT, "verbum_vocal"],
+    "lingual": ["classical", "one_power", "word_of_no_tongue", *NINE, *RERUM_DEFAULT, "verbum_lingual"],
 }
 # TTC-MODERNITY: each new runtime's horizon, the cause parts it holds, from the
 # design's tables (the record's, the readings, the will line, the hearers), by
@@ -170,6 +176,13 @@ MODERNITY_HORIZONS = {
     "marx_social": {"ends_desired", "self_preservation", "object_as_form"},
     "lassalle": _TRACE("ends_by_god_physics", "ends_by_god_ethics"),
 }
+# TTC-RERUM SU1 (rule 7): the runtime set gains plato, aristotle and their merge, each with default's nine save
+# what it excludes.
+RERUM_HORIZONS = {
+    "plato": _TRACE("soul_as_form"),
+    "aristotle": _TRACE("ends_by_god_physics", "ends_by_god_ethics"),
+    "concordia": _ALL9,
+}
 
 
 def test_the_runtimes_compile_to_the_hand_written_lists():
@@ -177,13 +190,15 @@ def test_the_runtimes_compile_to_the_hand_written_lists():
     compiled = lang.compile_runtimes(lang.sources())
     old = {k: v for k, v in compiled["runtimes"].items() if k in HAND_WRITTEN}
     assert old == HAND_WRITTEN and list(compiled["runtimes"])[:len(HAND_WRITTEN)] == list(HAND_WRITTEN)
-    assert set(compiled["runtimes"]) == set(HAND_WRITTEN) | set(MODERNITY_HORIZONS)
+    assert set(compiled["runtimes"]) == set(HAND_WRITTEN) | set(MODERNITY_HORIZONS) | set(RERUM_HORIZONS)
     cause = set(NINE) | {"form_of_law"}
     assert {k: set(v) & cause for k, v in compiled["runtimes"].items() if k in MODERNITY_HORIZONS} == MODERNITY_HORIZONS
+    assert {k: set(v) & cause for k, v in compiled["runtimes"].items() if k in RERUM_HORIZONS} == RERUM_HORIZONS
     assert engine.RUNTIMES == compiled["runtimes"]
     assert compiled["declared"]["palamite"] == {"extends": ["default"], "file": "schools.l", "ops": [
         ["exclude", "one_power"], ["add", "simplicity_palamite"], ["add", "palamite_energies"],
-        ["add", "monopatrism"], ["add", "no_divine_contraction"], ["add", "grace_uncreated"]]}
+        ["add", "monopatrism"], ["add", "no_divine_contraction"], ["add", "grace_uncreated"],
+        ["add", "ideas_as_energies"]]}   # TTC-RERUM SU1 (rule 7): the logoi as energies
 
 
 PARTS = "".join(f"part switch\n```clingo\n#program {p}.\n```\n" for p in ("a", "b", "c", "d"))
@@ -594,6 +609,7 @@ CLOSED = {"tier", "force", "question_kind", "papal_form", "character", "concilia
           "table_rank",   # TTC-CALENDAR: the Table of Liturgical Days, 1..13
           "tmode", "akind", "unit",   # TTC-LINGUAE: a mode claimed, a kind of analogy, a claim's unit
           "cause", "domain",   # TTC-MODERNITY: the four causes, and where each is held
+          "knower", "making",   # TTC-RERUM: kinds of intellect, ways of making (question_kind gains natural)
           "role", "honour_kind",   # TTC-LOCI: the place a substitution puts a creature in; the kinds of honour
           "order"}   # TTC-PENDET: an order a term is lifted above
 
@@ -1010,8 +1026,13 @@ def test_a_runtime_of_the_layer_compiles_with_the_base_and_the_base_is_unchanged
     assert out["runtimes"]["more"] == [p for p in engine.BASE_RUNTIMES["thomist"] if p != "holds_premotion"]
     assert out["declared"]["more"] == {"extends": ["mine", "default"], "file": "runtimes/more.l",
                                        "ops": [["exclude", "holds_premotion"]]}
+    # TTC-RERUM SU1 (rule 7): four loci more, thomist's alleles at each
     assert out["loci"]["mine"] == {"simplicity": {"expressed": "by_reason", "carried": []},
-                                   "esse": {"expressed": "real", "carried": []}}
+                                   "esse": {"expressed": "real", "carried": []},
+                                   "ideas": {"expressed": "in_the_word", "carried": []},
+                                   "prime_matter": {"expressed": "never_without_form", "carried": []},
+                                   "terminus": {"expressed": "in_the_thing", "carried": []},
+                                   "adaequatio": {"expressed": "by_things", "carried": []}}
     assert out["alleles"] == lang.compile_runtimes(lang.sources())["alleles"]
     assert lang.runtimes_text(lang.compile_runtimes(lang.sources())) == before == lang.RUNTIMES_JSON.read_text()
 
@@ -1025,7 +1046,8 @@ def test_a_runtime_of_the_layer_compiles_with_the_base_and_the_base_is_unchanged
      "(attributes_by_reason)"),
     ("runtime mine extends yours\nruntime yours extends mine\n", 1, "runtimes extend each other in a cycle"),
     ("runtime mine extends ghost\n", 1, "no runtime named ghost"),
-    ("runtime thomist extends default\n", 1, "runtime thomist: the base has a runtime of that name (schools.l:33)"),
+    # TTC-RERUM (rule 7): the four loci declared above the runtimes move thomist's line from 33 to 60
+    ("runtime thomist extends default\n", 1, "runtime thomist: the base has a runtime of that name (schools.l:60)"),
     ("runtime mine extends thomist\nslot mine_p(X: claim)\n  means \"m\"\n", 2,
      "declares `slot`: a file of the layer's runtimes declares runtimes only"),
     ("layer schools\nruntime mine extends thomist\n", 1, "declares `layer`"),
@@ -1088,8 +1110,13 @@ def test_the_starting_point_is_refused_on_exactly_one_power(tmp_path):
         (home / "runtimes" / "start.l").write_text(f"runtime start extends thomist, palamite\n  {way} one_power\n")
         out = lang.compile_layer(home)
         # PX2: at simplicity both carried, neither expressed, their parts not loaded; at esse real
+        # TTC-RERUM SU1 (rule 7): at ideas both carried too, the Word and the energies
         assert out["loci"]["start"] == {"simplicity": {"expressed": None, "carried": ["by_reason", "energetic"]},
-                                        "esse": {"expressed": "real", "carried": []}}
+                                        "esse": {"expressed": "real", "carried": []},
+                                        "ideas": {"expressed": None, "carried": ["energies", "in_the_word"]},
+                                        "prime_matter": {"expressed": "never_without_form", "carried": []},
+                                        "terminus": {"expressed": "in_the_thing", "carried": []},
+                                        "adaequatio": {"expressed": "by_things", "carried": []}}
         parts = out["runtimes"]["start"]
         assert not {"simplicity_thomist", "attributes_by_reason", "simplicity_palamite"} & set(parts)
         assert {"th03", "th05", "monopatrism", "palamite_energies"} <= set(parts)

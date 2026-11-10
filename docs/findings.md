@@ -1161,7 +1161,36 @@ Of 13 predictions, 9 held and 4 are red in part.
   the sole reason it hangs at ten, the summary at four, and at eight
   there is none.
 
-### 46. Method
+### 46. Things by their causes (QD, QN, QV, QL, QT, QI, QE, QC, RM)
+
+Predictions were stamped first ([ttc-rerum(7)](research/rerum-preregistration.md)).
+Of 8 predictions, 7 held and 1 is red in part.
+
+- **A cause in the thing, and the word between** (QT5, QT6, QC2). Soap's
+  end and form now stand in the soap, not only in the arguments about it. A
+  chain runs from the cause through the word to an argument's premise:
+  where knowing ends in the thing the premise is grounded there; where it
+  ends in the idea, it ends in the word; where a horizon cannot hold the
+  cause, the trace is reported in the thing, which keeps it.
+- **God neither part nor second cause** (QD, QC1). Emanation, God as form
+  or matter, nothing but matter, a making through a creature, and a Form
+  subsisting apart are refused by the deposit on every runtime. God typed
+  as one cause among a thing's causes is refused by the kernel, and the
+  design argument's God with it.
+- **A natural question settled by no tier** (QN1–QN3). A joint whole is
+  composed of parts, each of its own kind. A conflict claimed between a
+  finding and a definition branches on *Dei Filius*'s two diagnoses and is
+  reserved to the author, never resolved.
+- **The schools at four loci** (QL1). Where the ideas are, whether matter
+  can be without form, where knowing ends, and who measures whom; Plato,
+  Aristotle and their merge run as horizons.
+- **The tables, not the atoms** (SU1, red in part). No earlier scenario's
+  atoms changed in any model. But nine checks that table every runtime
+  against fixed rows took the three new runtimes unlisted, and were
+  restated. Aristotle, without God's ends, falls with Marx on the property
+  case.
+
+### 47. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

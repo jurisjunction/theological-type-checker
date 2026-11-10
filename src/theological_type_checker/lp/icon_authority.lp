@@ -76,7 +76,7 @@
 % @input promoted/3 | promoted(S, T, Y): S raised to tier T from year Y (declared a Doctor)
 % @input protects/2 | protects(S, Q): S, of protective force, blocks cleaving Q at or below its tier
 % @input question/1 | question(Q): a question a run answers
-% @input question_kind/2 | question_kind(Q, K): the type of Q: doctrinal, governance, juridical, empirical
+% @input question_kind/2 | question_kind(Q, K): the type of Q: doctrinal, governance, juridical, empirical, natural (a question of natural philosophy, answered by availability in a horizon; TTC-RERUM)
 % @input reading/2 | reading(S, R): R is a reading of S
 % @input reads/4 | reads(S, R, Q, V): read as R, S holds V on Q
 % @input reaffirms/2 | reaffirms(S, S2): S re-teaches S2, with weight
@@ -114,6 +114,14 @@ in_force(S)     :- source(S,_,_,Y), asof(A), Y <= A, not relaxed(S), not withdra
 % A question the sciences answer: no tier deletes, cleaves or weighs on it.
 % Findings fix it from their year (empirica.lp).
 empirical_q(Q) :- question_kind(Q,empirical).
+% A question of natural philosophy (TTC-RERUM) joins the empirical kind in
+% every exemption above, and in no other rule: no finding fixes it
+% (empirica.lp), and an act answering it is not refused as answering a
+% fact. It is answered by availability in a horizon (causae.lp). A source
+% of tiers 1 to 3 that supports a value on one is reported.
+empirical_q(Q) :- question_kind(Q,natural).
+info(natural_question_taught(S,Q)) :- question_kind(Q,natural), supports(S,Q,_), in_force(S), eff_tier(S,T),
+                                      T >= 1, T <= 3.
 
 % ---------- Ambiguous texts: one branch per reading -------------------
 % a source marked ambiguous but given no readings is a frontier item, not a contradiction
@@ -461,7 +469,7 @@ weight(T,N) :- weight_tier(T), question(_), N = #sum{ P,S,X : disagrees(S,T,X), 
 % ---------- domains (L) ---------------------------------------------
 in_sort(tier,0..5).
 in_sort(force,(truth;juridical;protective)).
-in_sort(question_kind,(doctrinal;governance;juridical;empirical)).
+in_sort(question_kind,(doctrinal;governance;juridical;empirical;natural)).
 in_sort(papal_form,(ex_cathedra;definitive_declaration;legislative;ordinary)).
 in_sort(character,(constitution;encyclical;conciliar_constitution;conciliar_decree;exhortation;declaration;instruction;catechism;apostolic_letter;profession;letter;address;homily;notification;responses;commentary;interview;liturgy)).
 in_sort(conciliar_act,(canon;definition;creed;scope;chapter)).

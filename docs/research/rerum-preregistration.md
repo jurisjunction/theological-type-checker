@@ -678,3 +678,74 @@ says, as TTC-MODERNITY's MM checks did; they are scored apart.
 
 ttc-modernity(7), ttc-loci(7), ttc-linguae(7), ttc-empirica(7),
 ttc-pendet(7), ttc-professio(7).
+
+## SCORING
+
+Appended after the runs. Predictions committed in `48d6d3b`, stamped in
+`1284810`; encoded on `fcb4acd` (`main`, the stamps upgraded). Encoded in
+`kernel_core.l` (the sort `cause`, moved from `causae.l`; `cause_of/3`,
+`made_through/2`, `nothing_but_matter/1`, `subsisting_form/1`,
+`subsists_apart/1`; the deposit's five refusals and the kernel's two),
+`intellectus.l` and `rerum.l` (new, libraries), `causae.l` (`measure_word/2`
+and the rendering beside CV5), `linguae.l` (`nothing_but_names/2`),
+`icon_authority.l` (the natural kind and `natural_question_taught/2`),
+`empirica.l` (parts of a question, the reserved conflict, can. 4.3,
+schemes, the simulation), `schools.l` (four loci; their alleles on
+`default`, `thomist`, `scotist`, `palamite`, `descartes`, `kant`,
+`ockham_nominal`, `locke` and `locke_wl`; `plato`, `aristotle`,
+`concordia`; the exemplar held by the guest parts of the runtimes that
+hold it, and three guest parts more), `icon_history.l` (four cases, five
+switches, eighteen candidates, five HYPOTHETICAL parts), `engine.py`
+(`FILES`), `runtimes.json`, the suite (31 scenarios, group `rerum`),
+`tests/test_l.py`, `tests/test_interface.py`, `tests/test_schools.py`,
+`docs/layers.csv`, `coverage.py` and `docs/coverage.md`, the guide in both
+copies (THINGS BY THEIR CAUSES), `docs/l.md`, `CLAUDE.md`'s libraries row
+and the roadmap. The suite names SU1–SU2 `RM1`–`RM2` (SU is TTC-
+MODERNITY's). Of 8 predictions, 7 held and 1 is red in part: SU1. The 23
+mechanics held. The full suite: 1068 passed, 57 skipped. In the run one test failed, `test_suite`'s pin of `default`'s parts, and was restated (SU1); the six scenarios whose checks gained a case after the run began (QI2, QT3, QT4, QT5, QT7, QL3) were run again with the group, and pass.
+
+| | Result |
+| --- | --- |
+| QD1 | Held (QD1). `cand_emanation` with `world` gives `origin_from_god(god, peter)` on all 45 runtimes. Every scenario before the encoding (741, 64,976 models), solved in branches mode, gives the same atoms in every model, main against the branch, compared by a hash of each scenario's sorted models: no difference. |
+| QN1 | Held (QN1). `q(soap_for_an_end)` open, both values, on every runtime; nothing cleaved, no weight, though `soap_t` (tier 5) supports yes. With `natural_taught_hyp`, still open, `natural_question_taught(def_n, q(soap_for_an_end))`, no `tier_without_warrant`. |
+| QN2 | Held (QN2). The four joint wholes add `joint_part/3` atoms and nothing else, on every case and date named; PR4 clean. |
+| QN3 | Held (QN3). Three models: one assuming `misread_dogma`, the finding's question fixed; two assuming `opinion_for_finding`, it open, yes and no; `q(world_began)` settled yes and `reserved_to_the_author(q(world_origin), f_hyp, q(world_began))` in each. `conflict_reformable_hyp` gives `conflict_with_reformable/3`, no new branch, `q(one_root)` as DD2 has it. The suite's first check expected the reformable case to double the branches, against the prediction's words; the check was wrong, and was corrected before scoring. |
+| QV1 | Held (QV1). `cause_rendered(m_render, w_driving_force, w_finis, proportionality)` on every runtime, neither `cause_converted` nor `conversion_native` for `m_render`; for `m_convert`, `cause_converted` on the 41 and `conversion_native` on the four. |
+| QL1 | Held (QL1). The compiled table is the predicted one, row for row; no `re_expressed`. |
+| SU1 | Red in part (RM1). No earlier scenario's atoms changed in any model (QD1); CL1 and PR4 are clean; the restatements predicted were made (`test_l`'s runtime set, palamite's ops, the hand-written runtimes, the loci pins with `test_interface`'s; `test_schools`, 33 to 36; MODERNITY's SU1 and MM3; PENDET's PD1; LOCI's AL1; LS2's lines). Wrong in its words: `natural` is a new value of the closed sort `question_kind`, not a sort, so the closed sorts gain `knower` and `making`; and `test_l`'s pin of `thomist`'s line moves from `schools.l:33` to `:60`, the loci being declared above the runtimes. Missed: nine checks that table every runtime against fixed rows, which the three new runtimes entered unlisted. DG1: `concordia`'s merge clashes on `soul_as_form`, `ends_by_god_physics` and `ends_by_god_ethics`, the parts its parents exclude, as its design asks, and its add resolves them. MP4, MP5, VM2, HE6: `aristotle` gives what `marx` gives on the property case under every switch (human ends held, God's excluded), so RN 22 is the sole reason for the common use, here and to its guest. AL2, AL3: the three hold no allele at simplicity or esse. PE2, PE4: `plato` and `concordia` nothing; `aristotle` the summary row, as `marx`, and on Thomas's reading Raban's tables with Pseudo-Chrysostom's image, as `lassalle`, the soul as form being held. Also missed: `test_suite`'s own pin of `default`'s parts, which gains the two as `test_l`'s does; and the CCC paragraphs cited go from 56 to 57 (CCC 2416), and `docs/coverage.md` is regenerated. Each is restated where it stands (rule 7). |
+| SU2 | Held (RM2). Each statement the step adds to the rule files was deleted in turn (89: 10 in `kernel_core.lp`, 5 in `causae.lp`, 21 in `empirica.lp`, 3 in `icon_authority.lp`, 1 in `linguae.lp`, 10 in `intellectus.lp`, 39 in `rerum.lp`; the cases' facts are data, and the guest parts' facts are VM3's), and the group run until a test turned red: 83 did. Then each body literal of each new rule, and the literal the step adds to each rule it changes (138): 49 removals leave their rule unsafe; of the other 89, 53 turned a test red. The 42 that turned nothing red (the three closed sorts' members and their new domain checks; 36 literals) each turn one red now, by checks added where they belong: soap's own causes fault nothing (QD2); a divine person and a subsisting soul are no third thing (QD5); a cause, a way of making and a kind of intellect outside their sorts (QI1); an oak voices no praise, to God or to a creature (QI2); an artifact made by art alone (QT3); our measure of an artifact's form, of a thing's matter, of what is no cause of it (QT4); no chain from an argument on another kind of question, or resting on God's physics (QT5, QT7); an artifact's exemplar its maker's idea, no exemplar refused where the ideas are not in God, and the energies only God's (QL3); no natural question taught at tier 0 or 5 or before it is in force, and no doctrinal question so (QN1); a definition not in force defines nothing (QN3, QN4); one scheme is no relativity, and a finding with no method none by simulation (QE1); a word carrying no end renders nothing (QV1). Found too, outside the step: `fixed_by/3`'s `empirical(Q)`, TTC-EMPIRICA's, turns nothing red in that step's groups either; left as it is. Both copies of the guide gain THINGS BY THEIR CAUSES identically. |
+| Mechanics | Held, each as written: QD2–QD5, QT1–QT8, QI1–QI2, QL2–QL4, QN4–QN6, QE1, QC1–QC2. |
+
+### Readings
+
+- **Flags as slots.** Each part's fact (`knowing_ends_in_things`,
+  `ideas_in_the_word`, …) is a slot of arity 0, declared in the first file
+  whose rules read it, so the norm graph and SO1 see it.
+- **The two diagnoses.** `misread_dogma/2` and `opinion_for_finding/1` are
+  an even loop through negation, not a choice rule: the norm graph does not
+  read a choice rule's heads, and CL1 found them undefined. The models are
+  the same.
+- **A slot also derived.** `subsists_apart/1` is entered by a case and
+  written by `ideas_subsisting` for the Forms, so the guide gives it in its
+  tables (SO1).
+- **Shown kinds.** `natural/1` and `artifact/1` are results.
+- **The texts.** `soap_t`, the case's text, at tier 5, 2026. Tanford (1973)
+  for the two micelle findings, his text owed in print. Jeziorski,
+  Moszynski and Szalewicz (*Chem. Rev.* 94, 1994) as the dimer's finding,
+  by simulation. Locke's *Essay* (1690) at tier 5 for gold.
+- **The guest's exemplar.** `guest_holds(formal, god_physics)` in the guest
+  parts of the twelve earlier runtimes that now hold it, and in the three
+  new guest parts, so that a guest holds what its host holds (VM3).
+- **Tests a rule needed.** Three checks were added for rules the
+  predictions' words did not test (rule 5): the subsisting soul a creature
+  that receives its being from God (QT1); the bar an artifact and soap
+  natural (QT2); a creature typed as the exemplar of a natural thing,
+  refused on `thomist` (QL3). The mutation run found the rest (SU2). None
+  changes a prediction's words; each pins what a rule excludes.
+- **Sole reasons.** QT8's baseline counts are those of `e739a5b`; on
+  `ockham_nominal`, where `a_logos` becomes available, `a_maker` is no
+  longer the sole reason the baseline reported. The prediction gives
+  `a_logos` there, and implies it.
+- **Layers.** `docs/layers.csv` gains a row for each new rule of the
+  kernel's file, five of the deposit and three of the kernel, and LS2's two
+  lines move.

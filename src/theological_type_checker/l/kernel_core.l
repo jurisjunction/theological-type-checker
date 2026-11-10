@@ -8,6 +8,9 @@ sort presence_mode {natural, sacramental, immensity, circumscriptive, definitive
 sort nature {hum, div}
   means "a nature in which an act or a change is said"
 
+sort cause {material, formal, efficient, final}
+  means "one of the four causes (Physics II.3; Metaphysics V.2)"
+
 sort act
   means "an act or event a case records: a celebration, a decree, a marriage, a delict"
 
@@ -84,6 +87,10 @@ slot bodily(M: presence_mode)
   means "bodily(M): a mode of presence that is bodily (natural, sacramental)"
   say "presence in the mode {M} is bodily"
 
+slot cause_of(X: entity, C: cause, P: entity)
+  means "cause_of(X, C, P): P is the C cause of the creature X, in the order of creatures (TTC-RERUM); never God, who is typed by being/2 and the lifted term"
+  say "{P} is the {C} cause of {X}"
+
 slot changes_in(X: entity, K: nature)
   means "changes_in(X, K): a change said of X in nature K (hum or div)"
   say "{X} changes in the {K} nature"
@@ -156,6 +163,14 @@ slot less(X: entity, Y: entity)
   means "less(X, Y): a claim that X ranks below Y"
   say "{X} is claimed to rank below {Y}"
 
+slot made_through(W: entity, X: entity)
+  means "made_through(W, X): X is made through W, as the creed says all things are made through the Son (DH 150)"
+  say "{X} is made through {W}"
+
+slot nothing_but_matter(C: claim)
+  means "nothing_but_matter(C): the claim C that there is nothing but matter (Dei Filius can. 1.2, DH 3022)"
+  say "{C} says there is nothing but matter"
+
 slot next(E1: event, E2: event)
   means "next(E1, E2): E2 follows E1 in the order of events"
   say "{E2} follows {E1}"
@@ -208,6 +223,14 @@ slot sort(X: entity, S: category)
   means "sort(X, S): X typed of sort S"
   say "{X} is typed of the sort {S}"
 
+slot subsisting_form(S: entity)
+  means "subsisting_form(S): S is a form that subsists, as the human soul does (I q. 75 a. 2; DH 902)"
+  say "{S} is a subsisting form"
+
+slot subsists_apart(E: entity)
+  means "subsists_apart(E): E is claimed to subsist of itself, apart from God and from any creature"
+  say "{E} is claimed to subsist of itself"
+
 slot term_sort(T: term, K: category)
   means "term_sort(T, S): the term T names a suppositum or a nature"
   say "the term {T} names {K}"
@@ -227,6 +250,29 @@ result last_end_not_god(X: entity)
 
 result latria_to_creature(P: entity)
   say "latria terminates in {P}, which is not God: refused (DH 601)"
+
+-- Results of the deposit's and the kernel's rules on creation and its causes (TTC-RERUM)
+
+result origin_from_god(P: entity, X: entity)
+  say "{X} is said to originate from {P}, which is God, as from a principle of its own substance: refused (Dei Filius can. 1.4, DH 3024)"
+
+result god_as_form_or_matter(X: entity, C: cause, P: entity)
+  say "{P}, which is God, is said to be the {C} cause of {X}: refused (DH 3023-3024; I q. 3 a. 8)"
+
+result only_matter(C: claim)
+  say "{C} says there is nothing but matter: refused (Dei Filius can. 1.2, DH 3022)"
+
+result made_through_a_creature(W: entity, X: entity)
+  say "{X} is said to be made through {W}, which is not a divine person: refused (DH 150, 800)"
+
+result uncreated_beside_god(E: entity)
+  say "{E} is said to subsist of itself, neither God nor a creature: refused (Lateran IV, DH 800)"
+
+result quo_as_quod(X: entity, P: entity)
+  say "{P}, the form of {X}, is typed as a thing: a form is that by which a thing is, not that which is (I q. 45 a. 4)"
+
+result god_as_second_cause(X: entity, C: cause, P: entity)
+  say "{P}, which is God, is typed as a {C} cause of {X} among its causes: God is the first cause, working in every agent, not a second cause beside them (I q. 105 a. 5; SCG III.70)"
 
 ```clingo
 
@@ -463,6 +509,46 @@ violation(last_end_not_god(X)) :- last_end(X), not god(X), not divine(X).
 % read what a library lowers (substitutio.lp), and neither decides a
 % school question.
 violation(latria_to_creature(P)) :- latria_to(P), not god(P), not divine(P).
+
+% ---------- Creation and its causes (deposit; TTC-RERUM) ---------------
+% "Si quis dixerit, res finitas ... e divina substantia emanasse": no
+% creature originates from God as from a principle of its own substance
+% (Dei Filius can. 1.4, DH 3024). The Son is "genitum, non factum" (DH
+% 150): his begetting and the Spirit's procession are orig_div, and the
+% nativity's source is Mary.
+violation(origin_from_god(P,X)) :- orig_cr(P,X), ind_sort(P,div).
+% "unam eandemque esse Dei et rerum omnium substantiam vel essentiam"
+% (can. 1.3, DH 3023); God neither the form of things nor their matter: "Deus
+% esset anima mundi", "principium formale omnium rerum", "materiam primam"
+% (I q. 3 a. 8).
+violation(god_as_form_or_matter(X,C,P)) :- cause_of(X,C,P), C = (formal;material), ind_sort(P,div).
+% "praeter materiam nihil esse" (can. 1.2, DH 3022).
+violation(only_matter(C)) :- nothing_but_matter(C).
+% "per quem omnia facta sunt" (DH 150): made through a divine person, never
+% through a creature. It gives no being/2: being has one giver (A1, A3; DH
+% 800, 1331). An untyped W is no divine person.
+violation(made_through_a_creature(W,X)) :- made_through(W,X), not ind_sort(W,div).
+% "unum universorum principium; Creator omnium visibilium et invisibilium"
+% (Lateran IV, DH 800): what subsists of itself is God or a creature.
+violation(uncreated_beside_god(E)) :- subsists_apart(E), not ind_sort(E,div), not creature(E).
+
+% ---------- Causes in things (kernel; TTC-RERUM) -----------------------
+% Forms and accidents "non dicuntur entia quasi ipsa sint, sed quia eis
+% aliquid est" (I q. 45 a. 4): a form is a quo, not a quod. The subsisting
+% soul is the exception, a form that subsists (I q. 75 a. 2), the form of
+% the body (DH 902), created immediately (DH 3896), and so a creature. A
+% material cause typed a creature stands, as materia ex qua (Physics II.3).
+creature(S) :- subsisting_form(S).
+violation(quo_as_quod(X,P)) :- cause_of(X,formal,P), creature(P), not subsisting_form(P).
+% God works "in all things intimately", and the effect is not "partly from
+% God and partly from the natural agent" but "wholly from both" in different
+% orders (I q. 105 a. 5; SCG III.70). God is the first efficient and the
+% last final cause (DH 3004; I q. 2 a. 3; I q. 44 aa. 1, 4), typed by
+% being/2 and by the term lifted above the ends (TTC-PENDET), never as a
+% cause among the causes of a thing. Every school holds this: kernel, not
+% deposit. An argument may still rest on God's causality, in the domains
+% god_physics and god_ethics (causae.lp).
+violation(god_as_second_cause(X,C,P)) :- cause_of(X,C,P), C = (efficient;final), ind_sort(P,div).
 
 % ---------- A11  Sorted predicates ------------------------------------
 violation(sort_clash(X,S1,S2)) :- sort(X,S1), sort(X,S2), S1 < S2.

@@ -21,7 +21,7 @@ a test checks the file is current and every scenario named exists.
 Of 87 units: 49 touched by rules, 5 by cases only,
 33 frontier. A unit counts as touched if one rule reaches
 it, so this measures reach, not depth. The rule files cite
-56 of the Catechism's 2,865 paragraphs by number (the column
+57 of the Catechism's 2,865 paragraphs by number (the column
 "Cited"). The Prologue (1–25) is frontier.
 
 ## PART ONE: THE PROFESSION OF FAITH
@@ -34,13 +34,13 @@ it, so this measures reach, not depth. The rule files cite
 | 51–73 | The revelation of God | frontier |  |  |  |
 | 74–100 | The transmission of divine revelation | rules |  | CS2, CS2b, CS4, B14 | tier 0 read only through its readings; the teaching office; the tiers |
 | 101–141 | Sacred Scripture | rules | 3 | CS2, CS2c, CS3, CS3b, GL3 | inerrancy; senses defined; the analogy of faith; a reading excluded by a finding |
-| 144–165 | I believe | rules | 1 | NT3, FD2, FD3, EM1, CB1 | the note de fide; heresy only after the definition; one article denied, none held by faith; faith and reason: no tier settles an empirical question, no finding a doctrine (CCC 159) |
+| 144–165 | I believe | rules | 1 | NT3, FD2, FD3, EM1, CB1, QN3, QN4 | the note de fide; heresy only after the definition; one article denied, none held by faith; faith and reason: no tier settles an empirical question, no finding a doctrine, a claimed conflict with a definition reserved, a definition not re-read (CCC 159) |
 | 166–184 | We believe | rules | 1 | NT2, NT4, TC1 | what the Church proposes as revealed (CCC 182); tiers computed, not asserted |
 | 185–197 | The creeds | rules | 1 | CR1, CR1b, CR1d | the creeds at tier 1, dated |
 | 199–231 | I believe in God | rules |  | TH0, K5 | the attributes as defined; no demiurge |
 | 232–267 | The Father | rules | 2 | M1, FQ1, RT1, TH20 | the processions, one principle, distinction by relation |
 | 268–278 | The Almighty | frontier |  |  |  |
-| 279–324 | The Creator | rules |  | K1, K5, RT2, B6 | being from God alone; creatures act; de auxiliis protected |
+| 279–324 | The Creator | rules |  | K1, K5, RT2, B6, QD1, QD2, QD4, QD5 | being from God alone; creatures act; de auxiliis protected; no emanation, God neither form nor matter of a thing nor a second cause, all made through the Son, nothing uncreated beside God (CCC 285, 291, 296) |
 | 325–354 | Heaven and earth | rules | 1 | K1, K10, K12 | angels as created persons |
 | 355–384 | Man | rules | 1 | K11, X1, MB1, TW1, TW2, TW3 | the image, not graded; the soul the form of the body; how many human beings, both ways; each soul created immediately (CCC 366) |
 | 385–421 | The Fall | rules |  | CE1, CE1c, CE1e, DS1, DS2, DD2, DC1 | original sin by propagation, in all, in each as his own; why Christ is free; the descent of all from Adam, at tier 3 |
@@ -113,7 +113,7 @@ it, so this measures reach, not depth. The rule files cite
 | 2197–2257 | The fourth commandment | frontier |  |  |  |
 | 2258–2330 | The fifth commandment | rules | 7 | DP1, DP2, DP5, SD1, MS2, MS2b, DI3, DI4, DI5, SD3, AB1, AB4 | the death penalty's history and verdict; legitimate defence; abortion and its penalty (c. 1397 §2; CCC 2272); just war |
 | 2331–2400 | The sixth commandment | rules |  | DI6, DR1, K11 | IVF "must not" (Donum vitae); remarriage; the embryo's image |
-| 2401–2463 | The seventh commandment | rules | 1 | SD2, SD2b, SD4, CV1, MP5 | usury as two questions; social teaching typed (CCC 2423); property in products and in land natural, use common, their reasons traced by horizon (CCC 2402-2406) |
+| 2401–2463 | The seventh commandment | rules | 2 | SD2, SD2b, SD4, CV1, MP5 | usury as two questions; social teaching typed (CCC 2423); property in products and in land natural, use common, their reasons traced by horizon (CCC 2402-2406) |
 | 2464–2513 | The eighth commandment | rules | 1 | SM7, SM7c, CC1, CC3 | the seal; CCC 2483 in its encodings, the definitive text governance |
 | 2514–2533 | The ninth commandment | frontier |  |  |  |
 | 2534–2557 | The tenth commandment | frontier |  |  |  |

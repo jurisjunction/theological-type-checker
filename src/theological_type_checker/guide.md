@@ -385,6 +385,31 @@ See [ttc-professio(7)](research/professio-preregistration.md).
 
 See [ttc-pendet(7)](research/pendet-preregistration.md).
 
+## THINGS BY THEIR CAUSES
+
+| Fact | Meaning |
+| --- | --- |
+| `cause_of(X,C,P)` | P is the C cause of the creature X, in the order of creatures. Never God: God typed as the form or the matter of a thing is refused (`god_as_form_or_matter`, DH 3023-3024), and as an efficient or final cause among its causes (`god_as_second_cause`, I q. 105 a. 5); his causality is typed by `being/2` and the lifted term. A form typed as a creature is refused (`quo_as_quod`, I q. 45 a. 4), save a subsisting form. A material cause typed a creature stands. |
+| `subsisting_form(S)`, `subsists_apart(E)` | A form that subsists, as the soul does (I q. 75 a. 2; DH 902): a creature. E said to subsist of itself, neither God nor a creature: refused (`uncreated_beside_god`, DH 800); on `rt_plato` the Form of a thing a question is about is derived so. |
+| `nothing_but_matter(C)`, `made_through(W,X)` | Refused: nothing but matter (`only_matter`, DH 3022); a making through what is not a divine person (`made_through_a_creature`, DH 150). A creature's origin from God (`gen/3` with God the source) is refused as emanation (`origin_from_god`, DH 3024). |
+| `makes(M,X,K)`, `end_of_use(X,P)` | M makes X `accidental`ly (an artifact), `by_nature` (a substance by nature's powers under art), or `by_art_alone`, refused of a natural thing (`substance_by_art_alone`). Shown: `maker_of_becoming(M,X)`, the cause of the becoming and not of the being (I q. 104 a. 1). An end of use is the maker's. |
+| `intellect_measures(I,X,P)` | An intellect of kind I (`divine`, `angelic`, `human`; never a person) said to measure a formal or final principle of a natural thing: refused where things measure us (`natural_form_measured_by_us`), reported where the mind prescribes (`prescribed/2`). An end of use is measured by its maker. |
+| `conceived_as(P,W,K)` | An intellect of kind K conceives the principle P under the word W. The edge: an argument on a natural question, its premise of nature or the will resting on a form that signifies W, P the cause in a thing. Shown: `grounded(A,X,P)` where knowing ends in the thing; `ends_in_the_word(W,P)` where the idea is what is known; `traced_in_thing(G,X,C,D)` where the horizon G cannot hold the cause the thing keeps; `premise_without_thing(A,P)` with no cause entered. Adequation is never computed. |
+| `exemplar_of(E,X)`, `about(Q,X)` | The exemplar of X; a question about X. Shown: `grounded_in_the_word(A,X,E)`, an argument from (formal, god_physics) on a question about X, the exemplar in God. Refused where the ideas are in God: an exemplar not divine (`exemplar_not_divine`). |
+| `exists_without_form(P)` | Prime matter in act without form: refused where matter is never without form (`matter_in_act_without_form`), reported where it can be by divine power (`matter_without_form_by_power/1`). |
+| `voiced_through(X,M,T)` | The praise of X reaches T through M, who must have a rational nature (`mediator_without_intellect`); shown `praise_through/3`, or `praise_ends_in_creature/3` where T is not God, never latria. No rule reads its absence (CCC 2416). |
+| `question_kind(Q,natural)`, `question_part(Q1,Q)` | A question of natural philosophy: no tier deletes, cleaves or weighs on it, as on an empirical one, and no finding fixes it; it is answered by availability in a horizon. A source of tiers 1 to 3 on one is reported (`natural_question_taught/2`). A joint whole is a natural question entered by its parts, each of its own kind (`joint_part/3`), never by `question/1`; a part of no natural question, or a cycle, refused. |
+| `claims_conflict(C,F,Q1,V)` | C says the finding F conflicts with V on Q1. Against a definition: both of DH 3017's diagnoses, `misread_dogma/2` and `opinion_for_finding/1` (F fixes nothing), never preferred; Q1 untouched; `reserved_to_the_author(Q,F,Q1)`. Below tier 1: `conflict_with_reformable/3`, nothing branches. |
+| `resenses(F,S,R)` | A finding said to give a text another sense: refused of a definition (`dogma_resensed_by_finding`, can. 4.3, DH 3043), reported of Scripture (`scripture_read_by_finding/3`). |
+| `scheme_term(T,Q,S)` | A term of the total Q asks, under a scheme of decomposition: two schemes, `scheme_relative/1`. A term typed as a creature or as a cause refused (`term_as_part`, `term_as_cause`). A finding by `method(F,simulation)`: `fixed_by_simulation/3`. |
+| `measure_word(M,W)` | The word a measure names its cause with. Where W is said of an end by analogy and carries it, the measure renders the end (`cause_rendered/4`), and is no conversion. |
+| `nothing_but_names(C,W)` | The universal W no more than a name: refused (`only_names`, I q. 85 a. 2 ad 2). |
+| loci `ideas`, `prime_matter`, `terminus`, `adaequatio` | Where the ideas are: `in_the_word` (`ideas_in_the_word`), `energies`, `creatures_known`, `subsisting`, `no_exemplar`; the first four hold (formal, god_physics). Prime matter `never_without_form` or `can_be_without_form`. Knowing ends `in_the_thing` (`knowing_ends_in_things`, default's) or `in_the_idea` (`ideas_as_objects`). Things measure us (`by_things`, default's) or the mind prescribes (`by_the_mind`). |
+| parts `rt_plato`, `rt_aristotle`, `rt_concordia` | Plato (the Forms apart, the soul ruling the body), Aristotle (a god who intends nothing, no exemplar), and their merge, the ideas in the Word, carrying both. |
+| parts `soap`, `micelle`, `eda`, `locke_essence`, `ockham_measure`; `joint_beginning`, `joint_galileo`, `joint_one_root`, `joint_method_being` | Soap by its causes, with `trinity` and `world`: four arguments that it is for washing, from its maker's end, its nature, God's intention and its exemplar. The chemistry's two findings as a joint whole; an energy decomposition under two schemes; Locke's gold; Thomas's idea measured by Ockham's. The four earlier cases' questions as joint wholes. |
+
+See [ttc-rerum(7)](research/rerum-preregistration.md).
+
 ## LIBRARY
 
 | Fact | Meaning |

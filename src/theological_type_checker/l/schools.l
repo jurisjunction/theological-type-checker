@@ -21,6 +21,31 @@ locus esse
   allele by_reason = suarez_esse
   allele scotus = scotus_esse
 
+-- The four loci of TTC-RERUM: where the ideas are (I q. 15 aa. 1-2; the logoi as
+-- energies; Ockham, Ord. I d. 35 q. 5; the Forms apart; Metaphysics XII.9, one
+-- reading); whether prime matter can be without form (I q. 66 a. 1 ad 3; Opus
+-- Oxoniense II d. 12 q. 1); where knowing ends (I q. 85 a. 2; Locke, Essay IV.1);
+-- and who measures whom (De veritate q. 1 a. 2; Prolegomena §36). Their parts are
+-- in rerum.lp and intellectus.lp.
+locus ideas
+  allele in_the_word = ideas_in_the_word
+  allele energies = ideas_as_energies
+  allele creatures_known = ideas_creatures_known
+  allele subsisting = ideas_subsisting
+  allele no_exemplar = ideas_no_exemplar
+
+locus prime_matter
+  allele never_without_form = matter_never_without_form
+  allele can_be_without_form = matter_can_be_without_form
+
+locus terminus
+  allele in_the_thing = knowing_ends_in_things
+  allele in_the_idea = ideas_as_objects
+
+locus adaequatio
+  allele by_things = things_measure_us
+  allele by_the_mind = mind_prescribes
+
 -- The runtimes (TTC-SCHOOLS; TTC-L, RU). Each is a school's parts loaded
 -- whole; compiled to runtimes.json, which the engine reads.
 runtime bare
@@ -29,15 +54,21 @@ runtime default
   add classical, one_power, word_of_no_tongue
   add ends_in_nature, forms_in_nature, ends_by_god_physics, ends_by_god_ethics, ends_of_human_nature
   add soul_as_form, ends_desired, self_preservation, object_as_form
+  -- the word that by which, and things measuring us (TTC-RERUM)
+  add knowing_ends_in_things, things_measure_us
 
 runtime thomist extends default
   add th01, th03, th04, th05, th06, th21, th22, th24
   add simplicity_thomist, attributes_by_reason, mixed_relations, transcendentals
   add holds_premotion, one_place_circumscribed
+  -- I q. 15 a. 2 and ad 4; I q. 66 a. 1 ad 3 (TTC-RERUM)
+  add ideas_in_the_word, matter_never_without_form
 
 runtime scotist extends default
   add simplicity_scotist, attributes_formal, univocity_of_concept, scotus_esse
   add mixed_relations, transcendentals
+  -- Opus Oxoniense II d. 12 q. 1, through Wolter and Gordon (TTC-RERUM)
+  add matter_can_be_without_form
 
 runtime suarezian extends default
   add simplicity_thomist, attributes_by_reason, suarez_esse, mixed_relations
@@ -47,6 +78,8 @@ runtime palamite extends default
   exclude one_power
   add simplicity_palamite, palamite_energies, monopatrism, no_divine_contraction
   add grace_uncreated
+  -- the logoi as uncreated energies (TTC-RERUM)
+  add ideas_as_energies
 
 -- The tongues (TTC-LINGUAE). Saussure divides the word by tongue; the vocal
 -- and lingual runtimes read verba as a sound, or as a sign of a language.
@@ -96,6 +129,8 @@ runtime descartes extends default, bacon, suarez_dm23
   -- contested edge: descartes <- suarez_dm23 (Ariew against Courtine and Marion)
   -- Med. IV, AT VII 55: ends useless "in rebus Physicis"; AT III 505: no forms but the soul
   exclude ends_in_nature, forms_in_nature, ends_by_god_physics
+  -- the idea what is known (TTC-RERUM)
+  add ideas_as_objects
 
 runtime hobbes extends default, bacon, descartes, ockham
   -- contested edge: hobbes <- ockham (no documented reading; Gillespie, Villey)
@@ -123,6 +158,8 @@ runtime locke extends hooker, descartes, grotius, hobbes
   -- given to mankind in common; moral good the conformity of an action to a law
   add ends_by_god_physics, ends_by_god_ethics
   exclude ends_in_nature, forms_in_nature, ends_of_human_nature, soul_as_form, object_as_form
+  -- Essay IV.1: the mind "hath no other immediate object but its own ideas" (TTC-RERUM)
+  express in_the_idea at terminus
 
 runtime leibniz extends suarez_dm23, descartes
   -- DM §§2, 10, 19, 22: forms necessary in metaphysics; final causes useful in physics
@@ -134,6 +171,8 @@ runtime kant extends leibniz
   exclude ends_in_nature, forms_in_nature, ends_by_god_physics, ends_by_god_ethics, ends_of_human_nature
   exclude soul_as_form, self_preservation, object_as_form
   add form_of_law
+  -- Prolegomena §36: "The understanding ... prescribes them to nature" (TTC-RERUM)
+  add mind_prescribes
 
 -- The readings, each a sibling of the record's node: a hypothesis about a figure, run so
 -- that the difference is computed, not settled.
@@ -148,6 +187,8 @@ runtime ockham_will extends ockham
 runtime ockham_nominal extends ockham
   -- Summa logicae I c. 15; Quodl. I q. 10: the soul the form of the body held by faith, not shown
   exclude soul_as_form
+  -- Ord. I d. 35 q. 5: the divine ideas the creatures themselves as known (TTC-RERUM)
+  add ideas_creatures_known
 
 runtime descartes_will extends descartes
   -- Sixth Replies; AT I 145: the eternal truths created
@@ -189,6 +230,8 @@ runtime locke_wl extends hooker, descartes_will, grotius, hobbes_wl
   -- contested edge: locke_wl <- hobbes_wl (as locke <- hobbes)
   add ends_by_god_physics, ends_by_god_ethics
   exclude ends_in_nature, forms_in_nature, ends_of_human_nature, soul_as_form, object_as_form
+  -- Essay IV.1, as locke (TTC-RERUM)
+  express in_the_idea at terminus
 
 runtime leibniz_wl extends suarez_wl, descartes_will
   -- DM §2
@@ -230,6 +273,24 @@ runtime marx_social extends marx
 runtime lassalle extends default
   -- the Arbeiterprogramm, by absence; weak
   exclude ends_by_god_physics, ends_by_god_ethics
+
+-- Plato and Aristotle (TTC-RERUM), and their merge. Each takes default's cause
+-- parts save those it excludes: a reading, not the record's.
+runtime plato extends default
+  -- Alcibiades I 130c: the soul rules the body, which it uses; the Forms apart
+  exclude soul_as_form
+  add ideas_subsisting
+
+runtime aristotle extends default
+  -- Metaphysics XII.7, 9: the god moves "as being loved"; "its thinking is a thinking on
+  -- thinking" (one reading; Thomas reads it otherwise, In XII Metaph. lect. 11)
+  exclude ends_by_god_physics, ends_by_god_ethics
+  add ideas_no_exemplar
+
+runtime concordia extends plato, aristotle
+  -- Boethius's aim, "in unam quodammodo revocare concordiam"; Thomas's reading, the ideas in an
+  -- intellect (I q. 15 a. 1 ad 1); Bonaventure, Christus unus omnium magister 18-19
+  add soul_as_form, ends_by_god_physics, ends_by_god_ethics, ideas_in_the_word
 
 ```clingo
 % ===================================================================
@@ -562,6 +623,7 @@ part switch
 ```clingo
 #program vm_thomist.              vm_guest(thomist).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```
 
 part switch
@@ -583,6 +645,7 @@ part switch
 ```clingo
 #program vm_palamite.             vm_guest(palamite).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```
 
 part switch
@@ -660,6 +723,7 @@ part switch
 ```clingo
 #program vm_hooker.               vm_guest(hooker).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```
 
 part switch
@@ -674,6 +738,7 @@ part switch
 ```clingo
 #program vm_locke.                vm_guest(locke).
 guest_holds(final,(god_physics;god_ethics;will;self)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```
 
 part switch
@@ -709,6 +774,7 @@ part switch
 ```clingo
 #program vm_ockham_nominal.       vm_guest(ockham_nominal).
 guest_holds(final,(god_ethics;human;will;self)). guest_holds(formal,nature).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```
 
 part switch
@@ -765,6 +831,7 @@ part switch
 ```clingo
 #program vm_locke_wl.             vm_guest(locke_wl).
 guest_holds(final,(god_physics;god_ethics;will;self)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```
 
 part switch
@@ -779,6 +846,7 @@ part switch
 ```clingo
 #program vm_episcopate_1891.      vm_guest(episcopate_1891).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```
 
 part switch
@@ -786,6 +854,7 @@ part switch
 ```clingo
 #program vm_social_catholic.      vm_guest(social_catholic).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```
 
 part switch
@@ -793,6 +862,7 @@ part switch
 ```clingo
 #program vm_smith.                vm_guest(smith).
 guest_holds(final,(god_physics;god_ethics;will;self)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```
 
 part switch
@@ -800,6 +870,7 @@ part switch
 ```clingo
 #program vm_angers.               vm_guest(angers).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```
 
 part switch
@@ -807,6 +878,7 @@ part switch
 ```clingo
 #program vm_george.               vm_guest(george).
 guest_holds(final,(god_physics;god_ethics;will;self)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```
 
 part switch
@@ -814,6 +886,7 @@ part switch
 ```clingo
 #program vm_george_hn.            vm_guest(george_hn).
 guest_holds(final,(god_physics;god_ethics;human;will;self)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```
 
 part switch
@@ -835,4 +908,27 @@ part switch
 ```clingo
 #program vm_lassalle.             vm_guest(lassalle).
 guest_holds(final,(nature;human;will;self)). guest_holds(formal,(nature;human;will)).
+```
+
+part switch
+
+```clingo
+#program vm_plato.                vm_guest(plato).
+guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;will)).
+guest_holds(formal,god_physics).                % the Forms apart (TTC-RERUM)
+```
+
+part switch
+
+```clingo
+#program vm_aristotle.            vm_guest(aristotle).
+guest_holds(final,(nature;human;will;self)). guest_holds(formal,(nature;human;will)).
+```
+
+part switch
+
+```clingo
+#program vm_concordia.            vm_guest(concordia).
+guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```

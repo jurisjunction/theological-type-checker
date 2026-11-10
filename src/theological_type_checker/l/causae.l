@@ -2,9 +2,6 @@ layer libraries
 
 -- Sorts first used in this layer (TTC-L, TY): closed, then open
 
-sort cause {material, formal, efficient, final}
-  means "one of the four causes (Physics II.3; Metaphysics V.2)"
-
 sort domain {nature, god_physics, god_ethics, human, will, self, reason}
   means "where a cause is held: nature; God's ends in nature, or for human use and action; human nature; the will; the self; practical reason"
 
@@ -85,6 +82,10 @@ slot measures_as(M: measure, C1: cause, C2: cause)
   means "measures_as(M, C1, C2): the measure M takes a cause C1 as a cause C2"
   say "{M} measures the {C1} cause as an {C2} one"
 
+slot measure_word(M: measure, W: word)
+  means "measure_word(M, W): the measure M names the cause it measures with the word W (TTC-RERUM)"
+  say "the measure {M} names its cause with the word {W}"
+
 slot concludes_heard(A: claim, L: claimant, C: claimant)
   means "concludes_heard(A, L, C): C claims that A, heard under the lexicon L and shorter there, still concludes"
   say "{C} claims that {A}, heard under {L}, still concludes"
@@ -134,6 +135,9 @@ result guest_sole_reason(S: source, A: claim, Q: question, V: value)
 
 result cause_converted(M: measure, C1: cause, C2: cause)
   say "{M} takes the {C1} cause as an {C2} one: refused"
+
+result cause_rendered(M: measure, W: word, W1: word, K: akind)
+  say "the measure {M} renders the end: {W} is said of {W1} by analogy of {K}, and carries it (TTC-RERUM)"
 
 result conversion_native(M: measure)
   say "{M} takes an end as a force, in a horizon where ends survive only as desire"
@@ -257,6 +261,12 @@ info(guest_sole_reason(S,A,Q,V)) :- sole_in(guest,S,A,Q,V), avail(here,A), other
 desire_only :- holds_cause(final,will), not holds_cause(final,nature), not holds_cause(final,god_physics),
                not holds_cause(final,god_ethics), not holds_cause(final,human), not holds_cause(formal,will),
                not holds_cause(formal,reason).
-violation(cause_converted(M,final,efficient)) :- measures_as(M,final,efficient), not desire_only.
-info(conversion_native(M)) :- measures_as(M,final,efficient), desire_only.
+violation(cause_converted(M,final,efficient)) :- measures_as(M,final,efficient), not desire_only, not rendered(M).
+info(conversion_native(M)) :- measures_as(M,final,efficient), desire_only, not rendered(M).
+% A rendering is not a conversion (TTC-RERUM): a word for force said of the
+% end by analogy, and carrying it, names the end and measures nothing as a
+% force.
+rendering_word(M,W,W1,K) :- measure_word(M,W), analogous(W,W1,K,_), carries(W,W1,cd(final,_)).
+rendered(M) :- rendering_word(M,_,_,_).
+info(cause_rendered(M,W,W1,K)) :- rendering_word(M,W,W1,K).
 ```
