@@ -824,6 +824,14 @@ def test_the_guard_adds_nothing_where_there_is_no_hearing_and_no_vm(tmp_path, mo
         assert _profession(engine.solve(parts, "branches")) == [], parts
 
 
+def test_the_stamped_boot_set_does_not_grow():
+    # TTC-SCHOOLS's boot set is stamped at 210 scenarios (TTC-LOCI EX1). A step that writes scenarios keeps its
+    # group out of schools.boot_set, or the slow pins in tests/test_schools.py boot on scenarios they were never
+    # pinned on. TTC-RERUM's group (rerum, 31 scenarios) had entered it unnoticed (found 11 November 2026).
+    from theological_type_checker import schools
+    assert len(schools.boot_set()) == 210
+
+
 def test_the_suite_names_the_bases_runtimes_and_a_projection_marks_a_profession(tmp_path, monkeypatch):
     # PF1, with the layer on: the suite's scenarios iterate the base's runtimes, never the layer's; a run
     # projected (mod_project) is marked as a solve is
