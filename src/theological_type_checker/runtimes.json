@@ -47,7 +47,8 @@
    "holds_premotion",
    "one_place_circumscribed",
    "ideas_in_the_word",
-   "matter_never_without_form"
+   "matter_never_without_form",
+   "light_participated"
   ],
   "scotist": [
    "classical",
@@ -323,7 +324,8 @@
    "holds_premotion",
    "one_place_circumscribed",
    "ideas_in_the_word",
-   "matter_never_without_form"
+   "matter_never_without_form",
+   "light_participated"
   ],
   "grotius": [
    "classical",
@@ -370,6 +372,7 @@
    "holds_premotion",
    "one_place_circumscribed",
    "ideas_in_the_word",
+   "light_participated",
    "holds_concurrence",
    "univocity_of_concept",
    "ideas_as_objects"
@@ -619,6 +622,7 @@
    "holds_premotion",
    "one_place_circumscribed",
    "ideas_in_the_word",
+   "light_participated",
    "holds_concurrence",
    "univocity_of_concept",
    "ideas_as_objects"
@@ -677,6 +681,7 @@
    "one_place_circumscribed",
    "ideas_in_the_word",
    "matter_never_without_form",
+   "light_participated",
    "figure_episcopate_1891"
   ],
   "social_catholic": [
@@ -709,7 +714,8 @@
    "holds_premotion",
    "one_place_circumscribed",
    "ideas_in_the_word",
-   "matter_never_without_form"
+   "matter_never_without_form",
+   "light_participated"
   ],
   "smith": [
    "classical",
@@ -733,6 +739,7 @@
    "holds_premotion",
    "one_place_circumscribed",
    "ideas_in_the_word",
+   "light_participated",
    "holds_concurrence",
    "univocity_of_concept",
    "ideas_as_objects"
@@ -767,6 +774,7 @@
    "one_place_circumscribed",
    "ideas_in_the_word",
    "matter_never_without_form",
+   "light_participated",
    "holds_concurrence",
    "univocity_of_concept"
   ],
@@ -792,6 +800,7 @@
    "holds_premotion",
    "one_place_circumscribed",
    "ideas_in_the_word",
+   "light_participated",
    "holds_concurrence",
    "univocity_of_concept",
    "ideas_as_objects",
@@ -819,6 +828,7 @@
    "holds_premotion",
    "one_place_circumscribed",
    "ideas_in_the_word",
+   "light_participated",
    "holds_concurrence",
    "univocity_of_concept",
    "ideas_as_objects",
@@ -907,6 +917,24 @@
    "things_measure_us",
    "soul_as_form",
    "ideas_in_the_word"
+  ],
+  "bonaventure": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_in_nature",
+   "forms_in_nature",
+   "ends_by_god_physics",
+   "ends_by_god_ethics",
+   "ends_of_human_nature",
+   "ends_desired",
+   "self_preservation",
+   "object_as_form",
+   "knowing_ends_in_things",
+   "things_measure_us",
+   "soul_as_form",
+   "ideas_in_the_word",
+   "light_contuited"
   ]
  },
  "declared": {
@@ -1046,6 +1074,10 @@
     [
      "add",
      "matter_never_without_form"
+    ],
+    [
+     "add",
+     "light_participated"
     ]
    ]
   },
@@ -1993,6 +2025,18 @@
      "ideas_in_the_word"
     ]
    ]
+  },
+  "bonaventure": {
+   "extends": [
+    "concordia"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
+     "light_contuited"
+    ]
+   ]
   }
  },
  "alleles": {
@@ -2064,6 +2108,14 @@
    "by_the_mind": [
     "mind_prescribes"
    ]
+  },
+  "lumen": {
+   "participated": [
+    "light_participated"
+   ],
+   "contuited": [
+    "light_contuited"
+   ]
   }
  },
  "loci": {
@@ -2089,6 +2141,10 @@
     "carried": []
    },
    "adaequatio": {
+    "expressed": null,
+    "carried": []
+   },
+   "lumen": {
     "expressed": null,
     "carried": []
    }
@@ -2117,6 +2173,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "thomist": {
@@ -2142,6 +2202,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": "participated",
     "carried": []
    }
   },
@@ -2169,6 +2233,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "suarezian": {
@@ -2194,6 +2262,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -2221,6 +2293,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "saussure": {
@@ -2246,6 +2322,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -2273,6 +2353,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "lingual": {
@@ -2299,6 +2383,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "scotus_dpp": {
@@ -2324,6 +2412,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -2352,6 +2444,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -2383,6 +2479,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "bacon": {
@@ -2408,6 +2508,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -2440,6 +2544,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -2476,6 +2584,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "spinoza": {
@@ -2508,6 +2620,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "hooker": {
@@ -2533,6 +2649,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": "participated",
     "carried": []
    }
   },
@@ -2563,6 +2683,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -2601,6 +2725,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": "participated",
+    "carried": []
    }
   },
   "leibniz": {
@@ -2633,6 +2761,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -2669,6 +2801,10 @@
     "carried": [
      "by_things"
     ]
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "scotus_will": {
@@ -2694,6 +2830,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -2723,6 +2863,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "ockham_nominal": {
@@ -2750,6 +2894,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -2783,6 +2931,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "grotius_etiamsi": {
@@ -2812,6 +2964,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -2848,6 +3004,10 @@
     "carried": [
      "by_things"
     ]
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "kant_mm": {
@@ -2883,6 +3043,10 @@
     "carried": [
      "by_things"
     ]
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "suarez_wl": {
@@ -2912,6 +3076,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -2948,6 +3116,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "spinoza_wl": {
@@ -2979,6 +3151,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -3017,6 +3193,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": "participated",
+    "carried": []
    }
   },
   "leibniz_wl": {
@@ -3050,6 +3230,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "episcopate_1891": {
@@ -3076,6 +3260,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": "participated",
+    "carried": []
    }
   },
   "social_catholic": {
@@ -3101,6 +3289,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": "participated",
     "carried": []
    }
   },
@@ -3139,6 +3331,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": "participated",
+    "carried": []
    }
   },
   "angers": {
@@ -3174,6 +3370,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": "participated",
     "carried": []
    }
   },
@@ -3212,6 +3412,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": "participated",
+    "carried": []
    }
   },
   "george_hn": {
@@ -3249,6 +3453,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": "participated",
+    "carried": []
    }
   },
   "marx": {
@@ -3274,6 +3482,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -3301,6 +3513,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "lassalle": {
@@ -3326,6 +3542,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -3353,6 +3573,10 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
    }
   },
   "aristotle": {
@@ -3378,6 +3602,10 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
     "carried": []
    }
   },
@@ -3407,6 +3635,43 @@
    },
    "adaequatio": {
     "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
+   }
+  },
+  "bonaventure": {
+   "simplicity": {
+    "expressed": null,
+    "carried": []
+   },
+   "esse": {
+    "expressed": null,
+    "carried": []
+   },
+   "ideas": {
+    "expressed": "in_the_word",
+    "carried": [
+     "no_exemplar",
+     "subsisting"
+    ]
+   },
+   "prime_matter": {
+    "expressed": null,
+    "carried": []
+   },
+   "terminus": {
+    "expressed": "in_the_thing",
+    "carried": []
+   },
+   "adaequatio": {
+    "expressed": "by_things",
+    "carried": []
+   },
+   "lumen": {
+    "expressed": "contuited",
     "carried": []
    }
   }

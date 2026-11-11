@@ -46,6 +46,10 @@ locus adaequatio
   allele by_things = things_measure_us
   allele by_the_mind = mind_prescribes
 
+locus lumen
+  allele participated = light_participated
+  allele contuited = light_contuited
+
 -- The runtimes (TTC-SCHOOLS; TTC-L, RU). Each is a school's parts loaded
 -- whole; compiled to runtimes.json, which the engine reads.
 runtime bare
@@ -63,6 +67,8 @@ runtime thomist extends default
   add holds_premotion, one_place_circumscribed
   -- I q. 15 a. 2 and ad 4; I q. 66 a. 1 ad 3 (TTC-RERUM)
   add ideas_in_the_word, matter_never_without_form
+  -- I q. 84 a. 5: the light a participated likeness of the uncreated light (TTC-VERBUM)
+  add light_participated
 
 runtime scotist extends default
   add simplicity_scotist, attributes_formal, univocity_of_concept, scotus_esse
@@ -291,6 +297,11 @@ runtime concordia extends plato, aristotle
   -- Boethius's aim, "in unam quodammodo revocare concordiam"; Thomas's reading, the ideas in an
   -- intellect (I q. 15 a. 1 ad 1); Bonaventure, Christus unus omnium magister 18-19
   add soul_as_form, ends_by_god_physics, ends_by_god_ethics, ideas_in_the_word
+
+runtime bonaventure extends concordia
+  -- De scientia Christi q. 4: "ratio aeterna ut regulans et ratio motiva ... cum ratione creata, et ut ex parte
+  -- a nobis contuita"; Christus unus omnium magister 10, 17-19 (TTC-VERBUM)
+  add light_contuited
 
 ```clingo
 % ===================================================================
@@ -929,6 +940,14 @@ part switch
 
 ```clingo
 #program vm_concordia.            vm_guest(concordia).
+guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
+guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
+```
+
+part switch
+
+```clingo
+#program vm_bonaventure.          vm_guest(bonaventure).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;human;will)).
 guest_holds(formal,god_physics).                % the exemplar in God (TTC-RERUM)
 ```

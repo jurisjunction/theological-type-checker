@@ -94,15 +94,18 @@ AS_NOTHING = ("scotus_dpp", "ockham", "bacon", "hobbes", "scotus_will", "ockham_
 # TTC-RERUM SU1 (rule 7): the 33 become 36. Plato, Aristotle and their merge express no reading of simplicity or
 # esse, and nothing on the boot set asks about a thing, so each changes nothing.
 AS_NOTHING_RERUM = ("plato", "aristotle", "concordia")
+# TTC-VERBUM SU1 (rule 7): the 36 become 37. Bonaventure, concordia's parts with the light contuited, changes nothing
+# on the boot set either: its scenarios ask about no thing and name no Word.
+AS_NOTHING_VERBUM = ("bonaventure",)
 BOOT_MODERNITY = {**{r: BOOT_B["thomist"] for r in AS_THOMIST}, **{r: BOOT_B["suarezian"] for r in AS_SUAREZIAN},
-                  **{r: ([], []) for r in AS_NOTHING + AS_NOTHING_RERUM}}
+                  **{r: ([], []) for r in AS_NOTHING + AS_NOTHING_RERUM + AS_NOTHING_VERBUM}}
 
 
 def test_the_modernities_are_the_runtimes_of_their_step():
     from theological_type_checker import engine
     from theological_type_checker.schools import SCHOOLS, TONGUES
     assert set(BOOT_MODERNITY) == set(engine.RUNTIMES) - {"bare", "default", *SCHOOLS, *TONGUES}
-    assert len(BOOT_MODERNITY) == 36
+    assert len(BOOT_MODERNITY) == 37
 
 
 @pytest.mark.skipif(not os.environ.get("TTC_SLOW_MODERNITY"), reason="slower: set TTC_SLOW_MODERNITY=1 too")

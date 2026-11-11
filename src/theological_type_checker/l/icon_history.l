@@ -3870,3 +3870,35 @@ analogous(w_driving_force,w_finis,proportionality,c_hyp).
 carries(w_driving_force,w_finis,cd(final,nature)).
 measures_as(m_convert,final,efficient).
 ```
+
+part candidate of soap
+
+```clingo
+#program cand_ontologism.         % the ontologist's two claims, as the decree of 1861 censures them (TTC-VERBUM; with soap, trinity)
+% The first proposition, that the knowledge of God "is the intellectual light", read as typing the intellect's own
+% light as God (a reading); the vision it calls essential to the intellect; and God's own knowing, which stands.
+light_of(human,son).
+seen_in(human,soap,son).
+seen_in(divine,soap,son).
+```
+
+part candidate of soap
+
+```clingo
+#program cand_motive_as_cause.    % Christus unus n. 17's "ratio motiva" read as a cause among a judgment's causes (TTC-VERBUM)
+% The reading the contuited allele does not take: refused by the kernel (god_as_second_cause); with soap, trinity.
+cause_of(j_soap,efficient,son). cause_of(j_soap,efficient,agent_intellect).
+```
+
+part case
+
+```clingo
+#program ontologism_1861.         % the Holy Office on ontologism, 1861: "tuto tradi non possunt" (TTC-VERBUM)
+% A dicastery's act on a doctrinal question, at tier 3 by its form, as cdf_1974 is entered; it cleaves the contrary
+% branch and deletes nothing (c. 749 §3). Its seven propositions (DH 2841-2847) are owed and not entered. Its
+% character: the Cardinals' answer that the propositions cannot safely be taught, entered as responses, as the Holy
+% Office's act of 1957 is (the record has no character "decree" for a dicastery).
+source(holy_office_1861,3,truth,1861). dicastery(holy_office_1861). character(holy_office_1861,responses).
+question(q(ontologism_safe_to_teach)). question_kind(q(ontologism_safe_to_teach),doctrinal).
+value(q(ontologism_safe_to_teach),(yes;no)). supports(holy_office_1861,q(ontologism_safe_to_teach),no).
+```

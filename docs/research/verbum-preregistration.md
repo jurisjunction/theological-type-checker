@@ -403,3 +403,60 @@ they are scored apart.
 
 ttc-rerum(7), ttc-loci(7), ttc-novissima(7), ttc-pendet(7),
 ttc-schools(7).
+
+## SCORING
+
+Appended after the runs. Predictions committed in `b3d02a3` (the draft
+before it, `dc41c10`, superseded), stamped in `b02de83`; encoded on
+`b02de83` (`main`, TTC-RERUM and the predictions merged), whose rule files
+are those of `2e436b9`, so no difference is stated. Encoded in `verbum.l`
+(new, a library: `light_of/2`, `seen_in/3`, the two parts at `lumen`; the
+Word; before the thing; the two lights; the two refusals; their results),
+`schools.l` (the locus `lumen`, declared after `adaequatio`; `thomist`'s
+`light_participated`; `bonaventure`; `vm_bonaventure`), `icon_history.l`
+(`cand_ontologism`, `cand_motive_as_cause`, `ontologism_1861`),
+`engine.py` (`FILES`), `runtimes.json`, `schools.py` (the group kept out of
+the stamped boot set), the suite (13 scenarios, group `verbum`),
+`tests/test_l.py`, `tests/test_interface.py`, `tests/test_schools.py`, the
+guide in both copies (THE WORD AND THE LIGHT), `docs/l.md`, the roadmap,
+`README.md`, `CLAUDE.md`, `docs/README.md` and `docs/findings.md` (section
+47; Method becomes 48). The suite names SU1–SU2 `VS1`–`VS2`. Of 8
+predictions, 8 held. The 5 mechanics held. The full suite: 1081 passed, 58 skipped.
+
+| | Result |
+| --- | --- |
+| VB1 | Held (VB1). `participated` on the ten, `contuited` on `bonaventure`, none on the other 35 of 46; no `re_expressed`. At TTC-RERUM's four loci `bonaventure` is `concordia`, and its parts are `concordia`'s and `light_contuited`. |
+| VB2 | Held (VB2). `before_the_thing(P, soap, son)` for `amphiphilic_form` and `interfaces_end` on exactly the 13 whose ideas are in God, and on no other; never for `cleaning`, `fat`, `lye`, the soap-maker or the bar. |
+| VB3 | Held (VB3). `both_in_the_word(a_nature, soap, P, son, participated)` for both P on `thomist`, `hooker`, `episcopate_1891`, `social_catholic`; `contuited` on `bonaventure`; on no other runtime, `concordia` and `palamite` included. Never of `a_maker`, `a_god` or `a_logos`. |
+| VB4 | Held (VB4). On the four, `in_participated_light` for `a_maker` and `a_nature`; on `bonaventure`, `under_eternal_reason` for both and `idea_contuited(a_nature, P, son)` for the two P, none for `a_maker`. Neither allele's reports on the other's runtimes; on the six other runtimes of `participated` no `in_participated_light/2` and no `both_in_the_word/5`; on the other 35 none of the four. |
+| VB5 | Held (VB5). `light_typed_uncreated(human, son)` and `seen_by_nature(human, soap, son)` on all 46, `bare` included; nothing for God's own knowing. |
+| VB6 | Held (VB6). On all 46, `ontologism_1861` alone: no in the main branch, yes a live shadow cleaved by `holy_office_1861`; no branch assumes `t2_truth`; nothing deleted; no violation added. |
+| SU1 | Held (VS1). Every scenario before the encoding (772, 65,007 models), solved in branches mode, gives the same atoms in every model, main against the branch, compared by a hash of each scenario's sorted models: no difference. Each restatement predicted was made, and no other: `test_l`'s runtime set, `thomist`'s parts, the loci pins of a layer runtime (with `test_interface`'s), and `thomist`'s line, `schools.l:60` to `:64`; the closed sorts unchanged; `test_schools`, 36 to 37; AL1; QL1 (12, 28, 42), QL2 (20), QT6 (19), QT8 (all three; `a_logos` on 15); AL2, AL3, PE2 and PE4 with `bonaventure` in `concordia`'s row; QT4, QT5, QL3 and QV1 unrestated, as predicted, their descriptive strings brought up to date; DG1 unchanged; the boot set kept from growing. CL1 and PR4 clean (see Readings: the decree's character). |
+| SU2 | Held (VS2). Each statement of `verbum.lp` was deleted in turn (13), then each body literal of each rule (56): 12 removals leave their rule unsafe; of the rest, 11 statements and 19 literals turned a test red at once. The 27 that did not (the two domain checks the slots compile to, and 25 literals) each turn one red now, by checks added where they belong: gold grounded on the Thomist line and made through the Word with no exemplar, or with an exemplar and not made through him, or made as an artifact; a premise grounded in soap's matter; either light on a horizon with no ideas in God; a creature begotten (VB2); a thing seen in a creature, a person in a kind's place, and the ontologist's case giving no domain fault (VQ3). The parts of `schools.lp` are VB1's and VQ5's; the cases' facts are data. Both copies of the guide gain THE WORD AND THE LIGHT identically. |
+| Mechanics | Held, each as written: VQ1–VQ5. |
+
+### Readings
+
+- **The decree's character.** Entered as the design gives it, `source`
+  and `dicastery` alone, `ontologism_1861` raised
+  `frontier(theology, teaching_without_character(holy_office_1861))`, and
+  VS1 and PR4 went red: a tier-3 teaching must show its form (rule 14), and
+  `cdf_1974`, which the design names as the model, has one. The record's
+  characters have no "decree" for a dicastery's act; the decree is entered
+  as `responses`, the Cardinals' answer that the propositions cannot safely
+  be taught, as the Holy Office's act of 1957 is. With it, VB6, VS1 and PR4
+  hold. The decree's own wording is owed (A1).
+- **Repeated bodies.** `both_in_the_word/5` and `idea_contuited/3` repeat
+  `before_the_thing/3`'s body rather than reading an atom that joins a
+  creature to a divine person, as THE DESIGN says.
+- **The allele named.** `both_in_the_word/5`'s last place is an entity,
+  `participated` or `contuited`, no sort, as THE DESIGN says.
+- **`bonaventure` in `test_l`.** The runtime set's check takes it beside
+  TTC-RERUM's three, with `concordia`'s nine parts of the causes.
+- **The guide.** `before_the_thing(P,X,W)` stands in the Meaning column, as
+  a result is shown: `test_interface` reads the Fact column as what a case
+  enters or a rule reads.
+- **The slow boots.** With `TTC_SLOW`: `bonaventure` boots to nothing
+  changed and nothing red; `thomist`'s boot, with `light_participated`, and
+  a profession built on it boot as before; the step's runtimes are 37.
+  The other boots of the Thomist line were not run.

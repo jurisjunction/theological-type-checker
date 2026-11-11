@@ -133,7 +133,8 @@ HAND_WRITTEN = {
     "thomist": ["classical", "one_power", "word_of_no_tongue", *NINE, *RERUM_DEFAULT, "th01", "th03", "th04", "th05",
                 "th06", "th21", "th22", "th24", "simplicity_thomist", "attributes_by_reason", "mixed_relations",
                 "transcendentals", "holds_premotion", "one_place_circumscribed", "ideas_in_the_word",
-                "matter_never_without_form"],
+                "matter_never_without_form",
+                "light_participated"],   # TTC-VERBUM SU1 (rule 7): the light a participated likeness
     "scotist": ["classical", "one_power", "word_of_no_tongue", *NINE, *RERUM_DEFAULT, "simplicity_scotist",
                 "attributes_formal", "univocity_of_concept", "scotus_esse", "mixed_relations", "transcendentals",
                 "matter_can_be_without_form"],
@@ -182,6 +183,8 @@ RERUM_HORIZONS = {
     "plato": _TRACE("soul_as_form"),
     "aristotle": _TRACE("ends_by_god_physics", "ends_by_god_ethics"),
     "concordia": _ALL9,
+    # TTC-VERBUM SU1 (rule 7): the runtime set gains bonaventure, concordia's parts and the light contuited
+    "bonaventure": _ALL9,
 }
 
 
@@ -1032,7 +1035,9 @@ def test_a_runtime_of_the_layer_compiles_with_the_base_and_the_base_is_unchanged
                                    "ideas": {"expressed": "in_the_word", "carried": []},
                                    "prime_matter": {"expressed": "never_without_form", "carried": []},
                                    "terminus": {"expressed": "in_the_thing", "carried": []},
-                                   "adaequatio": {"expressed": "by_things", "carried": []}}
+                                   "adaequatio": {"expressed": "by_things", "carried": []},
+                                   # TTC-VERBUM SU1 (rule 7): the locus lumen, thomist's allele
+                                   "lumen": {"expressed": "participated", "carried": []}}
     assert out["alleles"] == lang.compile_runtimes(lang.sources())["alleles"]
     assert lang.runtimes_text(lang.compile_runtimes(lang.sources())) == before == lang.RUNTIMES_JSON.read_text()
 
@@ -1047,7 +1052,8 @@ def test_a_runtime_of_the_layer_compiles_with_the_base_and_the_base_is_unchanged
     ("runtime mine extends yours\nruntime yours extends mine\n", 1, "runtimes extend each other in a cycle"),
     ("runtime mine extends ghost\n", 1, "no runtime named ghost"),
     # TTC-RERUM (rule 7): the four loci declared above the runtimes move thomist's line from 33 to 60
-    ("runtime thomist extends default\n", 1, "runtime thomist: the base has a runtime of that name (schools.l:60)"),
+    # TTC-VERBUM SU1 (rule 7): the locus lumen declared above the runtimes moves thomist's line from 60 to 64
+    ("runtime thomist extends default\n", 1, "runtime thomist: the base has a runtime of that name (schools.l:64)"),
     ("runtime mine extends thomist\nslot mine_p(X: claim)\n  means \"m\"\n", 2,
      "declares `slot`: a file of the layer's runtimes declares runtimes only"),
     ("layer schools\nruntime mine extends thomist\n", 1, "declares `layer`"),
@@ -1116,7 +1122,9 @@ def test_the_starting_point_is_refused_on_exactly_one_power(tmp_path):
                                         "ideas": {"expressed": None, "carried": ["energies", "in_the_word"]},
                                         "prime_matter": {"expressed": "never_without_form", "carried": []},
                                         "terminus": {"expressed": "in_the_thing", "carried": []},
-                                        "adaequatio": {"expressed": "by_things", "carried": []}}
+                                        "adaequatio": {"expressed": "by_things", "carried": []},
+                                        # TTC-VERBUM SU1 (rule 7): thomist's light, palamite having none
+                                        "lumen": {"expressed": "participated", "carried": []}}
         parts = out["runtimes"]["start"]
         assert not {"simplicity_thomist", "attributes_by_reason", "simplicity_palamite"} & set(parts)
         assert {"th03", "th05", "monopatrism", "palamite_energies"} <= set(parts)
