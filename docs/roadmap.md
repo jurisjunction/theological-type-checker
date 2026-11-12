@@ -44,6 +44,7 @@ them; otherwise they run on top, as the *Grammar of the Icon* did.
 | personae | juridic persons (cc. 114–117, 1257 §2) and two duties of clerics (cc. 285 §4, 286) | predicted; an exploratory layer on a branch ([ttc-personae(7)](research/personae-preregistration.md)) |
 | rerum | things by their causes; God neither form nor matter of a thing, nor a second cause; the word between the thing and the argument, and the direction of the measure; a natural question as a joint work; the schools' readings at four loci; Plato and Aristotle merged | done ([ttc-rerum(7)](research/rerum-preregistration.md)) |
 | verbum | the cause in the thing and the premise resting on it, both in the Word; Thomas's participated light and Bonaventure's contuited reason as two alleles; the ontologist's two claims refused on both; the censure of 1861 at its tier | done ([ttc-verbum(7)](research/verbum-preregistration.md)) |
+| mendacium | lying, the first case run alone that the form of the law and self-preservation decide: Augustine, Thomas, Kant, the Catechism, Grotius, Constant and Hobbes typed by the causes, with three readings; with it every cause part an order parameter of the four cases | done ([ttc-mendacium(7)](research/mendacium-preregistration.md)) |
 | integration | the checker as a verification step for agent frameworks | a doc page, later |
 
 The repairs, the agent studies and the smaller steps are not foundation
@@ -951,9 +952,10 @@ hearer only on a claim; Adams's measure, refused save where ends survive as
 desire; the property case of *Rerum novarum* on every runtime and over every
 horizon. Left:
 
-- The cases that add order parameters (PH3): usury, lying, contraception,
-  the death penalty, religious liberty, each with its phases predicted
-  before stamping. The two forms of the will's act enter there.
+- The cases that add order parameters (PH3): usury, contraception, the
+  death penalty, religious liberty, each with its phases predicted before
+  stamping. Lying is done (TTC-MENDACIUM): the form of the law and
+  self-preservation enter there.
 - The German and French of 1891 and their lexicons, for Marx, Lassalle and
   the French Catholics; RN 7's and RN 13's forms; a rebuttal slot, for a
   dispute about the object inside a cause both sides hold.

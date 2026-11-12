@@ -21,7 +21,7 @@ a test checks the file is current and every scenario named exists.
 Of 87 units: 49 touched by rules, 5 by cases only,
 33 frontier. A unit counts as touched if one rule reaches
 it, so this measures reach, not depth. The rule files cite
-57 of the Catechism's 2,865 paragraphs by number (the column
+60 of the Catechism's 2,865 paragraphs by number (the column
 "Cited"). The Prologue (1–25) is frontier.
 
 ## PART ONE: THE PROFESSION OF FAITH
@@ -114,7 +114,7 @@ it, so this measures reach, not depth. The rule files cite
 | 2258–2330 | The fifth commandment | rules | 7 | DP1, DP2, DP5, SD1, MS2, MS2b, DI3, DI4, DI5, SD3, AB1, AB4 | the death penalty's history and verdict; legitimate defence; abortion and its penalty (c. 1397 §2; CCC 2272); just war |
 | 2331–2400 | The sixth commandment | rules |  | DI6, DR1, K11 | IVF "must not" (Donum vitae); remarriage; the embryo's image |
 | 2401–2463 | The seventh commandment | rules | 2 | SD2, SD2b, SD4, CV1, MP5 | usury as two questions; social teaching typed (CCC 2423); property in products and in land natural, use common, their reasons traced by horizon (CCC 2402-2406) |
-| 2464–2513 | The eighth commandment | rules | 1 | SM7, SM7c, CC1, CC3 | the seal; CCC 2483 in its encodings, the definitive text governance |
+| 2464–2513 | The eighth commandment | rules | 4 | SM7, SM7c, CC1, CC3, MN1, MN2, MH1 | the seal; CCC 2483 in its encodings, the definitive text governance; whether every lie is wrong, its arguments typed by the causes on every horizon |
 | 2514–2533 | The ninth commandment | frontier |  |  |  |
 | 2534–2557 | The tenth commandment | frontier |  |  |  |
 

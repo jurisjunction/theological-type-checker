@@ -2108,6 +2108,77 @@ source(th_90_4,5,truth,1271). promoted(th_90_4,4,1567). supports(th_90_4,q(prece
 argument(th_ordinatio,th_90_4,q(precepts_bind),yes). argues_from(th_ordinatio,final,human).
 source(hobbes_l26,5,truth,1651). supports(hobbes_l26,q(precepts_bind),yes).
 argument(hobbes_l26,hobbes_l26,q(precepts_bind),yes). argues_from(hobbes_l26,efficient,will).
+
+% ---------- Lying: whether every lie is wrong (TTC-MENDACIUM) --------------------
+% Real texts; every typing is an interpretive fact, entered and open to dispute
+% (docs/research/mendacium-sources.md); authority reads no argument (rule 14).
+% The lie as CCC 2482 defines it in both editions, "speaking a falsehood with the
+% intention of deceiving". Kant's three works are three sources, as Thomas's
+% articles are in the property case.
+#program mendacium.               % whether every lie is wrong: Augustine, Thomas, Kant, the Catechism, Grotius, Constant, Hobbes (TTC-MENDACIUM)
+question(q(lie_always_wrong)). question_kind(q(lie_always_wrong),doctrinal). value(q(lie_always_wrong),(yes;no)).
+% Augustine, Enchiridion 22 (after 420): "uerba propterea sunt instituta ... per quae in alterius quisque
+% notitiam cogitationes suas perferat"; as theft to give to the poor, the deceit not praised; Mt 5:37 to
+% "the heirs of the new covenant". The end of words is typed as Thomas and the Catechism type the end of speech.
+source(aug_ench,5,truth,421). promoted(aug_ench,4,1298). supports(aug_ench,q(lie_always_wrong),yes).
+argument(ench22_words,aug_ench,q(lie_always_wrong),yes). argues_from(ench22_words,final,nature).
+argument(ench22_parity,aug_ench,q(lie_always_wrong),yes). argues_from(ench22_parity,formal,will).
+argument(ench22_yea,aug_ench,q(lie_always_wrong),yes). argues_from(ench22_yea,final,god_ethics).
+% ST II-II q. 110 a. 3: "malum ex genere", an act "cadens super indebitam materiam": "cum enim voces sint
+% signa naturaliter intellectuum, innaturale est et indebitum". Ad 4, not to deliver another from any
+% danger: the sin is "ex sua inordinatione, ut dictum est", so the reply rests where the corpus does.
+source(th110,5,truth,1271). promoted(th110,4,1567). supports(th110,q(lie_always_wrong),yes).
+argument(th110_genus,th110,q(lie_always_wrong),yes). argument(th110_ad4,th110,q(lie_always_wrong),yes).
+argues_from((th110_genus;th110_ad4),formal,will). argues_from((th110_genus;th110_ad4),final,nature).
+% Kant. G 4:422: the universal law of false promising "würde das Versprechen ... selbst unmöglich machen";
+% 4:429-430: the one deceived cannot agree, never merely as a means. TL §9 (6:429): the lie "Wegwerfung und
+% gleichsam Vernichtung seiner Menschenwürde", and against "der natürlichen Zweckmäßigkeit seines Vermögens
+% der Mitteilung seiner Gedanken". VRML (1797): "formale Pflicht"; it makes "die Rechtsquelle unbrauchbar".
+source(kant_g,5,truth,1785). supports(kant_g,q(lie_always_wrong),yes).
+argument(g422,kant_g,q(lie_always_wrong),yes). argument(g429,kant_g,q(lie_always_wrong),yes).
+argues_from((g422;g429),formal,reason).
+source(kant_tl,5,truth,1797). supports(kant_tl,q(lie_always_wrong),yes).
+argument(tl_dignity,kant_tl,q(lie_always_wrong),yes). argues_from(tl_dignity,formal,reason).
+argument(tl_purpose,kant_tl,q(lie_always_wrong),yes). argues_from(tl_purpose,final,nature).
+source(kant_vrml,5,truth,1797). supports(kant_vrml,q(lie_always_wrong),yes).
+argument(vrml,kant_vrml,q(lie_always_wrong),yes). argues_from(vrml,formal,reason).
+% CCC 2482, 2485, 2486, the same words in both editions as far as reached: "The Lord denounces lying as the
+% work of the devil"; "the purpose of speech is to communicate known truth to others"; "Lying is destructive
+% of society". Dated 1992 as ccc2403 is, and not withdrawn: the paragraphs entered did not change in 1997.
+source(ccc2482,3,truth,1992). character(ccc2482,catechism). supports(ccc2482,q(lie_always_wrong),yes).
+argument(ccc2482_lord,ccc2482,q(lie_always_wrong),yes). argues_from(ccc2482_lord,final,god_ethics).
+argument(ccc2485_speech,ccc2482,q(lie_always_wrong),yes). argues_from(ccc2485_speech,final,nature).
+argument(ccc2486_society,ccc2482,q(lie_always_wrong),yes). argues_from(ccc2486_society,final,human).
+% Grotius, DIBP III.1.11 (1625): the illicit lie's form none "praeter repugnantiam cum iure existente ac
+% manente eius ad quem sermo aut nota dirigitur"; the right owed "quasi pacto quodam tacito", the obligation
+% "quam homines introduci voluerant, simul atque sermone notisque similibus uti instituerunt". To infants,
+% madmen and the rest no lie (XII-XV); "forte" to save an innocent life (XVI).
+source(grotius_iii1,5,truth,1625). supports(grotius_iii1,q(lie_always_wrong),no).
+argument(grotius_iii1_11,grotius_iii1,q(lie_always_wrong),no).
+argues_from(grotius_iii1_11,efficient,will). argues_from(grotius_iii1_11,final,will).
+% Constant, Des réactions politiques VIII (an V, 1797): the duty, taken absolutely, "rendrait toute société
+% impossible"; "Là où il n'y a pas de droits, il n'y a pas de devoirs". The correlation of duty and right is
+% not entered as a premise.
+source(constant_1797,5,truth,1797). supports(constant_1797,q(lie_always_wrong),no).
+argument(constant_viii,constant_1797,q(lie_always_wrong),no). argues_from(constant_viii,final,human).
+% Hobbes, Leviathan 13 (1651): "where no Law, no Injustice. Force, and Fraud, are in warre the two Cardinall
+% vertues"; the end men pursue there "principally their owne conservation".
+source(hobbes_l13,5,truth,1651). supports(hobbes_l13,q(lie_always_wrong),no).
+argument(hobbes_l13,hobbes_l13,q(lie_always_wrong),no).
+argues_from(hobbes_l13,efficient,will). argues_from(hobbes_l13,final,self).
+#program ench22_as_given.         % Augustine's words as given signs: "Nec ulla causa est nobis significandi ... nisi ad
+reading_of(ench22_given,ench22_words).   % ... traiciendum in alterius animum id quod animo gerit qui signum dat" (De doctr. II.2.3)
+argues_from(ench22_given,final,will).
+#program humanity_as_end.         % HYPOTHETICAL: G 4:429 and TL 6:429 with humanity a final end of human nature, against their author
+reading_of(g429_end,g429). reading_of(tl_dignity_end,tl_dignity).
+argues_from((g429_end;tl_dignity_end),final,human).
+#program speech_as_human_end.     % HYPOTHETICAL: the end of speech an end of human nature (I-II q. 94 a. 2), not a natural thing's
+reading_of(ench22_human,ench22_words). reading_of(tl_purpose_human,tl_purpose).
+reading_of(ccc2485_speech_human,ccc2485_speech).
+argues_from((ench22_human;tl_purpose_human;ccc2485_speech_human),final,human).
+reading_of(th110_genus_human,th110_genus). reading_of(th110_ad4_human,th110_ad4).
+argues_from((th110_genus_human;th110_ad4_human),formal,will).
+argues_from((th110_genus_human;th110_ad4_human),final,human).
 #program soap.                    % a bar of soap divided into its causes, not its parts (TTC-RERUM); run with trinity and world
 % A symposium on soap (2026), the case's text: Thomas's paper "Between Two Intellects". Every typing
 % below is an interpretive fact, entered and open to dispute. Soap is sodium stearate, "an alkali salt

@@ -460,3 +460,65 @@ In each the order parameters are MH1's seven.
 [ttc-linguae(7)](linguae-preregistration.md),
 [ttc-rerum(7)](rerum-preregistration.md),
 [ttc-verbum(7)](verbum-preregistration.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in `50504ac` (the draft
+before it, `807296b`, superseded after an independent review), stamped in
+`6d3b5bf`; encoded on `7c546a0` (`main`: the predictions, the boot set's
+repair and TTC-REPAIRS6's predictions merged), whose rule files are those
+of `66b90e6`, so no difference is stated. Encoded in `icon_history.l` (the
+case `mendacium` and its three readings), the suite (25 scenarios, group
+`mendacium`), `schools.py` (the group kept out of the stamped boot set),
+TTC-MODERNITY's SU1 (its writers), `coverage.py` and `docs/coverage.md`,
+`docs/README.md`, the roadmap and `docs/findings.md` (section 48; Method
+becomes 49). The suite names SU1–SU2 `MU1`–`MU2`. Of 22 predictions, 22
+held. The 3 mechanics held. The full suite: 1107 passed, 58 skipped.
+
+| | Result |
+| --- | --- |
+| MN1 | Held (MN1). `q(lie_always_wrong)` yes settled, no a shadow; the case's authority the same on all 46 runtimes, alone, beside each reading and beside all three; no violation added on any runtime. |
+| MN2 | Held (MN2). Every runtime in its row, the eleven groups exactly. |
+| MN3 | Held (MN3). Both of `kant_tl`'s arguments available on `kant_mm` and on no other runtime; on the Thomists `tl_purpose` alone of Kant's five; on `kant` `tl_dignity` alone of the Tugendlehre's two. |
+| MN4 | Held (MN4). `kant` and `kant_mm` report as `hobbes` on `modernity_property`, `pendet`, `pendet_thomas`, `soap` and `locke_essence`, each run alone, and otherwise here. |
+| MN5 | Held (MN5). On the middle none of Thomas's or Kant's seven arguments is available, and Augustine's parity and new covenant and the Catechism's Lord and society are. |
+| MN6 | Held (MN6). `grotius_iii1_11` available on the 45 runtimes but `bare`; no report names `constant_viii` or `hobbes_l13`. |
+| MH1 | Held (MH1). The seven order parameters, exactly. |
+| MH2 | Held (MH2). 36 phases, 11 holding a runtime; the phase reporting nothing 176 horizons, holding the middle and no other runtime; the Thomists' 144; the phase reporting nothing exactly the two kinds, 144 and 32. |
+| MH3 | Held (MH3). Every argument available on 8 horizons, each holding `object_as_form` and `form_of_law`; no runtime holds the two. |
+| MH4 | Held (MH4). Yes without reason on 32 horizons, no on 128, both on 8, each exactly where predicted; `contrary_reasoned` on 24 and 120. |
+| MW1 | Held (MW1). 39 phases, 9 holding a runtime; yes without reason on 16; the phase reporting nothing 208, holding the middle, Ockham's three and `marx_social`; every row as predicted. |
+| MW2 | Held (MW2). 38 phases, 11 holding a runtime; the phase reporting nothing 144 and empty; every row. |
+| MW3 | Held (MW3). 30 phases, 8 holding a runtime; the phase reporting nothing 240 and empty; the Thomists' phase 240, holding the 30 predicted; every row. |
+| MW4 | Held (MW4). 32 phases, 7 holding a runtime; yes without reason on 16; Hobbes's four and `kant_humanity` in one phase; `marx_social` alone in the phase reporting nothing, 256; every row. |
+| MW5 | Held (MW5). On every runtime, with any reading, any two or all three, nothing available is lost. |
+| MV1 | Held (MV1). With `thomist` as host, every guest's reports as the rule predicts, derived from the guest runtime's own reports and the host's availability; never `kant_tl`; `vm_kant` nothing, `vm_kant_humanity` `ccc2486_society` alone. |
+| MV2 | Held (MV2). With `kant_mm` as host, every guest as predicted; `kant_mm` the only runtime holding both of `kant_tl`'s arguments. |
+| MV3 | Held (MV3). Under `speech_as_human_end`, with `kant_humanity` and with `kant_mm` as hosts, every guest as predicted. |
+| MJ1 | Held (MJ1). The three cases: 8 order parameters, 50 phases, 12 holding a runtime. With the lie: all ten, 236, 16, the three phases parted exactly as stated. With `pendet_thomas` and `locke_essence`: 90 and 15, then 355 and 19. |
+| MC1 | Held (MC1). Beside `linguae_ccc2483` every question and value classifies as alone, each question's `holds/2` across the models is as alone, and the notes and reports of the joint run are those of the two runs alone. |
+| SU1 | Held (MU1). Every scenario before the encoding (785, 65,020 models), solved in branches mode, gives the same atoms in every model, main against the branch, compared by a hash of each scenario's sorted models: no difference. Each restatement predicted was made, and no other: TTC-MODERNITY's SU1 admits the case and its three readings, its docstring and description brought up to date; the group kept out of the boot set (210); `docs/coverage.md` regenerated, the rule files citing 60 paragraphs and the eighth commandment 4, the comments citing "CCC 2482, 2485, 2486" and no range; the parts of a case 179. CL1 and PR4 clean. |
+| SU2 | Held (MU2). The case and its readings write only the case's slots, by facts, and no rule; both copies of the guide unchanged. |
+| Mechanics | Held, each as written: MQ1–MQ3. |
+
+### Readings
+
+- **The model and the encoding.** Before any scenario was written, the
+  encoded case gave the plain model's reports on all 1,024 horizons under
+  each reading, all three, and the three pairs, which were not predicted:
+  41 phases and 10 holding a runtime with `ench22_as_given` and
+  `humanity_as_end`, 31 and 7 with `ench22_as_given` and
+  `speech_as_human_end`, 31 and 8 with the other two. The order parameters
+  are the seven under every set.
+- **The review before the stamp.** The draft typed `th110_ad4` by the
+  object alone and Grotius's argument by the pact alone. The texts gave
+  both more ("ut dictum est"; "introduci voluerant … instituerunt"), and
+  the stamped design types them so. A data mutation that restores the
+  draft's ad 4 turns MN2, MH2 and MJ1 red: 38 phases, the middle reporting
+  `th110_ad4`, 240 joint phases.
+- **The checks bite.** MN2, MH1, MW3 and MV1 were run with a row, an
+  order parameter, a phase count and a source's arguments changed in turn;
+  each turned red.
+- **The boot set.** The stamped set had grown by TTC-RERUM's 31 scenarios;
+  that was repaired before this step (`f096888`), and the step's group is
+  kept out of it beside the others.
