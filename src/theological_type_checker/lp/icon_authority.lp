@@ -240,6 +240,13 @@ warranted(S) :- received(S).
 warranted(oum(S)) :- oum_holds(S).
 warranted(S) :- hypothetical_warrant(S).
 violation(tier_without_warrant(S,T)) :- in_force(S), source(S,T,_,_), T >= 1, T <= 2, not warranted(S).
+% A tier counts only as shown (TTC-REPAIRS6 WR): at 1 or 2 only with its
+% warrant, so the rules that give those tiers force rest on rule 14 itself,
+% not on the tier as entered. Tier 0 needs no warrant, nor do 3 to 5. Read
+% per tier: a source entered at two tiers is shown at the one and not at the
+% other.
+shown_tier(S,T) :- eff_tier(S,T), T != 1, T != 2.
+shown_tier(S,T) :- eff_tier(S,T), T >= 1, T <= 2, warranted(S).
 % Any statement about the tier or grade of a teaching is a claim (claims_tier/3):
 % flagged when a lower tier speaks of a higher, refused when treated as fixing.
 info(lower_speaks_of_higher(C,S,K)) :- claims_tier(C,S,K), in_force(C), eff_tier(C,T), T > K.
@@ -255,8 +262,8 @@ violation(self_elevation(C,S)) :- treated_as_fixing(C,S), claims_tier(C,S,K), in
 supported(Q,V) :- in_force(S), supports(S,Q,V).
 :- holds(Q,V), default(Q,D), V != D, not supported(Q,V).
 
-% tier 1 truth deletes contrary branches
-:- holds(Q,V), in_force(S), eff_tier(S,1), source(S,_,truth,_), supports(S,Q,W), W != V, not empirical_q(Q).
+% tier 1 truth, shown, deletes contrary branches (TTC-REPAIRS6 WR1)
+:- holds(Q,V), in_force(S), shown_tier(S,1), source(S,_,truth,_), supports(S,Q,W), W != V, not empirical_q(Q).
 
 % ---------- Protection -----------------------------------------------
 protected(Q,T) :- in_force(P), source(P,_,protective,_), eff_tier(P,T), protects(P,Q).
@@ -302,11 +309,11 @@ cleave_raw(S,Q) :- in_force(S), supports(S,Q,_), source(S,_,juridical,_), not bl
 % conflicts among sources that could cleave
 contrary(S1,S2,Q) :- cleave_raw(S1,Q), cleave_raw(S2,Q), supports(S1,Q,V1), supports(S2,Q,V2), V1 != V2.
 outranked(S,Q)    :- contrary(S,S2,Q), eff_tier(S,T), eff_tier(S2,T2), T2 < T.
-% nothing below tier 1 can cleave the branch a tier-1 text requires
-outranked(S,Q)    :- cleave_raw(S,Q), supports(S,Q,V), in_force(T1), eff_tier(T1,1),
+% nothing below tier 1 can cleave the branch a tier-1 text, shown, requires (WR2)
+outranked(S,Q)    :- cleave_raw(S,Q), supports(S,Q,V), in_force(T1), shown_tier(T1,1),
                      source(T1,_,truth,_), supports(T1,Q,W), W != V.
 info(against_tier1(S,Q)) :- in_force(S), supports(S,Q,W), holds(Q,V), W != V, S != T1,
-                            in_force(T1), eff_tier(T1,1), source(T1,_,truth,_), supports(T1,Q,V), not empirical_q(Q).
+                            in_force(T1), shown_tier(T1,1), source(T1,_,truth,_), supports(T1,Q,V), not empirical_q(Q).
 % a governance act cannot bind a successor of equal authority (par in parem non habet imperium)
 violation(successor_bound(S)) :- treated_as_binding_successors(S), governance(S).
 same_tier(S,S2,Q) :- contrary(S,S2,Q), eff_tier(S,T), eff_tier(S2,T).
@@ -385,8 +392,8 @@ cleaved_by(S)   :- can_cleave(S,Q), holds(Q,V), supports(S,Q,W), W != V.
 % A meta-claim about a tier's force is fixed only by a source of a
 % strictly higher tier that states it non-interpretively.
 meta_target(t2_truth,2).
-fixed(M) :- meta_supports(S,M), in_force(S), eff_tier(S,T), meta_target(M,K), T < K,
-            not interpretive(S,M).
+fixed(M) :- meta_supports(S,M), in_force(S), shown_tier(S,T), meta_target(M,K), T < K,
+            not interpretive(S,M).   % its tier shown (WR4)
 tier2_present :- in_force(S), eff_tier(S,2).
 { assume(t2_truth) } :- tier2_present, not fixed(t2_truth).
 t2_truth :- fixed(t2_truth).
@@ -431,7 +438,7 @@ owed(S,O) :- in_force(S), not governance(S), eff_tier(S,T), binds(L,T,O), in_for
 info(owed(S,O)) :- owed(S,O).
 
 % ---------- Labels -----------------------------------------------------
-counterfactual_by(S) :- cleaved_by(S), eff_tier(S,2), source(S,_,truth,_), t2_truth.
+counterfactual_by(S) :- cleaved_by(S), shown_tier(S,2), source(S,_,truth,_), t2_truth.   % shown (WR3)
 live_by(S)           :- cleaved_by(S), not counterfactual_by(S).
 shadowed :- cleaved_by(_).
 branch(counterfactual_shadow) :- counterfactual_by(_).
