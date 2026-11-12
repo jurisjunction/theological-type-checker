@@ -74,7 +74,7 @@ a step was read from, with how sure each item is.
 | pendet | [ttc-pendet(7)](research/pendet-preregistration.md) | [sources](research/pendet-sources.md) | scored |
 | rerum | [ttc-rerum(7)](research/rerum-preregistration.md) | [sources](research/rerum-sources.md) | scored |
 | verbum | [ttc-verbum(7)](research/verbum-preregistration.md) | [sources](research/verbum-sources.md) | scored |
-| mendacium | [ttc-mendacium(7)](research/mendacium-preregistration.md) | [sources](research/mendacium-sources.md) | predicted |
+| mendacium | [ttc-mendacium(7)](research/mendacium-preregistration.md) | [sources](research/mendacium-sources.md) | scored |
 | repairs6 | [ttc-repairs6(7)](research/repairs6-preregistration.md) | | scored |
 
 ## BUGS

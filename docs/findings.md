@@ -1215,7 +1215,29 @@ Of 8 predictions, 8 held; the review had caught three blockers first.
   Entered without its form it raised a frontier item: a tier-3 teaching
   must show its character.
 
-### 48. A tier counts only as shown (ST1–ST4)
+### 48. Lying, the form of the law and self-preservation (MN, MH, MW, MV, MJ, MC, MU)
+
+Predictions were stamped first ([ttc-mendacium(7)](research/mendacium-preregistration.md)),
+after an independent review that recomputed every number and corrected two
+typings against the texts. Of 22 predictions, 22 held.
+
+- **The form of the law decides a report** (MN4, MH1). On a case run
+  alone, for the first time, `kant` and `kant_mm` report otherwise than
+  `hobbes`, and `form_of_law` and `self_preservation` are order parameters.
+- **One passage, two arguments** (MN3, MV2). Of the Doctrine of Virtue's
+  article on lying, the Thomists hear the natural end of speech and `kant`
+  the dignity; `kant_mm` alone holds both, and is the only host that
+  carries the passage either way. A Thomist host cannot carry Kant.
+- **No runtime follows every argument** (MH3). That needs the object and
+  the form of the law together, and no runtime holds both.
+- **Nothing reported is not everything followed** (MN5). The middle,
+  between the Thomists and the Lockeans, follows neither Thomas nor Kant
+  and reports nothing.
+- **All ten parts** (MJ1). With the lie beside the property case, `pendet`
+  and soap, every cause part decides some report: 236 phases, 16 holding a
+  runtime.
+
+### 49. A tier counts only as shown (ST1–ST4)
 
 Predictions were stamped first ([ttc-repairs6(7)](research/repairs6-preregistration.md)).
 
@@ -1241,7 +1263,7 @@ Predictions were stamped first ([ttc-repairs6(7)](research/repairs6-preregistrat
   changed (IF2, failed): same facts, same base, same bytes; another base,
   possibly another order.
 
-### 49. Method
+### 50. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

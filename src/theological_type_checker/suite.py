@@ -7,6 +7,7 @@ historical backtest and case, with what each is expected to show.
     ttc-suite --with PART     # add a part to every scenario (e.g. a9_universal)
 """
 import argparse
+import itertools
 import json
 import pathlib
 import re
@@ -5264,7 +5265,8 @@ def su1():
     TTC-PENDET (rule 7, stated in its SCORING): its two cases, pendet and pendet_thomas, type their arguments by the
     causes, as a case of this study does, and are written in beside this step's. Amended by TTC-RERUM (rule 7, stated
     in its SCORING): soap, locke_essence, cand_design, cand_premise_without_thing and rendering_hyp type arguments or
-    measures by the causes, and are written in too"""
+    measures by the causes, and are written in too. Amended by TTC-MENDACIUM (rule 7, its SU1): the case mendacium and
+    its three readings type arguments by the causes, and are written in too"""
     from . import lang
     writers = set()
     for f, src in lang.sources().items():
@@ -5274,7 +5276,8 @@ def su1():
                 if heads & {("argument", 4), ("argues_from", 3), ("reading_of", 2), ("measures_as", 3)}:
                     writers.add(it.name)
     if writers != {"modernity_property", "modernity_measure", *SW6, "pendet", "pendet_thomas", "soap",
-                   "locke_essence", "cand_design", "cand_premise_without_thing", "rendering_hyp"}:
+                   "locke_essence", "cand_design", "cand_premise_without_thing", "rendering_hyp",
+                   "mendacium", "ench22_as_given", "humanity_as_end", "speech_as_human_end"}:
         yield sorted(writers)
 
 
@@ -5419,7 +5422,8 @@ scen("SU4", MOD, "TTC-LINGUAE's hearings unchanged (SU4)", RN9C, [_mod(su4)],
      "no heard_by_analogy, and lost_by_horizon only as entered; alone, its premises refuse nothing")
 scen("SU1", MOD, "No earlier case enters an argument (SU1)", MPC, [_mod(su1)],
      "argument/4, argues_from/3, reading_of/2 and measures_as/3 are written only by this step's case, its "
-     "switches and the measure, and by TTC-PENDET's two cases (amended there)")
+     "switches and the measure, by TTC-PENDET's two cases, TTC-RERUM's five parts and TTC-MENDACIUM's case and "
+     "readings (amended there)")
 scen("EX1", MOD, "The record's DAG without its contested edges (EX1, reported)", MPC, [_mod(ex1)],
      "rebuilt without descartes <- suarez_dm23, hobbes <- ockham and locke <- hobbes: every node keeps its "
      "horizon, so nothing on the case changes (found); the two Hobbes' carry at simplicity, left with nothing to "
@@ -7343,6 +7347,558 @@ scen("VS1", VBM, "No earlier part enters the new slots (SU1)", [], [_mod(vs1)],
      "graph well founded")
 scen("VS2", VBM, "The guide gains the vocabulary (SU2)", [], [_mod(vs2)],
      "both copies identical, with the slots, the reports, the locus, the runtime and the cases")
+
+
+# ---------- TTC-MENDACIUM: lying -------------------------------------------
+# Predictions committed and stamped first: docs/research/mendacium-preregistration.md. The suite names SU1-SU2
+# MU1-MU2 (SU is the modernity's); MN, MH, MW, MV, MJ, MC and MQ keep their names. MU1's other half, every earlier
+# scenario's atoms compared before and after in every model, is a run beside the suite (SCORING).
+MND = "mendacium"
+LIE = ["mendacium"]
+LQ = "q(lie_always_wrong)"
+LIE_GIVEN, LIE_HUMANITY, LIE_SPEECH = "ench22_as_given", "humanity_as_end", "speech_as_human_end"
+LIE_READINGS = (LIE_GIVEN, LIE_HUMANITY, LIE_SPEECH)
+LIE_SOURCES = {"aug_ench": {"ench22_words", "ench22_parity", "ench22_yea"}, "th110": {"th110_genus", "th110_ad4"},
+               "kant_g": {"g422", "g429"}, "kant_tl": {"tl_dignity", "tl_purpose"}, "kant_vrml": {"vrml"},
+               "ccc2482": {"ccc2482_lord", "ccc2485_speech", "ccc2486_society"}, "grotius_iii1": {"grotius_iii1_11"},
+               "constant_1797": {"constant_viii"}, "hobbes_l13": {"hobbes_l13"}}
+LIE_ARGS = set().union(*LIE_SOURCES.values())
+LIE_THOMISTS = SCHOOL_RTS + ("default", "saussure", "vocal", "lingual", "hooker", "leibniz", "leibniz_wl", "episcopate_1891",
+                             "social_catholic", "angers", "plato", "aristotle", "lassalle", "concordia", "bonaventure")
+LIE_MIDDLE = ("bacon", "descartes", "grotius", "scotus_dpp", "suarez_dm23", "suarez_wl")
+LIE_LOCKEANS = ("locke", "locke_wl", "smith", "george", "scotus_will", "ockham_will", "descartes_will")
+LIE_OCKHAM = ("ockham", "ockham_nominal", "george_hn")
+LIE_HOBBES = ("hobbes", "hobbes_wl", "spinoza", "spinoza_wl")
+LIE_MARX = ("marx", "grotius_etiamsi")
+LIE_NOTHING = frozenset({frozenset()})
+
+
+def _ls(s, a):
+    return f"info(sole_reason({s},{a},{LQ},yes))"
+
+
+def _lw(v):
+    return f"info(without_reason({LQ},{v}))"
+
+
+def _lg(s, a):
+    return f"info(guest_sole_reason({s},{a},{LQ},yes))"
+
+
+def _lgw(v):
+    return f"info(guest_without_reason({LQ},{v}))"
+
+
+L_PURPOSE, L_DIGNITY, L_G429 = _ls("kant_tl", "tl_purpose"), _ls("kant_tl", "tl_dignity"), _ls("kant_g", "g429")
+L_WORDS, L_PARITY, L_YEA = _ls("aug_ench", "ench22_words"), _ls("aug_ench", "ench22_parity"), _ls("aug_ench", "ench22_yea")
+L_LORD, L_SPEECH = _ls("ccc2482", "ccc2482_lord"), _ls("ccc2482", "ccc2485_speech")
+L_SOCIETY = _ls("ccc2482", "ccc2486_society")
+MN2_ROWS = {LIE_THOMISTS: {L_PURPOSE}, LIE_MIDDLE: set(), LIE_LOCKEANS: {L_YEA, L_LORD}, LIE_OCKHAM: {L_YEA},
+            LIE_MARX: {L_PARITY, L_SOCIETY}, ("marx_social",): {L_PARITY}, ("kant",): {L_DIGNITY},
+            ("kant_humanity",): {L_DIGNITY, L_SOCIETY}, ("kant_mm",): {L_WORDS, L_SPEECH},
+            LIE_HOBBES: {_lw("yes"), f"info(contrary_reasoned({LQ},yes,no))"}, ("bare",): {_lw("yes"), _lw("no")}}
+
+
+def _lie_rows(changes):
+    rows = dict(MN2_ROWS)
+    rows.update(changes)
+    return rows
+
+
+LIE_CONFIGS = {
+    (): MN2_ROWS,
+    (LIE_GIVEN,): _lie_rows({LIE_HOBBES: {L_WORDS}, LIE_LOCKEANS: {L_LORD}, LIE_OCKHAM: set(), ("marx_social",): set(),
+                             LIE_MARX: {L_SOCIETY}, ("kant",): {L_WORDS, L_DIGNITY},
+                             ("kant_humanity",): {L_WORDS, L_SOCIETY, L_DIGNITY}}),
+    (LIE_HUMANITY,): _lie_rows({LIE_THOMISTS: {L_G429}, LIE_MIDDLE: {L_G429, L_DIGNITY},
+                                LIE_OCKHAM: {L_YEA, L_G429, L_DIGNITY}, LIE_MARX: {L_PARITY, L_SOCIETY, L_G429, L_DIGNITY}}),
+    (LIE_SPEECH,): _lie_rows({LIE_MIDDLE: {L_PURPOSE}, LIE_OCKHAM: {L_PURPOSE}, LIE_MARX: {L_PURPOSE},
+                              ("kant_humanity",): {L_WORDS}}),
+    LIE_READINGS: _lie_rows({LIE_THOMISTS: {L_G429}, LIE_MIDDLE: {L_G429}, LIE_OCKHAM: {L_G429}, LIE_MARX: {L_G429},
+                             LIE_LOCKEANS: {L_LORD}, LIE_HOBBES: {L_WORDS}, ("kant_humanity",): {L_WORDS},
+                             ("kant",): {L_WORDS, L_DIGNITY}, ("marx_social",): set()}),
+}
+
+
+def _lie_check_rows(sw):
+    """every runtime's reports on the case beside the readings sw, against the rows predicted for them"""
+    rows = LIE_CONFIGS[sw]
+    for group, want in rows.items():
+        for rt in group:
+            got = mod_reports(LIE + [f"rt_{rt}"] + list(sw))
+            if got != frozenset({frozenset(want)}):
+                yield (sw, rt, sorted(set().union(*got) ^ want))
+    covered = set().union(*rows)
+    if covered != set(E.BASE_RUNTIMES):
+        yield ("rows", sorted(covered ^ set(E.BASE_RUNTIMES)))
+
+
+def _lie_av(rt, *sw):
+    return mod_available(LIE + [f"rt_{rt}"] + list(sw))
+
+
+def mn1():
+    """authority reads no argument: lie_always_wrong yes settled, no a shadow; nothing of authority differs between
+    runtimes or readings; the case adds no violation on any runtime"""
+    r = solve(LIE, "branches")
+    want = {f"{LQ}=yes": "settled", f"{LQ}=no": "shadow"}
+    got = {qv: classify(r, qv) for qv in want}
+    if got != want:
+        yield got
+    ref = _pe_authority(LIE, "default")
+    for rt in E.BASE_RUNTIMES:
+        for sw in ((),) + tuple((x,) for x in LIE_READINGS) + (LIE_READINGS,):
+            if _pe_authority(LIE + list(sw), rt) != ref:
+                yield (rt, sw)
+        own = set().union(*mod_project([f"rt_{rt}"], ("violation/1",)))
+        if set().union(*mod_project(LIE + [f"rt_{rt}"], ("violation/1",))) - own:
+            yield (rt, "a violation")
+
+
+def mn2():
+    """the rows of MN2: every runtime in one"""
+    yield from _lie_check_rows(())
+
+
+def mn3():
+    """TL §9 divided: on the Thomists tl_purpose alone of kant_tl, on kant tl_dignity alone, on kant_mm both, and on
+    no other runtime both; of the Groundwork and the essay of 1797, nothing on the Thomists"""
+    for rt in E.BASE_RUNTIMES:
+        if ({"tl_purpose", "tl_dignity"} <= _lie_av(rt)) != (rt == "kant_mm"):
+            yield (rt, "both halves")
+    for rt in LIE_THOMISTS:
+        av = _lie_av(rt)
+        if av & {"g422", "g429", "vrml", "tl_dignity"} or "tl_purpose" not in av:
+            yield (rt, sorted(av & (LIE_SOURCES["kant_g"] | LIE_SOURCES["kant_tl"] | {"vrml"})))
+    if _lie_av("kant") & LIE_SOURCES["kant_tl"] != {"tl_dignity"}:
+        yield "kant"
+
+
+LIE_OTHER_CASES = (MPC, PEND, PEND_T, SOAP, ["locke_essence"])
+
+
+def mn4():
+    """kant and kant_mm report otherwise than hobbes here, and as hobbes on every other case that types arguments by
+    the causes, each run alone"""
+    for case in LIE_OTHER_CASES:
+        h = mod_reports(case + ["rt_hobbes"])
+        for rt in ("kant", "kant_mm"):
+            if mod_reports(case + [f"rt_{rt}"]) != h:
+                yield (case[0], rt, "not as hobbes")
+    for rt in ("kant", "kant_mm"):
+        if mod_reports(LIE + [f"rt_{rt}"]) == mod_reports(LIE + ["rt_hobbes"]):
+            yield (rt, "as hobbes here")
+
+
+def mn5():
+    """the middle follows no argument of Thomas or of Kant; Augustine's parity and new covenant, the Catechism's Lord
+    and society are available there"""
+    thomas_kant = LIE_SOURCES["th110"] | LIE_SOURCES["kant_g"] | LIE_SOURCES["kant_tl"] | {"vrml"}
+    for rt in LIE_MIDDLE:
+        av = _lie_av(rt)
+        if av & thomas_kant or not {"ench22_parity", "ench22_yea", "ccc2482_lord", "ccc2486_society"} <= av:
+            yield (rt, sorted(av))
+
+
+def mn6():
+    """grotius_iii1_11 available on every runtime but bare; no report names constant_viii or hobbes_l13"""
+    for rt in E.BASE_RUNTIMES:
+        if ("grotius_iii1_11" in _lie_av(rt)) == (rt == "bare"):
+            yield (rt, "grotius")
+        if any("constant_viii" in a or "hobbes_l13" in a for m in mod_reports(LIE + [f"rt_{rt}"]) for a in m):
+            yield (rt, "names")
+
+
+LIE_ORDER = {"ends_by_god_ethics", "ends_of_human_nature", "ends_in_nature", "ends_desired", "self_preservation",
+             "object_as_form", "form_of_law"}
+
+
+def _lie_phases(sw=()):
+    pm = phase_map(LIE + list(sw))
+    order, classes = phases(pm)
+    return pm, order, classes, _phase_of(pm)
+
+
+def mh1():
+    """the order parameters exactly the seven"""
+    pm, order, _classes, _at = _lie_phases()
+    if len(pm) != 1024 or order != LIE_ORDER:
+        yield (len(pm), sorted(order))
+
+
+def mh2():
+    """36 phases, 11 holding a runtime; the largest the phase reporting nothing (176), holding the middle; the next the
+    Thomists' (144); the phase reporting nothing exactly MH2's two kinds, 144 and 32"""
+    pm, _order, classes, at = _lie_phases()
+    if (len(classes), len(set(at.values()))) != (36, 11):
+        yield (len(classes), len(set(at.values())))
+    sizes = sorted(((len(hs), r) for r, hs in classes.items()), key=lambda x: -x[0])
+    if [(n, r) for n, r in sizes[:2]] != [(176, LIE_NOTHING), (144, frozenset({frozenset({L_PURPOSE})}))]:
+        yield ("largest", [n for n, _ in sizes[:3]])
+    if {rt for rt, r in at.items() if r == LIE_NOTHING} != set(LIE_MIDDLE):
+        yield ("the nothing phase holds", sorted(rt for rt, r in at.items() if r == LIE_NOTHING))
+    first = {h for h in pm if {"ends_in_nature", "form_of_law"} <= h and h & {"object_as_form", "ends_by_god_ethics"}
+             and h & {"ends_by_god_ethics", "ends_of_human_nature"}
+             and h & {"ends_desired", "ends_of_human_nature", "self_preservation"}}
+    second = {h for h in pm if not h & {"ends_in_nature", "form_of_law"}
+              and {"ends_by_god_ethics", "object_as_form", "ends_of_human_nature"} <= h}
+    if classes.get(LIE_NOTHING) != first | second or (len(first), len(second)) != (144, 32):
+        yield ("kinds", len(first), len(second))
+
+
+def mh3():
+    """every argument followed on 8 horizons, each holding object_as_form and form_of_law; no runtime holds the two"""
+    pairs = {f"holds_cause({c},{d})": p for p, (c, d) in CAUSE_PARTS.items()}
+    full = set()
+    for m in mod_project(phase_base() + LIE, ("available_as/2", "holds_cause/2")):
+        if LIE_ARGS <= {E.split_args(a)[1][0] for a in m if a.startswith("available_as(")}:
+            full.add(frozenset(pairs[a] for a in m if a in pairs))
+    if len(full) != 8 or any(not {"object_as_form", "form_of_law"} <= h for h in full):
+        yield ("every argument", len(full))
+    both = [rt for rt in E.BASE_RUNTIMES if {"object_as_form", "form_of_law"} <= horizon(rt)]
+    if both:
+        yield ("both held", both)
+
+
+def mh4():
+    """yes without reason on the 32 horizons holding none of its five parts; no on the 128 holding none of the will's
+    ends, human ends and self-preservation; both on 8; contrary_reasoned on 24 and 120"""
+    pm = phase_map(LIE)
+
+    def where(atom):
+        return {h for h, r in pm.items() if any(atom in m for m in r)}
+    wy, wn = where(_lw("yes")), where(_lw("no"))
+    yes_parts = {"ends_in_nature", "object_as_form", "ends_by_god_ethics", "ends_of_human_nature", "form_of_law"}
+    no_parts = {"ends_desired", "ends_of_human_nature", "self_preservation"}
+    if wy != {h for h in pm if not h & yes_parts} or wn != {h for h in pm if not h & no_parts}:
+        yield ("without reason", len(wy), len(wn))
+    got = (len(wy), len(wn), len(wy & wn), len(where(f"info(contrary_reasoned({LQ},yes,no))")),
+           len(where(f"info(contrary_reasoned({LQ},no,yes))")))
+    if got != (32, 128, 8, 24, 120):
+        yield got
+
+
+MW_PHASES = {(LIE_GIVEN,): (39, 9, 208, set(LIE_MIDDLE + LIE_OCKHAM + ("marx_social",))),
+             (LIE_HUMANITY,): (38, 11, 144, set()), (LIE_SPEECH,): (30, 8, 240, set()),
+             LIE_READINGS: (32, 7, 256, {"marx_social"})}
+
+
+def _mw(sw):
+    yield from _lie_check_rows(sw)
+    pm, order, classes, at = _lie_phases(sw)
+    got = (len(classes), len(set(at.values())), len(classes.get(LIE_NOTHING, ())),
+           {rt for rt, r in at.items() if r == LIE_NOTHING})
+    if order != LIE_ORDER or got != MW_PHASES[sw]:
+        yield (sw, sorted(order), got[:3], sorted(got[3]))
+
+
+def _lie_without_yes(sw):
+    return sum(1 for r in phase_map(LIE + list(sw)).values() if any(_lw("yes") in m for m in r))
+
+
+def mw1():
+    """ench22_as_given: 39 phases, 9 holding a runtime; yes without reason on 16 horizons; the phase reporting
+    nothing (208) holding the middle, Ockham's three and marx_social; the rows changed as predicted"""
+    yield from _mw((LIE_GIVEN,))
+    if _lie_without_yes([LIE_GIVEN]) != 16:
+        yield ("without reason", _lie_without_yes([LIE_GIVEN]))
+
+
+def mw2():
+    """humanity_as_end: 38 phases, 11 holding a runtime; the phase reporting nothing (144) empty; the rows changed as
+    predicted"""
+    yield from _mw((LIE_HUMANITY,))
+
+
+def mw3():
+    """speech_as_human_end: 30 phases, 8 holding a runtime; the phase reporting nothing (240) empty; the Thomists'
+    phase (240) taking in the middle, Ockham's three, marx and grotius_etiamsi"""
+    yield from _mw((LIE_SPEECH,))
+    _pm, _order, classes, at = _lie_phases((LIE_SPEECH,))
+    ph = frozenset({frozenset({L_PURPOSE})})
+    if len(classes.get(ph, ())) != 240 or {rt for rt, r in at.items() if r == ph} != set(
+            LIE_THOMISTS + LIE_MIDDLE + LIE_OCKHAM + LIE_MARX):
+        yield ("the Thomists' phase", len(classes.get(ph, ())))
+
+
+def mw4():
+    """all three: 32 phases, 7 holding a runtime; yes without reason on 16 horizons; Hobbes's four and kant_humanity
+    in one phase; marx_social in the phase reporting nothing (256)"""
+    yield from _mw(LIE_READINGS)
+    if _lie_without_yes(LIE_READINGS) != 16:
+        yield ("without reason", _lie_without_yes(LIE_READINGS))
+    _pm, _order, _classes, at = _lie_phases(LIE_READINGS)
+    if at["hobbes"] != at["kant_humanity"]:
+        yield "hobbes and kant_humanity apart"
+
+
+def mw5():
+    """with any reading, or any two, or all three, every argument available without them stays available"""
+    for rt in E.BASE_RUNTIMES:
+        base = _lie_av(rt)
+        for k in (1, 2, 3):
+            for sw in itertools.combinations(LIE_READINGS, k):
+                if not base <= _lie_av(rt, *sw):
+                    yield (rt, sw)
+
+
+def _guest(host, guest, sw=()):
+    return set().union(*mod_reports(LIE + [f"rt_{host}", f"vm_{guest}"] + list(sw), prefix=GUEST_PREFIX))
+
+
+def mv1():
+    """thomist as host: guest_sole_reason(S,A) exactly where sole_reason(S,A) fires on the guest's runtime and A and
+    another argument of S are available on thomist, so never kant_tl; guest_without_reason where the runtime's own
+    without_reason fires"""
+    host = _lie_av("thomist")
+    for g in E.BASE_RUNTIMES:
+        want = set()
+        for a in set().union(*mod_reports(LIE + [f"rt_{g}"])):
+            name, args = E.split_args(a[len("info("):-1])
+            if name == "sole_reason" and args[1] in host and (LIE_SOURCES[args[0]] - {args[1]}) & host:
+                want.add(_lg(args[0], args[1]))
+            if name == "without_reason":
+                want.add(_lgw(args[1]))
+        got = _guest("thomist", g)
+        if got != want or any("kant_tl" in a for a in got):
+            yield (g, sorted(got ^ want))
+    if _guest("thomist", "kant") or _guest("thomist", "kant_humanity") != {_lg("ccc2482", "ccc2486_society")}:
+        yield "the Kantian guests"
+
+
+def _lie_guest_table(host, sw, reach, extra):
+    want = {g: set() for g in E.BASE_RUNTIMES}
+    for g in reach:
+        want[g] = {_lg("kant_tl", "tl_purpose")}
+    want.update(extra)
+    for g in LIE_HOBBES:
+        want[g] = {_lgw("yes")}
+    want["bare"] = {_lgw("yes"), _lgw("no")}
+    for g, w in want.items():
+        got = _guest(host, g, sw)
+        if got != w:
+            yield (host, sw, g, sorted(got ^ w))
+
+
+def mv2():
+    """kant_mm as host: tl_purpose with the Thomists' guests, tl_dignity with vm_kant and vm_kant_humanity, the
+    without_reason of MV1, nothing else; the only runtime holding both of kant_tl's arguments"""
+    dignity = {_lg("kant_tl", "tl_dignity")}
+    yield from _lie_guest_table("kant_mm", (), LIE_THOMISTS, {"kant": dignity, "kant_humanity": dignity})
+    only = [rt for rt in E.BASE_RUNTIMES if LIE_SOURCES["kant_tl"] <= _lie_av(rt)]
+    if only != ["kant_mm"]:
+        yield ("both held", only)
+
+
+def mv3():
+    """under speech_as_human_end, kant_humanity as host: tl_purpose with the guests of the Thomists, the middle,
+    Ockham's three, marx and grotius_etiamsi, tl_dignity with vm_kant, ccc2485_speech with vm_kant_mm; kant_mm as
+    host: tl_purpose with the same, tl_dignity with vm_kant alone"""
+    reach = LIE_THOMISTS + LIE_MIDDLE + LIE_OCKHAM + LIE_MARX
+    dignity = {_lg("kant_tl", "tl_dignity")}
+    yield from _lie_guest_table("kant_humanity", (LIE_SPEECH,), reach,
+                                {"kant": dignity, "kant_mm": {_lg("ccc2482", "ccc2485_speech")}})
+    yield from _lie_guest_table("kant_mm", (LIE_SPEECH,), reach, {"kant": dignity})
+
+
+def _joint(maps):
+    j = {h: tuple(m[h] for m in maps) for h in maps[0]}
+    order = {p for p in CAUSE_PARTS if any(j[h] != j[h ^ {p}] for h in j)}
+    groups = {}
+    for rt in E.BASE_RUNTIMES:
+        groups.setdefault(j[horizon(rt)], set()).add(rt)
+    return order, len(set(j.values())), {frozenset(g) for g in groups.values()}
+
+
+def mj1():
+    """the four cases taken together: all ten parts order parameters, 236 phases, 16 holding a runtime, where the three
+    had eight, 50 and 12; the three phases parted as stated; with pendet_thomas and locke_essence, 90 and 15 before,
+    355 and 19 after"""
+    three = [phase_map(c) for c in (MPC, PEND, SOAP)]
+    lie = phase_map(LIE)
+    o3, n3, g3 = _joint(three)
+    o4, n4, g4 = _joint(three + [lie])
+    if (len(o3), n3, len(g3), o4, n4, len(g4)) != (8, 50, 12, set(CAUSE_PARTS), 236, 16):
+        yield (len(o3), n3, len(g3), len(o4), n4, len(g4))
+    middle5 = frozenset(set(LIE_MIDDLE) - {"descartes"})
+
+    def at(g, rt):
+        return next(x for x in g if rt in x)
+    big, hob, ari = at(g3, "thomist"), at(g3, "hobbes"), at(g3, "aristotle")
+    want = (g3 - {big, hob, ari}) | {big - middle5, middle5, hob - {"kant", "kant_mm"}, frozenset({"kant"}),
+                                     frozenset({"kant_mm"}), ari - {"grotius_etiamsi"}, frozenset({"grotius_etiamsi"})}
+    if len(big) != 22 or g4 != want:
+        yield ("parted", len(big), sorted(sorted(x) for x in g4 ^ want))
+    six = three + [phase_map(PEND_T), phase_map(["locke_essence"])]
+    got = (_joint(six)[1], len(_joint(six)[2]), _joint(six + [lie])[1], len(_joint(six + [lie])[2]))
+    if got != (90, 15, 355, 19):
+        yield ("six", got)
+
+
+LIE_LINGUAE = ["linguae_ccc2483"]
+LIE_QV = {LIE[0]: (f"{LQ}=yes", f"{LQ}=no"),
+          LIE_LINGUAE[0]: ("q(lie_needs_right_hearer)=yes", "q(lie_needs_right_hearer)=no",
+                           "q(ccc_definitive_text)=latin_typical", "q(ccc_definitive_text)=french_1992")}
+
+
+def mc1():
+    """beside linguae_ccc2483: each question and value classifies as alone; holds/2 of each question and each case's
+    reports as alone; branch/1 and weight/2 are the joint run's"""
+    both = LIE + LIE_LINGUAE
+    joint, jholds = solve(both, "branches"), mod_project(both, ("holds/2",))
+    ainfo = set()
+    for case in (LIE, LIE_LINGUAE):
+        alone = solve(case, "branches")
+        for qv in LIE_QV[case[0]]:
+            if classify(joint, qv) != classify(alone, qv):
+                yield (qv, classify(alone, qv), classify(joint, qv))
+        qs = {qv.split("=")[0] for qv in LIE_QV[case[0]]}
+
+        def per_question(models):
+            return {frozenset(a for a in m if any(a.startswith(f"holds({q},") for q in qs)) for m in models}
+        if per_question(jholds) != per_question(mod_project(case, ("holds/2",))):
+            yield (case[0], "holds")
+        ainfo |= set().union(*mod_project(case, ("info/1",)))
+    jinfo = set().union(*mod_project(both, ("info/1",)))
+    if jinfo != ainfo:
+        yield ("info", sorted(jinfo ^ ainfo)[:4])
+
+
+LIE_PARTS = ("mendacium",) + LIE_READINGS
+LIE_HEADS = {("question", 1), ("question_kind", 2), ("value", 2), ("source", 4), ("promoted", 3), ("supports", 3),
+             ("character", 2), ("argument", 4), ("argues_from", 3), ("reading_of", 2)}
+
+
+def mu1():
+    """SU1, the part this suite can check: the case and each reading alone leave the frontier empty and raise no
+    violation; the boot set keeps the group out (210); the rule files cite 60 of the Catechism's paragraphs, 4 of the
+    eighth commandment's; the parts of a case counted by OF1 within its bounds (the MODERNITY writers in SU1, CL1
+    and PR4 are their own scenarios)"""
+    from . import coverage, lang, schools
+    for parts in [LIE] + [LIE + [x] for x in LIE_READINGS] + [[x] for x in LIE_READINGS]:
+        r = solve(parts, "one")
+        if [a for a in r["atoms"] if a.startswith("frontier(")] or r["violations"]:
+            yield (parts, "frontier or violation")
+    boot = schools.boot_set()
+    if len(boot) != 210 or any(s["group"] == MND for s in boot):
+        yield ("boot set", len(boot))
+    cited = coverage.cited_paragraphs()
+    if (len(cited), len([n for n in cited if 2464 <= n <= 2513])) != (60, 4):
+        yield ("cited", len(cited), sorted(n for n in cited if 2464 <= n <= 2513))
+    n = sum(1 for src in lang.sources().values() for it in src.items if isinstance(it, lang.Part) and it.of)
+    if n != 179:
+        yield ("parts of a case", n)
+
+
+def mu2():
+    """the step adds data and no rule: its parts write only the case's slots, by facts"""
+    blocks = _part_blocks_l()
+    for name in LIE_PARTS:
+        f, _note, block = blocks[name]
+        sig = E.signatures(block, f)
+        if not sig["heads"] <= LIE_HEADS or sig["derived"]:
+            yield (name, sorted(sig["heads"] - LIE_HEADS), sorted(sig["derived"]))
+
+
+def mq1():
+    """on bare no argument is available, under every reading and every set of them"""
+    for k in range(4):
+        for sw in itertools.combinations(LIE_READINGS, k):
+            if _lie_av("bare", *sw):
+                yield (sw, sorted(_lie_av("bare", *sw)))
+
+
+def mq2():
+    """g422 and vrml on exactly kant, kant_humanity and kant_mm; under humanity_as_end g429 and tl_dignity also
+    wherever ends_of_human_nature is held"""
+    for rt in E.BASE_RUNTIMES:
+        fr = "form_of_law" in horizon(rt)
+        if fr != (rt in ("kant", "kant_humanity", "kant_mm")):
+            yield (rt, "form_of_law")
+        av, avh = _lie_av(rt), _lie_av(rt, LIE_HUMANITY)
+        if {"g422", "vrml"} & av != ({"g422", "vrml"} if fr else set()):
+            yield (rt, "g422, vrml")
+        want = fr or "ends_of_human_nature" in horizon(rt)
+        if {"g429", "tl_dignity"} & avh != ({"g429", "tl_dignity"} if want else set()):
+            yield (rt, "g429, tl_dignity under humanity_as_end")
+
+
+def mq3():
+    """under ench22_as_given ench22_words on every runtime but bare; grotius_iii1_11 so with or without it"""
+    for rt in E.BASE_RUNTIMES:
+        for sw in ((), (LIE_GIVEN,)):
+            av = _lie_av(rt, *sw)
+            if sw and ("ench22_words" in av) == (rt == "bare"):
+                yield (rt, "ench22_words")
+            if ("grotius_iii1_11" in av) == (rt == "bare"):
+                yield (rt, sw, "grotius")
+
+
+scen("MN1", MND, "Authority reads no argument (MN1)", LIE, [_mod(mn1)],
+     "lie_always_wrong yes settled, no a shadow; nothing of authority differs between runtimes or readings; no "
+     "violation added")
+scen("MN2", MND, "Lying, by runtime (MN2)", LIE, [_mod(mn2)],
+     "the Thomists tl_purpose alone; the middle nothing; the Lockeans the new covenant and the Lord; Ockham's three "
+     "the new covenant; marx and the etiamsi the parity and society; marx_social the parity; kant the dignity; "
+     "kant_humanity the dignity and society; kant_mm the words and speech; Hobbes's four yes without reason against "
+     "no; bare both without reason")
+scen("MN3", MND, "One passage, two arguments (MN3)", LIE, [_mod(mn3)],
+     "of TL §9 the end of nature on the Thomists, the dignity on kant, both on kant_mm alone; nothing of the "
+     "Groundwork or the essay on the Thomists")
+scen("MN4", MND, "Kant leaves Hobbes (MN4)", LIE, [_mod(mn4)],
+     "kant and kant_mm report otherwise than hobbes here, and as hobbes on the five other cases run alone")
+scen("MN5", MND, "The middle hears neither (MN5)", LIE, [_mod(mn5)],
+     "no argument of Thomas or Kant on the middle; Augustine's and the Catechism's two each")
+scen("MN6", MND, "No lacks a reason only on bare (MN6)", LIE, [_mod(mn6)],
+     "Grotius's argument on every runtime but bare; no report names Constant's or Hobbes's")
+scen("MH1", MND, "The order parameters (MH1)", LIE, [_mod(mh1)],
+     "seven: God's ends for action, human ends, the end of nature, the will's ends, self-preservation, the object, "
+     "the form of the law")
+scen("MH2", MND, "The phases of the lie (MH2)", LIE, [_mod(mh2)],
+     "36 phases, 11 holding a runtime; nothing reported on 176 horizons, the middle's; the Thomists' 144; the "
+     "nothing phase of two kinds, 144 and 32")
+scen("MH3", MND, "No runtime follows every argument (MH3)", LIE, [_mod(mh3)],
+     "8 horizons follow all sixteen, each holding the object and the form of the law; no runtime holds both")
+scen("MH4", MND, "Self-preservation decides where the will's ends are not held (MH4)", LIE, [_mod(mh4)],
+     "yes without reason on 32 horizons, no on 128, both on 8; contrary_reasoned on 24 and 120")
+scen("MW1", MND, "Augustine's words as given signs (MW1)", LIE + [LIE_GIVEN], [_mod(mw1)],
+     "39 phases, 9 holding a runtime; yes without reason on 16; nothing on 208, the middle's, Ockham's and "
+     "marx_social's; the rows as predicted")
+scen("MW2", MND, "Kant's humanity as an end (MW2)", LIE + [LIE_HUMANITY], [_mod(mw2)],
+     "38 phases, 11 holding a runtime; the nothing phase (144) empty; the rows as predicted")
+scen("MW3", MND, "The end of speech as human nature's (MW3)", LIE + [LIE_SPEECH], [_mod(mw3)],
+     "30 phases, 8 holding a runtime; the nothing phase (240) empty; the Thomists' phase (240) taking in the middle, "
+     "Ockham's three, marx and the etiamsi; kant_humanity the words alone")
+scen("MW4", MND, "All three readings (MW4)", LIE + list(LIE_READINGS), [_mod(mw4)],
+     "32 phases, 7 holding a runtime; yes without reason on 16; Hobbes's four with kant_humanity; marx_social on the "
+     "nothing phase (256)")
+scen("MW5", MND, "A reading only adds (MW5)", LIE, [_mod(mw5)],
+     "with any reading, any two or all three, nothing available is lost, on any runtime")
+scen("MV1", MND, "The Thomist cannot carry Kant (MV1)", LIE, [_mod(mv1)],
+     "with thomist as host, a guest's sole reason reported where the host holds it idle beside another; never "
+     "kant_tl; guest_without_reason as the guest's own")
+scen("MV2", MND, "kant_mm carries the Tugendlehre both ways (MV2)", LIE, [_mod(mv2)],
+     "with kant_mm as host, tl_purpose to the Thomists, tl_dignity to kant and kant_humanity; the only runtime "
+     "holding both")
+scen("MV3", MND, "Under the end of speech as human nature's, kant_humanity bridges too (MV3)", LIE + [LIE_SPEECH],
+     [_mod(mv3)], "kant_humanity as host: tl_purpose to 30 guests, tl_dignity to kant, ccc2485_speech to kant_mm; "
+     "kant_mm as host: tl_purpose to the same, tl_dignity to kant")
+scen("MJ1", MND, "The four cases together (MJ1)", LIE, [_mod(mj1)],
+     "all ten parts order parameters, 236 phases, 16 holding a runtime (8, 50, 12 before); three phases parted; with "
+     "the two siblings, 90 and 15 before, 355 and 19 after")
+scen("MC1", MND, "Beside CCC 2483 (MC1)", LIE + LIE_LINGUAE, [_mod(mc1)],
+     "each question and value classifies as alone; holds/2 and the reports as alone")
+scen("MU1", MND, "No other change (SU1)", LIE, [_mod(mu1)],
+     "the case and its readings leave the frontier empty; the boot set at 210; 60 paragraphs cited, 4 of the eighth "
+     "commandment; 179 parts of a case")
+scen("MU2", MND, "Data, no rule (SU2)", LIE, [_mod(mu2)],
+     "the case and its readings write only the case's slots, by facts")
+scen("MQ1", MND, "Nothing on bare (MQ1)", LIE, [_mod(mq1)], "no argument available on bare under any reading")
+scen("MQ2", MND, "The form of the law's arguments (MQ2)", LIE, [_mod(mq2)],
+     "g422 and vrml on the three Kantian runtimes; g429 and tl_dignity also where human ends are held, under "
+     "humanity_as_end")
+scen("MQ3", MND, "The words given, and the pact (MQ3)", LIE, [_mod(mq3)],
+     "ench22_words given on every runtime but bare; grotius_iii1_11 so with or without the reading")
 
 
 # ---------- personal scenarios ($TTC_HOME/scenarios.json) -----------------
