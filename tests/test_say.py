@@ -130,3 +130,18 @@ def test_what_turns_on_a_disputed_fact_is_said_once_as_a_tree(monkeypatch):
     assert "└─ if it is not so that the reading wide of c_a is excluded:\n     (nothing beyond every branch)" in tree
     assert tree.count("l_a does not bind") == 1                    # said once, under its assumption
     assert "only if the reading wide of c_a is excluded" in text   # the shadow stands on one side only
+
+
+def test_a_case_that_does_not_type_check_says_so_first():
+    """TTC-REPAIRS6 IF1: the 1854 definition with its conditions removed. The
+    violation leads, before the answers, and leaves IN EVERY BRANCH."""
+    with engine.rule_change(remove=["condition_shown(ineffabilis_1854,"]):
+        text = report.render(["ic", "asof_1860"], version="X")
+    assert text.index("ILL-FORMED (1 violation") < text.index("QUESTIONS")
+    every = text.split("IN EVERY BRANCH", 1)[1].split("\n\n", 1)[0]
+    assert "violation(" not in every and "condition_unshown(ineffabilis_1854,defines)" in every
+    assert "q(ic): no open; yes open" in text
+
+
+def test_a_case_with_no_violation_has_no_ill_formed_section():
+    assert "ILL-FORMED" not in report.render(["ic", "asof_1860"], version="X")

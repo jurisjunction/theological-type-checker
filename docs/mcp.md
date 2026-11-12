@@ -103,6 +103,7 @@ read. A client uses this to decide when to ask the person first.
 | `check` | Run parts plus new facts: statuses, violations, branches, and which of the facts' predicates the base reads (`premises`). |
 | `compare` | Two configurations, and only what differs between them. |
 | `say` | The result as plain text, said through the base's templates ([ttc-say(1)](say.md)). Give it to the person as it is. |
+| `why` | A proof: why an atom holds, or why a value is excluded, each step with where its rule stands ([ttc-say(1)](say.md), PROOFS). Read-only. |
 | `run_suite` | The regression suite. |
 | `read_test` | One test: its parts, its checks' source. Open every test a change turns red. |
 | `lint` | Rules that cross the Creator–creature line without a bridge. |

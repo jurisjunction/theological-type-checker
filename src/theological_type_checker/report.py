@@ -174,6 +174,19 @@ def render(parts: list[str], facts: str = "", name: str = "case", atoms: bool = 
     if s.get("truncated"):
         out += ["", "TRUNCATED: not every answer set was read; what follows may be incomplete."]
 
+    # A case that does not type-check says so before its answers
+    # (TTC-REPAIRS6 IF): the violations first, out of IN EVERY BRANCH.
+    every_v = [a for a in s["in_every_branch"] if a.startswith("violation(")]
+    some_v = sorted({a for b in s["branches"] for a in b["only_here"] if a.startswith("violation(")} - set(every_v))
+    if every_v or some_v:
+        n = len(every_v) + len(some_v)
+        out += ["", f"ILL-FORMED ({n} violation{'s' if n != 1 else ''}: the case does not type-check; "
+                    "read these before the answers)"]
+        for a in every_v:
+            item(a)
+        for a in some_v:
+            item(a, note="  [in some branches]")
+
     if s["questions"]:
         out += ["", "QUESTIONS"]
         for q, info in s["questions"].items():
@@ -181,9 +194,10 @@ def render(parts: list[str], facts: str = "", name: str = "case", atoms: bool = 
             out.append(f"  {sayer.name(clingo.parse_term(q))}: {vals}")
         out.append(f"  ({VALUE_CLASSES})")
 
-    if s["in_every_branch"]:
+    every = [a for a in s["in_every_branch"] if a not in every_v]
+    if every:
         out += ["", "IN EVERY BRANCH"]
-        for a in s["in_every_branch"]:
+        for a in every:
             item(a)
 
     # What follows from a disputed fact is said once, under that fact; each
@@ -269,6 +283,49 @@ def render(parts: list[str], facts: str = "", name: str = "case", atoms: bool = 
     return "\n".join(out) + "\n"
 
 
+PROOF_NOTE = ("Each step names the rule instance that wrote it and where the rule stands; a fact entered and a "
+              "negated literal are leaves. One proof, from one model; others may hold.")
+
+
+def render_why(parts: list[str], facts: str = "", why=(), why_excluded=(), name: str = "case",
+               atoms: bool = True, version: str | None = None) -> str:
+    """Proofs (TTC-REPAIRS6 PV): why each atom holds, why each Q=V is
+    excluded, each step said through its template where it has one."""
+    from . import prove
+    tags = case_tags(facts)
+    sayer = Sayer(tags["labels"])
+    out = [f"TTC-checker {version or _base_version()} · {tags['case'] or name} · why"
+           + (f" · parts: {', '.join(parts)}" if parts else ""),
+           f"Facts encoded by: {tags['by'] or 'not stated'}.",
+           "Computed by clingo. Each sentence is the template (`say`) of the atom under it;",
+           "no language model wrote it.",
+           PROOF_NOTE]
+
+    def step(depth: int, atom: str, note: str):
+        indent = "  " * (depth + 1)
+        neg = atom.startswith("not ")
+        bare = atom[4:] if neg else atom
+        try:
+            said = sayer.atom(bare)
+        except RuntimeError:
+            said = None
+        shown = said or bare
+        out.append(f"{indent}{'not ' if neg else ''}{shown}   [{note}]")
+        if said and atoms:
+            out.append(f"{indent}    = {atom}")
+
+    for heading, where, steps in prove.prove(parts, facts, why, why_excluded):
+        out += ["", heading]
+        if where:
+            out.append(f"  the constraint at {where} removes it, because")
+        for d, a, note in steps:
+            step(d, a, note)
+    if sayer.unsaid:
+        out += ["", "UNSAID (no template yet): " + ", ".join(sorted(sayer.unsaid))]
+    out += ["", FOOT]
+    return "\n".join(out) + "\n"
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="ttc-say", description="The checker's answer as plain text, said through "
                                  "the base's templates; no model between the solver and the reader.")
@@ -277,13 +334,20 @@ def main(argv=None) -> int:
     ap.add_argument("--parts", default="", help="parts of the base to load, comma-separated")
     ap.add_argument("--brief", action="store_true", help="sentences only, without the atoms under them")
     ap.add_argument("--no-entered", action="store_true", help="leave out the facts entered")
+    ap.add_argument("--why", action="append", default=[], metavar="ATOM",
+                    help="print a proof of ATOM instead (repeatable)")
+    ap.add_argument("--why-excluded", action="append", default=[], metavar="Q=V",
+                    help="print why the value V of Q is excluded (repeatable)")
     a = ap.parse_args(argv)
     facts = a.case.read_text() if a.case else ""
     parts = [p for p in a.parts.split(",") if p]
     if not facts and not parts:
         ap.error("give a case file, or --parts")
-    sys.stdout.write(render(parts, facts, a.case.name if a.case else "parts only",
-                            atoms=not a.brief, entered=not a.no_entered))
+    name = a.case.name if a.case else "parts only"
+    if a.why or a.why_excluded:
+        sys.stdout.write(render_why(parts, facts, a.why, a.why_excluded, name, atoms=not a.brief))
+        return 0
+    sys.stdout.write(render(parts, facts, name, atoms=not a.brief, entered=not a.no_entered))
     return 0
 
 
