@@ -1164,6 +1164,24 @@ Thomas reads it, over every horizon. Left:
   1917, and the Code of 1983's interdict, personal only (c. 1332).
 - **Sources the amendment left out:** *Veritatis splendor* 80, CCC 2258,
   Pius XII on the gravid cancerous uterus, HV 12.
+- **The libraries' tier 1, as entered** (TTC-REPAIRS6, CAVEATS). The
+  authority layer reads `shown_tier/2`; the libraries still give tier 1
+  force through `eff_tier(S,1)`: `defined_value/2`, `form_given/0`,
+  `note_by/3`, `given/3`, `endless/2`, `general_rule/0`,
+  `one_body_in_force/0`, `canons_on_the_sacrifice/0`, `oum_fixed/1`,
+  `reception_fixed/1`, and `owed/2` through `binds/3`. Each library to
+  decide whether it reads the tier as shown.
+- **Why not** (TTC-REPAIRS6, PV1). The prover leaves a negated literal as a
+  leaf, so what a rule reads through a negation is not in the proof: the
+  five conditions of a definition sit behind `not ec_unmet`. A proof of
+  absence would name, for each rule that could derive the atom, the body
+  literal that fails.
+- **The prover's cost** (TTC-REPAIRS6, PV5). Most of it is rewriting the
+  base into its twins in Python on every call; keyed by the base's text,
+  the rewrite could be made once.
+- **`ttc-say`'s order within a group of branches** (TTC-REPAIRS6, IF2)
+  follows the solver's. Sorted by their atoms, the text would not move
+  when the base changes and the models do not.
 
 ## CANDIDATE THEORIES
 

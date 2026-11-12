@@ -168,3 +168,38 @@ exists, except where an integrity constraint on `holds/2` removes a value.
 
 [ttc-say(1)](../say.md), [ttc-communion(7)](communion-preregistration.md)
 (TC1, the warrant audit), [ttc-repairs5(7)](repairs5-preregistration.md)
+
+## SCORING
+
+Appended after the runs. Predictions committed in `7188406`, stamped in
+`7c546a0`. Encoded in `icon_authority.l` (`shown_tier/2`, two rules; five
+rules read it), `icon_history.l` (three candidate parts, HYPOTHETICAL),
+`report.py` (ILL-FORMED; `render_why`, `--why`, `--why-excluded`),
+`prove.py` (new), `server.py` (`why`), the suite (ST1–ST4),
+`tests/test_say.py` (IF1), `tests/test_prove.py` (PV1–PV4), and
+`docs/say.md`, `docs/mcp.md`, the README and `CLAUDE.md`.
+
+Two departures in form, none in substance. The scenarios are ST1–ST4:
+WR1–WR4 are TTC-WITNESS's, and no test refuses a duplicate id. WR1's case
+is a removal (`rule_change`, the five conditions of `ineffabilis_1854`
+commented out) inside ST1, not a part: a part can add facts, not take them
+away.
+
+| | Result |
+| --- | --- |
+| WR1 | Held (ST1). As encoded, `no` is excluded as of 1860; with the conditions removed, both values are open and the violation holds in both models. |
+| WR2 | Held (ST2). `q(uw)=yes` is a live shadow cleaved by the tier-3 source; no `against_tier1`. |
+| WR3 | Held (ST3). `q(five_in_augustinus)=no` is a live shadow with and without `t2_truth`. |
+| WR4 | Held (ST4). Stated at tier 1 unwarranted, tier 2's force is still assumed both ways; stated at tier 0, it is fixed. |
+| WR5 | Held. Every scenario's parts, and the five candidate runs WR5 names, solved for every model on `main` and on the branch: one run differs, `jansenism, jansen_fact, cand_ad_sanctam_on_dh`, which loses `branch(counterfactual_shadow)` and nothing else. The runs loading `cand_lg25_tier1` and `cand_ev57_ex_cathedra` do not change. No expectation changed. |
+| WR6 | Held. TC1: 33 parts warranted. |
+| WR7 | Held, and one more. Each of the five rewritten rules, reverted alone, turns a test red (deletion: ST1, ST2; outranking: ST2; `against_tier1`: ST2; fixing: ST4; counterfactual: ST3). Without `shown_tier/2`'s warranted rule, B5, ST1 and FO2 turn red; without its first rule (tiers 0 and 3–5), ST4. CL1 and PR4 green. |
+| IF1 | Held (`test_a_case_that_does_not_type_check_says_so_first`). |
+| IF2 | Failed in 3 of 306 runs with no violation. Each text holds the same lines in another order within BRANCHES (`ivf_sources, life_sources, ivf`; `direct_reading, life_sources, trolley`, with and without `trolley_duty`). `render` lists a group's branches in the order the solver finds them, and the new rules change that order. Of the 224 runs with a violation, every one differs only by the move into ILL-FORMED, but WR3's. |
+| PV1 | Held in part. The proof of `--why-excluded 'q(ic)=no'` passes through `shown_tier(ineffabilis_1854,1)` and `warranted(ineffabilis_1854)`, not through the five `condition_shown/2` facts: `warranted/1` reads them through `not ec_unmet(…)`, and a negated literal is a leaf, as THE DESIGN has it. The prediction asked more than the design gives. |
+| PV2 | Held. 531 runs, every model's shown atoms the same with the twins as without. |
+| PV3 | Held (`test_a_proof_is_the_same_twice`). |
+| PV4 | Held (`test_a_step_names_its_norm_and_is_said_through_its_template`): a delict's proof names c. 1398 §1 n. 1 and c. 7 at their steps, and says each entered fact. |
+| PV5 | Failed. On B1–B5, warm, median of three: `ttc-check` 0.18–0.21 s, the prover 1.21–1.59 s, 6.2 to 8.2 times. Of the prover's 1.3 s, 1.1 s is the twins' rewrite of the base's 12,407 statements in Python; grounding them adds 0.1 s. |
+
+The full suite (`pytest -q`): 1098 passed, 58 skipped.

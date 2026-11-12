@@ -1237,7 +1237,33 @@ typings against the texts. Of 22 predictions, 22 held.
   and soap, every cause part decides some report: 236 phases, 16 holding a
   runtime.
 
-### 49. Method
+### 49. A tier counts only as shown (ST1–ST4)
+
+Predictions were stamped first ([ttc-repairs6(7)](research/repairs6-preregistration.md)).
+
+- **A deletion rested on the tier as entered** (ST1). A tier-1 truth
+  source deleted its contrary whether or not its warrant was shown; rule
+  14's violation stood beside the deletion, not under it. A proof found
+  it, not a test: the proof of the 1854 deletion was the same with Pastor
+  aeternus's conditions shown and removed. No answer of the base was
+  wrong: the warrant audit finds every tier-1 and tier-2 source of the
+  base warranted. The five rules that give tier 1 or 2 its force now read
+  `shown_tier/2`.
+- **What an unwarranted source does** (ST2–ST4). It deletes nothing,
+  protects nothing and fixes nothing; at tier 2 it shadows as a reformable
+  act. Its violation stands, and `ttc-say` now says it first, under
+  ILL-FORMED.
+- **The prover** (`ttc-say --why`, the MCP `why`). A proof read back from
+  one model, each step with where its rule stands, a canon's citation
+  included. It leaves a negated literal as a leaf, so what a rule reads
+  through a negation is not in the proof (PV1, in part). It changes no
+  model (PV2) and is slow: six to eight times `ttc-check` (PV5, failed).
+- **`ttc-say`'s order is the solver's.** Three texts with no violation
+  changed only in the order of a group's branches when the rule base
+  changed (IF2, failed): same facts, same base, same bytes; another base,
+  possibly another order.
+
+### 50. Method
 
 - **A fixed relation inventory** makes the grain falsifiable (S8, S9).
 - **Donum vitae** rests on A4a. A4a has a warrant from before 1987 (Pius

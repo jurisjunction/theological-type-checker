@@ -2345,6 +2345,42 @@ scen("TC1", CO, "The audit: a tier needs a warrant", ["tier2", "assent"],
                  "with \"defines\" shown too, warranted"),
       shown(["tier2"], ("frontier/2",), absent=("frontier(theology,teaching_without_character(lg25))",))],
      "LG 25 defines nothing (1964): tier 3, owed religious submission; every other tier-1 source has its form", mode=B)
+
+# A tier counts only as shown (TTC-REPAIRS6): the rules that give tier 1 or 2
+# its force read shown_tier/2, which holds at those tiers only with a warrant.
+IC_CONDITIONS = "condition_shown(ineffabilis_1854,"
+
+def _st1(r):
+    with E.rule_change(remove=[IC_CONDITIONS]):
+        u = solve(["ic", "asof_1860"], "branches")
+    vals = {v: classify(u, f"q(ic)={v}") for v in ("yes", "no")}
+    viol = all("violation(tier_without_warrant(ineffabilis_1854,1))" in m for m in u["all_models"])
+    return vals == {"yes": "open", "no": "open"} and viol, f"conditions removed: {vals}; violation in every model: {viol}"
+
+scen("ST1", CO, "The 1854 definition with its conditions removed deletes nothing", ["ic", "asof_1860"],
+     [cls("q(ic)=yes", "settled"), cls("q(ic)=no", "excluded"), _st1],
+     "as encoded, 'no' is deleted; with Pastor aeternus's five conditions removed, both values are open "
+     "and the warrant's violation stands in both", mode=B)
+scen("ST2", CO, "An unwarranted tier-1 source protects nothing", ["cand_uw_outranked"],
+     [cls("q(uw)=no", "settled"), branch_of("q(uw)=yes", "live_shadow"), info_none("against_tier1("),
+      any_branch_violation("tier_without_warrant(def_uw,1)")],
+     "the tier-3 source cleaves the value of a definition entered without its conditions; no note against tier 1",
+     mode=B)
+scen("ST3", CO, "An unwarranted tier-2 source shadows as a reformable act", ["jansenism", "jansen_fact",
+                                                                             "cand_ad_sanctam_on_dh"],
+     [branch_of("q(five_in_augustinus)=no", "live_shadow", t2=True),
+      branch_of("q(five_in_augustinus)=no", "live_shadow", t2=False)],
+     "the bull taken at its word on DH's text: a live shadow even where tier 2's force is assumed", mode=B)
+
+def _t2_values(parts):
+    return sorted({b["t2"] for b in solve(parts, "branches")["branches"]})
+
+scen("ST4", CO, "Only a shown tier fixes the question of tier 2's force", ["tier2"],
+     [lambda r: (_t2_values(["tier2", "cand_uw_fixing"]) == [False, True],
+                 "stated at tier 1 without its conditions: tier 2's force still assumed both ways"),
+      lambda r: (_t2_values(["tier2", "cand_uw_tier0_fixing"]) == [True],
+                 "stated at tier 0: fixed, no warrant needed")],
+     "an unwarranted higher tier fixes nothing; tier 0 needs no warrant", mode=B)
 scen("TC2", CO, "The consensus as its own source", ["life_sources"],
      [all_models_with(["life_sources"], ("eff_tier/2", "graded/2", "source/4"),
                       present=("eff_tier(ev57,3)", "eff_tier(ev62,3)"),

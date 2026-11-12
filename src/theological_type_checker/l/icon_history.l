@@ -2283,6 +2283,39 @@ condition_shown(ev57_def,(pastor_of_all;apostolic_authority;faith_or_morals;whol
 
 ```
 
+-- A tier counts only as shown (TTC-REPAIRS6). Two synthetic sources entered at
+-- a tier their form does not show, and one at tier 0, which needs no warrant.
+-- Each part tests a rule that gives a tier its force.
+
+part candidate
+
+```clingo
+#program cand_uw_outranked.        % HYPOTHETICAL (synthetic): a definition entered at tier 1, no condition shown (WR2)
+question(q(uw)). value(q(uw),yes). value(q(uw),no). question_kind(q(uw),doctrinal).
+source(def_uw,1,truth,2000). papal_form(def_uw,ex_cathedra). object_of(def_uw,revealed).
+supports(def_uw,q(uw),yes).
+source(enc_uw,3,truth,2005). character(enc_uw,encyclical). supports(enc_uw,q(uw),no).
+
+```
+
+part candidate
+
+```clingo
+#program cand_uw_fixing.           % HYPOTHETICAL (synthetic): tier 2's force stated at tier 1, no condition shown (WR4)
+source(fix_uw,1,truth,2001). papal_form(fix_uw,ex_cathedra). object_of(fix_uw,revealed).
+meta_supports(fix_uw,t2_truth).
+
+```
+
+part candidate
+
+```clingo
+#program cand_uw_tier0_fixing.     % HYPOTHETICAL (synthetic): tier 2's force stated at tier 0, which needs no warrant (WR7)
+source(scr_uw,0,truth,1). reading(scr_uw,literal).
+meta_supports(scr_uw,t2_truth).
+
+```
+
 part candidate
 
 ```clingo

@@ -294,6 +294,20 @@ def say(parts: list[str], facts: str = "", brief: bool = False) -> str:
 
 
 @_tool
+def why(parts: list[str], facts: str = "", atoms: list[str] | None = None, excluded: list[str] | None = None,
+        brief: bool = False) -> str:
+    """Why an atom holds, or why a value is excluded: a proof read back from
+    one model (ttc-say(1), PROOFS). atoms: atoms as the checker prints them,
+    e.g. "violation(tier_without_warrant(s,1))"; excluded: "Q=V" pairs, e.g.
+    "q(ic)=no". Each step names the rule instance that wrote it and where the
+    rule stands (file, line, the norm or section); a fact entered and a
+    negated literal are leaves. Give the person the text as it is, in a code
+    block: it is the checker's, not yours."""
+    from . import report
+    return report.render_why(parts, facts, atoms or [], excluded or [], atoms=not brief)
+
+
+@_tool
 def compare(parts_a: list[str], parts_b: list[str], facts_a: str = "", facts_b: str = "") -> dict:
     """Run two configurations and report only what differs: the status of
     each question=value, the preferred values, and the violations or notes

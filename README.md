@@ -9,7 +9,7 @@
 ```
 ttc-suite [--md file] [--show id] [--with part]
 ttc-check [part ...] [--facts file] [--branches n] [--list]
-ttc-say [case.lp] [--parts p,…] [--brief] [--no-entered]
+ttc-say [case.lp] [--parts p,…] [--brief] [--no-entered] [--why atom] [--why-excluded q=v]
 ttc-schools [--dh1330]
 ttc-library [part ...] [--near lat,lon | place] [--per-item n] [--no-reading] [--csv file]
 ttc-coverage [--write]
