@@ -961,17 +961,36 @@ horizon. Left:
   death penalty, religious liberty, each with its phases predicted before
   stamping. Lying is done (TTC-MENDACIUM): the form of the law and
   self-preservation enter there.
-- The decisions those cases wait on, each with its evidence record: an
-  `art` domain (`forms_of_art`, `ends_of_art`) for money as a thing made,
-  and Graeber's place in the DAG ([graeber-debt](research/graeber-debt.md));
-  how narrow a part must be by which a power's natural end binds the act,
-  for contraception ([ford-marriage](research/ford-marriage.md)); whether
-  religious liberty needs a supernatural domain
-  ([case-religious-liberty](research/case-religious-liberty.md)); usury's
-  separations and SD2's two questions
-  ([cases-usury-lying](research/cases-usury-lying.md)). The four records
-  were written on 24 October 2026 and lost before they were committed;
-  each was rebuilt on 27 November 2026 and checked again.
+- The decisions those cases wait on, each with its evidence record. The
+  four records were written on 24 October 2026 and lost before they were
+  committed; each was rebuilt on 27 November 2026 and checked again.
+  - **An `art` domain** (`forms_of_art`, `ends_of_art`), for money as a
+    thing made. [graeber-debt](research/graeber-debt.md) recommends against
+    it for now: TTC-LOCI refuses money as the last end without it,
+    TTC-RERUM types things made by art, and Thomas's case against usury
+    rests on the object. [cases-usury-lying](research/cases-usury-lying.md)
+    finds it the only way usury separates the figures: over the ten parts,
+    usury adds no order parameter. The usury step decides.
+  - **Graeber's place.** Neither a hearer nor a child of `marx`: no source
+    addressed him, and none of his readings bears on a cause. A claimant.
+  - **The bridge** by which a power's natural end binds the act
+    ([ford-marriage](research/ford-marriage.md)): needed only where the end
+    is the measure (*Casti connubii* 54, *Humanae vitae* 11-13, Thomas,
+    the minority report), since `object_as_form` carries the arguments
+    from the object (HV 14, VS 80); negative in form; its scope (final,
+    god_physics) and (final, nature). Two questions, each act and the
+    marriage as a whole; the claim of the ordinary universal magisterium
+    (Ford and Grisez, 1978) on the first only.
+  - **Religious liberty**
+    ([case-religious-liberty](research/case-religious-liberty.md)): five
+    questions, the cut entered as readings of *Quanta cura*; two parts for
+    the Church's supernatural end, (final, grace) and (formal, grace), to
+    type the arguments; the state's duty toward that end a dispute about
+    the object of an end both sides hold, for the rebuttal slot. The
+    Catholic positions fall in one group by construction, and no part
+    separates them.
+  - **Usury**: SD2's two questions hold, with c. 1543 answering both; five
+    refinements proposed, none made.
 - The Grammar of the Icon's extensions that the Graeber mapping needs
   ([modernity-mammon](research/modernity-mammon.md), "What the mapping
   needs"): exchange as a closing that discharges and ends a relation, a
