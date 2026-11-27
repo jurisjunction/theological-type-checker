@@ -81,7 +81,7 @@ Latin from liriocatolico.com.br (Latin with Portuguese and English) [V], and aqu
 - **A. 2.** The sign: "Nam cum exterior cultus sit signum interioris cultus" [V]. The exterior act is typable as an act; the interior faith it signs is not (rule 3).
 - **A. 3.** "Et sic peccatum idololatriae est gravissimum" [V].
 - **The four titles** (a. 1–4): species of superstition; a sin; the gravest; its cause on the part of man [V, New Advent].
-- **Avarice is a likeness only.** II-II q. 118 a. 5 ad 4: the covetous man subjects himself to a creature "by desiring it immoderately for use, not for worship" [V in `mammon.md`, not fetched again].
+- **Avarice is a likeness only.** II-II q. 118 a. 5 ad 4: the covetous man subjects himself to a creature "by desiring it immoderately for use, not for worship" [V in `modernity-mammon.md`, not fetched again].
 
 ### Beatitude
 
