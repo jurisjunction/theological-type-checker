@@ -349,6 +349,11 @@ below remain the notes they were.
   weigh. The human being as priest of creation, offering it back ("fruit
   of the earth and work of human hands"), may run on top as a theory, as
   the Grammar of the Icon does.
+- **The converse crossing.** `after_death_measured` refuses a duration of
+  the calendar laid on purification, the vision or hell. Nothing refuses
+  the converse: a capacity lacking in time (the use of reason, before it
+  comes) read as an incapacity of the separated soul, whose acts the
+  aevum measures. No slot holds it yet.
 
 ### empirical
 
@@ -956,6 +961,42 @@ horizon. Left:
   death penalty, religious liberty, each with its phases predicted before
   stamping. Lying is done (TTC-MENDACIUM): the form of the law and
   self-preservation enter there.
+- The decisions those cases wait on, each with its evidence record. The
+  four records were written on 24 October 2026 and lost before they were
+  committed; each was rebuilt on 27 November 2026 and checked again.
+  - **An `art` domain** (`forms_of_art`, `ends_of_art`), for money as a
+    thing made. [graeber-debt](research/graeber-debt.md) recommends against
+    it for now: TTC-LOCI refuses money as the last end without it,
+    TTC-RERUM types things made by art, and Thomas's case against usury
+    rests on the object. [cases-usury-lying](research/cases-usury-lying.md)
+    finds it the only way usury separates the figures: over the ten parts,
+    usury adds no order parameter. The usury step decides.
+  - **Graeber's place.** Neither a hearer nor a child of `marx`: no source
+    addressed him, and none of his readings bears on a cause. A claimant.
+  - **The bridge** by which a power's natural end binds the act
+    ([ford-marriage](research/ford-marriage.md)): needed only where the end
+    is the measure (*Casti connubii* 54, *Humanae vitae* 11-13, Thomas,
+    the minority report), since `object_as_form` carries the arguments
+    from the object (HV 14, VS 80); negative in form; its scope (final,
+    god_physics) and (final, nature). Two questions, each act and the
+    marriage as a whole; the claim of the ordinary universal magisterium
+    (Ford and Grisez, 1978) on the first only.
+  - **Religious liberty**
+    ([case-religious-liberty](research/case-religious-liberty.md)): five
+    questions, the cut entered as readings of *Quanta cura*; two parts for
+    the Church's supernatural end, (final, grace) and (formal, grace), to
+    type the arguments; the state's duty toward that end a dispute about
+    the object of an end both sides hold, for the rebuttal slot. The
+    Catholic positions fall in one group by construction, and no part
+    separates them.
+  - **Usury**: SD2's two questions hold, with c. 1543 answering both; five
+    refinements proposed, none made.
+- The Grammar of the Icon's extensions that the Graeber mapping needs
+  ([modernity-mammon](research/modernity-mammon.md), "What the mapping
+  needs"): exchange as a closing that discharges and ends a relation, a
+  release that is not payment, a price laid on a person (A10 widened from
+  a ranking), an obligation kept apart from the bond, a total gift to a
+  thing. The last end laid on a creature is done (TTC-LOCI).
 - The German and French of 1891 and their lexicons, for Marx, Lassalle and
   the French Catholics; RN 7's and RN 13's forms; a rebuttal slot, for a
   dispute about the object inside a cause both sides hold.
@@ -992,6 +1033,26 @@ by its terminus. Left:
 - The commentators on III q. 25 a. 3 (Cajetan, Vázquez, Suárez's
   *De Incarnatione* disp. 54), and relative veneration's school
   (Bellarmine, Bossuet, Petavius) as a claimant beside the Thomists.
+
+### professio (after loci)
+
+Done ([ttc-professio(7)](research/professio-preregistration.md)): a
+runtime of one's own in the personal layer, in L, compiled with the base
+and refused by its rules; a profession, never heard through and never a
+guest; `save_runtime`. Left:
+
+- **A profession bounded by tier 1 alone**, as a person may choose for
+  his own: tiers 2 to 5 weighing and reported on its runs, cleaving
+  nothing in it, and every one it sets aside named with its tier.
+- **The Filioque is not checked against a grammar.** A runtime loading
+  `monopatrism` or `no_divine_contraction` raises nothing where the
+  authority graph holds `q(spirit_origin)=father_and_son` at tier 1 (Lyons
+  II, DH 850; Florence, DH 1300-1302): `monopatrism` is derived from
+  `father_alone` (`icon_history.l`), and the converse is never refused.
+  Found booting a profession that extends `thomist` and `palamite`, its
+  clash on `one_power` resolved either way (TTC-PROFESSIO PX3): with both
+  parts, 24 of the boot set red, the Trinity model (M1) among them; with
+  neither, none.
 
 ### pendet (after loci)
 
@@ -1108,6 +1169,10 @@ Thomas reads it, over every horizon. Left:
   wrongness and present necessity).
 - **Within tier 3, a dicastery below the pope's own acts** unless approved
   in specific form: the weights lean so; the ranking is not yet explicit.
+- **The ITC's tier.** `limbo` enters the International Theological
+  Commission (2007) at tier 4. The Commission is not an organ of the
+  magisterium; its tier should be computed from the form of its
+  documents (rule 14), as every other source's is.
 - **c. 1127 §1** (marriage with an Eastern non-Catholic) and the formal act
   of defection's own requirements (PCLT, 2006) are not encoded.
 - **Religious liberty.** The SSPX's own question: *Dignitatis humanae* 2

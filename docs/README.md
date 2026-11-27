@@ -66,7 +66,7 @@ a step was read from, with how sure each item is.
 | replies | [ttc-replies(7)](research/replies-preregistration.md) | | scored |
 | linguae | [ttc-linguae(7)](research/linguae-preregistration.md) | [sources](research/linguae-sources.md), [norms](research/linguae-norms.md), [signs](research/linguae-signs.md), [ASL](research/linguae-asl.md), [Peters](research/linguae-peters.md) | scored |
 | repairs5 | [ttc-repairs5(7)](research/repairs5-preregistration.md) | | scored |
-| modernity | [ttc-modernity(7)](research/modernity-preregistration.md) | [sources](research/modernity-sources.md), [hearers](research/modernity-hearers.md), [object](research/modernity-object.md), [Mammon](research/modernity-mammon.md) | scored |
+| modernity | [ttc-modernity(7)](research/modernity-preregistration.md) | [sources](research/modernity-sources.md), [hearers](research/modernity-hearers.md), [object](research/modernity-object.md), [Mammon](research/modernity-mammon.md), [Graeber](research/graeber-debt.md), [Ford](research/ford-marriage.md), [religious liberty](research/case-religious-liberty.md), [usury and lying](research/cases-usury-lying.md) | scored |
 | rota | [ttc-rota(7)](research/rota-preregistration.md) | | predicted; encoded and scored on a branch, not merged |
 | loci | [ttc-loci(7)](research/loci-preregistration.md) | [sources](research/loci-sources.md) | scored |
 | personae | [ttc-personae(7)](research/personae-preregistration.md) | | predicted |

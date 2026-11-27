@@ -1,11 +1,13 @@
 # McCarraher's *Enchantments of Mammon*, money as a sin type, and the Grammar of the Icon: an evidence record for TTC-MODERNITY
 
-This is the research record for a question put on 24 October 2026: whether Graeber's money, debt and jubilee fit the Grammar of the Icon, and whether money can be typed as "a kind of sin type, at least in a pathological trace mode". It continues `graeber-debt.md` and `decisions.md` ("Graeber and the Grammar of the Icon"). It is an evidence record, so it keeps prose (rule 10).
+This is the research record for a question put on 24 October 2026: whether Graeber's money, debt and jubilee fit the Grammar of the Icon, and whether money can be typed as "a kind of sin type, at least in a pathological trace mode". It continues `graeber-debt.md` and the study's decisions of that day ("Graeber and the Grammar of the Icon"), which are not kept in this repository. It is an evidence record, so it keeps prose (rule 10).
 
 **How sure each item is:**
 - **[V]** The wording was checked against a text fetched for this record, in this pass.
 - **[S]** It was checked through a named secondary source that quotes or reports the primary.
 - **[M]** It comes from memory or a standard citation and was not re-checked. It is unverified until someone checks it in print.
+
+**Corrections, 27 November 2026.** `graeber-debt.md` was lost before it was committed and was rebuilt on 27 November 2026; every item below marked "[V in `graeber-debt.md`]", "[V in record]" or "[V there]" was checked again there, and its wording held, with these exceptions. Graeber's "debt", "guilt" and "sin" as one word holds for Aramaic, and for Hebrew only in its late form; no wider Indo-European claim was found to correct (below, "Graeber on redemption"). The note on *dĕrôr* and *andurārum* is Hudson's (2024), not Graeber's. Atik's sentence (below, "Hudson's clean slates") was not found, and stands as [M]. The rebuilt record does not recommend the `art` domain (its "Recommendation"), so "What depends on what" rests on a decision now argued the other way; `cases-usury-lying.md` shows the domain is what would let usury separate the figures. The religious-liberty record, rebuilt the same day, finds a supernatural domain needed to type that case's arguments, though not to separate the Catholic figures.
 
 Quotations are under 25 words. McCarraher, Anderson, Eubank and Graeber are in copyright; they are quoted only from publisher pages, interviews, the authors' public essays and reviews.
 
@@ -249,7 +251,7 @@ Not opened. Through four reviews:
 
 - Graeber names "economist Michael Hudson" as his source on Mesopotamia (G2009) [V in `graeber-debt.md`]; he lists "Mesopotamian clean slates, Biblical Jubilees, Medieval laws against usury" together (GP2011) [V there].
 - Hudson: the rulers "were not seeking a debt-free utopia but coped pragmatically with the most adverse consequences of rural debt"; "Usury was not banned, as it would be in Judaism's Exodus Code" (2024) [V there]. Wikipedia reports Hudson's view that the Jubilee and sabbatical laws "addressed the same problems" as the Babylonian decrees, codified as law [S: Wikipedia, "Jubilee (biblical)"]. Hudson's ... *and forgive them their debts* (2018) is [M].
-- **The difference that matters for the Grammar.** The Mesopotamian release is a king's act, *ad hoc*, from above: D. The Levitical release is a law of the calendar, on God's title to the land (25:23), owed by all to all: not a sovereign's grace but the order restored. Atik's objection stands for both: "A Jubilee is, at best, an accommodation with debt — it is not the destruction of debt" [V in `graeber-debt.md`].
+- **The difference that matters for the Grammar.** The Mesopotamian release is a king's act, *ad hoc*, from above: D. The Levitical release is a law of the calendar, on God's title to the land (25:23), owed by all to all: not a sovereign's grace but the order restored. Atik's objection stands for both: "A Jubilee is, at best, an accommodation with debt — it is not the destruction of debt" [M: not found in the rebuilt `graeber-debt.md`].
 
 ### The Church's jubilees
 
@@ -364,7 +366,7 @@ Three ways to encode it, in the order I recommend.
 | `ends_in_nature`, `forms_in_nature` | the technological sublime, the machine as liturgy | p. 135 [S: Smaje]; p. 178 [S: Nichols] |
 | the gift (A10's ground) | merit, "something for nothing" as "malice" | CLJ 2020 [V] |
 
-- **The sacramental has no part.** The second row needs a part the study does not have. The religious-liberty record found no supernatural domain needed; this record finds one place that would use it. Left open.
+- **The sacramental has no part.** The second row needs a part the study does not have. The religious-liberty record finds a supernatural domain needed to type that case's arguments, though not to separate the Catholic figures; this record finds one more place that would use it. Left open.
 
 ### Where the texts read two ways
 
