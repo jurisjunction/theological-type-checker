@@ -280,6 +280,25 @@ runtime lassalle extends default
   -- the Arbeiterprogramm, by absence; weak
   exclude ends_by_god_physics, ends_by_god_ethics
 
+-- Kelsen (TTC-KELSEN). His own texts are cited from memory [M]; the 1965 claim as Benedict
+-- XVI reports it at the Bundestag, 22 September 2011 [V].
+runtime kelsen extends kant
+  -- Reine Rechtslehre (1934) [M]: the neo-Kantian method kept; the basic norm a presupposition of
+  -- legal cognition, not the form of the will's maxim (contested: a reader who takes it as a form of
+  -- reason keeps form_of_law); the legal order a coercive order, motivating by its sanction;
+  -- imputation (Zurechnung) the norm's connection of condition and sanction
+  exclude form_of_law
+
+runtime kelsen_1965 extends kelsen
+  -- "norms can only come from the will": nature could hold norms only if a will had placed them
+  -- there, which would imply a Creator; the question judged futile (Benedict XVI, Bundestag, 2011)
+  -- [V]. The will's act is an efficient cause, held everywhere: the horizon is kelsen's.
+
+runtime kelsen_1965_creator extends kelsen_1965
+  -- the conditional taken up by one who holds a Creator: norms in nature placed by a divine will;
+  -- against its author (Kelsen judged the question futile)
+  add ends_by_god_ethics
+
 -- Plato and Aristotle (TTC-RERUM), and their merge. Each takes default's cause
 -- parts save those it excludes: a reading, not the record's.
 runtime plato extends default
@@ -919,6 +938,27 @@ part switch
 ```clingo
 #program vm_lassalle.             vm_guest(lassalle).
 guest_holds(final,(nature;human;will;self)). guest_holds(formal,(nature;human;will)).
+```
+
+part switch
+
+```clingo
+#program vm_kelsen.               vm_guest(kelsen).                % TTC-KELSEN: kant's, less the law's form
+guest_holds(final,will).
+```
+
+part switch
+
+```clingo
+#program vm_kelsen_1965.          vm_guest(kelsen_1965).
+guest_holds(final,will).
+```
+
+part switch
+
+```clingo
+#program vm_kelsen_1965_creator.  vm_guest(kelsen_1965_creator).   % the reading: God's ends in ethics added
+guest_holds(final,(will;god_ethics)).
 ```
 
 part switch

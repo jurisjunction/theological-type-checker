@@ -185,6 +185,11 @@ RERUM_HORIZONS = {
     "concordia": _ALL9,
     # TTC-VERBUM SU1 (rule 7): the runtime set gains bonaventure, concordia's parts and the light contuited
     "bonaventure": _ALL9,
+    # TTC-KELSEN K7 (rule 7): the runtime set gains kelsen, kelsen_1965 and the reading kelsen_1965_creator,
+    # by hand as K2 states them: Kant's horizon less the law's form; the reading adds God's ends in ethics
+    "kelsen": {"ends_desired"},
+    "kelsen_1965": {"ends_desired"},
+    "kelsen_1965_creator": {"ends_desired", "ends_by_god_ethics"},
 }
 
 

@@ -218,6 +218,12 @@ guest_holds(final,(human;will;self)). guest_holds(formal,will).
 guest_holds(final,(will;self)). guest_holds(formal,will).
 #program vm_lassalle.             vm_guest(lassalle).
 guest_holds(final,(nature;human;will;self)). guest_holds(formal,(nature;human;will)).
+#program vm_kelsen.               vm_guest(kelsen).                % TTC-KELSEN: kant's, less the law's form
+guest_holds(final,will).
+#program vm_kelsen_1965.          vm_guest(kelsen_1965).
+guest_holds(final,will).
+#program vm_kelsen_1965_creator.  vm_guest(kelsen_1965_creator).   % the reading: God's ends in ethics added
+guest_holds(final,(will;god_ethics)).
 #program vm_plato.                vm_guest(plato).
 guest_holds(final,(nature;god_physics;god_ethics;human;will;self)). guest_holds(formal,(nature;will)).
 guest_holds(formal,god_physics).                % the Forms apart (TTC-RERUM)

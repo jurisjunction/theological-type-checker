@@ -4401,7 +4401,12 @@ THOMIST_GROUP = SCHOOL_RTS + ("default", "saussure", "vocal", "lingual", "hooker
 LOCKE_LIKE = ("locke", "locke_wl", "smith", "george")
 LOCKE_GROUP = LOCKE_LIKE + WILL_READINGS
 HOBBES_LIKE = ("hobbes", "spinoza", "hobbes_wl", "spinoza_wl", "marx_social", "kant_mm")
-HOBBES_GROUP = HOBBES_LIKE + ("kant", "bare")
+# TTC-KELSEN K7 (rule 7): kelsen and kelsen_1965 give what kant gives (K3, and under every switch); the
+# reading kelsen_1965_creator what locke gives, save where self-preservation decides, since it holds none
+KELSEN_KANT = ("kelsen", "kelsen_1965")
+KANT_LIKE = ("kant", "bare") + KELSEN_KANT
+KELSEN_LOCKE = ("kelsen_1965_creator",)
+HOBBES_GROUP = HOBBES_LIKE + KANT_LIKE
 HUMAN_ENDS = ("marx", "lassalle", "grotius_etiamsi", "kant_humanity",
               "aristotle")   # TTC-RERUM, restated by rule 7: human ends held, God's excluded
 POSITIVE = tuple(f"{s}_{q}" for s in ("suarez_dl", "grotius_dibp", "hobbes_l24") for q in ("products", "land"))
@@ -4519,22 +4524,22 @@ def mp_expected(rt, sw=None, hearing=None):
     """the reports PR4, PR5 and PR6 predict for a runtime under one switch or none, and the Lockean hearing (with
     Fortin's claim); bare as CV2, the will line as its twin (DG6)"""
     out = set()
-    if rt in HOBBES_LIKE + LOCKE_GROUP + ("kant", "bare"):
+    if rt in HOBBES_LIKE + LOCKE_GROUP + KANT_LIKE + KELSEN_LOCKE:
         rn10 = set(RN10)
-        if rt in ("kant", "bare"):
+        if rt in KANT_LIKE:
             pass
-        elif sw == "rn7_from_self":
+        elif sw == "rn7_from_self" and "self_preservation" in E.BASE_RUNTIMES[rt]:   # TTC-KELSEN K7: by the horizon
             rn10 = set()
-        elif rt in LOCKE_GROUP and sw in ("rn7_under_providence", "rn13_as_command"):
+        elif rt in LOCKE_GROUP + KELSEN_LOCKE and sw in ("rn7_under_providence", "rn13_as_command"):
             rn10 = set()
         elif rt in WILL_READINGS and sw == "rn7_from_form":
             rn10 = set()
-        elif hearing == HEAR_LOCKE:
+        elif hearing == HEAR_LOCKE and "self_preservation" in E.BASE_RUNTIMES[rt]:   # TTC-KELSEN K7: by the horizon
             rn10 = {_sole("rn10_products", "property_in_products")}
         out |= rn10
-    if rt in ("kant", "bare") or (rt in HOBBES_LIKE and sw != "rn8_from_sustenance"):
+    if rt in KANT_LIKE or (rt in HOBBES_LIKE and sw != "rn8_from_sustenance"):
         out.add(_without("use_common", "yes"))
-    if (rt in LOCKE_GROUP and sw != "rn22_as_stewardship") or (rt in HOBBES_LIKE and sw == "rn8_from_sustenance"):
+    if (rt in LOCKE_GROUP + KELSEN_LOCKE and sw != "rn22_as_stewardship") or (rt in HOBBES_LIKE and sw == "rn8_from_sustenance"):
         out.add(_sole("rn8", "use_common", "yes"))
     # aristotle as marx (TTC-RERUM, restated by rule 7): human ends held, God's excluded
     if (rt in ("marx", "lassalle", "grotius_etiamsi", "aristotle") and sw != "rn8_from_sustenance") or rt == "kant_humanity":
@@ -4634,7 +4639,8 @@ def phase_base():
 
 
 def cv5():
-    native = {"hobbes", "spinoza", "hobbes_wl", "spinoza_wl"}
+    native = {"hobbes", "spinoza", "hobbes_wl", "spinoza_wl",
+              "kelsen", "kelsen_1965"}   # TTC-KELSEN K7 (rule 7): ends survive only as desire, as at Hobbes
     for rt in E.BASE_RUNTIMES:
         want = ({"info(conversion_native(adams_1907))"} if rt in native
                 else {"violation(cause_converted(adams_1907,final,efficient))"})
@@ -4928,9 +4934,9 @@ def _guest_sole(rt, hearing=None):
 def vm2():
     for rt in E.BASE_RUNTIMES:
         want = set()
-        if rt in HOBBES_GROUP + LOCKE_GROUP:
+        if rt in HOBBES_GROUP + LOCKE_GROUP + KELSEN_LOCKE:
             want |= {"rn10_products", "rn10_land"}
-        if rt in LOCKE_GROUP:
+        if rt in LOCKE_GROUP + KELSEN_LOCKE:
             want.add("rn8")
         if rt in HUMAN_ENDS:
             want.add("rn22")
@@ -5114,7 +5120,9 @@ def he6():
         want = set()
         if rt in LOCKE_GROUP:
             want = {"rn10_products", "rn8"}
-        elif rt in ("kant", "bare"):
+        elif rt in KELSEN_LOCKE:   # TTC-KELSEN K7: rn8 as Locke; rn10_land kept as at kant, no self-preservation
+            want = {"rn10_products", "rn10_land", "rn8"}
+        elif rt in KANT_LIKE:
             want = {"rn10_products", "rn10_land"}
         elif rt in HOBBES_LIKE:
             want = {"rn10_products"}
@@ -5239,10 +5247,12 @@ scen("PH1", MOD, "The phases as committed (PH1)", MPC, [_mod(ph1)],
 scen("PH2", MOD, "The phases by switch and hearing (PH2)", MPC,
      [_mod(ph_check(MPC + ["rn7_from_form"], GE_HN | {"soul_as_form"}, 6,
                     apart=((WILL_READINGS, LOCKE_LIKE),), empty=1)),
+      # TTC-KELSEN K7 (rule 7): the phase no runtime held, God's ends in ethics without self-preservation,
+      # is held by kelsen_1965_creator: none empty
       _mod(ph_check(MPC + ["rn7_from_self"], GE_HN | {"self_preservation"}, 6,
-                    apart=((("bare", "kant"), HOBBES_LIKE),), empty=1)),
+                    apart=((("bare", "kant"), HOBBES_LIKE),), empty=0)),
       _mod(ph_check(RN9C + [HEAR_LOCKE], GE_HN | {"self_preservation"}, 6,
-                    apart=((("bare", "kant"), HOBBES_LIKE),), empty=1)),
+                    apart=((("bare", "kant"), HOBBES_LIKE),), empty=0)),
       _mod(ph_check(MPC + ["rn8_from_sustenance"], GE_HN | {"self_preservation"}, 4,
                     same=(("bare", "kant"), HOBBES_LIKE + LOCKE_GROUP),
                     apart=((("kant_humanity",), [r for r in E.BASE_RUNTIMES if r != "kant_humanity"]),))),
@@ -6156,10 +6166,12 @@ PE_NOTHING = SCHOOL_RTS + ("default", "saussure", "vocal", "lingual", "scotus_dp
                            "descartes", "grotius", "leibniz", "leibniz_wl", "bacon", "episcopate_1891", "social_catholic",
                            "angers", "plato", "concordia",   # the last two TTC-RERUM's, restated by rule 7
                            "bonaventure")   # TTC-VERBUM SU1, restated by rule 7: as concordia
-PE_END = ("locke", "locke_wl", "smith", "george", "george_hn", "ockham", "ockham_will", "ockham_nominal") + WILL_READINGS
+PE_END = ("locke", "locke_wl", "smith", "george", "george_hn", "ockham", "ockham_will", "ockham_nominal") + WILL_READINGS \
+         + ("kelsen_1965_creator",)   # TTC-KELSEN K7, restated by rule 7: God's ends in ethics held, as Locke
 PE_SUMMARY = ("marx", "marx_social", "lassalle", "grotius_etiamsi",
               "aristotle")   # TTC-RERUM, restated by rule 7: human ends held, God's excluded
-PE_NONE = ("hobbes", "hobbes_wl", "spinoza", "spinoza_wl", "kant", "kant_humanity", "kant_mm", "bare")
+PE_NONE = ("hobbes", "hobbes_wl", "spinoza", "spinoza_wl", "kant", "kant_humanity", "kant_mm", "bare",
+           "kelsen", "kelsen_1965")   # TTC-KELSEN K7, restated by rule 7: neither end held, as Kant
 PE_ROWS = ((PE_NOTHING, frozenset()), (PE_END, frozenset({PE_SOLE_END})), (PE_SUMMARY, frozenset({PE_SOLE_SUMMARY})),
            (PE_NONE, frozenset({PE_NO_REASON})))
 
@@ -6721,7 +6733,8 @@ def qt5():
 QT6_TABLE = {
     "final and formal": {"bacon", "bare", "hobbes", "hobbes_wl", "kant", "kant_humanity", "locke_wl", "marx",
                          "marx_social", "descartes", "descartes_will", "spinoza", "spinoza_wl", "locke", "smith",
-                         "george", "george_hn"},
+                         "george", "george_hn",
+                         "kelsen", "kelsen_1965", "kelsen_1965_creator"},   # TTC-KELSEN K7 (rule 7): neither in nature
     "final only": {"grotius", "grotius_etiamsi", "ockham", "ockham_nominal", "ockham_will", "scotus_dpp",
                    "scotus_will", "suarez_dm23", "suarez_wl"},
     "formal only": {"kant_mm"},
@@ -6840,7 +6853,8 @@ def ql2():
         if got != want:
             yield (rt, sorted(got))
     # TTC-VERBUM SU1 (rule 7): the 19 with neither become 20 with bonaventure
-    if (len(never), len(can), len(E.BASE_RUNTIMES) - len(never) - len(can)) != (5, 21, 20):
+    # TTC-KELSEN K7 (rule 7): the 21 that can be without form become 24, the three nodes inheriting Kant's allele
+    if (len(never), len(can), len(E.BASE_RUNTIMES) - len(never) - len(can)) != (5, 24, 20):
         yield ("counts", len(never), len(can))
 
 
@@ -7122,7 +7136,8 @@ def vb1():
     if _loci("lumen", "contuited") != {"bonaventure"}:
         yield ("contuited", sorted(_loci("lumen", "contuited")))
     none = {rt for rt, ls in d["loci"].items() if ls["lumen"]["expressed"] is None}
-    if len(none) != 35 or len(E.BASE_RUNTIMES) != 46:
+    # TTC-KELSEN K7 (rule 7): the three nodes express no lumen; 35 of 46 become 38 of 49
+    if len(none) != 38 or len(E.BASE_RUNTIMES) != 49:
         yield ("none", len(none), len(E.BASE_RUNTIMES))
     if d["re_expressed"]:
         yield ("re_expressed", d["re_expressed"])

@@ -870,6 +870,52 @@
    "knowing_ends_in_things",
    "things_measure_us"
   ],
+  "kelsen": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_desired",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "univocity_of_concept",
+   "matter_can_be_without_form",
+   "mind_prescribes"
+  ],
+  "kelsen_1965": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_desired",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "univocity_of_concept",
+   "matter_can_be_without_form",
+   "mind_prescribes"
+  ],
+  "kelsen_1965_creator": [
+   "classical",
+   "one_power",
+   "word_of_no_tongue",
+   "ends_desired",
+   "simplicity_thomist",
+   "attributes_by_reason",
+   "suarez_esse",
+   "mixed_relations",
+   "transcendentals",
+   "holds_concurrence",
+   "univocity_of_concept",
+   "matter_can_be_without_form",
+   "mind_prescribes",
+   "ends_by_god_ethics"
+  ],
   "plato": [
    "classical",
    "one_power",
@@ -1961,6 +2007,37 @@
     ],
     [
      "exclude",
+     "ends_by_god_ethics"
+    ]
+   ]
+  },
+  "kelsen": {
+   "extends": [
+    "kant"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "exclude",
+     "form_of_law"
+    ]
+   ]
+  },
+  "kelsen_1965": {
+   "extends": [
+    "kelsen"
+   ],
+   "file": "schools.l",
+   "ops": []
+  },
+  "kelsen_1965_creator": {
+   "extends": [
+    "kelsen_1965"
+   ],
+   "file": "schools.l",
+   "ops": [
+    [
+     "add",
      "ends_by_god_ethics"
     ]
    ]
@@ -3543,6 +3620,123 @@
    "adaequatio": {
     "expressed": "by_things",
     "carried": []
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
+   }
+  },
+  "kelsen": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": null,
+    "carried": [
+     "in_the_idea",
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_the_mind",
+    "carried": [
+     "by_things"
+    ]
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
+   }
+  },
+  "kelsen_1965": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": null,
+    "carried": [
+     "in_the_idea",
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_the_mind",
+    "carried": [
+     "by_things"
+    ]
+   },
+   "lumen": {
+    "expressed": null,
+    "carried": []
+   }
+  },
+  "kelsen_1965_creator": {
+   "simplicity": {
+    "expressed": "by_reason",
+    "carried": [
+     "formal"
+    ]
+   },
+   "esse": {
+    "expressed": "by_reason",
+    "carried": [
+     "scotus"
+    ]
+   },
+   "ideas": {
+    "expressed": null,
+    "carried": []
+   },
+   "prime_matter": {
+    "expressed": "can_be_without_form",
+    "carried": []
+   },
+   "terminus": {
+    "expressed": null,
+    "carried": [
+     "in_the_idea",
+     "in_the_thing"
+    ]
+   },
+   "adaequatio": {
+    "expressed": "by_the_mind",
+    "carried": [
+     "by_things"
+    ]
    },
    "lumen": {
     "expressed": null,
